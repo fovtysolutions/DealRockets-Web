@@ -1,0 +1,185 @@
+/* Trade Show */
+.trade-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+    height: 420px;
+    gap: 10px;
+}
+
+.trade-container .firstbox{
+    width: 40%;
+    height: 100%;
+    gap:10px;
+}
+
+.trade-container .firstbox img{
+    height: 100%;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.trade-container .firstbox img:hover{
+    transform: scale(1.08);
+}
+
+.trade-container .firstbox h5{
+    padding: 10px;
+    font-weight: bold;
+    position: absolute;   
+    top: 10px;
+    left: 10px;
+}
+
+.trade-container .secondbox{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trade-container .secondbox .secondtop{
+    height: 50%;
+    width: 100%;
+}
+
+.trade-container .secondtop img{
+    height: 100%;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.trade-container .secondtop img:hover{
+    transform: scale(1.08);
+}
+
+.trade-container .secondtop h5{
+    padding: 10px;
+    font-weight: bold;
+    position: absolute;   
+    top: 10px;
+    left: 10px;
+}
+
+.trade-container .secondbox .secondbottom{
+    height: 50%;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.trade-container .secondbottom img:hover{
+    transform: scale(1.08);
+}
+
+.trade-container .secondbottom img{
+    height: 100%;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.trade-container .secondbottom h5{
+    padding: 10px;
+    font-weight: bold;
+    position: absolute;   
+    top: 10px;
+    left: 10px;
+}
+
+.trade-container .thirdbox{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trade-container .thirdbox .thirdtop{
+    height: 50%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.trade-container .thirdtop img:hover{
+    transform: scale(1.08);
+}
+
+.trade-container .thirdtop img{
+    height: 100%;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.trade-container .thirdtop h5{
+    padding: 10px;
+    font-weight: bold;
+    position: absolute;   
+    z-index: 2;
+    top: 10px;
+    left: 10px;
+}
+
+.trade-container .thirdbox .thirdbottom{
+    height: 50%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.trade-container .thirdbottom img:hover{
+    transform: scale(1.08);
+}
+
+.trade-container .thirdbottom img{
+    height: 100%;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.trade-container .thirdbottom h5{
+    padding: 10px;
+    font-weight: bold;
+    position: absolute;   
+    top: 10px;
+    z-index: 2;
+    left: 10px;
+}
+
+.trade-container .firstbox,
+.trade-container .secondtop,
+.trade-container .secondbottom {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Base image styling */
+.trade-container .thirdbox .base-image {
+    height: 100%;
+    width: 100%;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Overlay image styling */
+.trade-container .thirdbox .overlay-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1; /* Place overlay above the base image */
+}
+
+/* Hover effect */
+.trade-container .thirdbox .thirdtop:hover .overlay-image,
+.trade-container .thirdbox .thirdbottom:hover .overlay-image {
+    opacity: 1; /* Show overlay image */
+}
+
+.trade-container .thirdbox .thirdtop:hover .base-image,
+.trade-container .thirdbox .thirdbottom:hover .base-image {
+    opacity: 0; /* Hide base image */
+}

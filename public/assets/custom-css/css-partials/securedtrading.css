@@ -1,0 +1,113 @@
+/* Secured Trading Services */
+.sectrdsvc-sec {
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.sectrdsvc-sec h3 {
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: bold;
+}
+
+.sectrdsvc-cnt {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* Changed to space-between to fit 4 cards */
+}
+
+.sectrdsvc-card {
+    border: 1px solid #d5dfe4;
+    padding: 20px;
+    /* Reduced padding */
+    border-radius: 12px;
+    position: relative;
+    width: calc(16.66% - 10px);
+    /* Set width to 25% minus margin */
+}
+
+.sectrdsvc-card .cmp-logo {
+    position: absolute;
+    top: -25px;
+    background-color: #ffffff;
+}
+
+.sectrdsvc-card .cmp-logo img {
+    border: 1px solid #d5dfe4;
+    padding: 12px 10px;
+    border-radius: 25px;
+    width: 45px;
+}
+
+.sectrdsvc-card-txt .title {
+    font-weight: bold;
+    margin-bottom: 2px;
+    font-size: 0.8rem;
+    width: 100%;
+    /* Changed to 100% */
+}
+
+.sectrdsvc-card-txt .manufacture {
+    font-size: small;
+    letter-spacing: -0.5px;
+    margin-bottom: 2px;
+}
+
+.sectrdsvc-card-txt .business {
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.sectrdsvc-card-txt img {
+    aspect-ratio: 3 / 2;
+}
+
+@media (max-width: 768px) {
+    .sectrdsvc-card {
+        padding: 15px;
+        width: calc(50% - 10px);
+        /* Adjust to fit 2 cards in smaller screens */
+    }
+
+    .sectrdsvc-card-txt .title {
+        font-size: 0.9rem;
+    }
+
+    .sectrdsvc-card-txt img {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .sectrdsvc-sec {
+        padding: 10px;
+    }
+
+    .sectrdsvc-sec h3 {
+        font-size: 14px;
+    }
+
+    .sectrdsvc-card {
+        margin: 10px 0;
+        width: 100%;
+        /* Adjust to full width on very small screens */
+    }
+
+    .sectrdsvc-card-txt .title {
+        font-size: 0.8rem;
+    }
+
+    .sectrdsvc-card-txt .manufacture {
+        font-size: x-small;
+    }
+
+    .sectrdsvc-card-txt .business {
+        font-size: 9px;
+    }
+
+    .sectrdsvc-card-txt img {
+        width: 100%;
+    }
+}

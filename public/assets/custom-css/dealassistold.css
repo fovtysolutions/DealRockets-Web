@@ -1,0 +1,404 @@
+.damainbanner {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-image: url(/images/dabackground2.jpg);
+    color: white;
+    height: 600px;
+}
+
+.dalefttext {
+    width: 50%;
+    justify-items: flex-end;
+    padding-top: 250px;
+}
+
+.dalefttext h1 {
+    color: white;
+}
+
+.dalefttext p {
+    margin: 10px 0;
+    font-size: medium;
+}
+
+.dalefttext button {
+    padding: 10px 20px;
+    background-color: #fff;
+    border: none;
+    font-size: medium;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.dalefttext button:hover {
+    background-color: #e7e7e7;
+}
+
+.darightanimation{
+    width: 50%;
+}
+
+.darrightanimationimg{
+    width: auto;
+    height: 500px;
+}
+
+/* Title Section */
+.datitlesection {
+    padding: 20px;
+    text-align: center;
+    justify-items: center;
+    background-color: #ffffff;
+}
+
+.datitlesection h3 {
+    margin: 0;
+    font-weight: 500;
+}
+
+.datitlesection p{
+    max-width: 63%;
+    padding-top: 20px;
+    text-align: center;
+}
+
+/* Cards Section */
+.dacards {
+    padding: 20px;
+    background-color: #fff;
+    text-align: center;
+    justify-items: center;
+}
+
+.dacards h3 {
+    margin: 0;
+    font-weight: 500;
+}
+
+.dacardcontainer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.dacard {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    flex: 1 1 30%; /* Adjusts width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.dacard:hover {
+    transform: scale(1.05);
+}
+
+.dacard img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Order Safety Section */
+.daordersafe {
+    padding: 20px;
+    text-align: center;
+    justify-items: center;
+    background-color: white;
+}
+
+.daordersafe h5 {
+    margin: 10px;
+    font-weight: 500;
+    font-size: 1.5em; /* Increased font size for better visibility */
+}
+
+.daimgtextbox {
+    display: flex;
+    align-items: flex-start; /* Align items at the start */
+    justify-content: center; /* Center the content */
+    margin-top: 20px; /* Add some space above the flex container */
+    margin-left: 10%;
+}
+
+.daimgbox {
+    border-radius: 5px;
+    display: flex; /* Center image inside the box */
+    justify-content: center;
+    align-items: center;
+}
+
+.daimgbox img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px; /* Ensure the image corners match the box */
+}
+
+.datextbox {
+    flex: 2;
+    text-align: left; /* Align text to the left */
+}
+
+.datextbox p{
+    margin: 10px;
+}
+
+.datextbox ul {
+    list-style: none; /* Remove default bullets */
+    padding: 0; /* Remove default padding */
+    max-width: 60%;
+}
+
+.datextbox li {
+    position: relative; /* Position for custom bullets */
+    padding-left: 25px; /* Space for custom bullets */
+    margin-bottom: 15px; /* Space between list items */
+}
+
+.datextbox li:before {
+    font-size: 1.5em; /* Increase bullet size */
+    position: absolute; /* Position the bullet */
+    left: 0; /* Align to the left */
+    color: #007BFF; /* Bullet color */
+}
+
+/* Testimonials Section */
+.datestimonials {
+    padding: 20px;
+    text-align: center;
+    background-color: white;
+}
+
+.datestimonials h5 {
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.dacarouselbox {
+    display: flex; /* Use flexbox for the carousel */
+    justify-content: center; /* Center the carousel items */
+}
+
+.dacarouselcard {
+    display: flex; /* Use flexbox for card layout */
+    width: 80%; /* Adjust width to control spacing */
+    margin: 0 10px; /* Margin for spacing between cards */
+    background-color: #f8f9fa; /* Background color */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.testimonial-image {
+    width: 50%; /* Image takes 50% of the card width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 400px; /* Set a maximum height for the image */
+}
+
+.testimonial-content {
+    width: 50%; /* Content takes the remaining 50% */
+    padding: 15px; /* Add padding for content */
+    text-align: left; /* Align text to the left */
+}
+
+.daname {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.datext{
+    text-wrap:balance;
+    text-overflow: ellipsis;
+}
+
+.dacountry {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: flex-start; /* Align to the start */
+    margin-bottom: 10px; /* Space below the country name */
+    white-space: nowrap; /* Prevent wrapping */
+}
+
+.dacountryname{
+    font-size: 14px;
+    margin:10px;
+}
+
+.flag-icon {
+    width: 25px; /* Set flag width */
+    height: 25px; /* Set flag height */
+    margin-right: 100%; /* Increase space between flag and country name */
+}
+
+.dadescription {
+    font-style: italic;
+}
+
+/* Owl Carousel settings */
+.owl-carousel .owl-item {
+    display: flex; /* Ensure carousel items are flex */
+    justify-content: center; /* Center the items in the carousel */
+}
+
+/* FAQ Section */
+/* FAQ Section */
+.dafaq {
+    text-align: center; /* Center the FAQ section */
+    padding: 20px;
+    background-color: white; /* Background color */
+}
+
+.dafaq h5 {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.dafaq h6 {
+    margin-bottom: 20px;
+}
+
+.dasmallblue {
+    font-size: small;
+    color: blue !important;
+}
+
+.daquestionsbox {
+    display: flex; /* Use flexbox for layout */
+    justify-content: center; /* Center contents */
+    align-items: flex-start; /* Align items at the top */
+    margin: 0 auto; /* Center the box */
+}
+
+.daquestions, .daanswers {
+    flex: 1; /* Make both columns equal in width */
+    padding: 10px; /* Padding for inner spacing */
+}
+
+.daquestions {
+    border-right: 2px solid #007BFF; /* Optional: Visual separator */
+    margin-right: 10px; /* Space between columns */
+}
+
+.question-item {
+    padding: 8px;
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth background color change */
+    font-size: large;
+}
+
+.question-item:hover {
+    background-color: #f0f0f0; /* Change background on hover */
+}
+
+.daanswers {
+    padding-left: 10px; /* Space on the left */
+}
+
+.answer-item {
+    padding: 8px; /* Padding for answers */
+    background-color: #f9f9f9; /* Background color for answers */
+    border: 1px solid #ddd; /* Optional border */
+    margin-bottom: 10px; /* Space between answers */
+    line-height: 1.5; /* Improve line spacing */
+    text-align: left;
+}
+
+.answer-item strong {
+    display: block; /* Ensures the question is on a new line */
+    margin-bottom: 5px; /* Space between question and answer */
+}
+
+/* Contact Us Section */
+.dacontactus {
+    padding: 20px;
+    text-align: center;
+    background-color: #007BFF;
+    color: white;
+}
+
+.dacontactus h3{
+    color: white;
+}
+
+.dacontactus a {
+    color: white !important;
+    text-decoration: underline;
+}
+
+.dacontactus a:hover{
+    color: white !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dacardcontainer {
+        flex-direction: column;
+    }
+
+    .daimgtextbox {
+        flex-direction: column;
+    }
+}
+
+
+.dareturn {
+    text-align: center; /* Center text */
+    padding: 20px; /* Padding for the section */
+    background-color: #f9f9f9; /* Background color */
+}
+
+.dareturn h5 {
+    margin-bottom: 10px; /* Space below the heading */
+    font-weight: 500; /* Font weight */
+}
+
+.dareturn h6 {
+    margin-bottom: 20px; /* Space below the subheading */
+}
+
+.dareturnbox {
+    display: flex; /* Flexbox layout for the boxes */
+    justify-content: center; /* Center the boxes */
+    gap: 20px; /* Space between boxes */
+}
+
+.dareturncard {
+    background-color: white; /* Background color for the cards */
+    border: 1px solid #ddd; /* Border for the cards */
+    border-radius: 5px; /* Rounded corners */
+    padding: 15px; /* Inner padding */
+    width: 40%; /* Fixed width for cards */
+    text-align: left; /* Align text to the left */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+.card-header {
+    display: flex; /* Flexbox for header layout */
+    align-items: center; /* Center items vertically */
+}
+
+.card-icon {
+    margin-right: 10px; /* Space between image and text */
+}
+
+.card-title {
+    font-weight: bold; /* Bold font for the title */
+}
+
+.card-text {
+    margin-top: 10px; /* Space above the text */
+}
+
+@media(max-width:768px){
+    .dareturnbox{
+        flex-direction: column;
+    }
+    .dareturncard{
+        width: 100%;
+    }
+    .datextbox{
+        text-align: center;
+    }
+}

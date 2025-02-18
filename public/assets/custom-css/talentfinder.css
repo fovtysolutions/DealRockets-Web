@@ -1,0 +1,349 @@
+.jobbannermain {
+    display: flex;
+    margin: 0 auto;
+    height: 600px;
+}
+
+.jobbannerleft {
+    flex: 0 0 auto;
+    width: 25%;
+    padding-top: 30px;
+    padding-left: 20px;
+}
+
+.jobbannercenter {
+    align-items: center;
+    justify-content: center;
+    margin-top: 18px;
+    padding-right: 0px;
+    width: 25%;
+    overflow-y: scroll;
+}
+
+.jobbannerright {
+    width: 50%;
+    height: 93.5%;
+    margin-top: 23px;
+    /* padding-left: 10px; */
+    overflow-y: scroll;
+    height: 100%;
+    text-align: start;
+}
+/* Right Division (Ads Section) */
+.leadrightdivision {
+    width: 100%;
+    height: fit-content;
+    background-color: var(--web-bg);
+    margin-bottom: 22px;
+    margin-top: 22px;
+}
+
+.ad-section {
+    display: flex;
+    gap: 22px;
+}
+
+.ad-section .vendor-ad,
+.ad-section .google-ad {
+    text-align: center;
+    /* padding: 10px; */
+    background-color: #f9f9f9;
+    /* border: 1px solid #ddd; */
+    /* border-radius: 10px; */
+    /* margin-bottom: 22px; */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.ad-section img {
+    width: 100%;
+    height: auto;
+    max-height: 1200px;
+    max-width: 1200px;
+    aspect-ratio: 4/1;
+    object-fit: cover;
+    /* border-radius: 10px; */
+}
+
+.jobbannerright h5:hover {
+    color: #007bff;
+    cursor: pointer;
+}
+
+/* Wrapper for the job banner center section */
+.jobbannercenter .tilebox {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 5px;
+    height: 100%;
+    padding: 8px 0;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 0;
+    overflow-y: auto; /* Enable horizontal scrolling */
+}
+
+.jobbannercenter .tile {
+    width: 100%;  /* Fixed width for each tile */
+    height: 110px; /* Fixed height for each tile */
+    background-color: white;
+    /* border-radius: 8px; */
+    /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
+    padding: 15px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.jobbannercenter .tile:hover {
+    transform: translateY(-5px);
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); */
+}
+
+/* Tile content (company logo + details) */
+.jobbannercenter .tile .tile-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.jobbannercenter .tile .icon {
+    font-size: 40px;  /* Smaller icon size */
+    color: #0073b1;   /* LinkedIn color */
+    margin-right: 10px; /* Space between icon and text */
+}
+
+.jobbannercenter .tile .details {
+    flex-grow: 1; /* Take remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.jobbannercenter .tile .title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.jobbannercenter .tile .company-name {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+}
+
+.jobbannercenter .tile .location {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+}
+
+.jobbannercenter .tile .viewed-status {
+    font-size: 12px;
+    color: #888;
+    margin-top: 10px;
+}
+
+.jobbannercenter .tile .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    /* border-radius: 8px; */
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.jobbannercenter .tile:hover .overlay {
+    visibility: visible;
+    opacity: 1;
+}
+
+.jobbannercenter .tile .overlay .overlay-content {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.jobbannercenter .tile .ico {
+    width: 40px;  /* Smaller icon size */
+    height: 40px;
+}
+
+.job-details-container {
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.job-header {
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.job-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.job-meta {
+    margin-top: 5px;
+}
+
+.job-meta span {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 14px;
+    color: #888;
+}
+.spanatag {
+    margin: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 0;
+    text-decoration: none;
+    justify-content: start;
+    transition: fill 0.3s;
+}
+
+.spantitlenew {
+    color: #555;
+    font-size: 14px;
+    padding: 5px;
+    margin-right: 20px;
+    position: relative;
+}
+
+.spanatag:hover .spantitlenew {
+    color: #007bff;
+}
+
+.spanimage {
+    width: 20px;
+    height: 20px;
+}
+
+.spanatag:hover .spanimage rect {
+    fill: #007bff;
+}
+
+.dropdownmenucat {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: auto;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+}
+
+.dropdown-itemcat {
+    padding: 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-itemcat:hover {
+    background-color: #f0f0f0;
+}
+
+.hiddenonscreens{
+    display: none !important;
+}
+
+@media (max-width:1025px){
+    .jobbannerleft{
+        display: none;
+    }
+    .hiddenonscreens{
+        display: block !important;
+        position: relative;
+        top: -30px;
+        left: 15px;
+    }
+    .jobbannercenter{
+        width: 30%;
+    }
+    .jobbannercenter .tile{
+        height: 100%;
+        max-height: fit-content;
+    }
+    .jobbannercenter .tilebox{
+        margin-top: 5px;
+        height: 100%;
+    }
+    .jobbannerright{
+        width: 70%;
+    }
+}
+
+@media (max-width:769px){
+    .jobbannerleft{
+        display: none;
+    }
+    .hiddenonscreens{
+        display: block !important;
+        position: relative;
+        top: -30px;
+        left: 15px;
+    }
+    .jobbannercenter{
+        width: 50%;
+    }
+    .jobbannercenter .tile{
+        height: 100%;
+        max-height: fit-content;
+    }
+    .jobbannercenter .tilebox{
+        margin-top: 5px;
+        height: 100%;
+    }
+    .jobbannerright{
+        width: 50%;
+    }
+}
+
+@media (max-width:426px){
+    .jobbannerleft{
+        display: none;
+    }
+    .hiddenonscreens{
+        display: block !important;
+        position: relative;
+        top: -30px;
+        left: 15px;
+    }
+    .jobbannercenter{
+        width: 100%;
+    }
+    .jobbannercenter .tile{
+        height: 100%;
+    }
+    .jobbannercenter .tilebox{
+        margin-top: 5px;
+        height: 100%;
+    }
+    .jobbannerright{
+        display: none;
+    }
+}

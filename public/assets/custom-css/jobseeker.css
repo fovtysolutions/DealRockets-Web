@@ -1,0 +1,733 @@
+/* Header */
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.dropdown-container, .instructions {
+    width: max-content;
+    margin: 10px 10px 10px 10px;
+    overflow: auto;
+}
+
+.instructions {
+    width: 100%;
+    text-align: center;
+}
+
+.dropdown-button {
+    float: left;
+    width: 100%;
+    background: whitesmoke;
+    padding: 10px 12px;
+
+    cursor: pointer;
+    border-radius: 30px;
+    border: 1px solid lightgray;
+    box-sizing: border-box;
+    
+    .dropdown-label, .dropdown-quantity {
+        float: left;
+        text-wrap-mode: nowrap;
+        display: flex;
+        gap: 4px;
+    }
+    
+    .dropdown-quantity {
+        margin-left: 4px;
+    }
+    
+    .fa-filter {
+        float: right;
+    }
+}
+
+.dropdown-list {
+    float: left;
+    width: 100%;
+
+    border: 1px solid #b7b7b7;
+    /* box-sizing: border-box; */
+    /* border-radius: 10px; */
+    margin-top: 40px;
+    padding: 10px 12px;
+    position:absolute;
+    width: fit-content;
+    background: white;
+    z-index: 1000;
+    
+    input[type="search"] {
+        padding: 10px;
+        border: 2px solid var(--web-hover);
+        border-radius: 25px;
+    }
+
+    input[type="number"] {
+        padding: 10px;
+        border: 2px solid var(--web-hover);
+        border-radius: 25px;
+    }
+    
+    ul {
+        margin: 10px 0;
+        max-height: 200px;
+        padding-left:0;
+        overflow-y: auto;
+        cursor: pointer;
+        
+        input[type="checkbox"] {
+            position: relative;
+            top: 2px;
+        }
+    }
+}
+
+.clear-filters button{
+    border: 0;
+    border-radius: 25px;
+    padding: 10px 12px;
+    text-wrap-mode: nowrap;
+    background-color: var(--web-hover);
+    color: white;
+}
+
+.rightfloatheaders {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    z-index: 1000;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.icon-button {
+    width: 50px;
+    height: 70px;
+    background-color: #fff;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.icon-button span {
+    margin-top: 4px;
+    font-size: 14px;
+}
+
+.icon-button:hover {
+    background-color: #f0f0f0;
+}
+
+.separate-button {
+    height: 50px;
+    margin-top: 10px;
+}
+
+.closebutton {
+    display: none;
+    visibility: hidden;
+    padding: 4px;
+    margin: 4px;
+    font-size: x-large;
+}
+
+.headerinput {
+    border-radius: 20px;
+    border-color: rgb(0, 89, 255);
+    border-width: 3px;
+}
+
+.jobbannermain {
+    display: flex;
+    margin: 0 auto;
+    height: 600px;
+    background-color: var(--web-bg);
+}
+
+.jobbannerleft {
+    width: 20%;
+    float: left;
+    background-color: white;
+    padding-top: 22px;
+    /* margin-right: 22px; */
+    /* border-radius: 10px; */
+    transition: all 0.3s ease;
+}
+
+.jobbannerrightbox {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.jobbannerrighttop {
+    height: 10%;
+    width: 100%;
+    background-color: white;
+    /* border-radius: 10px; */
+}
+
+.jobbannerrightbottom {
+    height: 90%;
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    /* border-radius: 10px; */
+}
+
+.jobbannerleft li {
+    overflow: hidden;
+}
+
+.navbar-nav a:hover {
+    background-color: var(--web-hover) !important;
+    scale: 1.05 !important;
+    color: white !important;
+}
+
+.buttonsbox {
+    display: flex;
+    align-items: center;
+    /* Centers vertically */
+    height: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.buttonsboxq {
+    border-radius: 20px;
+    padding: 10px 10px 10px 10px;
+    /* Add padding on the right to make space for the arrow */
+    margin: 0px 10px 0px 10px;
+    background-color: #f1f1f1;
+    /* Optional: background color for the select box */
+    border: 1px solid #ccc;
+    /* Optional: border styling */
+    appearance: none;
+    /* Remove the default arrow */
+    -webkit-appearance: none;
+    /* For Safari */
+    -moz-appearance: none;
+    /* For Firefox */
+    background-image: url('data:image/svg+xml;base64,...');
+    /* Your custom arrow image or icon */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    /* Position the custom arrow */
+    background-size: 12px;
+    /* Adjust size of the arrow */
+}
+
+/* Right Division (Ads Section) */
+.leadrightdivision {
+    width: 100%;
+    height: fit-content;
+    background-color: var(--web-bg);
+    margin-bottom: 22px;
+    margin-top: 22px;
+}
+
+.ad-section {
+    display: flex;
+    gap: 22px;
+}
+
+.ad-section .vendor-ad,
+.ad-section .google-ad {
+    text-align: center;
+    /* padding: 10px; */
+    background-color: #f9f9f9;
+    /* border: 1px solid #ddd; */
+    /* border-radius: 10px; */
+    /* margin-bottom: 22px; */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.ad-section img {
+    width: 100%;
+    height: auto;
+    /* max-height: 1200px;
+    max-width: 1200px; */
+    aspect-ratio: 7/1;
+    object-fit: fill;
+    /* border-radius: 10px; */
+}
+
+/* Optional: Style for the dropdown arrow if you want to use a CSS arrow */
+.buttonsboxq::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+    padding: 5px;
+    transform: rotate(45deg);
+    /* Creates a down arrow */
+}
+
+.jobbannercenter {
+    align-items: center;
+    justify-content: center;
+    background-color: var(--web-bg);
+    width: 40%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.jobbannerright {
+    width: 60%;
+    background-color: var(--web-bg);
+    overflow-y: scroll;
+    float: right;
+    height: 100%;
+    text-align: start;
+}
+
+.jobbannerright h5:hover {
+    color: var(--web-hover);
+    cursor: pointer;
+}
+
+.jobbox {
+    /* margin:0px 0px 0px 22px; */
+}
+
+/* Wrapper for the job banner center section */
+.jobbannercenter .tilebox {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--web-bg);
+    margin: 0px 22px 22px 0px;
+    /* gap: 22px; */
+    width: 100%;
+}
+
+.jobbannercenter .tile {
+    width: 100%;
+    /* Fixed width for each tile */
+    height: 110px;
+    /* Fixed height for each tile */
+    background-color: white;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid lightgrey;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.jobbannercenter .tile:hover {
+    /* background-color: #f3f3f3; */
+}
+
+/* Tile content (company logo + details) */
+.jobbannercenter .tile .tile-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.jobbannercenter .tile .icon {
+    font-size: 40px;
+    /* Smaller icon size */
+    color: #0073b1;
+    /* LinkedIn color */
+    margin-right: 10px;
+    /* Space between icon and text */
+}
+
+.jobbannercenter .tile .details {
+    flex-grow: 1;
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.jobbannercenter .tile .title {
+    font-weight: bold;
+}
+
+.jobbannercenter .tile .company-name {
+    margin-top: 5px;
+}
+
+.jobbannercenter .tile .location {
+    margin-top: 5px;
+}
+
+.jobbannercenter .tile .viewed-status {
+    margin-top: 10px;
+}
+
+.jobbannercenter .tile .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.jobbannercenter .tile .overlay .overlay-content {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--web-hover);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.jobbannercenter .tile .ico {
+    width: 40px;
+    /* Smaller icon size */
+    height: 40px;
+}
+
+.job-details-container {
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.job-header {
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.job-header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.job-meta {
+    margin-top: 5px;
+}
+
+.job-meta span {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 14px;
+    color: var(--web-text);
+}
+
+.spanatag {
+    margin: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 0;
+    text-decoration: none;
+    justify-content: start;
+    transition: fill 0.3s;
+}
+
+.spantitlenew {
+    color: var(--web-text);
+    font-size: 14px;
+    padding: 5px;
+    margin-right: 20px;
+    position: relative;
+}
+
+.spanatag:hover .spantitlenew {
+    color: var(--web-hover);
+}
+
+.spanimage {
+    width: 20px;
+    height: 20px;
+}
+
+.spanatag:hover .spanimage rect {
+    fill: #007bff;
+}
+
+.dropdownmenucat {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: auto;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+}
+
+.dropdown-itemcat {
+    padding: 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-itemcat:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-item:hover label{
+    color: var(--web-hover) !important;
+}
+
+.hiddenonscreens {
+    display: none !important;
+}
+
+/* Job Card */
+.job-card {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+}
+
+/* Job Card Header (Logo + Job Details) */
+.job-card-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.company-logo {
+    width: 100px;
+    height: 100px;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.job-details {
+    flex-grow: 1;
+}
+
+.job-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.company-name-location {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.company-name {
+    font-weight: bold;
+    color: var(--web-hover) !important;
+}
+
+.location {
+    color: #777;
+}
+
+.time-applicants {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.posted-time, .applicants {
+    font-size: 14px;
+    color: #555;
+}
+
+.apply-button {
+    width: 30%;
+    padding: 12px;
+    background-color: #0073b1;
+    color: white;
+    font-weight: bold;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.apply-button:hover {
+    background-color: #005a8c;
+}
+
+/* Job Description Box */
+.job-description-box, .company-details-box, .additional-info-box, .application-details-box {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+h5 {
+    margin-bottom: 10px;
+}
+
+.job-description-box p,
+.company-details-box p,
+.additional-info-box p,
+.application-details-box p {
+    color: var(--web-text);
+    line-height: 1.6;
+}
+
+.job-description-box a,
+.company-details-box a,
+.application-details-box a {
+    color: var(--web-hover);
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .job-card {
+        padding: 15px;
+    }
+
+    .company-logo {
+        width: 80px;
+        height: 60px;
+    }
+
+    .job-title {
+        font-size: 20px;
+    }
+
+    .company-name-location {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .apply-button {
+        width: auto;
+    }
+}
+
+@media (max-width:1025px) {
+    .jobbannerleft {
+        display: none;
+    }
+
+    .hiddenonscreens {
+        display: block !important;
+        position: relative;
+        top: -30px;
+        left: 15px;
+    }
+
+    .jobbannercenter {
+        width: 30%;
+    }
+
+    .jobbannercenter .tile {
+        height: 100%;
+        max-height: fit-content;
+    }
+
+    .jobbannerrightbox{
+        width:100%;
+    }
+
+    .jobbannercenter .tilebox {
+        margin-top: 5px;
+        height: 100%;
+    }
+
+    .jobbannerright {
+        width: 70%;
+    }
+}
+
+@media (max-width:769px) {
+    .jobbannerleft {
+        display: none;
+    }
+
+    .hiddenonscreens {
+        display: block !important;
+        position: relative;
+        top: -30px;
+        left: 15px;
+    }
+
+    .jobbannercenter {
+        width: 50%;
+    }
+
+    .jobbannercenter .tile {
+        height: 100%;
+        max-height: fit-content;
+    }
+
+    .jobbannercenter .tilebox {
+        margin-top: 5px;
+        height: 100%;
+    }
+
+    .jobbannerright {
+        width: 50%;
+    }
+}
+
+@media (max-width:426px) {
+    .jobbannerleft {
+        display: none;
+    }
+
+    .hiddenonscreens {
+        display: block !important;
+        position: relative;
+        top: -30px;
+        left: 15px;
+    }
+
+    .jobbannercenter {
+        width: 100%;
+    }
+
+    .jobbannercenter .tile {
+        height: 100%;
+    }
+
+    .jobbannercenter .tilebox {
+        margin-top: 5px;
+        height: 100%;
+    }
+
+    .jobbannerright {
+        display: none;
+    }
+}

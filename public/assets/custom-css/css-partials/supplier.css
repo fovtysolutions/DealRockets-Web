@@ -1,0 +1,96 @@
+.supplier-sec h3{
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: bold;
+}
+.supplier-card {
+    transition: opacity 0.3s ease-in-out; /* Smooth fade transition */
+    opacity: 1;
+}
+
+.supplier-card:hover {
+    opacity: 0.8; /* Fade the card on hover */
+}
+
+.supplier-card .cmp-logo {
+    position: absolute;
+    top: -9px;
+    background-color: #ffffff;
+    color: gold !important;
+}
+
+.supplier-card .cmp-logo img {
+    border: 1px solid #d5dfe4;
+    padding: 12px 10px;
+    border-radius: 25px;
+    width: 45px;
+    aspect-ratio: 3 / 2;
+}
+
+.supplier-card-txt .title {
+    font-size: 14px;
+    margin-bottom: 2px;
+    font-size: 0.8rem;
+    width: 100%;
+}
+
+.supplier-card-txt .manufacture {
+    font-size: small;
+    letter-spacing: -0.5px;
+    margin-bottom: 2px;
+}
+
+.supplier-card-txt .business {
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.supplier-card-txt img {
+    width: 100%;
+}
+
+/* Media Queries for Mobile and Tablet */
+@media (max-width: 768px) {
+    .supplier-card {
+        padding: 15px;
+    }
+
+    .supplier-card-txt .title {
+        font-size: 0.9rem;
+    }
+
+    .supplier-card-txt img {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .supplier-sec {
+        padding: 10px;
+    }
+
+    .supplier-sec h3 {
+        font-size: 14px;
+    }
+
+    .supplier-card {
+        margin: 10px 0;
+        width: 100%; /* Full width for very small screens */
+    }
+
+    .supplier-card-txt .title {
+        font-size: 0.8rem;
+    }
+
+    .supplier-card-txt .manufacture {
+        font-size: x-small;
+    }
+
+    .supplier-card-txt .business {
+        font-size: 9px;
+    }
+
+    .supplier-card-txt img {
+        width: 100%;
+    }
+}

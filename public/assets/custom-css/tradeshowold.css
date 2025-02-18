@@ -1,0 +1,114 @@
+.widebanner{
+    background-image: url(/images/widebanner_trdshw.jpg);
+    height: 40vh;
+}
+.widebannertext{
+    bottom: 20px;
+    left: 20px;
+}
+
+.filtersectiontrdshw{
+    width: 100%;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.lettersort{
+    background-color: #e5e5e5;
+    padding: 6px;
+    margin: 8px;
+    text-wrap: nowrap;
+}
+
+.searchcontainertrdshw {
+    position: relative;
+    display: inline-block;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.searchcontainertrdshw:focus-within {
+    border-color: #c2c2c2;
+}
+
+.searchbartrdshw {
+    padding-left: 30px;
+    width: 200px;
+    border: none;
+    outline: none;
+    height: 100%;
+}
+
+.searchicontrdshw {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.filterdropdown{
+    color: #555;
+    outline: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition:border-color 0.3s;
+}
+
+.filterdropdown:focus-within{
+    border-color: #c2c2c2;
+}
+
+.referarrow{
+    display: flex;
+    cursor: pointer;
+    margin: 3px;
+}
+
+.referarrow:hover .referbutton{
+    background-color: #0063cd;
+    transition: background-color 0.3s ease;
+}
+
+.referbutton{
+    border: 0;
+    background-color: #007bff;
+    color: white;
+}
+
+.refericon{
+    display: inline-block;
+    font-size: large;
+    align-content: center;
+    color: white;
+}
+
+.iconimagetrdshw{
+    width: 75px;
+    height: 75px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.tradeshowtable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tradeshowtable th, .tradeshowtable td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+    text-wrap: nowrap;
+}
+
+@media (max-width: 768px) {
+    .tradeshowtable {
+        display: block;
+        overflow-x: auto;
+    }
+}

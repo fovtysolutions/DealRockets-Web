@@ -1,0 +1,99 @@
+/* Products Treading categories  */
+.trd-product-sec {
+    padding-top: 20px;
+    padding-left: 20px;
+    /* border-radius: 10px; */
+    padding-right: 10px;
+    background-color: #ffffff;
+}
+
+.trd-product-sec h3 {
+    font-size: 20px;
+    line-height: 18px;
+    /* font-weight: bold; */
+    color: black;
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+.trd-product-cnt {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 10px 0px;
+}
+
+.trd-product-cnt img {
+    aspect-ratio: 3 / 2;
+    max-height: 180px;
+    /* max-width: 180px; */
+    margin-bottom: 15px;
+    /* border-radius: 10px; */
+}
+
+.trd-product-item {
+    /* margin-bottom: 20px; */
+}
+
+.trd-product-item img {
+    transition: all 0.3s ease-in;
+    /* border-radius: 10px; */
+}
+
+.trd-product-item .image-container::after {
+    display: none;
+}
+
+.trd-product-item:hover img {
+    transform: scale(1.15);
+    /* box-shadow: 0px 5px 24px rgba(255, 0, 0, 0.24); */
+}
+
+.trd-product-item a {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px 0px;
+    transition: color 0.3s ease-in;
+    display: flex;
+    flex-direction: column;
+}
+
+.trd-product-item:hover a {
+    color: var(--web-hover) !important;
+    /* Change text color on hover */
+}
+
+.trd-product-item:hover span{
+    color: var(--web-hover) !important;
+    /* Change text color on hover */
+}
+
+@media (max-width: 768px) {
+    .trd-product-cnt img {
+        max-width: 100%;
+        /* Maintain responsiveness */
+    }
+}
+
+@media (max-width: 576px) {
+    .trd-product-sec {
+        padding: 10px;
+        /* Less padding on mobile */
+    }
+
+    .trd-product-sec h3 {
+        font-size: 14px;
+        /* Smaller font size for mobile */
+    }
+
+    .trd-product-cnt img {
+        max-width: 150px;
+        /* Smaller max width for mobile */
+    }
+
+    .trd-product-item p {
+        font-size: 14px;
+        /* Smaller text for mobile */
+    }
+}

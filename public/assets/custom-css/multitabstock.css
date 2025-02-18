@@ -1,0 +1,281 @@
+.tabs-container {
+    width: 100%;
+    /* max-width: 700px; */
+    height: 100%;
+    /* Make the height flexible */
+    background-color: white;
+    /* border-radius: 20px; */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    position: relative;
+}
+
+.tabs {
+    padding: 10px 20px 15px 20px;
+    /* Increased padding */
+}
+
+.tab-links {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tab-link {
+    background: none !important;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 10px;
+    /* Increased padding for spacing */
+    color: #ccc;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+    width: calc(100% - 75%);
+}
+
+.tab-link.active,
+.tab-link:hover {
+    color: var(--web-hover);
+    /* Gradient purple */
+}
+
+.tab-link i {
+    margin-right: 10px;
+}
+
+.tab-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: -1px;
+    left: 50%;
+    background: linear-gradient(45deg, #fd4e4e, #ff8d8d);
+    transition: all 0.4s ease;
+}
+
+.tab-link.active::after {
+    width: 100%;
+    left: 0;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeInUp 0.5s ease;
+    padding: 15px 10px 15px 10px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Buttons */
+.cta-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    /* More padding */
+    background: linear-gradient(45deg, #b84de5, #7d41ff);
+    /* Purple gradient */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.4s ease;
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+.cta-btn:hover {
+    background: linear-gradient(45deg, #9c3bce, #6b3ee8);
+    /* Darker gradient on hover */
+}
+
+/* Form Styles */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form label {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 12px 15px;
+    /* Increased padding for inputs */
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    transition: border 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #b84de5;
+    outline: none;
+}
+
+/* FAQ List */
+.faq-list {
+    padding: 0;
+    list-style: none;
+}
+
+.faq-list li {
+    margin-bottom: 10px;
+}
+
+.faq-list li strong {
+    font-weight: 600;
+}
+
+/* Container for the feature section */
+.detailsboxtop {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 500px;
+    margin: 5px auto;
+    transition: all 0.3s ease;
+}
+
+/* Header Style */
+.detailsboxtop h5 {
+    font-weight: bold;
+    margin-bottom: 5px;
+    position: relative;
+    animation: slideInFromLeft 1s ease-out;
+}
+
+/* Animation for header */
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Styling for feature list */
+.feature-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.leftclass {
+    height: 100%;
+    align-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.rightclass span {
+    font-size: 14px !important;
+}
+
+.feature-list li {
+    font-size: 1.1em;
+    color: var(--web-text);
+    display: flex;
+    gap: 15px;
+    margin-left: 0;
+    padding: 12px 0;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideIn 0.7s forwards;
+    padding: 10px;
+}
+
+.feature-list li:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.feature-list li:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.feature-list li:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.feature-list li:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.feature-list li:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.feature-list li:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+/* Keyframe animation for the feature list items */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Hover effect on each list item */
+.feature-list li:hover {
+    color: var(--web-hover);
+    cursor: pointer;
+    transition: color 0.3s ease;
+    background-color: rgba(251, 238, 229, 0.5);
+    border-radius: 10px;
+}
+
+/* Styling for the <strong> tags inside the list */
+.feature-list li strong {
+    font-weight: 700;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+/* Hover effect on the strong text */
+.feature-list li:hover strong {
+    color: var(--web-hover);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    .tab-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tab-link {
+        text-align: center;
+        width: 100%;
+        padding: 15px 0;
+    }
+}

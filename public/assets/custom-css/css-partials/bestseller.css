@@ -1,0 +1,116 @@
+/* Best Sellers Section */
+.bestseller-sec {
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.bestseller-sec h3 {
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: bold;
+}
+
+.bestseller-cnt {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* Changed to space-between to fit 4 cards */
+}
+
+.bestseller-card {
+    border: 1px solid #d5dfe4;
+    padding: 20px;
+    /* Reduced padding */
+    border-radius: 12px;
+    position: relative;
+    width: calc(25% - 10px);
+    /* Set width to 25% minus margin */
+    margin-bottom: 20px;
+    /* Added bottom margin */
+}
+
+.bestseller-card .cmp-logo {
+    position: absolute;
+    top: -25px;
+    background-color: #ffffff;
+}
+
+.bestseller-card .cmp-logo img {
+    border: 1px solid #d5dfe4;
+    padding: 12px 10px;
+    border-radius: 25px;
+    width: 45px;
+}
+
+.bestseller-card-txt .title {
+    font-weight: bold;
+    margin-bottom: 2px;
+    font-size: 0.8rem;
+    width: 100%;
+    /* Changed to 100% */
+}
+
+.bestseller-card-txt .manufacture {
+    font-size: small;
+    letter-spacing: -0.5px;
+    margin-bottom: 2px;
+}
+
+.bestseller-card-txt .business {
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.bestseller-card-txt img {
+    width: 100%;
+    /* Changed to 100% for responsive design */
+}
+
+@media (max-width: 768px) {
+    .bestseller-card {
+        padding: 15px;
+        width: calc(50% - 10px);
+        /* Adjust to fit 2 cards in smaller screens */
+    }
+
+    .bestseller-card-txt .title {
+        font-size: 0.9rem;
+    }
+
+    .bestseller-card-txt img {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .bestseller-sec {
+        padding: 10px;
+    }
+
+    .bestseller-sec h3 {
+        font-size: 14px;
+    }
+
+    .bestseller-card {
+        margin: 10px 0;
+        width: 100%;
+        /* Adjust to full width on very small screens */
+    }
+
+    .bestseller-card-txt .title {
+        font-size: 0.8rem;
+    }
+
+    .bestseller-card-txt .manufacture {
+        font-size: x-small;
+    }
+
+    .bestseller-card-txt .business {
+        font-size: 9px;
+    }
+
+    .bestseller-card-txt img {
+        width: 100%;
+    }
+}

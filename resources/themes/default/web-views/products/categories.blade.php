@@ -1,0 +1,88 @@
+@extends('layouts.front-end.app')
+<link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/leads.css') }}" />
+@section('title', translate('all_Categories'))
+
+@push('css_or_js')
+    <meta property="og:image" content="{{ $web_config['web_logo']['path'] }}" />
+    <meta property="og:title" content="Categories of {{ $web_config['name']->value }} " />
+    <meta property="og:url" content="{{ env('APP_URL') }}">
+    <meta property="og:description"
+        content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
+    <meta property="twitter:card" content="{{ $web_config['web_logo']['path'] }}" />
+    <meta property="twitter:title" content="Categories of {{ $web_config['name']->value }}" />
+    <meta property="twitter:url" content="{{ env('APP_URL') }}">
+    <meta property="twitter:description"
+        content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
+@endpush
+
+@section('content')
+    <div class="container rtl __inline-52 text-align-direction">
+
+        {{-- <div class="bg-primary-light rounded-10 my-4 p-3 p-sm-4"
+            data-bg-img="{{ theme_asset(path: 'public/assets/front-end/img/media/bg.png') }}">
+            <div class="d-flex flex-column gap-1 text-primary">
+                <h4 class="mb-0 text-start fw-bold text-primary text-uppercase">
+                    {{ translate('category') }}
+                </h4>
+                <p class="fs-14 fw-semibold mb-0">
+                    {{ translate('Find_your_favourite_categories_and_products') }}
+                </p>
+            </div>
+        </div> --}}
+
+        <div class="d-flex w-100" style="border-radius: 10px; margin-top:22px;">
+            <div class="filter-container">
+                <h5 class="filter-header">
+                    All Industries
+                </h5>
+                <div class="filter-description">
+                    {{ translate('Find_your_favourite_categories_and_products') }}
+                </div>
+                <!-- Country Buttons -->
+                <div class="country-buttons">
+                    @foreach ($categories as $key => $value)
+                        <div class="main-category">
+                            <a class="country-button font-weight-bold" href="{{ route('buyer', ['industry' => $value]) }}">
+                                {{ $value['name'] }}
+                            </a>
+                            @if ($value->childes->count() > 0)
+                                <div class="sub-category-list">
+                                    @foreach ($value->childes as $sub_category)
+                                        <a class="sub-category-button font-weight-normal"
+                                            href="{{ route('buyer', ['industry' => $sub_category['id']]) }}">
+                                            {{ $sub_category['name'] }}
+                                        </a>
+                                        @if ($sub_category->childes->count() > 0)
+                                            <div class="sub-sub-category-list">
+                                                @foreach ($sub_category->childes as $sub_sub_category)
+                                                    <a class="sub-sub-category-button font-weight-light"
+                                                        href="{{ route('buyer', ['industry' => $sub_sub_category['id']]) }}">
+                                                        {{ $sub_sub_category['name'] }}
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+                <!-- Display selected tags -->
+                <div class="selected-tags" id="selectedTags"></div>
+            </div>
+        </div>
+        {{-- <div class="brand_div-wrap mb-4"> 
+            @foreach ($categories as $categoryKey => $category)
+            <a href="{{route('products',['category_id'=> $category['id'],'data_from'=>'category','page'=>1])}}" class="brand_div">
+                <img src="{{ getStorageImages(path: $category->icon_full_url, type: 'category') }}" alt="{{ $category['name'] }}">
+                <div>{{ $category['name'] }}</div>
+            </a>
+            @endforeach 
+            </div> --}}
+    </div>
+@endsection
+
+@push('script')
+    <script src="{{ asset('public/assets/front-end/js/categories.js') }}"></script>
+@endpush

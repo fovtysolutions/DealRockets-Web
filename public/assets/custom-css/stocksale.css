@@ -1,0 +1,245 @@
+.leadspathing {
+    padding-top: 10px;
+    margin: 17px;
+    font-size: 14px;
+}
+
+.leadsbanner img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.leadscontent {
+    margin-top: 20px;
+}
+
+.leadstitle {
+    text-align: left;
+    margin-bottom: 5px;
+    margin-left: 17px;
+}
+
+.leadstilebox {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.leadstileone {
+    width: 40%;
+    margin: 5px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.leadstiletwo {
+    width: 20%;
+    margin: 5px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.leadstilethree {
+    width: 23%;
+    margin: 5px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.leadstilefour {
+    width: 22%;
+    margin: 5px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.leadsdescriptionbox {
+    margin-top: 20px;
+    margin-left: 17px;
+}
+
+.leadstitledesc {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.leadsdescription {
+    width: 78%;
+    margin-bottom: 15px;
+}
+
+.leadstilegroup {
+    display: flex;
+    justify-content: space-between;
+}
+
+.leadstilegroup p {
+    margin-bottom: 3px;
+}
+
+.leadstilegroup a {
+    color: var(--web-hover) !important;
+}
+
+.leadstiletwo p {
+    margin-bottom: 3px;
+}
+
+.leadstilethree p {
+    margin-bottom: 3px;
+}
+
+.leadstilefour button {
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.leadstilefour button:hover {
+    background-color: #0056b3;
+}
+
+.leadstilefour a {
+    color: var(--web-hover) !important;
+    font-size: 14px;
+    padding-top: 10px;
+}
+
+.leadsbuttons {
+    display: flex;
+    gap: 10px;
+}
+
+.leadsbuttons button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.leadsbuttons button:hover {
+    background-color: #0056b3;
+}
+
+.leadsrelated {
+    margin-top: 20px;
+    margin-left: 17px;
+}
+
+.leadsrelatedboxes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.leadsrelatedbox {
+    width: 100%;
+    display: flex;
+    margin: 5px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.leadsrelatedboxcontent {
+    width: 85%;
+}
+
+.leadsrelatedboxcontent a {
+    color: var(--web-hover) !important;
+    margin-bottom: 10px;
+}
+
+.leadsrelatedboxbutton {
+    width: 15%;
+    margin-top: auto;
+    margin-bottom:auto;
+}
+
+.leadsrelatedboxbutton button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    margin-top: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.leadsrelatedboxbutton button:hover{
+    background-color: #0056b3;
+}
+
+.bylinerelated {
+    font-size: small;
+    font-weight: bold;
+    color: grey;
+    text-align: center;
+}
+
+.leadsflags{
+    width: 20px;
+    height: 15px;
+}
+
+
+/* Buyer Page */
+.leadpagedivision{
+    display: flex;
+    width: 100%;
+    background-color: var(--web-bg);
+}
+
+.leadleftdivision{
+    width: 30%;
+    margin-right: 22px;
+}
+
+.leadrightdivision{
+    width: 70%;
+    background-color: var(--web-bg);
+}
+
+.newleadsbutton{
+    background-color: #007bff;
+    color: white;
+    padding: 5px;
+    border: 0;
+    margin: 5px;
+    border-radius: 20px;
+}
+
+@media(max-width:767px){
+    .leadpagedivision{
+        flex-direction: column;
+    }
+    .leadleftdivision{
+        width: 90%;
+    }
+    .leadrightdivision{
+        width: 90%;
+    }
+    .leadsrelatedbox{
+        flex-direction: column;
+    }
+    .leadsrelatedboxbutton{
+        width: 90%;
+    }
+    .leadsrelatedboxbutton button{
+        margin-top: 0;
+    }
+    .bylinerelated{
+        text-align: start;
+    }
+}

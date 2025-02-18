@@ -1,0 +1,173 @@
+/* Banner Styling (Left Side) */
+
+.sourcemaindiv{
+    overflow: hidden;
+}
+
+.sourcefirstdiv {
+    flex: 1 1 20%; /* Adjust width to 40% */
+    width: 20%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    /* border-radius: 10px 0px 0px 10px; */
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.sourcefirstdiv:hover{
+    scale: 1.05;
+}
+
+.sourcefirstdiv .cnt-1 {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+/* Text Overlay */
+.text-overlay {
+    background: rgba(255, 255, 255, 0); /* Semi-transparent white background */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.text-overlay h4{
+    color: black !important;
+    font-weight: bold;
+}
+
+/* Button Styling */
+.source-btn {
+    background-color: var(--web-hover) !important;
+    color: white;
+    display: inline-block;
+}
+
+/* Product Grid Styling (Right Side) */
+.sourceseconddiv {
+    flex: 1 1 80%; /* Adjust width to 55% */
+    width: 80%;
+}
+
+/* Flexbox Layout for Products */
+.prd-grid {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    width: 100%;
+}
+
+/* Product Item Styling */
+.prd-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 0.5px solid #e6ecf2;
+    background-color: #fff;
+    width: 25%; /* Adjusted width to fit 4 items per row */
+}
+
+
+/* Card Image Styling */
+.source-product-img {
+    transition: all 0.3s ease;
+    width: 60%;
+    aspect-ratio: 3/2;
+    object-fit: cover;
+    margin-right: 20px;
+    /* border-radius: 10px; */
+    margin-bottom: 20px;
+}
+
+.source-product-img:hover {
+    transform: translateY(-5px);
+    transform: scale(1.15);
+}
+
+.redtriangle{
+    display: none;
+    position: absolute;
+    background-color: red;
+}
+
+.source-product-img:hover .redtriangle{
+    display: block;
+}
+
+/* Card Content */
+.source-product-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.product-name{
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 15px;
+}
+
+.card-text {
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.prd-item:nth-child(4){
+    /* border-radius: 0px 10px 10px 0px; */
+}
+
+.prd-item:nth-child(8){
+    /* border-radius: 0px 10px 10px 0px; */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .sourcefirstdiv, .sourceseconddiv {
+        flex: 1 1 100%; /* Stack banner and grid on medium screens */
+    }
+
+    .prd-item {
+        width: 48%; /* Two items per row on smaller screens */
+    }
+
+    .prd-item:nth-child(2){
+        /* border-radius: 0px 10px 10px 0px; */
+    }
+    
+    .prd-item:nth-child(8){
+        /* border-radius: 0px 10px 10px 0px; */
+    }
+}
+
+@media (max-width: 768px) {
+    .prd-item {
+        width: 100%; /* One item per row on smaller screens */
+    }
+    .prd-item:nth-child(1){
+        /* border-radius: 0px 10px 10px 0px; */
+    }
+    .prd-item:nth-child(8){
+        /* border-radius: 0px 10px 10px 0px; */
+    }
+}
+
+@media (max-width: 576px) {
+    .sourcefirstdiv {
+        /* height: 250px; */
+    }
+    .sourcefirstdiv .cnt-1 {
+        top: 10px;
+        left: 10px;
+    }
+    .prd-item:nth-child(1){
+        /* border-radius: 0px 10px 10px 0px; */
+    }
+    
+    .prd-item:nth-child(8){
+        /* border-radius: 0px 10px 10px 0px; */
+    }
+}

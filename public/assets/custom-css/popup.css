@@ -1,0 +1,241 @@
+.category-pop-cnt .modal-content {
+    height: 100%;
+    /* Make the content fill the entire modal */
+    border-radius: 0;
+    /* Remove rounded corners */
+}
+
+.category-pop-cnt .modal-body {
+    overflow-y: auto;
+    /* Enable scrolling if content overflows */
+}
+
+.category-pop-cnt .modal-footer {
+    justify-content: center;
+    flex-direction: column;
+    padding: 5px;
+    text-align: center;
+}
+
+.category-pop-cnt .modal-footer a {
+    font-size: 12px;
+    text-decoration: none;
+    color: #000;
+    margin-right: 20px;
+}
+
+.category-pop-cnt .modal-header {
+    flex-direction: column;
+    padding: 0px !important;
+}
+
+.category-pop-cnt .header-top {
+    background-color: #37bdfa;
+    height: 20px;
+    width: 100%;
+}
+
+.category-pop-cnt .header-main {
+    background-color: #2a14ea;
+    height: fit-content;
+    width: 100%;
+}
+
+.category-pop-cnt .header-main a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.category-pop-cnt .header-main .header-link-1 {
+    justify-content: right;
+    display: flex;
+    gap: 50px;
+}
+
+.header-link-1 a{
+    color: white !important;
+}
+
+.header-link-1 a:hover{
+    color: white !important;
+}
+
+.header-link-2 a{
+    color: white !important;
+}
+
+.header-link-2 a:hover{
+    color: white !important;
+}
+
+.main-title-popup-btn-1 a{
+    color: rgb(0, 0, 0) !important;
+}
+
+.main-title-popup-btn-1 a:hover{
+    color: rgb(0, 0, 0) !important;
+}
+
+.main-title-popup-btn-2 a{
+    color: rgb(255, 255, 255) !important;
+}
+
+.main-title-popup-btn-2 a:hover{
+    color: rgb(255, 255, 255) !important;
+}
+
+.category-pop-cnt .header-main .header-link-2 {
+    justify-content: right;
+    display: flex;
+    gap: 15px;
+}
+
+.category-sec {
+    max-height: 130px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-right: 0px;
+    scroll-behavior: smooth;
+}
+
+.category-sec::-webkit-scrollbar {
+    width: 4px;
+}
+
+.category-sec::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+}
+
+.category-sec::-webkit-scrollbar-thumb {
+    background-color: #8888885d;
+    border-radius: 10px;
+}
+
+.category-sec::-webkit-scrollbar-thumb:hover {
+    background-color: #8888885d;
+}
+
+.scrollable-text {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 5px;
+}
+
+.scrollable-text:hover {
+    color: #ff6347;
+    font-weight: bold;
+    display: ruby-text;
+}
+
+.category-sec .category-title a {
+    font-weight: 700;
+    font-size: 12px;
+    text-decoration: none;
+    color: #000;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.category-sec .category-title a:hover {
+    display: ruby-text;
+}
+
+.category-sec .category-txt-cnt {
+    line-height: 1.1;
+}
+
+.category-sec .category-txt-cnt a {
+    font-weight: 500;
+    font-size: 12px;
+    text-decoration: none;
+    color: rgb(180, 180, 180);
+}
+
+.main-title-popup {
+    text-align: center;
+    z-index: 10;
+}
+
+.main-title-popup-txt {
+    position: fixed;
+    top: 36%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 380px;
+    padding: 20px;
+    background-color: #ffffffa6;
+    border: 1px solid #ffffffa6;
+}
+
+.main-title-popup h2 {
+    color: #2a14ea;
+    font-weight: 600;
+    font-size: 30px;
+    text-align: center;
+}
+
+.main-title-popup a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.main-title-popup-btn-1 {
+    background-color: #37bdfa;
+    text-align: center;
+}
+
+.main-title-popup-btn-2 {
+    background-color: #2a14ea;
+    text-align: center;
+}
+
+.category-pop-cnt .modal-body {
+    overflow-y: auto;
+    height: 65vh;
+}
+
+.category-pop-cnt .modal-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.category-pop-cnt .modal-body::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+}
+
+.category-pop-cnt .modal-body::-webkit-scrollbar-thumb {
+    background-color: #8888885d;
+    border-radius: 10px;
+}
+
+.category-pop-cnt .modal-body::-webkit-scrollbar-thumb:hover {
+    background-color: #8888885d;
+}
+
+@media (max-width: 768px) {
+    .main-title-popup-txt {
+        width: 250px;
+        top: 30%;
+        left: 40%;
+        transform: translateX(-40%);
+    }
+
+    .category-pop-cnt .modal-footer a {
+        font-size: 10px;
+        margin-right: 8px;
+    }
+
+    .category-pop-cnt .header-main .header-link-2{
+        justify-content: space-between;
+    }
+}

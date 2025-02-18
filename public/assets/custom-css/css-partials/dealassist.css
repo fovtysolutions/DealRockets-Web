@@ -1,0 +1,194 @@
+/* Deal Assist Banner */
+.deal-assist-banner {
+    position: relative;
+    /* background: url('/images/top_bg.jpg') no-repeat center center/cover; */
+    /* background: linear-gradient(to bottom, rgba(238, 0, 0, 0.85) 0%, rgba(255, 0, 0, 0.75) 50%, rgba(170, 0, 0, 0.7) 100%); */
+    padding: 60px 20px;
+    /* border-radius: 20px; */
+    /* box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); */
+    animation: fadeIn 1s ease-in-out;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .deal-assist-banner::before {
+    content: '';
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+} */
+
+/* Step Wrapper */
+.steps-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+/* Step Indicator (Left Side) */
+.step-indicatoru {
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+    z-index: 2; /* Ensure indicator is above the overlay */
+}
+
+.stepu {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e6e6e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--web-hover);
+    transition: background-color 0.3s, transform 0.3s;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.stepu.active {
+    background-color: var(--web-hover);
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* Step Content (Text and Images) */
+.steps-content {
+    display: flex;
+    width: 80%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.step-text {
+    width: 50%;
+    text-align: left;
+    padding-right: 20px;
+    align-content: center;
+}
+
+.step-text h3 {
+    font-size: 24px;
+    font-weight: bold;
+    /* color: #fff; */
+}
+
+.step-text p {
+    font-size: 16px;
+    /* color: #f5f5f5; */
+    line-height: 1.3;
+}
+
+.step-images {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* border-radius: 10px; */
+    height: 100%;
+}
+
+.step-images img {
+    width: 100%;
+    opacity: 0;
+    transform: translateX(50px);
+    animation: slideIn 0.8s ease-out forwards;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--web-hover);
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(255, 102, 102, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1;
+    position: absolute;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 102, 102, 0.6);
+    color: #fff;
+}
+.step-text, .step-images {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease-out forwards;
+    height: 100%;
+}
+.step-images img {
+    opacity: 0;
+    transform: scale(1.2);
+    animation: zoomIn 0.8s ease-out forwards;
+}
+
+@media (max-width: 768px){
+    .step-text{
+        overflow: hidden;
+    }
+    .step-subtitle{
+        display:none;
+    }
+    .step-text p{
+        display: none;
+    }
+    .steps-wrapper{
+        align-items: end;
+    }
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes zoomIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

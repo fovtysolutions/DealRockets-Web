@@ -1,0 +1,94 @@
+/* Sending CV */
+.sendcv-sec {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-image: url(/images/mp/quotation.png);
+    height: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.sendcv-txt {
+    flex: 2;
+    padding: 5px;
+    text-align: left;
+}
+
+.sendcv-txt h2 {
+    font-size: 30px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.sendcv-txt p {
+    font-size: 18px;
+    color: white;
+    line-height: 1.8;
+}
+
+.sendcv-txt a {
+    font-size: 16px;
+    color: white !important;
+}
+
+.sendcv-form {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    margin-left: 20px;
+}
+
+.sendcv-form .btn {
+    background-color: #425a8b;
+    color: #ffffff;
+}
+
+.sendcv-form .title-form-qut {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.sendcv-form .form-control {
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+    .sendcv-sec {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+    }
+
+    .sendcv-form {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .sendcv-txt {
+        padding: 20px;
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .sendcv-txt h2 {
+        font-size: 24px;
+    }
+
+    .sendcv-txt p {
+        font-size: 14px;
+    }
+
+    .sendcv-txt a {
+        font-size: 14px;
+    }
+
+    .sendcv-form .title-form-qut {
+        font-size: 20px;
+    }
+}

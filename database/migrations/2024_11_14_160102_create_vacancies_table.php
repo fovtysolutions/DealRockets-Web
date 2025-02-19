@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');  // Job title
             $table->text('description');  // Job description
             $table->decimal('salary', 10, 2)->nullable();  // Job salary
-            $table->enum('employment_type', ['Full Time', 'Part Time', 'Contract', 'Freelance'])->default('full-time');  // Employment type
+            $table->enum('employment_type', ['Full Time', 'Part Time', 'Contract', 'Freelance'])->default('Full Time');  // Employment type
             $table->enum('status', ['active', 'inactive', 'closed'])->default('active');  // Job status
             $table->string('category');  // Job category (e.g., 'Engineering', 'Marketing')
             $table->string('company_name');  // Company name

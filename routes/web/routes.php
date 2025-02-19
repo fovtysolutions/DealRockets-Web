@@ -61,6 +61,7 @@ use App\Http\Controllers\Web\ChatOtherController;
 use App\Http\Controllers\Web\ErrorController;
 use App\Http\Controllers\Web\StocksalewebController;
 use App\Http\Controllers\Web\MembershipTierController;
+use App\Http\Controllers\Web\MarketplaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -297,6 +298,9 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
 
     // Lead Notification
     Route::post('mark-lead-notif',[HomeController::class,'mark_lead_notif'])->name('mark-lead-notif');
+
+    // Marketplace Routes
+    Route::get('marketplace-categories/{id}',[MarketplaceController::class,'getCategoryDetails'])->name('marketplace-categories');
 
     // Profile Route
     Route::controller(UserProfileController::class)->group(function () {

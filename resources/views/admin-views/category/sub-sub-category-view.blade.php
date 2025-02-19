@@ -84,6 +84,19 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <label class="title-color">{{ translate('category_Image') }}</label>
+                                            <span class="text-info">({{ translate('ratio') }} 2:1)</span>
+                                            <div class="custom-file text-left">
+                                                <input type="file" name="image1" id="category-image"
+                                                    class="custom-file-input image-preview-before-upload"
+                                                    data-preview="#viewer1"
+                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                                <label class="custom-file-label"
+                                                    for="category-image">{{ translate('choose_File') }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-12">
                                         <div class="d-flex flex-wrap gap-2 justify-content-end">
                                             <button type="reset"

@@ -71,6 +71,19 @@
                                                    for="category-image">{{ translate('choose_File') }}</label>
                                         </div>
                                     </div>
+                                    <div class="from_part_2 mt-3">
+                                        <label class="title-color">{{ translate('category_Image') }}</label>
+                                        <span class="text-info"><span class="text-danger">*</span> 1000px x 500px</span>
+                                        <div class="custom-file text-left">
+                                            <input type="file" name="image1" id="category-image"
+                                                   class="custom-file-input image-preview-before-upload1"
+                                                   data-preview="#viewer1"
+                                                   accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+                                                   required>
+                                            <label class="custom-file-label"
+                                                   for="category-image1">{{ translate('choose_File') }}</label>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-lg-6 mt-4 mt-lg-0 from_part_2">
                                     <div class="form-group">

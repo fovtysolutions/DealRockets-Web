@@ -51,6 +51,9 @@ class CategoryController extends BaseController
     {
         $categories = $this->categoryRepo->getListWhere(orderBy: ['id'=>'desc'], searchValue: $request->get('searchValue'), filters: ['position' => 0], dataLimit: getWebConfig(name: 'pagination_limit'));
         $languages = getWebConfig(name: 'pnc_language') ?? null;
+        $languages = [
+            $languages[0]
+        ];
         $defaultLanguage = $languages[0];
         return view(Category::LIST[VIEW], [
             'categories' => $categories,
@@ -63,6 +66,9 @@ class CategoryController extends BaseController
     {
         $category = $this->categoryRepo->getFirstWhere(params:['id'=>$id], relations: ['translations']);
         $languages = getWebConfig(name: 'pnc_language') ?? null;
+        $languages = [
+            $languages[0]
+        ];
         $defaultLanguage = $languages[0];
         return view(Category::UPDATE[VIEW], [
             'category' => $category,

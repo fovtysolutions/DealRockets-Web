@@ -53,6 +53,9 @@ class SubCategoryController extends BaseController
             filters: ['position' => 0],
             dataLimit: 'all');
         $languages = getWebConfig(name: 'pnc_language') ?? null;
+        $languages = [
+            $languages[0]
+        ];
         $defaultLanguage = $languages[0];
 
         return view(SubCategory::LIST[VIEW], [
@@ -67,6 +70,9 @@ class SubCategoryController extends BaseController
     {
         $category = $this->categoryRepo->getFirstWhere(params:['id'=>$id], relations: ['translations']);
         $languages = getWebConfig(name: 'pnc_language') ?? null;
+        $languages = [
+            $languages[0]
+        ];
         $defaultLanguage = $languages[0];
 
         return view(SubCategory::UPDATE[VIEW], [

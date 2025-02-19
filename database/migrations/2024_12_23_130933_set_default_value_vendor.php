@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::table('sellers',function(Blueprint $table){
             $table->string('vendor_type')->default('vendor')->change();
             $table->unsignedBigInteger('supplier_id')->nullable();
-            $table->integer('supplier_id')->nullable();
             $table->tinyInteger('suppliers_confirm_status')->default('0');
             $table->longText('mem_benefits')->nullable();
         });

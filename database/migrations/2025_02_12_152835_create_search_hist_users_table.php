@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('search_hist_users', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->search_tag('tag');
+            $table->string('tag');
             $table->integer('count')->default(0);
             $table->timestamps();
         });

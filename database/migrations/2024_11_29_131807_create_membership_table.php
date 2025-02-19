@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('memberships', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('membership_id');
-            $table->integer('membership_id')->nullable();
             $table->string('membership_user_type');
             $table->enum('membership_status', ['active', 'inactive', 'suspended', 'expired'])->default('inactive');
             $table->string('paymentstatus');

@@ -9213,4 +9213,5 @@ return [
 	"Toggle Quotation Section" => "Toggle Quotation Section",
 	"Current Status:" => "Current Status:",
 	"Enabled" => "Enabled",
+	"Disabled" => "Disabled",
 ];

@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('memberships', function (Blueprint $table) {
-            $table->string('type');
+        Schema::table('categories',function(Blueprint $table){
+            $table->string('category_image')->nullable();
+            $table->string('category_storage_type')->nullable();
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('memberships', function (Blueprint $table) {
-            $table->dropColumn('type');
+        Schema::table('categories',function(Blueprint $table){
+            $table->dropColumn('category_image');
+            $table->dropColumn('category_storage_type');
         });
     }
 };

@@ -3,7 +3,7 @@
     @else
         <section class="mainpagesection fade-in" style="/* background-color: unset; */ margin-top: 320px; padding: 20px;">
 @endif
-<div class="herobannermain">
+<div class="herobannermain overflow-hidden">
     <div class="herobannerleft" id="highlightbanner">
         <ul class="navbar-nav" style="height: 100%;">
             <li class="nav-item mb-0 {{ !request()->is('/') ? 'dropdown' : '' }}">
@@ -14,14 +14,14 @@
                     </h6>
                 </a>
             </li>
-            <div class="megamenu h-100 overflow-hidden">
-                <div class="megamenucontainer">
-                    <div class="category-menu-wrapper">
+            <div class="megamenu" style="height: 90%;">
+                <div class="megamenucontainer" style="height:100%;">
+                    <div class="category-menu-wrapper" style="height:100%;">
                         <ul class="category-menu-items">
                             @foreach ($categories as $key => $category)
                                 <li>
                                     <a class="custom-dealrock-text"
-                                        href="{{ route('products', ['category_id' => $category['id'], 'data_from' => 'category', 'page' => 1]) }}">{{ $category->name }}</a>
+                                        href="{{ route('marketplace-categories', ['id' => $category['id']]) }}">{{ $category->name }}</a>
                                     @if ($category->childes->count() > 0)
                                         <div class="mega_menu_new">
                                             @foreach ($category->childes as $sub_category)

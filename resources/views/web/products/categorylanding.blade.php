@@ -7,6 +7,9 @@ Category Landing Page | {{ $web_config['name']->value }}
     .hoveronshow:hover .subcategory-dropdown {
         display: block !important;
     }
+    .makethisred:hover p{
+        color: var(--web-hover) !important;
+    }
 </style>
 <section class="mainpagesection">
     <div class="d-flex">
@@ -32,10 +35,12 @@ Category Landing Page | {{ $web_config['name']->value }}
                     <div class="subcategory-dropdown position-absolute d-none"
                         style="top: 0; left: 100%; width: 200px; background: white; border: 1px solid lightgrey; padding: 10px; 
                                 z-index: 10; height: 200px; overflow-y: scroll;">
-                        <h5 class="custom-dealrock-subhead">{{ $subcategory->name }}</h5>
+                        {{-- <h5 class="custom-dealrock-subhead">{{ $subcategory->name }}</h5> --}}
                         <div class="d-block">
                             @foreach($subcategory->childes as $subsubcategory)
-                                <p class="mb-1">{{ $subsubcategory->name }}</p>
+                                <a class="makethisred" href="{{ route('products', ['category_id' => $subsubcategory->id, 'data_from' => 'category', 'page' => 1]) }}">
+                                    <p class="mb-2 mt-2 custom-dealrock-text">{{ $subsubcategory->name }}</p>
+                                </a>
                             @endforeach
                         </div>
                     </div>

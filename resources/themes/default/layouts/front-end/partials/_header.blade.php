@@ -440,7 +440,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                         </div>
                     </div>
                 </div>
-                <div>
+                {{-- <div>
                     <a class="navbaricons" href="{{ route('membership') }}">
                         <div class="navbariconscontainer" style="color: var(--web-hover)">
                             <?xml version="1.0" encoding="iso-8859-1"?>
@@ -514,13 +514,12 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                             </svg>
                             <div class="inquiry-cart-label">
                                 <span class="rfq custom-dealrock-text">
-                                    {{-- <span class="circler">R</span>FQ --}}
                                     Membership
                                 </span>
                             </div>
                         </div>
                     </a>
-                </div>
+                </div> --}}
                 @if (auth('customer')->check())
                     <div class="dropdown m-0">
                         <a class="navbar-tool navbaricons m-0" type="button" data-toggle="dropdown"

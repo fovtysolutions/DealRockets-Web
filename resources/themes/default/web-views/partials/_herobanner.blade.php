@@ -14,7 +14,7 @@
                     </h6>
                 </a>
             </li>
-            <div class="megamenu" style="height: 90%;">
+            <div class="megamenu" style="height: 88%;">
                 <div class="megamenucontainer" style="height:100%;">
                     <div class="category-menu-wrapper" style="height:100%;">
                         <ul class="category-menu-items">
@@ -48,7 +48,7 @@
                     </div>
                 </div>
             </div>
-            <li class="border-0 hovertext" style="text-align: center;padding-top: 10px;">
+            <li class="border-0 hovertext" style="text-align: center;padding-top: 10px; z-index: 1;background-color: white;">
                 <a href="{{ route('categories') }}"
                     class="text-primary justify-content-center text-center custom-dealrock-text" style="font-weight: bold !important;">
                     {{ translate('View_All') }}

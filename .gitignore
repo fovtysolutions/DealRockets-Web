@@ -3,7 +3,6 @@
 /public/storage
 /public/themes
 /storage/*.key
-/storage/app/*
 /vendor
 .vscode
 .idea

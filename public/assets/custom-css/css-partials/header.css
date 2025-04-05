@@ -33,7 +33,6 @@
 }
 
 .custom-dropdown .dropdown-trigger {
-    padding: 12px 15px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -68,16 +67,10 @@
 }
 
 .custom-dropdown:hover .dropdown-trigger {
-    background-color: #fff;
-    padding: 12px 15px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    color: black !important;
-    font-weight: bold;
-    font-size: 14px;
     border-radius: 4px;
-    box-shadow: 0 6px 0 #fff, 0 1px 6px rgba(0, 0, 0, .5);
     z-index: 1001;
     position: relative;
     outline: none;
@@ -221,8 +214,9 @@
 
 .wrapper {
     position: relative;
-    width: 100%;
+    width: 95%;
     display: flex;
+    margin: 0 auto;
     /* padding-bottom: 10px; */
 }
 
@@ -251,7 +245,7 @@
     top: 0px;
     right: 0px;
     color: white;
-    /* background: linear-gradient(270deg,#ff6868,var(--web-hover)); */
+    background: linear-gradient(to right,#FE4E44,#9F0900);
     height: 100%;
     align-items: center;
     padding: 15px;
@@ -293,7 +287,7 @@
     list-style: none;
     position: absolute;
     background: #fff;
-    width: 110px;
+    width: 113px;
     /* Adjusted width for the dropdown */
     border-radius: 5px;
     padding: 10px;
@@ -323,7 +317,7 @@
 }
 
 .wrapper .search_box .search_field {
-    width: calc(100% - 110px);
+    width: calc(100% - 113px);
     height: 100%;
     position: relative;
 }

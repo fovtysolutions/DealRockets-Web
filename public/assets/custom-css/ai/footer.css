@@ -22,35 +22,37 @@
 
 .footer .footer-wrapper {
     background-color: #ffffff;
-    width: 1440px;
-    height: 855px;
+    width: 100%;
+    height: 100%;
 }
 
 .footer .group-wrapper {
-    width: 1440px;
-    height: 855px;
+    width: 100%;
+    height: 815px;
     background-color: #e5e3e3;
 }
 
 .footer .group {
     position: relative;
-    width: 1280px;
-    height: 775px;
+    width: 100%;
+    height: 729px;
     top: 40px;
-    left: 80px;
+    left: 0;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .footer .div {
-    position: absolute;
-    width: 620px;
+    position: relative;
+    width: 50%;
     height: 427px;
     top: 0;
     left: 0;
 }
 
 .footer .group-2 {
-    position: absolute;
-    width: 620px;
+    position: relative;
+    width: 100%;
     height: 384px;
     top: 42px;
     left: 0;
@@ -230,8 +232,8 @@
 }
 
 .footer .group-10 {
-    position: absolute;
-    width: 622px;
+    position: relative;
+    width: 50%;
     height: 23px;
     top: 0;
     left: 0;
@@ -259,11 +261,16 @@
 }
 
 .footer .group-11 {
-    position: absolute;
-    width: 620px;
+    position: relative;
+    width: 50%;
     height: 426px;
     top: 0;
-    left: 660px;
+    left: 0;
+}
+
+.footer .responsive-1{
+    display: flex;
+    flex-direction: row;
 }
 
 .footer .frame-4 {
@@ -345,26 +352,31 @@
 }
 
 .footer .group-16 {
-    position: absolute;
-    width: 1194px;
+    position: relative;
+    width: 100%;
     height: 200px;
-    top: 477px;
+    top: 0;
     left: 0;
+    margin-bottom: 36px;
 }
 
 .footer .frame-6 {
     display: inline-flex;
     align-items: flex-start;
     gap: 40px;
-    position: absolute;
-    top: 26px;
+    width: 50%;
+    position: relative;
+    top: 0;
     left: 0;
+    border-right: 1px solid #ACACAC;
+    height: 100%;
 }
 
 .footer .group-17 {
     position: relative;
     width: 133px;
     height: 149px;
+    top: 21px;
 }
 
 .footer .frame-7 {
@@ -402,6 +414,7 @@
     position: relative;
     width: 133px;
     height: 120px;
+    top: 21px;
 }
 
 .footer .group-19 {
@@ -409,6 +422,7 @@
     width: 133px;
     height: 149px;
     margin-right: -2.00px;
+    top: 21px;
 }
 
 .footer .line-2 {
@@ -420,11 +434,11 @@
 }
 
 .footer .group-20 {
-    position: absolute;
-    width: 210px;
+    position: relative;
+    width: 50%;
     height: 158px;
     top: 21px;
-    left: 684px;
+    left: 0;
 }
 
 .footer .group-21 {
@@ -436,7 +450,7 @@
 }
 
 .footer .text-wrapper-8 {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     font-family: "Roboto", Helvetica;
@@ -499,7 +513,7 @@
     position: relative;
     width: 32px;
     height: 32px;
-    background-image: url(./img/twitter.png);
+    background-image: url(/img/twitter.png);
     background-size: cover;
     background-position: 50% 50%;
 }
@@ -508,7 +522,7 @@
     position: relative;
     width: 32px;
     height: 32px;
-    background-image: url(./img/linkedin.png);
+    background-image: url(/img/linkedin.png);
     background-size: cover;
     background-position: 50% 50%;
 }
@@ -517,7 +531,7 @@
     position: relative;
     width: 32px;
     height: 32px;
-    background-image: url(./img/instagram.png);
+    background-image: url(/img/instagram.png);
     background-size: cover;
     background-position: 50% 50%;
 }
@@ -526,17 +540,26 @@
     position: relative;
     width: 32px;
     height: 32px;
-    background-image: url(./img/facebook.png);
+    background-image: url(/img/facebook.png);
     background-size: cover;
     background-position: 50% 50%;
 }
 
 .footer .group-24 {
-    position: absolute;
-    width: 246px;
+    position: relative;
+    width: 50%;
     height: 63px;
     top: 26px;
-    left: 950px;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.footer .responsive-2{
+    padding-left: 10px;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
 }
 
 .footer .group-25 {
@@ -548,28 +571,31 @@
 }
 
 .footer .group-26 {
-    position: absolute;
-    width: 1280px;
-    height: 73px;
-    top: 702px;
-    left: 0;
-}
-
-.footer .group-27 {
-    position: absolute;
-    width: 620px;
+    position: relative;
+    width: 100%;
     height: 73px;
     top: 0;
     left: 0;
 }
 
-.footer .frame-9 {
-    display: inline-flex;
-    align-items: center;
-    gap: 110px;
-    position: absolute;
-    top: 53px;
+.footer .group-27 {
+    position: relative;
+    width: 50%;
+    height: 73px;
+    top: 5px;
     left: 0;
+}
+
+.footer .group-new {
+    position: absolute;
+}
+
+.footer .frame-9 {
+    display: flex;
+    justify-content: space-evenly;
+    align-content: end;
+    align-items: end;
+    margin-top: 26px;
 }
 
 .footer .img-3 {
@@ -592,11 +618,11 @@
 }
 
 .footer .group-28 {
-    position: absolute;
-    width: 620px;
+    position: relative;
+    width: 50%;
     height: 73px;
     top: 0;
-    left: 660px;
+    left: 0;
 }
 
 .footer .line-3 {
@@ -607,46 +633,617 @@
     left: 157px;
 }
 
-/* Media Queries */
-@media (max-width: 1024px) {
-    .footer .group, .footer .group-16 {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+@media screen and (max-width: 1024px) {
+    .footer .group{
+        /* height: unset; */
+        top: 10px;
+        height: 707px;
     }
 
-    .footer .group-10, .footer .group-11, .footer .group-28 {
-        max-width: 100%;
-    }
-}
-
-@media (max-width: 768px) {
-    .footer .footer-wrapper {
-        padding: 10px;
+    .footer .group-wrapper{
+        height: 717px;
     }
 
-    .footer .group {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .footer .frame, .footer .frame-2, .footer .frame-4 {
-        flex: 1 1 100%;
-        text-align: center;
+    .footer .responsive-1 {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
     }
 
     .footer .group-16 {
+        height: 155px;
+    }
+
+    .footer .group-26 {
+        display: flex;
+        flex-direction: row;
+        height: 15px;
+    }
+
+    .footer .frame-9 {
+        position: relative;
+        /* height: 200px; */
+        /* top: 30px; */
+        margin-top: 10px;
+    }
+
+    .footer .div {
+        width: 100%;
+    }
+
+    .footer .group-11 {
+        width: 100%;
+    }
+
+    .footer .frame-6 {
+        border-right: none;
+        width: 100%;
+        height: 140px;
+    }
+
+    .footer .frame-8 {
+        top: 26px;
+    }
+
+    .footer .group-17 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .group-18 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .group-19 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .responsive-2 {
+        width: 100%;
+    }
+
+    .footer .group-20{
+        display: flex;
         flex-direction: column;
-        align-items: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .footer .footer-wrapper {
-        padding: 5px;
     }
 
-    .footer .text-wrapper, .footer .text-wrapper-2, .footer .text-wrapper-3 {
-        font-size: 12px;
+    .footer .text-wrapper-5 {
+        font-size: 15px;
     }
-}
+
+    .footer .group-21 {
+        position: relative;
+        width: 50%;
+    }
+
+    .footer .group-23 {
+        position: relative;
+        width: 50%;
+        top: 0;
+    }
+
+    .footer .group-25 {
+        position: absolute;
+        top: 29px;
+    }
+
+    .footer .text-wrapper-7 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-9 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-10 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-8 {
+        font-size: 15px;
+    }
+
+    .footer .twitter {
+        height: 24px;
+        width: 24px;
+    }
+    
+    .footer .linkedin {
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .facebook {
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .instagram{
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .group-24 {
+        top: 21px;
+    }
+
+    .footer .frame-7 {
+        top: 35px;
+    }
+
+    .footer .group-22{
+        top: 31px;
+    }
+ }
+ 
+ 
+ @media screen and (max-width: 768px) {
+    .footer .group{
+        /* height: unset; */
+        top: 10px;
+        height: 707px;
+    }
+
+    .footer .group-wrapper{
+        height: 1105px;
+    }
+
+    .footer .responsive-1 {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+        height: 826px;
+    }
+
+    .footer .group-16 {
+        height: 155px;
+    }
+
+    .footer .group-26 {
+        display: flex;
+        flex-direction: row;
+        height: 15px;
+    }
+
+    .footer .frame-9 {
+        position: relative;
+        /* height: 200px; */
+        /* top: 30px; */
+        margin-top: 10px;
+    }
+
+    .footer .div {
+        width: 100%;
+    }
+
+    .footer .group-11 {
+        width: 100%;
+    }
+
+    .footer .frame-6 {
+        border-right: none;
+        width: 100%;
+        height: 140px;
+    }
+
+    .footer .frame-8 {
+        top: 26px;
+    }
+
+    .footer .group-17 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .group-18 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .group-19 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .responsive-2 {
+        width: 100%;
+    }
+
+    .footer .group-20{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer .text-wrapper-5 {
+        font-size: 15px;
+    }
+
+    .footer .group-21 {
+        position: relative;
+        width: 50%;
+    }
+
+    .footer .group-23 {
+        position: relative;
+        width: 50%;
+        top: 0;
+    }
+
+    .footer .group-25 {
+        position: absolute;
+        top: 29px;
+    }
+
+    .footer .text-wrapper-7 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-9 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-10 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-8 {
+        font-size: 15px;
+    }
+
+    .footer .twitter {
+        height: 24px;
+        width: 24px;
+    }
+    
+    .footer .linkedin {
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .facebook {
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .instagram{
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .group-24 {
+        top: 21px;
+    }
+
+    .footer .frame-7 {
+        top: 35px;
+    }
+
+    .footer .group-22{
+        top: 31px;
+    }
+ }
+
+ @media screen and (max-width: 576px) {
+    .footer .deleleventeen{
+        display: none !important;
+    }
+
+    .footer .group{
+        /* height: unset; */
+        top: 10px;
+        height: 490px;
+    }
+
+    .footer .group-wrapper{
+        height: 500px;
+    }
+
+    .footer .responsive-1 {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        height: 826px;
+    }
+
+    .footer .group-16 {
+        height: 155px;
+    }
+
+    .footer .group-26 {
+        display: flex;
+        flex-direction: column;
+        height: 15px;
+        top: 136px;
+    }
+
+    .footer .frame-9 {
+        position: relative;
+        /* height: 200px; */
+        /* top: 30px; */
+        margin-top: 10px;
+    }
+
+    .footer .div {
+        width: 100%;
+    }
+
+    .footer .responsive-2 {
+        padding-left: 0;
+    }
+
+    .footer .group-11 {
+        width: 100%;
+    }
+
+    .footer .frame-6 {
+        border-right: none;
+        width: 100%;
+        height: 140px;
+    }
+
+    .footer .frame-8 {
+        top: 26px;
+    }
+
+    .footer .group-17 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .group-18 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .group-19 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .responsive-2 {
+        width: 100%;
+    }
+
+    .footer .group-20{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer .text-wrapper-5 {
+        font-size: 15px;
+    }
+
+    .footer .group-21 {
+        position: relative;
+        width: 50%;
+    }
+
+    .footer .group-23 {
+        position: relative;
+        width: 50%;
+        top: 0;
+    }
+
+    .footer .group-25 {
+        position: absolute;
+        top: 29px;
+    }
+
+    .footer .text-wrapper-7 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-9 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-10 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-8 {
+        font-size: 15px;
+    }
+
+    .footer .twitter {
+        height: 24px;
+        width: 24px;
+    }
+    
+    .footer .linkedin {
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .facebook {
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .instagram{
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .group-24 {
+        top: 21px;
+    }
+
+    .footer .frame-7 {
+        top: 35px;
+    }
+
+    .footer .group-22{
+        top: 31px;
+    }
+
+    .footer .group-27{
+        width: 100%;
+    }
+
+    .footer .group-28{
+        width: 100%;
+    }
+ }
+
+ @media screen and (max-width: 430px) {
+    .footer .deleleventeen{
+        display: none !important;
+    }
+
+    .footer .group{
+        /* height: unset; */
+        top: 10px;
+        height: 490px;
+    }
+
+    .footer .group-wrapper{
+        height: 529px;
+    }
+
+    .footer .responsive-1 {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        height: 826px;
+    }
+
+    .footer .group-16 {
+        height: 340px;
+    }
+
+    .footer .group-26 {
+        display: none;
+        flex-direction: column;
+        height: 15px;
+        top: 136px;
+    }
+
+    .footer .frame-9 {
+        position: relative;
+        /* height: 200px; */
+        /* top: 30px; */
+        margin-top: 10px;
+    }
+
+    .footer .div {
+        width: 100%;
+    }
+
+    .footer .responsive-2 {
+        padding-left: 0;
+    }
+
+    .footer .group-11 {
+        width: 100%;
+    }
+
+    .footer .frame-6 {
+        border-right: none;
+        width: 100%;
+        height: 270px;
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
+    .footer .frame-8 {
+        top: 26px;
+    }
+
+    .footer .group-17 {
+        width: calc(25% - 10px);
+        height: 120px;
+    }
+
+    .footer .group-18 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .group-19 {
+        width: calc(25% - 10px);
+    }
+
+    .footer .responsive-2 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer .group-20{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer .text-wrapper-5 {
+        font-size: 15px;
+    }
+
+    .footer .group-21 {
+        position: relative;
+        width: 50%;
+    }
+
+    .footer .group-23 {
+        position: relative;
+        width: 50%;
+        top: 0;
+    }
+
+    .footer .group-25 {
+        position: absolute;
+        top: 29px;
+    }
+
+    .footer .text-wrapper-7 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-9 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-10 {
+        font-size: 10.5px;
+    }
+
+    .footer .text-wrapper-8 {
+        font-size: 15px;
+    }
+
+    .footer .twitter {
+        height: 24px;
+        width: 24px;
+    }
+    
+    .footer .linkedin {
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .facebook {
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .instagram{
+        height: 24px;
+        width: 24px;
+    }
+
+    .footer .group-24 {
+        top: 21px;
+    }
+
+    .footer .frame-7 {
+        top: 35px;
+    }
+
+    .footer .group-22{
+        top: 31px;
+    }
+
+    .footer .group-27{
+        width: 100%;
+    }
+
+    .footer .group-28{
+        width: 100%;
+    }
+
+    .footer  .group-20{
+        height: 139px;
+    }
+ }

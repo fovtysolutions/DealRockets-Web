@@ -1,166 +1,75 @@
 <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/footer.css')}}" />
+@php
+$footerproducts = App\Utils\ChatManager::getProductsFooter();
+$industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
+@endphp
 <div class="footer">
     <div class="footer-wrapper">
       <footer class="group-wrapper">
         <div class="group">
-          <div class="div">
-            <div class="group-2">
-              <div class="frame">
-                <div class="group-3">
-                  <div class="text-wrapper">Security &amp; Protection -</div>
-                  <div class="text-wrapper-2">See more</div>
-                </div>
-                <div class="group-4">
-                  <div class="text-wrapper">Health &amp; Medical</div>
-                  <p class="p">
-                    <span class="span"
-                      >Emergency Survival Backpack,  Family Emergency Preparedness Kit<br />First-Aid Emergency
-                      Kit, Comprehensive First Aid Kit,<br />First-Aid Emergency Kit</span
-                    >
-                  </p>
-                </div>
-                <div class="group-5">
-                  <div class="text-wrapper">Lights &amp; Lighting</div>
-                  <p class="p">
-                    <span class="span"
-                      >Solar Garden Lights, LED String Lights, LED Floor Lamps,<br />Modern LED Table Lamps, LED Floor
-                      Lamps</span
-                    >
-                  </p>
-                </div>
-                <div class="group-6">
-                  <div class="text-wrapper">Measurement &amp; Analysis Instruments</div>
-                  <p class="p">
-                    Compact Laser Level, Advanced Laser Distance Measure,<br />Precision Measuring
-                    Instruments, Advanced Measuring Tools,<br />Precision Measuring Instruments
-                  </p>
-                </div>
-                <div class="overlap-group-wrapper">
-                  <div class="overlap-group">
-                    <div class="text-wrapper">Sports &amp; Entertainment -</div>
-                    <div class="text-wrapper-3">See more</div>
-                  </div>
+          <div class="responsive-1 deleleventeen">
+            <div class="div">
+              <div class="group-2" style="margin-right:40px;">
+                <div class="row">
+                  @foreach($footerproducts as $c)
+                    <div class="col-md-6 product-category" style="text-align: left; margin-bottom:16px;"> <!-- Adjust column size to split into two columns -->
+                        <span class="fw-bold d-flex" style="text-transform: uppercase; font-weight: 500 !important; align-content: start; font-size: 10px; color:#0D0D0F;">{{ $c['name'] }} 
+                            <a href="{{ route('products', ['category_id' => $c['id'], 'data_from' => 'category', 'page' => 1]) }}" 
+                                class="view-more custom-dealrock-subtext" 
+                                onclick="toggleViewMore(this)" style="color: var(--web-text) !important; text-transform:none;">
+                                - See More
+                            </a>
+                        </span>
+                        <span class="product-list" style="height:44px; overflow:hidden; display: inline-block; line-height: 1rem;height: calc(1rem * 3);">
+                                @foreach($c['products'] as $d)
+                                    <a href="{{ route('product', ['slug' => $d['slug']]) }}" class="product-link custom-dealrock-subtext" style="font-size: 7px; color: var(--web-text) !important;">
+                                        {{ $d['name'] }}@if (!$loop->last),@endif
+                                    </a>
+                                @endforeach
+                        </span>
+                    </div>
+                  @endforeach
                 </div>
               </div>
-              <div class="frame-2">
-                <div class="group-7">
-                  <div class="text-wrapper">Electrical Equipment</div>
-                  <p class="p">
-                    Smart Thermostat, Energy-Efficient LED Bulbs, Smart Home Light Bulbs,<br />Energy-Efficient LED
-                    Bulbs, Smart Home Light Bulbs
-                  </p>
-                </div>
-                <div class="group-8">
-                  <div class="text-wrapper">Home and Garden</div>
-                  <p class="p">
-                    Quality Gardening Fork, High-Quality Gardening Gloves,<br />Gardening Tools Set, All-in-One
-                    Gardening Tools, Gardening Tools Set
-                  </p>
-                </div>
-                <div class="group-6">
-                  <div class="text-wrapper">Measurement &amp; Analysis Instruments</div>
-                  <p class="p">
-                    Compact Laser Level, Advanced Laser Distance Measure,<br />Precision Measuring
-                    Instruments, Advanced Measuring Tools,<br />Precision Measuring Instruments
-                  </p>
-                </div>
-                <div class="group-9">
-                  <div class="text-wrapper">Luggage, Bags &amp; Cases</div>
-                  <p class="p">
-                    Lightweight Travel Pillow, Foldable Travel Backpack,<br />Durable Travel Suitcase, Lightweight
-                    Travel Backpack,<br />Durable Travel Suitcase
-                  </p>
-                </div>
-                <div class="group-7">
-                  <div class="text-wrapper">Office &amp; School Supplies</div>
-                  <p class="p">
-                    Creative Art Supplies, School Supply Bundle, Premium Student Supplies,<br />Stationery Supplies
-                    for Students, Stationery Supplies for Students
-                  </p>
-                </div>
-                <div class="frame-3">
-                  <div class="toys-hobbies">Toys &amp; Hobbies -</div>
-                  <div class="text-wrapper-4">See more</div>
-                </div>
+              <div class="group-10 group-new">
+                <div class="text-wrapper-5">Our Products</div>
+                <img class="line" src="img/line-34.svg" />
               </div>
             </div>
-            <div class="group-10">
-              <div class="text-wrapper-5">Our Products</div>
-              <img class="line" src="img/line-34.svg" />
+            <div class="group-11">
+              <div class="group-2">
+                <div class="row">
+                  @foreach($industries->take(10) as $key => $value)
+                    <div class="col-md-6 product-category" style="text-align: left; margin-bottom:16px;"> <!-- Adjust column size to split into two columns -->
+                          <span class="fw-bold d-flex" style="text-transform: uppercase; font-weight: 500 !important; align-content: start; font-size: 10px; color:#0D0D0F;">                        
+                        <a style="font-weight: 500 !important;text-transform:uppercase;font-size: 10px; color:#0D0D0F;" href="{{ route('buyer', ['industry' => $value['id']]) }}">
+                            {{ $value['name'] }}
+                        </a>
+                        <a href="{{ route('products') }}" class="view-more custom-dealrock-subtext" style="text-transform: none; color: var(--web-text) !important;">
+                            - See More
+                        </a>
+                        </span>
+                        @if(isset($value->childes) && $value->childes->count() > 0)
+                            <div class="sub-category-list pl-0" style="height:32px; overflow:hidden; display: inline-block; line-height: 1rem;height: calc(1rem * 3); font-size: 7px; font-weight: 400;">
+                                @foreach($value->childes->take(5) as $sub_category)
+                                    <a class="font-weight-normal custom-dealrock-subtext" 
+                                    href="{{ route('buyer', ['industry' => $sub_category['id']]) }}">
+                                        {{ $sub_category['name'] }}@if (!$loop->last),@endif
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+                </div>
+              </div>
+              <div class="group-10 group-new">
+                <div class="text-wrapper-5">Our Industries</div>
+                <img class="img" src="img/line-34-1.svg" />
+              </div>
             </div>
           </div>
-          <div class="group-11">
-            <div class="group-2">
-              <div class="frame-4">
-                <div class="group-12">
-                  <div class="text-wrapper">Security &amp; Protection</div>
-                  <div class="text-wrapper-6">Home Security, Workplace Safety, Personal Safety</div>
-                </div>
-                <div class="group-13">
-                  <div class="text-wrapper">Health and Medical</div>
-                  <p class="text-wrapper-6">Healthcare Supplement, Medical Devices, Bee Venom Buyers</p>
-                </div>
-                <div class="group-14">
-                  <div class="text-wrapper">Lights &amp; Lighting</div>
-                  <div class="text-wrapper-6">Outdoor Lighting, Indoor Lighting, Professional Lighting</div>
-                </div>
-                <div class="group-15">
-                  <div class="text-wrapper">Measurement &amp; Analysis Instruments</div>
-                  <div class="text-wrapper-6">Optical Instruments, Analyzers, Electrical Instruments</div>
-                </div>
-                <div class="frame-5">
-                  <div class="sports-entertainment">Sports &amp; Entertainment -</div>
-                  <div class="text-wrapper-4">See more</div>
-                </div>
-              </div>
-              <div class="frame-2">
-                <div class="group-7">
-                  <div class="text-wrapper">Electrical Equipment</div>
-                  <p class="p">
-                    Smart Thermostat, Energy-Efficient LED Bulbs, Smart Home Light Bulbs,<br />Energy-Efficient LED
-                    Bulbs, Smart Home Light Bulbs
-                  </p>
-                </div>
-                <div class="group-8">
-                  <div class="text-wrapper">Home and Garden</div>
-                  <p class="p">
-                    Quality Gardening Fork, High-Quality Gardening Gloves,<br />Gardening Tools Set, All-in-One
-                    Gardening Tools, Gardening Tools Set
-                  </p>
-                </div>
-                <div class="group-6">
-                  <div class="text-wrapper">Measurement &amp; Analysis Instruments</div>
-                  <p class="p">
-                    Compact Laser Level, Advanced Laser Distance Measure,<br />Precision Measuring
-                    Instruments, Advanced Measuring Tools,<br />Precision Measuring Instruments
-                  </p>
-                </div>
-                <div class="group-9">
-                  <div class="text-wrapper">Luggage, Bags &amp; Cases</div>
-                  <p class="p">
-                    Lightweight Travel Pillow, Foldable Travel Backpack,<br />Durable Travel Suitcase, Lightweight
-                    Travel Backpack,<br />Durable Travel Suitcase
-                  </p>
-                </div>
-                <div class="group-7">
-                  <div class="text-wrapper">Office &amp; School Supplies</div>
-                  <p class="p">
-                    Creative Art Supplies, School Supply Bundle, Premium Student Supplies,<br />Stationery Supplies
-                    for Students, Stationery Supplies for Students
-                  </p>
-                </div>
-                <div class="frame-3">
-                  <div class="toys-hobbies">Toys &amp; Hobbies -</div>
-                  <div class="text-wrapper-4">See more</div>
-                </div>
-              </div>
-            </div>
-            <div class="group-10">
-              <div class="text-wrapper-5">Our Industries</div>
-              <img class="img" src="img/line-34-1.svg" />
-            </div>
-          </div>
-          <div class="group-16">
+          <div class="group-16 responsive-1">
             <div class="frame-6">
               <div class="group-17">
                 <div class="text-wrapper-5">Special</div>
@@ -198,34 +107,36 @@
                 </div>
               </div>
             </div>
-            <img class="line-2" src="img/line-34-2.svg" />
-            <div class="group-20">
-              <div class="group-21">
-                <div class="text-wrapper-8">Mail Us</div>
-                <div class="group-22">
-                  <img class="img-2" src="img/email.png" />
-                  <div class="text-wrapper-9">contact@fovtysolutions.com</div>
+            {{-- <img class="line-2" src="img/line-34-2.svg" /> --}}
+            <div class="responsive-2">
+              <div class="group-20">
+                <div class="group-21">
+                  <div class="text-wrapper-8">Mail Us</div>
+                  <div class="group-22">
+                    <img class="img-2" src="img/email.png" />
+                    <div class="text-wrapper-9">contact@fovtysolutions.com</div>
+                  </div>
                 </div>
-              </div>
-              <div class="group-23">
-                <div class="text-wrapper-8">Social</div>
-                <div class="frame-8">
-                  <div class="twitter"></div>
-                  <div class="linkedin"></div>
-                  <div class="instagram"></div>
-                  <div class="facebook"></div>
+                <div class="group-23">
+                  <div class="text-wrapper-8">Social</div>
+                  <div class="frame-8">
+                    <div class="twitter"></div>
+                    <div class="linkedin"></div>
+                    <div class="instagram"></div>
+                    <div class="facebook"></div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="group-24">
-              <div class="text-wrapper-8">Registered office address</div>
-              <div class="group-25">
-                <img class="img-2" src="img/maps-and-flags.png" />
-                <div class="text-wrapper-9">India</div>
+              </div>              
+              <div class="group-24">
+                <div class="text-wrapper-8">Registered office address</div>
+                <div class="group-25">
+                  <img class="img-2" src="img/maps-and-flags.png" />
+                  <div class="text-wrapper-9">India</div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="group-26">
+          <div class="group-26 responsive-1">
             <div class="group-27">
               <div class="group-10">
                 <div class="text-wrapper-5">Explore More</div>

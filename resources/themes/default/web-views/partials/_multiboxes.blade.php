@@ -1,5 +1,5 @@
 <section class="mainpagesection custom-dealrock-banner-large" style="margin-top: 22px;">
-    <h3 class="custom-dealrock-head" style="padding: 15px 15px 0px 15px;">Trade Solutions</h3>
+    <h3 class="custom-dealrock-head">Trade Solutions</h3>
     <div class="section-block solutions" faw-module="solution_booth">
         <div class="solution-list">
             @for ($key = 1; $key <= 3; $key++)

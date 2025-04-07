@@ -1,7 +1,7 @@
 @if (empty($carouselimages))
-    <section class="mainpagesection fade-in" style="/* background-color: unset; */ margin-top: 22px; padding: 20px;">
+    <section class="mainpagesection fade-in" style="/* background-color: unset; */ margin-top: 22px;">
     @else
-        <section class="mainpagesection fade-in" style="/* background-color: unset; */ margin-top: 320px; padding: 20px;">
+        <section class="mainpagesection fade-in" style="/* background-color: unset; */ margin-top: 320px;">
 @endif
 <div class="herobannermain overflow-hidden">
     <div class="herobannerleft" id="highlightbanner">

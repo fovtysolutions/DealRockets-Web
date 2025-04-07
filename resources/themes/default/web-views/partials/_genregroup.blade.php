@@ -1,4 +1,4 @@
-<section class="mainpagesection p-4" style="gap: 20px;display: flex;flex-direction: column;">
+<section class="mainpagesection" style="gap: 20px;display: flex;flex-direction: column;">
 <h5 class="custom-dealrock-head">
     Industries Sourcing
 </h5>

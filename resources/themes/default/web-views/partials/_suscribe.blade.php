@@ -1,4 +1,4 @@
-<div class="mainpagesection p-4 custom-dealrock-banner-small">
+<div class="mainpagesection custom-dealrock-banner-small">
     <h6 class="custom-dealrock-head">Get More Access to the Features – Choose Your Membership!</h6>
 
     <!-- Toggle Switch -->

@@ -476,7 +476,7 @@
   
   .element-mobile .group-9 {
     position: relative;
-    width: 26.77px;
+    width: 28.77px;
     height: 44.62px;
     margin-top: -0.31px;
     margin-bottom: -0.31px;
@@ -616,7 +616,7 @@
   
   .element-mobile .group-10 {
     position: relative;
-    width: 46.51px;
+    width: 48.51px;
     height: 44.62px;
     margin-top: -0.31px;
     margin-bottom: -0.31px;
@@ -645,7 +645,7 @@
   
   .element-mobile .group-11 {
     position: relative;
-    width: 32.12px;
+    width: 34.12px;
     height: 44.62px;
     margin-top: -0.31px;
     margin-bottom: -0.31px;
@@ -662,7 +662,7 @@
   
   .element-mobile .group-12 {
     position: relative;
-    width: 51.75px;
+    width: 55.75px;
     height: 44.62px;
     margin-top: -0.31px;
     margin-bottom: -0.31px;
@@ -679,7 +679,7 @@
   
   .element-mobile .group-13 {
     position: relative;
-    width: 52.65px;
+    width: 54.65px;
     height: 44.62px;
     margin-top: -0.31px;
     margin-bottom: -0.31px;
@@ -753,8 +753,18 @@
     justify-content: space-between;
     display: flex;
     align-content: center;
-    padding-left: 20px;
-    padding-right: 20px;
+    /* padding-left: 20px;
+    padding-right: 20px; */
+  }
+
+  .element-mobile .contentgroup{
+    max-width: 1440px;
+    margin: 0 auto;
+    align-content: center;
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+    padding: 0 20px;
   }
   
   .element-mobile .group-15 {
@@ -826,13 +836,14 @@
     /* left: 20px; */
     display: flex;
     align-content: center;
-    padding-left: 20px;
-    padding-right: 20px;
+    /* padding-left: 20px;
+    padding-right: 20px; */
+    max-width: 1440px;
   }
   
   .element-mobile .logo-3 {
     position: relative;
-    width: 220px;
+    width: 16%;
     height: 44px;
     top: 1px;
     left: 0;
@@ -841,7 +852,7 @@
   
   .element-mobile .group-18 {
     position: relative;
-    width: 100%;
+    width: 81%;
     height: 44px;
     top: 0;
     /* left: 238px; */

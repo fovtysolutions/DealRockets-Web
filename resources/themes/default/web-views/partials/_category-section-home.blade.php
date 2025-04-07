@@ -5,7 +5,7 @@
     }
 </style>
     <section class="pb-4 rtl">
-        <div class="container">
+        <div class="container" style="padding: 0;">
             <div>
                 <div class="card __shadow h-100 max-md-shadow-0" style="box-shadow: none;">
                     <div class="card-body" style="padding: 20px 10px 0px 0px;">

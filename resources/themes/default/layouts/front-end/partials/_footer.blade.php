@@ -3,10 +3,10 @@
 $footerproducts = App\Utils\ChatManager::getProductsFooter();
 $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
 @endphp
-<div class="footer">
+<div class="footer" style="background-color: #e5e3e3;">
     <div class="footer-wrapper">
       <footer class="group-wrapper">
-        <div class="group">
+        <div class="group" style="max-width: 1440px; margin: 0 auto;">
           <div class="responsive-1 deleleventeen">
             <div class="div">
               <div class="group-2" style="margin-right:40px;">

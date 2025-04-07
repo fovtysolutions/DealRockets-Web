@@ -27,209 +27,213 @@
         <div class="navbar-2">
           <div class="group-14">
             <div class="overlap-group-3">
-              <div class="group-15">
-                <div class="dropdown-container custom-dropdown">
-                  <div class="group-2">
-                    <div class="text-wrapper dropdown-trigger">All Categories</div>
-                    <img class="options-lines" src="img/options-lines-1.png" />
-                  </div>
-                  {{-- <div class="dropdown-menu">
-                      @foreach ($categories->chunk(10) as $chunk)
-                          <div class="column">
-                              @foreach ($chunk as $category)
-                                  <a class="dropdown-item custom-dealrock-text"
-                                      href="{{ route('products', ['category_id' => $category['id'], 'data_from' => 'category', 'page' => 1]) }}">
-                                      {{ $category->name }}
-                                  </a>
-                              @endforeach
+                <div class="contentgroup">
+                    <div class="group-15">
+                        <div class="dropdown-container custom-dropdown">
+                          <div class="group-2">
+                            <div class="text-wrapper dropdown-trigger">All Categories</div>
+                            <img class="options-lines" src="img/options-lines-1.png" />
                           </div>
-                      @endforeach
-                  </div> --}}
-                </div>                
-              </div>
-              <div class="navbar-3">
-                <a class="text-wrapper-2 deleight" href="{{ route('home') }}">Home</a>
-                <a class="text-wrapper-3 delseven" href="{{ route('stocksale') }}">Stock Sale</a>
-                <a class="text-wrapper-3 delsix" href="{{ route('buyer') }}">Buy Leads</a>
-                <a class="text-wrapper-3 delfive" href="{{ route('seller') }}">Sell Offer</a>
-                <a class="text-wrapper-3 delfour" href="{{ route('dealassist') }}">Deal Assist</a>
-                <a class="text-wrapper-3 delone" href="{{ route('sendcv') }}">Industry Jobs</a>
-                <div class="frame-2 deltwo"><a class="text-wrapper-3" href="{{ route('tradeshow') }}">Trade Shows</a></div>
-                <div class="frame-2 delthree">
-                  <a class="text-wrapper-3" href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a>
-                </div>
-              </div>
-              <div class="frame-6 delnine">
-                <div class="our-features group-features">
-                  <img class="badge img-default" src="img/badge-1.png" />
-                  <img class="badge img-hover" src="img/badge (2).png" />
-                  <div class="text-wrapper-4">Our Features</div>
-                </div>                
-              
-                <div class="group-3">
-                  <div class="frame-4">
-                    <div class="text-wrapper-5">Help</div>
-                    <img class="img" src="img/arrow-down-sign-to-navigate-4.png" />
-                  </div>
-                  <div class="icon-hover group-help">
-                    <img class="question img-default" src="img/question-1.png" />
-                    <img class="question img-hover" src="img/Help Web Button.png" />
-                  </div>
-                </div>
-              
-                <div class="group-4">
-                  <div class="frame-4">
-                    <div class="text-wrapper-5">English</div>
-                    <img class="img" src="img/arrow-down-sign-to-navigate-5.png" />
-                  </div>
-                  <div class="icon-hover group-language">
-                    <img class="language img-default" src="img/language-1.png" />
-                    <img class="language img-hover" src="img/language (2).png" />
-                  </div>
-                </div>
-              
-                <div class="group-5 group-user">
-                  <div class="text-wrapper-6">Sign in/ Join</div>
-                  <img class="user img-default" src="img/user-1.png" />
-                  <img class="user img-hover" src="img/user (2).png" />
-                </div>
-              </div>
-              <div class="hamburger" onclick="toggleDropdown()"><img src="img/menu.png" alt="menu" style="height: 16px; width: 16px;"></div>
-              <div class="dropdown-nav" id="dropdownNav">
-                <a href="{{ route('stocksale') }}">Stock Sale</a>
-                <a href="{{ route('buyer') }}">Buy Leads</a>
-                <a href="{{ route('seller') }}">Sell Offer</a>
-                <a href="{{ route('dealassist') }}">Deal Assist</a>
-                <a href="{{ route('sendcv') }}">Industry Jobs</a>
-                <a href="{{ route('tradeshow') }}">Trade Shows</a>
-                <a href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a>
-              </div>              
+                          {{-- <div class="dropdown-menu">
+                              @foreach ($categories->chunk(10) as $chunk)
+                                  <div class="column">
+                                      @foreach ($chunk as $category)
+                                          <a class="dropdown-item custom-dealrock-text"
+                                              href="{{ route('products', ['category_id' => $category['id'], 'data_from' => 'category', 'page' => 1]) }}">
+                                              {{ $category->name }}
+                                          </a>
+                                      @endforeach
+                                  </div>
+                              @endforeach
+                          </div> --}}
+                        </div>                
+                      </div>
+                      <div class="navbar-3">
+                        <a class="text-wrapper-2 deleight" href="{{ route('home') }}">Home</a>
+                        <a class="text-wrapper-3 delseven" href="{{ route('stocksale') }}">Stock Sale</a>
+                        <a class="text-wrapper-3 delsix" href="{{ route('buyer') }}">Buy Leads</a>
+                        <a class="text-wrapper-3 delfive" href="{{ route('seller') }}">Sell Offer</a>
+                        <a class="text-wrapper-3 delfour" href="{{ route('dealassist') }}">Deal Assist</a>
+                        <a class="text-wrapper-3 delone" href="{{ route('sendcv') }}">Industry Jobs</a>
+                        <div class="frame-2 deltwo"><a class="text-wrapper-3" href="{{ route('tradeshow') }}">Trade Shows</a></div>
+                        <div class="frame-2 delthree">
+                          <a class="text-wrapper-3" href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a>
+                        </div>
+                      </div>
+                      <div class="frame-6 delnine">
+                        <div class="our-features group-features">
+                          <img class="badge img-default" src="img/badge-1.png" />
+                          <img class="badge img-hover" src="img/badge (2).png" />
+                          <div class="text-wrapper-4">Our Features</div>
+                        </div>                
+                      
+                        <div class="group-3">
+                          <div class="frame-4">
+                            <div class="text-wrapper-5">Help</div>
+                            <img class="img" src="img/arrow-down-sign-to-navigate-4.png" />
+                          </div>
+                          <div class="icon-hover group-help">
+                            <img class="question img-default" src="img/question-1.png" />
+                            <img class="question img-hover" src="img/Help Web Button.png" />
+                          </div>
+                        </div>
+                      
+                        <div class="group-4">
+                          <div class="frame-4">
+                            <div class="text-wrapper-5">English</div>
+                            <img class="img" src="img/arrow-down-sign-to-navigate-5.png" />
+                          </div>
+                          <div class="icon-hover group-language">
+                            <img class="language img-default" src="img/language-1.png" />
+                            <img class="language img-hover" src="img/language (2).png" />
+                          </div>
+                        </div>
+                      
+                        <div class="group-5 group-user">
+                          <div class="text-wrapper-6">Sign in/ Join</div>
+                          <img class="user img-default" src="img/user-1.png" />
+                          <img class="user img-hover" src="img/user (2).png" />
+                        </div>
+                      </div>
+                      <div class="hamburger" onclick="toggleDropdown()"><img src="img/menu.png" alt="menu" style="height: 16px; width: 16px;"></div>
+                      <div class="dropdown-nav" id="dropdownNav">
+                        <a href="{{ route('stocksale') }}">Stock Sale</a>
+                        <a href="{{ route('buyer') }}">Buy Leads</a>
+                        <a href="{{ route('seller') }}">Sell Offer</a>
+                        <a href="{{ route('dealassist') }}">Deal Assist</a>
+                        <a href="{{ route('sendcv') }}">Industry Jobs</a>
+                        <a href="{{ route('tradeshow') }}">Trade Shows</a>
+                        <a href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a>
+                      </div>
+                </div>        
             </div>
           </div>
           <div class="group-16">
-            <img class="rectangle-stroke-2" src="img/rectangle-20-stroke-1.svg" />
-            <div class="group-17">
-              <img class="logo-3" src="img/logo-2.png" />
-              <div class="group-18">
-                <div class="group-19">
-                  <div class="overlap-group-4">
-                      <div class="input-group-overlay search-form-mobile text-align-direction ml-1 mr-2" id="searchformclose">
-                        <div class="section">
-                            <div class="wrapper">
-                                @if (str_contains(url()->current(), '/job-seeker'))
-                                    <form action="{{ route('jobseeker') }}" type="submit" class="wrapperform mb-0">
-                                    @elseif(str_contains(url()->current(), '/talent-finder'))
-                                        <form action="{{ route('talentfinder') }}" type="submit" class="wrapperform mb-0">
-                                        @else
-                                            <form id="prosup" action="{{ route('products') }}" type="submit"
-                                                class="wrapperform mb-0">
-                                @endif
-                                <div class="search_box">
-                                    @if (str_contains(url()->current(), '/job-seeker'))
-                                        <div class="w-30 mr-m-1 position-relative my-auto"
-                                            style="cursor: pointer;width: 105px;padding-left: 15px;">
-                                            <span class="custom-dealrock-text">Search Profile</span>
-                                        </div>
-                                    @elseif(str_contains(url()->current(), '/talent-finder'))
-                                        <div class="w-30 mr-m-1 position-relative my-auto"
-                                            style="cursor: pointer;width: 140px;padding-left: 15px;">
-                                            <span class="custom-dealrock-text">Search Candidates</span>
-                                        </div>
-                                    @else
-                                        <div class="dropdown" id="productDropdown">
-                                            <div class="d-flex h-100 flex-row align-items-center">
-                                                <span class="default_option">Products</span>
-                                                <span class="d-flex align-items-center" style="width: 20px; height: 100%;">
-                                                    <?xml version="1.0" ?><svg height="48" viewBox="0 0 48 48"
-                                                        width="48" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M14.83 16.42l9.17 9.17 9.17-9.17 2.83 2.83-12 12-12-12z" />
-                                                        <path d="M0-.75h48v48h-48z" fill="none" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <ul id="dropdownOptions">
-                                                <li id="productssearch" data-value="products"
-                                                    data-route="{{ route('products') }}"
-                                                    data-placeholder="Search for products..."
-                                                    class="custom-dealrock-text">
-                                                    Products
-                                                </li>
-                                                <li id="leadsbuy" data-value="buyleads" data-route="{{ route('buyer') }}"
-                                                    data-placeholder="Search for buy leads..." class="custom-dealrock-text">
-                                                    Buy Leads
-                                                </li>
-                                                <li id="leadssell" data-value="sellleads"
-                                                    data-route="{{ route('seller') }}"
-                                                    data-placeholder="Search for sell leads..."
-                                                    class="custom-dealrock-text">
-                                                    Sell offer
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    @endif
-                                    <div class="search_field">
-                                        @if (str_contains(url()->current(), '/job-seeker'))
-                                            <input class="custom-dealrock-text" type="text" id="searchInput" class="input" name="vacancy"
-                                                style="width: inherit;height: 100%;border: 0;outline: 0;"    
-                                                value="{{ request('vacancy') }}"
-                                                placeholder="{{ translate('Search for job profiles') }}...">
-                                        @elseif(str_contains(url()->current(), '/talent-finder'))
-                                            <input class="custom-dealrock-text" type="text" id="searchInput" class="input" name="talentfinder"
-                                                style="width: inherit;height: 100%;border: 0;outline: 0;"
-                                                value="{{ request('talentfinder') }}"
-                                                placeholder="{{ translate('Search for Candidates') }}...">
-                                        @else
-                                            <input class="custom-dealrock-text" type="text" id="searchInput" name="searchInput" class="input"
-                                                style="width: inherit;height: 100%;border: 0;outline: 0;"
-                                                value="{{ request('name') }}"
-                                                placeholder="{{ translate('Search for products') }}...">
-                                        @endif
-
-                                        <div class="d-flex position-absolute searchbutton justify-content-center"
-                                            onclick="document.getElementsByClassName('wrapperform')[0].submit()" style="width: 177px;">
-                                            {{-- <span>Search</span> --}}
-                                            <img src="/images/magnify_icon.png" alt="magnify" style="height: 16px; width: 16px;"><span class="ml-1" style="font-size: 18px;">Search<span>
-                                        </div>
-                                    </div>
-                                </div>
-                                </form>
-                                <div class="closebutton" id="closebutton">
-                                    <strong> X</strong>
-                                </div>
-                            </div>
+            <div class="contentgroup">
+                <img class="rectangle-stroke-2" src="img/rectangle-20-stroke-1.svg" />
+                <div class="group-17">
+                    <img class="logo-3" src="img/logo-2.png" />
+                    <div class="group-18">
+                      <div class="group-19">
+                        <div class="overlap-group-4">
+                            <div class="input-group-overlay search-form-mobile text-align-direction ml-1 mr-2" id="searchformclose">
+                              <div class="section">
+                                  <div class="wrapper">
+                                      @if (str_contains(url()->current(), '/job-seeker'))
+                                          <form action="{{ route('jobseeker') }}" type="submit" class="wrapperform mb-0">
+                                          @elseif(str_contains(url()->current(), '/talent-finder'))
+                                              <form action="{{ route('talentfinder') }}" type="submit" class="wrapperform mb-0">
+                                              @else
+                                                  <form id="prosup" action="{{ route('products') }}" type="submit"
+                                                      class="wrapperform mb-0">
+                                      @endif
+                                      <div class="search_box">
+                                          @if (str_contains(url()->current(), '/job-seeker'))
+                                              <div class="w-30 mr-m-1 position-relative my-auto"
+                                                  style="cursor: pointer;width: 105px;padding-left: 15px;">
+                                                  <span class="custom-dealrock-text">Search Profile</span>
+                                              </div>
+                                          @elseif(str_contains(url()->current(), '/talent-finder'))
+                                              <div class="w-30 mr-m-1 position-relative my-auto"
+                                                  style="cursor: pointer;width: 140px;padding-left: 15px;">
+                                                  <span class="custom-dealrock-text">Search Candidates</span>
+                                              </div>
+                                          @else
+                                              <div class="dropdown" id="productDropdown">
+                                                  <div class="d-flex h-100 flex-row align-items-center">
+                                                      <span class="default_option">Products</span>
+                                                      <span class="d-flex align-items-center" style="width: 20px; height: 100%;">
+                                                          <?xml version="1.0" ?><svg height="48" viewBox="0 0 48 48"
+                                                              width="48" xmlns="http://www.w3.org/2000/svg">
+                                                              <path d="M14.83 16.42l9.17 9.17 9.17-9.17 2.83 2.83-12 12-12-12z" />
+                                                              <path d="M0-.75h48v48h-48z" fill="none" />
+                                                          </svg>
+                                                      </span>
+                                                  </div>
+                                                  <ul id="dropdownOptions">
+                                                      <li id="productssearch" data-value="products"
+                                                          data-route="{{ route('products') }}"
+                                                          data-placeholder="Search for products..."
+                                                          class="custom-dealrock-text">
+                                                          Products
+                                                      </li>
+                                                      <li id="leadsbuy" data-value="buyleads" data-route="{{ route('buyer') }}"
+                                                          data-placeholder="Search for buy leads..." class="custom-dealrock-text">
+                                                          Buy Leads
+                                                      </li>
+                                                      <li id="leadssell" data-value="sellleads"
+                                                          data-route="{{ route('seller') }}"
+                                                          data-placeholder="Search for sell leads..."
+                                                          class="custom-dealrock-text">
+                                                          Sell offer
+                                                      </li>
+                                                  </ul>
+                                              </div>
+                                          @endif
+                                          <div class="search_field">
+                                              @if (str_contains(url()->current(), '/job-seeker'))
+                                                  <input class="custom-dealrock-text" type="text" id="searchInput" class="input" name="vacancy"
+                                                      style="width: inherit;height: 100%;border: 0;outline: 0;"    
+                                                      value="{{ request('vacancy') }}"
+                                                      placeholder="{{ translate('Search for job profiles') }}...">
+                                              @elseif(str_contains(url()->current(), '/talent-finder'))
+                                                  <input class="custom-dealrock-text" type="text" id="searchInput" class="input" name="talentfinder"
+                                                      style="width: inherit;height: 100%;border: 0;outline: 0;"
+                                                      value="{{ request('talentfinder') }}"
+                                                      placeholder="{{ translate('Search for Candidates') }}...">
+                                              @else
+                                                  <input class="custom-dealrock-text" type="text" id="searchInput" name="searchInput" class="input"
+                                                      style="width: inherit;height: 100%;border: 0;outline: 0;"
+                                                      value="{{ request('name') }}"
+                                                      placeholder="{{ translate('Search for products') }}...">
+                                              @endif
+      
+                                              <div class="d-flex position-absolute searchbutton justify-content-center"
+                                                  onclick="document.getElementsByClassName('wrapperform')[0].submit()" style="width: 177px;">
+                                                  {{-- <span>Search</span> --}}
+                                                  <img src="/images/magnify_icon.png" alt="magnify" style="height: 16px; width: 16px;"><span class="ml-1" style="font-size: 18px;">Search<span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      </form>
+                                      <div class="closebutton" id="closebutton">
+                                          <strong> X</strong>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
+                      </div>
+                      <div class="frame-11">
+                        <div class="group-9">
+                          <img class="chat img-default" src="img/chat-1.png" />
+                          <img class="chat img-hover" src="img/chat (2).png" />
+                          <div class="text-wrapper-9">RFQ</div>
+                        </div>
+                        <div class="group-10">
+                          <img class="parcel img-default" src="img/parcel-1.png" />
+                          <img class="parcel img-hover" src="img/parcel (2).png" />
+                          <div class="text-wrapper-10">Supplier</div>
+                        </div>
+                        <div class="group-11">
+                          <img class="customer img-default" src="img/customer-1.png" />
+                          <img class="customer img-hover" src="img/customer (2).png" />
+                          <div class="text-wrapper-10">Buyer</div>
+                        </div>
+                        <div class="group-12">
+                          <img class="chatting img-default" src="img/chatting-1.png" />
+                          <img class="chatting img-hover" src="img/chatting (2).png" />
+                          <div class="text-wrapper-10">Message</div>
+                        </div>
+                        <div class="group-13">
+                          <img class="heart img-default" src="img/heart-1.png" />
+                          <img class="heart img-hover" src="img/heart (2).png" />
+                          <div class="text-wrapper-11">Shortlist</div>
+                        </div>
+                      </div>                
                     </div>
                   </div>
-                </div>
-                <div class="frame-11">
-                  <div class="group-9">
-                    <img class="chat img-default" src="img/chat-1.png" />
-                    <img class="chat img-hover" src="img/chat (2).png" />
-                    <div class="text-wrapper-9">RFQ</div>
-                  </div>
-                  <div class="group-10">
-                    <img class="parcel img-default" src="img/parcel-1.png" />
-                    <img class="parcel img-hover" src="img/parcel (2).png" />
-                    <div class="text-wrapper-10">Supplier</div>
-                  </div>
-                  <div class="group-11">
-                    <img class="customer img-default" src="img/customer-1.png" />
-                    <img class="customer img-hover" src="img/customer (2).png" />
-                    <div class="text-wrapper-10">Buyer</div>
-                  </div>
-                  <div class="group-12">
-                    <img class="chatting img-default" src="img/chatting-1.png" />
-                    <img class="chatting img-hover" src="img/chatting (2).png" />
-                    <div class="text-wrapper-10">Message</div>
-                  </div>
-                  <div class="group-13">
-                    <img class="heart img-default" src="img/heart-1.png" />
-                    <img class="heart img-hover" src="img/heart (2).png" />
-                    <div class="text-wrapper-11">Shortlist</div>
-                  </div>
-                </div>                
-              </div>
-            </div>
+            </div>            
           </div>
         </div>
       </div>

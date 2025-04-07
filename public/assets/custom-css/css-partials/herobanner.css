@@ -1,9 +1,10 @@
 /* Hero Section */
 .mainpagesection {
     margin: 0 auto;
-    margin-top: 22px;
+    margin-top: 20px;
+    margin-bottom: 20px;
     /* border-radius: 10px; */
-    max-width: 1600px;
+    max-width: 1440px;
     width: 96%;
     transition: all 0.3s ease;
     background-color: white;

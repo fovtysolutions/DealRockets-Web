@@ -74,36 +74,36 @@ $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWi
               <div class="group-17">
                 <div class="text-wrapper-5">Special</div>
                 <div class="frame-7">
-                  <div class="footer-text"><div class="text-wrapper-7">Featured Products</div></div>
-                  <div class="footer-text"><div class="text-wrapper-7">Latest Products</div></div>
-                  <div class="footer-text"><div class="text-wrapper-7">Best Selling Products</div></div>
-                  <div class="footer-text"><div class="text-wrapper-7">Top Rated Products</div></div>
+                  <div class="footer-text"><a href="{{route('products',['data_from'=>'featured','page'=>1])}}" class="text-wrapper-7">Featured Products</a></div>
+                  <div class="footer-text"><a href="{{route('products',['data_from'=>'latest','page'=>1])}}" class="text-wrapper-7">Latest Products</a></div>
+                  <div class="footer-text"><a href="{{route('products',['data_from'=>'best-selling','page'=>1])}}" class="text-wrapper-7">Best Selling Products</a></div>
+                  <div class="footer-text"><a href="{{route('products',['data_from'=>'top-rated','page'=>1])}}" class="text-wrapper-7">Top Rated Products</a></div>
                 </div>
               </div>
               <div class="group-18">
                 <div class="text-wrapper-5">Account info</div>
                 <div class="frame-7">
-                  <div class="footer-text"><div class="text-wrapper-7">Profile Info</div></div>
-                  <div class="footer-text"><div class="text-wrapper-7">Wish list</div></div>
-                  <div class="footer-text"><div class="text-wrapper-7">Track Order</div></div>
+                  <div class="footer-text"><a class="text-wrapper-7" href="{{route('user-account')}}">Profile Info</a></div>
+                  <div class="footer-text"><a class="text-wrapper-7" href="{{route('wishlists')}}" >Wish list</a></div>
+                  <div class="footer-text"><a class="text-wrapper-7" href="{{route('track-order.index')}}">Track Order</a></div>
                 </div>
               </div>
               <div class="group-17">
                 <div class="text-wrapper-5">Shipping info</div>
                 <div class="frame-7">
-                  <div class="footer-text"><div class="text-wrapper-7">Refund policy</div></div>
-                  <div class="footer-text"><div class="text-wrapper-7">Return policy</div></div>
-                  <div class="footer-text"><div class="text-wrapper-7">Cancellation policy</div></div>
+                  <div class="footer-text"><a href="{{route('refund-policy')}}" class="text-wrapper-7">Refund policy</a></div>
+                  <div class="footer-text"><a href=" {{route('return-policy')}} " class="text-wrapper-7">Return policy</a></div>
+                  <div class="footer-text"><a href="{{route('cancellation-policy')}}" class="text-wrapper-7">Cancellation policy</a></div>
                   <div class="footer-text"></div>
                 </div>
               </div>
               <div class="group-19">
                 <div class="text-wrapper-5">Help</div>
                 <div class="frame-7">
-                  <div class="footer-text"><div class="text-wrapper-7">About us</div></div>
-                  <div class="footer-text"><div class="text-wrapper-7">Contact Us</div></div>
-                  <div class="footer-text"><div class="text-wrapper-7">HelpTopic</div></div>
-                  <div class="footer-text"><div class="text-wrapper-7">Support ticket</div></div>
+                  <div class="footer-text"><a href="{{route('about-us')}}" class="text-wrapper-7">About us</a></div>
+                  <div class="footer-text"><a href="{{route('contacts')}}" class="text-wrapper-7">Contact Us</a></div>
+                  <div class="footer-text"><a href="{{route('helpTopic')}}" class="text-wrapper-7">HelpTopic</a></div>
+                  <div class="footer-text"><a href="{{route('account-tickets')}}" class="text-wrapper-7">Support ticket</a></div>
                 </div>
               </div>
             </div>
@@ -114,16 +114,16 @@ $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWi
                   <div class="text-wrapper-8">Mail Us</div>
                   <div class="group-22">
                     <img class="img-2" src="img/email.png" />
-                    <div class="text-wrapper-9">contact@fovtysolutions.com</div>
+                    <a href="mailto:{{getWebConfig(name: 'company_email')}}" class="text-wrapper-9">{{getWebConfig(name: 'company_email')}}</a>
                   </div>
                 </div>
                 <div class="group-23">
                   <div class="text-wrapper-8">Social</div>
                   <div class="frame-8">
-                    <div class="twitter"></div>
-                    <div class="linkedin"></div>
-                    <div class="instagram"></div>
-                    <div class="facebook"></div>
+                    <a href="https://twitter.com" target="_blank" class="twitter"></a>
+                    <a href="https://linkedin.com" target="_blank" class="linkedin"></a>
+                    <a href="https://instagram.com" target="_blank" class="instagram"></a>
+                    <a href="https://facebook.com" target="_blank" class="facebook"></a>
                   </div>
                 </div>
               </div>              
@@ -145,15 +145,15 @@ $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWi
               <div class="frame-9">
                 <div class="frame-5">
                   <img class="img-3" src="img/store.png" />
-                  <div class="text-wrapper-10">Become a Seller</div>
+                  <a href="{{ route('vendor.auth.login') }}" class="text-wrapper-10">Become a Seller</a>
                 </div>
                 <div class="frame-5">
                   <img class="img-3" src="img/accept.png" />
-                  <div class="text-wrapper-10">Terms &amp; Conditions</div>
+                  <a href="{{ route('terms') }}" class="text-wrapper-10">Terms &amp; Conditions</a>
                 </div>
                 <div class="frame-5">
                   <img class="img-3" src="img/legal-document.png" />
-                  <div class="text-wrapper-10">Privacy policy</div>
+                  <a href="{{ route('privacy-policy') }}" class="text-wrapper-10">Privacy policy</a>
                 </div>
               </div>
             </div>
@@ -165,11 +165,11 @@ $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWi
               <div class="frame-9">
                 <div class="frame-5">
                   <img class="img-3" src="img/copyright.png" />
-                  <div class="text-wrapper-10">CopyRight DealRabbit@2024</div>
+                  <div class="text-wrapper-10">{{ $web_config['copyright_text']->value }}</div>
                 </div>
                 <div class="frame-5">
                   <img class="img-3" src="img/viber.png" />
-                  <div class="text-wrapper-10">+971551582756</div>
+                  <a href="tel:{{getWebConfig(name: 'company_phone')}}" class="text-wrapper-10">{{getWebConfig(name: 'company_phone')}}</a>
                 </div>
               </div>
             </div>

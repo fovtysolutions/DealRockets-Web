@@ -27,7 +27,7 @@
         <div class="navbar-2">
           <div class="group-14">
             <div class="overlap-group-3">
-                <div class="contentgroup">
+                <div class="contentgroup deltwelve">
                     <div class="group-15">
                         <div class="dropdown-container custom-dropdown">
                           <div class="group-2">
@@ -61,49 +61,64 @@
                         </div>
                       </div>
                       <div class="frame-6 delnine">
-                        <div class="our-features group-features">
-                          <img class="badge img-default" src="img/badge-1.png" />
-                          <img class="badge img-hover" src="img/badge (2).png" />
-                          <div class="text-wrapper-4">Our Features</div>
-                        </div>                
+                        <a href="{{ route('webinfo') }}">
+                            <div class="our-features group-features">
+                            <img class="badge img-default" src="img/badge-1.png" />
+                            <img class="badge img-hover" src="img/badge (2).png" />
+                            <div class="text-wrapper-4">Our Features</div>
+                            </div>
+                        </a>                
                       
                         <div class="group-3">
-                          <div class="frame-4">
-                            <div class="text-wrapper-5">Help</div>
-                            <img class="img" src="img/arrow-down-sign-to-navigate-4.png" />
-                          </div>
-                          <div class="icon-hover group-help">
-                            <img class="question img-default" src="img/question-1.png" />
-                            <img class="question img-hover" src="img/Help Web Button.png" />
-                          </div>
+                            <a href="{{route('helpTopic')}}" target="_blank">
+                                <div class="frame-4">
+                                    <div class="text-wrapper-5">Help</div>
+                                    {{-- <img class="img" src="img/arrow-down-sign-to-navigate-4.png" /> --}}
+                                </div>
+                                <div class="icon-hover group-help">
+                                    <img class="question img-default" src="img/question-1.png" />
+                                    <img class="question img-hover" src="img/Help Web Button.png" />
+                                </div>
+                            </a>
                         </div>
                       
                         <div class="group-4">
+                        <div id="languageToggleBtn"> 
                           <div class="frame-4">
-                            <div class="text-wrapper-5">English</div>
-                            <img class="img" src="img/arrow-down-sign-to-navigate-5.png" />
+                            <div class="text-wrapper-5">
+                                @foreach (json_decode($language['value'], true) as $data)
+                                    @if ($data['code'] == getDefaultLanguage())
+                                        {{ $data['name'] }}
+                                    @endif
+                                @endforeach
+                            </div>
+                            {{-- <img class="img" src="img/arrow-down-sign-to-navigate-5.png" /> --}}
                           </div>
                           <div class="icon-hover group-language">
                             <img class="language img-default" src="img/language-1.png" />
                             <img class="language img-hover" src="img/language (2).png" />
                           </div>
                         </div>
-                      
-                        <div class="group-5 group-user">
-                          <div class="text-wrapper-6">Sign in/ Join</div>
-                          <img class="user img-default" src="img/user-1.png" />
-                          <img class="user img-hover" src="img/user (2).png" />
+                            <ul id="languageDropdown-class" class="language-dropdown" style="font-size: 14px; color: black;">
+                                @foreach (json_decode($language['value'], true) as $key => $data)
+                                    @if ($data['status'] == 1)
+                                        <li class="change-language __inline-17" style="padding: 0px 4px 0px 3px;text-align: center;" data-action="{{ route('change-language') }}"
+                                            data-language-code="{{ $data['code'] }}">
+                                            <a class="dropdown-item custom-dealrock-text" href="javascript:">
+                                                <span class="text-capitalize">{{ $data['name'] }}</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>  
                         </div>
-                      </div>
-                      <div class="hamburger" onclick="toggleDropdown()"><img src="img/menu.png" alt="menu" style="height: 16px; width: 16px;"></div>
-                      <div class="dropdown-nav" id="dropdownNav">
-                        <a href="{{ route('stocksale') }}">Stock Sale</a>
-                        <a href="{{ route('buyer') }}">Buy Leads</a>
-                        <a href="{{ route('seller') }}">Sell Offer</a>
-                        <a href="{{ route('dealassist') }}">Deal Assist</a>
-                        <a href="{{ route('sendcv') }}">Industry Jobs</a>
-                        <a href="{{ route('tradeshow') }}">Trade Shows</a>
-                        <a href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a>
+                        <a href="{{ route('customer.auth.login') }}">
+                            <div class="group-5 group-user">
+                            <div class="text-wrapper-6">Sign in/ Join</div>
+                            <img class="user img-default" src="img/user-1.png" />
+                            <img class="user img-hover" src="img/user (2).png" />
+                            </div>
+                        </a>
                       </div>
                 </div>        
             </div>
@@ -205,32 +220,113 @@
                         </div>
                       </div>
                       <div class="frame-11">
-                        <div class="group-9">
-                          <img class="chat img-default" src="img/chat-1.png" />
-                          <img class="chat img-hover" src="img/chat (2).png" />
-                          <div class="text-wrapper-9">RFQ</div>
-                        </div>
+                        <a href="{{ route('quotationweb') }}" target="_blank">
+                            <div class="group-9">
+                            <img class="chat img-default" src="img/chat-1.png" />
+                            <img class="chat img-hover" src="img/chat (2).png" />
+                            <div class="text-wrapper-9">RFQ</div>
+                            </div>
+                        </a>
                         <div class="group-10">
-                          <img class="parcel img-default" src="img/parcel-1.png" />
-                          <img class="parcel img-hover" src="img/parcel (2).png" />
-                          <div class="text-wrapper-10">Supplier</div>
+                            <a href="{{ route('vendor.auth.login') }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="parcel img-default" src="img/parcel-1.png" />
+                                <img class="parcel img-hover" src="img/parcel (2).png" />
+                                <div class="text-wrapper-10">Supplier</div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
+                                aria-labelledby="dropdownMenuButton" style="border-radius: 10px;">
+                                <div class="detailsboxtop">
+                                    <h5 class="custom-dealrock-head">What you get!</h5>
+                                    <ul class="feature-list">
+                                        <li>
+                                            <div class="leftclass custom-dealrock-head">
+                                                <i class="fa fa-box"></i>
+                                            </div>
+                                            <div class="rightclass">
+                                                <strong class="custom-dealrock-subhead">Product Management</strong><br>
+                                                <span class="custom-dealrock-subtext">Add, update, and remove products with ease.</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="leftclass custom-dealrock-head">
+                                                <i class="fa fa-chart-bar"></i>
+                                            </div>
+                                            <div class="rightclass">
+                                                <strong class="custom-dealrock-subhead">Analytics & Insights</strong><br>
+                                                <span class="custom-dealrock-subtext">Track sales, inventory, and product performance.</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="leftclass custom-dealrock-head">
+                                                <i class="fa fa-credit-card"></i>
+                                            </div>
+                                            <div class="rightclass">
+                                                <strong class="custom-dealrock-subhead">Secure Payments</strong><br>
+                                                <span class="custom-dealrock-subtext">Manage payments and invoices securely.</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="group-11">
+                        <a href="{{ route('vendor.auth.login') }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           <img class="customer img-default" src="img/customer-1.png" />
                           <img class="customer img-hover" src="img/customer (2).png" />
                           <div class="text-wrapper-10">Buyer</div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
+                                aria-labelledby="dropdownMenuButton" style="border-radius: 10px;">
+                                <div class="detailsboxtop">
+                                    <h5>Register Today!</h5>
+                                    <ul class="feature-list">
+                                        <li>
+                                            <div class="leftclass custom-dealrock-head">
+                                                <i class="fa fa-search"></i>
+                                            </div>
+                                            <div class="rightclass">
+                                                <strong class="custom-dealrock-subhead">Easy Browsing</strong><br>
+                                                <span class="custom-dealrock-subtext">Find products quickly across various categories.</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="leftclass custom-dealrock-head">
+                                                <i class="fa fa-heart"></i>
+                                            </div>
+                                            <div class="rightclass">
+                                                <strong class="custom-dealrock-subhead">Wishlist</strong><br>
+                                                <span class="custom-dealrock-subtext">Save your favorite items for future purchases.</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="leftclass custom-dealrock-head">
+                                                <i class="fa fa-shield-alt"></i>
+                                            </div>
+                                            <div class="rightclass">
+                                                <strong class="custom-dealrock-subhead">Secure Checkout</strong><br>
+                                                <span class="custom-dealrock-subtext">Enjoy multiple payment options for a smooth experience.</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <div class="group-12">
-                          <img class="chatting img-default" src="img/chatting-1.png" />
-                          <img class="chatting img-hover" src="img/chatting (2).png" />
-                          <div class="text-wrapper-10">Message</div>
+                          <a href="{{ route('chat',['type'=>'customer']) }}">
+                            <img class="chatting img-default" src="img/chatting-1.png" />
+                            <img class="chatting img-hover" src="img/chatting (2).png" />
+                            <div class="text-wrapper-10">Message</div>
+                          </a>
                         </div>
                         <div class="group-13">
+                        <a href="{{ route('shop-cart') }}">
                           <img class="heart img-default" src="img/heart-1.png" />
                           <img class="heart img-hover" src="img/heart (2).png" />
                           <div class="text-wrapper-11">Shortlist</div>
+                        </a>
                         </div>
-                      </div>                
+                      </div>
+                      <div class="hamburger" onclick="toggleDropdown()"><img src="img/menu.png" alt="menu" style="height: 16px; width: 16px;"></div>                
                     </div>
                   </div>
             </div>            
@@ -238,7 +334,19 @@
         </div>
       </div>
     </div>
-
+    <div class="dropdown-nav" id="dropdownNav">
+        <div class="flexboxlogocross">
+            <img class="logo-3" src="img/logo-2.png" />
+            <button class="drawer-close" onclick="toggleDropdown()">✕</button>    
+        </div>
+        <a href="{{ route('stocksale') }}">Stock Sale</a>
+        <a href="{{ route('buyer') }}">Buy Leads</a>
+        <a href="{{ route('seller') }}">Sell Offer</a>
+        <a href="{{ route('dealassist') }}">Deal Assist</a>
+        <a href="{{ route('sendcv') }}">Industry Jobs</a>
+        <a href="{{ route('tradeshow') }}">Trade Shows</a>
+        <a href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a>
+        </div>
 @push('script')
     <script>
         "use strict";
@@ -471,14 +579,39 @@
         });
     </script>
     <script>
-      function toggleDropdown() {
-        document.getElementById("dropdownNav").classList.toggle("show");
-      }
-    
-      window.addEventListener("click", function(e) {
-        if (!e.target.closest(".hamburger")) {
-          document.getElementById("dropdownNav").classList.remove("show");
+        function toggleDropdown() {
+            document.getElementById("dropdownNav").classList.toggle("show");
         }
-      });
+    
+        window.addEventListener("click", function (e) {
+            const nav = document.getElementById("dropdownNav");
+            const menuBtn = document.querySelector(".hamburger");
+            
+            if (!nav.contains(e.target) && !menuBtn.contains(e.target)) {
+                nav.classList.remove("show");
+            }
+        });
+
+        const toggleBtn = document.getElementById("languageToggleBtn");
+        const dropdown = document.getElementById("languageDropdown-class");
+
+        toggleBtn.addEventListener("click", function (e) {
+            if (e.target === toggleBtn) {
+                console.log("Button clicked directly ✅");
+            } else {
+                console.log("Button child clicked (e.g., span inside)");
+            }
+
+            dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+
+            e.stopPropagation();
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!dropdown.contains(event.target) && event.target !== toggleBtn) {
+                dropdown.style.display = "none";
+            }
+        });
+
     </script>
-@endpush
+  @endpush

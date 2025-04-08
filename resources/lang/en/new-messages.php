@@ -9214,4 +9214,5 @@ return [
 	"Current Status:" => "Current Status:",
 	"Enabled" => "Enabled",
 	"Disabled" => "Disabled",
+	"there_is_no_FAQs" => "There is no FAQs",
 ];

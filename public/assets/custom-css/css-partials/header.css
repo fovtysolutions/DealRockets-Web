@@ -226,7 +226,7 @@
     height: 40px;
     color: var(--web-text) !important;
     display: flex;
-    border: 1px solid var(--web-hover);
+    border: 1px solid #FE4E44;
     border-radius: 25px;
     padding: 0;
 }
@@ -418,7 +418,7 @@
 
 .dropdown-item:hover {
     background-color: var(--web-hover);
-    color: white !important;
+    color: white;
     transform: scale(1.05);
 }
 

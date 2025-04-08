@@ -269,7 +269,7 @@
     gap: 2.69px;
     position: absolute;
     top: 24px;
-    left: 0;
+    left: 7px;
   }
   
   .element-mobile .text-wrapper-5 {
@@ -289,7 +289,7 @@
     position: relative;
     width: 7.18px;
     height: 7.18px;
-    object-fit: cover;
+    object-fit: contain;
   }
   
   .element-mobile .question {
@@ -724,6 +724,7 @@
   .element-mobile .navbar-2 {
     position: relative;
     height: 135px;
+    z-index: 1000;
   }
   
   .element-mobile .group-14 {
@@ -847,7 +848,7 @@
     height: 44px;
     top: 1px;
     left: 0;
-    object-fit: cover;
+    object-fit: contain;
   }
   
   .element-mobile .group-18 {
@@ -1060,17 +1061,84 @@
     padding: 10px;
   }
 
-  .element-mobile .dropdown-nav{
+  .dropdown-nav{
     display: none;
     z-index: 1000;
   }
 
-  @media (max-width: 576px) {
-    .element-mobile .delnine{
-      display: none;
+  .language-dropdown {
+    position: absolute;
+    top: 42px;
+    left: -100%; /* hide by default */
+    width: 150px;
+    height: 100vh;
+    background: #fff;
+    box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease-in-out;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .language-dropdown.show {
+    left: 0;
+  }
+    
+  .language-dropdown a {
+    padding: 12px 0;
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s, color 0.2s;
+  }
+  
+  .language-dropdown a:last-child {
+    border-bottom: none;
+  }
+  
+  .language-dropdown a:hover {
+    background-color: #f5f5f5;
+    color: #FE4E44;
+  }
+  
+  @media (max-width: 1440px) {
+    .element-mobile.element-mobile-wrapper {
+      display: none !important;
+    }
+    .element-mobile.element-tablet-wrapper {
+      display: none !important;
     }
   }
   
+  @media (max-width: 1439px) {
+    .element-mobile.element-mobile-wrapper {
+      display: none !important;
+    }
+    .element-mobile.element-tablet-wrapper {
+      display: none !important;
+    }
+    
+    /* Last one no border */
+    .element-mobile .dropdown-nav a:last-child {
+      border-bottom: none;
+    }
+    
+    .element-mobile .delone {
+      display: none;
+    }
+
+    .element-mobile .deltwo {
+      display: none;
+    }
+
+    .element-mobile .delthree {
+      display: none;
+    }
+  }
+
   @media (max-width: 1023px) {
     .element-mobile.element-mobile-wrapper {
       display: none !important;
@@ -1080,6 +1148,24 @@
     }
     .element-mobile .hamburger {
       display: block;
+    }
+
+    .element-mobile .group-19 {
+      display: none;
+    }
+
+    .element-mobile .group-18 {
+      width: 10%;
+      position: absolute;
+      right: 36px;
+    }
+
+    .element-mobile .frame-11 {
+      display: none;
+    }
+    
+    .element-mobile .logo-3 {
+      width: 25%;
     }
 
     .element-mobile .delone {
@@ -1119,126 +1205,127 @@
       padding: 10px;
       user-select: none;
       line-height: 1;
+      margin: 0 0 0 auto;
     }
-    .element-mobile .dropdown-nav {
-      display: none;
-      position: absolute;
-      top: 100%;
-      right: 0;
+    .dropdown-nav {
+      position: fixed;
+      top: 0;
+      left: -100%; /* hide by default */
+      width: 280px;
+      height: 100vh;
       background: #fff;
-      border: 1px solid #ccc;
-      z-index: 999;
-      min-width: 200px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s ease-in-out;
+      z-index: 9999;
+      display: flex;
       flex-direction: column;
-      border-radius: 8px;
-      overflow: hidden;
+      padding: 20px;
       font-family: 'Inter', sans-serif;
     }
     
-    /* Show dropdown */
-    .element-mobile .dropdown-nav.show {
-      display: flex;
+    .dropdown-nav.show {
+      left: 0;
     }
     
-    /* Each link style */
-    .element-mobile .dropdown-nav a {
-      padding: 12px 16px;
-      text-decoration: none;
-      color: #333;
-      font-size: 15px;
-      transition: background 0.2s ease, color 0.2s ease;
-      border-bottom: 1px solid #eee;
-    }
-    
-    /* Last one no border */
-    .element-mobile .dropdown-nav a:last-child {
-      border-bottom: none;
-    }
-    
-    /* Hover effect */
-    .element-mobile .dropdown-nav a:hover {
-      background-color: #f5f5f5;
-      color: #FE4E44;
-    }
-  }
-  
-  @media (min-width: 1024px) and (max-width: 1439px) {
-    .element-mobile.element-mobile-wrapper {
-      display: none !important;
-    }
-    .element-mobile.element-tablet-wrapper {
-      display: none !important;
-    }
-    .element-mobile .hamburger {
-      display: block;
-      font-size: 28px;
+    .drawer-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      align-self: flex-end;
+      margin-bottom: 5px;
       cursor: pointer;
-      padding: 10px;
-      user-select: none;
-      line-height: 1;
-    }
-    .element-mobile .dropdown-nav {
-      display: none;
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background: #fff;
-      border: 1px solid #ccc;
-      z-index: 999;
-      min-width: 200px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      flex-direction: column;
-      border-radius: 8px;
-      overflow: hidden;
-      font-family: 'Inter', sans-serif;
     }
     
-    /* Show dropdown */
-    .element-mobile .dropdown-nav.show {
-      display: flex;
-    }
-    
-    /* Each link style */
-    .element-mobile .dropdown-nav a {
-      padding: 12px 16px;
+    .dropdown-nav a {
+      padding: 12px 0;
       text-decoration: none;
       color: #333;
       font-size: 15px;
-      transition: background 0.2s ease, color 0.2s ease;
       border-bottom: 1px solid #eee;
+      transition: background 0.2s, color 0.2s;
     }
     
-    /* Last one no border */
-    .element-mobile .dropdown-nav a:last-child {
+    .dropdown-nav a:last-child {
       border-bottom: none;
     }
     
-    /* Hover effect */
-    .element-mobile .dropdown-nav a:hover {
+    .dropdown-nav a:hover {
       background-color: #f5f5f5;
       color: #FE4E44;
     }
+  }
+
+  @media (max-width: 576px) {
+    .element-mobile .delnine{
+      display: none;
+    }
+    .element-mobile .logo-3 {
+      width: 45%;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .element-mobile .deltwelve{
+      display: none;
+    }
+    .element-mobile .logo-3 {
+      width: 52%;
+    }
+    .dropdown-nav {
+      position: fixed;
+      top: 0;
+      left: -100%; /* hide by default */
+      width: 280px;
+      height: 100vh;
+      background: #fff;
+      box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s ease-in-out;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      font-family: 'Inter', sans-serif;
+    }
     
-    .element-mobile .delone {
-      display: none;
+    .dropdown-nav.show {
+      left: 0;
     }
-
-    .element-mobile .deltwo {
-      display: none;
+    
+    .drawer-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      align-self: flex-end;
+      margin-bottom: 5px;
+      cursor: pointer;
     }
-
-    .element-mobile .delthree {
-      display: none;
+    
+    .dropdown-nav a {
+      padding: 12px 0;
+      text-decoration: none;
+      color: #333;
+      font-size: 15px;
+      border-bottom: 1px solid #eee;
+      transition: background 0.2s, color 0.2s;
+    }
+    
+    .dropdown-nav a:last-child {
+      border-bottom: none;
+    }
+    
+    .dropdown-nav a:hover {
+      background-color: #f5f5f5;
+      color: #FE4E44;
+    }
+    .flexboxlogocross{
+      display: flex;
+      width: 100%;
+    }    
+    .flexboxlogocross .logo-3{
+      width:85%;
+      object-fit: contain;
+    }
+    .flexboxlogocross .drawer-close{
+      width: 15%;
     }
   }
-  
-  @media (min-width: 1440px) {
-    .element-mobile.element-mobile-wrapper {
-      display: none !important;
-    }
-    .element-mobile.element-tablet-wrapper {
-      display: none !important;
-    }
-  }
-  

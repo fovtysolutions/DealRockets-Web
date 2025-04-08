@@ -133,6 +133,7 @@
   z-index: 13;
   border-radius: 60px;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 
 .dealassist .rectangle-1 {
@@ -206,10 +207,10 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
-  position: absolute;
+  position: relative;
   width: 90%;
   height: 305px;
-  top: 857px;
+  /* top: 857px; */
   left: 80px;
   z-index: 20;
 }
@@ -290,7 +291,7 @@
   height: 1455.86px;
   top: 958.059px;
   left: 310.402px;
-  background: url(https://static.codia.ai/custom_image/2025-03-29/055925/background-vector.svg) no-repeat center;
+  background: url('/img/vector-1.png') no-repeat center;
   background-size: cover;
   z-index: 19;
 
@@ -304,10 +305,10 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
-  position: absolute;
+  position: relative;
   width: 90%;
   height: 305px;
-  top: 1322px;
+  /* top: 1322px; */
   left: 80px;
   z-index: 25;
 }
@@ -398,10 +399,10 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
-  position: absolute;
+  position: relative;
   width: 90%;
   height: 305px;
-  top: 1787px;
+  /* top: 1787px; */
   left: 80px;
   z-index: 30;
 }
@@ -481,13 +482,19 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
-  position: absolute;
+  position: relative;
   width: 90%;
   height: 305px;
-  top: 2252px;
+  /* top: 2252px; */
   left: 50%;
   transform: translate(-50.04%, 0);
   z-index: 35;
+}
+
+.dealassist .mobile-responsive-box {
+  display: flex;
+  gap: 160px;
+  flex-direction: column;
 }
 
 .dealassist .laptop-f {
@@ -571,7 +578,69 @@
   letter-spacing: 0.16px;
 }
 
-@media(max-width:1210px) {
+@media(max-width:1200px) {
+  .dealassist .source-products-buyer,
+  .dealassist .provides-best-competitive,
+  .dealassist .negotiation-assist,
+  .dealassist .assist-in-logistics{
+    font-size: 15px;
+  }
+
+  .dealassist .deal-rocket-4,
+  .dealassist .online-platform-international-trade,
+  .dealassist .with,
+  .dealassist .dealrocket-8,
+  .dealassist .direct-access,
+  .dealassist .deal-rocket-b,
+  .dealassist .negotiation-support-c,
+  .dealassist .navigating-international-shipping,
+  .dealassist .deal-rocket-12,
+  .dealassist .navigating-international-shipping-11,
+  .dealassist .makes-it-easier-for-buyers{
+    font-size: 12px;
+  }
+
+  .dealassist .with-deal-rocket{
+    font-size: 12px;
+  }
+
+  .dealassist .negotiation-support{
+    font-size: 12px;
+  }
+
+  .dealassist .navigating-international-shipping{
+    font-size: 12px;
+  }
+
+  .dealassist .laptop,
+  .dealassist .laptop-6,
+  .dealassist .laptop-d,
+  .dealassist .laptop-f{
+    width:410px;
+    height:229px;
+  }
+
+  .dealassist .mobile-responsive-box{
+    gap: 120px;
+  }
+
+  .dealassist .vector {
+    position: absolute;
+    width: 725px;
+    height: 1088px;
+    top: 958.059px;
+    left: 310.402px;
+    background: url('/img/vector-2.png') no-repeat center;
+    background-size: cover;
+    z-index: 19;
+  
+    top: 63%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }  
+}
+
+@media(max-width:1024px) {
   .dealassist .vector {
     display: none;
   }
@@ -583,6 +652,24 @@
 
   .dealassist .rectangle {
     margin-top: 80px;
+  }
+
+  .dealassist .laptop,
+  .dealassist .laptop-6,
+  .dealassist .laptop-d,
+  .dealassist .laptop-f{
+    width:410px;
+    height:229px;
+  }
+
+  .dealassist .group-3,
+  .dealassist .group-7,
+  .dealassist .group-10,
+  .dealassist .group-a{
+    width: 96%;
+    height: unset;
+    padding-top: 30px;
+    padding-bottom: 30px;
   }
 
   .dealassist .frame-2,
@@ -601,20 +688,47 @@
     display: inline-flex;
     height: unset;
   }
-  
-  /* Ensure images and text blocks stack properly */
-  .dealassist .frame-2 div,
-  .dealassist .frame-5 div,
-  .dealassist .frame-9 div,
-  .dealassist .frame-e div {
-    width: 100%;
-    max-width: 90%;
+
+  .dealassist .laptop,
+  .dealassist .laptop-6,
+  .dealassist .laptop-d,
+  .dealassist .laptop-f{
+    width:390px;
+    height:217px;
   }
   
   .dealassist .mobile-responsive-box{
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 130px;
+  }
+
+  .dealassist .source-products-buyer{
+    font-size: 15px;
+  }
+
+  .dealassist .deal-rocket{
+    font-size: 12px;
+    width: 100%;
+    height: unset;
+  }
+
+  .dealassist .with-deal-rocket{
+    font-size: 12px;
+    width: 100%;
+    height: unset;
+  }
+
+  .dealassist .negotiation-support{
+    font-size: 12px;
+    width: 100%;
+    height: unset;
+  }
+
+  .dealassist .navigating-international-shipping{
+    font-size: 12px;
+    width: 100%;
+    height: unset;
   }
 
   .dealassist .global-success {
@@ -633,6 +747,14 @@
     display: flex;
     justify-content: center;
     text-wrap: wrap;
+  }
+
+  .dealassist .frame-e{
+    transform: unset;
+  }
+  
+  .dealassist .main-container {
+    height: 3065px;
   }
 }
 
@@ -645,6 +767,7 @@
     padding: 15px 17px;
     width: 100%;
     margin-top: 36px;
+    font-size: 20px;
     margin-bottom: 80px;
   }
 
@@ -655,6 +778,16 @@
     margin: 0 auto;
     padding: 15px 17px;
     width: 100%;
+    font-size: 14px;
+  }
+
+  .dealassist .frame {
+    margin: 0 auto;
+    margin-top: 87px;
+  }
+
+  .dealassist .business-partners {
+    margin-top: 135px;
   }
 }
 
@@ -663,10 +796,14 @@
     padding-bottom: 46px;
   }
 
+  .dealassist .main-container{
+    height: 3445px;
+  }
+
   .dealassist .frame-2,
   .dealassist .frame-5,
   .dealassist .frame-9,
   .dealassist .frame-e {
-    margin-top: 70px;
+    /* margin-top: 70px; */
   }
 }

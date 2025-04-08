@@ -31,7 +31,7 @@
                     <div class="group-15">
                         <div class="dropdown-container custom-dropdown">
                           <div class="group-2">
-                            <div class="text-wrapper dropdown-trigger">All Categories</div>
+                            <a class="text-wrapper dropdown-trigger" href="{{ route('categories') }}">All Categories</a>
                             <img class="options-lines" src="img/options-lines-1.png" />
                           </div>
                           {{-- <div class="dropdown-menu">
@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="icon-hover group-help">
                                     <img class="question img-default" src="img/question-1.png" />
-                                    <img class="question img-hover" src="img/Help Web Button.png" />
+                                    <img class="question img-hover" src="img/help-web-button.png" />
                                 </div>
                             </a>
                         </div>

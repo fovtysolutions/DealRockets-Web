@@ -1,264 +1,183 @@
 @extends('layouts.front-end.app')
-<link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/tradeshow.css') }}" />
 @section('title', translate('Trade Shows' . ' | ' . $web_config['name']->value))
+@push('css_or_js')
+<link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/tradeshow.css') }}" />
+@endpush
 @section('content')
-<style>
-    .dropdown-item:hover label {
-        color: white !important;
-    }
+<main class="main-container tradeshow">
+    <div class="banner-container">
+      <div class="owl-carousel owl-theme first-carousel">
+        @foreach($banners as $key => $value)
+            @if (!empty($value))
+                <img
+                    src="{{ asset('storage/' . $value) }}"
+                    class="banner-image"
+                    alt="Trade Shows Banner"
+                />
+            @endif
+        @endforeach
+      </div>
+    </div>
 
-    #detailsModal .modal-content {
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        background: #fff;
-    }
-
-    #detailsModal .modal-header {
-        background: #f8f9fa;
-        border-bottom: 1px solid #dee2e6;
-        border-radius: 15px 15px 0 0;
-    }
-
-    #detailsModal .modal-title {
-        font-weight: bold;
-        color: #007bff;
-    }
-
-    #detailsModal .modal-body {
-        padding: 2rem;
-        color: #555;
-    }
-
-    #detailsModal .modal-body h6 {
-        font-size: 1.1rem;
-        color: #333;
-    }
-
-    #detailsModal .modal-body p {
-        font-size: 1rem;
-        color: #666;
-    }
-
-    #detailsModal .modal-body .lead {
-        font-size: 1.2rem;
-        color: #007bff;
-    }
-
-    #detailsModal .modal-footer {
-        background: #f1f1f1;
-        border-top: 1px solid #dee2e6;
-    }
-
-    #detailsModal .btn-close {
-        background: #007bff;
-        color: #fff;
-        border-radius: 50%;
-    }
-</style>
-<div class="mainpagesection" style="background-color: unset;">
-    <div class="widebanner position-relative" style="margin-bottom: 10px;">
-        <div class="owl-carousel owl-theme first-carousel">
-            @foreach($banners as $banner)
-            <div class="item" style="border-radius: 10px;">
-                <div class="widebannertext position-absolute mb-0 d-flex flex-column">
-                    <h5 class="banner-name">{{$banner->name}}</h5>
-                    <p class="banner-company">{{$banner->company_name}}</p>
-                    <p class="banner-description">{{$banner->description}}</p>
-                    <div class="banner-details">
-                        <span class="banner-date">
-                            <h4 class="text-white">Exhibition Time and Venue </h4>
-                            {{ \Carbon\Carbon::parse($banner->show_date)->format('l, F j, Y') }}
-                        </span>
-                        <span class="banner-location">
-                            <h7>Near </h7>{{ \App\Models\Country::where('id', $banner->country)->first()->name }},
-                            {{ \App\Models\City::where('id', $banner->city)->first()->name}}
-                        </span>
+    <section class="content-section">
+      <div class="content-layout">
+        <div class="content-grid">
+          <!-- Left sidebar with filters -->
+          <aside class="sidebar">
+            <div class="filter-container">
+              <div>
+                <form method="GET" action="{{ route('tradeshow') }}" id="filterFormTradeshow">
+                  <div class="search-container">
+                    <div class="search-sub-division">
+                      <div class="search-section">
+                        <div class="search-label">Search by Name</div>
+                        <div class="search-input-container">
+                          <div class="search-input-field">
+                            <input type="text" name="name" placeholder="Enter name..." />
+                              <img
+                                src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
+                                class="search-icon"
+                                alt="Search icon"
+                              />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="filter-button delthree" onclick="toggleFilterSection()">
+                        Filter
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <rect x="3" y="6" width="18" height="2" rx="1" />
+                            <rect x="6" y="11" width="12" height="2" rx="1" />
+                            <rect x="9" y="16" width="6" height="2" rx="1" />
+                          </svg>
+                      </div>
                     </div>
-                </div>
-                <img src="/storage/{{ json_decode($banner->image, true)[0] }}" alt="Banner Image"
-                    class="img-fluid bannerimage">
-            </div>
-            @endforeach
-        </div>
-    </div>
-    <div class="card border-0 rounded-0" style="background-color: var(--web-bg); margin-bottom: 10px;">
-        <span> <a href="/"> Home </a> / <a href="{{ route('tradeshow') }}"> Tradeshow </a> </span>
-    </div>
-    <div class="buttonsbox" style="margin-bottom: 22px;">
-        <form id="filterForm" method="GET" style="display: flex; margin-top: 0; margin-bottom: 0;">
-            <!-- Search Bar -->
-            <div class="dropdown-container" style="flex-grow: 1; margin-right: 10px;">
-                <input type="search" placeholder="Text Search" class="dropdown-search border-0 h-100 w-100"
-                    id="text-search" name="text" style="outline: 0;"/>
-            </div>
+                    <!-- Filter By Country Section -->
+                    <div class="filter-section delone">
+                      <div class="search-label">Filter By Country</div>
+                      <div class="search-input-container">
+                        <div class="search-input-field">
+                          <input type="text" name="country_search" placeholder="Enter Country..." class="search-filter" data-target="#countriescheckbox" />
+                            <img
+                            src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
+                            class="search-icon"
+                            alt="Search icon"
+                          />                        
+                        </div>
+                      </div>
 
-            <!-- Location Dropdown -->
-            <div id="locationdropdown" class="dropdown-container" style="flex-grow: 1; margin-right: 10px;">
-                <div class="dropdown-button noselect">
-                    <div class="dropdown-label" data-default-label="Country">Country</div>
-                </div>
-                <div id="locationdropdownchild" class="dropdown-list" style="display: none;">
-                    <input type="search" placeholder="Search country" class="dropdown-search"
-                        id="country-search" name="country" />
-                    <ul id="country-list">
-                        @foreach($locations as $location)
-                        <li class="dropdown-item pr-2 pl-2">
-                            <label>
-                                <input type="radio" name="country" value="{{ $location->id }}" />
-                                {{ $location->name }}
-                            </label>
-                        </li>
+                      <div class="filter-options" id="countriescheckbox">
+                        @foreach ($countries as $country)
+                          @php
+                            $countryDetails = \App\Utils\ChatManager::getCountryDetails($country);
+                            $isSelected = is_array(request()->input('country', [])) && in_array($country, request()->input('country', []));
+                          @endphp
+
+                          <label class="filter-checkbox country-option filter-item">
+                            <input type="checkbox" name="country[]" value="{{ $country }}" {{ $isSelected ? 'checked' : '' }} />
+                            <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg" class="flag-icon" alt="{{ $country }} flag" />
+                            <div class="filter-label">{{ $countryDetails['countryName'] }}</div>
+                          </label>
                         @endforeach
-                    </ul>
-                </div>
-            </div>
+                      </div>
+                    </div>
 
-            <!-- Industry Dropdown -->
-            <div class="dropdown-container pr-0" style="flex-grow: 1; border-right: 0;">
-                <div id="industrymain" class="dropdown-button noselect">
-                    <div class="dropdown-label" data-default-label="Industry">Industry</div>
-                </div>
-                <div id="industrychild" class="dropdown-list" style="display: none;">
-                    <input type="search" placeholder="Search Industry" class="dropdown-search"
-                        id="industry-search" name="industry" />
-                    <ul id="industry-list">
-                        @foreach($industries as $industry)
-                        <li class="dropdown-item pr-2 pl-2">
-                            <label>
-                                <input type="radio" name="industry" value="{{ $industry->id }}" />
-                                {{ $industry->name }}
-                            </label>
-                        </li>
+                    <!-- Filter By Category Section -->
+                    <div class="filter-section deltwo">
+                      <div class="search-label">Search by Category</div>
+                      <div class="search-input-container">
+                        <div class="search-input-field">
+                          <input type="text" name="industry_search" placeholder="Enter Category..." class="search-filter" data-target="#categorycheckbox" />
+                            <img
+                              src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
+                              class="search-icon"
+                              alt="Search icon"
+                            />
+                        </div>
+                      </div>
+
+                      <div class="filter-options" id="categorycheckbox">
+                        @foreach ($industries as $industry)
+                          <label class="filter-checkbox category-option filter-item">
+                            <input type="checkbox" name="industry[]" value="{{ $industry->id }}" {{ in_array($industry->id, request('industry', [])) ? 'checked' : '' }} />
+                            <div class="filter-label">{{ $industry->name }}</div>
+                          </label>
                         @endforeach
-                    </ul>
-                </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/a52ef1d87fa5ef0c6b4750bcca3185851f37a518?placeholderIfAbsent=true"
+              class="sidebar-advertisement"
+              alt="Advertisement"
+            />
+          </aside>
 
-            <!-- Submit Button (Magnifying Icon) -->
-            <div class="clear-filters mr-2" style="margin-top: 10px;">
-                <button type="submit" id="filters-btn">Filters</button>
-            </div>
-        </form>
-        <!-- <select class="buttonsboxq" id="location_filter" name="location_filter">
-            <option selected value="">Exact Location</option>
-            <option value="city1">City 1</option>
-            <option value="city2">City 2</option>
-            <option value="city3">City 3</option>
-            <option value="city4">City 4</option>
-        </select> -->
-    </div>
-    <h4 class="text-black font-weight-bold" style="margin-bottom: 22px;">
-        Featured Events
-    </h4>
-    <div class="d-flex flexboxrt" style="margin-bottom: 22px;">
-        <div class="box2">
-            <div class="gridcontainer">
-                @foreach($featuredTradeshows as $tradeshow)
-                <a href="{{ route('tradeshow.view',['name'=>$tradeshow->name,'id'=>$tradeshow->id]) }}" title="{{ $tradeshow->name }}">
-                    <div class="wrapper-events-main wrapper-events-fea">
-                        <div class="bookmark">
-                            <img src="/images/bookmar.png">
+          <!-- Main content area with trade show cards -->
+          <div class="main-content">
+            <div class="trade-shows-grid">
+              @foreach($tradeshows as $tradeshow)
+                <div class="trade-show-card">
+                  <div class="card-container">
+                    @php
+                      $imageData = json_decode($tradeshow->image, true);
+                      $image = !empty($imageData[0]) ? $imageData[0] : null;
+                    @endphp
+                    @if(isset($image))
+                      <img
+                        src="{{ asset('storage/' . $image) }}"
+                        class="card-image"
+                        alt="Trade Show"
+                      />
+                    @else
+                      <img
+                        src="{{ asset('images/placeholderimage.webp') }}"
+                        class="card-image"
+                        alt="Trade Show"
+                      />
+                    @endif
+                    <div class="card-content">
+                      <div class="card-title">{{ $tradeshow->name ?? '' }}</div>
+                      <div class="card-description">{{ $tradeshow->description ?? ''}}</div>
+                      <div class="card-details">
+                        <div class="detail-label">Duration:</div>
+                        <div class="detail-value">{{ \Carbon\Carbon::parse($tradeshow->start_date)->format('j') }} - 
+                          {{ \Carbon\Carbon::parse($tradeshow->end_date)->format('j F Y') }}
                         </div>
-                        <div class="img-events">
-                            <img class="events-img img-responsive"
-                                src="/storage/{{ $tradeshow->company_icon ? $tradeshow->company_icon : '' }}">
+                      </div>
+                      <div class="card-location">
+                        <div class="location-label">Location: </div>
+                        <div class="location-value">
+                          @php
+                            $countryDetails = \App\Utils\ChatManager::getCountryDetails($tradeshow->country);
+                          @endphp
+                          <img
+                            src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
+                            class="location-icon"
+                            alt="China flag"
+                          />
+                          <div class="location-text">{{ $tradeshow->address ?? ''}}</div>
                         </div>
-                        <div class="img-content">
-                            <span>
-                                {{ \Carbon\Carbon::parse($tradeshow->show_date)->format('F, j, Y') }}
-                            </span>
-                            <h5 class="text-truncate mt-3 mb-0 text-dark">{{ $tradeshow->name }}</h5>
-                            <span style="color: var(--web-text);" class="text-truncate">
-                                {{ \App\Models\City::where('id', $tradeshow->city)->first()->name}},
-                                {{ \App\Models\Country::where('id', $tradeshow->country)->first()->name }}
-                            </span>
-                        </div>
+                      </div>
+                      <a href="{{ route('tradeshow.view',['name'=>$tradeshow->name,'id'=>$tradeshow->id]) }}" class="card-button">View Details</a>
                     </div>
-                </a>
-                @endforeach
+                  </div>
+                </div>
+              @endforeach          
             </div>
+          </div>
         </div>
-        <div class="carouselcontainern">
-            <div class="owl-carousel owl-theme second-carousel">
-                @if($rotatingbox)
-                    @foreach(range(1, 4) as $index)
-                        @php
-                        $carouselKey = 'carousel' . $index;
-                        @endphp
+      </div>
 
-                        @if(!empty($rotatingbox[$carouselKey]))
-                            <div class="item">
-                                <img src="/storage/{{ $rotatingbox[$carouselKey] }}" alt="Banner Image {{ $index }}"
-                                    class="img-fluid vertimage">
-                            </div>
-                        @endif
-                    @endforeach
-                @endif
-            </div>
-        </div>
-    </div>
-    <h4 class="text-black font-weight-bold" style="margin-bottom: 22px;">
-        Browse Events By Country
-    </h4>
-    <div class="d-flex" style="margin-bottom: 22px; text-align-last: center;">
-        <div class="owl-carousel owl-theme third-carousel">
-            @foreach ($topCountries as $countries)
-            <a href="{{ route('tradeshow.filter',['search'=>'all','country'=>$countries->country,'industry'=>'all','company'=>'all']) }}" class="countryatag">
-                @php
-                $countryDetails = \App\Utils\ChatManager::getCountryDetails($countries->country);
-                @endphp
-                <div class="countries-img">
-                    <h4>{{ $countryDetails['countryName'] ?? 'N/A' }}</h4>
-                    <img src="/images/flags/{{ strtolower($countryDetails['countryISO2']) }}.png"
-                        alt="{{ $countryDetails['countryName'] }} flag">
-                    <h5>{{ $countries->count }} Events</h5>
-                </div>
-            </a>
-            @endforeach
-        </div>
-    </div>
-    <h4 class="text-black font-weight-bold" style="margin-bottom: 22px;">
-        Top 100 Events
-    </h4>
-    <div class="d-flex" style="margin-bottom: 22px;">
-        <div class="gridcontainertwo">
-            @foreach($tophundred as $tradeshow)
-            <a href="{{ route('tradeshow.view',['name'=>$tradeshow->name,'id'=>$tradeshow->id]) }}" title="{{ $tradeshow->name }}">
-                <div class="wrapper-events-main wrapper-events-fea">
-                    <div class="img-events">
-                        <img class="events-img img-responsive"
-                            src="/storage/{{ $tradeshow->company_icon ? $tradeshow->company_icon : '' }}">
-                    </div>
-                    <div class="img-content">
-                        <span>
-                            {{ \Carbon\Carbon::parse($tradeshow->show_date)->format('F, j, Y') }}
-                        </span>
-                        <h5 class="mt-3 mb-0 text-truncate text-dark">{{ $tradeshow->name }}</h5>
-                        <span style="color: var(--web-text);" class="text-truncate">
-                            {{ \App\Models\City::where('id', $tradeshow->city)->first()->name}},
-                            {{ \App\Models\Country::where('id', $tradeshow->country)->first()->name }}
-                        </span>
-                    </div>
-                </div>
-            </a>
-            @endforeach
-        </div>
-    </div>
-    <!-- <h4 class="text-black font-weight-bold" style="margin-bottom: 22px;">
-        Featured Organizers
-    </h4>
-    <div class="d-flex" style="margin-bottom: 22px; text-align-last: center;">
-        <div class="owl-carousel owl-theme fourth-carousel">
-            @foreach ($featuredOrganizers as $organizers)
-            <a href="#" class="countryatag">
-                <div class="countries-img">
-                    <img style="max-width:200px;" src="/storage/{{$organizers->company_icon}}" alt="company">
-                </div>
-            </a>
-            @endforeach
-        </div>
-    </div> -->
-</div>
+      <!-- Pagination controls -->
+      {{ $tradeshows->links('custom-paginator.custom')}}
+    </section>
+  </main>
+@endsection
+@push('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Handle the Location Dropdown
@@ -413,7 +332,7 @@
         $('.first-carousel').owlCarousel({
             loop: true,
             margin: 10,
-            nav: true,
+            nav: false,
             dots: true,
             autoplay: false,
             autoplayTimeout: 3000,
@@ -511,4 +430,136 @@
         });
     });
 </script>
-@endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Checkbox functionality
+        const checkboxes = document.querySelectorAll('.checkbox-unchecked');
+        checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('click', function() {
+            // Get parent element
+            const parent = this.parentElement;
+            
+            // Get current state
+            const isChecked = this.getAttribute('aria-checked') === 'true';
+            
+            // Toggle state
+            this.setAttribute('aria-checked', !isChecked);
+            
+            // Replace with checked image if checked
+            if (!isChecked) {
+            const img = document.createElement('img');
+            img.src = 'https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/fa3fb47b92badc40c5a98d6513d0cc4689a59f45?placeholderIfAbsent=true';
+            img.className = 'checkbox-checked';
+            img.alt = 'Checked checkbox';
+            parent.replaceChild(img, this);
+            
+            // Add click event to the new image to toggle back
+            img.addEventListener('click', function() {
+                const unchecked = document.createElement('div');
+                unchecked.className = 'checkbox-unchecked';
+                unchecked.setAttribute('role', 'checkbox');
+                unchecked.setAttribute('aria-checked', 'false');
+                unchecked.setAttribute('tabindex', '0');
+                parent.replaceChild(unchecked, this);
+                
+                // Add event listener to the new unchecked checkbox
+                unchecked.addEventListener('click', arguments.callee.caller);
+            });
+            }
+        });
+        
+        // Make checkbox accessible with keyboard
+        checkbox.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            this.click();
+            }
+        });
+        });
+    });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Show only first 6 items initially
+    document.querySelectorAll('.filter-options').forEach(container => {
+      const items = container.querySelectorAll('.filter-item');
+      items.forEach((item, index) => {
+        item.style.display = index < 6 ? 'flex' : 'none';
+      });
+    });
+
+    // Attach filter logic to all search-filter inputs
+    document.querySelectorAll('.search-filter').forEach(input => {
+      input.addEventListener('input', function () {
+        const targetSelector = this.getAttribute('data-target');
+        const container = document.querySelector(targetSelector);
+        const searchTerm = this.value.toLowerCase();
+        const items = container.querySelectorAll('.filter-item');
+
+        let visibleCount = 0;
+
+        items.forEach(item => {
+          const label = item.textContent.toLowerCase();
+          const matches = label.includes(searchTerm);
+
+          if (matches && visibleCount < 6) {
+            item.style.display = 'flex';
+            visibleCount++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('filterFormTradeshow');
+
+    if (form) {
+      // Submit on text input change (with slight delay to avoid submitting every keystroke)
+      form.querySelectorAll('input[type="text"]').forEach(function (input) {
+        let timeout;
+        input.addEventListener('input', function () {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+            form.submit();
+          }, 500); // debounce for 500ms
+        });
+      });
+
+      // Submit on checkbox change
+      form.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+          form.submit();
+        });
+      });
+
+      // Optional: still allow manual submit via search icon click
+      document.querySelectorAll('.search-icon').forEach(function (icon) {
+        icon.addEventListener('click', function () {
+          const form = icon.closest('form');
+          if (form) {
+            form.submit();
+          }
+        });
+      });
+    }
+  });
+</script>
+<script>
+  window.toggleFilterSection = function () {
+    const delOne = document.querySelector('.tradeshow .delone');
+    const delTwo = document.querySelector('.tradeshow .deltwo');
+
+    if (!delOne || !delTwo) return;
+
+    const isDelOneHidden = getComputedStyle(delOne).display === 'none';
+
+    // Forcefully set the styles regardless of current state
+    delOne.style.display = isDelOneHidden ? 'block' : 'none';
+    delTwo.style.display = isDelOneHidden ? 'block' : 'none';
+  };
+</script>
+@endpush

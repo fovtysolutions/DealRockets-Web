@@ -1134,7 +1134,9 @@ class ThemeSettingsController extends Controller
         $carouselarray = $carouselData ? json_decode($carouselData->value, true) : [];
         $imagesData = BusinessSetting::where('type','tradeshowhomepage')->first();
         $imagesArray = $imagesData ? json_decode($imagesData->value,true) : [];
-        return view('admin-views.business-settings.theme-pages.tradeshow', compact('data', 'tradeshowlimit', 'carouselarray','imagesArray'));
+        $bannerData = BusinessSetting::where('type', 'tradeshowbannerrotatingbox')->first();
+        $bannerarray = $bannerData ? json_decode($bannerData->value, true) : [];
+        return view('admin-views.business-settings.theme-pages.tradeshow', compact('data', 'tradeshowlimit', 'carouselarray','imagesArray','bannerarray'));
     }
 
     public function tradeshow(Request $request)
@@ -1156,6 +1158,43 @@ class ThemeSettingsController extends Controller
 
         toastr()->success('Settings Updated Successfully');
 
+        return redirect()->back()->with('success', 'Settings Updated Successfully');
+    }
+
+    public function tradeshowbannerrotatingbox(Request $request)
+    {
+        // Fetch current settings from the database
+        $setting = BusinessSetting::where('type', 'tradeshowbannerrotatingbox')->first();
+
+        $currentSettings = [];
+        
+        if ($setting && $setting->value) {
+            $decoded = json_decode($setting->value, true);
+            if (is_array($decoded)) {
+                $currentSettings = $decoded;
+            }
+        }
+        
+        // Use current values if no new file is uploaded
+        $c1 = $request->hasFile('banner1') ? $request->file('banner1')->store('tradeshow', 'public') : (isset($currentSettings['tradeshowbannerrotatingbox']['banner1']) ? $currentSettings['tradeshowbannerrotatingbox']['banner1'] : null);
+        $c2 = $request->hasFile('banner2') ? $request->file('banner2')->store('tradeshow', 'public') : (isset($currentSettings['tradeshowbannerrotatingbox']['banner2']) ? $currentSettings['tradeshowbannerrotatingbox']['banner2'] : null);
+        $c3 = $request->hasFile('banner3') ? $request->file('banner3')->store('tradeshow', 'public') : (isset($currentSettings['tradeshowbannerrotatingbox']['banner3']) ? $currentSettings['tradeshowbannerrotatingbox']['banner3'] : null);
+        $c4 = $request->hasFile('banner4') ? $request->file('banner4')->store('tradeshow', 'public') : (isset($currentSettings['tradeshowbannerrotatingbox']['banner4']) ? $currentSettings['tradeshowbannerrotatingbox']['banner4'] : null);
+
+        // Prepare the new data to be saved
+        $data = [
+            'banner1' => $c1,
+            'banner2' => $c2,
+            'banner3' => $c3,
+            'banner4' => $c4,
+        ];
+
+        // Save or update the setting
+        $this->saveOrUpdateSetting('tradeshowbannerrotatingbox', [
+            'tradeshowbannerrotatingbox' => $data
+        ]);
+
+        toastr()->success('Settings Updated Successfully');
         return redirect()->back()->with('success', 'Settings Updated Successfully');
     }
 

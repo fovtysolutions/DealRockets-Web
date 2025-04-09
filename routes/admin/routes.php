@@ -1311,6 +1311,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         Route::post('stocksaleform',[ThemeSettingsController::class,'stocksale'])->name('stocksaleform');
         Route::post('stocksalebanner',[ThemeSettingsController::class,'stocksalebanner'])->name('stocksalebanner');
         Route::post('tradeshowrotatingbox',[ThemeSettingsController::class,'tradeshowrotatingbox'])->name('tradeshowrotatingbox');
+        Route::post('tradeshowbannerrotatingbox',[ThemeSettingsController::class,'tradeshowbannerrotatingbox'])->name('tradeshowbannerrotatingbox');
         Route::get('vendorsetting',[ThemeSettingsController::class,'vendorsetting'])->name('vendorsetting');
         Route::post('vendorsettingform',[ThemeSettingsController::class,'vendorsettingform'])->name('vendorsettingform');
         Route::get('homepagesetting',[ThemeSettingsController::class,'homepagesetting'])->name('homepagesetting');

@@ -57,65 +57,46 @@ class TradeshowController extends Controller
         private readonly ReviewRepositoryInterface $reviewRepo,
         private readonly BannerRepositoryInterface $bannerRepo,
     ) {}
+    
     public function index(Request $request)
     {
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
-        $alphabet = range('A', 'Z');
-
-        // Initialize the query for tradeshows
         $query = Tradeshow::query();
 
-        // Filter Queries
-        if ($request->filled('country')) {
-            $query->where('country', 'LIKE', '%' . $request->country . '%');
+        if ($request->filled('name')) {
+            $query->where('description', 'LIKE', '%' . $request->name . '%');
         }
 
-        if ($request->filled('keyword')) {
-            $query->where('description', 'LIKE', '%' . $request->keyword . '%');
+        if ($request->has('country') && is_array($request->country)) {
+            $query->whereIn('country', $request->country);
         }
 
-        if ($request->filled('letter')) {
-            if ($request->letter == 'numbers') {
-                $query->whereRaw('LEFT(name, 1) REGEXP "^[0-9]"');
-            } else if ($request->letter == 'all') {
-                // Do Nothing
-            } else {
-                $query->where('name', 'LIKE', '%' . $request->letter . '%');
-            }
+        if ($request->has('industry') && is_array($request->industry)) {
+            $query->whereIn('industry', $request->industry);
         }
 
-        // Get distinct countries for the dropdown
+        $tradeshows = $query->paginate(9);
+
+        $bannerslimit = BusinessSetting::where('type', 'tradeshowbannerrotatingbox')->first();
+        $banners = $bannerslimit ? json_decode($bannerslimit->value, true) : [];
+        $banners = $banners['tradeshowbannerrotatingbox'];
+
+        $industries = Category::all();
         $countries = Tradeshow::select('country')->distinct()->pluck('country');
-
-        // Apply pagination to the query
-        $tradeshows = $query->paginate(15);
-
-        $bannerslimit = json_decode(BusinessSetting::where('type', 'tradeshowbannerlimit')->first()->value, true)['tradeshowbannerlimit'];
-        $banners = Tradeshow::limit($bannerslimit)->get();
-
-        $industries = TradeCategory::where('active', '1')->get();
         $locations = Country::all();
-
         $featuredTradeshows = Tradeshow::where('featured', '1')->take(6)->get();
-
         $tophundred = Tradeshow::orderBy('popularity', 'DESC')->take(9)->get();
-
         $topvenues = Tradeshow::orderBy('popularity', 'DESC')->take(6)->get();
-
         $topCountries = Tradeshow::select('country', DB::raw('count(*) as count'))
-            ->groupBy('country') // Group by country
-            ->orderByDesc('count') // Sort by count in descending order
-            ->take(10) // Take top 6 countries
+            ->groupBy('country')
+            ->orderByDesc('count')
+            ->take(10)
             ->get();
-
         $featuredOrganizers = Tradeshow::where('featured', '1')->take(10)->get();
-
         $rotatingbox = json_decode(BusinessSetting::where('type', 'tradeshowrotatingbox')->first()->value, true)['tradeshowrotatingbox'];
 
-        // $sectors = Tradeshow::select('sectors')->distinct()->pluck('sectors');
         return view('tradeshow.index', compact(
             'categories',
-            'alphabet',
             'topCountries',
             'tradeshows',
             'countries',
@@ -216,7 +197,8 @@ class TradeshowController extends Controller
             'website' => 'required|string|max:255',
             'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate images
             'industry' => 'required',
-            'show_date' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'company_icon' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'featured' => 'required',
             'popularity' => 'required',
@@ -362,6 +344,9 @@ class TradeshowController extends Controller
         $tradeshow = Tradeshow::findOrFail($id);
         $categories = Category::all();
         $languages = getWebConfig(name: 'pnc_language') ?? null;
+        $languages = [
+            $languages[0]
+        ];
         $defaultLanguage = $languages[0];
         $countries = Country::all();
         $industries = TradeCategory::where('active', '1')->get();
@@ -382,7 +367,8 @@ class TradeshowController extends Controller
             'website' => 'required|string|max:255',
             'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate images
             'industry' => 'required',
-            'show_date' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
             'company_icon' => 'image|mimes:jpeg,png,jpg|max:2048',
             'featured' => 'required',
             'popularity' => 'required',

@@ -29,24 +29,10 @@
             <div class="overlap-group-3">
                 <div class="contentgroup deltwelve">
                     <div class="group-15">
-                        <div class="dropdown-container custom-dropdown">
-                          <div class="group-2">
-                            <a class="text-wrapper dropdown-trigger" href="{{ route('categories') }}">All Categories</a>
+                        <div class="group-2">
+                            <a class="text-wrapper" href="{{ route('categories') }}">All Categories</a>
                             <img class="options-lines" src="img/options-lines-1.png" />
-                          </div>
-                          {{-- <div class="dropdown-menu">
-                              @foreach ($categories->chunk(10) as $chunk)
-                                  <div class="column">
-                                      @foreach ($chunk as $category)
-                                          <a class="dropdown-item custom-dealrock-text"
-                                              href="{{ route('products', ['category_id' => $category['id'], 'data_from' => 'category', 'page' => 1]) }}">
-                                              {{ $category->name }}
-                                          </a>
-                                      @endforeach
-                                  </div>
-                              @endforeach
-                          </div> --}}
-                        </div>                
+                        </div>
                       </div>
                       <div class="navbar-3">
                         <a class="text-wrapper-2 deleight" href="{{ route('home') }}">Home</a>

@@ -13,6 +13,57 @@
     @include('admin-views.business-settings.theme-pages.theme-pages-selector')
     <div class="d-flex card">
         <div class="card-body">
+            <form method="POST" action="{{ route('admin.webtheme.tradeshowbannerrotatingbox') }}"
+                enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="banner1">Rotating Box First Slide</label>
+                        <input type="file" name="banner1" id="banner1" class="form-control"
+                            placeholder="Enter the image to display">
+                        @if($bannerarray && isset($bannerarray['tradeshowbannerrotatingbox']['banner1']))
+                            <img src="/storage/{{ $bannerarray['tradeshowbannerrotatingbox']['banner1'] }}" alt="No Image"
+                                class="mt-2" width="150">
+                        @endif
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="banner2">Rotating Box Second Slide</label>
+                        <input type="file" name="banner2" id="banner2" class="form-control"
+                            placeholder="Enter the image to display">
+                        @if($bannerarray && isset($bannerarray['tradeshowbannerrotatingbox']['banner2']))
+                            <img src="/storage/{{ $bannerarray['tradeshowbannerrotatingbox']['banner2'] }}" alt="No Image"
+                                class="mt-2" width="150">
+                        @endif
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="banner3">Rotating Box Third Slide</label>
+                        <input type="file" name="banner3" id="banner3" class="form-control"
+                            placeholder="Enter the image to display">
+                        @if($bannerarray && isset($bannerarray['tradeshowbannerrotatingbox']['banner3']))
+                            <img src="/storage/{{ $bannerarray['tradeshowbannerrotatingbox']['banner3'] }}" alt="No Image"
+                                class="mt-2" width="150">
+                        @endif
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="banner4">Rotating Box Fourth Slide</label>
+                        <input type="file" name="banner4" id="banner4" class="form-control"
+                            placeholder="Enter the image to display">
+                        @if($bannerarray && isset($bannerarray['tradeshowbannerrotatingbox']['banner4']))
+                            <img src="/storage/{{ $bannerarray['tradeshowbannerrotatingbox']['banner4'] }}" alt="No Image"
+                                class="mt-2" width="150">
+                        @endif
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="d-flex card mt-4">
+        <div class="card-body">
             <form method="POST" action="{{ route('admin.webtheme.tradeshowform') }}">
                 @csrf
                 <div class="row">
@@ -59,7 +110,7 @@
                 @csrf
                 <div class="row">
                     <div class="col-md-6 form-group">
-                        <label for="carousel1">Rotating Box First Slide</label>
+                        <label for="carousel1">Rotating Banner First Slide</label>
                         <input type="file" name="carousel1" id="carousel1" class="form-control"
                             placeholder="Enter the image to display">
                         @if($carouselarray && isset($carouselarray['tradeshowrotatingbox']['carousel1']))
@@ -68,7 +119,7 @@
                         @endif
                     </div>
                     <div class="col-md-6 form-group">
-                        <label for="carousel2">Rotating Box Second Slide</label>
+                        <label for="carousel2">Rotating Banner Second Slide</label>
                         <input type="file" name="carousel2" id="carousel2" class="form-control"
                             placeholder="Enter the image to display">
                         @if($carouselarray && isset($carouselarray['tradeshowrotatingbox']['carousel2']))
@@ -77,7 +128,7 @@
                         @endif
                     </div>
                     <div class="col-md-6 form-group">
-                        <label for="carousel3">Rotating Box Third Slide</label>
+                        <label for="carousel3">Rotating Banner Third Slide</label>
                         <input type="file" name="carousel3" id="carousel3" class="form-control"
                             placeholder="Enter the image to display">
                         @if($carouselarray && isset($carouselarray['tradeshowrotatingbox']['carousel3']))
@@ -86,7 +137,7 @@
                         @endif
                     </div>
                     <div class="col-md-6 form-group">
-                        <label for="carousel4">Rotating Box Fourth Slide</label>
+                        <label for="carousel4">Rotating Banner Fourth Slide</label>
                         <input type="file" name="carousel4" id="carousel4" class="form-control"
                             placeholder="Enter the image to display">
                         @if($carouselarray && isset($carouselarray['tradeshowrotatingbox']['carousel4']))

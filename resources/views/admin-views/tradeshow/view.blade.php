@@ -41,7 +41,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <strong>{{ translate('Show Date') }}:</strong> {{ $tradeshow->show_date }}
+                    <strong>{{ translate('Start Date') }}:</strong> {{ $tradeshow->start_date }}
+                </div>
+
+                <div class="mb-3">
+                    <strong>{{ translate('End Date') }}:</strong> {{ $tradeshow->end_date }}
                 </div>
             </div>
         </div>

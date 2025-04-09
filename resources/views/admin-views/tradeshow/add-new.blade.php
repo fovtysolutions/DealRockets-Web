@@ -136,10 +136,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <!-- Show Date -->
+                            <!-- Start Date -->
                             <div class="col">
-                                <label class="title-color" for="show_date">{{ translate('Show Date') }}</label>
-                                <input type="date" name="show_date" id="show_date" class="form-control">
+                                <label class="title-color" for="start_date">{{ translate('Start Date') }}</label>
+                                <input type="date" name="start_date" id="start_date" class="form-control">
+                            </div>
+                            <!-- End Date -->
+                            <div class="col">
+                                <label class="title-color" for="end_date">{{ translate('End Date') }}</label>
+                                <input type="date" name="end_date" id="end_date" class="form-control">
                             </div>
                         </div>
 

@@ -68,7 +68,7 @@
         @include('web-views.partials._bannercarousel')
     @endif
     @include('web-views.partials._herobanner')
-    @include('web-views.partials._trending-selection')
+    {{-- @include('web-views.partials._trending-selection') --}}
     <div class="mainpagesection">
         @include('web-views.partials._category-section-home')
     </div>
@@ -76,9 +76,9 @@
     @include('web-views.partials._leads')
     @include('web-views.partials._registerforfree')
     @include('web-views.partials._quotation')
-    @include('web-views.partials._multiboxes')
+    {{-- @include('web-views.partials._multiboxes') --}}
     @include('web-views.partials._multistuff')
-    @include('web-views.partials._suscribe')
+    {{-- @include('web-views.partials._suscribe') --}}
     @include('web-views.partials._top-sellers')
     @if ($bestSellProduct->count() > 0)
         @include('web-views.partials._best-selling')

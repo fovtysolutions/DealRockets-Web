@@ -29,7 +29,7 @@
             @if ($page == $paginator->currentPage())
               <button class="pagination-page pagination-active" aria-current="page">{{ $page }}</button>
             @else
-              <a href="{{ $url }}" class="pagination-page">{{ $page }}</a>
+              <a href="{{ $url }}" class="pagination-page" style="text-decoration: none;">{{ $page }}</a>
             @endif
           @endforeach
         @endif

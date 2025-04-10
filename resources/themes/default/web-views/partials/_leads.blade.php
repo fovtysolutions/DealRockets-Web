@@ -3,11 +3,10 @@
         <!-- Buy Leads Section -->
         <div class="buy-leads-container">
             <div class="header">
-                <h2><span class="icon text-dark"><i class="fas fa-bars"></i></span>
-                    <span class="leadstitle1 custom-dealrock-head"><?php echo LATEST; ?> </span>
-                    <span class="leadstitle2 custom-dealrock-head"><?php echo BUY_LEADS_TITLE; ?></span>
-                    <a href="{{ route('buyer') }}" class="viewall"><?php echo VIEW_ALL; ?></a>
-                </h2>
+                <div class="d-flex w-100" style="justify-content: space-between;">
+                    <span class="leadstitle2">LATEST BUY LEADS</span>
+                    <a href="{{ route('buyer') }}" class="top-movers-viewall" style="text-decoration: none;">View All <i style="color:#ED4553;" class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i></a>
+                </div>
             </div>
             <div style="height: 305px;overflow: hidden;width: 100%;">
                 <ul class="leads-list">
@@ -54,11 +53,10 @@
         <!-- Sell Leads Section -->
         <div class="sell-leads-container">
             <div class="header">
-                <h2><span class="icon text-dark"><i class="fas fa-bars"></i></span>
-                    <span class="leadstitle1 custom-dealrock-head"><?php echo LATEST; ?></span>
-                    <span class="leadstitle2 custom-dealrock-head"><?php echo SELL_LEADS_TITLE; ?></span>
-                    <a href="{{ route('seller') }}" class="viewall"><?php echo VIEW_ALL; ?></a>
-                </h2>
+                <div class="d-flex w-100" style="justify-content: space-between;">
+                    <span class="leadstitle2">LATEST SELL LEADS</span>
+                    <a href="{{ route('seller') }}" class="top-movers-viewall" style="text-decoration: none;">View All <i style="color:#ED4553;" class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i></a>
+                </div>
             </div>
             <div style="height: 305px;overflow: hidden;width: 100%;">
                 <ul class="leads-list">

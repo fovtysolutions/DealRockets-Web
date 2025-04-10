@@ -9215,4 +9215,5 @@ return [
 	"Enabled" => "Enabled",
 	"Disabled" => "Disabled",
 	"there_is_no_FAQs" => "There is no FAQs",
+	"top_Movers" => "Top Movers",
 ];

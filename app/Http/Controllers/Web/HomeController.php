@@ -272,6 +272,7 @@ class HomeController extends Controller
 
         // Tradeshows
         $tradeshows = HelperUtil::getLatestTradeshows();
+        
         return view(VIEW_FILE_NAMES['home'],
             compact(
                 'tradeshows','tradeshowhomepage','customer_tiers','seller_tiers','memdata','memdatar','flashDeal', 'featuredProductsList', 'topRated', 'bestSellProduct', 'latest_products', 'categories', 'brands',

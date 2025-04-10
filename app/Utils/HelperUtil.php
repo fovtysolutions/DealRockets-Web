@@ -104,9 +104,8 @@ class HelperUtil
     
     public static function getLatestTradeshows(){
         $allTradeshows = Tradeshow::orderBy('start_date','desc')->get();
-        $toArray = $allTradeshows->toArray();
-        $recentTradeshows = array_splice($toArray,0,2);
-        return $recentTradeshows;
+        $tradeshows = $allTradeshows;
+        return $tradeshows;
     }
 
     public static function IncCVTopUp($userId, $userType, $amount) {

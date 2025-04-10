@@ -383,7 +383,7 @@ $(document).ready(function () {
         ltr: directionFromSession === "ltr",
         responsive: {
             0: {
-                items: 3,
+                items: 2,
             },
             // 360: {
             //     items: 3.2,
@@ -392,22 +392,22 @@ $(document).ready(function () {
             //     items: 3.5,
             // },
             540: {
-                items: 4,
+                items: 2,
             },
             576: {
-                items: 5,
+                items: 3,
             },
             768: {
-                items: 6,
+                items: 4,
             },
             992: {
-                items: 8,
+                items: 5,
             },
             1200: {
-                items: 10,
+                items: 6,
             },
             1400: {
-                items: 11,
+                items: 7,
             },
         },
     });

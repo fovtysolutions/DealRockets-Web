@@ -147,14 +147,14 @@ class ThemeSettingsController extends Controller
     public function backsettingform(Request $request)
     {
         $request->validate([
-            'image1' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image2' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image3' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image4' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image5' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image6' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image7' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image8' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'image1' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image2' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image3' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image4' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image5' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image6' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image7' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image8' => 'nullable|mimes:jpg,png,jpeg|max:10425',
         ]);
 
         $storage = config('filesystems.disks.default') ?? 'public';
@@ -349,7 +349,7 @@ class ThemeSettingsController extends Controller
             $baseUrl = url('/');
 
             $request->validate([
-                'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+                'image' => 'nullable|mimes:jpg,png,jpeg|max:10425',
                 'title' => 'required|string',
                 'content' => 'required|string',
                 'url' => 'required|url',
@@ -421,7 +421,7 @@ class ThemeSettingsController extends Controller
             $baseUrl = url('/');
 
             $request->validate([
-                'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+                'image' => 'nullable|mimes:jpg,png,jpeg|max:10425',
                 'title' => 'required|string',
                 'content' => 'required|string',
                 'url' => 'required|url',
@@ -493,7 +493,7 @@ class ThemeSettingsController extends Controller
             $baseUrl = url('/');
 
             $request->validate([
-                'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+                'image' => 'nullable|mimes:jpg,png,jpeg|max:10425',
                 'title' => 'required|string',
                 'content' => 'required|string',
                 'url' => 'required|url',
@@ -565,7 +565,7 @@ class ThemeSettingsController extends Controller
             $baseUrl = url('/');
 
             $request->validate([
-                'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+                'image' => 'nullable|mimes:jpg,png,jpeg|max:10425',
                 'title' => 'required|string',
                 'content' => 'required|string',
                 'url' => 'required|url',
@@ -637,7 +637,7 @@ class ThemeSettingsController extends Controller
             $baseUrl = url('/');
 
             $request->validate([
-                'image' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+                'image' => 'nullable|mimes:jpg,png,jpeg|max:10425',
                 'title' => 'required|string',
                 'content' => 'required|string',
                 'url' => 'required|url',
@@ -726,10 +726,10 @@ class ThemeSettingsController extends Controller
         // Validate the input
         $request->validate([
             'color' => 'required|string',
-            'ad1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ad1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10425',
             'ad1_title' => 'nullable|string',
             'ad1_url' => 'nullable|url',
-            'ad2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ad2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10425',
             'ad2_title' => 'nullable|string',
             'ad2_url' => 'nullable|url',
         ]);
@@ -771,7 +771,7 @@ class ThemeSettingsController extends Controller
     {
         // Validate the input
         $request->validate([
-            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10425',
         ]);
 
         // Fetch or create the buyer banner setting
@@ -868,10 +868,10 @@ class ThemeSettingsController extends Controller
         $request->validate([
             'limit' => 'required|integer',
             'color' => 'required|string',
-            'ad1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ad1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10425',
             'ad1_title' => 'nullable|string',
             'ad1_url' => 'nullable|url',
-            'ad2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ad2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10425',
             'ad2_title' => 'nullable|string',
             'ad2_url' => 'nullable|url',
         ]);
@@ -913,14 +913,14 @@ class ThemeSettingsController extends Controller
     public function buyerbanner(Request $request)
     {
         $request->validate([
-            'image1' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image2' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image3' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image4' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image5' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image6' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image7' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image8' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'image1' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image2' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image3' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image4' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image5' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image6' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image7' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image8' => 'nullable|mimes:jpg,png,jpeg|max:10425',
         ]);
 
         $storage = config('filesystems.disks.default') ?? 'public';
@@ -990,14 +990,14 @@ class ThemeSettingsController extends Controller
     public function sellerbanner(Request $request)
     {
         $request->validate([
-            'image1' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image2' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image3' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image4' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image5' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image6' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image7' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'image8' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'image1' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image2' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image3' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image4' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image5' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image6' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image7' => 'nullable|mimes:jpg,png,jpeg|max:10425',
+            'image8' => 'nullable|mimes:jpg,png,jpeg|max:10425',
         ]);
 
         $storage = config('filesystems.disks.default') ?? 'public';
@@ -1084,10 +1084,10 @@ class ThemeSettingsController extends Controller
         $request->validate([
             'limit' => 'required|integer',
             'color' => 'required|string',
-            'ad1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ad1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10425',
             'ad1_title' => 'nullable|string',
             'ad1_url' => 'nullable|url',
-            'ad2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ad2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10425',
             'ad2_title' => 'nullable|string',
             'ad2_url' => 'nullable|url',
         ]);
@@ -1244,8 +1244,8 @@ class ThemeSettingsController extends Controller
     {
         // Validate the input
         $request->validate([
-            'ad1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'ad2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ad1_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10425',
+            'ad2_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10425',
         ]);
 
         // Fetch or create the business setting
@@ -1286,12 +1286,12 @@ class ThemeSettingsController extends Controller
 {
     $request->validate([
         'genres' => 'array',
-        'genres.*.background_image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
+        'genres.*.background_image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10425',
         'genres.*.category_title' => 'nullable|string|max:255',
         'genres.*.button_text' => 'nullable|string|max:50',
         'genres.*.products' => 'nullable|array|max:8', // Max 8 products per genre
         'genres.*.products.*.name' => 'nullable|string|max:100',
-        'genres.*.products.*.image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
+        'genres.*.products.*.image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10425',
     ]);
 
     $storage = config('filesystems.disks.default') ?? 'public';

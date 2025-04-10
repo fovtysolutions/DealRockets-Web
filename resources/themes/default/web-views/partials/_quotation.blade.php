@@ -8,114 +8,46 @@ $inputType = 'text';
 $quotationbanner =  \App\Models\BusinessSetting::where('type','quotation')->first()->value;
 $quotationdata = json_decode($quotationbanner,true) ?? [];
 ?>
-<style>
-    .backbannersec{
-        background-image: url('/images/rfq-banner.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        /* background-position: left; */
-    }
-    .custombg-rhgr{
-        background-image: url('https://static.vecteezy.com/system/resources/thumbnails/022/978/121/small/abstract-white-and-grey-gradient-color-with-modern-geometric-background-for-graphic-design-element-vector.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-</style>
-<section class="mainpagesection custom-dealrock-banner-small">
-    <div class="quotation-sec backbannersec" style="background-image: url('{{ asset('storage/'. $quotationdata['banner'])}}')">
-    {{-- <div class="quotation-sec backbannersec"> --}}
-        <div class="quotation-txt">
-            <h2 class="custom-dealrock-head" style="color:{{ $quotationdata['header_color'] }}">{{ $quotationdata['header'] ?? '' }}</h2>
-            <div class="mb-4 custom-dealrock-subhead" style="color:{{ $quotationdata['subtext_color'] }}">{!! $quotationdata['subtext'] ?? '' !!}</div>
-            {{-- <div class="h-100 align-content-end">
-                <a href="{{ route('quotationweb') }}">Submit Your Request <span>&#8250;</span></a>
-            </div> --}}
+<section class="mainpagesection custom-dealrock-banner-large">
+    <div class="rfq-section">
+        <div class="rfq-info">
+          <h2>Request for Quotations (RFQ)</h2>
+          <p class="rfq-description">Z********** from Pakistan is looking for Solar electric robot dog chil... and has received 0 quotation(s)</p>
+          <button class="view-more">View More</button>
+          <ul class="rfq-benefits">
+            <li>Submit an RFQ in just one minute.</li>
+            <li>Get multiple quotations from Verified Suppliers.</li>
+            <li>Compare and choose the best quotation!</li>
+          </ul>
         </div>
-        <div class="quotation-form custombg-rhgr p-3 mr-4 rounded shadow" style="max-width: 400px; margin: 0 auto; width: 100%;">
-            <form id="quotationForm" action="{{ route('quotation.submit') }}" method="POST">
-                <h3 class="title-form-qut text-center mb-3" style="font-size: 1.25rem;">Quotation Form</h3>
-        
-                <!-- Step Indicators -->
-                {{-- <div class="step-progress position-relative mb-4">
-                    <div class="step-line position-absolute top-50 start-0 w-100 translate-middle-y bg-secondary" style="height: 2px;"></div>
-                    <div class="d-flex justify-content-between position-relative">
-                        <span class="step-indicator rounded-circle bg-secondary" data-step="1"></span>
-                        <span class="step-indicator rounded-circle bg-secondary" data-step="2"></span>
-                        <span class="step-indicator rounded-circle bg-secondary" data-step="3"></span>
-                    </div>
-                </div> --}}
-        
-                <!-- Step 1 -->
-                <div class="form-step" data-step="1">
-                    <div class="mb-2">
-                        <label for="productName" class="form-label fw-bold">Name:</label>
-                        <input type="text" class="form-control form-control-sm" id="productName" name="name" value="{{ old('name') }}" required placeholder="Enter Name">
-                    </div>
-                    <div class="mb-2">
-                        <label for="productDescription" class="form-label fw-bold">Description:</label>
-                        <textarea class="form-control form-control-sm" id="productDescription" name="description" rows="2" required placeholder="Enter Description">{{ old('description') }}</textarea>
-                    </div>
-                </div>
-        
-                <!-- Step 2 -->
-                <div class="form-step" data-step="2" style="display: none;">
-                    <div class="mb-2">
-                        <label for="purchaseQuantity" class="form-label fw-bold">Quantity:</label>
-                        <input type="number" class="form-control form-control-sm" id="purchaseQuantity" name="quantity" value="{{ old('quantity') }}" min="1" required placeholder="Enter Quantity">
-                    </div>
-                    <div class="mb-2">
-                        <label for="type" class="form-label fw-bold">Type:</label>
-                        <input type="text" class="form-control form-control-sm" id="type" name="type" value="{{ old('type') }}" required placeholder="Enter Type">
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="form-step" data-step="3" style="display: none;">
-                    <div class="mb-2">
-                        <label for="country" class="form-label fw-bold">Country:</label>
-                        <input type="text" class="form-control form-control-sm" id="country" name="country" value="{{ old('country') }}" required placeholder="Enter Country">
-                    </div>
-                    <div class="mb-2">
-                        <label for="industry" class="form-label fw-bold">Industry:</label>
-                        <input type="text" class="form-control form-control-sm" id="industry" name="industry" value="{{ old('industry') }}" required placeholder="Enter Industry">
-                    </div>
-                </div>
-        
-                <!-- Step 4 -->
-                <div class="form-step" data-step="4" style="display: none;">
-                    <div class="mb-2">
-                        <label for="term" class="form-label fw-bold">Term:</label>
-                        <input type="text" class="form-control form-control-sm" id="term" name="term" value="{{ old('term') }}" required placeholder="Enter Term">
-                    </div>
-                    <div class="mb-2">
-                        <label for="unit" class="form-label fw-bold">Unit:</label>
-                        <input type="text" class="form-control form-control-sm" id="unit" name="unit" value="{{ old('unit') }}" required placeholder="Enter Unit">
-                    </div>
-                </div>
-
-                <!-- Step 4 -->
-                <div class="form-step" data-step="5" style="display: none;">
-                    <div class="mb-2">
-                        <label for="buyingFrequency" class="form-label fw-bold">Buying Frequency:</label>
-                        <input type="text" class="form-control form-control-sm" id="buyingFrequency" name="buying_frequency" value="{{ old('buying_frequency') }}" required placeholder="Enter Buying Frequency">
-                    </div>
-                </div>
-        
-                <!-- Navigation Buttons -->
-                <div class="d-flex justify-content-between mt-3">
-                    @if(auth('customer')->check())
-                        <button type="button" class="btn btn-secondary btn-sm px-4 mr-3" id="prevStep" style="display: none;">Previous</button>
-                        <button type="button" class="btn btn-primary btn-sm px-4" id="nextStep">Next</button>
-                        <button type="submit" class="btn btn-primary btn-sm px-4 ml-3" id="submitForm" style="display: none;">Submit</button>
-                    @else
-                        <button type="button" class="btn btn-secondary btn-sm px-4 mr-3" id="prevStep" onclick="$('#loginModal').modal('show')" style="display: none;">Previous</button>
-                        <button type="button" class="btn btn-primary btn-sm px-4" id="nextStep" onclick="$('#loginModal').modal('show')">Next</button>
-                        <button type="submit" class="btn btn-primary btn-sm px-4 ml-3" onclick="$('#loginModal').modal('show')" style="display: none;">Submit</button>
-                    @endif
-                </div>
-            </form>
-        </div>                               
-    </div>
+        <div class="rfq-form-container">
+          <form class="rfq-form">
+            <h3>Get Quotations Now</h3>
+            <input type="text" placeholder="Please enter a specific product name" required>
+            <div class="select-container">
+              <select required>
+                <option value="" disabled selected>Select Port</option>
+                <option value="new-york">New York</option>
+                <option value="los-angeles">Los Angeles</option>
+                <option value="miami">Miami</option>
+                <option value="seattle">Seattle</option>
+              </select>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <input type="tel" placeholder="Enter your mobile number" required>
+            <div class="quantity-row">
+              <input type="number" placeholder="Quantity" required>
+              <select>
+                <option value="Bags">Bags</option>
+                <option value="Pieces">Pieces</option>
+                <option value="Boxes">Boxes</option>
+                <option value="Tons">Tons</option>
+              </select>
+            </div>
+            <button type="submit" class="submit-rfq">REQUEST FOR QUOTATIONS</button>
+          </form>
+        </div>
+      </div>
 </section>
 @include('web.partials.loginmodal')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>

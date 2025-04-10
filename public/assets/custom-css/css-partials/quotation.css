@@ -1,219 +1,224 @@
-/* Quotation Section */
-.quotation-sec {
+    /* RFQ Section Styles */
+  .rfq-section {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-    /* border-radius: 10px; */
-    /* padding: 30px; */
-    overflow: hidden;
-    /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); */
+    gap: 40px;
+    margin-top: 50px;
+    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("/img/rfq-image-1.png");
+    background-size: cover;
+    background-position: center;
+    padding: 40px;
+    border-radius: 8px;
     position: relative;
-    animation: fadeIn 1.2s ease-in-out;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.quotation-sec:hover {
-    /* box-shadow: 0 15px 40px rgba(255, 89, 89, 0.3);
-    filter: brightness(1.1); */
-}
-
-
-.quotation-txt h2 {
-    font-weight: bold;
-    margin-bottom: 20px;
-    /* background: linear-gradient(to right, #ff6a6a, #ff1d1d); */
-    /* -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
-}
-
-.quotation-txt p {
-    font-size: 18px;
-    line-height: 1.8;
-    margin-bottom: 20px;
-    /* color: #f9f9f9; */
-}
-
-.quotation-txt a {
-    font-size: 18px;
-    color: #fff !important;
-    padding: 12px 25px;
-    border-radius: 30px;
-    background: linear-gradient(to right, #ff4d4d, #cc0000);
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 5px 15px rgba(204, 0, 0, 0.4);
-    transition: all 0.3s ease;
-}
-
-.quotation-txt a:hover {
-    /* transform: translateY(-5px) scale(1.05); */
-    box-shadow: 0 8px 25px rgba(255, 77, 77, 0.6);
-}
-
-/* Form Section - Light Background Adjustments */
-.quotation-form {
-    /* flex: 1; */
-    background: rgba(255, 255, 255, 0.9); /* Make it stand out on a light background */
-    border-radius: 15px;
-    padding: 30px;
-    /* margin-left: 30px; */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
-    animation: fadeInUp 1.2s ease;
-    transition: all 0.3s ease;
-    /* height: 100%; */
-    align-content: center;
-    margin-right: 38px;
-}
-
-.quotation-form:hover {
-    box-shadow: 0 15px 40px rgba(255, 77, 77, 0.3); /* Light red shadow on hover */
-    /* transform: translateY(-5px); */
-}
-
-.quotation-form .title-form-qut {
-    color: #cc0000; /* Bold red to contrast with light background */
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-/* Form Controls */
-.quotation-form .form-control {
-    /* border-radius: 25px; */
-    margin-bottom: 20px;
-    border: 1px solid #ff4d4d; /* Strong border for contrast */
-    padding: 12px 20px;
-    font-size: 16px;
-    background: #fdfdfd; /* Light background for form fields */
-    color: #333; /* Dark text for readability */
-    transition: all 0.3s ease;
-}
-
-.quotation-form .form-control:focus {
-    box-shadow: 0 0 10px rgba(255, 77, 77, 0.8);
-    border-color: #ff4d4d;
-    background: #fff; /* Pure white background for focus */
-}
-
-.quotation-form .form-control::placeholder {
-    color: #999; /* Neutral placeholder color for better readability */
-    font-style: italic;
-}
-
-/* Submit Button */
-.quotation-form .btn {
-    background: linear-gradient(to right, #ff4d4d, #cc0000);
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 12px 20px;
-    border-radius: 30px;
-    border: none;
-    transition: all 0.3s ease;
-    width: 100%;
-    box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
-}
-
-.quotation-form .btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(255, 77, 77, 0.6);
-}
-
-/* Light Background Adjustment for Text Section */
-.quotation-txt {
-    flex: 1.5;
-    padding: 20px 40px;
-    z-index: 2;
-    /* color: #333; */
-    height: 100%;
-    align-content: start;
+  }
+  
+  .rfq-info {
+    flex: 1;
+    color: white;
+    padding-right: 20px;
+  }
+  
+  .rfq-info h2 {
+    font-size: 29px;
+    font-weight: 700;
+    margin-bottom: 30px;
     text-align: left;
-}
-
-.quotation-txt h2 {
-    font-weight: bold;
-    margin-bottom: 20px;
-    /* color: #cc0000; */
-    text-shadow: none; /* Remove unnecessary shadow on light background */
-}
-
-.quotation-txt p {
+    color: white;
+  }
+  
+  .rfq-description {
     font-size: 18px;
-    width: 65%;
-    line-height: 1.8;
-    margin-bottom: 20px;
-}
-
-.quotation-txt a {
-    font-size: 18px;
-    color: #fff !important;
-    padding: 12px 25px;
-    border-radius: 30px;
-    background: linear-gradient(to right, #ff4d4d, #cc0000);
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 5px 15px rgba(204, 0, 0, 0.4);
-    transition: all 0.3s ease;
-}
-
-.quotation-txt a:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(255, 77, 77, 0.6);
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (max-width: 728px){
-    .quotation-txt{
-        display: none;
-    }
-    .quotation-form{
-        margin-right: 0;
-    }
-}
-
-
-.quotation-sec .step-indicator {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: #ddd;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 50px;
+    text-align: left;
+  }
+  
+  .rfq-section .view-more {
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 13px 33px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #050505;
+    float: left;
+    margin-bottom: 60px;
+  }
+  
+  .rfq-benefits {
+    clear: both;
+    /* list-style-type: none; */
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  
+  .rfq-benefits li {
+    margin-bottom: 10px;
+  }
+  
+  .rfq-form-container {
+    width: 463px;
+  }
+  
+  .rfq-form {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: #333;
-}
-
-.quotation-sec .step-indicator.active {
-    background: #71b6ff;
-    color: #fff;
-}
-
-.quotation-sec .form-step {
-    display: none;
-}
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .rfq-form h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #050505;
+    margin-bottom: 15px;
+  }
+  
+  .rfq-form input, .rfq-form select {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #D5D5D5;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .select-container {
+    position: relative;
+  }
+  
+  .select-container select {
+    appearance: none;
+    padding-right: 30px;
+  }
+  
+  .select-container i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #515050;
+  }
+  
+  .quantity-row {
+    display: flex;
+    gap: 11px;
+  }
+  
+  .quantity-row input, .quantity-row select {
+    width: 50%;
+  }
+  
+  .submit-rfq {
+    background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 2px;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 1200px) {
+    .container {
+      padding: 30px 20px;
+    }
+    
+    .main-content {
+      flex-direction: column;
+    }
+    
+    .sidebar {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    .product-card {
+      flex-direction: column;
+    }
+    
+    .product-image-col, .product-details-col, .contact-seller-col {
+      width: 100%;
+      margin-left: 0;
+      padding-right: 0;
+      margin-bottom: 20px;
+    }
+    
+    .detail-table {
+      width: 100%;
+    }
+    
+    .rfq-section {
+      flex-direction: column;
+    }
+    
+    .rfq-info, .rfq-form-container {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      padding: 20px 15px;
+    }
+    
+    .quantity-row {
+      flex-direction: column;
+    }
+    
+    .quantity-row input, .quantity-row select {
+      width: 100%;
+    }
+    
+    .pagination {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .items-per-page {
+      margin-right: 0;
+    }
+    
+    .product-title {
+      font-size: 18px;
+    }
+    
+    .detail-label, .detail-value {
+      padding: 10px;
+    }
+    
+    .contact-btn {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    
+    .rfq-info h2 {
+      font-size: 24px;
+      text-align: center;
+    }
+    
+    .rfq-description {
+      font-size: 16px;
+      text-align: center;
+    }
+    
+    .view-more {
+      float: none;
+      display: block;
+      margin: 0 auto 30px;
+    }
+    
+    .rfq-benefits {
+      font-size: 18px;
+      text-align: center;
+    }
+  }
+  

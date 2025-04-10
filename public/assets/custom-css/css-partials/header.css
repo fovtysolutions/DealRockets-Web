@@ -484,9 +484,15 @@
 
 .spantitlenew {
     color: black;
-    /* font-size: 14px; */
+    font-size: 16px;
+    text-transform: uppercase;
     padding: 10px 15px;
     position: relative;
+}
+
+.spantitlenew img {
+    width: 16px;
+    height: 16px;
 }
 
 .spanatag:hover .spantitlenew {

@@ -1,72 +1,65 @@
-<section class="fade-in-on-scroll">
-    <div class="trade-container">
-        <!-- First Box -->
-        <div class="firstbox">
-            @if(!empty($tradeshowhomepage['tradeshowhomepage']['carousel1']))
-                <img src="{{ asset('storage/' . $tradeshowhomepage['tradeshowhomepage']['carousel1']) }}" alt="first image">
-            @endif
-            @if(!empty($tradeshowhomepage['tradeshowhomepage']['title1']))
-                <h5 style="color: {{ $tradeshowhomepage['tradeshowhomepage']['textcolor1'] ?? 'black' }}">
-                    {{ $tradeshowhomepage['tradeshowhomepage']['title1'] }}
-                </h5>
-            @endif
+<link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/tradeshow.css') }}" />
+<style>
+    
+</style>
+<main class="main-container tradeshow">
+    <section class="content-section">
+      <div class="content-layout">
+        <div class="content-grid">
+          <!-- Main content area with trade show cards -->
+          <div class="main-content">
+            <div class="trade-shows-grid">
+              @foreach($tradeshows->take(4) as $tradeshow)
+                <div class="trade-show-card">
+                  <div class="card-container">
+                    @php
+                      $imageData = json_decode($tradeshow->image, true);
+                      $image = !empty($imageData[0]) ? $imageData[0] : null;
+                    @endphp
+                    @if(isset($image))
+                      <img
+                        src="{{ asset('storage/' . $image) }}"
+                        class="card-image"
+                        alt="Trade Show"
+                      />
+                    @else
+                      <img
+                        src="{{ asset('images/placeholderimage.webp') }}"
+                        class="card-image"
+                        alt="Trade Show"
+                      />
+                    @endif
+                    <div class="card-content">
+                      <div class="card-title">{{ $tradeshow->name ?? '' }}</div>
+                      <div class="card-description">{{ $tradeshow->description ?? ''}}</div>
+                      <div class="card-details">
+                        <div class="detail-label">Duration:</div>
+                        <div class="detail-value">{{ \Carbon\Carbon::parse($tradeshow->start_date)->format('j') }} - 
+                          {{ \Carbon\Carbon::parse($tradeshow->end_date)->format('j F Y') }}
+                        </div>
+                      </div>
+                      <div class="card-location">
+                        <div class="location-label">Location: </div>
+                        <div class="location-value">
+                          @php
+                            $countryDetails = \App\Utils\ChatManager::getCountryDetails($tradeshow->country);
+                          @endphp
+                          <img
+                            src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
+                            class="location-icon"
+                            alt="China flag"
+                          />
+                          <div class="location-text">{{ $tradeshow->address ?? ''}}</div>
+                        </div>
+                      </div>
+                      <a href="{{ route('tradeshow.view',['name'=>$tradeshow->name,'id'=>$tradeshow->id]) }}" class="card-button">View Details</a>
+                    </div>
+                  </div>
+                </div>
+              @endforeach          
+            </div>
+          </div>
         </div>
-
-        <!-- Second Box -->
-        <div class="secondbox">
-            <!-- First Box -->
-            <div class="secondtop">
-                @if(!empty($tradeshows[0]['image']))
-                    <img src="{{ asset('storage/' . json_decode($tradeshows[0]['image'])[0]) }}" alt="first image">
-                @elseif(!empty($tradeshowhomepage['tradeshowhomepage']['carousel2']))
-                    <img src="{{ asset('storage/' . $tradeshowhomepage['tradeshowhomepage']['carousel2']) }}" alt="first image">
-                @endif
-                <h5 class="text-truncate" style="color: {{ $tradeshowhomepage['tradeshowhomepage']['textcolor2'] ?? 'black' }}">
-                    {{ $tradeshows[0]['name'] ?? $tradeshowhomepage['tradeshowhomepage']['title2'] ?? 'Default Title 2' }}
-                </h5>
-            </div>
-        
-            <!-- Second Box -->
-            <div class="secondbottom">
-                @if(!empty($tradeshows[1]['image']))
-                    <img src="{{ asset('storage/' . json_decode($tradeshows[1]['image'])[0]) }}" alt="second image">
-                @elseif(!empty($tradeshowhomepage['tradeshowhomepage']['carousel3']))
-                    <img src="{{ asset('storage/' . $tradeshowhomepage['tradeshowhomepage']['carousel3']) }}" alt="second image">
-                @endif
-                <h5 class="text-truncate" style="color: {{ $tradeshowhomepage['tradeshowhomepage']['textcolor3'] ?? 'black' }}">
-                    {{ $tradeshows[1]['name'] ?? $tradeshowhomepage['tradeshowhomepage']['title3'] ?? 'Default Title 3' }}
-                </h5>
-            </div>
-        </div>        
-
-        <!-- Third Box -->
-        <div class="thirdbox">
-            <div class="thirdtop">
-                @if(!empty($tradeshowhomepage['tradeshowhomepage']['carousel4']))
-                    <img class="base-image" src="{{ asset('storage/' . $tradeshowhomepage['tradeshowhomepage']['carousel4']) }}" alt="third top image">
-                @endif
-                @if(!empty($tradeshowhomepage['tradeshowhomepage']['newimage4']))
-                    <img class="overlay-image" src="{{ asset('storage/' . $tradeshowhomepage['tradeshowhomepage']['newimage4']) }}" alt="third top overlay image">
-                @endif
-                @if(!empty($tradeshowhomepage['tradeshowhomepage']['title4']))
-                    <h5 style="color: {{ $tradeshowhomepage['tradeshowhomepage']['textcolor4'] ?? 'black' }}">
-                        {{ $tradeshowhomepage['tradeshowhomepage']['title4'] }}
-                    </h5>
-                @endif
-            </div>
-            <div class="thirdbottom">
-                @if(!empty($tradeshowhomepage['tradeshowhomepage']['carousel5']))
-                    <img class="base-image" src="{{ asset('storage/' . $tradeshowhomepage['tradeshowhomepage']['carousel5']) }}" alt="third bottom image">
-                @endif
-                @if(!empty($tradeshowhomepage['tradeshowhomepage']['newimage5']))
-                    <img class="overlay-image" src="{{ asset('storage/' . $tradeshowhomepage['tradeshowhomepage']['newimage5']) }}" alt="third bottom overlay image">
-                @endif
-                @if(!empty($tradeshowhomepage['tradeshowhomepage']['title5']))
-                    <h5 style="color: {{ $tradeshowhomepage['tradeshowhomepage']['textcolor5'] ?? 'black' }}">
-                        {{ $tradeshowhomepage['tradeshowhomepage']['title5'] }}
-                    </h5>
-                @endif
-            </div>
-        </div>        
-    </div>
-</section>
+      </div>
+    </section>
+  </main>

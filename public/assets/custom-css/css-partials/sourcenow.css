@@ -24,7 +24,7 @@
 .sourcefirstdiv .cnt-1 {
     position: absolute;
     top: 15px;
-    left: 15px;
+    /* left: 15px; */
 }
 
 /* Text Overlay */
@@ -32,6 +32,7 @@
     background: rgba(255, 255, 255, 0); /* Semi-transparent white background */
     padding: 20px;
     border-radius: 8px;
+    text-align: center;
 }
 
 .text-overlay h4{
@@ -76,9 +77,25 @@
     width: 60%;
     aspect-ratio: 3/2;
     object-fit: cover;
-    margin-right: 20px;
+    margin: 0 auto;
     /* border-radius: 10px; */
     margin-bottom: 20px;
+}
+
+.sourcenow-sec .sourceseconddiv .firstshow{
+    display: flex;
+}
+
+.sourcenow-sec .sourceseconddiv .secondshow{
+    display: none;
+}
+
+.sourcenow-sec .sourceseconddiv .thirdshow{
+    display: none;
+}
+
+.sourcenow-sec .othertitle {
+    display: none;
 }
 
 .source-product-img:hover {
@@ -124,6 +141,28 @@
     /* border-radius: 0px 10px 10px 0px; */
 }
 
+@media (max-width: 1024px) {
+    .sourcenow-sec .sourceseconddiv .firstshow{
+        display: none;
+    }
+    
+    .sourcenow-sec .sourceseconddiv .secondshow{
+        display: flex;
+    }
+
+    .sourcenow-sec .sourceseconddiv .secondshow .prd-item{
+        width: 33%;
+    }
+    
+    .sourcenow-sec .sourceseconddiv .thirdshow{
+        display: none;
+    }
+
+    .sourcenow-sec .othertitle {
+        display: flex;
+    }
+}
+
 /* Responsive Adjustments */
 @media (max-width: 992px) {
     .sourcefirstdiv, .sourceseconddiv {
@@ -152,6 +191,50 @@
     }
     .prd-item:nth-child(8){
         /* border-radius: 0px 10px 10px 0px; */
+    }
+
+    .sourcenow-sec .sourceseconddiv .firstshow{
+        display: none;
+    }
+    
+    .sourcenow-sec .sourceseconddiv .secondshow{
+        display: none;
+    }
+    
+    .sourcenow-sec .sourceseconddiv .thirdshow{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .sourcenow-sec .fourthshow {
+        display: none;
+    }
+
+    .sourcenow-sec .sourceseconddiv .thirdshow .prd-item{
+        width: 48%;
+    }
+
+    .sourcenow-sec .sourcemaindiv {
+        flex-direction: column;
+    }
+
+    .sourcenow-sec .sourcefirstdiv {
+        flex-direction: column;
+        background-image: unset;
+        width: 100%;
+    }
+
+    .sourcenow-sec .sourcefirstdiv .cnt-1 {
+        left: 15px;
+    }
+
+    .sourcenow-sec .sourcefirstdiv .source-btn {
+        display: none;
+    }
+
+    .sourcenow-sec .sourceseconddiv {
+        margin-top: 95px;
+        width: 100%;
     }
 }
 

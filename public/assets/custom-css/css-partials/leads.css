@@ -41,7 +41,23 @@
 }
 
 .leadstitle2 {
-    color: rgb(25, 25, 25);
+    display: inline-block;
+    position: relative;
+    color: black;
+    text-align: center;
+    padding-bottom: 8px;
+    font-size: 16px;
+}
+
+.leadstitle2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background-image: linear-gradient(to right, #FE4E44, #9F0900);
+    border-radius: 2px;
 }
 
 .header h2 {

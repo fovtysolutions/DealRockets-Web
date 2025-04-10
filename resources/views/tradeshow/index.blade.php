@@ -33,45 +33,47 @@
                         <div class="search-label">Search by Name</div>
                         <div class="search-input-container">
                           <div class="search-input-field">
-                            <input type="text" name="name" placeholder="Enter name..." />
-                              <img
-                                src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
-                                class="search-icon"
-                                alt="Search icon"
-                              />
+                            <input type="text" name="name" placeholder="Enter name..." value="{{ request('name') }}" />
+                            <img
+                              src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
+                              class="search-icon"
+                              alt="Search icon"
+                            />
                           </div>
                         </div>
                       </div>
+                
                       <div class="filter-button delthree" onclick="toggleFilterSection()">
                         Filter
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                            <rect x="3" y="6" width="18" height="2" rx="1" />
-                            <rect x="6" y="11" width="12" height="2" rx="1" />
-                            <rect x="9" y="16" width="6" height="2" rx="1" />
-                          </svg>
+                          <rect x="3" y="6" width="18" height="2" rx="1" />
+                          <rect x="6" y="11" width="12" height="2" rx="1" />
+                          <rect x="9" y="16" width="6" height="2" rx="1" />
+                        </svg>
                       </div>
                     </div>
+                
                     <!-- Filter By Country Section -->
                     <div class="filter-section delone">
                       <div class="search-label">Filter By Country</div>
                       <div class="search-input-container">
                         <div class="search-input-field">
-                          <input type="text" name="country_search" placeholder="Enter Country..." class="search-filter" data-target="#countriescheckbox" />
-                            <img
+                          <input type="text" name="country_search" placeholder="Enter Country..." class="search-filter" data-target="#countriescheckbox" value="{{ request('country_search') }}" />
+                          <img
                             src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
                             class="search-icon"
                             alt="Search icon"
                           />                        
                         </div>
                       </div>
-
+                
                       <div class="filter-options" id="countriescheckbox">
                         @foreach ($countries as $country)
                           @php
                             $countryDetails = \App\Utils\ChatManager::getCountryDetails($country);
                             $isSelected = is_array(request()->input('country', [])) && in_array($country, request()->input('country', []));
                           @endphp
-
+                
                           <label class="filter-checkbox country-option filter-item">
                             <input type="checkbox" name="country[]" value="{{ $country }}" {{ $isSelected ? 'checked' : '' }} />
                             <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg" class="flag-icon" alt="{{ $country }} flag" />
@@ -80,21 +82,21 @@
                         @endforeach
                       </div>
                     </div>
-
+                
                     <!-- Filter By Category Section -->
                     <div class="filter-section deltwo">
                       <div class="search-label">Search by Category</div>
                       <div class="search-input-container">
                         <div class="search-input-field">
-                          <input type="text" name="industry_search" placeholder="Enter Category..." class="search-filter" data-target="#categorycheckbox" />
-                            <img
-                              src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
-                              class="search-icon"
-                              alt="Search icon"
-                            />
+                          <input type="text" name="industry_search" placeholder="Enter Category..." class="search-filter" data-target="#categorycheckbox" value="{{ request('industry_search') }}" />
+                          <img
+                            src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
+                            class="search-icon"
+                            alt="Search icon"
+                          />
                         </div>
                       </div>
-
+                
                       <div class="filter-options" id="categorycheckbox">
                         @foreach ($industries as $industry)
                           <label class="filter-checkbox category-option filter-item">
@@ -105,7 +107,7 @@
                       </div>
                     </div>
                   </div>
-                </form>
+                </form>                
               </div>
             </div>
             <img
@@ -518,30 +520,43 @@
     const form = document.getElementById('filterFormTradeshow');
 
     if (form) {
-      // Submit on text input change (with slight delay to avoid submitting every keystroke)
+      // Debounced submit for text inputs
       form.querySelectorAll('input[type="text"]').forEach(function (input) {
         let timeout;
+
         input.addEventListener('input', function () {
           clearTimeout(timeout);
           timeout = setTimeout(() => {
-            form.submit();
-          }, 500); // debounce for 500ms
+            if (input.value.trim() !== '') {
+              form.requestSubmit ? form.requestSubmit() : form.submit();
+            }
+          }, 500);
+        });
+
+        // Handle Enter key for form submission
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            if (input.value.trim() !== '') {
+              form.requestSubmit ? form.requestSubmit() : form.submit();
+            }
+          }
         });
       });
 
       // Submit on checkbox change
       form.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
-          form.submit();
+          form.requestSubmit ? form.requestSubmit() : form.submit();
         });
       });
 
-      // Optional: still allow manual submit via search icon click
-      document.querySelectorAll('.search-icon').forEach(function (icon) {
+      // Allow search icon click to submit
+      form.querySelectorAll('.search-icon').forEach(function (icon) {
         icon.addEventListener('click', function () {
-          const form = icon.closest('form');
-          if (form) {
-            form.submit();
+          const parentForm = icon.closest('form');
+          if (parentForm) {
+            parentForm.requestSubmit ? parentForm.requestSubmit() : parentForm.submit();
           }
         });
       });

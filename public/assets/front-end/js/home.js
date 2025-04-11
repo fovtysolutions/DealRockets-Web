@@ -433,15 +433,15 @@ $(document).ready(function () {
                 margin: 26,
             },
             768: {
-                items: 2,
+                items: 4,
                 margin: 26,
             },
             992: {
-                items: 3,
+                items: 5,
                 margin: 26,
             },
             1200: {
-                items: 4,
+                items: 5,
                 margin: 26,
             },
         },

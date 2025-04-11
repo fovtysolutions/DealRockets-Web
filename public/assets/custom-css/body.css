@@ -1,5 +1,5 @@
 body {
-    background-color: var(--web-bg);
+    background-color: var(--web-bg) !important;
     font: 14px "Roboto", Arial, sans-serif !important;
     /* color: var(--web-text) !important; */
 }
@@ -14,41 +14,35 @@ a:hover{
     cursor: pointer !important;
 } */
 
-/* Main Headings (h1-like) */
 .custom-dealrock-head {
   font: 24px "Roboto", Arial, sans-serif !important;
-  color: black; /* Red theme */
+  color: black;
   font-weight: bolder !important;
 }
 
-/* Subheadings (h2-like) */
 .custom-dealrock-subhead {
   font: bold 16px "Roboto", Arial, sans-serif !important;
-  color: var(--web-text); /* Slightly lighter red for hierarchy */
+  color: var(--web-text);
 }
 
-/* Normal Text (body text) */
 .custom-dealrock-text {
   font: 14px "Roboto", Arial, sans-serif !important;
-  color: var(--web-text); /* Neutral, readable text color */
+  color: var(--web-text);
 }
 
-/* Subtext (descriptive or small text) */
 .custom-dealrock-subtext {
   font: 12px "Roboto", Arial, sans-serif !important;
-  color: #666; /* Muted gray for less emphasis */
+  color: #666;
 }
 
-.custom-dealrock-banner-vlarge {
-  height: 750px; /* Large banner height */
+/* .custom-dealrock-banner-vlarge {
+  height: 750px;
 }
 
-/* Large Banner (Hero Banner) */
 .custom-dealrock-banner-large {
-  height: 500px; /* Large banner height */
+  height: 500px; 
 }
 
-/* Small Banner (Section or Category Banner) */
 .custom-dealrock-banner-small {
-  height: 350px; /* Small banner height */
-}
+  height: 350px;
+} */

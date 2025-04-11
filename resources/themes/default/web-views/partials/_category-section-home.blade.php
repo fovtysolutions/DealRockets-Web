@@ -3,15 +3,20 @@
     a:hover .wrgewrgwr{
         color: var(--web-hover) !important;
     }
+    @media (max-width:768px){
+        .container .card-body .categories-title{
+            text-align:left !important;
+        }
+    }
 </style>
     <section class="pb-4 rtl">
-        <div class="container" style="padding: 0;">
+        <div class="container" style="padding: 0;max-width: 1440px;width: 100%;">
             <div>
                 <div class="card __shadow h-100 max-md-shadow-0" style="box-shadow: none;">
-                    <div class="card-body" style="padding: 20px 10px 0px 0px;">
+                    <div class="card-body" style="padding: 20px 10px 0px 0px; background-color: var(--web-bg);">
                         <div class="d-flex justify-content-between">
                             <div class="categories-title m-0 w-100" style="text-align: center;">
-                                <h5 class="top-movers-title">TOP MOVERS</h5>
+                                <h5 class="fw-bold top-movers-title">TOP MOVERS</h5>
                             </div>                            
                             <div class="top-movers-container">
                                 <a class="text-capitalize top-movers-viewall"

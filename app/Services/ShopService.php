@@ -41,6 +41,7 @@ class ShopService
             'address'=>$request['address'],
             'contact'=>$request['contact'],
             'image'=> $image,
+            'subtitle' =>$request['subtitle'],
             'image_storage_type' => $request->has('image') ? $storage : $shop['image_storage_type'],
             'banner'=> $banner,
             'banner_storage_type'=> $request->has('banner') ? $storage : $shop['banner_storage_type'],

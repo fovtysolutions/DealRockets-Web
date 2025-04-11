@@ -10,6 +10,10 @@
     border-radius: 8px;
     position: relative;
   }
+
+  .hiddenuntil768{
+    display: none;
+  }
   
   .rfq-info {
     flex: 1;
@@ -157,11 +161,27 @@
     }
     
     .rfq-section {
-      flex-direction: column;
+      /* flex-direction: column; */
     }
     
     .rfq-info, .rfq-form-container {
-      width: 100%;
+      /* width: 100%; */
+    }
+
+    .rfq-info h2{
+      font-size: 21px;
+    }
+
+    .rfq-info .rfq-description{
+      font-size: 14px;
+    }
+
+    .rfq-info .view-more{
+      padding: 13px 20px;
+    }
+
+    .rfq-benefits{
+      font-size: 17px;
     }
   }
   
@@ -176,6 +196,19 @@
     
     .quantity-row input, .quantity-row select {
       width: 100%;
+    }
+
+    .rfq-section{
+      background-image:unset;
+      flex-direction: column;
+      padding: 0px;
+    }
+
+    .hiddenuntil768{
+      display: block;
+      color: black;
+      font-size: 20px;
+      font-weight: 700;
     }
     
     .pagination {
@@ -209,6 +242,10 @@
       font-size: 16px;
       text-align: center;
     }
+
+    .rfq-info{
+      display: none;
+    }
     
     .view-more {
       float: none;
@@ -219,6 +256,10 @@
     .rfq-benefits {
       font-size: 18px;
       text-align: center;
+    }
+
+    .rfq-form-container {
+      width: 100%;
     }
   }
   

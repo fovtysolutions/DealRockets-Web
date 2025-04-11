@@ -224,6 +224,10 @@
         width: 100%;
     }
 
+    .sourcenow-sec .sourcefirstdiv .cnt-1 .text-overlay{
+        padding-left: 0;
+    }
+
     .sourcenow-sec .sourcefirstdiv .cnt-1 {
         left: 15px;
     }

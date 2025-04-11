@@ -69,7 +69,7 @@
     @endif
     @include('web-views.partials._herobanner')
     {{-- @include('web-views.partials._trending-selection') --}}
-    <div class="mainpagesection">
+    <div class="mainpagesection" style="background-color: var(--web-bg);">
         @include('web-views.partials._category-section-home')
     </div>
     @include('web-views.partials._genregroup')
@@ -80,9 +80,10 @@
     @include('web-views.partials._multistuff')
     {{-- @include('web-views.partials._suscribe') --}}
     @include('web-views.partials._top-sellers')
-    @if ($bestSellProduct->count() > 0)
+    @include('web-views.partials._order-now')
+    {{-- @if ($bestSellProduct->count() > 0)
         @include('web-views.partials._best-selling')
-    @endif
+    @endif --}}
     @php($businessMode = getWebConfig(name: 'business_mode'))
 
         <section class="new-arrival-section">

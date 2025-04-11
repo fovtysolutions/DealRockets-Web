@@ -1,4 +1,4 @@
-<section class="mainpagesection" style="gap: 20px;display: flex;flex-direction: column;">
+<section class="mainpagesection" style="gap: 20px;display: flex;flex-direction: column; background-color: var(--web-bg) !important;">
 @include('web-views.partials._genresection')
 @include('web-views.partials._genresection1')
 @include('web-views.partials._genresection2')

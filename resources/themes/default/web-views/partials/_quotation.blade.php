@@ -8,8 +8,9 @@ $inputType = 'text';
 $quotationbanner =  \App\Models\BusinessSetting::where('type','quotation')->first()->value;
 $quotationdata = json_decode($quotationbanner,true) ?? [];
 ?>
-<section class="mainpagesection custom-dealrock-banner-large">
+<section class="mainpagesection custom-dealrock-banner-large" style="background-color: var(--web-bg);">
     <div class="rfq-section">
+      <div class="hiddenuntil768"> Request For Quotations (RFQ)</div>
         <div class="rfq-info">
           <h2>Request for Quotations (RFQ)</h2>
           <p class="rfq-description">Z********** from Pakistan is looking for Solar electric robot dog chil... and has received 0 quotation(s)</p>

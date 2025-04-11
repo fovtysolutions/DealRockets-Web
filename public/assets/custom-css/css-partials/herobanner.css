@@ -552,15 +552,35 @@
 }
 
 .globle-deals .sidebar ul li {
-    padding: 8px 0;
 }
 
 .globle-deals .sidebar ul li a {
     text-decoration: none;
     color: black;
+    transition: 0.3s ease all;
+    padding: 8px 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.globle-deals .sidebar ul li a::after {
+    content: '';
+    opacity: 0;
+    transition: 0.3s ease all;
 }
 
 .globle-deals .sidebar ul li a:hover {
+    color: red;
+    background-color: #80808017;
+}
+
+.globle-deals .sidebar ul li a:hover::after {
+    content: '>';
+    opacity: 1;
+    margin-right: 4px;
     color: red;
 }
 
@@ -576,7 +596,7 @@
 }
 
 .globle-deals .insidebox{
-    margin-left:20px;
+    /* margin-left:20px; */
     padding: 0px;
     width: 100%;
 }
@@ -695,8 +715,8 @@
 
     .top-movers-container{
         position: absolute; 
-        right:0; 
-        top:30px;
+        right: 17px;
+        top: 25px;
     }
 
 @media (max-width: 1440px) {

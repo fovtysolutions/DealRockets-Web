@@ -58,6 +58,7 @@ class Shop extends Model
         'temporary_close',
         'banner',
         'banner_storage_type',
+        'subtitle',
     ];
 
     /**

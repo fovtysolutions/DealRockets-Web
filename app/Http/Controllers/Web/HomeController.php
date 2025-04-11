@@ -138,30 +138,38 @@ class HomeController extends Controller
                 $query->active();
             }])
             ->with('seller', function ($query) {
-                $query->with('product', function ($query) {
-                    $query->active()->with('reviews', function ($query) {
+                $query->with(['product' => function ($query) {
+                    $query->active()->with(['reviews' => function ($query) {
                         $query->active();
-                    });
-                })
-                    ->withCount(['orders']);
+                    }]);
+                }])->withCount(['orders']);
             })
             ->get()
             ->each(function ($shop) {
                 $shop->orders_count = $shop->seller->orders_count;
-                $productReviews = $shop->seller->product->pluck('reviews')->collapse();
+
+                $products = $shop->seller->product;
+                $productReviews = $products->pluck('reviews')->collapse();
+
                 $shop->average_rating = $productReviews->avg('rating');
                 $shop->review_count = $productReviews->count();
                 $shop->total_rating = $productReviews->sum('rating');
 
                 $positiveReviewsCount = $productReviews->where('rating', '>=', 4)->count();
-                $shop->positive_review = ($shop->review_count !== 0) ? ($positiveReviewsCount * 100) / $shop->review_count : 0;
+                $shop->positive_review = $shop->review_count > 0
+                    ? ($positiveReviewsCount * 100) / $shop->review_count
+                    : 0;
 
+                // Vacation mode check
                 $currentDate = date('Y-m-d');
-                $startDate = date('Y-m-d', strtotime($shop['vacation_start_date']));
-                $endDate = date('Y-m-d', strtotime($shop['vacation_end_date']));
-                $shop->is_vacation_mode_now = $shop['vacation_status'] && ($currentDate >= $shop['vacation_start_date']) && ($currentDate <= $shop['vacation_end_date']) ? 1 : 0;
-            })->take(12);
+                $shop->is_vacation_mode_now = $shop['vacation_status'] &&
+                    $currentDate >= $shop['vacation_start_date'] &&
+                    $currentDate <= $shop['vacation_end_date'] ? 1 : 0;
 
+                // Store views (sum of product views)
+                $shop->store_views = $products->sum('views');
+            })
+            ->take(12);
 
         $inhouseProducts = Product::active()->with(['reviews', 'rating'])->withCount('reviews')->where(['added_by' => 'admin'])->get();
         $inhouseProductCount = $inhouseProducts->count();

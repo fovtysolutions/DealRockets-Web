@@ -1,0 +1,136 @@
+/* ordernow.css - Flexbox layout with .order-now prefix */
+
+.order-now .left-banner {
+    /* flex: 1 1 100%; */
+    width: 30%;
+    max-width: 100%;
+    min-height: 250px;
+    background: url('/img/image-72.png') no-repeat center center/cover;
+    color: white;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    text-align: center;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.order-now .left-banner h5 {
+    font-weight: bold;
+    color: white;
+}
+
+.order-now .left-banner .btn {
+    background-color: white !important;
+    color: #FE4E44 !important;
+    border: none;
+}
+
+
+.order-now .showabove768{
+    display: flex !important;
+}
+
+.order-now .showbelow768{
+    display: none !important;
+}
+
+.order-now .product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 70%;
+}
+
+.order-now .product-card {
+    flex: 1 1 calc(25% - 15px);
+    display: flex;
+    flex-direction: column;
+    border: none;
+    box-shadow: none;
+    height: 100%;
+}
+
+.order-now .product-card img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    border-radius: 5px 5px 0 0;
+}
+
+.order-now .product-card .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.order-now .product-card .btn {
+    margin-top: auto;
+    width: 100%;
+    border-radius: 34px;
+    padding: 10px;
+}
+
+.order-now .product-card a:hover {
+    margin-top: auto;
+    width: 100%;
+    background: linear-gradient(to right, #FE4E44, #9F0900);
+    color: white;
+}
+
+.order-now .order-now-box{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 15px;
+}
+
+.order-now .title-show-768{
+    display: none !important;
+}
+
+.order-now .hide-768{
+    display: block !important;
+}
+
+@media (max-width: 991px) {
+    .order-now .showabove768{
+        display: none !important;
+    }
+    
+    .order-now .showbelow768{
+        display: flex !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .order-now .order-now-box{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .order-now .left-banner{
+        display: none;
+    }
+
+    .order-now .product-grid{
+        width: 100%;
+    }
+
+    .order-now .title-show-768{
+        display: flex !important;
+        width: 100%;
+        height: 40px;
+    }
+    
+    .order-now .hide-768{
+        display: none !important;
+    }
+
+    .order-now {
+        background: none !important;
+    }
+}

@@ -61,6 +61,11 @@
                                     <img class="upload-img-view" id="viewer"
                                     src="{{getStorageImages(path: $shop->image_full_url,type: 'backend-basic')}}" alt="{{translate('image')}}"/>
                                 </div>
+                                <div class="form-group">
+                                    <label for="subtitle" class="title-color text-capitalize">{{translate('shop_subtitle')}} <span class="text-danger">*</span></label>
+                                    <input type="text" name="subtitle" value="{{$shop->subtitle}}" class="form-control" id="subtitle"
+                                            required>
+                                </div>
                             </div>
                             <div class="col-md-6 mb-4 mt-2">
                                 <div class="form-group">

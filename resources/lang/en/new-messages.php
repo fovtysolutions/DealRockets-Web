@@ -9216,4 +9216,8 @@ return [
 	"Disabled" => "Disabled",
 	"there_is_no_FAQs" => "There is no FAQs",
 	"top_Movers" => "Top Movers",
+	"Store Views" => "Store Views",
+	"shop_subtitle" => "Shop subtitle",
+	"Ready_to_Order" => "Ready to Order",
+	"Recommended_Suppliers" => "Recommended Suppliers",
 ];

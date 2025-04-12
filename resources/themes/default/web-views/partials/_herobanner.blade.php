@@ -46,7 +46,15 @@
                 @endforeach
             </ul>
             <div>
-                <a href="{{ route('categories') }}" style="text-decoration: none;">View All <img style="height:16px; width: 16px;" src="/img/Right arrow.png" alt="arrow-right"></a>
+                <a class="arrow-move-hover" href="{{ route('categories') }}" style="text-decoration: none;">
+                    View All 
+                    <span class="arrow-icon">
+                        <img src="/img/Right arrow.png" alt="arrow-right" style="height:16px; width: 16px;">
+                    </span>
+                    <span class="arrow-icon-colored">
+                        <img src="/img/Right arrow (1).png" alt="arrow-right" style="height:16px; width: 16px;">
+                    </span>
+                </a>
             </div>            
         </div>
     </div>

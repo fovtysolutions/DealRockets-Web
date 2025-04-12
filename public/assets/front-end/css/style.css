@@ -781,7 +781,7 @@ a {
 
 .__cate-item:hover img {
     /* transform: scale(0.88); */
-    border-color: linear-gradient(90deg,#FE4E44,#9F0900);
+    border-color: linear-gradient(to right,#FE4E44,#9F0900);
     border: 2px solid;
 }
 

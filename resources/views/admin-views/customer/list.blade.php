@@ -15,8 +15,8 @@
         <div class="card">
             <div class="px-3 py-4">
                 <div class="row gy-2 align-items-center">
-                    <div class="col-sm-8 col-md-6 col-lg-4">
-                        <form action="{{ url()->current() }}" method="GET">
+                    <div class="col-sm-8 col-md-6 col-lg-8">
+                        <form action="{{ url()->current() }}" method="GET" class="d-flex">
                             <div class="input-group input-group-merge input-group-custom">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -28,9 +28,17 @@
                                        aria-label="Search orders" value="{{ request('searchValue') }}">
                                 <button type="submit" class="btn btn--primary">{{translate('search')}}</button>
                             </div>
+                            <select name="membership" class="form-control ml-2">
+                                <option value="">{{ translate('select_membership_tier') }}</option>
+                                @foreach($membershipTiers as $tier)
+                                    <option value="{{ $tier->membership_name }}" {{ request('membership') == $tier->membership_name ? 'selected' : '' }}>
+                                        {{ $tier->membership_name }}
+                                    </option>
+                                @endforeach
+                            </select>                    
                         </form>
                     </div>
-                    <div class="col-sm-4 col-md-6 col-lg-8 mb-2 mb-sm-0">
+                    <div class="col-sm-4 col-md-6 col-lg-4 mb-2 mb-sm-0">
                         <div class="d-flex justify-content-sm-end">
                             <button type="button" class="btn btn-outline--primary" data-toggle="dropdown">
                                 <i class="tio-download-to"></i>

@@ -100,7 +100,11 @@
 
 .source-product-img:hover {
     transform: translateY(-5px);
-    transform: scale(1.15);
+    transform: scale(1.05);
+}
+
+.prd-item:hover {
+    border-color:#FE4E44;
 }
 
 .redtriangle{

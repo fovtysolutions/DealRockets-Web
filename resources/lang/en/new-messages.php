@@ -9241,4 +9241,11 @@ return [
 	"plan_type" => "Plan type",
 	"renewal_date" => "Renewal date",
 	"upgrade_option" => "Upgrade option",
+	"job_consultants" => "Job consultants",
+	"Job Consultants" => "Job Consultants",
+	"select_membership_tier" => "Select membership tier",
+	"Consultant Membership" => "Consultant Membership",
+	"Job Applications" => "Job Applications",
+	"Registered Candidates" => "Registered Candidates",
+	"Consultants List" => "Consultants List",
 ];

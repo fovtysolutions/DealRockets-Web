@@ -1196,501 +1196,231 @@ class ChatManager
 
     private static function CVUsedThisMonth($userId, $monthlyLimit, $leadType = 'seller')
     {
-        if ($userId) {
-            // Get the start and end of the current month
-            $startOfMonth = now()->startOfMonth();
-            $endOfMonth = now()->endOfMonth();
+        if (!$userId) return ['used' => 0, 'remaining' => 0];
 
-            // Get all leads of the specified type
-            $leadIds = Leads::where('type', $leadType)->pluck('id');
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
 
-            // Filter ChatsOther by sender_id, lead_id, and date range
-            $leadsByUser = ChatsOther::where('sender_id', $userId)
-                ->whereIn('lead_id', $leadIds) // Filter by lead type
-                ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                ->distinct()
-                ->get();
-
-            $used = $leadsByUser->count();
-            $remaining = $monthlyLimit - $used;
-
-            return [
-                'used' => $used,
-                'remaining' => $remaining > 0 ? $remaining : 0
-            ];
-        }
+        $leadIds = Leads::where('type', $leadType)->pluck('id');
+        $used = ChatsOther::where('sender_id', $userId)
+            ->whereIn('lead_id', $leadIds)
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->distinct()
+            ->count();
 
         return [
-            'used' => 0,
-            'remaining' => 0
+            'used' => $used,
+            'remaining' => max(0, $monthlyLimit - $used)
+        ];
+    }
+
+    private static function SaleOfferMade($userId, $limit, $leadType = 'seller')
+    {
+        if (!$userId) return ['used' => 0, 'remaining' => 0];
+
+        $used = Leads::where([
+            ['type', $leadType],
+            ['added_by', $userId],
+            ['role', $leadType],
+            ['active', 1]
+        ])->count();
+
+        return [
+            'used' => $used,
+            'remaining' => max(0, $limit - $used)
         ];
     }
 
     public static function checkcvlimit()
     {
         $getRole = self::getCurrentRole();
-        if ($getRole['error'] === false) {
-            $checkValidity = self::checkValidity($getRole['userdata']);
-            if ($checkValidity['valid'] === true) {
-                if (self::checkindustryjobsaccess()['status'] == 'success') {
-                    if (isset($getRole['user_id']) || isset($getRole['seller_id'])) {
-                        $userType = isset($getRole['user_id']) ? 'customer' : 'seller';
-                        $userId = isset($getRole['user_id']) ? $getRole['user_id'] : $getRole['seller_id'];
-
-                        $membershipDetails = MembershipTier::where('membership_type', $userType)
-                            ->where('membership_name', $getRole['role'])
-                            ->first()->membership_benefits;
-
-                        $membershipDetails = json_decode($membershipDetails, true);
-
-                        if ($membershipDetails['no_of_cv'] == -1) {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Unlimited Leads'
-                            ];
-                        }
-
-                        $leadslimit = $membershipDetails['no_of_cv'];
-                        $extraLimit = HelperUtil::getCvTopUpValue($userId, $getRole['role']);
-
-                        if ($getRole['role'] == 'Free') {
-                            $leadsUsedWeek = self::CVUsedThisWeek($userId, $leadslimit + $extraLimit);
-                        } else {
-                            $leadsUsedMonthly = self::CVUsedThisMonth($userId, $leadslimit + $extraLimit);
-                        }
-
-                        $leadsUsed = isset($leadsUsedWeek) ? $leadsUsedWeek : $leadsUsedMonthly;
-
-                        if ($leadsUsed['used'] >= $leadslimit + $extraLimit) {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Leads Used Up. Wait for the limit to reset.'
-                            ];
-                        } elseif ($leadsUsed['used'] >= $leadslimit && $extraLimit > 0) {
-                            // Consume one top-up
-                            HelperUtil::consumeCvTopUp($userId, $userType);
-                            return [
-                                'status' => 'success',
-                                'message' => 'Using Top-Up. Leads Remaining: ' . ($leadslimit + $extraLimit - $leadsUsed['used'])
-                            ];
-                        } else {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Leads Remaining: ' . ($leadslimit - $leadsUsed['used'])
-                            ];
-                        }
-                    } else {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Contact Admin or Support Ticket'
-                        ];
-                    }
-                } else {
-                    return [
-                        'status' => 'failure',
-                        'message' => 'No Access to Industry Jobs'
-                    ];
-                }
-            } else {
-                return [
-                    'status' => 'failure',
-                    'message' => $checkValidity['message'],
-                ];
-            }
-        } else {
-            return [
-                'status' => 'failure',
-                'message' => $getRole['message'],
-            ];
-        }
-    }
-
-    public static function checkindustryjobsaccess() {
-        $getRole = self::getCurrentRole();
-        if ($getRole['error'] === false) {
-            $checkValidity = self::checkValidity($getRole['userdata']);
-            if ($checkValidity['valid'] === true) {
-                if (isset($getRole['user_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'customer')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    if ($getRole['role'] == 'Free') {
-                        $access = $membershipDetails['industry_jobs'];
-
-                        if ($access === "yes") {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Access Granted'
-                            ];
-                        } else if ($access === "no") {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Access Denied'
-                            ];
-                        }
-                    } else if ($getRole['role'] != 'Free') {
-                        $access = $membershipDetails['industry_jobs'];
-
-                        if ($access === "yes") {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Access Granted'
-                            ];
-                        } else if ($access === "no") {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Access Denied'
-                            ];
-                        }
-                    } else {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Contact Admin or Support Ticket'
-                        ];
-                    }
-                } else if (isset($getRole['seller_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'seller')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    $access = $membershipDetails['industry_jobs'];
-
-                    if ($access === "yes") {
-                        return [
-                            'status' => 'success',
-                            'message' => 'Access Granted'
-                        ];
-                    } else if ($access === "no") {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Access Denied'
-                        ];
-                    }
-                } else {
-                    return [
-                        'status' => 'failure',
-                        'membership' => $checkValidity['message'],
-                    ];
-                }
-            } else {
-                return [
-                    'status' => 'failure',
-                    'message' => $checkValidity['message'],
-                ];
-            }
-        } else {
-            return [
-                'status' => 'failure',
-                'message' => $getRole['message'],
-            ];
-        }
-    }
-
-    private static function SaleOfferMade($userId, $limit, $leadType = 'seller'){
-        if ($userId) {
-
-            // Get all leads of the specified type
-            $leads = Leads::where('type', $leadType)->where('added_by', $userId)->where('role',$leadType)->where('active',1)->get();
-            $used = $leads->count();
-            $remaining = $limit - $used;
-
-            return [
-                'used' => $used,
-                'remaining' => $remaining > 0 ? $remaining : 0
-            ];
+        if ($getRole['error']) {
+            return ['status' => 'failure', 'message' => $getRole['message']];
         }
 
-        return [
-            'used' => 0,
-            'remaining' => 0
-        ];
+        $checkValidity = self::checkValidity($getRole['userdata']);
+        if (!$checkValidity['valid']) {
+            return ['status' => 'failure', 'message' => $checkValidity['message']];
+        }
+
+        $accessCheck = self::checkindustryjobsaccess();
+        if ($accessCheck['status'] !== 'success') return $accessCheck;
+
+        $userType = isset($getRole['user_id']) ? 'customer' : 'seller';
+        $userId = $getRole[$userType . '_id'] ?? null;
+
+        if (!$userId) {
+            return ['status' => 'failure', 'message' => 'Contact Admin or Support Ticket'];
+        }
+
+        $membership = MembershipTier::where([
+            ['membership_type', $userType],
+            ['membership_name', $getRole['role']]
+        ])->first();
+
+        $benefits = json_decode($membership->membership_benefits, true);
+        $leadLimit = $benefits['no_of_cv'];
+
+        if ($leadLimit == -1) {
+            return ['status' => 'success', 'message' => 'Unlimited Leads'];
+        }
+
+        $extraLimit = HelperUtil::getCvTopUpValue($userId, $getRole['role']);
+        $totalLimit = $leadLimit + $extraLimit;
+
+        $leadsUsed = $getRole['role'] === 'Free'
+            ? self::CVUsedThisWeek($userId, $totalLimit)
+            : self::CVUsedThisMonth($userId, $totalLimit);
+
+        if ($leadsUsed['used'] >= $totalLimit) {
+            return ['status' => 'failure', 'message' => 'Leads Used Up. Wait for the limit to reset.'];
+        }
+
+        if ($leadsUsed['used'] >= $leadLimit && $extraLimit > 0) {
+            HelperUtil::consumeCvTopUp($userId, $userType);
+            return ['status' => 'success', 'message' => 'Using Top-Up. Leads Remaining: ' . ($totalLimit - $leadsUsed['used'])];
+        }
+
+        return ['status' => 'success', 'message' => 'Leads Remaining: ' . ($leadLimit - $leadsUsed['used'])];
     }
 
-    public static function checksaleofferlimit() 
+    public static function checksaleofferlimit()
     {
         $getRole = self::getCurrentRole();
-        if ($getRole['error'] === false) {
-            $checkValidity = self::checkValidity($getRole['userdata']);
-            if ($checkValidity['valid'] === true) {
-                if (isset($getRole['user_id'])) {
-                    return [
-                        'status' => 'failure',
-                        'message' => 'Not Avaliable for Seller'
-                    ];
-                } else if (isset($getRole['seller_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'seller')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    $leadslimit = $membershipDetails['sell_offer'];
-                    if($leadslimit == -1){
-                        return [
-                            'status' => 'success',
-                            'message' => 'Unlimited Leads'
-                        ];
-                    }
-                    // Get Leads used this week
-                    $leadsUsedMonthly = self::SaleOfferMade($getRole['seller_id'], $leadslimit);
-                    if ($leadsUsedMonthly['used'] >= $leadslimit) {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Sale Offer Used Up'
-                        ];
-                    } else if ($leadsUsedMonthly['used'] < $leadslimit) {
-                        return [
-                            'status' => 'success',
-                            'message' => 'Sale Offer Remaining ' . $leadsUsedMonthly['remaining']
-                        ];
-                    } else {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Contact Admin or Support Ticket'
-                        ];
-                    }
-                } else {
-                    return [
-                        'status' => 'failure',
-                        'membership' => $checkValidity['message'],
-                    ];
-                }
-            } else {
-                return [
-                    'status' => 'failure',
-                    'message' => $checkValidity['message'],
-                ];
-            }
-        } else {
-            return [
-                'status' => 'failure',
-                'message' => $getRole['message'],
-            ];
+        if ($getRole['error']) {
+            return ['status' => 'failure', 'message' => $getRole['message']];
         }
+
+        $checkValidity = self::checkValidity($getRole['userdata']);
+        if (!$checkValidity['valid']) {
+            return ['status' => 'failure', 'message' => $checkValidity['message']];
+        }
+
+        if (isset($getRole['user_id'])) {
+            return ['status' => 'failure', 'message' => 'Not Available for Seller'];
+        }
+
+        if (!isset($getRole['seller_id'])) {
+            return ['status' => 'failure', 'message' => 'Contact Admin or Support Ticket'];
+        }
+
+        $membership = MembershipTier::where([
+            ['membership_type', 'seller'],
+            ['membership_name', $getRole['role']]
+        ])->first();
+
+        $benefits = json_decode($membership->membership_benefits, true);
+        $leadLimit = $benefits['sell_offer'];
+
+        if ($leadLimit == -1) {
+            return ['status' => 'success', 'message' => 'Unlimited Leads'];
+        }
+
+        $leadsUsed = self::SaleOfferMade($getRole['seller_id'], $leadLimit);
+
+        if ($leadsUsed['used'] >= $leadLimit) {
+            return ['status' => 'failure', 'message' => 'Sale Offer Used Up'];
+        }
+
+        return ['status' => 'success', 'message' => 'Sale Offer Remaining ' . $leadsUsed['remaining']];
+    }
+
+    public static function checkindustryjobsaccess()
+    {
+        $getRole = self::getCurrentRole();
+        if ($getRole['error']) {
+            return ['status' => 'failure', 'message' => $getRole['message']];
+        }
+
+        $checkValidity = self::checkValidity($getRole['userdata']);
+        if (!$checkValidity['valid']) {
+            return ['status' => 'failure', 'message' => $checkValidity['message']];
+        }
+
+        $userType = isset($getRole['user_id']) ? 'customer' : 'seller';
+        $membership = MembershipTier::where([
+            ['membership_type', $userType],
+            ['membership_name', $getRole['role']]
+        ])->first();
+
+        $benefits = json_decode($membership->membership_benefits, true);
+        $access = $benefits['industry_jobs'] ?? 'no';
+
+        return $access === 'yes'
+            ? ['status' => 'success', 'message' => 'Access Granted']
+            : ['status' => 'failure', 'message' => 'Access Denied'];
     }    
 
-    public static function checkaccessleads() {
+    public static function checkAccessByType($accessType)
+    {
         $getRole = self::getCurrentRole();
-        if ($getRole['error'] === false) {
-            $checkValidity = self::checkValidity($getRole['userdata']);
-            if ($checkValidity['valid'] === true) {
-                if (isset($getRole['user_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'customer')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    if ($getRole['role'] == 'Free') {
-                        $access = $membershipDetails['access_leads'];
-
-                        if ($access === "yes") {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Access Granted'
-                            ];
-                        } else if ($access === "no") {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Access Denied'
-                            ];
-                        }
-                    } else if ($getRole['role'] != 'Free') {
-                        $access = $membershipDetails['access_leads'];
-
-                        if ($access === "yes") {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Access Granted'
-                            ];
-                        } else if ($access === "no") {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Access Denied'
-                            ];
-                        }
-                    } else {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Contact Admin or Support Ticket'
-                        ];
-                    }
-                } else if (isset($getRole['seller_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'seller')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    $access = $membershipDetails['access_leads'];
-
-                    if ($access === "yes") {
-                        return [
-                            'status' => 'success',
-                            'message' => 'Access Granted'
-                        ];
-                    } else if ($access === "no") {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Access Denied'
-                        ];
-                    }
-                } else {
-                    return [
-                        'status' => 'failure',
-                        'membership' => $checkValidity['message'],
-                    ];
-                }
-            } else {
-                return [
-                    'status' => 'failure',
-                    'message' => $checkValidity['message'],
-                ];
-            }
-        } else {
+        if ($getRole['error'] !== false) {
             return [
                 'status' => 'failure',
                 'message' => $getRole['message'],
+            ];
+        }
+
+        $checkValidity = self::checkValidity($getRole['userdata']);
+        if ($checkValidity['valid'] !== true) {
+            return [
+                'status' => 'failure',
+                'message' => $checkValidity['message'],
+            ];
+        }
+
+        // Determine user type (customer or seller)
+        if (isset($getRole['user_id'])) {
+            $membershipType = 'customer';
+        } elseif (isset($getRole['seller_id'])) {
+            $membershipType = 'seller';
+        } else {
+            return [
+                'status' => 'failure',
+                'membership' => $checkValidity['message'],
+            ];
+        }
+
+        $membership = MembershipTier::where('membership_type', $membershipType)
+            ->where('membership_name', $getRole['role'])
+            ->first();
+
+        if (!$membership) {
+            return [
+                'status' => 'failure',
+                'message' => 'Membership details not found',
+            ];
+        }
+
+        $membershipDetails = json_decode($membership->membership_benefits, true);
+        $access = $membershipDetails[$accessType] ?? 'no';
+
+        if ($access === "yes") {
+            return [
+                'status' => 'success',
+                'message' => 'Access Granted'
+            ];
+        } else {
+            return [
+                'status' => 'failure',
+                'message' => 'Access Denied'
             ];
         }
     }
 
-    public static function checkaccesssuppliers() {
-        $getRole = self::getCurrentRole();
-        if ($getRole['error'] === false) {
-            $checkValidity = self::checkValidity($getRole['userdata']);
-            if ($checkValidity['valid'] === true) {
-                if (isset($getRole['user_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'customer')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    if ($getRole['role'] == 'Free') {
-                        $access = $membershipDetails['access_suppliers'];
-
-                        if ($access === "yes") {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Access Granted'
-                            ];
-                        } else if ($access === "no") {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Access Denied'
-                            ];
-                        }
-                    } else if ($getRole['role'] != 'Free') {
-                        $access = $membershipDetails['access_suppliers'];
-
-                        if ($access === "yes") {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Access Granted'
-                            ];
-                        } else if ($access === "no") {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Access Denied'
-                            ];
-                        }
-                    } else {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Contact Admin or Support Ticket'
-                        ];
-                    }
-                } else if (isset($getRole['seller_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'seller')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    $access = $membershipDetails['access_suppliers'];
-
-                    if ($access === "yes") {
-                        return [
-                            'status' => 'success',
-                            'message' => 'Access Granted'
-                        ];
-                    } else if ($access === "no") {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Access Denied'
-                        ];
-                    }
-                } else {
-                    return [
-                        'status' => 'failure',
-                        'membership' => $checkValidity['message'],
-                    ];
-                }
-            } else {
-                return [
-                    'status' => 'failure',
-                    'message' => $checkValidity['message'],
-                ];
-            }
-        } else {
-            return [
-                'status' => 'failure',
-                'message' => $getRole['message'],
-            ];
-        }
+    // Specific access checkers
+    public static function checkaccessleads()
+    {
+        return self::checkAccessByType('access_leads');
     }
 
-    public static function checkaccessjobs() {
-        $getRole = self::getCurrentRole();
-        if ($getRole['error'] === false) {
-            $checkValidity = self::checkValidity($getRole['userdata']);
-            if ($checkValidity['valid'] === true) {
-                if (isset($getRole['user_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'customer')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    if ($getRole['role'] == 'Free') {
-                        $access = $membershipDetails['access_jobs'];
+    public static function checkaccesssuppliers()
+    {
+        return self::checkAccessByType('access_suppliers');
+    }
 
-                        if ($access === "yes") {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Access Granted'
-                            ];
-                        } else if ($access === "no") {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Access Denied'
-                            ];
-                        }
-                    } else if ($getRole['role'] != 'Free') {
-                        $access = $membershipDetails['access_jobs'];
-
-                        if ($access === "yes") {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Access Granted'
-                            ];
-                        } else if ($access === "no") {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Access Denied'
-                            ];
-                        }
-                    } else {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Contact Admin or Support Ticket'
-                        ];
-                    }
-                } else if (isset($getRole['seller_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'seller')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $access = $membershipDetails['access_jobs'];
-
-                    if ($access === "yes") {
-                        return [
-                            'status' => 'success',
-                            'message' => 'Access Granted'
-                        ];
-                    } else if ($access === "no") {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Access Denied'
-                        ];
-                    }
-                } else {
-                    return [
-                        'status' => 'failure',
-                        'membership' => $checkValidity['message'],
-                    ];
-                }
-            } else {
-                return [
-                    'status' => 'failure',
-                    'message' => $checkValidity['message'],
-                ];
-            }
-        } else {
-            return [
-                'status' => 'failure',
-                'message' => $getRole['message'],
-            ];
-        }
+    public static function checkaccessjobs()
+    {
+        return self::checkAccessByType('access_jobs');
     }
 }

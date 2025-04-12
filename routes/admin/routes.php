@@ -1278,6 +1278,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             // Delete job category
             Route::delete('delete/{jobCategory}', [JobseekerController::class, 'catdestroy'])->name('destroy');
         });
+        Route::match(['get', 'post'], '/consultant-membership', [JobseekerController::class, 'consultant_membership'])->name('consultant-membership');
+        Route::match(['get', 'post', 'put', 'delete'], '/job-applications', [JobseekerController::class, 'job_applications'])->name('job-applications');
+        Route::match(['get', 'post', 'put', 'delete'], '/registered-candidates', [JobseekerController::class, 'registered_candidates'])->name('registered-candidates');
     });
     
     Route::prefix('webtheme')->name('webtheme.')->group(function() {

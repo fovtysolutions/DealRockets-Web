@@ -573,15 +573,38 @@
 }
 
 .globle-deals .sidebar ul li a:hover {
-    color: red;
-    background-color: #80808017;
+    color: #FE4E44;
+    background-color: #F6F6F6;
 }
 
 .globle-deals .sidebar ul li a:hover::after {
     content: '>';
     opacity: 1;
     margin-right: 4px;
-    color: red;
+    color: #FE4E44;
+}
+
+.globle-deals .arrow-move-hover:hover {
+    color: #FE4E44;
+}
+
+.globle-deals .arrow-move-hover .arrow-icon,
+.globle-deals .arrow-move-hover .arrow-icon-colored {
+    display: inline-block;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transition opacity and transform */
+}
+
+.globle-deals .arrow-move-hover .arrow-icon-colored {
+    opacity: 0; /* Hide the colored icon initially */
+}
+
+.globle-deals .arrow-move-hover:hover .arrow-icon {
+    opacity: 0; /* Fade out the original icon on hover */
+}
+
+.globle-deals .arrow-move-hover:hover .arrow-icon-colored {
+    opacity: 1; /* Fade in the colored icon on hover */
+    transform: translateX(4px); /* Move the colored icon smoothly */
 }
 
 .globle-deals .menu-toggle {
@@ -711,12 +734,26 @@
         color: #515050; 
         font-size:14px;
         text-decoration: none;
+        transition: all ease 0.3s;
     }
 
     .top-movers-container{
         position: absolute; 
         right: 17px;
         top: 25px;
+    }
+
+    .top-movers-container a{
+        text-decoration: none !important;
+    }
+
+    .top-movers-viewall:hover {
+        color: #0D0D0F;
+    }
+
+    .top-movers-viewall:hover i{
+        transform: translateX(5px);
+        transition: transform ease 0.3s;
     }
 
 @media (max-width: 1440px) {

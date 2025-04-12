@@ -11,44 +11,44 @@ $quotationdata = json_decode($quotationbanner,true) ?? [];
 <section class="mainpagesection custom-dealrock-banner-large" style="background-color: var(--web-bg);">
     <div class="rfq-section">
       <div class="hiddenuntil768"> Request For Quotations (RFQ)</div>
-        <div class="rfq-info">
-          <h2>Request for Quotations (RFQ)</h2>
-          <p class="rfq-description">Z********** from Pakistan is looking for Solar electric robot dog chil... and has received 0 quotation(s)</p>
-          <button class="view-more">View More</button>
-          <ul class="rfq-benefits">
-            <li>Submit an RFQ in just one minute.</li>
-            <li>Get multiple quotations from Verified Suppliers.</li>
-            <li>Compare and choose the best quotation!</li>
-          </ul>
-        </div>
-        <div class="rfq-form-container">
-          <form class="rfq-form">
-            <h3>Get Quotations Now</h3>
-            <input type="text" placeholder="Please enter a specific product name" required>
-            <div class="select-container">
-              <select required>
-                <option value="" disabled selected>Select Port</option>
-                <option value="new-york">New York</option>
-                <option value="los-angeles">Los Angeles</option>
-                <option value="miami">Miami</option>
-                <option value="seattle">Seattle</option>
-              </select>
-              <i class="fas fa-chevron-down"></i>
-            </div>
-            <input type="tel" placeholder="Enter your mobile number" required>
-            <div class="quantity-row">
-              <input type="number" placeholder="Quantity" required>
-              <select>
-                <option value="Bags">Bags</option>
-                <option value="Pieces">Pieces</option>
-                <option value="Boxes">Boxes</option>
-                <option value="Tons">Tons</option>
-              </select>
-            </div>
-            <button type="submit" class="submit-rfq">REQUEST FOR QUOTATIONS</button>
-          </form>
-        </div>
+      <div class="rfq-info">
+        <h2>Request for Quotations (RFQ)</h2>
+        <p class="rfq-description">Z********** from Pakistan is looking for Solar electric robot dog chil... and has received 0 quotation(s)</p>
+        <a href="{{ route('seller') }}" class="view-more">View More</a>
+        <ul class="rfq-benefits">
+          <li>Submit an RFQ in just one minute.</li>
+          <li>Get multiple quotations from Verified Suppliers.</li>
+          <li>Compare and choose the best quotation!</li>
+        </ul>
       </div>
+      <div class="rfq-form-container">
+        <form class="rfq-form">
+          <h3>Get Quotations Now</h3>
+          <input type="text" placeholder="Please enter a specific product name" required>
+          <div class="select-container">
+            <select required>
+              <option value="" disabled selected>Select Port</option>
+              <option value="new-york">New York</option>
+              <option value="los-angeles">Los Angeles</option>
+              <option value="miami">Miami</option>
+              <option value="seattle">Seattle</option>
+            </select>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <input type="tel" placeholder="Enter your mobile number" required>
+          <div class="quantity-row">
+            <input type="number" placeholder="Quantity" required>
+            <select>
+              <option value="Bags">Bags</option>
+              <option value="Pieces">Pieces</option>
+              <option value="Boxes">Boxes</option>
+              <option value="Tons">Tons</option>
+            </select>
+          </div>
+          <button type="submit" class="submit-rfq">REQUEST FOR QUOTATIONS</button>
+        </form>
+      </div>
+    </div>
 </section>
 @include('web.partials.loginmodal')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>

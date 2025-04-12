@@ -25,6 +25,7 @@ use App\Services\PasswordResetService;
 use App\Services\ShippingAddressService;
 use App\Traits\EmailTemplateTrait;
 use App\Traits\PaginatorTrait;
+use App\Utils\MembershipManager;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -67,14 +68,25 @@ class CustomerController extends BaseController
 
     public function getListView(Request $request): View
     {
+
+        $filters = ['withCount' => 'orders'];
+
+        if ($request->filled('membership')) {
+            $filters['membership'] = $request->get('membership');
+        }
+
         $customers = $this->customerRepo->getListWhere(
             searchValue: $request->get('searchValue'),
-            filters: ['withCount'=>'orders'],
+            filters: $filters,
             relations: ['orders'],
             dataLimit: getWebConfig(name: 'pagination_limit')
         );
+
+        $membershipTiers = MembershipManager::getCustomerMembershipTiers();
+
         return view(Customer::LIST[VIEW], [
             'customers' => $customers,
+            'membershipTiers' => $membershipTiers,
         ]);
     }
 

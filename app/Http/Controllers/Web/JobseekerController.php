@@ -21,6 +21,7 @@ use Brian2694\Toastr\Toastr;
 use Illuminate\Support\Carbon;
 use App\Models\ShortlistCandidates;
 use App\Models\JobCategory;
+use App\Models\User;
 
 class JobseekerController extends Controller
 {
@@ -784,6 +785,28 @@ class JobseekerController extends Controller
             // Catch general errors
             toastr()->error('Unexpected error: ' . $e->getMessage());
             return redirect()->route('admin.jobvacancy.category.list');
+        }
+    }
+
+    public function consultant_membership(Request $request){
+        if ($request->isMethod('get')){
+            $query = User::where('typerole','findtalent')->get();
+            $consultants = $query->paginate(10);
+            return view('admin-views.jobseekers.consultant_membership.index',compact('consultants'));
+        }
+    }
+
+    public function job_applications(Request $request){
+        if ($request->isMethod('get')){
+            $data['jobapplications'] = JobAppliers::all();
+            return view('admin-views.jobseekers.job_applications.index',$data);
+        }    
+    }
+
+    public function registered_candidates(Request $request){
+        if ($request->isMethod('get')){
+            $data['registeredcandidates'] = TableJobProfile::all();
+            return view('admin-views.jobseekers.registered_candidates.index',$data);
         }
     }
 }

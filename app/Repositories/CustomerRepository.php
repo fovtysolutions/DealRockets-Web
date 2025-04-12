@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\CustomerRepositoryInterface;
 use App\Models\User;
+use App\Utils\MembershipManager;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -51,26 +52,51 @@ class CustomerRepository implements CustomerRepositoryInterface
         return $dataLimit == 'all' ? $query->get() : $query->paginate($dataLimit);
     }
 
-    public function getListWhere(array $orderBy = [], string $searchValue = null, array $filters = [], array $relations = [], int|string $dataLimit = DEFAULT_DATA_LIMIT, int $offset = null): Collection|LengthAwarePaginator
-    {
+    public function getListWhere(
+        array $orderBy = [],
+        string $searchValue = null,
+        array $filters = [],
+        array $relations = [],
+        int|string $dataLimit = DEFAULT_DATA_LIMIT,
+        int $offset = null
+    ): Collection|LengthAwarePaginator {
         $query = $this->user->with($relations)
-            ->when(empty($filters['withCount']),function ($query)use($filters){
+    
+            // Apply filters if no 'withCount'
+            ->when(empty($filters['withCount']), function ($query) use ($filters) {
                 return $query->where($filters);
             })
+    
+            // Search filter
             ->when($searchValue, function ($query) use ($searchValue) {
-                $query->orWhere('f_name', 'like', "%$searchValue%")
-                    ->orWhere('l_name', 'like', "%$searchValue%")
-                    ->orWhere('phone', 'like', "%$searchValue%")
-                    ->orWhere('email', 'like', "%$searchValue%");
+                $query->where(function ($q) use ($searchValue) {
+                    $q->where('f_name', 'like', "%$searchValue%")
+                        ->orWhere('l_name', 'like', "%$searchValue%")
+                        ->orWhere('phone', 'like', "%$searchValue%")
+                        ->orWhere('email', 'like', "%$searchValue%");
+                });
             })
-            ->when(isset($filters['withCount']),function ($query)use($filters){
+    
+            // withCount filter
+            ->when(isset($filters['withCount']), function ($query) use ($filters) {
                 return $query->withCount($filters['withCount']);
-            })
-            ->when(!empty($orderBy), function ($query) use ($orderBy) {
-                $query->orderBy(array_key_first($orderBy), array_values($orderBy)[0]);
             });
-        return $dataLimit == 'all' ? $query->get() : $query->paginate($dataLimit)->appends(['searchValue' => $searchValue]);
-    }
+    
+        // Membership filter using helper
+        if (isset($filters['membership'])) {
+            $query = MembershipManager::filterByMembership($query, $filters['membership']);
+        }
+    
+        // Order
+        $query->when(!empty($orderBy), function ($query) use ($orderBy) {
+            $query->orderBy(array_key_first($orderBy), array_values($orderBy)[0]);
+        });
+    
+        // Return results
+        return $dataLimit === 'all'
+            ? $query->get()
+            : $query->paginate($dataLimit)->appends(['searchValue' => $searchValue]);
+    }    
 
     public function getListWhereNotIn(array $ids = [], array $relations = [], int|string $dataLimit = DEFAULT_DATA_LIMIT, int $offset = null): Collection|LengthAwarePaginator
     {

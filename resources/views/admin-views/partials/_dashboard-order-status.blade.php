@@ -27,6 +27,101 @@
     </a>
 </div>
 
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('job_seekers') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['jobSeekerCount'] ?? 0 }}</h2>
+        <i class="fa-solid fa-user-tie business-analytics__img fa-2x"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('job_postings') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['jobPostingsCount'] ?? 0 }}</h2>
+        <i class="fa-solid fa-briefcase business-analytics__img fa-2x" style="color:#6f42c1;"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('job_applications') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['jobApplicationsCount'] ?? 0 }}</h2>
+        <i class="fa-solid fa-file-lines business-analytics__img fa-2x" style="color:#fd7e14;"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('trade_show_registrations') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['tradeShowRegistrations'] ?? 0 }}</h2>
+        <i class="fa-solid fa-calendar-check business-analytics__img fa-2x" style="color:#20c997;"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('deal_assist_requests') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['dealAssistRequests'] ?? 0 }}</h2>
+        <i class="fa-solid fa-handshake business-analytics__img fa-2x" style="color:#17a2b8;"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('admin_alerts') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['adminNotificationCount'] ?? 0 }}</h2>
+        <i class="fa-solid fa-bell business-analytics__img fa-2x" style="color:#ffc107;"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('total_memberships') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['membershipCount'] ?? 0 }}</h2>
+        <i class="fa-solid fa-id-card business-analytics__img fa-2x" style="color:#28a745;"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('reported_issues') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['reportedIssues'] ?? 0 }}</h2>
+        <i class="fa-solid fa-bug business-analytics__img fa-2x" style="color:#dc3545;"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('open_tickets') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['openTickets'] ?? 0 }}</h2>
+        <i class="fa-solid fa-ticket business-analytics__img fa-2x" style="color:#6610f2;"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('active_subscribers') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['activeSubscribers'] ?? 0 }}</h2>
+        <i class="fa-solid fa-user-check business-analytics__img fa-2x" style="color:#198754;"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('total_reviews') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['totalReviews'] ?? 0 }}</h2>
+        <i class="fa-solid fa-star business-analytics__img fa-2x" style="color:#ffc107;"></i>
+    </a>
+</div>
+
+<div class="col-sm-6 col-lg-3">
+    <a class="business-analytics card" href="javascript:void(0)">
+        <h5 class="business-analytics__subtitle">{{ translate('support_agents') }}</h5>
+        <h2 class="business-analytics__title">{{ $data['supportAgents'] ?? 0 }}</h2>
+        <i class="fa-solid fa-headset business-analytics__img fa-2x" style="color:#0d6efd;"></i>
+    </a>
+</div>
 
 <div class="col-sm-6 col-lg-3">
     <a class="order-stats order-stats_pending" href="{{route('admin.orders.list',['pending'])}}">

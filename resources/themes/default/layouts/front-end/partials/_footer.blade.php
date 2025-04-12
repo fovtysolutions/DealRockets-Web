@@ -33,7 +33,7 @@ $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWi
               </div>
               <div class="group-10 group-new">
                 <div class="text-wrapper-5">Our Products</div>
-                <img class="line" src="img/line-34.svg" />
+                <img class="line" src="/img/line-34.svg" />
               </div>
             </div>
             <div class="group-11">
@@ -65,7 +65,7 @@ $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWi
               </div>
               <div class="group-10 group-new">
                 <div class="text-wrapper-5">Our Industries</div>
-                <img class="img" src="img/line-34-1.svg" />
+                <img class="img" src="/img/line-34-1.svg" />
               </div>
             </div>
           </div>
@@ -107,13 +107,13 @@ $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWi
                 </div>
               </div>
             </div>
-            {{-- <img class="line-2" src="img/line-34-2.svg" /> --}}
+            {{-- <img class="line-2" src="/img/line-34-2.svg" /> --}}
             <div class="responsive-2">
               <div class="group-20">
                 <div class="group-21">
                   <div class="text-wrapper-8">Mail Us</div>
                   <div class="group-22">
-                    <img class="img-2" src="img/email.png" />
+                    <img class="img-2" src="/img/email.png" />
                     <a href="mailto:{{getWebConfig(name: 'company_email')}}" class="text-wrapper-9">{{getWebConfig(name: 'company_email')}}</a>
                   </div>
                 </div>
@@ -130,7 +130,7 @@ $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWi
               <div class="group-24">
                 <div class="text-wrapper-8">Registered office address</div>
                 <div class="group-25">
-                  <img class="img-2" src="img/maps-and-flags.png" />
+                  <img class="img-2" src="/img/maps-and-flags.png" />
                   <div class="text-wrapper-9">India</div>
                 </div>
               </div>
@@ -140,19 +140,19 @@ $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWi
             <div class="group-27">
               <div class="group-10">
                 <div class="text-wrapper-5">Explore More</div>
-                <img class="line" src="img/line-34-3.svg" />
+                <img class="line" src="/img/line-34-3.svg" />
               </div>
               <div class="frame-9">
                 <div class="frame-5">
-                  <img class="img-3" src="img/store.png" />
+                  <img class="img-3" src="/img/store.png" />
                   <a href="{{ route('vendor.auth.login') }}" class="text-wrapper-10">Become a Seller</a>
                 </div>
                 <div class="frame-5">
-                  <img class="img-3" src="img/accept.png" />
+                  <img class="img-3" src="/img/accept.png" />
                   <a href="{{ route('terms') }}" class="text-wrapper-10">Terms &amp; Conditions</a>
                 </div>
                 <div class="frame-5">
-                  <img class="img-3" src="img/legal-document.png" />
+                  <img class="img-3" src="/img/legal-document.png" />
                   <a href="{{ route('privacy-policy') }}" class="text-wrapper-10">Privacy policy</a>
                 </div>
               </div>
@@ -160,15 +160,15 @@ $industries =  App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWi
             <div class="group-28">
               <div class="group-10">
                 <div class="text-wrapper-5">About Company</div>
-                <img class="line-3" src="img/line-34-4.svg" />
+                <img class="line-3" src="/img/line-34-4.svg" />
               </div>
               <div class="frame-9">
                 <div class="frame-5">
-                  <img class="img-3" src="img/copyright.png" />
+                  <img class="img-3" src="/img/copyright.png" />
                   <div class="text-wrapper-10">{{ $web_config['copyright_text']->value }}</div>
                 </div>
                 <div class="frame-5">
-                  <img class="img-3" src="img/viber.png" />
+                  <img class="img-3" src="/img/viber.png" />
                   <a href="tel:{{getWebConfig(name: 'company_phone')}}" class="text-wrapper-10">{{getWebConfig(name: 'company_phone')}}</a>
                 </div>
               </div>

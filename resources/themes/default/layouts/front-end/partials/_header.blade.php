@@ -31,7 +31,7 @@
                     <div class="group-15">
                         <div class="group-2">
                             <a class="text-wrapper" href="{{ route('categories') }}">All Categories</a>
-                            <img class="options-lines" src="img/options-lines-1.png" />
+                            <img class="options-lines" src="/img/options-lines-1.png" />
                         </div>
                       </div>
                       <div class="navbar-3">
@@ -49,8 +49,8 @@
                       <div class="frame-6 delnine">
                         <a href="{{ route('webinfo') }}">
                             <div class="our-features group-features">
-                            <img class="badge img-default" src="img/badge-1.png" />
-                            <img class="badge img-hover" src="img/badge (2).png" />
+                            <img class="badge img-default" src="/img/badge-1.png" />
+                            <img class="badge img-hover" src="/img/badge (2).png" />
                             <div class="text-wrapper-4">Our Features</div>
                             </div>
                         </a>                
@@ -59,11 +59,11 @@
                             <a href="{{route('helpTopic')}}" target="_blank">
                                 <div class="frame-4">
                                     <div class="text-wrapper-5">Help</div>
-                                    {{-- <img class="img" src="img/arrow-down-sign-to-navigate-4.png" /> --}}
+                                    {{-- <img class="img" src="/img/arrow-down-sign-to-navigate-4.png" /> --}}
                                 </div>
                                 <div class="icon-hover group-help">
-                                    <img class="question img-default" src="img/question-1.png" />
-                                    <img class="question img-hover" src="img/help-web-button.png" />
+                                    <img class="question img-default" src="/img/question-1.png" />
+                                    <img class="question img-hover" src="/img/help-web-button.png" />
                                 </div>
                             </a>
                         </div>
@@ -78,11 +78,11 @@
                                     @endif
                                 @endforeach
                             </div>
-                            {{-- <img class="img" src="img/arrow-down-sign-to-navigate-5.png" /> --}}
+                            {{-- <img class="img" src="/img/arrow-down-sign-to-navigate-5.png" /> --}}
                           </div>
                           <div class="icon-hover group-language">
-                            <img class="language img-default" src="img/language-1.png" />
-                            <img class="language img-hover" src="img/language (2).png" />
+                            <img class="language img-default" src="/img/language-1.png" />
+                            <img class="language img-hover" src="/img/language (2).png" />
                           </div>
                         </div>
                             <ul id="languageDropdown-class" class="language-dropdown" style="font-size: 14px; color: black;">
@@ -98,22 +98,50 @@
                                 @endforeach
                             </ul>  
                         </div>
-                        <a href="{{ route('customer.auth.login') }}">
-                            <div class="group-5 group-user">
-                            <div class="text-wrapper-6">Sign in/ Join</div>
-                            <img class="user img-default" src="img/user-1.png" />
-                            <img class="user img-hover" src="img/user (2).png" />
+                        @if (!auth('customer')->check())
+                            <a href="{{ route('customer.auth.login') }}">
+                                <div class="group-5 group-user">
+                                <div class="text-wrapper-6">Sign in/ Join</div>
+                                <img class="user img-default" src="/img/user-1.png" />
+                                <img class="user img-hover" src="/img/user (2).png" />
+                                </div>
+                            </a>
+                        @else
+                            <div class="dropdown m-0">
+                                <a class="navbar-tool navbaricons m-0" type="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <div class="navbar-tool-icon-box bg-secondary">
+                                        <div class="navbar-tool-icon-box bg-secondary">
+                                            <img class="img-profile rounded-circle __inline-14" alt=""
+                                                src="{{ getStorageImages(path: auth('customer')->user()->image_full_url, type: 'avatar') }}">
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
+                                    aria-labelledby="dropdownMenuButton" style="border-radius: 10px;">
+                                    <a class="dropdown-item custom-dealrock-text" href="{{ route('account-oder') }}"> {{ translate('my_Order') }}
+                                    </a>
+                                    <a class="dropdown-item custom-dealrock-text" href="{{ route('user-account') }}">
+                                        {{ translate('my_Profile') }}</a>
+                                    @if ($is_jobadder === true)
+                                        <a class="dropdown-item custom-dealrock-text"
+                                            href="{{ route('job-panel') }}">{{ translate('job_Panel') }}</a>
+                                    @endif
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item custom-dealrock-text"
+                                        href="{{ route('customer.auth.logout') }}">{{ translate('logout') }}</a>
+                                </div>
                             </div>
-                        </a>
+                        @endif
                       </div>
                 </div>        
             </div>
           </div>
           <div class="group-16">
             <div class="contentgroup">
-                <img class="rectangle-stroke-2" src="img/rectangle-20-stroke-1.svg" />
+                <img class="rectangle-stroke-2" src="/img/rectangle-20-stroke-1.svg" />
                 <div class="group-17">
-                    <img class="logo-3" src="img/logo-2.png" />
+                    <img class="logo-3" src="/img/logo-2.png" />
                     <div class="group-18">
                       <div class="group-19">
                         <div class="overlap-group-4">
@@ -208,15 +236,15 @@
                       <div class="frame-11">
                         <a href="{{ route('quotationweb') }}" target="_blank">
                             <div class="group-9">
-                            <img class="chat img-default" src="img/chat-1.png" />
-                            <img class="chat img-hover" src="img/chat (2).png" />
+                            <img class="chat img-default" src="/img/chat-1.png" />
+                            <img class="chat img-hover" src="/img/chat (2).png" />
                             <div class="text-wrapper-9">RFQ</div>
                             </div>
                         </a>
                         <div class="group-10">
                             <a href="{{ route('vendor.auth.login') }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="parcel img-default" src="img/parcel-1.png" />
-                                <img class="parcel img-hover" src="img/parcel (2).png" />
+                                <img class="parcel img-default" src="/img/parcel-1.png" />
+                                <img class="parcel img-hover" src="/img/parcel (2).png" />
                                 <div class="text-wrapper-10">Supplier</div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
@@ -257,8 +285,8 @@
                         </div>
                         <div class="group-11">
                         <a href="{{ route('vendor.auth.login') }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <img class="customer img-default" src="img/customer-1.png" />
-                          <img class="customer img-hover" src="img/customer (2).png" />
+                          <img class="customer img-default" src="/img/customer-1.png" />
+                          <img class="customer img-hover" src="/img/customer (2).png" />
                           <div class="text-wrapper-10">Buyer</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
@@ -299,20 +327,20 @@
                         </div>
                         <div class="group-12">
                           <a href="{{ route('chat',['type'=>'customer']) }}">
-                            <img class="chatting img-default" src="img/chatting-1.png" />
-                            <img class="chatting img-hover" src="img/chatting (2).png" />
+                            <img class="chatting img-default" src="/img/chatting-1.png" />
+                            <img class="chatting img-hover" src="/img/chatting (2).png" />
                             <div class="text-wrapper-10">Message</div>
                           </a>
                         </div>
                         <div class="group-13">
                         <a href="{{ route('shop-cart') }}">
-                          <img class="heart img-default" src="img/heart-1.png" />
-                          <img class="heart img-hover" src="img/heart (2).png" />
+                          <img class="heart img-default" src="/img/heart-1.png" />
+                          <img class="heart img-hover" src="/img/heart (2).png" />
                           <div class="text-wrapper-11">Shortlist</div>
                         </a>
                         </div>
                       </div>
-                      <div class="hamburger" onclick="toggleDropdown()"><img src="img/menu.png" alt="menu" style="height: 16px; width: 16px;"></div>                
+                      <div class="hamburger" onclick="toggleDropdown()"><img src="/img/menu.png" alt="menu" style="height: 16px; width: 16px;"></div>                
                     </div>
                   </div>
             </div>            
@@ -322,7 +350,7 @@
     </div>
     <div class="dropdown-nav" id="dropdownNav">
         <div class="flexboxlogocross">
-            <img class="logo-3" src="img/logo-2.png" />
+            <img class="logo-3" src="/img/logo-2.png" />
             <button class="drawer-close" onclick="toggleDropdown()">✕</button>    
         </div>
         <a href="{{ route('stocksale') }}">Stock Sale</a>

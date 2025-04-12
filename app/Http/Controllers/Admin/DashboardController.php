@@ -14,6 +14,12 @@ use App\Contracts\Repositories\VendorRepositoryInterface;
 use App\Contracts\Repositories\VendorWalletRepositoryInterface;
 use App\Enums\ViewPaths\Admin\Dashboard;
 use App\Http\Controllers\BaseController;
+use App\Models\JobAppliers;
+use App\Models\Membership;
+use App\Models\Review;
+use App\Models\SupportTicket;
+use App\Models\TableJobProfile;
+use App\Models\Vacancies;
 use App\Services\DashboardService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -76,7 +82,19 @@ class DashboardController extends BaseController
         $vendorEarning = $this->getEarning(from: $from, to: $to, range: $range, type: 'month', userType: 'seller');
         $commissionEarn = $this->getAdminCommission(from: $from, to: $to, range: $range, type: 'month');
         $dateType = 'yearEarn';
+        $jobapplications = JobAppliers::count();
+        $jobpostings = Vacancies::count();
+        $jobseekers = TableJobProfile::count();
+        $memberships = Membership::count();
+        $tickets = SupportTicket::count();
+        $reviews = Review::count();
         $data += [
+            'jobApplicationsCount' => $jobapplications,
+            'jobPostingsCount' => $jobpostings,
+            'jobSeekerCount' => $jobseekers,
+            'membershipCount' => $memberships,
+            'openTickets' => $tickets,
+            'totalReviews' => $reviews,
             'order' => $this->orderRepo->getListWhere(dataLimit: 'all')->count(),
             'brand' => $this->brandRepo->getListWhere(dataLimit: 'all')->count(),
             'topSellProduct' => $topSellProduct,

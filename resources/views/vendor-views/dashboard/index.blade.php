@@ -53,6 +53,51 @@
                 <div class="row justify-content-between align-items-center g-2 mb-3">
                     <div class="col-sm-6">
                         <h4 class="d-flex align-items-center text-capitalize gap-10 mb-0">
+                            <img src="{{dynamicAsset(path: 'public/assets/back-end/img/business_analytics.png')}}" alt="">
+                            {{translate('Vendor_Activity')}}
+                        </h4>
+                    </div>
+                </div>
+                <div class="row g-2" id="order_stats">
+                    @include('vendor-views.partials._dashboard-vendoractivity')
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 remove-card-shadow">
+            <div class="card-body">
+                <div class="row justify-content-between align-items-center g-2 mb-3">
+                    <div class="col-sm-6">
+                        <h4 class="d-flex align-items-center text-capitalize gap-10 mb-0">
+                            <img src="{{dynamicAsset(path: 'public/assets/back-end/img/business_analytics.png')}}" alt="">
+                            {{translate('Notifications')}}
+                        </h4>
+                    </div>
+                </div>
+                <div class="row g-2" id="order_stats">
+                    @include('vendor-views.partials._dashboard-notifications')
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 remove-card-shadow">
+            <div class="card-body">
+                <div class="row justify-content-between align-items-center g-2 mb-3">
+                    <div class="col-sm-6">
+                        <h4 class="d-flex align-items-center text-capitalize gap-10 mb-0">
+                            <img src="{{dynamicAsset(path: 'public/assets/back-end/img/business_analytics.png')}}" alt="">
+                            {{translate('Membership Status')}}
+                        </h4>
+                    </div>
+                </div>
+                <div class="row g-2" id="order_stats">
+                    @include('vendor-views.partials._dashboard-membership')
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 remove-card-shadow">
+            <div class="card-body">
+                <div class="row justify-content-between align-items-center g-2 mb-3">
+                    <div class="col-sm-6">
+                        <h4 class="d-flex align-items-center text-capitalize gap-10 mb-0">
                             <img width="20" class="mb-1" src="{{dynamicAsset(path: 'public/assets/back-end/img/admin-wallet.png')}}" alt="">
                             {{translate('vendor_Wallet')}}
                         </h4>

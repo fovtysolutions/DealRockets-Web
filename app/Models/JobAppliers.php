@@ -14,4 +14,14 @@ class JobAppliers extends Model
         'jobid',
         'apply_via',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function job()
+    {
+        return $this->belongsTo(Vacancies::class, 'jobid');
+    }
 }

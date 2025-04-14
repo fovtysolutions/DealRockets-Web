@@ -189,6 +189,16 @@
                                     placeholder="{{ translate('Enter Term') }}" value="{{ old('term', $leads->term) }}">
                             </div>
 
+                            <!-- Compliance Status (Hidden Field) -->
+                            <input type="hidden" name="compliance_status" id="compliance_status" value="{{ $leads->compliance_status }}">
+
+                            <!-- Compliance Warning -->
+                            @if ($leads->compliance_status == 'flagged')
+                                <div id="compliance-warning" class="alert alert-warning">
+                                    {{ translate('This lead has been flagged for compliance issues. Please review before updating.') }}
+                                </div>
+                            @endif
+
                             <!-- Buying Frequency -->
                             <div class="form-group">
                                 <label class="title-color"
@@ -261,4 +271,28 @@
     <script src="{{ dynamicAsset('public/assets/back-end/plugins/summernote/summernote.min.js') }}"></script>
     <script src="{{ dynamicAsset('public/assets/back-end/js/admin/product-add-update.js') }}"></script>
     <script src="{{ dynamicAsset('public/assets/back-end/js/admin/product-add-colors-img.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            // Example compliance check logic
+            $('#leadsForm').on('submit', function (e) {
+                const details = $('#{{ $lang }}_details').val();
+                const prohibitedKeywords = ['fraud', 'scam', 'illegal'];
+
+                let isFlagged = false;
+                prohibitedKeywords.forEach(keyword => {
+                    if (details.includes(keyword)) {
+                        isFlagged = true;
+                    }
+                });
+
+                if (isFlagged) {
+                    e.preventDefault();
+                    $('#compliance-warning').removeClass('d-none');
+                    $('#compliance_status').val('flagged');
+                } else {
+                    $('#compliance_status').val('approved');
+                }
+            });
+        });
+    </script>
 @endpush

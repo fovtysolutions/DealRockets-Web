@@ -14,6 +14,7 @@ use App\Models\Country;
 use App\Models\StockCategory;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Services\ComplianceService; // Import the ComplianceService
 
 class StockSellController extends Controller
 {
@@ -56,6 +57,12 @@ class StockSellController extends Controller
 
         // Prepare the validated data (excluding images)
         $validatedData = $this->prepareStockSellData($request, $user_data);
+
+        // Perform compliance check
+        $complianceStatus = ComplianceService::checkStockSaleCompliance($validatedData);
+
+        // Add compliance status to the validated data
+        $validatedData['compliance_status'] = $complianceStatus;
 
         // Create the StockSell record
         $stockSell = StockSell::create($validatedData);
@@ -146,6 +153,12 @@ class StockSellController extends Controller
                 $companyIconPath = 'stock_images/' . $imageName;
                 $validatedData['company_icon'] = $companyIconPath;  // Save the path for the new icon
             }
+    
+            // Perform compliance check
+            $complianceStatus = ComplianceService::checkStockSaleCompliance($validatedData);
+    
+            // Add compliance status to the validated data
+            $validatedData['compliance_status'] = $complianceStatus;
     
             // Update the StockSell record with the validated data
             $stockSell->update($validatedData);

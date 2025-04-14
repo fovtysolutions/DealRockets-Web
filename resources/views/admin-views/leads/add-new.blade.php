@@ -184,11 +184,19 @@
                             </select>
                         </div>
 
+                         <!-- Compliance Status (Hidden Field) -->
+                         <input type="hidden" name="compliance_status" id="compliance_status" value="pending">
+
                         <!-- Additional Details -->
                         <div class="form-group">
                             <label class="title-color" for="{{ $lang }}_details">{{ translate('details') }}</label>
                             <textarea name="details" id="{{ $lang }}_details" class="form-control"
                                 placeholder="{{ translate('enter_details') }}" rows="3"></textarea>
+                        </div>
+
+                        <!-- Compliance Warning -->
+                        <div id="compliance-warning" class="alert alert-warning d-none">
+                            {{ translate('This lead may not comply with platform standards. Please review before submitting.') }}
                         </div>
                     </div>
                 @endforeach
@@ -219,4 +227,28 @@
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/plugins/summernote/summernote.min.js') }}"></script>
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/admin/product-add-update.js') }}"></script>
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/admin/product-add-colors-img.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            // Example compliance check logic
+            $('#leadsForm').on('submit', function (e) {
+                const details = $('#{{ $lang }}_details').val();
+                const prohibitedKeywords = ['fraud', 'scam', 'illegal'];
+
+                let isFlagged = false;
+                prohibitedKeywords.forEach(keyword => {
+                    if (details.includes(keyword)) {
+                        isFlagged = true;
+                    }
+                });
+
+                if (isFlagged) {
+                    e.preventDefault();
+                    $('#compliance-warning').removeClass('d-none');
+                    $('#compliance_status').val('flagged');
+                } else {
+                    $('#compliance_status').val('approved');
+                }
+            });
+        });
+    </script>
 @endpush

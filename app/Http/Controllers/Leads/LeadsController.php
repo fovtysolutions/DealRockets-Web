@@ -25,6 +25,7 @@ use App\Contracts\Repositories\VendorRepositoryInterface;
 use App\Contracts\Repositories\WishlistRepositoryInterface;
 use App\Models\Leads;
 use App\Services\LeadService;
+use App\Services\ComplianceService; // Import the ComplianceService
 use Brian2694\Toastr\Facades\Toastr;
 use App\Models\Category;
 use App\Models\Admin;
@@ -398,23 +399,30 @@ class LeadsController extends Controller
             $validatedData['added_by'] = $userId;
             $validatedData['posted_date'] = Carbon::now()->toDateString(); // Correct Carbon usage
 
-            // Create a new supplier record
+            // Perform compliance check
+            $complianceStatus = ComplianceService::checkLeadCompliance($validatedData);
+
+            // Add compliance status to the validated data
+            $validatedData['compliance_status'] = $complianceStatus;
+
+            // Create a new lead record
             Leads::create($validatedData);
 
             toastr()->success('Lead Added Successfully');
 
             // Success message
-            return redirect()->route('admin.leads.list')->with('success', 'Supplier added successfully.');
+            return redirect()->route('admin.leads.list')->with('success', 'Lead added successfully.');
         } catch (\Exception $e) {
             // Log the error if needed
-            Log::error('Error in storing supplier: ' . $e->getMessage());
+            Log::error('Error in storing lead: ' . $e->getMessage());
 
             toastr()->error('Lead Add Failed');
 
             // Failure message
-            return redirect()->back()->with('error', 'Failed to add supplier. Please try again.');
+            return redirect()->back()->with('error', 'Failed to add lead. Please try again.');
         }
     }
+
     public function getBulkImportView()
     {
         return view('admin-views.leads.bulk-import');
@@ -520,29 +528,48 @@ class LeadsController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'type' => 'required|string',
-            'name' => 'required|string|max:255',
-            'country' => 'required|string',
-            'product_id' => 'required',
-            'company_name' => 'required|string|max:255',
-            'contact_number' => 'required|string|max:255',
-            'quantity_required' => 'required|string|max:255',
-            'buying_frequency' => 'required|string|max:255',
-            'details' => 'required|string|max:255',
-            'industry' => 'required|string|max:255',
-            'term' => 'required|string|max:255',
-            'unit' => 'required|string|max:255',
-        ]);
+        try {
+            // Validate the incoming request data
+            $validatedData = $request->validate([
+                'type' => 'required|string',
+                'name' => 'required|string|max:255',
+                'country' => 'required|string',
+                'product_id' => 'required',
+                'company_name' => 'required|string|max:255',
+                'contact_number' => 'required|string|max:255',
+                'quantity_required' => 'required|string|max:255',
+                'buying_frequency' => 'required|string|max:255',
+                'details' => 'required|string|max:255',
+                'industry' => 'required|string|max:255',
+                'term' => 'required|string|max:255',
+                'unit' => 'required|string|max:255',
+            ]);
 
-        // Update the lead record
-        $leads = Leads::findOrFail($id);
-        $leads->update(array_merge($validatedData));
+            // Get the lead record
+            $leads = Leads::findOrFail($id);
 
-        return redirect()
-            ->route('admin.leads.view', ['id' => $id])
-            ->with('success', 'Lead updated successfully.');
+            // Perform compliance check
+            $complianceStatus = ComplianceService::checkLeadCompliance($validatedData);
+
+            // Add compliance status to the validated data
+            $validatedData['compliance_status'] = $complianceStatus;
+
+            // Update the lead record
+            $leads->update($validatedData);
+
+            toastr()->success('Lead Updated Successfully');
+
+            return redirect()
+                ->route('admin.leads.view', ['id' => $id])
+                ->with('success', 'Lead updated successfully.');
+        } catch (\Exception $e) {
+            // Log the error if needed
+            Log::error('Error in updating lead: ' . $e->getMessage());
+
+            toastr()->error('Lead Update Failed');
+
+            return redirect()->back()->with('error', 'Failed to update lead. Please try again.');
+        }
     }
 
     public function delete($id)

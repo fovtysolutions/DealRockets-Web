@@ -17,7 +17,9 @@ use App\Models\Product;
 use App\Models\Country;
 use App\Models\Category;
 use App\Models\ChatsOther;
+use App\Models\City;
 use App\Models\MembershipTier;
+use App\Models\State;
 use App\Utils\CategoryManager;
 use Error;
 use Illuminate\Support\Facades\Validator;
@@ -283,6 +285,26 @@ class ChatManager
                 'countryName' => null,
                 'countryISO2' => null,
             ];
+        }
+    }
+
+    public static function getStateName($id)
+    {
+        $state = State::where('id', $id)->first();
+        if ($state) {
+            return $state->name;
+        } else {
+            return null;
+        }
+    }
+
+    public static function getCityName($id)
+    {
+        $city = City::where('id', $id)->first();
+        if ($city) {
+            return $city->name;
+        } else {
+            return null;
         }
     }
 

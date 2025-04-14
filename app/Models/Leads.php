@@ -26,5 +26,6 @@ class Leads extends Model
         'unit',
         'product_id',
         'active',
+        'compliance_status'
     ];
 }

@@ -9248,4 +9248,8 @@ return [
 	"Job Applications" => "Job Applications",
 	"Registered Candidates" => "Registered Candidates",
 	"Consultants List" => "Consultants List",
+	"List_Jobs" => "List Jobs",
+	"Job Applications List" => "Job Applications List",
+	"Registered Candidates List" => "Registered Candidates List",
+	"This lead may not comply with platform standards. Please review before submitting." => "This lead may not comply with platform standards. Please review before submitting.",
 ];

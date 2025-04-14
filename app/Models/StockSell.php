@@ -12,6 +12,6 @@ class StockSell extends Model
     protected $fillable = [
         'name', 'description', 'quantity', 'product_id', 'status', 'user_id',
         'role', 'created_at', 'updated_at', 'image', 'country','industry','company_name',
-        'company_address','company_icon'
+        'company_address','company_icon','compliance_status'
     ];
 }

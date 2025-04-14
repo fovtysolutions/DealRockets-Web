@@ -70,6 +70,10 @@
     width: 100%;
     border-radius: 34px;
     padding: 10px;
+    justify-content: center;
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
 }
 
 .order-now .product-card a:hover {

@@ -6324,6 +6324,7 @@ a {
 
 .others-store-card:hover {
     box-shadow: 0 5px 10px 0 rgba(20, 85, 172, 0.2);
+    text-decoration: none;
 }
 .others-store-card .other-store-banner {
     -o-object-fit: cover;

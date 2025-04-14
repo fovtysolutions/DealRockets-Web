@@ -245,6 +245,9 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     // Deal Assist Controller
     Route::get('deal-assist',[DealAssist::class,'index'])->name('dealassist');
 
+    // Leads Controller
+    Route::get('rotating-leads',[QuotatioController::class,'getLeadsForBanner'])->name('rotating-leads');
+
     // Trade Show Controller
     Route::get('tradeshows',[TradeshowController::class,'index'])->name('tradeshow');
     Route::get('tradeshow/{name}/{id}',[TradeshowController::class,'detailsview'])->name('tradeshow.view');

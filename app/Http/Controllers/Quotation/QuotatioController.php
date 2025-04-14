@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Quotation;
 use App\User;
 use App\Models\Category;
+use App\Models\Leads;
 use Brian2694\Toastr\Toastr;
 use App\Utils\ChatManager;
 
@@ -159,5 +160,17 @@ class QuotatioController extends Controller
 
     public function index(){
         return view('web.postrfq');
+    }
+
+    public function getLeadsForBanner()
+    {
+        // Fetch 100 leads from the Leads model
+        $lead = Leads::inRandomOrder()->first();
+
+        // Return the leads as a JSON response
+        return response()->json([
+            'status' => 'success',
+            'data' => $lead,
+        ]);
     }
 }

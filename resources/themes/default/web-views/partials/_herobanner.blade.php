@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
 <!-- Initialize Owl Carousel Script -->
 <script>
     $(document).ready(function() {
-        $('#banner-carousel1').owlCarousel({
+        $('#banner-carousel1').carousel({
             autoplay: true,
             loop: true, // Loop the carousel
             margin: 10, // Space between items

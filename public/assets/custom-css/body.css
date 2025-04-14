@@ -4,12 +4,11 @@ body {
     /* color: var(--web-text) !important; */
 }
   
-/* a{
-    color: #555 !important;
+a{
     text-decoration: none !important;
 }
 
-a:hover{
+/* a:hover{
     color:#007bff !important;
     cursor: pointer !important;
 } */

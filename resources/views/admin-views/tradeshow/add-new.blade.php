@@ -186,6 +186,15 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col">
+                                <div class="form-group">
+                                    <label for="timeline">Timeline</label>
+                                    <textarea name="timeline" id="timeline" class="form-control" rows="5" placeholder="Enter timeline, one event per line">{{ isset($tradeshow) ? implode("\n", json_decode($tradeshow->timeline, true) ?? []) : '' }}</textarea>
+                                    <small class="form-text text-muted">Enter each timeline event on a new line (e.g., "10:00 am - 10:30 am: Intro and Welcoming").</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
                                 <label class="title-color" for="featured">{{ translate('Featured')}}</label>
                                 <select name="featured" class="form-control" id="featured">
                                     <option selected value="">Select Featured</option>

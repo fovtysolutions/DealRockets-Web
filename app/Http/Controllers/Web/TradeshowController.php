@@ -121,7 +121,7 @@ class TradeshowController extends Controller
         $related = Tradeshow::orderBy('popularity', 'DESC')
         ->where('country', $tradeshow->country)
         ->where('id', '!=', $id) // Exclude the current tradeshow
-        ->take(6)
+        ->take(4)
         ->get();
         return view('tradeshow.detail', compact('tradeshow', 'bannerslimit', 'banners', 'industries', 'locations','related'));
     }
@@ -205,7 +205,11 @@ class TradeshowController extends Controller
             'email' => 'required',
             'phone' => 'required',
             'address' => 'required',
+            'timeline' => 'nullable|string', // Validate the timeline as a string
         ]);
+
+        // Parse the timeline into JSON format
+        $validatedData['timeline'] = $request->has('timeline') ? json_encode(explode("\n", $request->timeline)) : null;
 
         // Get user details
         $userdata = ChatManager::getRoleDetail();
@@ -365,23 +369,40 @@ class TradeshowController extends Controller
             'country' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'website' => 'required|string|max:255',
-            'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate images
+            'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:10248', // Validate images
             'industry' => 'required',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
-            'company_icon' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'company_icon' => 'image|mimes:jpeg,png,jpg|max:10248',
             'featured' => 'required',
             'popularity' => 'required',
             'email' => 'required',
             'phone' => 'required',
             'address' => 'required',
+            'timeline' => 'nullable|string', // Validate the timeline as a string
         ]);
 
         // Find the existing tradeshow record
         $tradeshow = Tradeshow::findOrFail($id);
 
+        // Parse the timeline into JSON format
+        $validatedData['timeline'] = $request->has('timeline') ? json_encode(explode("\n", $request->timeline)) : $tradeshow->timeline;
+
         // Handle file uploads for images
         $imagePaths = json_decode($tradeshow->image, true) ?? []; // Existing images
+
+        // Remove images that were deleted on the frontend
+        if ($request->filled('removed_images')) {
+            $removedImages = json_decode($request->removed_images, true);
+            $imagePaths = array_diff($imagePaths, $removedImages);
+
+            // Optionally, delete the removed images from storage
+            // foreach ($removedImages as $removedImage) {
+            //     \Storage::disk('public')->delete($removedImage);
+            // }
+        }
+
+        // Add new images
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $image) {
                 $path = $image->store('tradeshow', 'public');
@@ -399,11 +420,11 @@ class TradeshowController extends Controller
 
         // Update the tradeshow record with the new data
         $tradeshow->update(array_merge($validatedData, [
-            'image' => json_encode($imagePaths),
+            'image' => json_encode(array_values($imagePaths)),
             'company_icon' => $cpath // Update company_icon path
         ]));
 
-        return redirect()->route('admin.tradeshow.view', ['id' => $id])->with('success', 'Lead updated successfully.');
+        return redirect()->route('admin.tradeshow.view', ['id' => $id])->with('success', 'Tradeshow updated successfully.');
     }
 
     public function delete($id)

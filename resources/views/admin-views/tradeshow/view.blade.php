@@ -47,6 +47,15 @@
                 <div class="mb-3">
                     <strong>{{ translate('End Date') }}:</strong> {{ $tradeshow->end_date }}
                 </div>
+
+                @if($tradeshow->timeline)
+                    <h4>Timeline</h4>
+                    <ul>
+                        @foreach(json_decode($tradeshow->timeline, true) as $event)
+                            <li>{{ $event }}</li>
+                        @endforeach
+                    </ul>
+                @endif
             </div>
         </div>
 

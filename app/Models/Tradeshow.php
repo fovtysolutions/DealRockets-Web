@@ -30,6 +30,7 @@ class Tradeshow extends Model
         'popularity',
         'email',
         'phone',
+        'timeline',
     ];
 
     protected $casts = [

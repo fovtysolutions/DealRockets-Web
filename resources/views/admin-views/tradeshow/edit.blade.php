@@ -154,6 +154,16 @@
 
                                     <div class="row mb-4">
                                         <div class="col">
+                                            <div class="form-group">
+                                                <label for="timeline">Timeline</label>
+                                                <textarea name="timeline" id="timeline" class="form-control" rows="5" placeholder="Enter timeline, one event per line">{{ isset($tradeshow) ? implode("\n", json_decode($tradeshow->timeline, true) ?? []) : '' }}</textarea>
+                                                <small class="form-text text-muted">Enter each timeline event on a new line (e.g., "10:00 am - 10:30 am: Intro and Welcoming").</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-4">
+                                        <div class="col">
                                             <label class="title-color" for="{{ $lang }}_country">{{ translate('country') }}
                                                 ({{ strtoupper($lang) }})
                                                 @if($lang == $defaultLanguage)
@@ -194,19 +204,21 @@
                                                 @php
                                                     $imagePaths = json_decode($tradeshow->image, true) ?? [];  // Decode existing image JSON
                                                 @endphp
-
+                                        
                                                 @foreach($imagePaths as $image)
                                                     <div class="mb-2">
                                                         <img src="{{ asset('storage/' . $image) }}" alt="Existing Image"
                                                             style="width: 100px; margin-right: 10px;">
                                                         <button type="button" class="btn btn-danger btn-sm"
-                                                            onclick="removeImage(this)">Remove</button>
+                                                            onclick="removeImage(this, '{{ $image }}')">Remove</button>
                                                         <input type="hidden" name="existing_images[]" value="{{ $image }}">
                                                         <!-- Hidden field to keep track of existing images -->
                                                     </div>
                                                 @endforeach
                                             </div>
-                                        </div>
+                                            <!-- Hidden input to track removed images -->
+                                            <input type="hidden" name="removed_images" id="removed_images" value="">
+                                        </div>                                        
                                     </div>
                                     <div class="row mb-4">
                                         <div class="col">
@@ -291,5 +303,18 @@
                 fetchCities(selectedCountryId);
             });
         });
+    </script>
+    <script>
+        function removeImage(button, imagePath) {
+            // Remove the image container
+            const imageContainer = button.closest('.mb-2');
+            imageContainer.remove();
+    
+            // Add the removed image path to the hidden input
+            const removedImagesInput = document.getElementById('removed_images');
+            let removedImages = removedImagesInput.value ? JSON.parse(removedImagesInput.value) : [];
+            removedImages.push(imagePath);
+            removedImagesInput.value = JSON.stringify(removedImages);
+        }
     </script>
 @endpush

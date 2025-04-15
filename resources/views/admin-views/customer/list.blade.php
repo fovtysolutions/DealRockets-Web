@@ -67,7 +67,7 @@
                         <th>{{translate('SL')}}</th>
                         <th>{{translate('customer_name')}}</th>
                         <th>{{translate('contact_info')}}</th>
-                        <th>{{translate('total_Order')}} </th>
+                        {{-- <th>{{translate('total_Order')}} </th> --}}
                         <th class="text-center">{{translate('block')}} / {{translate('unblock')}}</th>
                         <th class="text-center">{{translate('action')}}</th>
                     </tr>
@@ -95,11 +95,11 @@
                                 <a class="title-color hover-c1" href="tel:{{$customer->phone}}">{{$customer->phone}}</a>
 
                             </td>
-                            <td>
+                            {{-- <td>
                                 <label class="btn text-info bg-soft-info font-weight-bold px-3 py-1 mb-0 fz-12">
                                     {{$customer->orders_count}}
                                 </label>
-                            </td>
+                            </td> --}}
                             <td>
                                 @if($customer['email'] == 'walking@customer.com')
                                     <div class="text-center">

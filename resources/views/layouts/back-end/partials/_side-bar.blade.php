@@ -147,7 +147,7 @@
                                             <span class="text-truncate">{{ translate('customer_List') }} </span>
                                         </a>
                                     </li>
-                                    <li class="nav-item {{ Request::is('admin/reviews*') ? 'active' : '' }}">
+                                    {{-- <li class="nav-item {{ Request::is('admin/reviews*') ? 'active' : '' }}">
                                         <a class="nav-link" href="{{ route('admin.reviews.list') }}"
                                             title="{{ translate('customer_Reviews') }}">
                                             <span class="tio-circle nav-indicator-icon"></span>
@@ -156,7 +156,7 @@
                                                 {{ translate('customer_Reviews') }}
                                             </span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     {{-- <li
                                         class="nav-item {{ Request::is('admin/customer/wallet/' . CustomerWallet::REPORT[URI]) ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('wallet') }}"
@@ -444,7 +444,7 @@
                             </li>
                         @endif
 
-                        @if (Helpers::module_permission_check('listings_management'))
+                        {{-- @if (Helpers::module_permission_check('listings_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/orders*') ? (Request::is('admin/orders/details/*') && request()->has('vendor-order-list') ? '' : 'scroll-here') : '' }}">
                                 <small class="nav-subtitle" title="">{{ translate('order_management') }}</small>
@@ -653,7 +653,7 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endif
+                        @endif --}}
                         @if (Helpers::module_permission_check('listings_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/brand*') || Request::is('admin/category*') || Request::is('admin/sub*') || Request::is('admin/attribute*') || Request::is('admin/products*') ? 'scroll-here' : '' }}">
@@ -1336,7 +1336,7 @@
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
 
-                            <li
+                            {{-- <li
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle text-capitalize"
                                     href="javascript:" title="{{ translate('delivery_men') }}">
@@ -1383,7 +1383,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> --}}
 
                             @if (auth('admin')->user()->admin_role_id == 1)
                                 <li
@@ -1401,11 +1401,21 @@
                                             class="navbar-vertical-aside-has-menu {{ Request::is('admin/custom-role*') ? 'active' : '' }}">
                                             <a class="js-navbar-vertical-aside-menu-link nav-link"
                                                 href="{{ route('admin.custom-role.create') }}"
-                                                title="{{ translate('employee_Role_Setup') }}">
+                                                title="{{ translate('Create_Employee_Role') }}">
                                                 <span class="tio-circle nav-indicator-icon"></span>
                                                 <span
                                                     class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                                    {{ translate('employee_Role_Setup') }}</span>
+                                                    {{ translate('Create_Employee_Role') }}</span>
+                                            </a>
+                                        </li>
+                                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/custom-role/list') ? 'active' : '' }}">
+                                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                                href="{{ route('admin.custom-role.list') }}"
+                                                title="{{ translate('Employee Roles List') }}">
+                                                <span class="tio-circle nav-indicator-icon"></span>
+                                                <span
+                                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                                    {{ translate('Employee Roles List') }}</span>
                                             </a>
                                         </li>
                                         <li

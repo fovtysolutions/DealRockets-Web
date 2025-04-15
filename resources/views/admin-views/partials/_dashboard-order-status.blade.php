@@ -123,7 +123,7 @@
     </a>
 </div>
 
-<div class="col-sm-6 col-lg-3">
+{{-- <div class="col-sm-6 col-lg-3">
     <a class="order-stats order-stats_pending" href="{{route('admin.orders.list',['pending'])}}">
         <div class="order-stats__content">
             <img width="20" src="{{dynamicAsset(path: '/public/assets/back-end/img/pending.png')}}" alt="">
@@ -211,4 +211,4 @@
         </div>
         <span class="order-stats__title h3">{{$data['failed']}}</span>
     </div>
-</div>
+</div> --}}

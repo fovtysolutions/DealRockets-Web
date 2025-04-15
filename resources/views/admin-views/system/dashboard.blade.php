@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="card mb-3 remove-card-shadow">
+            {{-- <div class="card mb-3 remove-card-shadow">
                 <div class="card-body">
                     <h4 class="d-flex align-items-center text-capitalize gap-10 mb-3">
                         <img width="20" class="mb-1" src="{{dynamicAsset(path: 'public/assets/back-end/img/admin-wallet.png')}}"
@@ -59,7 +59,7 @@
                         @include('admin-views.partials._dashboard-wallet-stats',['data'=>$data])
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="row g-1">
                 <div class="col-lg-8" id="order-statistics-div">
@@ -88,9 +88,9 @@
                                     <div class="before-bg-51CBFF">
                                         <span class="text-capitalize">{{translate('vendor').' '.'('.$data['getTotalVendorCount'].')'}}</span>
                                     </div>
-                                    <div class="before-bg-56E7E7">
+                                    {{-- <div class="before-bg-56E7E7">
                                         <span class="text-capitalize">{{translate('delivery_man').' '.'('.$data['getTotalDeliveryManCount'].')'}}</span>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -128,11 +128,11 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-xl-4">
+                {{-- <div class="col-md-6 col-xl-4">
                     <div class="card h-100 remove-card-shadow">
                         @include('admin-views.partials._top-delivery-man',['topRatedDeliveryMan'=>$data['topRatedDeliveryMan']])
                     </div>
-                </div>
+                </div> --}}
 
             </div>
         </div>

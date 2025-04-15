@@ -92,7 +92,7 @@
                     </div>
                 </div>
             @else
-                <div class="col-xl-6 col-xxl-8 col--xxl-8 d-none d-lg-block">
+            <div class="col-xl-6 col-xxl-8 col--xxl-8 d-none d-lg-block">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="row g-2">
@@ -155,7 +155,7 @@
                 </div>
             </div>
             @endif
-            <div class="col-lg-12 @if(count($customer->addresses)>0)@else d-lg-none @endif">
+            {{-- <div class="col-lg-12 @if(count($customer->addresses)>0)@else d-lg-none @endif">
                 <div class="card overflow-hidden">
                     <div class="card-body">
                         <div class="order-statistics-slider owl-carousel owl-theme">
@@ -351,7 +351,7 @@
                         @include('layouts.back-end._empty-state',['text'=>'no_order_found'],['image'=>'default'])
                     @endif
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

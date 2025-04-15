@@ -484,6 +484,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     Route::group(['prefix' => 'custom-role', 'as' => 'custom-role.', 'middleware' => ['module:user_section']], function () {
         Route::controller(CustomRoleController::class)->group(function () {
+            Route::get(CustomRole::LIST[URI], 'list')->name('list');
             Route::get(CustomRole::ADD[URI], 'index')->name('create');
             Route::post(CustomRole::ADD[URI], 'add')->name('store');
             Route::get(CustomRole::UPDATE[URI] . '/{id}', 'getUpdateView')->name('update');

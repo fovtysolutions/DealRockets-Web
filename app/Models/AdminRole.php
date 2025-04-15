@@ -24,7 +24,7 @@ class AdminRole extends Model
         'id' => 'integer',
         'name' => 'string',
         'module_access' => 'string',
-        'modules' => 'string',
+        // 'modules' => 'string',
         'status' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

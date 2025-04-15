@@ -440,14 +440,25 @@ class Helpers
     public static function module_permission_check($mod_name)
     {
         $user_role = auth('admin')->user()->role;
-        $permission = $user_role->modules;
-        if (isset($permission) && $user_role->status == 1 && in_array($mod_name, (array)json_decode($permission)) == true) {
-            return true;
-        }
+
+        $module_access = json_decode($user_role->module_access, true);
 
         if (auth('admin')->user()->admin_role_id == 1) {
             return true;
         }
+
+        if (isset($module_access) && is_array($module_access)) {
+            foreach ($module_access as $continent => $modules) {
+                if (isset($modules[$mod_name])) {
+                    $permissions = $modules[$mod_name];
+
+                    if (isset($permissions['read']) && $permissions['read'] === 'yes') {
+                        return true;
+                    }
+                }
+            }
+        }
+
         return false;
     }
 

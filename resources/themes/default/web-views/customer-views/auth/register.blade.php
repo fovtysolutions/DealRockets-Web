@@ -157,10 +157,11 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            @php($recaptcha = getWebConfig(name: 'recaptcha'))
+                            @php
+                                $recaptcha = getWebConfig(name: 'recaptcha');
+                            @endphp
                             @if(isset($recaptcha) && $recaptcha['status'] == 1)
                                 <div id="recaptcha_element" class="w-100" data-type="image"></div>
-                            @else
                                 <div class="row">
                                     <div class="col-6 pr-2">
                                         <input type="text" class="form-control border __h-40"

@@ -62,25 +62,25 @@ class CustomerRepository implements CustomerRepositoryInterface
     ): Collection|LengthAwarePaginator {
         $query = $this->user->with($relations)
     
-            // Apply filters if no 'withCount'
-            ->when(empty($filters['withCount']), function ($query) use ($filters) {
-                return $query->where($filters);
-            })
-    
-            // Search filter
-            ->when($searchValue, function ($query) use ($searchValue) {
-                $query->where(function ($q) use ($searchValue) {
-                    $q->where('f_name', 'like', "%$searchValue%")
-                        ->orWhere('l_name', 'like', "%$searchValue%")
-                        ->orWhere('phone', 'like', "%$searchValue%")
-                        ->orWhere('email', 'like', "%$searchValue%");
-                });
-            })
-    
-            // withCount filter
-            ->when(isset($filters['withCount']), function ($query) use ($filters) {
-                return $query->withCount($filters['withCount']);
+        // Apply filters if no 'withCount'
+        ->when(empty($filters['withCount']), function ($query) use ($filters) {
+            return $query->where($filters);
+        })
+
+        // Search filter
+        ->when($searchValue, function ($query) use ($searchValue) {
+            $query->where(function ($q) use ($searchValue) {
+                $q->where('f_name', 'like', "%$searchValue%")
+                    ->orWhere('l_name', 'like', "%$searchValue%")
+                    ->orWhere('phone', 'like', "%$searchValue%")
+                    ->orWhere('email', 'like', "%$searchValue%");
             });
+        })
+
+        // withCount filter
+        ->when(isset($filters['withCount']), function ($query) use ($filters) {
+            return $query->withCount($filters['withCount']);
+        });
     
         // Membership filter using helper
         if (isset($filters['membership'])) {

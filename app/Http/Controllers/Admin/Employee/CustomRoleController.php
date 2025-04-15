@@ -142,6 +142,15 @@ class CustomRoleController extends BaseController
         return $this->getAddView($request);
     }
 
+    public function list(Request $request){
+        $roles = $this->adminRoleRepo->getEmployeeRoleList(
+            orderBy: ['id'=>'desc'],
+            searchValue: $request['searchValue'],
+            filters: ['admin_role_id' => $request['role']],
+            dataLimit: 'all');
+        return view(CustomRole::LIST[VIEW], compact('roles'))->with('continents', $this->continents)->with('modules', $this->modules);
+    }
+
     public function getAddView(Request $request): View
     {
         $roles = $this->adminRoleRepo->getEmployeeRoleList(
@@ -158,7 +167,7 @@ class CustomRoleController extends BaseController
         $data = [
             'name' => $request['name'],
             'module_access' => json_encode($request['permissions']),
-            'modules' => json_encode($request['module']),
+            // 'modules' => json_encode($request['module']),
             'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
@@ -179,7 +188,7 @@ class CustomRoleController extends BaseController
         $data = [
             'name' => $request['name'],
             'module_access' => json_encode($request['permissions']),
-            'modules' => json_encode($request['module']),
+            // 'modules' => json_encode($request['module']),
         ];
         $this->adminRoleRepo->update(id:$request['id'], data: $data);
         Toastr::success(translate('role_updated_successfully'));

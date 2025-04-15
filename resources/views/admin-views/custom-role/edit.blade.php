@@ -40,7 +40,7 @@
                     </div>
 
                     <div class="row">
-                        @foreach($modules as $module)
+                        {{-- @foreach($modules as $module)
                             <div class="col-sm-6 col-lg-3">
                                 <div class="form-group d-flex gap-2">
                                     <input 
@@ -55,7 +55,7 @@
                                             for="{{ $module['key'] }}">{{translate($module['name'])}}</label>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforeach --}}
                         <div class="table-responsive col-lg-12">
                             <table class="table table-hover table-borderless table-thead-bordered">
                                 <thead style="background-color: white;">

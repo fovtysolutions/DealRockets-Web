@@ -4,6 +4,11 @@ namespace App\Enums\ViewPaths\Admin;
 
 enum CustomRole
 {
+    const LIST = [
+        URI => 'list',
+        VIEW => 'admin-views.custom-role.list'
+    ];
+    
     const ADD = [
         URI => 'add',
         VIEW => 'admin-views.custom-role.create'

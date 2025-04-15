@@ -40,6 +40,22 @@
                     </div>
 
                     <div class="row">
+                        @foreach($modules as $module)
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="form-group d-flex gap-2">
+                                    <input 
+                                        type="checkbox" 
+                                        name="module[]" 
+                                        value="{{ $module['key'] }}" 
+                                        class="module-permission" 
+                                        id="{{ $module['key'] }}"
+                                        {{in_array($module['key'],(array)json_decode($role['modules']))?'checked':''}}
+                                    >
+                                    <label class="title-color mb-0"
+                                            for="{{ $module['key'] }}">{{translate($module['name'])}}</label>
+                                </div>
+                            </div>
+                        @endforeach
                         <div class="table-responsive col-lg-12">
                             <table class="table table-hover table-borderless table-thead-bordered">
                                 <thead style="background-color: white;">
@@ -73,7 +89,7 @@
                                                                     data-permission="{{ $permission }}" 
                                                                     name="modules[{{ $continent }}][{{ $module['key'] }}][{{ $permission }}]" 
                                                                     value="yes" 
-                                                                    class="form-check-input module-permission module-permission-{{ $continent }}" 
+                                                                    class="form-check-input module-permission module-permission-special module-permission-{{ $continent }}" 
                                                                     id="{{ $continent }}_{{ $module['key'] }}_{{ $permission }}"
                                                                     @if(isset($permissions[$permission]) && $permissions[$permission] === 'yes') 
                                                                         checked 

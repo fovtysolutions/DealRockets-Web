@@ -36,6 +36,15 @@
                     </div>
 
                     <div class="row">
+                        @foreach($modules as $module)
+                            <div class="col-sm-6 col-lg-3">
+                                <div class="form-group d-flex gap-2">
+                                    <input type="checkbox" name="module[]" value="{{ $module['key'] }}" class="module-permission" id="{{ $module['key'] }}">
+                                    <label class="title-color mb-0"
+                                            for="{{ $module['key'] }}">{{translate($module['name'])}}</label>
+                                </div>
+                            </div>
+                        @endforeach
                         <div class="table-responsive col-lg-12">
                             <table class="table table-hover table-borderless table-thead-bordered">
                                 <thead style="background-color: white;">
@@ -64,7 +73,7 @@
                                                                     data-permission="{{ $permission }}" 
                                                                     name="modules[]" 
                                                                     value="yes" 
-                                                                    class="form-check-input module-permission module-permission-{{ $continent }}" 
+                                                                    class="form-check-input module-permission-special module-permission module-permission-{{ $continent }}" 
                                                                     id="{{ $continent }}_{{ $module['key'] }}_{{ $permission }}">
                                                                 <label class="form-check-label" 
                                                                     for="{{ $continent }}_{{ $module['key'] }}_{{ $permission }}">

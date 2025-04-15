@@ -121,7 +121,7 @@
                                 </span>
                             </a>
                         </li>
-                        @if (Helpers::module_permission_check('user_section'))
+                        @if (Helpers::module_permission_check('user_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/customer/' . Customer::LIST[URI]) || Request::is('admin/customer/' . Customer::VIEW[URI] . '*') || Request::is('admin/customer/' . Customer::SUBSCRIBER_LIST[URI]) || Request::is('admin/vendors/' . Vendor::ADD[URI]) || Request::is('admin/vendors/' . Vendor::LIST[URI]) || Request::is('admin/delivery-man*') ? 'scroll-here' : '' }}">
                                 <small class="nav-subtitle"
@@ -144,7 +144,7 @@
                                         <a class="nav-link " href="{{ route('admin.customer.list') }}"
                                             title="{{ translate('Customer_List') }}">
                                             <span class="tio-circle nav-indicator-icon"></span>
-                                            <span class="text-truncate">{{ translate('Buyers') }} </span>
+                                            <span class="text-truncate">{{ translate('customer_List') }} </span>
                                         </a>
                                     </li>
                                     <li class="nav-item {{ Request::is('admin/reviews*') ? 'active' : '' }}">
@@ -157,6 +157,36 @@
                                             </span>
                                         </a>
                                     </li>
+                                    {{-- <li
+                                        class="nav-item {{ Request::is('admin/customer/wallet/' . CustomerWallet::REPORT[URI]) ? 'active' : '' }}">
+                                        <a class="nav-link" title="{{ translate('wallet') }}"
+                                            href="{{ route('admin.customer.wallet.report') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">
+                                                {{ translate('wallet') }}
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li
+                                        class="nav-item {{ Request::is('admin/customer/wallet/' . CustomerWallet::BONUS_SETUP[URI]) ? 'active' : '' }}">
+                                        <a class="nav-link" title="{{ translate('wallet_Bonus_Setup') }}"
+                                            href="{{ route('admin.customer.wallet.bonus-setup') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">
+                                                {{ translate('wallet_Bonus_Setup') }}
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li
+                                        class="nav-item {{ Request::is('admin/customer/loyalty/' . Customer::LOYALTY_REPORT[URI]) ? 'active' : '' }}">
+                                        <a class="nav-link" title="{{ translate('loyalty_Points') }}"
+                                            href="{{ route('admin.customer.loyalty.report') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">
+                                                {{ translate('loyalty_Points') }}
+                                            </span>
+                                        </a>
+                                    </li> --}}
                                 </ul>
                             </li>
 
@@ -190,6 +220,23 @@
                                             </span>
                                         </a>
                                     </li>
+                                    {{-- <li
+                                        class="nav-item {{ Request::is('admin/vendors/' . Vendor::WITHDRAW_LIST[URI]) || Request::is('admin/vendors/' . Vendor::WITHDRAW_VIEW[URI] . '/*') ? 'active' : '' }}">
+                                        <a class="nav-link " href="{{ route('admin.vendors.withdraw_list') }}"
+                                            title="{{ translate('withdraws') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{ translate('withdraws') }}</span>
+                                        </a>
+                                    </li>
+                                    <li
+                                        class="nav-item {{ Request::is('admin/vendors/withdraw-method/*') ? 'active' : '' }}">
+                                        <a class="nav-link "
+                                            href="{{ route('admin.vendors.withdraw-method.list') }}"
+                                            title="{{ translate('withdrawal_Methods') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{ translate('withdrawal_Methods') }}</span>
+                                        </a>
+                                    </li> --}}
                                 </ul>
                             </li>
 
@@ -272,7 +319,7 @@
                             @endif
                         @endif
 
-                        @if (Helpers::module_permission_check('stock_sale'))
+                        @if (Helpers::module_permission_check('listings_management'))
                             <li class="nav-item {{ Request::is('admin/stock/*') ? 'active' : '' }}">
                                 <small class="nav-subtitle" title="">
                                     {{ translate('Stock Sell') }}
@@ -339,7 +386,7 @@
                             </li>
                         @endif
 
-                        @if (Helpers::module_permission_check('leads_management'))
+                        @if (Helpers::module_permission_check('listings_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/leads/add-new' || 'admin/leads/bulk' || 'admin/leads/list' || 'admin/leads/view' || 'admin/leads/edit') ? 'active' : '' }}">
                                 <small class="nav-subtitle"
@@ -397,7 +444,7 @@
                             </li>
                         @endif
 
-                        @if (Helpers::module_permission_check('order_management'))
+                        @if (Helpers::module_permission_check('listings_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/orders*') ? (Request::is('admin/orders/details/*') && request()->has('vendor-order-list') ? '' : 'scroll-here') : '' }}">
                                 <small class="nav-subtitle" title="">{{ translate('order_management') }}</small>
@@ -607,7 +654,7 @@
                                 </ul>
                             </li>
                         @endif
-                        @if (Helpers::module_permission_check('product_management'))
+                        @if (Helpers::module_permission_check('listings_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/brand*') || Request::is('admin/category*') || Request::is('admin/sub*') || Request::is('admin/attribute*') || Request::is('admin/products*') ? 'scroll-here' : '' }}">
                                 <small class="nav-subtitle"
@@ -805,7 +852,7 @@
                             </li>
                         @endif
 
-                        @if (Helpers::module_permission_check('supplier_management'))
+                        {{-- @if (Helpers::module_permission_check('supplier_management')) --}}
                             <li
                                 class="nav-item {{ Request::is('admin/' . Supplier::LIST[URI] . '/suppliers') || Request::is('admin/' . Supplier::VIEW[URI] . '/suppliers/*') ? 'active' : ' ' }}">
                                 <small class="nav-subtitle"
@@ -851,9 +898,9 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endif                    
+                        {{-- @endif                     --}}
 
-                        @if (Helpers::module_permission_check('trade_show_management'))
+                        @if (Helpers::module_permission_check('trade_shows_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/tradeshow/add-new' || 'admin/tradeshow/bulk' || 'admin/tradeshow/list' || 'admin/tradeshow/view' || 'admin/tradeshow/edit') ? 'active' : '' }}">
                                 <small class="nav-subtitle"
@@ -929,7 +976,7 @@
                             </li>
                         @endif
 
-                        @if (Helpers::module_permission_check('quotation_management'))
+                        @if (Helpers::module_permission_check('listings_management'))
                             <li class="nav-item">
                                 <small class="nav-subtitle"
                                     title="">{{ translate('quotation_management') }}</small>
@@ -965,7 +1012,7 @@
                             </li>
                         @endif
 
-                        @if (Helpers::module_permission_check('promotion_management'))
+                        @if (Helpers::module_permission_check('settings'))
                             <li
                                 class="nav-item {{ Request::is('admin/banner*') || Request::is('admin/coupon*') || Request::is('admin/notification*') || Request::is('admin/deal*') ? 'scroll-here' : '' }}">
                                 <small class="nav-subtitle"
@@ -1093,7 +1140,7 @@
                             </li>
                         @endif
 
-                        @if (Helpers::module_permission_check('system_settings'))
+                        @if (Helpers::module_permission_check('settings'))
                             @if (count(config('get_theme_routes')) > 0)
                                 <li
                                     class="nav-item {{ Request::is('admin/banner*') || Request::is('admin/coupon*') || Request::is('admin/notification*') || Request::is('admin/deal*') ? 'scroll-here' : '' }}">
@@ -1136,7 +1183,7 @@
                                 @endforeach
                             @endif
                         @endif
-                        @if (Helpers::module_permission_check('support_section'))
+                        @if (Helpers::module_permission_check('settings'))
                             <li
                                 class="nav-item {{ Request::is('admin/support-ticket*') || Request::is('admin/contact*') ? 'scroll-here' : '' }}">
                                 <small class="nav-subtitle" title="">{{ translate('help_&_support') }}</small>
@@ -1187,7 +1234,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (Helpers::module_permission_check('report'))
+                        @if (Helpers::module_permission_check('analytics_reports'))
                             <li
                                 class="nav-item {{ Request::is('admin/report/earning') || Request::is('admin/report/' . InhouseProductSale::VIEW[URI]) || Request::is('admin/report/vendor-report') || Request::is('admin/report/earning') || Request::is('admin/transaction/list') || Request::is('admin/refund-section/refund-list') || Request::is('admin/stock/product-in-wishlist') || Request::is('admin/reviews*') || Request::is('admin/stock/product-stock') || Request::is('admin/transaction/wallet-bonus') || Request::is('admin/report/order') ? 'scroll-here' : '' }}">
                                 <small class="nav-subtitle" title="">
@@ -1281,7 +1328,109 @@
                             </li>
                         @endif
 
-                        @if (Helpers::module_permission_check('system_settings'))
+                        @if (Helpers::module_permission_check('settings'))
+                            <li
+                                class="nav-item {{ Request::is('admin/customer/' . Customer::LIST[URI]) || Request::is('admin/customer/' . Customer::VIEW[URI] . '*') || Request::is('admin/customer/' . Customer::SUBSCRIBER_LIST[URI]) || Request::is('admin/vendors/' . Vendor::ADD[URI]) || Request::is('admin/vendors/' . Vendor::LIST[URI]) || Request::is('admin/delivery-man*') ? 'scroll-here' : '' }}">
+                                <small class="nav-subtitle"
+                                    title="">{{ translate('admin_management') }}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+
+                            <li
+                                class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man*') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle text-capitalize"
+                                    href="javascript:" title="{{ translate('delivery_men') }}">
+                                    <i class="tio-user nav-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate text-capitalize">
+                                        {{ translate('delivery_men') }}
+                                    </span>
+                                </a>
+                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
+                                    style="display: {{ Request::is('admin/delivery-man*') ? 'block' : 'none' }}">
+                                    <li
+                                        class="nav-item {{ Request::is('admin/delivery-man/' . DeliveryMan::ADD[URI]) ? 'active' : '' }}">
+                                        <a class="nav-link " href="{{ route('admin.delivery-man.add') }}"
+                                            title="{{ translate('add_new') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{ translate('add_new') }}</span>
+                                        </a>
+                                    </li>
+                                    <li
+                                        class="nav-item {{ Request::is('admin/delivery-man/' . DeliveryMan::LIST[URI]) || Request::is('admin/delivery-man/' . DeliveryMan::UPDATE[URI] . '*') || Request::is('admin/delivery-man/' . DeliveryMan::EARNING_STATEMENT_OVERVIEW[URI] . '*') || Request::is('admin/delivery-man/' . DeliveryMan::ORDER_HISTORY_LOG[URI] . '*') || Request::is('admin/delivery-man/' . DeliveryMan::EARNING_OVERVIEW[URI] . '*') ? 'active' : '' }}">
+                                        <a class="nav-link" href="{{ route('admin.delivery-man.list') }}"
+                                            title="{{ translate('list') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{ translate('list') }}</span>
+                                        </a>
+                                    </li>
+                                    <li
+                                        class="nav-item {{ Request::is('admin/delivery-man/' . DeliverymanWithdraw::LIST[URI]) || Request::is('admin/delivery-man/' . DeliverymanWithdraw::VIEW[URI] . '*') ? 'active' : '' }}">
+                                        <a class="nav-link " href="{{ route('admin.delivery-man.withdraw-list') }}"
+                                            title="{{ translate('withdraws') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{ translate('withdraws') }}</span>
+                                        </a>
+                                    </li>
+
+                                    <li
+                                        class="nav-item {{ Request::is('admin/delivery-man/emergency-contact') ? 'active' : '' }}">
+                                        <a class="nav-link "
+                                            href="{{ route('admin.delivery-man.emergency-contact.index') }}"
+                                            title="{{ translate('emergency_contact') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{ translate('Emergency_Contact') }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            @if (auth('admin')->user()->admin_role_id == 1)
+                                <li
+                                    class="navbar-vertical-aside-has-menu {{ Request::is('admin/employee*') || Request::is('admin/custom-role*') ? 'active' : '' }}">
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                        href="javascript:" title="{{ translate('employees') }}">
+                                        <i class="tio-user nav-icon"></i>
+                                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                            {{ translate('employees') }}
+                                        </span>
+                                    </a>
+                                    <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
+                                        style="display: {{ Request::is('admin/employee*') || Request::is('admin/custom-role*') ? 'block' : 'none' }}">
+                                        <li
+                                            class="navbar-vertical-aside-has-menu {{ Request::is('admin/custom-role*') ? 'active' : '' }}">
+                                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                                href="{{ route('admin.custom-role.create') }}"
+                                                title="{{ translate('employee_Role_Setup') }}">
+                                                <span class="tio-circle nav-indicator-icon"></span>
+                                                <span
+                                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                                    {{ translate('employee_Role_Setup') }}</span>
+                                            </a>
+                                        </li>
+                                        <li
+                                            class="nav-item {{ Request::is('admin/employee/' . Employee::LIST[URI]) || Request::is('admin/employee/' . Employee::ADD[URI]) || Request::is('admin/employee/' . Employee::UPDATE[URI] . '*') ? 'active' : '' }}">
+                                            <a class="nav-link" href="{{ route('admin.employee.list') }}"
+                                                title="{{ translate('employees') }}">
+                                                <span class="tio-circle nav-indicator-icon"></span>
+                                                <span class="text-truncate">{{ translate('employees') }}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endif
+
+                            <li
+                                class="navbar-vertical-aside-has-menu {{ Request::is('admin/customer/' . Customer::SUBSCRIBER_LIST[URI]) ? 'active' : '' }}">
+                                <a class="nav-link " href="{{ route('admin.customer.subscriber-list') }}"
+                                    title="{{ translate('subscribers') }}">
+                                    <span class="tio-user nav-icon"></span>
+                                    <span class="text-truncate">{{ translate('subscribers') }} </span>
+                                </a>
+                            </li>
+                        @endif
+
+                        @if (Helpers::module_permission_check('settings'))
                             <li
                                 class="nav-item {{ Request::is('admin/business-settings/web-config') ||
                                 Request::is('admin/product-settings') ||
@@ -1467,17 +1616,6 @@
                                             <span class="text-truncate">
                                                 {{ translate('login_Settings') }}
                                             </span>
-                                        </a>
-                                    </li>
-                                    <li
-                                        class="navbar-vertical-aside-has-menu {{ Request::is('admin/custom-role*') ? 'active' : '' }}">
-                                        <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                            href="{{ route('admin.custom-role.create') }}"
-                                            title="{{ translate('Role_Setup') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
-                                            <span
-                                                class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                                {{ translate('Role_Setup') }}</span>
                                         </a>
                                     </li>
                                     <li

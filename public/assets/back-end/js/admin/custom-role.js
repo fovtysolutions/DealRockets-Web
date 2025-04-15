@@ -6,7 +6,7 @@ $('#submit-create-role').on('submit', function (e) {
     // Clear any previously added hidden inputs
     $(".dynamic-hidden-input").remove();
 
-    let fields = $(".module-permission");
+    let fields = $(".module-permission-special");
     let formattedInput = [];
 
     // Iterate through all checkboxes (checked and unchecked)

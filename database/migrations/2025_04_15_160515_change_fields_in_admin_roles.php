@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('admin_roles', function (Blueprint $table) {
             $table->longText('module_access')->change();
+            $table->longText('modules')->nullable();
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('admin_roles', function (Blueprint $table) {
             $table->string('module_access')->change();
+            $table->dropColumn('modules');
         });
     }
 };

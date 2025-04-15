@@ -22,6 +22,108 @@ class CustomRoleController extends BaseController
 {
     use PaginatorTrait;
 
+    protected array $modules = [
+        // Admin Panel Modules
+        [
+            'key' => 'dashboard_management',
+            'name' => 'Dashboard Management',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'user_management',
+            'name' => 'User Management',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'listings_management',
+            'name' => 'Listings Management',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'jobs_management',
+            'name' => 'Jobs Management',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'vendor_zone',
+            'name' => 'Vendor Zone',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'trade_shows_management',
+            'name' => 'Trade Shows Management',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'content_moderation',
+            'name' => 'Content Moderation',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'notifications_messaging',
+            'name' => 'Notifications & Messaging',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'analytics_reports',
+            'name' => 'Analytics & Reports',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'settings',
+            'name' => 'Settings',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+    
+        // Vendor Panel Modules
+        [
+            'key' => 'vendor_dashboard',
+            'name' => 'Vendor Dashboard',
+            'permissions' => ['read']
+        ],
+        [
+            'key' => 'profile_management',
+            'name' => 'Profile Management',
+            'permissions' => ['read', 'create', 'edit']
+        ],
+        [
+            'key' => 'vendor_listings',
+            'name' => 'Vendor Listings',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'deal_assist',
+            'name' => 'Deal Assist',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'vendor_jobs_management',
+            'name' => 'Vendor Jobs Management',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'vendor_trade_shows',
+            'name' => 'Vendor Trade Shows',
+            'permissions' => ['read', 'create', 'edit']
+        ],
+        [
+            'key' => 'vendor_messages',
+            'name' => 'Vendor Messages',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+        [
+            'key' => 'vendor_analytics',
+            'name' => 'Vendor Analytics',
+            'permissions' => ['read']
+        ],
+        [
+            'key' => 'vendor_membership',
+            'name' => 'Vendor Membership',
+            'permissions' => ['read', 'create', 'edit', 'delete']
+        ],
+    ];
+    protected array $continents = ['Global', 'Asia', 'Africa', 'Americas', 'Antarctica', 'Europe', 'Australia'];
+
     public function __construct(
         private readonly AdminRepositoryInterface $adminRepo,
         private readonly AdminRoleRepositoryInterface $adminRoleRepo,
@@ -47,14 +149,15 @@ class CustomRoleController extends BaseController
             searchValue: $request['searchValue'],
             filters: ['admin_role_id' => $request['role']],
             dataLimit: 'all');
-        return view(CustomRole::ADD[VIEW], compact('roles'));
+        return view(CustomRole::ADD[VIEW], compact('roles'))->with('continents', $this->continents)->with('modules', $this->modules);
     }
 
     public function add(CustomRoleRequest $request): RedirectResponse
     {
+        // dd($request->all());
         $data = [
             'name' => $request['name'],
-            'module_access' => json_encode($request['modules']),
+            'module_access' => json_encode($request['permissions']),
             'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
@@ -67,14 +170,14 @@ class CustomRoleController extends BaseController
     public function getUpdateView($id): View
     {
         $role = $this->adminRoleRepo->getFirstWhere(params: ['id'=>$id]);
-        return view(CustomRole::UPDATE[VIEW], compact('role'));
+        return view(CustomRole::UPDATE[VIEW], compact('role'))->with('continents', $this->continents)->with('modules', $this->modules);
     }
 
     public function update(CustomRoleRequest $request): RedirectResponse
     {
         $data = [
             'name' => $request['name'],
-            'module_access' => json_encode($request['modules']),
+            'module_access' => json_encode($request['permissions']),
         ];
         $this->adminRoleRepo->update(id:$request['id'], data: $data);
         Toastr::success(translate('role_updated_successfully'));
@@ -116,4 +219,8 @@ class CustomRoleController extends BaseController
         ], 200);
     }
 
+    public function view(Request $request,$id){
+        $role = $this->adminRoleRepo->getFirstWhere(params: ['id'=>$id]);
+        return view(CustomRole::VIEW[VIEW], compact('role'));
+    }
 }

@@ -29,4 +29,9 @@ enum CustomRole
         VIEW => ''
     ];
 
+    const VIEW = [
+        URI => 'view',
+        VIEW => 'admin-views.custom-role.view'
+    ];
+
 }

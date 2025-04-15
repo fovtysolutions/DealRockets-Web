@@ -491,6 +491,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::post(CustomRole::STATUS[URI], 'updateStatus')->name('employee-role-status');
             Route::post(CustomRole::DELETE[URI], 'delete')->name('delete');
             Route::get(CustomRole::EXPORT[URI], 'exportList')->name('export');
+            Route::get(CustomRole::VIEW[URI] . '/{id}','view')->name('view');
         });
     });
 

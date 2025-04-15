@@ -6,7 +6,7 @@
 @section('title', translate('edit_Role'))
 
 @section('content')
-    @php($direction = Session::get('direction'))
+    @php($direction = Session::get('direction'))@endphp
     <div class="content container-fluid">
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2 text-capitalize">
@@ -40,95 +40,58 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="modules[]" value="dashboard"
-                                       class="form-check-input module-permission"
-                                       id="dashboard" {{in_array('dashboard',(array)json_decode($role['module_access']))?'checked':''}}>
-                                <label class="form-check-label"
-                                       style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                       for="dashboard">{{translate('dashboard')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input module-permission" name="modules[]"
-                                       {{in_array('pos_management',(array)json_decode($role['module_access']))?'checked':''}} value="pos_management"
-                                       id="pos_management">
-                                <label class="title-color mb-0"
-                                       style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                       for="pos_management">{{translate('pos_management')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="modules[]" value="order_management"
-                                       class="form-check-input module-permission"
-                                       id="order" {{in_array('order_management',(array)json_decode($role['module_access']))?'checked':''}}>
-                                <label class="form-check-label text-capitalize"
-                                       style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                       for="order">{{translate('order_management')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="modules[]" value="product_management"
-                                       class="form-check-input module-permission"
-                                       id="product" {{in_array('product_management',(array)json_decode($role['module_access']))?'checked':''}}>
-                                <label class="form-check-label text-capitalize"
-                                       style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                       for="product">{{translate('product_management')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="modules[]" value="promotion_management"
-                                       class="form-check-input module-permission"
-                                       id="promotion_management" {{in_array('promotion_management',(array)json_decode($role['module_access']))?'checked':''}}>
-                                <label class="form-check-label text-capitalize"
-                                       style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                       for="promotion_management">{{translate('promotion_management')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="modules[]" value="support_section"
-                                       class="form-check-input module-permission"
-                                       id="support_section" {{in_array('support_section',(array)json_decode($role['module_access']))?'checked':''}}>
-                                <label class="form-check-label text-capitalize"
-                                       style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                       for="support_section">{{translate('help_&_support_Section')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="modules[]" value="report"
-                                       class="form-check-input module-permission"
-                                       id="report" {{in_array('report',(array)json_decode($role['module_access']))?'checked':''}}>
-                                <label class="form-check-label"
-                                       style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                       for="report">{{translate('reports_and_analytics')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="modules[]" value="user_section"
-                                       class="form-check-input module-permission"
-                                       id="user_section" {{in_array('user_section',(array)json_decode($role['module_access']))?'checked':''}}>
-                                <label class="form-check-label"
-                                       style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                       for="user_section">{{translate('user_management')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="modules[]" value="system_settings"
-                                       class="form-check-input module-permission"
-                                       id="system_settings" {{in_array('system_settings',(array)json_decode($role['module_access']))?'checked':''}}>
-                                <label class="form-check-label"
-                                       style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                       for="system_settings">{{translate('system_Settings')}}</label>
-                            </div>
+                        <div class="table-responsive col-lg-12">
+                            <table class="table table-hover table-borderless table-thead-bordered">
+                                <thead style="background-color: white;">
+                                    <tr>
+                                        <th>Permission Name</th>
+                                        @foreach ($continents as $continent)
+                                            <th class="text-center">
+                                                <input type="checkbox" data-continent="{{ $continent }}" class="cursor-pointer select-all-specific">
+                                                {{ $continent }}
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($modules as $module)
+                                        <tr>
+                                            <td>{{ $module['name'] }}</td>
+                                            @foreach ($continents as $continent)
+                                                @php
+                                                    $module_access = $role['module_access'] ? json_decode($role['module_access'], true) : [];
+                                                    $permissions = $module_access[$continent][$module['key']] ?? [];
+                                                    $permissions = is_array($permissions) ? $permissions : [];
+                                                @endphp
+                                                <td>
+                                                    <div class="d-flex flex-column">
+                                                        @foreach ($module['permissions'] as $permission)
+                                                            <div class="form-check">
+                                                                <input type="checkbox"
+                                                                    data-continent="{{ $continent }}"
+                                                                    data-key="{{ $module['key'] }}"
+                                                                    data-permission="{{ $permission }}" 
+                                                                    name="modules[{{ $continent }}][{{ $module['key'] }}][{{ $permission }}]" 
+                                                                    value="yes" 
+                                                                    class="form-check-input module-permission module-permission-{{ $continent }}" 
+                                                                    id="{{ $continent }}_{{ $module['key'] }}_{{ $permission }}"
+                                                                    @if(isset($permissions[$permission]) && $permissions[$permission] === 'yes') 
+                                                                        checked 
+                                                                    @endif
+                                                                >
+                                                                <label class="form-check-label" 
+                                                                    for="{{ $continent }}_{{ $module['key'] }}_{{ $permission }}">
+                                                                    {{ ucfirst($permission) }}
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 

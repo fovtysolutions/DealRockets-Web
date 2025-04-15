@@ -1,8 +1,41 @@
 @extends('layouts.front-end.app')
-<link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/stocksalenew.css') }}" />
-<link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/jobseekernew.css') }}">
-{{-- <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/customdropdown.css') }}"> --}}
-<link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/multitabstock.css') }}" />
+@push('css_or_js')
+<link rel="stylesheet" href="{{ theme_asset(path: 'assets/custom-css/ai/stocksale.css') }}" />
+<style>
+    .leadpagedivision {
+        background-color: var(--web-bg);
+    }
+
+    .gapbetweens {
+        height: 22px;
+        background-color: var(--web-bg);
+    }
+
+    .fade-in-on-scroll {
+        width: 100%;
+    }
+
+    .__inline-9 {
+        background-color: var(--web-bg);
+    }
+
+    .dropdown-item:hover {
+        background-color: white;
+        transform: scale(1) !important;
+        cursor: pointer;
+    }
+
+    .ad-section{
+        flex-direction: row !important;
+    }
+
+    .ad-section img{
+        aspect-ratio: 6 / 1;
+        max-width: 1440px;
+        height: 300px;
+    }
+</style>
+@endpush
 @section('title', translate('Stock Sale' . ' | ' . $web_config['name']->value))
 @section('content')
     <?php
@@ -18,632 +51,367 @@
     $user_id = $userdata['user_id'];
     $role = $userdata['role'];
     ?>
-    <style>
-        .leadpagedivision {
-            background-color: var(--web-bg);
-        }
-
-        .gapbetweens {
-            height: 22px;
-            background-color: var(--web-bg);
-        }
-
-        .fade-in-on-scroll {
-            width: 100%;
-        }
-
-        .__inline-9 {
-            background-color: var(--web-bg);
-        }
-
-        .dropdown-item:hover {
-            background-color: white;
-            transform: scale(1) !important;
-            cursor: pointer;
-        }
-
-        /* .mainpagesection {
-            margin-top: 0px;
-        } */
-
-        .ad-section{
-            flex-direction: row !important;
-        }
-
-        .ad-section img{
-            aspect-ratio: 7/1 !important;
-            max-width: 1600px !important;
-        }
-    </style>
-    <section class="mainpagesection" style="margin-top: 10px;">
-        {{-- <div style="border-radius:10px;">
-            <div class="owl-carousel stocksale-carousel">
-                <!-- Banner Images -->
-                <img class="w-100 topclassbanner" src="{{ asset('storage/' . $stocksalebanner['banner_image1']) }}" alt="Banner">
-                <img class="w-100 topclassbanner" src="{{ asset('storage/' . $stocksalebanner['banner_image2']) }}" alt="Banner">
+    
+    <section class="mainpagesection stock-sale" style="background-color: unset; margin-top: 30px;">
+        <div class="main-content">
+            <!-- Left sidebar with filters -->
+              <!-- for mobile media  -->
+              <div class="search-and-filters-container">
+                <!-- Search Box -->
+                <div id="search-box" style="background: #fff;  width: 196.66px; display: flex; align-items: center; border: 1px solid #ccc; border-radius: 8px; padding: 6px 10px;">
+                  <!-- Search Icon SVG -->
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="black" style="margin-right: 6px;" viewBox="0 0 24 24">
+                    <path d="M21 21L15.8 15.8M18 10.5A7.5 7.5 0 1 1 3 10.5a7.5 7.5 0 0 1 15 0Z" stroke="black" stroke-width="2" fill="none" />
+                  </svg>
+                  <input type="text" placeholder="Search by Name" style="border: none; outline: none;" />
+                </div>
+      
+                <!-- Filters Button -->
+                <button id="filters-button" style="display: flex;     margin-left: 50px;
+                width: 101px;
+                height: 30px;  align-items: center; gap: 6px; border: 1px solid #ccc; padding: 6px 12px; background-color: white; cursor: pointer;">
+                  Filters
+                  <!-- Filter Icon SVG -->
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="black" viewBox="0 0 24 24">
+                    <path d="M3 5h18M6 12h12M10 19h4" stroke="black" stroke-width="2" fill="none" stroke-linecap="round" />
+                  </svg>
+                </button>
+              </div>
+      
+      
+            
+            <div class="sidebar">
+              <div class="filter-sidebar">
+                <div class="search-input">
+                  <div class="input-label">Search by Name</div>
+                  <div class="input-container">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/793bda788c444c6fa750bc442f903d3640eb48a5?placeholderIfAbsent=true" alt="Search icon">
+                  </div>
+                </div>
+      
+                <div style="margin-top: 9px;">
+                  <div class="input-label">Filter By Country</div>
+                  <div class="input-container">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/f1c85c4a500d673e402c69eef99db5caaa078e9d?placeholderIfAbsent=true" alt="Filter icon">
+                  </div>
+                </div>
+      
+                <div class="country-list">
+                  <div class="checkbox-item">
+                    <div class="checkbox checkbox-checked"></div>
+                    <div class="checkbox-label">United States</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">United Kingdom</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">China</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Russia</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Australia</div>
+                  </div>
+                </div>
+      
+                <div class="input-label" style="margin-top: 11px;">Search by Category</div>
+                <div class="input-container">
+                  <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/793bda788c444c6fa750bc442f903d3640eb48a5?placeholderIfAbsent=true" alt="Search icon">
+                </div>
+      
+                <div class="category-list">
+                  <div class="checkbox-item">
+                    <div class="checkbox checkbox-checked"></div>
+                    <div class="checkbox-label">Agriculture</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Apparel & Accessories</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Automobiles & Motorcycles</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Beauty</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Building & Construction</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Chemicals</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Consumer Electronics & Components</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Electrical Equipment</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Fashion Accessories</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Food & Beverage</div>
+                  </div>
+                  <div class="checkbox-item">
+                    <div class="checkbox"></div>
+                    <div class="checkbox-label">Furniture</div>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div> --}}
-        {{-- <div class="gapbetweens border-0 rounded-0" style="height: 10px;">
-            <!-- Empty Gap -->
-        </div>
-        <div class="card border-0 rounded-0" style="background-color: var(--web-bg);">
-            <span> <a href="/"> Home </a> / <a href="/stock-sale"> Stock Sale </a> </span>
-        </div> --}}
-        {{-- <div class="gapbetweens border-0 rounded-0" style="height: 10px;">
-            <!-- Empty Gap -->
-        </div>
-        <div class="card border-0 rounded-0" style="background-color: var(--web-bg);">
-            <h4><strong>Find Best Stocks in Sale!</strong></h4>
-        </div> --}}
-        {{-- <div class="gapbetweens border-0 rounded-0" style="height: 10px;">
-            <!-- Empty Gap -->
-        </div>
-        <div class="card border-0 rounded-0 hrhhr">
-            <!-- Buyers label on the left -->
-            <div class="rrrh">
-                <div class="btnbuyer" style="color: white;">
-                    Stock Sale
+      
+            <!-- Middle section with product listings -->
+            <div class="product-list-section">
+              <div class="product-list">
+                <div class="product-list-inner">
+                  <div class="product-cards-container">
+                    <!-- Product Card 1 (Featured) -->
+                    <div class="product-card" data-id="productCard">
+                      <div class="product-card-inner product-card-featured">
+                        <div class="product-card-content">
+                          <div class="product-image-container">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4de8e965ad84b638b3a33b6125a0b45bb159b0f9?placeholderIfAbsent=true" class="product-image" alt="Fresh Apples">
+                          </div>
+                          <div class="product-info">
+                            <div class="product-header">
+                              <div class="product-title">Selling 300 Units of Fresh Apples</div>
+                              <img  class ="heart" src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/69456c03811ace2c0c568374d486fb1c0b4f38c1?placeholderIfAbsent=true" width="20" alt="Featured icon">
+                            </div>
+                            <div class="product-rate">
+                              <div class="product-rate-label">Offer Rate:</div>
+                              <div class="product-rate-value">$500-600/MT</div>
+                            </div>
+                            <div class="product-origin">
+                              <div>Origin:</div>
+                              <div class="product-origin-location">
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true" width="15" alt="Location icon">
+                                <div>New York, US</div>
+                              </div>
+                            </div>
+                            <div class="product-description">
+                              Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <!-- Product Card 2 -->
+                    <div class="product-card" data-id="2">
+                      <div class="product-card-inner">
+                        <div class="product-card-content">
+                          <div class="product-image-container">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4de8e965ad84b638b3a33b6125a0b45bb159b0f9?placeholderIfAbsent=true" class="product-image" alt="Fresh Apples">
+                          </div>
+                          <div class="product-info">
+                            <div class="product-header">
+                              <div class="product-title">Selling 300 Units of Fresh Apples</div>
+                              <img class ="heart" src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4138db3e7bada86a66bf44bd7fe2dc3b0959e290?placeholderIfAbsent=true" width="20" alt="Product icon">
+                            </div>
+                            <div class="product-rate">
+                              <div class="product-rate-label">Offer Rate:</div>
+                              <div class="product-rate-value">$500-600/MT</div>
+                            </div>
+                            <div class="product-origin">
+                              <div>Origin:</div>
+                              <div class="product-origin-location">
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true" width="15" alt="Location icon">
+                                <div>New York, US</div>
+                              </div>
+                            </div>
+                            <div class="product-description">
+                              Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                    <!-- Product Card 3 -->
+                    <div class="product-card" data-id="3">
+                      <div class="product-card-inner">
+                        <div class="product-card-content">
+                          <div class="product-image-container">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4de8e965ad84b638b3a33b6125a0b45bb159b0f9?placeholderIfAbsent=true" class="product-image" alt="Fresh Apples">
+                          </div>
+                          <div class="product-info">
+                            <div class="product-header">
+                              <div class="product-title">Selling 300 Units of Fresh Apples</div>
+                              <img  class ="heart" src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4138db3e7bada86a66bf44bd7fe2dc3b0959e290?placeholderIfAbsent=true" width="20" alt="Product icon">
+                            </div>
+                            <div class="product-rate">
+                              <div class="product-rate-label">Offer Rate:</div>
+                              <div class="product-rate-value">$500-600/MT</div>
+                            </div>
+                            <div class="product-origin">
+                              <div>Origin:</div>
+                              <div class="product-origin-location">
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true" width="15" alt="Location icon">
+                                <div>New York, US</div>
+                              </div>
+                            </div>
+                            <div class="product-description">
+                              Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Product Card 4 -->
+                    <div class="product-card" data-id="3">
+                      <div class="product-card-inner">
+                        <div class="product-card-content">
+                          <div class="product-image-container">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4de8e965ad84b638b3a33b6125a0b45bb159b0f9?placeholderIfAbsent=true" class="product-image" alt="Fresh Apples">
+                          </div>
+                          <div class="product-info">
+                            <div class="product-header">
+                              <div class="product-title">Selling 300 Units of Fresh Apples</div>
+                              <img  class ="heart" src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4138db3e7bada86a66bf44bd7fe2dc3b0959e290?placeholderIfAbsent=true" width="20" alt="Product icon">
+                            </div>
+                            <div class="product-rate">
+                              <div class="product-rate-label">Offer Rate:</div>
+                              <div class="product-rate-value">$500-600/MT</div>
+                            </div>
+                            <div class="product-origin">
+                              <div>Origin:</div>
+                              <div class="product-origin-location">
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true" width="15" alt="Location icon">
+                                <div>New York, US</div>
+                              </div>
+                            </div>
+                            <div class="product-description">
+                              Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Product Card 5 -->
+                    <div class="product-card" data-id="3">
+                      <div class="product-card-inner">
+                        <div class="product-card-content">
+                          <div class="product-image-container">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4de8e965ad84b638b3a33b6125a0b45bb159b0f9?placeholderIfAbsent=true" class="product-image" alt="Fresh Apples">
+                          </div>
+                          <div class="product-info">
+                            <div class="product-header">
+                              <div class="product-title">Selling 300 Units of Fresh Apples</div>
+                              <img class ="heart" src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4138db3e7bada86a66bf44bd7fe2dc3b0959e290?placeholderIfAbsent=true" width="20" alt="Product icon">
+                            </div>
+                            <div class="product-rate">
+                              <div class="product-rate-label">Offer Rate:</div>
+                              <div class="product-rate-value">$500-600/MT</div>
+                            </div>
+                            <div class="product-origin">
+                              <div>Origin:</div>
+                              <div class="product-origin-location">
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true" width="15" alt="Location icon">
+                                <div>New York, US</div>
+                              </div>
+                            </div>
+                            <div class="product-description">
+                              Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-            </div>
-
-            <!-- Container for the Search bar and Counter (right side) -->
-            <div class="egrrgr">
-                <!-- Search bar in the center -->
-                <div class="hrrgr">
-                    <div class="main-search" style="width: 100%;">
-                        <form action="{{ route('stocksale') }}" method="GET" id="header_search_bar">
-                            <div class="search-field-cont" style="position: relative; display: flex; align-items: center;">
-                                <!-- Input field for search -->
-                                <input type="text" name="search_query" id="search_query" class="form-control dbbe"
-                                    placeholder="Search..." required="">
-                                <!-- Magnifying glass icon -->
-                                <button type="submit" class="text-white pl-2 pr-2 h-100 rrwbrwbr">
-                                    <i class="fa fa-search" style="font-size: 18px;"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Counter on the right -->
-                <div class="rfbrbrrbr">
-                    <div class="counter" style="text-align: right;">
-                        Sale's Total Count
-                        <span class="counteractual">{{ $counttotal }}</span> <!-- Replace with actual counter logic -->
-                    </div>
-                </div>
-
-            </div>
-        </div> --}}
-        {{-- <div class="gapbetweens">
-            <!-- Empty Gap -->
-        </div> --}}
-        <!-- Added Stuff -->
-        <div class="jobbannermain overflow-hidden">
-            <div class="jobbannerrightbox">
-                <div class="jobbannerrighttop d-flex flex-row">
-                    <div class="rrrh" style="background-color: unset !important;">
-                        <div class="btnbuyer" style="color: white;">
-                            <h5 class="text-white custom-dealrock-subhead">Stock Sale</h5>
-                        </div>
-                    </div>
-                    <div class="buttonsbox">
-                        <form method="GET" action="{{ route('stocksale') }}"
-                            style="flex-direction: row; margin-top: 0; display: flex; margin-bottom: 0;">
-                            <div class="dropdown-container" style="margin-left: 10px;">
-                                <div class="d-flex flex-row align-baseline justify-content-between">
-                                    <div class="d-flex flex-column">
-                                        {{-- <div class="dropdown-title">Location</div> --}}
-                                        <div id="locationdropdown" class="dropdown-button noselect">
-                                            <div class="dropdown-label custom-dealrock-text align-items-center d-flex"
-                                                data-default-label="Country">Select a Location
-
-                                                <div class="d-flex align-self-center custom-dealrock-text">
-                                                    <svg fill="#b5b5b5" version="1.1" id="Capa_1"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="20"
-                                                        height="20" viewBox="0 0 395.71 395.71" xml:space="preserve">
-                                                        <g>
-                                                            <path
-                                                                d="M197.849,0C122.131,0,60.531,61.609,60.531,137.329c0,72.887,124.591,243.177,129.896,250.388l4.951,6.738
-                                                            c0.579,0.792,1.501,1.255,2.471,1.255c0.985,0,1.901-0.463,2.486-1.255l4.948-6.738c5.308-7.211,129.896-177.501,129.896-250.388
-                                                            C335.179,61.609,273.569,0,197.849,0z M197.849,88.138c27.13,0,49.191,22.062,49.191,49.191c0,27.115-22.062,49.191-49.191,49.191
-                                                            c-27.114,0-49.191-22.076-49.191-49.191C148.658,110.2,170.734,88.138,197.849,88.138z" />
-                                                        </g>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="locationdropdownchild" class="dropdown-list custom-dealrock-text" style="display: none;">
-                                            <input type="search" placeholder="Search country" class="dropdown-search"
-                                                id="country-search" name="country" />
-                                            <ul id="country-list">
-                                                @foreach ($locations as $location)
-                                                    <li class="dropdown-item pr-2 pl-2">
-                                                        <label>
-                                                            <input type="radio" name="country"
-                                                                value="{{ $location }}" />
-                                                            {{ \App\Utils\ChatManager::getCountryDetails($location)['countryName'] }}
-                                                        </label>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Time Filter Dropdown -->
-                            <div class="dropdown-container" style="border-right: 0;">
-                                <div class="d-flex flex-row align-baseline justify-content-between">
-                                    <div class="d-flex flex-column">
-                                        {{-- <div class="dropdown-title">Time</div> --}}
-                                        <div class="dropdown-button noselect">
-                                            <div class="dropdown-label align-items-center d-flex custom-dealrock-text" data-default-label="Time">
-                                                Select A Time Range</i>
-                                                <div class="d-flex align-self-center">
-                                                    <svg class="dropdown-arrow" width="20" height="20"
-                                                        viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.5"
-                                                            stroke-linecap="round" stroke-linejoin="round"></path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown-list custom-dealrock-text" style="display: none;">
-                                            <ul id="time-list">
-                                                <li class="dropdown-item pr-2 pl-2">
-                                                    <label>
-                                                        <input type="radio" name="time" value="7" /> Last 7 Days
-                                                    </label>
-                                                </li>
-                                                <li class="dropdown-item pr-2 pl-2">
-                                                    <label>
-                                                        <input type="radio" name="time" value="30" /> Last 30
-                                                        Days
-                                                    </label>
-                                                </li>
-                                                <li class="dropdown-item pr-2 pl-2">
-                                                    <label>
-                                                        <input type="radio" name="time" value="90" /> Last 3
-                                                        Months
-                                                    </label>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Filter Buttons -->
-                            <div class="clear-filters mr-2  d-flex align-items-center">
-                                <button class="clear-filters-button custom-dealrock-text" type="submit" id="filters-btn">Filters</button>
-                            </div>
-                            <div class="clear-filters d-flex align-items-center">
-                                <button class="clear-filters-button custom-dealrock-text" id="clear-filters-btn">Clear Filters</button>
-                            </div>
-                        </form>
-                        <!-- <select class="buttonsboxq" id="location_filter" name="location_filter">
-                                <option selected value="">Exact Location</option>
-                                <option value="city1">City 1</option>
-                                <option value="city2">City 2</option>
-                                <option value="city3">City 3</option>
-                                <option value="city4">City 4</option>
-                            </select> -->
-                    </div>
-                </div>
-                <div class="jobbannerrightbottom">
-                    <div class="jobbannerleft" id="bannerleft">
-                        <div class="nav-item {{ !request()->is('/') ? 'dropdown' : '' }}">
-                            <a class="spanatag" href="javascript:" style="z-index: 0;">
-                                <svg class="spanimage" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="5" y="6" width="20" height="2" fill="black" />
-                                    <rect x="5" y="13" width="20" height="2" fill="black" />
-                                    <rect x="5" y="20" width="20" height="2" fill="black" />
-                                </svg>
-                                <span class="spantitlenew custom-dealrock-subhead">
-                                    {{ translate('categories') }}
-                                </span>
-                            </a>
-                        </div>
-                        <ul class="navbar-nav" style="overflow-y:hidden; overflow-x:hidden; height: 87%;"
-                            id="dpcontainertwo">
-                            <div class="megamenu">
-                                <div class="megamenucontainer">
-                                    <div class="category-menu-wrapper">
-                                        <ul class="category-menu-items" id="dpcontainerbox">
-                                            @foreach ($categoriesn->take(17) as $key => $category)
-                                                <li>
-                                                    <a class="text-truncate custom-dealrock-text"
-                                                        href="{{ route('stocksale', ['categoryid' => $category->id]) }}">{{ $category->name }}</a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </ul>
-                        <div class="text-center" id="viewMoreBtn">
-                            <a href="#bannerleft" class="text-primary font-weight-bold justify-content-center">
-                                {{ translate('View_More') }}
-                            </a>
-                        </div>
-                    </div>
-                    <div class="jobbannercenter">
-                        <ul class="navbar-nav hiddenonscreens">
-                            <li class="nav-item dropdown custom-dealrock-subhead">
-                                <a class="nav-link dropdown-toggle" href="javascript:" id="dropdownMenuCat"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false"
-                                    onclick="toggleDropdown('dropdownMenuCat', 'dropdownmenu-cat')"
-                                    style="position: absolute;">
-                                    <svg class="spanimage" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="5" y="6" width="20" height="2" fill="black" />
-                                        <rect x="5" y="13" width="20" height="2" fill="black" />
-                                        <rect x="5" y="20" width="20" height="2" fill="black" />
-                                    </svg>
-                                </a>
-                                <ul class="dropdown-menu" id="dropdownmenu-cat" aria-labelledby="dropdownMenuButton"
-                                    style="padding-top:50px;">
-                                    @foreach ($categories as $category)
-                                        <li>
-                                            <a class="custom-dealrock-text"
-                                                href="{{ route('stocksale', ['categoryid' => $category->id]) }}">{{ $category->name }}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        </ul>
-                        <div class="tilebox">
-                            @if ($items->isEmpty())
-                                <p>No Stocks Found!</p>
-                            @else
-                                @foreach ($items as $data)
-                                    <input style="display: none;" value={{ $data->id }} id="jobid" />
-                                    <div class="tile">
-                                        <div class="tile-content" onclick="fetchJobData({{ $data->id }})">
-                                            <!-- Company Logo -->
-                                            <div class="icon">
-                                                <div class="owl-carousel icon-carousel">
-                                                    <!-- Loop through the images (using PHP) -->
-                                                    @foreach (json_decode($data->image, true) as $image)
-                                                        <div class="item">
-                                                            <img class="ico" src="/{{ $image }}" />
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <!-- Job Details Section -->
-                                            <div class="details">
-                                                <div class="title custom-dealrock-subhead">{{ $data->name }}</div>
-                                                <div class="company-name custom-dealrock-text" style="color: var(--web-hover); font-weight: bold !important;">MOQ: {{ $data->quantity }}</div>
-                                                <div class="location custom-dealrock-text">{{ $data->description }}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @endif
-                            @if ($items->isEmpty())
-                                <!-- No Show -->
-                            @else
-                                {{ $items->links() }}
-                            @endif
-                        </div>
-                    </div>
-                    <div class="jobbannerright" id="jobdetails">
-                        <div class="tabs-container">
-                            <div class="tabs">
-                                <div class="tab-links">
-                                    <button class="custom-dealrock-text tab-link active" data-tab="tab-1"><i class="fas fa-info-circle"></i>
-                                        Stock Photo</button>
-                                    <button class="custom-dealrock-text tab-link" data-tab="tab-2"><i class="fas fa-list"></i>
-                                        Specification</button>
-                                    <button class="custom-dealrock-text tab-link" data-tab="tab-3"><i class="fas fa-envelope"></i>
-                                        Deal</button>
-                                    <button class="custom-dealrock-text tab-link" data-tab="tab-4"><i class="fas fa-question-circle"></i>
-                                        Contact</button>
-                                </div>
-
-                                <div class="tab-content active" id="tab-1" style="height: 90%;">
-                                    <h5 class="custom-dealrock-subhead">Stock Photo</h5>
-                                    <div id="hereinsertalso" class="owl-carousel details-carousel">
-                                        <!-- Carousel Inserted Here -->
-                                    </div>
-                                </div>
-
-                                <div class="tab-content" id="tab-2">
-                                    <h5 class="mb-2 custom-dealrock-subhead">Stock Specifications</h5>
-
-                                    <p id="job-descriptionstock" class="mb-2 custom-dealrock-text">
-                                        {{-- Stock Description Here --}}
-                                    </p>
-                                    <ul class="feature-list"
-                                        style="list-style: none; margin-bottom: 10px;background-color: #efefef;padding: 5px;border-radius: 10px;">
-                                        <div class="row custom-dealrock-text">
-                                            <div class="col">
-                                                <li>
-                                                    <div class="leftclass">
-                                                        <i class="fa fa-id-badge text-primary"
-                                                            style="font-size: 20px;"></i> <!-- Icon for "Name" -->
-                                                    </div>
-                                                    <div class="rightclass">
-                                                        <strong>Name</strong><br>
-                                                        <span id="stockname">
-                                                            {{-- Content Here --}}
-                                                        </span>
-                                                    </div>
-                                                </li>
-                                            </div>
-                                            <div class="col">
-                                                <li>
-                                                    <div class="leftclass">
-                                                        <i class="fa fa-list-alt text-info" style="font-size: 20px;"></i>
-                                                        <!-- Icon for "Type" -->
-                                                    </div>
-                                                    <div class="rightclass">
-                                                        <strong>Type</strong><br>
-                                                        <span class="text-capitalize" id="stocktype">
-                                                            {{-- Content Here --}}
-                                                        </span>
-                                                    </div>
-                                                </li>
-                                            </div>
-                                        </div>
-                                        <div class="row custom-dealrock-text">
-                                            <div class="col">
-                                                <li>
-                                                    <div class="leftclass">
-                                                        <i class="fa fa-globe text-success" style="font-size: 20px;"></i>
-                                                        <!-- Icon for "Origin" -->
-                                                    </div>
-                                                    <div class="rightclass">
-                                                        <strong>Origin</strong><br>
-                                                        <span id="stockorigin">
-                                                            {{-- Content Here --}}
-                                                        </span>
-                                                    </div>
-                                                </li>
-                                            </div>
-                                            <div class="col">
-                                                <li>
-                                                    <div class="leftclass">
-                                                        <i class="fa fa-certificate text-warning"
-                                                            style="font-size: 20px;"></i> <!-- Icon for "Badge" -->
-                                                    </div>
-                                                    <div class="rightclass">
-                                                        <strong>Badge</strong><br>
-                                                        <span id="stockbadge">
-                                                            {{-- Content Here --}}
-                                                        </span>
-                                                    </div>
-                                                </li>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                    <p class="custom-dealrock-text"><strong>Verified By:</strong> Admin</p>
-                                </div>
-
-                                <div class="tab-content rounded" id="tab-3">
-                                    <h5 class="mb-3 custom-dealrock-subhead"><i class="fas fa-tag text-primary"></i> Deal Information</h5>
-                                    {{-- <p class="mb-3">
-                                    <strong><i class="fas fa-gift text-success"></i> Special Offer:</strong> Get a <span class="text-success">10% discount</span> on your first purchase. 
-                                    Offer valid until <strong>January 31, 2025</strong>.
-                                </p> --}}
-                                    <div
-                                        style="margin-bottom: 10px;background-color: #efefef;padding: 20px 5px 5px 20px;border-radius: 10px;">
-                                        <div class="row mb-1">
-                                            <div class="col-md-6 mb-1">
-                                                <p class="d-flex flex-column">
-                                                    <span class="custom-dealrock-text">
-                                                        <strong>Product Name</strong>
-                                                    </span>
-                                                    <span class="custom-dealrock-text" id="stockdealname">
-                                                        {{-- Product Name --}}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-6 mb-1">
-                                                <p class="d-flex flex-column">
-                                                    <span class="custom-dealrock-text">
-                                                        <strong>Available Stock</strong>
-                                                    </span>
-                                                    <span class="custom-dealrock-text" id="stockdealavaliable">
-                                                        {{-- Available Stock --}}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-1">
-                                            <div class="col-md-6 mb-1">
-                                                <p class="d-flex flex-column">
-                                                    <span class="custom-dealrock-text">
-                                                        <strong>Product Type</strong>
-                                                    </span>
-                                                    <span class="text-capitalize custom-dealrock-text" id="stockdealproducttype">
-                                                        {{-- Product Name --}}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-6 mb-1">
-                                                <p class="d-flex flex-column">
-                                                    <span class="custom-dealrock-text">
-                                                        <strong>Min. Order Quantity</strong>
-                                                    </span>
-                                                    <span class="fs-5 custom-dealrock-text" id="stockdealminorder">
-                                                        {{-- Min Order --}}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-1">
-                                            <div class="col-md-6 mb-1">
-                                                <p class="d-flex flex-column">
-                                                    <span class="custom-dealrock-text">
-                                                        <strong>Refundable</strong>
-                                                    </span>
-                                                    <span class="fs-5 custom-dealrock-text" id="stockdealrefundable">
-                                                        {{-- Refundable --}}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div class="col-md-6 mb-1">
-                                                <p class="d-flex flex-column">
-                                                    <span class="custom-dealrock-text">
-                                                        <strong>Shipping Cost</strong>
-                                                    </span>
-                                                    <span class="fs-5 custom-dealrock-text" id="stockdealshipping">
-                                                        {{-- Shipping Cost --}}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="tab-content rounded" id="tab-4">
-                                    <h5 class="mb-3 custom-dealrock-subhead">Contact Information</h5>
-                                    <p class="mb-3 custom-dealrock-text">For any inquiries, you can reach us at:</p>
-                                    <ul
-                                        style="list-style: none; background-color: #efefef;padding: 10px 10px 10px 20px;border-radius: 10px;">
-                                        <li class="mb-2 custom-dealrock-text"><i class="fas fa-envelope text-danger"></i>
-                                            <strong>Email:</strong>
-                                            <a class="text-decoration-none">
-                                                <span id="company-email">
-                                                    {{-- Email --}}
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="mb-2 custom-dealrock-text"><i class="fas fa-phone text-success"></i>
-                                            <strong>Phone:</strong>
-                                            <span id="company-phone">
-                                                {{-- Phone --}}
-                                            </span>
-                                        </li>
-                                        <li class="mb-2 custom-dealrock-text"><i class="fas fa-map-marker-alt text-primary"></i>
-                                            <strong>Address:</strong>
-                                            <span id="company-address">
-                                                {{-- Company Address --}}
-                                            </span>
-                                        </li>
-                                        <li class="custom-dealrock-text"><i class="fas fa-industry text-warning"></i> <strong>Industry:</strong>
-                                            <span id="industry">
-                                                {{-- Industry --}}
-                                            </span>
-                                        </li>
-                                    </ul>
-                                    <p class="mt-3 custom-dealrock-text"><strong>Company Name:</strong><span id="company-name">
-                                            {{-- Company Name --}}
-                                        </span>
-                                    </p>
-                                    <div class="hereisbutton custom-dealrock-text" style="display: flex; justify-content: space-around; margin-top: 22px;">
-                                        @if (auth('customer')->check() && auth('customer')->user()->id)
-                                            @if ($membership['status'] == 'active')
-                                            <button class="border-0" style="border-radius: 25px; padding: 10px 35px; background-color: var(--web-hover); color: white;" data-toggle="modal" data-target="#chatting_modalnew"
-                                                data-seller-id="{{ $item->user_id }}" data-role="{{ $item->role }}"
-                                                data-stock-id="{{ $item->id }}" data-typereq="stocksale" onclick="openChatModalnew(this)">
-                                                Contact Seller
-                                            </button>
-                                            @else
-                                            <a href="{{ route('membership') }}">
-                                                <button class="border-0" style="border-radius: 25px; padding: 10px 35px; background-color: var(--web-hover); color: white;">
-                                                    Contact Seller
-                                                </button>
-                                            </a>
-                                            @endif
-                                        @else
-                                        <a href="#" onclick="openLoginModal()">
-                                            <button class="border-0" style="border-radius: 25px; padding: 10px 35px; background-color: var(--web-hover); color: white;">
-                                                Contact Seller
-                                            </button>
-                                        </a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="jobbox">
-                            {{-- <div class="card shadow-sm border-0">
-                            <div class="job-card">
-                                <div class="job-card-header">
-                                    <img src="default-logo.png" alt="Company Logo" class="company-logo" id="company-logo">
-                                    <div class="job-details">
-                                        <h5 id="job-title">Software Engineer</h5>
-                                        <div class="company-name-location">
-                                            <span class="company-name" id="company-name">Tech Innovators</span>
-                                            <span class="location" id="company-location">San Francisco, CA</span>
-                                        </div>
-                                        <div class="time-applicants">
-                                            <span class="posted-time" id="posted-time">Posted 3 hours ago</span>
-                                            <span class="applicants" id="applicants">15 Applicants</span>
-                                        </div>
-                                    </div>
-                                </div>
                 
-                                <div class="job-description-box">
-                                    <h5>Stock Description</h5>
-                                    <p id="job-description">
-                                        As a Software Engineer, you'll be responsible for building and maintaining
-                                        software systems. You will work alongside a team of engineers to design, test,
-                                        and deploy scalable solutions. The ideal candidate will have a passion for
-                                        technology and a desire to continuously learn and grow.
-                                    </p>
-                                </div>
                 
-                                <div id="hereinsert" class="owl-carousel details-carousel">
-                                    <!-- Carousel Inserted Here -->
-                                </div>
-                
-                                <div class="hereisbutton" style="display: flex; justify-content: space-around; margin-top: 22px;">
-                                    @if (auth('customer')->check() && auth('customer')->user()->id)
-                                        @if ($membership['status'] == 'active')
-                                        <button class="border-0" style="border-radius: 25px; padding: 10px 35px;" data-toggle="modal" data-target="#chatting_modalnew"
-                                            data-seller-id="{{ $item->user_id }}" data-role="{{ $item->role }}"
-                                            data-stock-id="{{ $item->id }}" data-typereq="stocksale" onclick="openChatModalnew(this)">
-                                            Contact Seller
-                                        </button>
-                                        @else
-                                        <a href="{{ route('membership') }}">
-                                            <button class="border-0" style="border-radius: 25px; padding: 10px 35px;">
-                                                Contact Seller
-                                            </button>
-                                        </a>
-                                        @endif
-                                    @else
-                                    <a href="#" onclick="openLoginModal()">
-                                        <button class="border-0" style="border-radius: 25px; padding: 10px 35px;">
-                                            Contact Seller
-                                        </button>
-                                    </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </div> --}}
-                        </div>
+                <!-- Pagination -->
+                <div class="pagination">
+                  <div class="pagination-info">
+                    Items Per Page: 12
+                  </div>
+                  <div class="pagination-controls">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4a5206e5d6ef2bdb743353eb6c64e547ad87c593?placeholderIfAbsent=true" class="pagination-arrow" alt="Previous page">
+                    
+                    <div class="pagination-pages">
+                      <div class="page-item active">1</div>
+                      <div class="page-item">2</div>
+                      <div class="page-item">20</div>
                     </div>
+                    
+                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4d6e7a69f970a12cc65c8adc1a439633aff3cbf6?placeholderIfAbsent=true" class="pagination-arrow" alt="Next page">
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
-        <!-- <div id="galleryOverlay" class="gallery-overlay" style="display:none;">
-                <div class="overlay-content">
-                    <button id="closeGallery" class="close-gallery-btn">Close Gallery</button>
-                    <div id="galleryGrid" class="gallery-grid"></div>
+      
+            <!-- Right section with product details -->
+            <div class="product-detail-section" id="productModal">
+              <div class="product-detail">
+                <div class="detail-tabs">
+                  <div class="detail-tab active">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/7d0a2a11ff9449e7aff27e271699d3e6dd4ac825?placeholderIfAbsent=true" class="detail-tab-icon" alt="Stock photo icon">
+                    <div>Stock Photo</div>
+                  </div>
+                  <div class="detail-tab">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/ef9458326d55dc88fc6f7bebc00ffbcfac31016d?placeholderIfAbsent=true" class="detail-tab-icon" alt="Specification icon">
+                    <div>Specification</div>
+                  </div>
+                  <div class="detail-tab">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/2827236b066050a00f6b7815e8e9078274a5b298?placeholderIfAbsent=true" class="detail-tab-icon" alt="Deal icon">
+                    <div>Deal</div>
+                  </div>
+                  <div class="detail-tab">
+                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/39d5ea4a9e67d861c878f366e8723186b08a5b10?placeholderIfAbsent=true" class="detail-tab-icon" alt="Contact icon">
+                    <div>Contact</div>
+                  </div>
                 </div>
-            </div> -->
-        @include('web.partials.loginmodal')
-        @include('web.partials.stockdetailmodal')
-        <!-- End Stuff -->
+      
+                <div class="detail-content">
+                  <div class="detail-title">Selling 300 Units of Fresh Apples</div>
+                  <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/247ec7c7bc1f6428f4d5acb3c10d89df21f5e0ba?placeholderIfAbsent=true" class="detail-image" alt="Fresh Apples">
+                  <div class="detail-description">
+                    Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
+                    <br><br>
+                    Sourced from trusted local orchards committed to quality and sustainability, our apples are available in bulk for retail or wholesale buyers, ensuring farm-fresh goodness in every bite.
+                  </div>
+      
+                  <div class="detail-footer">
+                    <div class="company-info">
+                      <div class="company-rating">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/9dcf86845a5774a466c010f69a48d3bed069ce99?placeholderIfAbsent=true" width="25" alt="Company logo">
+                        <div class="rating-badge">
+                          <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3b8226d1f3a4db74d7c0ea4e4f0145078db18bbb?placeholderIfAbsent=true" width="15" alt="Rating icon">
+                          <div>4.9/5</div>
+                        </div>
+                      </div>
+                      <div class="company-name">Market Union Co.Ltd</div>
+                      <div class="company-exhibitions">Exhibited at 2 GS shows</div>
+                      <div class="company-location">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3c2974afe389ac984c47d41dcc08c0e410f01010?placeholderIfAbsent=true" width="15" alt="Location icon">
+                        <div>New York, US</div>
+                      </div>
+                    </div>
+      
+                    <button class="inquire-button">Inquire Now</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
     </section>
     @include('web-views.partials._quotation')
     <div class="mainpagesection leadrightdivision" style="width: 96%;">
         <div class="ad-section">
-            {{-- <div class="vendor-ad">
-                <div class="ad-content ">
-                    <!-- Replace with actual vendor ad content -->
-                    <img src="storage/{{ $adimages['ad1_image'] }}" alt="Vendor Ad" class="ad-image">
-                </div>
-            </div> --}}
             <div class="google-ad">
                 <div class="ad-content">
                     <!-- Google Ad code goes here -->
@@ -652,12 +420,11 @@
             </div>
         </div>
     </div>
-    <div class="mainpagesection" style="margin-top: 22px;">
-        @include('web-views.partials._trending-selection')
-    </div>
-    {{-- <div style="margin-top: 22px;">
-        @include('web-views.partials._searchby_industry')
-    </div> --}}
+    @include('web-views.partials._order-now')
+    @include('web.partials.loginmodal')
+    @include('web.partials.stockdetailmodal')
+@endsection
+@push('script')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
@@ -712,170 +479,6 @@
         function openLoginModal() {
             $('#exampleModalLong').modal('hide');
             $('#loginModal').modal('show');
-        }
-    </script>
-    <script>
-        function fetchJobData(jobId) {
-            if ($("#jobdetails").css("display") === "block") {
-                var baseUrl = window.location.origin;
-                var dataUrl = baseUrl + "/get-data-from-stock/" + jobId;
-
-                $.ajax({
-                    url: dataUrl,
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                    },
-                    success: function(response) {
-                        if (response.job_data) {
-                            var job = response.job_data;
-                            var stock = response.stock_data;
-                            var user = response.user_data;
-
-                            // Populate job details
-                            $("#job-title").text(job.name || "Title not provided");
-                            $("#job-location").text(job.country || "Location not provided");
-                            var postedTimeFormatted = formatTimeAgo(job.created_at);
-                            $("#posted-time").text(postedTimeFormatted || "Posted time not available");
-                            $("#applicants").text(job.quote_recieved + " Quotes Recieved" ||
-                                "Applicants not available");
-
-                            // Description
-                            $("#job-descriptionstock").text(job.description ||
-                            "Stock description not provided");
-                            updateCompanyLocation(job);
-                            insertcarousel(job);
-
-                            // Stock Details
-                            $("#stockname").text(stock.name || "Product Not Found");
-                            $("#stocktype").text(stock.product_type || "Product Not Found");
-                            $("#stockorigin").text(stock.origin || "Product Not Found");
-                            $("#stockbadge").text(stock.badge || "Product Not Found");
-
-                            // Deal Details
-                            $("#stockdealname").text(stock.name || "Product Not Found");
-                            $("#stockdealavaliable").text(stock.current_stock + " " + stock.unit ||
-                                "Product Not Found");
-                            $("#stockdealproducttype").text(stock.product_type || "Product Not Found");
-                            $("#stockdealminorder").text(job.quantity + " Units" || "Product Not Found");
-                            // Refundable logic with FA icons
-                            if (stock.refundable === 1) {
-                                $("#stockdealrefundable").html(
-                                    '<i class="fas fa-check text-success"></i> Refundable');
-                            } else if (stock.refundable === 0) {
-                                $("#stockdealrefundable").html(
-                                    '<i class="fas fa-times text-danger"></i> Non-Refundable');
-                            } else {
-                                $("#stockdealrefundable").text("Product Not Found");
-                            }
-
-                            // Shipping Cost logic
-                            if (stock.shipping_cost && stock.shipping_cost > 0) {
-                                $("#stockdealshipping").text("$" + stock.shipping_cost.toFixed(2));
-                            } else {
-                                $("#stockdealshipping").text("Shipping Not Available");
-                            }
-
-                            // Company Logo
-                            $("#company-logo").attr("src", job.company_icon ? "/" + job.company_icon :
-                                "default-logo.png");
-                            $("#company-name").text(job.company_name || "No Company Name Avaliable");
-                            $("#industry").text(" " + job.industry || "No Industry Added");
-                            $('#company-address').text(job.company_address || "No Company Address Added");
-                            $('#company-phone').text(user.phone || "No Phone Provided");
-                            $('#company-email').text(user.email || "No Email Provided");
-                        } else {
-                            console.error("No Stock data found.");
-                            alert("Stock data not found.");
-                        }
-                    },
-
-                    error: function(xhr, status, error) {
-                        console.error("Error fetching Stock data: ", error.message);
-                        alert("Error fetching Stock data. Please try again.");
-                    },
-                });
-            } else {
-                $("#exampleModalLong").modal("show");
-                var baseUrl = window.location.origin;
-                var dataUrl = baseUrl + "/get-data-from-stock/" + jobId;
-
-                $.ajax({
-                    url: dataUrl,
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                    },
-                    success: function(response) {
-                        if (response.job_data) {
-                            var job = response.job_data;
-                            var stock = response.stock_data;
-                            var user = response.user_data;
-
-                            // Populate job details
-                            $("#njob-title").text(job.name || "Title not provided");
-                            $("#njob-location").text(job.country || "Location not provided");
-                            var postedTimeFormatted = formatTimeAgo(job.created_at);
-                            $("#nposted-time").text(postedTimeFormatted || "Posted time not available");
-                            $("#napplicants").text(job.quote_recieved + " Quotes Recieved" ||
-                                "Applicants not available");
-
-                            // Description
-                            $("#njob-descriptionstock").text(job.description ||
-                            "Stock description not provided");
-                            updateCompanyLocation(job);
-                            ninsertcarousel(job);
-
-                            // Stock Details
-                            $("#nstockname").text(stock.name || "Product Not Found");
-                            $("#nstocktype").text(stock.product_type || "Product Not Found");
-                            $("#nstockorigin").text(stock.origin || "Product Not Found");
-                            $("#nstockbadge").text(stock.badge || "Product Not Found");
-
-                            // Deal Details
-                            $("#nstockdealname").text(stock.name || "Product Not Found");
-                            $("#nstockdealavaliable").text(stock.current_stock + " " + stock.unit ||
-                                "Product Not Found");
-                            $("#nstockdealproducttype").text(stock.product_type || "Product Not Found");
-                            $("#nstockdealminorder").text(job.quantity + " Units" || "Product Not Found");
-                            // Refundable logic with FA icons
-                            if (stock.refundable === 1) {
-                                $("#nstockdealrefundable").html(
-                                    '<i class="fas fa-check text-success"></i> Refundable');
-                            } else if (stock.refundable === 0) {
-                                $("#nstockdealrefundable").html(
-                                    '<i class="fas fa-times text-danger"></i> Non-Refundable');
-                            } else {
-                                $("#nstockdealrefundable").text("Product Not Found");
-                            }
-
-                            // Shipping Cost logic
-                            if (stock.shipping_cost && stock.shipping_cost > 0) {
-                                $("#nstockdealshipping").text("$" + stock.shipping_cost.toFixed(2));
-                            } else {
-                                $("#nstockdealshipping").text("Shipping Not Available");
-                            }
-
-                            // Company Logo
-                            $("#ncompany-logo").attr("src", job.company_icon ? "/" + job.company_icon :
-                                "default-logo.png");
-                            $("#ncompany-name").text(job.company_name || "No Company Name Avaliable");
-                            $("#nindustry").text(" " + job.industry || "No Industry Added");
-                            $('#ncompany-address').text(job.company_address || "No Company Address Added");
-                            $('#ncompany-phone').text(user.phone || "No Phone Provided");
-                            $('#ncompany-email').text(user.email || "No Email Provided");
-                        } else {
-                            console.error("No Stock data found.");
-                            alert("Stock data not found.");
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error fetching Stock data: ", error);
-                        alert("Error fetching Stock data. Please try again.");
-                    },
-                });
-                $("#exampleModalLong").modal("show");
-            }
         }
     </script>
     <script>
@@ -1345,4 +948,61 @@
             });
         });
     </script>
-@endsection
+    <script>
+        // Product selection functionality
+        document.querySelectorAll('.product-card').forEach(card => {
+          card.addEventListener('click', function() {
+            // In a real implementation, this would update the product detail section
+            console.log('Selected product ID:', this.dataset.id);
+            
+            // Update highlighted/featured status
+            document.querySelectorAll('.product-card-inner').forEach(inner => {
+              inner.classList.remove('product-card-featured');
+            });
+            this.querySelector('.product-card-inner').classList.add('product-card-featured');
+            
+            // Update product icon
+            const icons = document.querySelectorAll('.product-card .product-header img');
+            icons.forEach(icon => {
+              icon.src = "https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4138db3e7bada86a66bf44bd7fe2dc3b0959e290?placeholderIfAbsent=true";
+            });
+            this.querySelector('.product-header img').src = "https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/69456c03811ace2c0c568374d486fb1c0b4f38c1?placeholderIfAbsent=true";
+          });
+        });
+        
+        // Pagination functionality
+        document.querySelectorAll('.page-item').forEach(page => {
+          page.addEventListener('click', function() {
+            document.querySelectorAll('.page-item').forEach(p => {
+              p.classList.remove('active');
+            });
+            this.classList.add('active');
+          });
+        });
+        
+        // Tab switching functionality
+        document.querySelectorAll('.detail-tab').forEach(tab => {
+          tab.addEventListener('click', function() {
+            document.querySelectorAll('.detail-tab').forEach(t => {
+              t.classList.remove('active');
+            });
+            this.classList.add('active');
+          });
+        });
+        
+        // Checkbox toggle functionality
+        document.querySelectorAll('.checkbox').forEach(checkbox => {
+          checkbox.addEventListener('click', function() {
+            this.classList.toggle('checkbox-checked');
+          });
+        });
+        
+        // Form submission
+        const quotationForm = document.querySelector('.quotation-form');
+        quotationForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          console.log('Form submitted');
+          alert('Quotation request submitted successfully!');
+        });
+    </script>
+@endpush

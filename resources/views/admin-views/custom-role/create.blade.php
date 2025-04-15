@@ -4,7 +4,7 @@
 @extends('layouts.back-end.app')
 @section('title', translate('create_Role'))
 @section('content')
-    @php($direction = Session::get('direction'))
+    @php($direction = Session::get('direction'))@endphp
     <div class="content container-fluid">
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2 text-capitalize">
@@ -36,67 +36,49 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group d-flex gap-2">
-                                <input type="checkbox" name="modules[]" value="dashboard" class="module-permission" id="dashboard">
-                                <label class="title-color mb-0" style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                        for="dashboard">{{translate('dashboard')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group d-flex gap-2">
-                                <input type="checkbox" name="modules[]" value="pos_management" class="module-permission" id="pos_management">
-                                <label class="title-color mb-0" style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                       for="pos_management">{{translate('pos_management')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group d-flex gap-2">
-                                <input type="checkbox" class="module-permission" name="modules[]" value="order_management" id="order">
-                                <label class="title-color mb-0 text-capitalize" style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};" for="order">{{translate('order_management')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group d-flex gap-2">
-                                <input type="checkbox" class="module-permission" name="modules[]" value="product_management" id="product">
-                                <label class="title-color mb-0 text-capitalize" style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                        for="product">{{translate('product_management')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group d-flex gap-2">
-                                <input type="checkbox" class="module-permission" name="modules[]" value="promotion_management" id="promotion_management">
-                                <label class="title-color mb-0 text-capitalize" style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                        for="promotion_management">{{translate('promotion_management')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group d-flex gap-2">
-                                <input type="checkbox" name="modules[]" class="module-permission" value="support_section" id="support_section">
-                                <label class="title-color mb-0 text-capitalize" style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                        for="support_section">{{translate('help_&_support_section')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group d-flex gap-2">
-                                <input type="checkbox" class="module-permission" name="modules[]" value="report" id="report">
-                                <label class="title-color mb-0 text-capitalize" style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                        for="report">{{translate('reports_&_analytics')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group d-flex gap-2">
-                                <input type="checkbox" class="module-permission" name="modules[]" value="user_section" id="user_section">
-                                <label class="title-color mb-0 text-capitalize" style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                        for="user_section">{{translate('user_management')}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="form-group d-flex gap-2">
-                                <input type="checkbox" class="module-permission" name="modules[]" value="system_settings" id="system_settings">
-                                <label class="title-color mb-0 text-capitalize" style="{{$direction === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
-                                        for="system_settings">{{translate('system_settings')}}</label>
-                            </div>
+                        <div class="table-responsive col-lg-12">
+                            <table class="table table-hover table-borderless table-thead-bordered">
+                                <thead style="background-color: white;">
+                                    <tr>
+                                        <th>Permission Name</th>
+                                        @foreach ($continents as $continent)
+                                            <th class="text-center">
+                                                <input type="checkbox" data-continent="{{ $continent }}" class="cursor-pointer select-all-specific">
+                                                {{ $continent }}
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($modules as $module)
+                                        <tr>
+                                            <td>{{ $module['name'] }}</td>
+                                            @foreach ($continents as $continent)
+                                                <td>
+                                                    <div class="d-flex flex-column">
+                                                        @foreach ($module['permissions'] as $permission)
+                                                            <div class="form-check">
+                                                                <input type="checkbox"
+                                                                    data-continent="{{ $continent }}"
+                                                                    data-key="{{ $module['key'] }}"
+                                                                    data-permission="{{ $permission }}" 
+                                                                    name="modules[]" 
+                                                                    value="yes" 
+                                                                    class="form-check-input module-permission module-permission-{{ $continent }}" 
+                                                                    id="{{ $continent }}_{{ $module['key'] }}_{{ $permission }}">
+                                                                <label class="form-check-label" 
+                                                                    for="{{ $continent }}_{{ $module['key'] }}_{{ $permission }}">
+                                                                    {{ ucfirst($permission) }}
+                                                                </label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
@@ -159,61 +141,53 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($roles as $key => $role)
-                            <tr>
-                                <td>{{$key+1}}</td>
-                                <td>{{$role['name']}}</td>
-                                <td class="text-capitalize">
-                                    @if($role['module_access'] != null)
-                                        @foreach((array)json_decode($role['module_access']) as $module)
-                                            @if($module == 'report')
-                                                {{translate('reports_and_analytics').(!$loop->last ? ',': '')}} <br>
-                                            @elseif($module == 'user_section')
-                                                {{translate('user_management').(!$loop->last ? ',': '')}} <br>
-                                            @elseif($module == 'support_section')
-                                                {{translate('Help_&_Support_Section').(!$loop->last ? ',': '')}} <br>
-                                            @else
-                                                {{translate(str_replace('_',' ', $module)).(!$loop->last ? ',': '')}} <br>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </td>
-                                <td>{{date('d-M-y',strtotime($role['created_at']))}}</td>
-                                <td>
-                                    <form action="{{route('admin.custom-role.employee-role-status')}}" method="post" id="employee-role-status{{$role['id']}}-form">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{$role['id']}}">
-                                        <label class="switcher" for="employee-role-status{{$role['id']}}">
-                                            <input type="checkbox" class="switcher_input toggle-switch-message" id="employee-role-status{{$role['id']}}" name="status" value="1" {{$role['status'] == 1?'checked':''}}
-                                                   data-modal-id = "toggle-status-modal"
-                                                   data-toggle-id = "employee-role-status{{$role['id']}}"
-                                                   data-on-image = "employee-on.png"
-                                                   data-off-image = "employee-off.png"
-                                                   data-on-title = "{{translate('want_to_Turn_ON_Employee_Status').'?'}}"
-                                                   data-off-title = "{{translate('want_to_Turn_OFF_Employee_Status').'?'}}"
-                                                   data-on-message = "<p>{{translate('when_the_status_is_enabled_employees_can_access_the_system_to_perform_their_responsibilities')}}</p>"
-                                                   data-off-message = "<p>{{translate('when_the_status_is_disabled_employees_cannot_access_the_system_to_perform_their_responsibilities')}}</p>">
-                                            <span class="switcher_control"></span>
-                                        </label>
-                                    </form>
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-2 justify-content-center">
-                                        <a href="{{route('admin.custom-role.update',[$role['id']])}}"
-                                            class="btn btn-outline--primary btn-sm square-btn"
-                                            title="{{translate('edit') }}">
-                                            <i class="tio-edit"></i>
+                            @foreach($roles as $key => $role)
+                                <tr>
+                                    <td>{{$key+1}}</td>
+                                    <td>{{$role['name']}}</td>
+                                    <td class="text-capitalize">
+                                        <a href="{{route('admin.custom-role.view',[$role['id']])}}"
+                                            class="text-primary"
+                                            title="{{translate('view') }}">
+                                            {{ translate('View_Permissions') }}
                                         </a>
-                                        <a href="javascript:"
-                                            class="btn btn-outline-danger btn-sm delete-data-without-form"
-                                           data-action="{{route('admin.custom-role.delete')}}"
-                                            title="{{translate('delete') }}" data-id="{{$role['id']}}">
-                                            <i class="tio-delete"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                                    </td>
+                                    <td>{{date('d-M-y',strtotime($role['created_at']))}}</td>
+                                    <td>
+                                        <form action="{{route('admin.custom-role.employee-role-status')}}" method="post" id="employee-role-status{{$role['id']}}-form">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$role['id']}}">
+                                            <label class="switcher" for="employee-role-status{{$role['id']}}">
+                                                <input type="checkbox" class="switcher_input toggle-switch-message" id="employee-role-status{{$role['id']}}" name="status" value="1" {{$role['status'] == 1?'checked':''}}
+                                                    data-modal-id = "toggle-status-modal"
+                                                    data-toggle-id = "employee-role-status{{$role['id']}}"
+                                                    data-on-image = "employee-on.png"
+                                                    data-off-image = "employee-off.png"
+                                                    data-on-title = "{{translate('want_to_Turn_ON_Employee_Status').'?'}}"
+                                                    data-off-title = "{{translate('want_to_Turn_OFF_Employee_Status').'?'}}"
+                                                    data-on-message = "<p>{{translate('when_the_status_is_enabled_employees_can_access_the_system_to_perform_their_responsibilities')}}</p>"
+                                                    data-off-message = "<p>{{translate('when_the_status_is_disabled_employees_cannot_access_the_system_to_perform_their_responsibilities')}}</p>">
+                                                <span class="switcher_control"></span>
+                                            </label>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="{{route('admin.custom-role.update',[$role['id']])}}"
+                                                class="btn btn-outline--primary btn-sm square-btn"
+                                                title="{{translate('edit') }}">
+                                                <i class="tio-edit"></i>
+                                            </a>
+                                            <a href="javascript:"
+                                                class="btn btn-outline-danger btn-sm delete-data-without-form"
+                                            data-action="{{route('admin.custom-role.delete')}}"
+                                                title="{{translate('delete') }}" data-id="{{$role['id']}}">
+                                                <i class="tio-delete"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

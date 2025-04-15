@@ -66,6 +66,7 @@ use App\Enums\ViewPaths\Admin\FeaturesSection;
 use App\Enums\ViewPaths\Admin\InvoiceSettings;
 use App\Enums\ViewPaths\Admin\SocialMediaChat;
 use App\Enums\ViewPaths\Admin\BusinessSettings;
+use App\Enums\ViewPaths\Admin\CountrySetup;
 use App\Enums\ViewPaths\Admin\EmergencyContact;
 use App\Enums\ViewPaths\Admin\PushNotification;
 use App\Enums\ViewPaths\Admin\WithdrawalMethod;
@@ -177,6 +178,7 @@ use App\Http\Controllers\Web\TradeshowController;
 use App\Enums\ViewPaths\Admin\Tradeshow;
 use App\Enums\ViewPaths\Admin\Quotation;
 use App\Enums\ViewPaths\Admin\CV;
+use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Http\Controllers\Admin\Settings\ThemeSettingsController;
 use App\Http\Controllers\Quotation\QuotatioController;
 use App\Http\Controllers\CV\CVController;
@@ -761,6 +763,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
                 });
             });
 
+        });
+    });
+
+    Route::group(['prefix' => 'countrySetup', 'as' => 'countrySetup.'], function () {
+        Route::group(['middleware' => ['module:system_settings']], function () {
+            Route::controller(CountrySetupController::class)->group(function () {
+                Route::get('index', 'index')->name('index');
+                Route::get('edit' . '/{id}', 'getUpdateView')->name('edit');
+                Route::post('update' . '/{id}', 'update')->name('update');
+                Route::post('status', 'updateStatus')->name('status');
+                Route::delete('delete', 'delete')->name('delete');
+            });
         });
     });
 

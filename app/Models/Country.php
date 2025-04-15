@@ -18,6 +18,7 @@ class Country extends Model
         'slug',
         'phonecode',
         'continent',
+        'blacklist',
     ];
 
     public function states()

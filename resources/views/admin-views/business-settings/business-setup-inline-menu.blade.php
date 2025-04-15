@@ -35,5 +35,8 @@
         <li class="text-capitalize {{ Request::is('admin/business-settings/invoice-settings') ? 'active':'' }}"><a
                 href="{{ route('admin.business-settings.invoice-settings.index') }}">{{translate('invoice')}}</a>
         </li>
+        <li class="text-capitalize {{ Request::is('admin/business-settings/countrySetup') ? 'active':'' }}"><a
+                href="{{ route('admin.countrySetup.index') }}">{{translate('country_setup')}}</a>
+        </li>
     </ul>
 </div>

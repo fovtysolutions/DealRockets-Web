@@ -22,6 +22,7 @@ use App\Contracts\Repositories\WishlistRepositoryInterface;
 use App\Enums\ViewPaths\Vendor\Product;
 use App\Enums\WebConfigKey;
 use App\Exports\ProductListExport;
+use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\ProductAddRequest;
 use App\Http\Requests\ProductUpdateRequest;
@@ -118,7 +119,7 @@ class ProductController extends BaseController
     {
         $languages = $this->businessSettingRepo->getFirstWhere(params: ['type' => 'pnc_language']);
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $brands = $this->brandRepo->getListWhere(filters: ['status' => 1], dataLimit: 'all');
         $brandSetting = getWebConfig(name: 'product_brand');
         $digitalProductSetting = getWebConfig(name: 'digital_product');
@@ -166,7 +167,7 @@ class ProductController extends BaseController
         }
         $productAuthorIds = $this->productService->getProductAuthorsInfo(product: $product)['ids'];
         $productPublishingHouseIds = $this->productService->getProductPublishingHouseInfo(product: $product)['ids'];
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $product['colors'] = json_decode($product['colors']);
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
         $brands = $this->brandRepo->getListWhere(filters: ['status' => 1], dataLimit: 'all');

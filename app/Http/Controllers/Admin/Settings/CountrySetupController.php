@@ -67,4 +67,9 @@ class CountrySetupController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Country status updated successfully.']);
     }
+
+    public static function getCountries()
+    {
+        return Country::where('blacklist','no')->get();
+    }
 }

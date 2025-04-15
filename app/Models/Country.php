@@ -25,5 +25,4 @@ class Country extends Model
     {
         return $this->hasMany(State::class, 'country_id');
     }
-
 }

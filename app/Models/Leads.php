@@ -28,4 +28,9 @@ class Leads extends Model
         'active',
         'compliance_status'
     ];
+
+    public function countryRelation()
+    {
+        return $this->belongsTo(Country::class, 'country', 'id'); // Adjust 'country' and 'id' as per your database schema
+    }
 }

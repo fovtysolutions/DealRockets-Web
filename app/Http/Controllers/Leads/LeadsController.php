@@ -23,6 +23,7 @@ use App\Contracts\Repositories\ReviewRepositoryInterface;
 use App\Contracts\Repositories\TranslationRepositoryInterface;
 use App\Contracts\Repositories\VendorRepositoryInterface;
 use App\Contracts\Repositories\WishlistRepositoryInterface;
+use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Models\Leads;
 use App\Services\LeadService;
 use App\Services\ComplianceService; // Import the ComplianceService
@@ -77,7 +78,10 @@ class LeadsController extends Controller
     {
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         // Filter Countries
-        $leadsQuery = Leads::where('type', 'buyer');
+        $leadsQuery = Leads::where('type', 'buyer')->whereHas('countryRelation', function ($query) {
+            $query->where('blacklist', 'no');
+        });
+
         // Filter Section
         if ($request->has('from') && $request->from) {
             $leadsQuery->where('posted_date', '>=', $request->from);
@@ -361,7 +365,7 @@ class LeadsController extends Controller
         $digitalProductFileTypes = ['audio', 'video', 'document', 'software'];
         $digitalProductAuthors = $this->authorRepo->getListWhere(dataLimit: 'all');
         $publishingHouseList = $this->publishingHouseRepo->getListWhere(dataLimit: 'all');
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $industries = Category::where('parent_id', '0')->get();
         $user_data = ChatManager::getRoleDetail();
         $user_id = $user_data['user_id'];
@@ -511,7 +515,7 @@ class LeadsController extends Controller
     {
         $leads = Leads::findOrFail($id);
         $categories = Category::all();
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $languages = getWebConfig(name: 'pnc_language') ?? null;
         $industries = Category::where('parent_id', '0')->get();
         $defaultLanguage = $languages[0];
@@ -596,7 +600,7 @@ class LeadsController extends Controller
         $digitalProductFileTypes = ['audio', 'video', 'document', 'software'];
         $digitalProductAuthors = $this->authorRepo->getListWhere(dataLimit: 'all');
         $publishingHouseList = $this->publishingHouseRepo->getListWhere(dataLimit: 'all');
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $user_data = ChatManager::getRoleDetail();
         $user_id = $user_data['user_id'];
         $role = $user_data['role'];
@@ -740,7 +744,7 @@ class LeadsController extends Controller
         $role = $user_data['role'];
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
         $name = ChatManager::getproductname($leads->product_id);
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $industries = Category::where('parent_id', '0')->get();
         return view('vendor-views.leads.edit', compact('industries','items','name','leads', 'countries', 'categories', 'languages', 'defaultLanguage'));
     }

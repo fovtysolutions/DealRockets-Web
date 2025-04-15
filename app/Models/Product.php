@@ -434,4 +434,9 @@ class Product extends Model
             }]);
         });
     }
+
+    public function countryRelation()
+    {
+        return $this->belongsTo(Country::class, 'origin', 'id'); // Adjust 'country' and 'id' as per your database schema
+    }
 }

@@ -90,4 +90,9 @@ class TableJobProfile extends Model
         'seeking_internship' => 'boolean',
         'open_to_contract' => 'boolean',
     ];
+
+    public function countryRelation()
+    {
+        return $this->belongsTo(Country::class, 'country', 'id'); // Adjust 'country' and 'id' as per your database schema
+    }
 }

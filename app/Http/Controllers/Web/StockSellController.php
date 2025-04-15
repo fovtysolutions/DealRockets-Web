@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -21,6 +22,9 @@ class StockSellController extends Controller
     public function index(Request $request)
     {
         $query = StockSell::query();
+        $query->whereHas('countryRelation',function($query){
+            $query->where('country','no');
+        });
         if ($request->name) {
             $query->where('name', 'like', '%' . $request->name . '%');
         }
@@ -43,7 +47,7 @@ class StockSellController extends Controller
         $user_id = $user_data['user_id'];
         $role = $user_data['role'];
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $categories = StockCategory::all();
         return view('admin-views.stocksell.create', compact('items', 'countries', 'categories'));
     }
@@ -107,7 +111,7 @@ class StockSellController extends Controller
         $role = $user_data['role'];
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
         $name = ChatManager::getproductname($stocksell->product_id);
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $categories = StockCategory::all();
         return view('admin-views.stocksell.edit', compact('stocksell', 'items', 'name', 'countries', 'categories'));
     }

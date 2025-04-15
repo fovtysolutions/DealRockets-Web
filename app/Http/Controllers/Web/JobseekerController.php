@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -147,6 +148,9 @@ class JobseekerController extends Controller
 
         $jobseekerQuery->where('Approved', '1');
         $jobseekerQuery->where('status', 'active');
+        $jobseekerQuery->whereHas('countryRelation',function($query){
+            $query->where('blacklist','no');
+        });
 
         // Apply filters based on URL parameters
         if ($location) {
@@ -188,7 +192,7 @@ class JobseekerController extends Controller
 
         $userId = Auth::guard('customer')->user() ? Auth::guard('customer')->id() : 0;
 
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $profile = TableJobProfile::where('user_id', $userId)->first();
 
         if ($profile) {
@@ -315,7 +319,7 @@ class JobseekerController extends Controller
     {
         // Get categories for the dropdown
         $categories = JobCategory::where('active','1')->get();
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
 
         // Return the create view with the categories
         return view('admin-views.jobseekers.add', [
@@ -416,7 +420,7 @@ class JobseekerController extends Controller
         $vacancy->benefits = implode(',', $vacancy_benefits);
 
         $categories = JobCategory::where('active','1')->get();
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         return view('admin-views.jobseekers.edit', compact('vacancy', 'categories', 'countries'));
     }
 

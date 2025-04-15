@@ -23,6 +23,7 @@ use App\Contracts\Repositories\ReviewRepositoryInterface;
 use App\Contracts\Repositories\TranslationRepositoryInterface;
 use App\Contracts\Repositories\VendorRepositoryInterface;
 use App\Contracts\Repositories\WishlistRepositoryInterface;
+use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Utils\CategoryManager;
 use App\Models\TradeIndustry;
 use Brian2694\Toastr\Facades\Toastr;
@@ -62,6 +63,10 @@ class TradeshowController extends Controller
     {
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         $query = Tradeshow::query();
+        
+        $query->whereHas('countryRelation',function($query){
+            $query->where('country','no');
+        });
 
         if ($request->filled('name')) {
             $query->where('description', 'LIKE', '%' . $request->name . '%');
@@ -83,7 +88,7 @@ class TradeshowController extends Controller
 
         $industries = Category::all();
         $countries = Tradeshow::select('country')->distinct()->pluck('country');
-        $locations = Country::all();
+        $locations = CountrySetupController::getCountries();
         $featuredTradeshows = Tradeshow::where('featured', '1')->take(6)->get();
         $tophundred = Tradeshow::orderBy('popularity', 'DESC')->take(9)->get();
         $topvenues = Tradeshow::orderBy('popularity', 'DESC')->take(6)->get();
@@ -117,7 +122,7 @@ class TradeshowController extends Controller
         $bannerslimit = json_decode(BusinessSetting::where('type', 'tradeshowbannerlimit')->first()->value, true)['tradeshowbannerlimit'];
         $banners = Tradeshow::limit($bannerslimit)->get();
         $industries = TradeCategory::where('active', '1')->get();
-        $locations = Country::all();
+        $locations = CountrySetupController::getCountries();
         $related = Tradeshow::orderBy('popularity', 'DESC')
         ->where('country', $tradeshow->country)
         ->where('id', '!=', $id) // Exclude the current tradeshow
@@ -132,7 +137,7 @@ class TradeshowController extends Controller
         $bannerslimit = json_decode(BusinessSetting::where('type', 'tradeshowbannerlimit')->first()->value, true)['tradeshowbannerlimit'];
         $banners = Tradeshow::limit($bannerslimit)->get();
         $industries = TradeCategory::where('active', '1')->get();
-        $locations = Country::all();
+        $locations = CountrySetupController::getCountries();
 
         // Initialize query
         $query = Tradeshow::query();
@@ -177,7 +182,7 @@ class TradeshowController extends Controller
         $digitalProductFileTypes = ['audio', 'video', 'document', 'software'];
         $digitalProductAuthors = $this->authorRepo->getListWhere(dataLimit: 'all');
         $publishingHouseList = $this->publishingHouseRepo->getListWhere(dataLimit: 'all');
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $industries = TradeCategory::where('active', '1')->get();
 
         return view('admin-views.tradeshow.add-new', compact('categories', 'industries', 'countries', 'brands', 'brandSetting', 'digitalProductSetting', 'colors', 'attributes', 'languages', 'defaultLanguage', 'digitalProductFileTypes', 'digitalProductAuthors', 'publishingHouseList'));
@@ -352,7 +357,7 @@ class TradeshowController extends Controller
             $languages[0]
         ];
         $defaultLanguage = $languages[0];
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $industries = TradeCategory::where('active', '1')->get();
         return view('admin-views.tradeshow.edit', compact('tradeshow', 'industries', 'countries', 'categories', 'languages', 'defaultLanguage'));
     }

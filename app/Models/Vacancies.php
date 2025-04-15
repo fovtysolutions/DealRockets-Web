@@ -69,4 +69,9 @@ class Vacancies extends Model
         'applications_received' => 0,
         'vacancies' => 1,
     ];
+
+    public function countryRelation()
+    {
+        return $this->belongsTo(Country::class, 'country', 'id'); // Adjust 'country' and 'id' as per your database schema
+    }
 }

@@ -24,6 +24,7 @@ use App\Enums\ViewPaths\Admin\Product;
 use App\Enums\WebConfigKey;
 use App\Events\ProductRequestStatusUpdateEvent;
 use App\Exports\ProductListExport;
+use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\ProductDenyRequest;
 use App\Http\Requests\ProductAddRequest;
@@ -86,7 +87,7 @@ class ProductController extends BaseController
     {
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
         $brands = $this->brandRepo->getListWhere(dataLimit: 'all');
-        $countries = \App\Models\Country::all();
+        $countries = CountrySetupController::getCountries();
         $brandSetting = getWebConfig(name: 'product_brand');
         $digitalProductSetting = getWebConfig(name: 'digital_product');
         $colors = $this->colorRepo->getList(orderBy: ['name' => 'desc'], dataLimit: 'all');
@@ -196,7 +197,7 @@ class ProductController extends BaseController
         }
         $productAuthorIds = $this->productService->getProductAuthorsInfo(product: $product)['ids'];
         $productPublishingHouseIds = $this->productService->getProductPublishingHouseInfo(product: $product)['ids'];
-        $countries = \App\Models\Country::all();
+        $countries = CountrySetupController::getCountries();
         $product['colors'] = json_decode($product['colors']);
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
         $brands = $this->brandRepo->getListWhere(dataLimit: 'all');

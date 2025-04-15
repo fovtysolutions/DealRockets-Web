@@ -10,6 +10,7 @@ use App\Models\SupportTicketConv;
 use App\Traits\PdfGenerator;
 use App\Utils\Helpers;
 use App\Events\OrderStatusEvent;
+use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use App\Models\DeliveryMan;
@@ -77,7 +78,7 @@ class UserProfileController extends Controller
     {
         // Get categories for the dropdown
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
         $userId = Auth::Guard('customer')->user()->id;
         $userjobs = Vacancies::where('user_id', $userId)->where('Approved','1')->get();
         $jobs_posted = Vacancies::where('user_id', $userId)->where('Approved','1')->pluck('id');
@@ -141,7 +142,7 @@ class UserProfileController extends Controller
     {
         $user = Auth::guard('customer')->user()->id;
         $profile = TableJobProfile::where('user_id', $user)->first();
-        $countries = Country::all();
+        $countries = CountrySetupController::getCountries();
 
         if ($profile) {
             // Decoding Some Inputs

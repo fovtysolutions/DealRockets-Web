@@ -141,6 +141,8 @@ class ProductRepository implements ProductRepositoryInterface
                 ->when(isset($filters['seller_id'])&& $filters['seller_id']!='all', function ($query) use ($filters) {
                     return $query->where(['user_id' => $filters['seller_id']]);
                 });
+        })->whereHas('countryRelation', function ($query){
+            return $query->where('blacklist', 'no');
         })->when($searchValue, function ($query) use ($filters, $searchValue) {
             $product_ids = $this->translation->where('translationable_type', 'App\Models\Product')
                 ->where('key', 'name')

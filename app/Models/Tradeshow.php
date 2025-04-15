@@ -36,4 +36,9 @@ class Tradeshow extends Model
     protected $casts = [
         'image' => 'array', // Cast images to array
     ];
+
+    public function countryRelation()
+    {
+        return $this->belongsTo(Country::class, 'country', 'id'); // Adjust 'country' and 'id' as per your database schema
+    }
 }

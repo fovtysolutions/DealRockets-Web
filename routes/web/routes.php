@@ -170,7 +170,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
         Route::get('orderDetails', 'orderdetails')->name('orderdetails');
         Route::get('discounted-products', 'discounted_products')->name('discounted-products');
         Route::post('/products-view-style', 'product_view_style')->name('product_view_style');
-
+        
         Route::post('review-list-product', 'review_list_product')->name('review-list-product');
         Route::post('review-list-shop', 'getShopReviewList')->name('review-list-shop'); // theme fashion
         //Chat with seller from product details

@@ -60,6 +60,7 @@ class CustomerRepository implements CustomerRepositoryInterface
         int|string $dataLimit = DEFAULT_DATA_LIMIT,
         int $offset = null
     ): Collection|LengthAwarePaginator {
+        
         $query = $this->user->with($relations)
     
         // Apply filters if no 'withCount'
@@ -85,6 +86,11 @@ class CustomerRepository implements CustomerRepositoryInterface
         // Membership filter using helper
         if (isset($filters['membership'])) {
             $query = MembershipManager::filterByMembership($query, $filters['membership']);
+        }
+
+        if (isset($filters['regions'])) {
+            // dd($filters['regions']);
+            $query->whereIn('country', $filters['regions']);
         }
     
         // Order

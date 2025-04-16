@@ -84,7 +84,7 @@ use Illuminate\Support\Facades\Session;
                         </div>
                     </li>
 
-                    @if(\App\Utils\Helpers::module_permission_check('support_section'))
+                    @if(\App\Utils\Helpers::module_permission_check('settings'))
                         <li class="nav-item">
                             <div class="hs-unfold">
                                 <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
@@ -109,7 +109,7 @@ use Illuminate\Support\Facades\Session;
                         </li>
                     @endif
 
-                    @if(\App\Utils\Helpers::module_permission_check('order_management'))
+                    @if(\App\Utils\Helpers::module_permission_check('listings_management'))
                         <li class="nav-item">
                             <div class="hs-unfold">
                                 <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
@@ -219,7 +219,7 @@ use Illuminate\Support\Facades\Session;
                         {{translate('view_website')}}
                     </a>
                 </div>
-                @if(\App\Utils\Helpers::module_permission_check('support_section'))
+                @if(\App\Utils\Helpers::module_permission_check('settings'))
                     <div class="bg-white p-1 rounded mt-2">
                         <a class="p-2  title-color"
                            href="{{route('admin.contact.list')}}">
@@ -232,7 +232,7 @@ use Illuminate\Support\Facades\Session;
                         </a>
                     </div>
                 @endif
-                @if(\App\Utils\Helpers::module_permission_check('order_management'))
+                @if(\App\Utils\Helpers::module_permission_check('listings_management'))
                     <div class="bg-white p-1 rounded mt-2">
                         <a class="p-2  title-color"
                            href="{{route('admin.orders.list',['status'=>'pending'])}}">

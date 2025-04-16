@@ -117,6 +117,28 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-6 mb-4">
+                        <div class="form-group">
+                            <label class="form-label font-semibold">
+                                {{ translate('Country') }}
+                                <span class="input-required-icon">*</span>
+                                <small class="text-danger mx-1 password-error"></small>
+                            </label>
+                        </div>
+                        @php
+                            $countries = \App\Models\Country::where('blacklist', 'no')->get();
+                        @endphp
+                        <div>
+                            <select class="form-control text-align-direction" name="country" id="country"
+                                required>
+                                <option value="" disabled selected>{{ translate('select_country') }}</option>
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">{{ translate('please_select_your_country') }}!</div>
+                        </div>
+                    </div>
 
                     {{-- <div class="col-sm-6" id="cvfield">
                         <div class="form-group">

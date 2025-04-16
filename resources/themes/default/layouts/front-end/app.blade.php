@@ -23,6 +23,7 @@
     <link rel="stylesheet" media="screen" href="{{ theme_asset(path: 'public/assets/front-end/css/slick.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/back-end/css/toastr.css') }}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/master.css') }}" />
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/roboto-font.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/css/lightbox.css') }}">
@@ -345,7 +346,6 @@
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/theme.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/slick.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/sweet_alert.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/back-end/js/toastr.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/custom.js') }}"></script>
     <script>
         const elements = document.querySelectorAll('.fade-in-on-scroll');
@@ -414,7 +414,7 @@ $ip = get_client_ip();
             @foreach ($errors->all() as $error)
                 toastr.error('{{ $error }}', Error, {
                     CloseButton: true,
-                    ProgressBar: true
+                    ProgressBar: true,
                 });
             @endforeach
         @endif

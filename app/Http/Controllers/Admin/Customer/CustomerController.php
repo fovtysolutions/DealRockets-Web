@@ -26,6 +26,7 @@ use App\Services\ShippingAddressService;
 use App\Traits\EmailTemplateTrait;
 use App\Traits\PaginatorTrait;
 use App\Utils\MembershipManager;
+use App\Utils\RolesAccess;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -66,13 +67,24 @@ class CustomerController extends BaseController
         return $this->getListView($request);
     }
 
-    public function getListView(Request $request): View
+    public function getListView(Request $request)
     {
-
+        if (!RolesAccess::checkEmployeeAccess('user_management','any','read')) {
+            Toastr::error(translate('access_denied'));
+            return back();
+        }
+        
         $filters = ['withCount' => 'orders'];
 
         if ($request->filled('membership')) {
             $filters['membership'] = $request->get('membership');
+        }
+
+        $accessibleRegions = RolesAccess::AccessibleCountries('user_management');
+        if ($accessibleRegions[0] == 'all') {
+            $accessibleRegions = [];
+        } else {
+            $filters['regions'] = $accessibleRegions;
         }
 
         $customers = $this->customerRepo->getListWhere(

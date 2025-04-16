@@ -250,7 +250,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::patch(Profile::UPDATE[URI] . '/{id}', 'updatePassword');
         });
     });
-    Route::group(['prefix' => 'products', 'as' => 'products.', 'middleware' => ['module:product_management']], function () {
+    Route::group(['prefix' => 'products', 'as' => 'products.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(ProductController::class)->group(function () {
             Route::get(Product::LIST [URI] . '/{type}', 'index')->name('list');
             Route::get(Product::ADD[URI], 'getAddView')->name('add');
@@ -285,11 +285,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['module:order_management']], function () {
+    Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(OrderController::class)->group(function () {
             Route::get(Order::LIST [URI] . '/{status}', 'index')->name('list');
             Route::get(Order::EXPORT_EXCEL[URI] . '/{status}', 'exportList')->name('export-excel');
-            Route::get(Order::GENERATE_INVOICE[URI] . '/{id}', 'generateInvoice')->name('generate-invoice')->withoutMiddleware(['module:order_management']);
+            Route::get(Order::GENERATE_INVOICE[URI] . '/{id}', 'generateInvoice')->name('generate-invoice')->withoutMiddleware(['module:listings_management']);
             Route::get(Order::VIEW[URI] . '/{id}', 'getView')->name('details');
             Route::post(Order::UPDATE_ADDRESS[URI], 'updateAddress')->name('address-update');// update address from order details
             Route::post(Order::UPDATE_DELIVERY_INFO[URI], 'updateDeliverInfo')->name('update-deliver-info');
@@ -305,7 +305,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     // Attribute
-    Route::group(['prefix' => 'attribute', 'as' => 'attribute.', 'middleware' => ['module:product_management']], function () {
+    Route::group(['prefix' => 'attribute', 'as' => 'attribute.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(AttributeController::class)->group(function () {
             Route::get(Attribute::LIST [URI], 'index')->name('view');
             Route::post(Attribute::STORE[URI], 'add')->name('store');
@@ -316,7 +316,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     // Brand
-    Route::group(['prefix' => 'brand', 'as' => 'brand.', 'middleware' => ['module:product_management']], function () {
+    Route::group(['prefix' => 'brand', 'as' => 'brand.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(BrandController::class)->group(function () {
             Route::get(Brand::LIST [URI], 'index')->name('list');
             Route::get(Brand::ADD[URI], 'getAddView')->name('add-new');
@@ -330,7 +330,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     // Category
-    Route::group(['prefix' => 'category', 'as' => 'category.', 'middleware' => ['module:product_management']], function () {
+    Route::group(['prefix' => 'category', 'as' => 'category.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(CategoryController::class)->group(function () {
             Route::get(Category::LIST [URI], 'index')->name('view');
             Route::post(Category::ADD[URI], 'add')->name('store');
@@ -343,7 +343,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     // Sub Category
-    Route::group(['prefix' => 'sub-category', 'as' => 'sub-category.', 'middleware' => ['module:product_management']], function () {
+    Route::group(['prefix' => 'sub-category', 'as' => 'sub-category.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(SubCategoryController::class)->group(function () {
             Route::get(SubCategory::LIST [URI], 'index')->name('view');
             Route::post(SubCategory::ADD[URI], 'add')->name('store');
@@ -355,7 +355,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     // Sub Sub Category
-    Route::group(['prefix' => 'sub-sub-category', 'as' => 'sub-sub-category.', 'middleware' => ['module:product_management']], function () {
+    Route::group(['prefix' => 'sub-sub-category', 'as' => 'sub-sub-category.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(SubSubCategoryController::class)->group(function () {
             Route::get(SubSubCategory::LIST [URI], 'index')->name('view');
             Route::post(SubSubCategory::ADD[URI], 'add')->name('store');
@@ -368,7 +368,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     // Banner
-    Route::group(['prefix' => 'banner', 'as' => 'banner.', 'middleware' => ['module:promotion_management']], function () {
+    Route::group(['prefix' => 'banner', 'as' => 'banner.', 'middleware' => ['module:settings']], function () {
         Route::controller(BannerController::class)->group(function () {
             Route::get(Banner::LIST [URI], 'index')->name('list');
             Route::post(Banner::ADD[URI], 'add')->name('store');
@@ -380,7 +380,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     // Customer Routes, Customer wallet Routes, Customer Loyalty Routes
-    Route::group(['prefix' => 'customer', 'as' => 'customer.', 'middleware' => ['module:user_section']], function () {
+    Route::group(['prefix' => 'customer', 'as' => 'customer.', 'middleware' => ['module:user_management']], function () {
         Route::controller(CustomerController::class)->group(function () {
             Route::get(Customer::LIST [URI], 'getListView')->name('list');
             Route::get(Customer::VIEW[URI] . '/{user_id}', 'getView')->name('view');
@@ -418,13 +418,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     });
 
-    Route::group(['prefix' => 'report', 'as' => 'report.', 'middleware' => ['module:report']], function () {
+    Route::group(['prefix' => 'report', 'as' => 'report.', 'middleware' => ['module:analytics_reports']], function () {
         Route::controller(InhouseProductSaleController::class)->group(function () {
             Route::get(InhouseProductSale::VIEW[URI], 'index')->name('inhouse-product-sale');
         });
     });
 
-    Route::group(['middleware' => ['module:system_settings']], function () {
+    Route::group(['middleware' => ['module:settings']], function () {
         Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
             Route::controller(CustomerController::class)->group(function () {
                 Route::get(Customer::SETTINGS[URI], 'getCustomerSettingsView')->name('customer-settings');
@@ -433,7 +433,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'vendors', 'as' => 'vendors.', 'middleware' => ['module:user_section']], function () {
+    Route::group(['prefix' => 'vendors', 'as' => 'vendors.', 'middleware' => ['module:user_management']], function () {
         Route::controller(VendorController::class)->group(function () {
             Route::get(Vendor::LIST [URI], 'index')->name('vendor-list');
             Route::get(Vendor::ADD[URI], 'getAddView')->name('add');
@@ -482,7 +482,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'custom-role', 'as' => 'custom-role.', 'middleware' => ['module:user_section']], function () {
+    Route::group(['prefix' => 'custom-role', 'as' => 'custom-role.', 'middleware' => ['module:user_management']], function () {
         Route::controller(CustomRoleController::class)->group(function () {
             Route::get(CustomRole::LIST[URI], 'list')->name('list');
             Route::get(CustomRole::ADD[URI], 'index')->name('create');
@@ -497,7 +497,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     /*  report */
-    Route::group(['prefix' => 'report', 'as' => 'report.', 'middleware' => ['module:report']], function () {
+    Route::group(['prefix' => 'report', 'as' => 'report.', 'middleware' => ['module:analytics_reports']], function () {
         Route::group(['prefix' => 'transaction', 'as' => 'transaction.'], function () {
             Route::controller(RefundTransactionController::class)->group(function () {
                 Route::get(RefundTransaction::INDEX[URI], 'index')->name('refund-transaction-list');
@@ -507,7 +507,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'report', 'as' => 'report.', 'middleware' => ['module:report']], function () {
+    Route::group(['prefix' => 'report', 'as' => 'report.', 'middleware' => ['module:analytics_reports']], function () {
         Route::controller(ReportController::class)->group(function () {
             Route::get('earning', 'earning_index')->name('earning');
             Route::get('admin-earning', 'admin_earning')->name('admin-earning');
@@ -535,7 +535,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'transaction', 'as' => 'transaction.', 'middleware' => ['module:report']], function () {
+    Route::group(['prefix' => 'transaction', 'as' => 'transaction.', 'middleware' => ['module:analytics_reports']], function () {
         Route::controller(TransactionReportController::class)->group(function () {
             Route::get('order-transaction-list', 'order_transaction_list')->name('order-transaction-list');
             Route::get('pdf-order-wise-transaction', 'pdf_order_wise_transaction')->name('pdf-order-wise-transaction');
@@ -550,7 +550,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'stock', 'as' => 'stock.', 'middleware' => ['module:report']], function () {
+    Route::group(['prefix' => 'stock', 'as' => 'stock.', 'middleware' => ['module:analytics_reports']], function () {
         Route::controller(ProductStockReportController::class)->group(function () {
             //product stock report
             Route::get('product-stock', 'index')->name('product-stock');
@@ -566,7 +566,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     // Reviews
-    Route::group(['prefix' => 'reviews', 'as' => 'reviews.', 'middleware' => ['module:user_section']], function () {
+    Route::group(['prefix' => 'reviews', 'as' => 'reviews.', 'middleware' => ['module:user_management']], function () {
         Route::controller(ReviewController::class)->group(function () {
             Route::get(Review::LIST [URI], 'index')->name('list')->middleware('actch');
             Route::get(Review::STATUS[URI], 'updateStatus')->name('status');
@@ -578,7 +578,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     // Coupon
-    Route::group(['prefix' => 'coupon', 'as' => 'coupon.', 'middleware' => ['module:promotion_management']], function () {
+    Route::group(['prefix' => 'coupon', 'as' => 'coupon.', 'middleware' => ['module:settings']], function () {
         Route::controller(CouponController::class)->group(function () {
             Route::get(Coupon::ADD[URI], 'getAddListView')->name('add')->middleware('actch');
             Route::post(Coupon::ADD[URI], 'add');
@@ -592,7 +592,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'deal', 'as' => 'deal.', 'middleware' => ['module:promotion_management']], function () {
+    Route::group(['prefix' => 'deal', 'as' => 'deal.', 'middleware' => ['module:settings']], function () {
         Route::controller(FlashDealController::class)->group(function () {
             Route::get(FlashDeal::LIST [URI], 'index')->name('flash');
             Route::post(FlashDeal::LIST [URI], 'add');
@@ -623,7 +623,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     /** Notification and push notification */
-    Route::group(['prefix' => 'push-notification', 'as' => 'push-notification.', 'middleware' => ['module:promotion_management']], function () {
+    Route::group(['prefix' => 'push-notification', 'as' => 'push-notification.', 'middleware' => ['module:settings']], function () {
         Route::controller(PushNotificationSettingsController::class)->group(function () {
             Route::get(PushNotification::INDEX[URI], 'index')->name('index');
             Route::post(PushNotification::UPDATE[URI], 'updatePushNotificationMessage')->name('update');
@@ -632,7 +632,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'notification', 'as' => 'notification.', 'middleware' => ['module:promotion_management']], function () {
+    Route::group(['prefix' => 'notification', 'as' => 'notification.', 'middleware' => ['module:settings']], function () {
         Route::controller(NotificationController::class)->group(function () {
             Route::get(Notification::INDEX[URI], 'index')->name('index');
             Route::post(Notification::INDEX[URI], 'add');
@@ -644,14 +644,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'notification-setup', 'as' => 'notification-setup.', 'middleware' => ['module:promotion_management']], function () {
+    Route::group(['prefix' => 'notification-setup', 'as' => 'notification-setup.', 'middleware' => ['module:settings']], function () {
         Route::controller(NotificationSetupController::class)->group(function () {
             Route::get(NotificationSetup::INDEX[URI] . '/{type}', 'index')->name('index');
         });
     });
     /* end notification */
 
-    Route::group(['prefix' => 'support-ticket', 'as' => 'support-ticket.', 'middleware' => ['module:support_section']], function () {
+    Route::group(['prefix' => 'support-ticket', 'as' => 'support-ticket.', 'middleware' => ['module:settings']], function () {
         Route::controller(SupportTicketController::class)->group(function () {
             Route::get(SupportTicket::LIST [URI], 'index')->name('view');
             Route::post(SupportTicket::STATUS[URI], 'updateStatus')->name('status');
@@ -669,7 +669,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'contact', 'as' => 'contact.', 'middleware' => ['module:support_section']], function () {
+    Route::group(['prefix' => 'contact', 'as' => 'contact.', 'middleware' => ['module:settings']], function () {
         Route::controller(ContactController::class)->group(function () {
             Route::get(Contact::LIST [URI], 'index')->name('list');
             Route::get(Contact::VIEW[URI] . '/{id}', 'getView')->name('view');
@@ -681,7 +681,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'delivery-man', 'as' => 'delivery-man.', 'middleware' => ['module:user_section']], function () {
+    Route::group(['prefix' => 'delivery-man', 'as' => 'delivery-man.', 'middleware' => ['module:user_management']], function () {
         Route::controller(DeliveryManController::class)->group(function () {
             Route::get(DeliveryMan::LIST [URI], 'index')->name('list');
             Route::get(DeliveryMan::ADD[URI], 'getAddView')->name('add');
@@ -726,7 +726,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     });
 
-    Route::group(['prefix' => 'most-demanded', 'as' => 'most-demanded.', 'middleware' => ['module:promotion_management']], function () {
+    Route::group(['prefix' => 'most-demanded', 'as' => 'most-demanded.', 'middleware' => ['module:settings']], function () {
         Route::controller(MostDemandedController::class)->group(function () {
             Route::get(MostDemanded::LIST [URI], 'index')->name('index');
             Route::post(MostDemanded::ADD[URI], 'add')->name('store');
@@ -749,7 +749,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     Route::group(['prefix' => 'system-setup', 'as' => 'system-setup.'], function () {
-        Route::group(['middleware' => ['module:system_settings']], function () {
+        Route::group(['middleware' => ['module:settings']], function () {
 
             Route::group(['prefix' => 'login-settings', 'as' => 'login-settings.'], function () {
                 Route::controller(SystemLoginSetupController::class)->group(function () {
@@ -769,7 +769,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     Route::group(['prefix' => 'countrySetup', 'as' => 'countrySetup.'], function () {
-        Route::group(['middleware' => ['module:system_settings']], function () {
+        Route::group(['middleware' => ['module:settings']], function () {
             Route::controller(CountrySetupController::class)->group(function () {
                 Route::get('index', 'index')->name('index');
                 Route::get('edit' . '/{id}', 'getUpdateView')->name('edit');
@@ -781,7 +781,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.'], function () {
-        Route::group(['middleware' => ['module:system_settings']], function () {
+        Route::group(['middleware' => ['module:settings']], function () {
             Route::controller(PagesController::class)->group(function () {
                 Route::get(Pages::TERMS_CONDITION[URI], 'index')->name('terms-condition');
                 Route::post(Pages::TERMS_CONDITION[URI], 'updateTermsCondition')->name('update-terms');
@@ -836,7 +836,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             });
         });
 
-        Route::group(['prefix' => 'language', 'as' => 'language.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'language', 'as' => 'language.', 'middleware' => ['module:settings']], function () {
             Route::controller(LanguageController::class)->group(function () {
                 Route::get(Language::LIST [URI], 'index')->name('index');
                 Route::post(Language::ADD[URI], 'add')->name('add-new');
@@ -853,14 +853,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             });
         });
 
-        Route::group(['prefix' => 'invoice-settings', 'as' => 'invoice-settings.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'invoice-settings', 'as' => 'invoice-settings.', 'middleware' => ['module:settings']], function () {
             Route::controller(InvoiceSettingsController::class)->group(function () {
                 Route::get(InvoiceSettings::VIEW[URI], 'index')->name('index');
                 Route::post(InvoiceSettings::VIEW[URI], 'update')->name('update');
             });
         });
 
-        Route::group(['prefix' => 'web-config', 'as' => 'web-config.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'web-config', 'as' => 'web-config.', 'middleware' => ['module:settings']], function () {
             Route::controller(BusinessSettingsController::class)->group(function () {
                 Route::get(BusinessSettings::INDEX[URI], 'index')->name('index')->middleware('actch');
                 Route::post(BusinessSettings::INDEX[URI], 'updateSettings')->name('update');
@@ -894,7 +894,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
         });
 
-        Route::group(['prefix' => 'vendor-registration-settings', 'as' => 'vendor-registration-settings.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'vendor-registration-settings', 'as' => 'vendor-registration-settings.', 'middleware' => ['module:settings']], function () {
             Route::controller(VendorRegistrationSettingController::class)->group(function () {
                 Route::get(VendorRegistrationSetting::INDEX[URI], 'index')->name('index');
                 Route::post(VendorRegistrationSetting::INDEX[URI], 'updateHeaderSection');
@@ -908,7 +908,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             });
         });
 
-        Route::group(['prefix' => 'vendor-registration-reason', 'as' => 'vendor-registration-reason.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'vendor-registration-reason', 'as' => 'vendor-registration-reason.', 'middleware' => ['module:settings']], function () {
             Route::controller(VendorRegistrationReasonController::class)->group(function () {
                 Route::post(VendorRegistrationReason::ADD[URI], 'add')->name('add');
                 Route::get(VendorRegistrationReason::UPDATE[URI], 'getUpdateView')->name('update');
@@ -921,14 +921,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.'], function () {
 
-        Route::group(['middleware' => ['module:system_settings']], function () {
+        Route::group(['middleware' => ['module:settings']], function () {
             Route::controller(SMSModuleController::class)->group(function () {
                 Route::get(SMSModule::VIEW[URI], 'index')->name('sms-module');
                 Route::put(SMSModule::UPDATE[URI], 'update')->name('addon-sms-set');
             });
         });
 
-        Route::group(['prefix' => 'shipping-method', 'as' => 'shipping-method.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'shipping-method', 'as' => 'shipping-method.', 'middleware' => ['module:settings']], function () {
             Route::controller(ShippingMethodController::class)->group(function () {
                 Route::get(ShippingMethod::INDEX[URI], 'index')->name('index');
                 Route::post(ShippingMethod::INDEX[URI], 'add');
@@ -944,13 +944,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::post(ShippingType::INDEX[URI], [ShippingTypeController::class, 'addOrUpdate'])->name('index');
         });
 
-        Route::group(['prefix' => 'category-shipping-cost', 'as' => 'category-shipping-cost.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'category-shipping-cost', 'as' => 'category-shipping-cost.', 'middleware' => ['module:settings']], function () {
             Route::controller(CategoryShippingCostController::class)->group(function () {
                 Route::post('store', 'add')->name('store');
             });
         });
 
-        Route::group(['prefix' => 'mail', 'as' => 'mail.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'mail', 'as' => 'mail.', 'middleware' => ['module:settings']], function () {
             Route::controller(MailController::class)->group(function () {
                 Route::get(Mail::VIEW[URI], 'index')->name('index');
                 Route::post(Mail::UPDATE[URI], 'update')->name('update');
@@ -959,28 +959,28 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             });
         });
 
-        Route::group(['prefix' => 'order-settings', 'as' => 'order-settings.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'order-settings', 'as' => 'order-settings.', 'middleware' => ['module:settings']], function () {
             Route::controller(OrderSettingsController::class)->group(function () {
                 Route::get(BusinessSettings::ORDER_VIEW[URI], 'index')->name('index');
                 Route::post(BusinessSettings::ORDER_UPDATE[URI], 'update')->name('update-order-settings');
             });
         });
 
-        Route::group(['prefix' => 'vendor-settings', 'as' => 'vendor-settings.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'vendor-settings', 'as' => 'vendor-settings.', 'middleware' => ['module:settings']], function () {
             Route::controller(VendorSettingsController::class)->group(function () {
                 Route::get(BusinessSettings::VENDOR_VIEW[URI], 'index')->name('index')->middleware('actch');
                 Route::post(BusinessSettings::VENDOR_SETTINGS_UPDATE[URI], 'update')->name('update-vendor-settings');
             });
         });
 
-        Route::group(['prefix' => 'delivery-man-settings', 'as' => 'delivery-man-settings.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'delivery-man-settings', 'as' => 'delivery-man-settings.', 'middleware' => ['module:settings']], function () {
             Route::controller(DeliverymanSettingsController::class)->group(function () {
                 Route::get(BusinessSettings::DELIVERYMAN_VIEW[URI], 'index')->name('index');
                 Route::post(BusinessSettings::DELIVERYMAN_VIEW_UPDATE[URI], 'update')->name('update');
             });
         });
 
-        Route::group(['prefix' => 'payment-method', 'as' => 'payment-method.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'payment-method', 'as' => 'payment-method.', 'middleware' => ['module:settings']], function () {
             Route::controller(PaymentMethodController::class)->group(function () {
                 Route::get(PaymentMethod::LIST [URI], 'index')->name('index')->middleware('actch');
                 Route::get(PaymentMethod::PAYMENT_OPTION[URI], 'getPaymentOptionView')->name('payment-option');
@@ -989,7 +989,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             });
         });
 
-        Route::group(['prefix' => 'offline-payment-method', 'as' => 'offline-payment-method.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'offline-payment-method', 'as' => 'offline-payment-method.', 'middleware' => ['module:settings']], function () {
             Route::controller(OfflinePaymentMethodController::class)->group(function () {
                 Route::get(OfflinePaymentMethod::INDEX[URI], 'index')->name('index')->middleware('actch');
                 Route::get(OfflinePaymentMethod::ADD[URI], 'getAddView')->name('add')->middleware('actch');
@@ -1001,7 +1001,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             });
         });
 
-        Route::group(['prefix' => 'delivery-restriction', 'as' => 'delivery-restriction.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'delivery-restriction', 'as' => 'delivery-restriction.', 'middleware' => ['module:settings']], function () {
             Route::controller(DeliveryRestrictionController::class)->group(function () {
                 Route::get(DeliveryRestriction::VIEW[URI], 'index')->name('index');
                 Route::post(DeliveryRestriction::ADD[URI], 'add')->name('add-delivery-country');
@@ -1013,7 +1013,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             });
         });
 
-        Route::group(['prefix' => 'email-templates', 'as' => 'email-templates.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'email-templates', 'as' => 'email-templates.', 'middleware' => ['module:settings']], function () {
             Route::controller(EmailTemplatesController::class)->group(function () {
                 Route::get('index', 'index')->name('index');
                 Route::get(EmailTemplate::VIEW[URI] . '/{type}' . '/{tab}', 'getView')->name('view');
@@ -1023,7 +1023,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             });
         });
 
-        Route::group(['prefix' => 'priority-setup', 'as' => 'priority-setup.', 'middleware' => ['module:system_settings']], function () {
+        Route::group(['prefix' => 'priority-setup', 'as' => 'priority-setup.', 'middleware' => ['module:settings']], function () {
             Route::controller(PrioritySetupController::class)->group(function () {
                 Route::get(PrioritySetup::INDEX[URI], 'index')->name('index');
                 Route::post(PrioritySetup::INDEX[URI], 'update');
@@ -1038,7 +1038,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'currency', 'as' => 'currency.', 'middleware' => ['module:system_settings']], function () {
+    Route::group(['prefix' => 'currency', 'as' => 'currency.', 'middleware' => ['module:settings']], function () {
         Route::controller(CurrencyController::class)->group(function () {
             Route::get(Currency::LIST [URI], 'index')->name('view')->middleware('actch');
             Route::post(Currency::ADD[URI], 'add')->name('store');
@@ -1050,7 +1050,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'addon', 'as' => 'addon.', 'middleware' => ['module:system_settings']], function () {
+    Route::group(['prefix' => 'addon', 'as' => 'addon.', 'middleware' => ['module:settings']], function () {
         Route::controller(AddonController::class)->group(function () {
             Route::get(AddonSetup::VIEW[URI], 'index')->name('index');
             Route::post(AddonSetup::PUBLISH[URI], 'publish')->name('publish');
@@ -1060,7 +1060,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'social-login', 'as' => 'social-login.', 'middleware' => ['module:system_settings']], function () {
+    Route::group(['prefix' => 'social-login', 'as' => 'social-login.', 'middleware' => ['module:settings']], function () {
         Route::controller(SocialLoginSettingsController::class)->group(function () {
             Route::get(SocialLoginSettings::VIEW[URI], 'index')->name('view');
             Route::post(SocialLoginSettings::UPDATE[URI] . '/{service}', 'update')->name('update');
@@ -1068,7 +1068,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'storage-connection-settings', 'as' => 'storage-connection-settings.', 'middleware' => ['module:system_settings']], function () {
+    Route::group(['prefix' => 'storage-connection-settings', 'as' => 'storage-connection-settings.', 'middleware' => ['module:settings']], function () {
         Route::controller(StorageConnectionSettingsController::class)->group(function () {
             Route::get(StorageConnectionSettings::INDEX[URI], 'index')->name('index');
             Route::post(StorageConnectionSettings::STORAGE_TYPE[URI], 'updateStorageType')->name('update-storage-type');
@@ -1076,21 +1076,21 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'firebase-otp-verification', 'as' => 'firebase-otp-verification.', 'middleware' => ['module:system_settings']], function () {
+    Route::group(['prefix' => 'firebase-otp-verification', 'as' => 'firebase-otp-verification.', 'middleware' => ['module:settings']], function () {
         Route::controller(FirebaseOTPVerificationController::class)->group(function () {
             Route::get(FirebaseOTPVerification::INDEX[URI], 'index')->name('index');
             Route::post(FirebaseOTPVerification::UPDATE[URI], 'updateConfig')->name('update');
         });
     });
 
-    Route::group(['prefix' => 'social-media-chat', 'as' => 'social-media-chat.', 'middleware' => ['module:system_settings']], function () {
+    Route::group(['prefix' => 'social-media-chat', 'as' => 'social-media-chat.', 'middleware' => ['module:settings']], function () {
         Route::controller(SocialMediaChatController::class)->group(function () {
             Route::get(SocialMediaChat::VIEW[URI], 'index')->name('view');
             Route::post(SocialMediaChat::UPDATE[URI] . '/{service}', 'update')->name('update');
         });
     });
 
-    Route::group(['prefix' => 'product-settings', 'as' => 'product-settings.', 'middleware' => ['module:system_settings']], function () {
+    Route::group(['prefix' => 'product-settings', 'as' => 'product-settings.', 'middleware' => ['module:settings']], function () {
         Route::controller(BusinessSettingsController::class)->group(function () {
             Route::get(BusinessSettings::PRODUCT_SETTINGS[URI], 'getProductSettingsView')->name('index');
             Route::post(BusinessSettings::PRODUCT_SETTINGS[URI], 'updateProductSettings');
@@ -1104,7 +1104,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.', 'middleware' => ['module:promotion_management']], function () {
+    Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.', 'middleware' => ['module:settings']], function () {
         Route::controller(BusinessSettingsController::class)->group(function () {
             Route::get(BusinessSettings::ANNOUNCEMENT[URI], 'getAnnouncementView')->name('announcement');
             Route::post(BusinessSettings::ANNOUNCEMENT[URI], 'updateAnnouncement');
@@ -1148,7 +1148,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'file-manager', 'as' => 'file-manager.', 'middleware' => ['module:system_settings']], function () {
+    Route::group(['prefix' => 'file-manager', 'as' => 'file-manager.', 'middleware' => ['module:settings']], function () {
         Route::controller(FileManagerController::class)->group(function () {
             Route::get(FileManager::VIEW[URI] . '/{folderPath?}', 'getFoldersView')->name('index');
             Route::get(FileManager::DOWNLOAD[URI] . '/{file_name}', 'download')->name('download');
@@ -1156,7 +1156,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'helpTopic', 'as' => 'helpTopic.', 'middleware' => ['module:system_settings']], function () {
+    Route::group(['prefix' => 'helpTopic', 'as' => 'helpTopic.', 'middleware' => ['module:settings']], function () {
         Route::controller(HelpTopicController::class)->group(function () {
             Route::get(HelpTopic::LIST [URI], 'index')->name('list');
             Route::post(HelpTopic::ADD[URI], 'add')->name('add-new');
@@ -1167,7 +1167,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
-    Route::group(['prefix' => 'refund-section', 'as' => 'refund-section.', 'middleware' => ['module:order_management']], function () {
+    Route::group(['prefix' => 'refund-section', 'as' => 'refund-section.', 'middleware' => ['module:listings_management']], function () {
         Route::group(['prefix' => 'refund', 'as' => 'refund.'], function () {
             Route::controller(RefundController::class)->group(function () {
                 Route::get(RefundRequest::LIST [URI] . '/{status}', 'index')->name('list');

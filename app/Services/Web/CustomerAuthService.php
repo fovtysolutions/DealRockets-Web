@@ -162,6 +162,7 @@ class CustomerAuthService
             'f_name' => $request['f_name'],
             'l_name' => $request['l_name'],
             'email' => $request['email'],
+            'country' => $request['country'],
             'phone' => $request['phone'],
             'typerole' => $request['role'] ?? 'No Role Added',
             // 'cv' => $imagePath,

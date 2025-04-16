@@ -145,7 +145,7 @@
 
 @stack('script')
 
-@if(Helpers::module_permission_check('order_management') && env('APP_MODE')!='dev')
+@if(Helpers::module_permission_check('listings_management') && env('APP_MODE')!='dev')
 <script>
     'use strict'
         setInterval(function () {

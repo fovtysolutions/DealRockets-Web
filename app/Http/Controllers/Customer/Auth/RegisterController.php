@@ -181,14 +181,19 @@ class RegisterController extends Controller
 
         $firebaseOTPVerification = getWebConfig(name: 'firebase_otp_verification') ?? [];
         if ($firebaseOTPVerification && $firebaseOTPVerification['status'] && empty($request['g-recaptcha-response'])) {
-            if (request()->ajax()) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => translate('ReCAPTCHA_Failed')
-                ]);
+            $recaptcha = getWebConfig(name: 'recaptcha');
+            $recaptchaEnabled = $recaptcha['status'];
+            
+            if ($recaptchaEnabled && empty($request['g-recaptcha-response'])) {
+                if (request()->ajax()) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => translate('ReCAPTCHA_Failed')
+                    ]);
+                }
+                Toastr::error(translate('ReCAPTCHA_Failed'));
+                return redirect()->back();
             }
-            Toastr::error(translate('ReCAPTCHA_Failed'));
-            return redirect()->back();
         }
 
         $maxOTPHit = getWebConfig(name: 'maximum_otp_hit') ?? 5;
@@ -446,14 +451,19 @@ class RegisterController extends Controller
     {
         $firebaseOTPVerification = getWebConfig(name: 'firebase_otp_verification') ?? [];
         if ($firebaseOTPVerification && $firebaseOTPVerification['status'] && empty($request['g-recaptcha-response'])) {
-            if (request()->ajax()) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => translate('ReCAPTCHA_Failed')
-                ]);
+            $recaptcha = getWebConfig(name: 'recaptcha');
+            $recaptchaEnabled = $recaptcha['status'];
+            
+            if ($recaptchaEnabled && empty($request['g-recaptcha-response'])) {
+                if (request()->ajax()) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => translate('ReCAPTCHA_Failed')
+                    ]);
+                }
+                Toastr::error(translate('ReCAPTCHA_Failed'));
+                return redirect()->back();
             }
-            Toastr::error(translate('ReCAPTCHA_Failed'));
-            return redirect()->back();
         }
 
         $maxOTPHit = getWebConfig(name: 'maximum_otp_hit') ?? 5;

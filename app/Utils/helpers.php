@@ -450,10 +450,10 @@ class Helpers
         if (isset($module_access) && is_array($module_access)) {
             foreach ($module_access as $continent => $modules) {
                 if (isset($modules[$mod_name])) {
-                    $permissions = $modules[$mod_name];
-
-                    if (isset($permissions['read']) && $permissions['read'] === 'yes') {
-                        return true;
+                    foreach ($modules[$mod_name] as $module => $access){
+                        if ($module == 'read' && $access == 'yes') {
+                            return true;
+                        }
                     }
                 }
             }

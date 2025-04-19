@@ -9309,4 +9309,5 @@ return [
 	"Create_Employee_Role" => "Create Employee Role",
 	"Employee Roles List" => "Employee Roles List",
 	"please_select_your_country" => "Please select your country",
+	"RFQ | Deal Rocket" => "RFQ | Deal Rocket",
 ];

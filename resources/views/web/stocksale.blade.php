@@ -33,6 +33,7 @@
         aspect-ratio: 6 / 1;
         max-width: 1440px;
         height: 300px;
+        width: 100%;
     }
 </style>
 @endpush

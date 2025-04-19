@@ -1,134 +1,121 @@
 @extends('layouts.front-end.app')
 
-@section('title',translate('contact_us'))
+@section('title', translate('contact_us'))
 
 @push('css_or_js')
-    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/css/intlTelInput.css') }}">
+    <link rel="stylesheet"
+        href="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/css/intlTelInput.css') }}">
+    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/contact-us.css') }}">
 @endpush
 
 @section('content')
-<div class="__inline-58">
-    <div class="container rtl">
-        <div class="row">
-            <div class="col-md-12 contact-us-page sidebar_heading text-center mb-2">
-                <h1 class="h3 mb-0 headerTitle">{{ translate('contact_us') }}</h1>
-            </div>
-        </div>
-    </div>
+    <section class="mainpagesection contact-page" style="background-color: unset;">
+        <div class="container contact-form">
 
-    <div class="container rtl text-align-direction">
-        <div class="row no-gutters py-5">
-            <div class="col-lg-6 iframe-full-height-wrap ">
-                <img class="for-contact-image" src="{{theme_asset(path: "public/assets/front-end/png/contact.png")}}" alt="">
-            </div>
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body for-send-message">
-                        <h2 class="h4 mb-4 text-center font-semibold text-black">{{translate('send_us_a_message')}}</h2>
-                        <form action="{{route('contact.store')}}" method="POST" id="getResponse">
-                            @csrf
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label >{{translate('your_name')}}</label>
-                                        <input class="form-control name" name="name" type="text"
-                                               value="{{ old('name') }}" placeholder="{{ translate('John_Doe') }}" required>
+            <div class="main-content justify-center" style="justify-content: center;">
+
+                <!-- RFQ Section -->
+                <div class="get-in-touch d-flex justify-center">
+
+                    <div class="contact-us-form">
+                        <form class="rfq-form remove" style="text-align: center;">
+                            <div>
+                                <p class="contact-us">Contact us</p>
+                                <h2 class="get-head">Get in touch</h2>
+                                <p class="get-para">We’d love to hear from you. Please fill out this form.</p>
+                            </div>
+
+
+                            <div class="quantity-row">
+                                <div class="d-flex contact-input-div">
+                                    <label class="contact-label">First Name</label>
+                                    <input class="contact-input form-control" type="text" placeholder="First Name"
+                                        required>
+                                </div>
+                                <div class="d-flex contact-input-div">
+                                    <label class="contact-label">Last Name</label>
+                                    <input class="contact-input form-control" type="text" placeholder="Last Name"
+                                        required>
+                                </div>
+
+                            </div>
+                            <div class="">
+                                <div class="d-flex contact-input-div">
+                                    <label class="contact-label">Email</label>
+                                    <input class="contact-input form-control" type="email" placeholder="Email" required>
+                                </div>
+
+
+                            </div>
+
+                            <div class="">
+                                <div class=" d-flex contact-input-div " style="position: relative; text-align: left;">
+                                    <label for="phone" class="contact-input form-label fw-bold">Phone Number</label>
+                                    <!-- NOTE: only one `type` attribute, and it’s "tel" -->
+                                    <div class="d-flex align-items-center">
+                                        <select id="countryCode" class="form-select me-2 p-0" style="max-width: 55px;height: 34px;">
+                                            <option value="+1">USA</option>
+                                            <option value="+44">UK</option>
+                                            <option value="+91">Ind</option>
+                                        </select>
+                                        <input id="phone" type="tel" class="form-control contact-input" placeholder="Enter phone number" required />
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="cf-email">{{translate('email_address')}}</label>
-                                        <input class="form-control email" name="email" type="email"
-                                               value="{{ old('email') }}"
-                                               placeholder="{{ translate('enter_email_address') }}" required >
-
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="cf-phone">{{translate('your_phone')}}</label>
-                                        <input class="form-control mobile_number phone-input-with-country-picker" type="number"
-                                               value="{{ old('mobile_number') }}" placeholder="{{translate('contact_number')}}" required>
-
-                                        <div class="">
-                                            <input type="hidden" class="country-picker-country-code w-50" name="country_code" readonly>
-                                            <input type="hidden" class="country-picker-phone-number w-50" name="mobile_number" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="cf-subject">{{translate('subject')}}:</label>
-                                        <input class="form-control subject" type="text" name="subject"
-                                               value="{{ old('subject') }}" placeholder="{{translate('short_title')}}" required>
-
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="cf-message">{{translate('message')}}</label>
-                                        <textarea class="form-control message" name="message" rows="6" required>{{ old('subject') }}</textarea>
-                                    </div>
+                                <!-- <div  class="d-flex contact-input-div">
+                    <label class="contact-label">Phone Number</label>
+                    <input id="phone" type="tel" class="contact-input" type="number" placeholder="Number" required>
+                </div> -->
+                            </div>
+                            <div class="">
+                                <div class="d-flex contact-input-div">
+                                    <label class="contact-label">Message</label>
+                                    <textarea class="contact-textarea form-control" type="text" placeholder="" required></textarea>
                                 </div>
                             </div>
 
-                            @php($recaptcha = getWebConfig(name: 'recaptcha'))
-                            @if(isset($recaptcha) && $recaptcha['status'] == 1)
-                                <div id="recaptcha_element" class="w-100" data-type="image"></div>
-                                <br/>
-                            @else
-                                <div class="row mb-3 mt-1">
-                                    <div class="col-6 pr-0">
-                                        <input type="text" class="form-control" name="default_captcha_value" value=""
-                                               placeholder="{{translate('enter_captcha_value')}}" autocomplete="off">
-                                    </div>
-                                    <div class="col-6 input-icons rounded">
-                                        <a href="javascript:" class="get-contact-recaptcha-verify" data-link="{{ URL('/contact/code/captcha') }}">
-                                            <img src="{{ URL('/contact/code/captcha/1') }}" class="input-field __h-44 rounded" id="default_recaptcha_id" alt="">
-                                            <i class="tio-refresh icon"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            @endif
-                            <div class=" ">
-                                <button class="btn btn--primary" type="submit" >{{translate('send')}}</button>
+                            <div class=" quantity-row">
+                                <input class="" type="checkbox" value="" id="flexCheckDefault"
+                                    style="width: auto;">
+                                <label class="contact-label m-0" for="flexCheckDefault">
+                                    You agree to our friendly <a href="#" class="policy-link">privacy policy.
+
+                                    </a>
+                                </label>
                             </div>
+                            <button type="submit" class="submit-rfq " style="background: #FE4E44 !important;">Send
+                                Mesage</button>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+    </section>
 @endsection
 
 
 @push('script')
-
-@if(isset($recaptcha) && $recaptcha['status'] == 1)
-    <script type="text/javascript">
-        "use strict";
-        var onloadCallback = function () {
-            grecaptcha.render('recaptcha_element', {
-                'sitekey': '{{ getWebConfig(name: 'recaptcha')['site_key'] }}'
+    <script src="{{ theme_asset(path: 'public/js/contact-us.js') }}"></script>
+    @if (isset($recaptcha) && $recaptcha['status'] == 1)
+        <script type="text/javascript">
+            "use strict";
+            var onloadCallback = function() {
+                grecaptcha.render('recaptcha_element', {
+                    'sitekey': '{{ getWebConfig(name: 'recaptcha')['site_key'] }}'
+                });
+            };
+        </script>
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+        <script>
+            "use strict";
+            $("#getResponse").on('submit', function(e) {
+                var response = grecaptcha.getResponse();
+                if (response.length === 0) {
+                    e.preventDefault();
+                    toastr.error($('#message-please-check-recaptcha').data('text'));
+                }
             });
-        };
-    </script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async
-            defer></script>
-    <script>
-        "use strict";
-        $("#getResponse").on('submit', function (e) {
-            var response = grecaptcha.getResponse();
-            if (response.length === 0) {
-                e.preventDefault();
-                toastr.error($('#message-please-check-recaptcha').data('text'));
-            }
-        });
-    </script>
-@endif
+        </script>
+    @endif
 
-<script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
-<script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
+    <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
+    <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
 @endpush
-

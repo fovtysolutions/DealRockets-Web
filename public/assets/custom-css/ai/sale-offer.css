@@ -1,0 +1,902 @@
+/* Main Content Layout */
+.sale-offer-page .main-content {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+/* Sidebar Styles */
+.sale-offer-page .sidebar {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.sale-offer-page .search-section {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sale-offer-page .search-section h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.sale-offer-page .search-box {
+    position: relative;
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.sale-offer-page .search-box input {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border: 1px solid #D5D5D5;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.sale-offer-page .search-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #515050;
+}
+
+/* Checkbox Styles */
+.sale-offer-page .checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sale-offer-page .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #0D0D0F;
+    cursor: pointer;
+}
+
+.sale-offer-page .checkbox-item input {
+    display: none;
+}
+
+.sale-offer-page .checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #D5D5D5;
+    border-radius: 2px;
+    display: inline-block;
+    position: relative;
+}
+
+.sale-offer-page .checkbox-item.checked .checkbox-custom {
+    background-color: #FE4E44;
+    border-color: #FE4E44;
+}
+
+.sale-offer-page .checkbox-item.checked .checkbox-custom::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.sale-offer-page .sidebar-banner {
+    margin-top: 20px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.sale-offer-page .sidebar-banner img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Products Section Styles */
+.sale-offer-page .products-section {
+    flex-grow: 1;
+}
+
+.sale-offer-page .hidden,
+.sale-offer-page .view-detail-btn-hide {
+    display: none;
+}
+
+/* Product Card Styles */
+.sale-offer-page .product-card {
+    background-color: white;
+    border: 1px solid #D5D5D5;
+    border-radius: 4px;
+    padding: 30px;
+    margin-bottom: 16px;
+    display: flex;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sale-offer-page .product-card:hover {
+    border-color: #FE4E44 !important;
+}
+
+.sale-offer-page .pagination-number:hover {
+    border-color: #FE4E44 !important;
+    color: #FE4E44 !important;
+}
+
+.sale-offer-page .product-image-col {
+    width: 34%;
+    padding-right: 10px;
+}
+
+.sale-offer-page .product-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.sale-offer-page .product-image {
+    width: 170px;
+    height: 150px;
+    border-radius: 4px;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.sale-offer-page .product-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #515050;
+    font-size: 14px;
+    margin-top: 30px;
+}
+
+.sale-offer-page .location-icon {
+    font-size: 14px;
+    color: #515050;
+}
+
+/* Product Details Column */
+.sale-offer-page .product-details-col {
+    width: 37%;
+}
+
+.sale-offer-page .detail-table {
+    width: 100%;
+    font-size: 14px;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+.sale-offer-page .detail-table tr {
+    height: 42px;
+}
+
+.sale-offer-page .detail-label {
+    width: 80px;
+    font-weight: 400;
+    color: #0D0D0F;
+    background-color: white;
+    border-top: 1px solid #D5D5D5;
+    border-bottom: 1px solid #D5D5D5;
+    border-left: 1px solid #D5D5D5;
+    padding: 11px 17px;
+    text-align: left;
+}
+
+.sale-offer-page .detail-value {
+    font-weight: 600;
+    text-align: center;
+    padding: 11px;
+    border: 1px solid #D5D5D5;
+    width: calc(100% - 80px);
+}
+
+.sale-offer-page .detail-table tr:first-child .detail-label,
+.sale-offer-page .detail-table tr:first-child .detail-value {
+    border-top: 1px solid #D5D5D5;
+}
+
+.sale-offer-page .detail-table tr:last-child .detail-label,
+.sale-offer-page .detail-table tr:last-child .detail-value {
+    border-bottom: 1px solid #D5D5D5;
+}
+
+.sale-offer-page .detail-value .unit {
+    font-size: 12px;
+    font-weight: 400;
+    color: #515050;
+}
+
+/* Contact Seller Column */
+.sale-offer-page .contact-seller-col {
+    width: 29%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-left: 20px;
+}
+
+.sale-offer-page .favorite-icon {
+    align-self: flex-end;
+    cursor: pointer;
+    color: #706c6c;
+    font-size: 19px;
+}
+
+.sale-offer-page .favorite-icon.active {
+    color: #FE4E44;
+}
+
+.sale-offer-page .contact-btn {
+    background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+    color: white;
+    border: none;
+    border-radius: 42px;
+    padding: 8px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 53px;
+    text-align: center;
+}
+
+.sale-offer-page .seller-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 12px;
+    text-align: center;
+    width: 100%;
+}
+
+.sale-offer-page .company-name {
+    font-size: 14px;
+    color: #515050;
+    margin-top: 4px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Pagination Styles */
+.sale-offer-page .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 35px;
+    gap: 26px;
+    font-size: 16px;
+    color: #515050;
+}
+
+.sale-offer-page .items-per-page {
+    /* margin-right: auto; */
+}
+
+.sale-offer-page .page-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sale-offer-page .pagination-arrow {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.sale-offer-page .pagination-number {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #D5D5D5;
+    background-color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.sale-offer-page .pagination-number.active {
+    border-color: #FE4E44;
+    color: #FE4E44;
+}
+
+.sale-offer-page .pagination-ellipsis {
+    display: flex;
+    align-items: center;
+}
+
+.sale-offer-page .pagination-total {
+    min-width: 40px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #D5D5D5;
+    background-color: white;
+    border-radius: 4px;
+    padding: 0 10px;
+}
+
+.sale-offer-page .rfq-hidden {
+    display: none;
+}
+
+/* RFQ Section Styles */
+.sale-offer-page .rfq-section {
+    display: flex;
+    gap: 40px;
+    margin-top: 50px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("rfq-image\ 1.png");
+    background-size: cover;
+    background-position: center;
+    padding: 40px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.sale-offer-page .rfq-info {
+    flex: 1;
+    color: white;
+    padding-right: 20px;
+}
+
+.sale-offer-page .rfq-info h2 {
+    font-size: 29px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.sale-offer-page .rfq-description {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 50px;
+    text-align: left;
+}
+
+.sale-offer-page .view-more {
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 13px 33px;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #050505;
+    float: left;
+    margin-bottom: 60px;
+}
+
+.sale-offer-page .rfq-benefits {
+    clear: both;
+    /* list-style-type: none; */
+
+    margin-left: 3rem;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.sale-offer-page .rfq-benefits li {
+    margin-bottom: 10px;
+}
+
+.sale-offer-page .sell-offer {
+    margin: 1rem 0;
+}
+
+.sale-offer-page .rfq-form-container {
+    width: 463px;
+}
+
+.sale-offer-page .rfq-form {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sale-offer-page .rfq-form h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #050505;
+    margin-bottom: 15px;
+}
+
+.sale-offer-page .rfq-form input,
+.sale-offer-page .rfq-form select {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #D5D5D5;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.sale-offer-page .select-container {
+    position: relative;
+}
+
+.sale-offer-page .select-container select {
+    appearance: none;
+    padding-right: 30px;
+}
+
+.sale-offer-page .select-container i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #515050;
+}
+
+.sale-offer-page .quantity-row {
+    display: flex;
+    gap: 11px;
+}
+
+.sale-offer-page .quantity-row input,
+.sale-offer-page .quantity-row select {
+    width: 50%;
+}
+
+.sale-offer-page .submit-rfq {
+    background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 2px;
+}
+
+@media (max-width: 1400px) {
+    .sale-offer-page .contact-btn {
+        padding: 7px 10px !important;
+    }
+
+    .sale-offer-page .product-title {
+        font-size: 17px !important;
+    }
+
+    .sale-offer-page .product-image-col {
+        width: 37% !important;
+        /* padding-right: 10px; */
+    }
+
+    .sale-offer-page .contact-seller-col {
+        /* width: 22% !important; */
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px)and (min-width:767px) {
+    .sale-offer-page .container {
+        padding: 30px 20px;
+    }
+
+    .sale-offer-page .main-content {
+        flex-direction: row;
+    }
+
+    .sale-offer-page .sidebar {
+        /* width: 100%; */
+        margin-bottom: 20px;
+    }
+
+    .sale-offer-page .product-card {
+        flex-direction: row;
+
+    }
+
+    .sale-offer-page .detail-table {
+        font-size: 11px;
+    }
+
+    .sale-offer-page .contact-btn {
+        padding: 11px 6px;
+        font-size: 12px;
+    }
+
+    .sale-offer-page .company-name {
+        font-size: 10.02px;
+    }
+
+    .sale-offer-page .product-location {
+        font-size: 11.02px;
+        margin-top: 25px;
+    }
+
+    .sale-offer-page .seller-name {
+        font-size: 12.89px;
+    }
+
+    .sale-offer-page .product-image-col,
+    .sale-offer-page .product-details-col,
+    .sale-offer-page .contact-seller-col {
+        /* width: 100%; */
+        margin-left: 0;
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .sale-offer-page .detail-table {
+        /* width: 100%; */
+    }
+
+    .sale-offer-page .rfq-section {
+        flex-direction: row;
+    }
+
+    .sale-offer-page .rfq-info h2 {
+        font-size: 21.89px;
+    }
+
+    .sale-offer-page .rfq-description {
+        font-size: 13.47px;
+    }
+
+    .sale-offer-page .product-title {
+        font-size: 13.22px !important;
+    }
+
+    .sale-offer-page .view-more {
+        font-size: 15px;
+        padding: 13px 17px
+    }
+
+    .sale-offer-page .rfq-benefits {
+        font-size: 16.84px;
+    }
+
+    .sale-offer-page .rfq-info,
+    .sale-offer-page .rfq-form-container {
+        /* width: 100%; */
+    }
+}
+
+@media (max-width: 926px) {
+
+    .hidebelow926{
+        display: none !important;
+    }
+
+    .sale-offer-page .container {
+        padding: 20px 15px;
+    }
+
+    .sale-offer-page .modal-header {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .sale-offer-page .product-details-col {
+        width: 100%;
+    }
+
+    .sale-offer-page .seller-name {
+        font-size: 12.89px !important;
+        font-weight: 500 !important;
+        text-align: left !important;
+    }
+
+    .sale-offer-page .contact-btn {
+        font-size: 12.89px !important;
+        padding: 9px 28px !important;
+    }
+
+    .sale-offer-page .company-name {
+        font-size: 10.02px;
+        font-weight: 400;
+    }
+
+    .sale-offer-page .product-image-col {
+        width: 100% !important;
+        /* padding-right: 10px; */
+    }
+
+    .sale-offer-page .hidden {
+        display: block;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .sale-offer-page .main-content {
+        gap: 0px;
+    }
+
+    .sale-offer-page .filters-btn {
+        padding: 10px 19px 10px 15px;
+        border: 1px solid #D5D5D5;
+        border-radius: 4px;
+        font-size: 14px;
+        background: white;
+    }
+
+    .sale-offer-page .main-content {
+        flex-direction: column;
+    }
+
+    .sale-offer-page .desktop-sidebar {
+        display: none;
+        width: 100%;
+    }
+
+    .sale-offer-page .mobile-sidebar {
+        display: block !important;
+    }
+
+    .sale-offer-page .quantity-row {
+        flex-direction: s;
+    }
+
+    .sale-offer-page .quantity-row input,
+    .sale-offer-page .quantity-row select {
+        width: 100%;
+    }
+
+    .sale-offer-page .pagination {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .sale-offer-page .items-per-page {
+        margin-right: 0;
+    }
+
+    .sale-offer-page .product-title {
+        font-size: 18px !important;
+    }
+
+    .sale-offer-page .detail-label,
+    .sale-offer-page .detail-value {
+        padding: 10px;
+    }
+
+    .sale-offer-page .contact-btn {
+        margin-top: 0;
+        font-size: 16px;
+    }
+
+    .sale-offer-page .rfq-info h2 {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .sale-offer-page .rfq-description {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .sale-offer-page .view-more {
+        float: none;
+        display: block;
+        margin: 0 auto 30px;
+    }
+
+    .sale-offer-page .rfq-benefits {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .sale-offer-page .product-card {
+        display: block;
+    }
+
+    .sale-offer-page .product-image-col {
+        width: 100%;
+        display: flex;
+        padding: 0;
+        flex-direction: column;
+        /* justify-content: center !important; */
+        text-align: center !important;
+    }
+
+    .sale-offer-page .rfq-section {
+        justify-content: center;
+        background-image: none;
+        padding: 0;
+        margin-top: 29px;
+    }
+
+    .sale-offer-page .rfq-hidden {
+        margin-top: 4rem;
+        display: block !important;
+    }
+
+    .sale-offer-page .submit-rfq {
+        font-size: 18.53px;
+    }
+
+    .sale-offer-page .rfq-form input,
+    .sale-offer-page .rfq-form select {
+        font-size: 11.79px;
+    }
+
+    .sale-offer-page .rfq-form h3 {
+        font-size: 16.85px;
+    }
+
+    .sale-offer-page .rfq-info {
+        display: none;
+    }
+
+    .sale-offer-page .rfq-form {
+        border: 1px solid #D5D5D5;
+    }
+
+    .sale-offer-page .product-image {
+        order: 1;
+    }
+
+    .sale-offer-page .product-location {
+        order: 2;
+        justify-content: left;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .sale-offer-page .product-title {
+        order: 3;
+        text-align: left;
+    }
+
+    .sale-offer-page .view-detail-btn-hide {
+        display: inline-block;
+
+
+
+        cursor: pointer;
+
+        order: 4;
+
+
+    }
+
+    .sale-offer-page .view-detail-btn {
+        border: none;
+        background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+        color: white;
+        border-radius: 20px;
+        padding: 12px 30px;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        width: 100%;
+    }
+
+    .sale-offer-page .product-card {
+        width: 48%;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 16px;
+        padding: 10px
+    }
+
+    .sale-offer-page .product-details-col{
+        margin-bottom: 0;
+    }
+
+    .sale-offer-page .product-details-col,
+    .sale-offer-page .contact-seller-col {
+        /* display: none; */
+    }
+
+    .sale-offer-page .product-image {
+        width: 100%;
+        height: 100%;
+    }
+
+    .sale-offer-page #product-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .sale-offer-page .sidebarf-for {
+        width: 300px;
+        padding: 20px;
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        height: 100%;
+        overflow-y: auto;
+        z-index: 1050;
+
+
+
+    }
+
+}
+
+@media(max-width:430px) {
+    .sale-offer-page .product-image {
+        width: 100%;
+        height: 100%;
+    }
+
+    .sale-offer-page .product-location {
+        font-size: 9.02px;
+    }
+
+    .sale-offer-page .product-title {
+        font-size: 11px !important;
+        margin-bottom: 8px !important;
+    }
+
+    .sale-offer-page .view-detail-btn {
+        padding: 5px 18px;
+        font-size: 12.89px;
+    }
+
+    .sale-offer-page .product-location {
+        margin-top: 10px;
+    }
+
+    .sale-offer-page .pagination-arrow {
+        width: 5px;
+        height: 5px;
+    }
+
+    .sale-offer-page .pagination {
+        font-size: 14px;
+        display: flex;
+        flex-direction: row;
+        background-color: white;
+        padding: 10px 2px;
+        border: 1px solid #D5D5D5;
+        border-radius: 4px;
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05);
+
+    }
+
+    .sale-offer-page .pagination-number {
+        width: 25px;
+        height: 25px;
+    }
+
+    .sale-offer-page .hide-num {
+        display: none;
+    }
+
+    .sale-offer-page .pagination-total {
+        width: 35px;
+        height: 25px;
+    }
+
+    .sale-offer-page .hidden {
+        justify-content: space-between !important;
+    }
+}

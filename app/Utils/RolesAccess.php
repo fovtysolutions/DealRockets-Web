@@ -53,6 +53,13 @@ class RolesAccess{
         return false; // Access denied
     }
 
+    /**
+     * Check if the user has access to a specific module and permission for all continents.
+     *
+     * @param string $mod_name The name of the module.
+     * @param string $permission The permission to check (e.g., 'read', 'create', 'edit', 'delete').
+     * @return bool True if the user has access, false otherwise.
+     */
     public static function AccessibleCountries($mod_name){
         $user_role = auth('admin')->user()->role;
         $module_access = $user_role->module_access;
@@ -94,6 +101,13 @@ class RolesAccess{
         return $accessible_countries;
     }
 
+    /**
+     * Get Countries from Regions
+     * 
+     * @param string $continent The continent name.
+     * 
+     * @return array An array of country IDs associated with the specified continent.
+     */
     public static function getCountriesFromRegion($continent){
         if ($continent == 'Global'){
             $countries = Country::pluck('id')->toArray();
@@ -102,5 +116,12 @@ class RolesAccess{
             $countries = Country::where('region',$continent)->pluck('id')->toArray();
             return $countries;
         }
+    }
+
+    public static function checkButtonAccess($mod_name, $country, $permission)
+    {
+        $continent = Country::find($country)->region;
+        $output = self::checkEmployeeAccess($mod_name, $continent, $permission);
+        return $output;
     }
 }

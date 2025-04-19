@@ -130,17 +130,21 @@
 
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a title="{{translate('view')}}"
-                                       class="btn btn-outline-info btn-sm square-btn"
-                                       href="{{route('admin.customer.view',[$customer['id']])}}">
-                                        <i class="tio-invisible"></i>
-                                    </a>
-                                    @if($customer['id'] != '0')
-                                        <a title="{{translate('delete')}}"
-                                           class="btn btn-outline-danger btn-sm delete square-btn delete-data" href="javascript:"
-                                           data-id="customer-{{$customer['id']}}">
-                                            <i class="tio-delete"></i>
+                                    @if(\App\Utils\RolesAccess::checkButtonAccess('user_management',$customer['country'],'read'))
+                                        <a title="{{translate('view')}}"
+                                        class="btn btn-outline-info btn-sm square-btn"
+                                        href="{{route('admin.customer.view',[$customer['id']])}}">
+                                            <i class="tio-invisible"></i>
                                         </a>
+                                    @endif
+                                    @if(\App\Utils\RolesAccess::checkButtonAccess('user_management',$customer['country'],'delete'))
+                                        @if($customer['id'] != '0')
+                                            <a title="{{translate('delete')}}"
+                                            class="btn btn-outline-danger btn-sm delete square-btn delete-data" href="javascript:"
+                                            data-id="customer-{{$customer['id']}}">
+                                                <i class="tio-delete"></i>
+                                            </a>
+                                        @endif
                                     @endif
                                 </div>
                                 <form action="{{route('admin.customer.delete',[$customer['id']])}}"

@@ -64,6 +64,20 @@
                                 <textarea class="form-control" name="shop_address" id="shop_address" rows="4"
                                     placeholder="{{translate('shop_address')}}" required></textarea>
                             </div>
+                            @php 
+                                $countries = \App\Models\Country::where('blacklist', 'no')->get();
+                            @endphp
+                            <div class="form-group mb-4">
+                                <label for="country" class="text-capitalize">{{translate('country')}} <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-control form-control-user" id="country" name="country"
+                                    data-placeholder="{{translate('select_country')}}" required>
+                                    <option value="">{{translate('select_country')}}</option>
+                                    @foreach ($countries as $country)
+                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="form-group mb-4">
                                 <label for="shop_membership"
                                     class="title-color d-flex gap-1 align-items-center">{{ translate('Membership') }}</label>

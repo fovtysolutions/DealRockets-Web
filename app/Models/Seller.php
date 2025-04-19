@@ -12,6 +12,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
+use function PHPSTORM_META\map;
+
 /**
  * @property int $id
  * @property string $f_name
@@ -68,7 +70,8 @@ class Seller extends Authenticatable
         'chat_id',
         'membership_status',
         'current_chatrooms',
-        'vendor_type'
+        'vendor_type',
+        'country'
     ];
 
     protected $casts = [

@@ -75,6 +75,7 @@ class ShopService
             'membership' => $request['shop_membership'],
             'years' => $request['shop_years'],
             'contact' => $request['phone'],
+            'country' => $request['country'],
             'image' => $this->upload(dir: 'shop/', format: 'webp', image: $request->file('logo')),
             'image_storage_type' => $request->has('logo') ? $storage : null,
             'banner' => $this->upload(dir: 'shop/banner/', format: 'webp', image: $request->file('banner')),

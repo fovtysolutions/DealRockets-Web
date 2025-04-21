@@ -9310,4 +9310,5 @@ return [
 	"Employee Roles List" => "Employee Roles List",
 	"please_select_your_country" => "Please select your country",
 	"RFQ | Deal Rocket" => "RFQ | Deal Rocket",
+	"Job Landing | Deal Rocket" => "Job Landing | Deal Rocket",
 ];

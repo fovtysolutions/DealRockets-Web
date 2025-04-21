@@ -42,7 +42,9 @@
 }
 
 .job-landing .btn-outline:hover {
-    background-color: #f5f5f5;
+    background: linear-gradient(90deg,#FE4E44,#9F0900);
+    color: white;
+    filter: none;
 }
 
 .job-landing .btn-outline-small {
@@ -57,9 +59,9 @@
     margin-top: 5px;
 }
 
-.job-landing .btn-outline-small:hover {
+/* .job-landing .btn-outline-small:hover {
     background-color: #f5f5f5;
-}
+} */
 
 .job-landing .btn-primary {
     background-color: rgba(191, 158, 102, 1);
@@ -787,7 +789,9 @@ padding-top: 9.19px; */
 
 .job-landing .btn-outline-small:hover {
     background-color: rgba(191, 158, 102, 1);
-
+    color: white;
+    border-color: rgba(191, 158, 102, 1);
+    filter: none;
 }
 
 .job-landing .hiring-left {

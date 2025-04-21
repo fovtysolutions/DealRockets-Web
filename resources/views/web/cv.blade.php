@@ -18,8 +18,8 @@
                         <p class="hero-description">Advance your career or discover the ideal candidate.<br />Take the next
                             step toward success today!</p>
                         <div class="hero-buttons">
-                            <button class="btn btn-outline">I'm hiring</button>
-                            <button class="btn btn-primary">I'm looking for a job</button>
+                            <a href="{{ route('talentfinder') }}" class="btn btn-outline">I'm hiring</a>
+                            <a href="{{ route('jobseeker') }}" class="btn btn-primary">I'm looking for a job</a>
                         </div>
                     </div>
                     <div class="hero-right">

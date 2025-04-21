@@ -194,4 +194,9 @@
 @endsection
 @push('script')
     <script src="{{ asset('js/rfq-form.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+
+        });
+    </script>
 @endpush

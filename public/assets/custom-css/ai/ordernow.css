@@ -39,6 +39,7 @@
     flex-wrap: wrap;
     gap: 15px;
     width: 70%;
+    padding-left: 15px;
 }
 
 .order-now .product-card {

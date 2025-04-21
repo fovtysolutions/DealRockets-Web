@@ -319,7 +319,7 @@
 .wrapper .search_box .search_field {
     width: calc(100% - 113px);
     height: 100%;
-    position: relative;
+    /* position: relative; */
 }
 
 .wrapper .search_box .search_field .input {

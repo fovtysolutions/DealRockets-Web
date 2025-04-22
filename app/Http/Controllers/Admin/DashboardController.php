@@ -254,4 +254,8 @@ class DashboardController extends BaseController
         );
         return $this->dashboardService->getDateWiseAmount(range: $range, type: $type, amountArray: $commissionGiven);
     }
+
+    public function AnalyticsOptions(){
+        return view('admin-views.system.subcards.AnalyticsOptions');
+    }
 }

@@ -18,15 +18,23 @@ class QuotatioController extends Controller
     {
         // Validate the request
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'quantity' => 'required|integer',
-            'type' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'industry' => 'required|string|max:255',
-            'term' => 'required|string|max:255',
-            'unit' => 'required|string|max:255',
-            'buying_frequency' => 'required|string|max:255',
+            'product_name' => 'required|max:255',
+            'category' => 'required',
+            'purchase_quantity' => 'required',
+            'unit_unit' => 'required',
+            'target_unit_price' => 'required',
+            'target_unit_price_currency' => 'required',
+            'trade_terms' => 'required',
+            'max_budget' => 'required',
+            'max_budget_currency' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'details' => 'required',
+            'contact_number' => 'required',
+            'shipping_method' => 'required',
+            'destination_port' => 'required',
+            'destination_port_currency' => 'required',
+            'spin_time' => 'required',
+            'terms' => 'required',
         ]);
 
         // Get the user and role details
@@ -34,20 +42,42 @@ class QuotatioController extends Controller
         $userId = $userdata['user_id'];
         $role = $userdata['role'];
 
-        // Create a new Quotation entry
-        Quotation::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'quantity' => $request->input('quantity'),
+                
+        $data = [
+            'name' => $request->input('product_name'),
+            'industry' => $request->input('category'),
+            'quantity' => $request->input('purchase_quantity'),
+            'unit' => $request->input('unit_unit'),
             'user_id' => $userId,
             'role' => $role,
-            'type' => $request->input('type'),
-            'country' => $request->input('country'),
-            'industry' => $request->input('industry'),
-            'term' => $request->input('term'),
-            'unit' => $request->input('unit'),
-            'buying_frequency' => $request->input('buying_frequency'),
-        ]);
+            'target_unit_price' => $request->input('target_unit_price'),
+            'target_unit_price_currency' => $request->input('target_unit_price_currency'),
+            'term' => $request->input('trade_terms'),
+            'max_budget' => $request->input('max_budget'),
+            'max_budget_currency' => $request->input('max_budget_currency'),
+            'image' => $request->file('image'),
+            'description' => $request->input('details'),
+            'pnumber' => $request->input('contact_number'),
+            'shipping_method' => $request->input('shipping_method'),
+            'destination_port' => $request->input('destination_port'),
+            'destination_port_currency' => $request->input('destination_port_currency'),
+            'spin_time' => $request->input('spin_time'),
+            'terms' => $request->input('terms'),
+        ];
+
+        // Handle the Image Upload
+        if ($request->hasFile('image')){
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = public_path('uploads/quotation');
+            $image->move($path, $filename);
+            $data['image'] = 'uploads/quotation/' . $filename;
+        } else {
+            return redirect()->back()->with('error', 'Image upload failed.');
+        }
+
+        // Create a new Quotation entry
+        Quotation::create($data);
 
         // Notify the user of success
         toastr()->success('Quotation Submitted Successfully');
@@ -159,7 +189,8 @@ class QuotatioController extends Controller
     }
 
     public function index(){
-        return view('web.postrfq');
+        $data['categories'] = Category::all();
+        return view('web.postrfq',$data);
     }
 
     public function getLeadsForBanner()

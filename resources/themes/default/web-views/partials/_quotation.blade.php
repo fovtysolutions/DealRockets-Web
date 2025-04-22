@@ -30,8 +30,8 @@ $quotationdata = json_decode($quotationbanner, true) ?? [];
                 <div class="select-container">
                     <select required name="port">
                         <option value="" disabled selected>Select Port</option>
-                        <option value="new-york">New York</option>
-                        <option value="los-angeles">Los Angeles</option>
+                        <option value="New York">New York</option>
+                        <option value="los angeles">Los Angeles</option>
                         <option value="miami">Miami</option>
                         <option value="seattle">Seattle</option>
                     </select>
@@ -42,10 +42,8 @@ $quotationdata = json_decode($quotationbanner, true) ?? [];
                     <input type="number" name="quantity" placeholder="Quantity" required>
                     <select name="unit" required>
                         <option value="" disabled selected>Select Unit</option>
-                        <option value="Bags">Bags</option>
-                        <option value="Pieces">Pieces</option>
-                        <option value="Boxes">Boxes</option>
-                        <option value="Tons">Tons</option>
+                        <option value="Kg">Kg(s)</option>
+                        <option value="Pc">Piece(s)</option>
                     </select>
                 </div>
                 @if (auth('customer')->check())

@@ -11,7 +11,7 @@ document.getElementById("uploadBox").addEventListener("click", function () {
   });
 
 
-const inputs = document.querySelectorAll(".contact-input, textarea, select, input[type='text'], input[type='number']");
+const inputs = document.querySelectorAll(".counter-fields");
 const totalFields = inputs.length;
 const progressArc = document.getElementById("progress-arc");
 const progressText = document.getElementById("progress-text");
@@ -22,6 +22,7 @@ function updateProgress() {
     if (input.value.trim() !== "") {
         filledCount++;
     }
+    console.log(filledCount);
 });
 
 const percentage = Math.round((filledCount / totalFields) * 100);
@@ -33,6 +34,6 @@ progressText.textContent = `${percentage}%`;
 }
 
 inputs.forEach(input => {
-input.addEventListener("input", updateProgress);
-input.addEventListener("change", updateProgress);
+  input.addEventListener("input", updateProgress);
+  input.addEventListener("change", updateProgress);
 });

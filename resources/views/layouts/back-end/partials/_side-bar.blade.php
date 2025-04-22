@@ -1000,14 +1000,14 @@
                                             <span class="text-truncate">{{ translate('Quotation_List') }}</span>
                                         </a>
                                     </li>
-                                    <li id="quotationbulk" class="nav-item">
+                                    {{-- <li id="quotationbulk" class="nav-item">
                                         <a class="nav-link {{ Request::is('admin.bulk-import-quotation') ? 'active' : '' }}"
                                             title="{{ translate('bulk_import') }}"
                                             href="{{ route('admin.bulk-import-quotation') }}">
                                             <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('bulk_import') }}</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </li>
                         @endif

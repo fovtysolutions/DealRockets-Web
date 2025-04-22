@@ -17,21 +17,21 @@
                     <div class="inner-form-wrapper">
                         <div class="section-heading">Essential Product Details</div>
 
-                        <form>
-
+                        <form method="POST" action="{{ route('quotation.submit') }}" enctype="multipart/form-data">
+                            @csrf
                             <div class="form-row form-row-for-phone">
                                 <label class="label-width">Product Name</label>
-                                <input class="contact-input" type="text" placeholder="Enter product name" />
+                                <input class="contact-input counter-fields" name="product_name" type="text" placeholder="Enter product name" />
                             </div>
 
 
                             <div class="form-row form-row-for-phone">
                                 <label class="label-width">Category</label>
-                                <select class="contact-input">
-                                    <option>Select a category</option>
-                                    <option>Health & Medicine</option>
-                                    <option>Technology</option>
-                                    <option>Education</option>
+                                <select class="contact-input counter-fields" name="category">
+                                    <option value="">Select a category</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -43,11 +43,11 @@
                                                 <label class="label-width">Purchase Quantity</label>
                                             </div>
                                             <div class="innerrightcontainer">
-                                                <input class="contact-input" type="number" placeholder="0"
+                                                <input class="contact-input counter-fields" name="purchase_quantity" type="number" placeholder="0"
                                                     style="max-width: 150px;" />
-                                                <select class="contact-input" style="max-width: 120px;">
-                                                    <option>Piece(s)</option>
-                                                    <option>Kg(s)</option>
+                                                <select class="contact-input counter-fields" name="unit_unit" style="max-width: 120px;">
+                                                    <option value="Pc">Piece(s)</option>
+                                                    <option value="Kg">Kg(s)</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -58,11 +58,11 @@
                                                 <label class="label-width">Target Unit Price</label>
                                             </div>
                                             <div class="innerrightcontainer">
-                                                <input class="contact-input" type="number" placeholder="0.00"
+                                                <input class="contact-input counter-fields" name="target_unit_price" type="number" placeholder="0.00"
                                                     style="max-width: 150px;" />
-                                                <select class="contact-input" style="max-width: 100px;">
-                                                    <option>USD</option>
-                                                    <option>EUR</option>
+                                                <select class="contact-input counter-fields" name="target_unit_price_currency" style="max-width: 100px;">
+                                                    <option value="usd">USD</option>
+                                                    <option value="eur">EUR</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -73,9 +73,9 @@
                                                 <label class="label-width">Trade Terms</label>
                                             </div>
                                             <div class="innerrightcontainer">
-                                                <select class="contact-input" style="max-width: 200px;">
-                                                    <option>FOB</option>
-                                                    <option>CIF</option>
+                                                <select class="contact-input counter-fields" name="trade_terms" style="max-width: 200px;">
+                                                    <option value="fob">FOB</option>
+                                                    <option value="cif">CIF</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -86,19 +86,18 @@
                                                 <label class="label-width">Max Budget</label>
                                             </div>
                                             <div class="innerrightcontainer">
-                                                <select class="contact-input" style="max-width: 200px;">
-                                                    <option>Please select</option>
-                                                    <option>500 USD</option>
-                                                    <option>1000 USD</option>
+                                                <input class="contact-input counter-fields" name="max_budget" style="max-width: 200px;">
+                                                <select class="contact-input counter-fields" name="max_budget_currency" style="max-width: 100px;">
+                                                    <option value="usd">USD</option>
+                                                    <option value="eur">EUR</option>
                                                 </select>
-                                                <span style="margin-left: 5px;">USD</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-end rightcontainer">
                                         <div class="form-row image-upload">
                                             <!-- Hidden file input -->
-                                            <input type="file" id="imageInput" accept="image/*" style="display: none;" />
+                                            <input type="file" id="imageInput" accept="image/*" name="image" style="display: none;" class=" counter-fields"/>
 
                                             <!-- Clickable upload box -->
                                             <div class="upload-box" id="uploadBox">
@@ -115,32 +114,33 @@
                                 <!-- Details (Textarea) -->
                                 <div class="form-row">
                                     <label class="label-width">Details</label>
-                                    <textarea class="contact-input" rows="4" placeholder="Describe product requirements..."></textarea>
+                                    <textarea class="contact-input counter-fields" rows="4" name="details" placeholder="Describe product requirements..."></textarea>
                                 </div>
                                 <hr>
                                 <div class="section-heading">Shipping and Payment</div>
                                 <div class="form-row">
+                                    <label class="label-width">Contact Number</label>
+                                    <input class="contact-input counter-fields" type="text" placeholder="Contact Number" name="contact_number">
+                                </div>
+                                <div class="form-row">
                                     <label class="label-width">Shipping Method</label>
-                                    <select class="contact-input" style="max-width: 147px;">
-                                        <option>Sea freight</option>
-                                        <option></option>
-                                        <option></option>
+                                    <select class="contact-input counter-fields" name="shipping_method" style="max-width: 147px;">
+                                        <option value="sea_freight">Sea freight</option>
                                     </select>
-
                                 </div>
                                 <div class="form-row">
                                     <label class="label-width">Destination Port</label>
-                                    <input class="contact-input" type="text" placeholder="" style="max-width: 200px;" />
-                                    <select class="contact-input" style="max-width: 100px;">
-                                        <option>USD</option>
-                                        <option>EUR</option>
+                                    <input class="contact-input counter-fields" type="text" name="destination_port" placeholder="" style="max-width: 200px;" />
+                                    <select class="contact-input counter-fields" name="destination_port_currency" style="max-width: 100px;">
+                                        <option value="usd">USD</option>
+                                        <option value="eur">EUR</option>
                                     </select>
 
                                 </div>
                                 <div class="form-row width-form-phone float-phone">
                                     <label class="label-width">Lead time</label>
                                     <span style="margin-left: 5px; font-weight: bold;">Spin in</span>
-                                    <input class="contact-input" type="text" placeholder="" style="max-width: 100px;" />
+                                    <input class="contact-input counter-fields" name="spin_time" type="text" placeholder="" style="max-width: 100px;" />
 
                                     <span style="margin-left: 5px; font-weight: bold; " class="hide-span">day(s) after
                                         supplier
@@ -148,9 +148,9 @@
                                 </div>
                                 <div class="form-row width-form-phone">
                                     <label class="label-width padding-phone">Payment Terms</label>
-                                    <select class="contact-input" style="max-width: 96px;">
-                                        <option>T/T</option>
-                                        <option>CIF</option>
+                                    <select class="contact-input counter-fields" name="terms" style="max-width: 96px;">
+                                        <option value="t/t">T/T</option>
+                                        <option value="cif">CIF</option>
                                     </select>
                                 </div>
                                 <div class="form-row" style="margin-left: 25%;">
@@ -196,7 +196,47 @@
     <script src="{{ asset('js/rfq-form.js') }}"></script>
     <script>
         $(document).ready(function() {
+            // Fetch Session Values
+            var productName = sessionStorage.getItem('productName');
+            var port = sessionStorage.getItem('port');
+            var mobile = sessionStorage.getItem('mobile');
+            var quantity = sessionStorage.getItem('quantity');
+            var unit = sessionStorage.getItem('unit');
 
+            // Auto Fill Session Values
+            if (productName) {
+                $('input[name="product_name"]').val(productName);
+                updateProgress();
+            }
+            if (port) {
+                $('input[name="destination_port"]').val(port);
+                updateProgress();
+            }
+            if (mobile) {
+                $('input[name="contact_number"]').val(mobile);
+                updateProgress();
+            }
+            if (quantity) {
+                $('input[name="purchase_quantity"]').val(quantity);
+                updateProgress();
+            }
+            if (unit) {
+                var unit_selector = $('select[name="unit_unit"]');
+                unit_selector.find('option').each(function(){
+                    var option = $(this);
+                    if (option.val() === unit) {
+                        option.prop('selected',true);
+                    }
+                });
+                updateProgress();
+            }
+
+            // Remove Item
+            sessionStorage.removeItem('productName');
+            sessionStorage.removeItem('port');
+            sessionStorage.removeItem('mobile');
+            sessionStorage.removeItem('quantity');
+            sessionStorage.removeItem('unit');
         });
     </script>
 @endpush

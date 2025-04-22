@@ -210,6 +210,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
+    Route::group(['prefix' => 'subcard', 'as' => 'subcard.'], function() {
+        Route::get('analytics-options',[DashboardController::class,'AnalyticsOptions'])->name('analytics-options');
+    });
+
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::group(['prefix' => 'pos', 'as' => 'pos.', 'middleware' => ['module:pos_management']], function () {

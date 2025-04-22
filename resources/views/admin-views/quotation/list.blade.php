@@ -133,11 +133,11 @@
                                                 href="{{ route('admin.quotation.view', ['id' => $quotation->id]) }}">
                                                 <i class="tio-invisible"></i>
                                             </a>
-                                            <a class="btn btn-outline--primary btn-sm square-btn"
+                                            {{-- <a class="btn btn-outline--primary btn-sm square-btn"
                                                 title="{{ translate('edit') }}"
                                                 href="{{ route('admin.quotation.edit', ['id' => $quotation->id]) }}">
                                                 <i class="tio-edit"></i>
-                                            </a>
+                                            </a> --}}
                                             <span class="btn btn-outline-danger btn-sm square-btn delete-data"
                                                 title="{{ translate('delete') }}" data-id="quotation-{{ $quotation->id}}">
                                                 <i class="tio-delete"></i>

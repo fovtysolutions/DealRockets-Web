@@ -16,11 +16,6 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-4 border-0" style="background: unset; box-shadow: unset;">
-                <div class="row">
-                    @include('admin-views.system.partials.dashboard_icons')
-                </div>
-            </div>
             <div class="card mb-2 remove-card-shadow">
                 <div class="card-body">
                     <div class="row flex-between align-items-center g-2 mb-3">

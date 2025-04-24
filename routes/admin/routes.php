@@ -182,6 +182,7 @@ use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Http\Controllers\Admin\Settings\ThemeSettingsController;
 use App\Http\Controllers\Quotation\QuotatioController;
 use App\Http\Controllers\CV\CVController;
+use App\Http\Controllers\deal_assist\DealAssistController;
 use App\Http\Controllers\Web\JobseekerController;
 use App\Http\Controllers\Web\StockSellController;
 use App\Http\Controllers\Web\MembershipTierController;
@@ -1353,3 +1354,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::get('membershipplan',[MembershipTierController::class,'adminplancreate'])->name('membershipplancrete');
 });
 
+Route::group(['prefix' => 'dealassist','as'=>'dealassist.'], function(){
+    Route::get('index',[DealAssistController::class,'index'])->name('index');
+    Route::post('store',[DealAssistController::class,'store'])->name('store');
+    Route::post('update',[DealAssistController::class,'update'])->name('update');
+    Route::delete('delete/{id}', [DealAssistController::class, 'destroy'])->name('destroy');
+});

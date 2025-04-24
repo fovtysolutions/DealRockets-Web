@@ -120,6 +120,9 @@ class RolesAccess{
 
     public static function checkButtonAccess($mod_name, $country, $permission)
     {
+        if (auth('admin')->user()->id == 1){
+            return true;
+        }
         $continent = Country::find($country)->region;
         $output = self::checkEmployeeAccess($mod_name, $continent, $permission);
         return $output;

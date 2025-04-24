@@ -1,452 +1,186 @@
 @extends('layouts.front-end.app')
-<link rel="stylesheet" href="{{ asset('assets/custom-css/vendor.css')}}" />
+<link rel="stylesheet" href="{{ asset('assets/custom-css/vendor.css') }}" />
 @section('title', translate($data['data_from']) . ' ' . translate('products'))
 
 @push('css_or_js')
-    <meta property="og:image" content="{{$web_config['web_logo']['path']}}" />
-    <meta property="og:title" content="Products of {{$web_config['name']}} " />
-    <meta property="og:url" content="{{env('APP_URL')}}">
-    <meta property="og:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
-    <meta property="twitter:card" content="{{$web_config['web_logo']['path']}}" />
-    <meta property="twitter:title" content="Products of {{$web_config['name']}}" />
-    <meta property="twitter:url" content="{{env('APP_URL')}}">
-    <meta property="twitter:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
+    <meta property="og:image" content="{{ $web_config['web_logo']['path'] }}" />
+    <meta property="og:title" content="Products of {{ $web_config['name'] }} " />
+    <meta property="og:url" content="{{ env('APP_URL') }}">
+    <meta property="og:description"
+        content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
+    <meta property="twitter:card" content="{{ $web_config['web_logo']['path'] }}" />
+    <meta property="twitter:title" content="Products of {{ $web_config['name'] }}" />
+    <meta property="twitter:url" content="{{ env('APP_URL') }}">
+    <meta property="twitter:description"
+        content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
+    <link rel="stylesheet" href="{{ asset('assets/custom-css/ai/marketplace-list.css') }}" />
 @endpush
 
 @section('content')
 
-@php($decimal_point_settings = getWebConfig(name: 'decimal_point_settings'))
+    @php($decimal_point_settings = getWebConfig(name: 'decimal_point_settings'))
 
-<div class="container py-3" dir="{{Session::get('direction')}}">
-    <div class="search-page-header">
-        <div>
-            <h5 class="font-semibold mb-1 text-capitalize">
-                <span class="current-product-type" data-all="{{ translate('all') }}"
-                    data-digital="{{ translate('digital') }}" data-physical="{{ translate('physical') }}">
-                    {{ translate(str_replace('_', ' ', $data['data_from'])) }}
-                    {{ request('product_type') == 'digital' ? translate(request('product_type')) : ''}}
-                </span>
-                {{ translate('products') }} {{ isset($data['brand_name']) ? '(' . $data['brand_name'] . ')' : ''}}
-            </h5>
-            <div><span class="view-page-item-count">{{$products->total()}}</span> {{translate('items_found')}}</div>
-        </div>
-        <form id="search-form" class="d-none d-lg-block" action="{{ route('products') }}" method="GET">
-            <input hidden name="data_from" value="{{$data['data_from']}}">
-            <div class="sorting-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                    <path d="M11.6667 7.80078L14.1667 5.30078L16.6667 7.80078" stroke="#D9D9D9" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round" />
-                    <path
-                        d="M7.91675 4.46875H4.58341C4.3533 4.46875 4.16675 4.6553 4.16675 4.88542V8.21875C4.16675 8.44887 4.3533 8.63542 4.58341 8.63542H7.91675C8.14687 8.63542 8.33341 8.44887 8.33341 8.21875V4.88542C8.33341 4.6553 8.14687 4.46875 7.91675 4.46875Z"
-                        stroke="#D9D9D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path
-                        d="M7.91675 11.9688H4.58341C4.3533 11.9688 4.16675 12.1553 4.16675 12.3854V15.7188C4.16675 15.9489 4.3533 16.1354 4.58341 16.1354H7.91675C8.14687 16.1354 8.33341 15.9489 8.33341 15.7188V12.3854C8.33341 12.1553 8.14687 11.9688 7.91675 11.9688Z"
-                        stroke="#D9D9D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M14.1667 5.30078V15.3008" stroke="#D9D9D9" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-                <label class="for-sorting" for="sorting">
-                    <span>{{translate('sort_by')}}</span>
-                </label>
-                <select class="product-list-filter-on-viewpage">
-                    <option value="latest" {{ request('sort_by') == 'latest' ? 'selected' : '' }}>{{translate('latest')}}
-                    </option>
-                    <option value="low-high" {{ request('sort_by') == 'low-high' ? 'selected' : '' }}>
-                        {{translate('low_to_High_Price')}} </option>
-                    <option value="high-low" {{ request('sort_by') == 'high-low' ? 'selected' : '' }}>
-                        {{translate('High_to_Low_Price')}}</option>
-                    <option value="a-z" {{ request('sort_by') == 'a-z' ? 'selected' : '' }}>{{translate('A_to_Z_Order')}}
-                    </option>
-                    <option value="z-a" {{ request('sort_by') == 'z-a' ? 'selected' : '' }}>{{translate('Z_to_A_Order')}}
-                    </option>
-                </select>
-            </div>
-        </form>
-        <div class="d-lg-none">
-            <div class="filter-show-btn btn btn--primary py-1 px-2 m-0">
-                <i class="tio-filter"></i>
-            </div>
-        </div>
-    </div>
+    <section class="mainpagesection marketplace-list" style="background-color: unset">
+        <main class="market-sub">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb mb-4" aria-label="Breadcrumb">
+                <div><span>Home</span>
+                    <span>/</span>
+                    <span>{{ isset($data['cate_name']) ? $data['cate_name'] : '' }}</span>
+                    <span>/</span>
+                    <span class="active">{{ isset($data['brand_name']) ? $data['brand_name'] : '' }}</span>
+                </div>
 
-</div>
-<div class="container pb-5 mb-2 mb-md-4 rtl __inline-35" dir="{{Session::get('direction')}}">
-    <a class="listtab p-0">
-        <ul class="tab">
-            <li id="productlist" class="selected">
-                Product List
-            </li>
-            @if(
-                (isset(\App\Utils\ChatManager::getMembershipStatusCustomer($user_id = \App\Utils\ChatManager::getRoleDetail()['user_id'])['error']) && 
-                \App\Utils\ChatManager::getMembershipStatusCustomer($user_id)['error'] == 'active')
-                || 
-                (isset(\App\Utils\ChatManager::getMembershipStatusCustomer($user_id)['status']) && 
-                \App\Utils\ChatManager::getMembershipStatusCustomer($user_id)['status'] == 'active')
-                )
-                <li id="supplierlist">
-                    Supplier List
-                </li>
-            @endif
-        </ul>
-    </a>
-    @if(!request()->has('country'))
-    <div class="d-flex w-100 mb-2">
-        <div class="filter-container">
-            <div class="filter-header">
-                Filter by Country
-            </div>
-            <div class="filter-description">
-                Choose a country to filter by. You can select multiple countries, and they will appear as tags below.
-            </div>
-            <div class="d-flex align-items-start m-2">
-                <select class="m-2 flex-grow-1 position-relative" name="countryselector" id="countryselector">
-                    <option class="form-group" selected value="">
-                        Select a Country
-                    </option>
-                    @foreach($countries as $country)
-                        <option value="{{ $country->id }}">
-                            {{ $country->name }}
-                        </option>
-                    @endforeach
-                </select>
-                <button class="btn btn-primary ml-2 btn-sm" onclick="SearchbyCountry()" 
-                        type="button" id="searchButton">Search</button>
-            </div>
-            <!-- Country Buttons -->
-            <div class="country-buttons">
-                @foreach ($countries as $country)
-                    <a class="country-button" href="{{ route('products',['country'=>$country['id']]) }}" data-code="{{ $country['code'] }}">
-                        <img style="width: 20px; height: 20px; margin-right: 8px;" 
-                            src="/images/flags/{{ strtolower($country['iso2']) }}.png" 
-                            alt="{{ $country['name'] }} flag">
-                        {{ $country['name'] }}
-                    </a>
-                @endforeach
-            </div>
-            <!-- Display selected tags -->
-            <div class="selected-tags" id="selectedTags"></div>
-        </div>
-    </div>
-    @endif
-    <div class="row">
-        <aside
-            class="col-lg-3 hidden-xs col-md-3 col-sm-4 SearchParameters __search-sidebar {{Session::get('direction') === "rtl" ? 'pl-2' : 'pr-2'}}"
-            id="SearchParameters">
-            <div class="cz-sidebar __inline-35 p-4 overflow-hidden" id="shop-sidebar">
-                <div class="cz-sidebar-header p-0">
-                    <h6 class="font-semibold fs-20 mb-2">{{ translate('Sidebar') }}</h6>
-                    <button class="close ms-auto fs-18-mobile" type="button" data-dismiss="sidebar" aria-label="Close">
-                        <i class="tio-clear"></i>
+                <div>
+                    <button class="btn icon-top" id="prod-list">
+                        <i class="bi bi-list-ul"></i>
+                    </button>
+                    <button class="btn icon-top" id="prod-grid">
+                        <i class="bi bi-grid-3x3-gap-fill"></i>
                     </button>
                 </div>
-                <div class="pb-0 shop-sidebar-scroll">
-                    <div class="d-flex gap-3 flex-column">
-                        <div class="">
-                            <h6 class="font-semibold fs-15 mb-2">{{ translate('filter') }}</h6>
-                            <label class="w-100 opacity-75 text-nowrap for-sorting d-block mb-0 ps-0" for="sorting">
-                                <select class="form-control custom-select filter-on-product-filter-change">
-                                    <option selected disabled>{{translate('Choose')}}</option>
-                                    <option value="best-selling"
-                                        {{isset($data['data_from']) != null ? $data['data_from'] == 'best-selling' ? 'selected' : '' : ''}}>
-                                        {{translate('Best_Selling_Product')}}</option>
-                                    <option value="top-rated"
-                                        {{isset($data['data_from']) != null ? $data['data_from'] == 'top-rated' ? 'selected' : '' : ''}}>
-                                        {{translate('Top_Rated')}}</option>
-                                    <option value="most-favorite"
-                                        {{isset($data['data_from']) != null ? $data['data_from'] == 'most-favorite' ? 'selected' : '' : ''}}>
-                                        {{translate('Most_Favorite')}}</option>
-                                    <option value="featured_deal"
-                                        {{isset($data['data_from']) != null ? $data['data_from'] == 'featured_deal' ? 'selected' : '' : ''}}>
-                                        {{translate('Featured_Deal')}}</option>
-                                </select>
-                            </label>
-                        </div>
+            </nav>
+            <div class="content-wrapper">
 
-                        @if($web_config['digital_product_setting'])
-                            <div class="">
-                                <h6 class="font-semibold fs-15 mb-2">{{ translate('Product_Type') }}</h6>
-                                <label class="w-100 opacity-75 text-nowrap for-sorting d-block mb-0 ps-0" for="sorting">
-                                    <select class="form-control custom-select filter-on-product-type-change">
-                                        <option value="all" {{ !request('product_type') ? 'selected' : '' }}>
-                                            {{ translate('All') }}</option>
-                                        <option value="physical" {{ request('product_type') == 'physical' ? 'selected' : '' }}>
-                                            {{ translate('physical') }}
-                                        </option>
-                                        <option value="digital" {{ request('product_type') == 'digital' ? 'selected' : '' }}>
-                                            {{ translate('digital') }}
-                                        </option>
-                                    </select>
-                                </label>
-                            </div>
-                        @endif
 
-                        <div class="d-lg-none">
-                            <h6 class="font-semibold fs-15 mb-2">{{ translate('Sort_By') }}</h6>
-                            <form id="search-form" action="{{ route('products') }}" method="GET">
-                                <input hidden name="data_from" value="{{$data['data_from']}}">
-                                <select class="form-control product-list-filter-on-viewpage">
-                                    <option value="latest">{{translate('latest')}}</option>
-                                    <option value="low-high">{{translate('low_to_High_Price')}} </option>
-                                    <option value="high-low">{{translate('High_to_Low_Price')}}</option>
-                                    <option value="a-z">{{translate('A_to_Z_Order')}}</option>
-                                    <option value="z-a">{{translate('Z_to_A_Order')}}</option>
-                                </select>
-                            </form>
-                        </div>
+                <div class=" hide-header">
+                    <div class="  py-3 rounded  shadow1 d-flex align-items-center justify-content-between">
 
-                        <div>
-                            <h6 class="font-semibold fs-15 mb-2">{{ translate('price') }}</h6>
-                            <div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="__w-35p">
-                                        <input
-                                            class="bg-white cz-filter-search form-control form-control-sm appended-form-control"
-                                            type="number" value="0" min="0" max="1000000" id="min_price"
-                                            placeholder="{{ translate('min')}}">
-                                    </div>
-                                    <div class="__w-10p">
-                                        <p class="m-0">{{translate('to')}}</p>
-                                    </div>
-                                    <div class="__w-35p">
-                                        <input value="100000000000" min="10" max="100000000000"
-                                            class="bg-white cz-filter-search form-control form-control-sm appended-form-control"
-                                            type="number" id="max_price" placeholder="{{ translate('max')}}">
-                                    </div>
 
-                                    <div class="d-flex justify-content-center align-items-center __number-filter-btn">
-                                        <a class="action-search-products-by-price" style="background-color:var(--web-hover) !important;">
-                                            <i
-                                                class="__inline-37 czi-arrow-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}"></i>
-                                        </a>
-                                    </div>
-                                </div>
+                        <!-- Compact version -->
+                        <div class="search-compact  align-items-center w-100">
+                            <div class="d-flex align-items-center w-100 bg-white border px-3" style="height: 44px;">
+                                <i class="bi bi-search me-2 fs-5"></i>
+                                <input type="text" class="form-control border-0" placeholder="Search by Name"
+                                    style="box-shadow: none;" />
                             </div>
                         </div>
-
-                        <div>
-                            <h6 class="font-semibold fs-15 mb-3">{{ translate('categories') }}</h6>
-                            <div class="accordion mt-n1 product-categories-list" id="shop-categories">
-                                @foreach($categories as $category)
-                                    <div class="menu--caret-accordion">
-                                        <div class="card-header flex-between">
-                                            <div>
-                                                <label class="for-hover-label cursor-pointer get-view-by-onclick"
-                                                    data-link="{{ route('products', ['category_id' => $category['id'], 'data_from' => 'category', 'page' => 1]) }}">
-                                                    {{$category['name']}}
-                                                </label>
-                                            </div>
-                                            <div class="px-2 cursor-pointer menu--caret">
-                                                <strong class="pull-right for-brand-hover">
-                                                    @if($category->childes->count() > 0)
-                                                        <i class="tio-next-ui fs-13"></i>
-                                                    @endif
-                                                </strong>
-                                            </div>
-                                        </div>
-                                        <div class="card-body p-0 ms-2 d--none" id="collapse-{{$category['id']}}">
-                                            @foreach($category->childes as $child)
-                                                <div class="menu--caret-accordion">
-                                                    <div class="for-hover-label card-header flex-between">
-                                                        <div>
-                                                            <label class="cursor-pointer get-view-by-onclick"
-                                                                data-link="{{ route('products', ['category_id' => $child['id'], 'data_from' => 'category', 'page' => 1]) }}">
-                                                                {{$child['name']}}
-                                                            </label>
-                                                        </div>
-                                                        <div class="px-2 cursor-pointer menu--caret">
-                                                            <strong class="pull-right">
-                                                                @if($child->childes->count() > 0)
-                                                                    <i class="tio-next-ui fs-13"></i>
-                                                                @endif
-                                                            </strong>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body p-0 ms-2 d--none" id="collapse-{{$child['id']}}">
-                                                        @foreach($child->childes as $ch)
-                                                            <div class="card-header">
-                                                                <label
-                                                                    class="for-hover-label d-block cursor-pointer text-left get-view-by-onclick"
-                                                                    data-link="{{ route('products', ['category_id' => $ch['id'], 'data_from' => 'category', 'page' => 1]) }}">
-                                                                    {{$ch['name']}}
-                                                                </label>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        @if($web_config['brand_setting'])
-                            <div class="product-type-physical-section search-product-attribute-container">
-                                <h6 class="font-semibold fs-15 mb-2">{{ translate('brands') }}</h6>
-                                <div class="pb-2">
-                                    <div class="input-group-overlay input-group-sm">
-                                        <input placeholder="{{ translate('search_by_brands') }}"
-                                            class="__inline-38 cz-filter-search form-control form-control-sm appended-form-control search-product-attribute"
-                                            type="text">
-                                        <div class="input-group-append-overlay">
-                                            <span class="input-group-text">
-                                                <i class="czi-search"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="__brands-cate-wrap attribute-list" data-simplebar
-                                    data-simplebar-auto-hide="false">
-                                    @foreach($activeBrands as $brand)
-                                        <ul class="brand mt-2 p-0 for-brand-hover {{Session::get('direction') === "rtl" ? 'mr-2' : ''}}"
-                                            id="brand">
-                                            <li class="flex-between get-view-by-onclick cursor-pointer"
-                                                data-link="{{ route('products', ['brand_id' => $brand['id'], 'data_from' => 'brand', 'page' => 1]) }}">
-                                                <div class="text-start">
-                                                    {{ $brand['name'] }}
-                                                </div>
-                                                <div class="__brands-cate-badge">
-                                                    <span>
-                                                        {{ $brand['brand_products_count'] }}
-                                                    </span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
-                        @if($web_config['digital_product_setting'] && count($web_config['publishing_houses']) > 0)
-                            <div class="product-type-digital-section search-product-attribute-container">
-                                <h6 class="font-semibold fs-15 mb-2">{{ translate('Publishing_House') }}</h6>
-                                <div class="pb-2">
-                                    <div class="input-group-overlay input-group-sm">
-                                        <input placeholder="{{ translate('search_by_name') }}"
-                                            class="__inline-38 cz-filter-search form-control form-control-sm appended-form-control search-product-attribute"
-                                            type="text">
-                                        <div class="input-group-append-overlay">
-                                            <span class="input-group-text">
-                                                <i class="czi-search"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="__brands-cate-wrap attribute-list" data-simplebar
-                                    data-simplebar-auto-hide="false">
-                                    @foreach($web_config['publishing_houses'] as $publishingHouseItem)
-                                        <ul class="brand mt-2 p-0 for-brand-hover {{Session::get('direction') === "rtl" ? 'mr-2' : ''}}"
-                                            id="brand">
-                                            <li class="flex-between get-view-by-onclick cursor-pointer pe-2"
-                                                data-link="{{ route('products', ['publishing_house_id' => $publishingHouseItem['id'], 'product_type' => 'digital', 'page' => 1]) }}">
-                                                <div class="text-start">
-                                                    {{ $publishingHouseItem['name'] }}
-                                                </div>
-                                                <div class="__brands-cate-badge">
-                                                    <span>
-                                                        {{ $publishingHouseItem['publishing_house_products_count'] }}
-                                                    </span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
-                        @if($web_config['digital_product_setting'] && count($web_config['digital_product_authors']) > 0)
-                            <div class="product-type-digital-section search-product-attribute-container">
-                                <h6 class="font-semibold fs-15 mb-2">
-                                    {{ translate('authors') }}/{{ translate('Creator') }}/{{ translate('Artist') }}
-                                </h6>
-                                <div class="pb-2">
-                                    <div class="input-group-overlay input-group-sm">
-                                        <input placeholder="{{ translate('search_by_name') }}"
-                                            class="__inline-38 cz-filter-search form-control form-control-sm appended-form-control search-product-attribute"
-                                            type="text">
-                                        <div class="input-group-append-overlay">
-                                            <span class="input-group-text">
-                                                <i class="czi-search"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="__brands-cate-wrap attribute-list" data-simplebar
-                                    data-simplebar-auto-hide="false">
-                                    @foreach($web_config['digital_product_authors'] as $productAuthor)
-                                        <ul class="brand mt-2 p-0 for-brand-hover {{Session::get('direction') === "rtl" ? 'mr-2' : ''}}"
-                                            id="brand">
-                                            <li class="flex-between get-view-by-onclick cursor-pointer pe-2"
-                                                data-link="{{ route('products', ['author_id' => $productAuthor['id'], 'product_type' => 'digital', 'page' => 1]) }}">
-                                                <div class="text-start">
-                                                    {{ $productAuthor['name'] }}
-                                                </div>
-                                                <div class="__brands-cate-badge">
-                                                    <span>
-                                                        {{ $productAuthor['digital_product_author_count'] }}
-                                                    </span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
+                        <!-- Filters Button -->
+                        <button class="btn btn-outline-light bg-white border ms-3 d-flex align-items-center "
+                            style="color: var(--text-medium);">
+                            Filters&nbsp;<i class="bi bi-filter"></i>
+                        </button>
 
                     </div>
                 </div>
+                <!-- Left Sidebar -->
+                <aside class="sidebar col-3  desktop-sidebar">
+                    <div class="search-section">
+                        <h3>Search by Name</h3>
+                        <div class="search-input">
+                            <input type="text" placeholder="Search">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12f01963377e36ee54832fed9f9fa99ecc307862?placeholderIfAbsent=true"
+                                alt="Search">
+                        </div>
+                    </div>
 
+                    <div class="filter-section">
+                        <h3>Filter By Country</h3>
+                        <div class="search-input">
+                            <input type="text" placeholder="Filter">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12f01963377e36ee54832fed9f9fa99ecc307862?placeholderIfAbsent=true"
+                                alt="Filter">
+                        </div>
+                        <div class="checkbox-list">
+                            <label><input type="checkbox" checked> United States</label>
+                            <label><input type="checkbox"> United Kingdom</label>
+                            <label><input type="checkbox"> China</label>
+                            <label><input type="checkbox"> Russia</label>
+                            <label><input type="checkbox"> Australia</label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Search by Category</h3>
+                        <div class="search-input">
+                            <input type="text" placeholder="Category">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12f01963377e36ee54832fed9f9fa99ecc307862?placeholderIfAbsent=true"
+                                alt="Category">
+                        </div>
+                        <div class="checkbox-list">
+                            <label><input type="checkbox" checked> Agriculture</label>
+                            <label><input type="checkbox"> Fashion Accessories</label>
+                            <label><input type="checkbox"> Furniture</label>
+                            <label><input type="checkbox"> Trade Services</label>
+                            <label><input type="checkbox"> Health & Medical</label>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="main-content col-9">
+                    <div class="product-grid" id="productGrid">
+                        <!-- Products will be inserted here by JavaScript -->
+                    </div>
+
+                    <div class="product-list" id="productList" style="display: none;">
+                        <!-- Products will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                <!-- <div class="main-content">
+                    <div class="product-grid" id="productlist">
+                        Products will be inserted here by JavaScript -->
+                <!-- </div>
+
+                     -->
+                <!-- </div> -->
             </div>
-            <div class="sidebar-overlay"></div>
-        </aside>
+        </main>
+        <div id="filterModal" class="filter-modal d-none">
+            <aside class="sidebar mobile-sidebar">
+                <!-- <div class="search-section">
+                        <h3>Search by Name</h3>
+                        <div class="search-input">
+                            <input type="text" placeholder="Search">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12f01963377e36ee54832fed9f9fa99ecc307862?placeholderIfAbsent=true" alt="Search">
+                        </div>
+                    </div> -->
 
-        <section class="col-lg-9">
-            <div class="row" id="ajax-products">
-                @include('web-views.products._ajax-products', ['products' => $products, 'decimal_point_settings' => $decimal_point_settings])
-            </div>
-        </section>
-    </div>
-</div>
+                <div class="filter-section">
+                    <h3>Filter By Country</h3>
+                    <div class="search-input">
+                        <input type="text" placeholder="Filter">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12f01963377e36ee54832fed9f9fa99ecc307862?placeholderIfAbsent=true"
+                            alt="Filter">
+                    </div>
+                    <div class="checkbox-list">
+                        <label><input type="checkbox" checked> United States</label>
+                        <label><input type="checkbox"> United Kingdom</label>
+                        <label><input type="checkbox"> China</label>
+                        <label><input type="checkbox"> Russia</label>
+                        <label><input type="checkbox"> Australia</label>
+                    </div>
+                </div>
 
-<span id="products-search-data-backup" data-url="{{ route('products') }}" data-brand="{{ $data['brand_id'] ?? '' }}"
-    data-category="{{ $data['category_id'] ?? '' }}" data-name="{{ $data['name'] }}"
-    data-from="{{ $data['data_from'] ?? $data['product_type'] }}" data-sort="{{ $data['sort_by'] }}"
-    data-product-type="{{ $data['product_type'] }}" data-min-price="{{ $data['min_price'] }}"
-    data-max-price="{{ $data['max_price'] }}" data-message="{{ translate('items_found') }}"
-    data-publishing-house-id="{{ request('publishing_house_id') }}" data-author-id="{{ request('author_id') }}"></span>
-    
-<!-- @include('web-views.products._ajax-products_bottom'); -->
+                <div class="filter-section">
+                    <h3>Search by Category</h3>
+                    <div class="search-input">
+                        <input type="text" placeholder="Category">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12f01963377e36ee54832fed9f9fa99ecc307862?placeholderIfAbsent=true"
+                            alt="Category">
+                    </div>
+                    <div class="checkbox-list">
+                        <label><input type="checkbox" checked> Agriculture</label>
+                        <label><input type="checkbox"> Fashion Accessories</label>
+                        <label><input type="checkbox"> Furniture</label>
+                        <label><input type="checkbox"> Trade Services</label>
+                        <label><input type="checkbox"> Health & Medical</label>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+    <span id="products-search-data-backup" data-url="{{ route('products') }}"
+        data-brand="{{ $data['brand_id'] ?? '' }}" data-category="{{ $data['category_id'] ?? '' }}"
+        data-name="{{ $data['name'] }}" data-from="{{ $data['data_from'] ?? $data['product_type'] }}"
+        data-sort="{{ $data['sort_by'] }}" data-product-type="{{ $data['product_type'] }}"
+        data-min-price="{{ $data['min_price'] }}" data-max-price="{{ $data['max_price'] }}"
+        data-message="{{ translate('items_found') }}" data-publishing-house-id="{{ request('publishing_house_id') }}"
+        data-author-id="{{ request('author_id') }}"></span>
 
 @endsection
 
 @push('script')
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/product-view.js') }}"></script>
-    <script>
-        document.getElementById('productlist').addEventListener('click', ()=>{
-            const productlist = document.getElementById('productlist');
-            const supplierlist = document.getElementById('supplierlist');
-            productlist.classList.add('selected');
-            supplierlist.classList.remove('selected');
-            window.location.replace('/products');
-        })
-    </script>
-    <script>
-        document.getElementById('supplierlist').addEventListener('click', ()=>{
-            const supplierlist = document.getElementById('supplierlist');
-            const productlist = document.getElementById('productlist');
-            supplierlist.classList.add('selected');
-            productlist.classList.remove('selected');
-            window.location.replace('/suppliers');
-        })
-    </script>
-    <script>
-        function SearchbyCountry(){
-            var countryId = document.getElementById('countryselector').value;
-            if(countryId){
-                window.location.href = '/products?country=' + countryId;
-            } else {
-                alert('Please Select a Country');
-            }
-        }
-    </script>
+    <script src="{{ theme_asset(path: 'public/js/product-list.js') }}"></script>
 @endpush

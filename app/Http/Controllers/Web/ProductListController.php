@@ -80,6 +80,7 @@ class ProductListController extends Controller
 
         $data = self::getProductListRequestData(request: $request);
         if ($request['data_from'] == 'category' && $request['category_id']) {
+            $data['cate_name'] = Category::find((int) Category::where('id',(int)$request['category_id'])->first()->parent_id)->name;
             $data['brand_name'] = Category::find((int)$request['category_id'])->name;
         }
         if ($request['data_from'] == 'brand') {

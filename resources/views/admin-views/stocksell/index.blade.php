@@ -9,13 +9,13 @@
 @endpush
 
 @section('content')
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <h2 class="mb-4">Stock List</h2>
     
     <!-- Filter Bar -->
     <div class="card mb-4">
         <div class="card-body">
-            <form action="{{route('admin.stock.index')}}" method="GET" class="row g-3">
+            <form action="{{ route('admin.stock.index') }}" method="GET" class="row g-3">
                 <!-- Search by Name -->
                 <div class="col-md-4">
                     <label for="searchName" class="form-label">Search by Name</label>
@@ -55,7 +55,7 @@
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Description</th>
+                {{-- <th>Description</th> --}}
                 <th>Quantity</th>
                 <th>Status</th>
                 <th>View Product</th>
@@ -67,7 +67,7 @@
             <tr>
                 <td>{{$key+1}}</td>
                 <td>{{ $value->name }}</td>
-                <td>{{ $value->description }}</td>
+                {{-- <td>{!! $value->description !!}</td> --}}
                 <td>{{ $value->quantity }}</td>
                 <td>
                     @if($value->status == 'active')

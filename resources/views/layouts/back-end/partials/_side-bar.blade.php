@@ -444,6 +444,34 @@
                             </li>
                         @endif
 
+                        @if (Helpers::module_permission_check('listings_management'))
+                            <li
+                                class="nav-item {{ Request::is('dealassist/list') ? 'active' : '' }}">
+                                <small class="nav-subtitle"
+                                    title="">{{ translate('Deal_Assist') }}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                    href="javascript:" title="{{ translate('Deal Assist') }}">
+                                    <i class="tio-shop nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        <span class="text-truncate">{{ translate('Deal Assist') }}</span>
+                                    </span>
+                                </a>
+                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub">
+                                    <li class="nav-item"
+                                        {{ Request::is('dealassist/list') ? 'active' : '' }}>
+                                        <a class="nav-link" title="{{ translate('Deal_Assist_List') }}"
+                                            href="{{ route('dealassist.index') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{ translate('List') }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+
                         {{-- @if (Helpers::module_permission_check('listings_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/orders*') ? (Request::is('admin/orders/details/*') && request()->has('vendor-order-list') ? '' : 'scroll-here') : '' }}">

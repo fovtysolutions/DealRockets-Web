@@ -391,12 +391,36 @@ class LeadsController extends Controller
                 'industry' => 'required|string|max:255',
                 'term' => 'required|string|max:255',
                 'unit' => 'required|string|max:255',
+                'compliance_status' => 'required',
+                'city' => 'nullable|string|max:255',
+                'tags' => 'nullable|string|max:255',
+                'refund' => 'nullable|string|max:255',
+                'avl_stock' => 'nullable|string|max:255',
+                'avl_stock_unit' => 'nullable|string|max:255',
+                'lead_time' => 'nullable|string|max:255',
+                'brand' => 'nullable|string|max:255',
+                'payment_option' => 'nullable|string|max:255',
+                'offer_type' => 'nullable|string|max:255',
+                'size' => 'nullable|string|max:255',
+                'images' => 'required',
             ]);
 
             // Get user details
             $userdata = ChatManager::getRoleDetail();
             $userId = $userdata['user_id'] ?? null;
             $role = $userdata['role'] ?? null;
+
+            if ($request->hasFile('images')) {
+                $imagePaths = [];
+            
+                foreach ($request->file('images') as $image) {
+                    $filename = time() . '_' . $image->getClientOriginalName();
+                    $path = $image->storeAs('uploads/leads/images', $filename, 'public'); // stored in storage/app/public/uploads/leads/images
+                    $imagePaths[] = 'storage/' . $path; // public path for display
+                }
+            
+                $validatedData['images'] = json_encode($imagePaths);
+            }            
 
             // Set additional data
             $validatedData['role'] = $role;
@@ -547,6 +571,18 @@ class LeadsController extends Controller
                 'industry' => 'required|string|max:255',
                 'term' => 'required|string|max:255',
                 'unit' => 'required|string|max:255',
+                'compliance_status' => 'required',
+                'city' => 'nullable|string|max:255',
+                'tags' => 'nullable|string|max:255',
+                'refund' => 'nullable|string|max:255',
+                'avl_stock' => 'nullable|string|max:255',
+                'avl_stock_unit' => 'nullable|string|max:255',
+                'lead_time' => 'nullable|string|max:255',
+                'brand' => 'nullable|string|max:255',
+                'payment_option' => 'nullable|string|max:255',
+                'offer_type' => 'nullable|string|max:255',
+                'size' => 'nullable|string|max:255',
+                'images' => 'nullable',
             ]);
 
             // Get the lead record
@@ -557,6 +593,33 @@ class LeadsController extends Controller
 
             // Add compliance status to the validated data
             $validatedData['compliance_status'] = $complianceStatus;
+
+            // Images the user chose to keep
+            $keepImages = $request->input('keep_images', []);
+
+            // Delete old images not in the keep list
+            $currentImages = $lead->images ?? [];
+            $imagesToDelete = array_diff($currentImages, $keepImages);
+
+            foreach ($imagesToDelete as $img) {
+                // Optionally delete from storage if stored locally
+                // Storage::delete(str_replace(url('/storage/'), '', $img));
+            }
+
+            // Handle new uploads
+            $newImages = [];
+
+
+            if ($request->hasFile('new_images')) {
+                foreach ($request->file('new_images') as $image) {
+                    $filename = time() . '_' . $image->getClientOriginalName();
+                    $path = $image->storeAs('uploads/leads/images', $filename, 'public'); // stored in storage/app/public/uploads/leads/images
+                    $newImages[] = 'storage/' . $path; // public path for display
+                }
+            }
+
+            // Update images list
+            $validatedData['images'] = array_merge($keepImages, $newImages);    
 
             // Update the lead record
             $leads->update($validatedData);

@@ -130,6 +130,64 @@
                     remove them.</small>
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="compliance_status" class="form-label">Compliance Status</label>
+                <select name="compliance_status" id="compliance_status" class="form-control">
+                    <option value="pending" @selected($stocksell->compliance_status == 'pending')>Pending</option>
+                    <option value="approved" @selected($stocksell->compliance_status == 'approved')>Approved</option>
+                    <option value="flagged" @selected($stocksell->compliance_status == 'flagged')>Flagged</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="unit" class="form-label">Unit</label>
+                <input type="text" name="unit" id="unit" value="{{ $stocksell->unit }}" class="form-control" placeholder="Enter Unit">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <label for="upper_limit" class="form-label">Upper Limit</label>
+                <input type="text" name="upper_limit" id="upper_limit" value="{{ $stocksell->upper_limit }}" class="form-control" placeholder="Enter Upper Limit">
+            </div>
+            <div class="col">
+                <label for="lower_limit" class="form-label">Lower Limit</label>
+                <input type="text" name="lower_limit" id="lower_limit" value="{{ $stocksell->lower_limit }}" class="form-control" placeholder="Enter Lower Limit">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <label for="city" class="form-label">City</label>
+                <input type="text" name="city" id="city" class="form-control" value="{{ $stocksell->city }}" placeholder="Enter City">
+            </div>
+            <div class="col">
+                <label for="stock_type" class="form-label">Stock Type</label>
+                <input type="text" name="stock_type" id="stock_type" class="form-control" value="{{ $stocksell->stock_type }}" placeholder="Enter Stock Type">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <label for="product_type" class="form-label">Product Type</label>
+                <input type="text" name="product_type" id="product_type" value="{{ $stocksell->product_type }}" class="form-control" placeholder="Enter Product Type">
+            </div>
+            <div class="col">
+                <label for="origin" class="form-label">Origin</label>
+                <input type="text" name="origin" id="origin" value="{{ $stocksell->origin }}" class="form-control" placeholder="Enter Origin">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <label for="badge" class="form-label">Badge</label>
+                <input type="text" name="badge" id="badge" value="{{ $stocksell->badge }}" class="form-control" placeholder="Enter Badge">
+            </div>
+            <div class="col">
+                <label for="refundable" class="form-label">Refundable</label>
+                <input type="text" name="refundable" id="refundable" value="{{ $stocksell->refundable }}" class="form-control" placeholder="Is Refundable? (Yes/No)">
+            </div>
+        </div>
         <!-- Submit Button -->
         <div class="row">
             <div class="col text-end">

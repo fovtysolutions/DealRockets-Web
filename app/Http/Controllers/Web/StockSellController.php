@@ -22,9 +22,13 @@ class StockSellController extends Controller
     public function index(Request $request)
     {
         $query = StockSell::query();
-        $query->whereHas('countryRelation',function($query){
-            $query->where('country','no');
-        });
+        if (auth('admin')->user()->id == 1){
+            // Continue
+        } else {
+            $query->whereHas('countryRelation',function($query){
+                $query->where('country','no');
+            });
+        }
         if ($request->name) {
             $query->where('name', 'like', '%' . $request->name . '%');
         }
@@ -191,6 +195,16 @@ class StockSellController extends Controller
             'company_icon' => 'nullable',
             'images' => "$nullable|array|max:10",  // Max 5 images allowed, nullable for update
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',  // Validate each image
+            'compliance_status' => 'nullable|in:pending,approved,flagged',
+            'upper_limit' => 'nullable|string',
+            'lower_limit' => 'nullable|string',
+            'unit' => 'nullable|string',
+            'city' => 'nullable|string',
+            'stock_type' => 'nullable|string',
+            'product_type' => 'nullable|string',
+            'origin' => 'nullable|string',
+            'badge' => 'nullable|string',
+            'refundable' => 'nullable|string',
         ]);
     }
     private function prepareStockSellData($request, $user_data = null)
@@ -210,7 +224,17 @@ class StockSellController extends Controller
             'company_name' => $request->company_name,
             'company_address' => $request->company_address,
             'user_id' => $user_data['user_id'],
-            'role' => $user_data['role']
+            'role' => $user_data['role'],
+            'compliance_status' => $request->compliance_status ?? 'pending',
+            'upper_limit' => $request->upper_limit,
+            'lower_limit' => $request->lower_limit,
+            'unit' => $request->unit,
+            'city' => $request->city,
+            'stock_type' => $request->stock_type,
+            'product_type' => $request->product_type,
+            'origin' => $request->origin,
+            'badge' => $request->badge,
+            'refundable' => $request->refundable,
         ];
     }
 

@@ -9,7 +9,7 @@ class Leads extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'type', // 'buyer' or 'seller'
         'name',
         'country',
@@ -26,7 +26,18 @@ class Leads extends Model
         'unit',
         'product_id',
         'active',
-        'compliance_status'
+        'images',
+        'compliance_status',
+        'city',
+        'tags',
+        'refund',
+        'avl_stock',
+        'avl_stock_unit',
+        'lead_time',
+        'brand',
+        'payment_option',
+        'offer_type',
+        'size'
     ];
 
     public function countryRelation()

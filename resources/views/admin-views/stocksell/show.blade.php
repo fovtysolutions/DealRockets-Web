@@ -11,74 +11,139 @@
 @section('content')
 <div class="container mt-5">
     <h2 class="mb-4">Show Stock for Sale</h2>
-        <!-- First Row -->
+        <!-- Basic Info -->
+<div class="card mb-4">
+    <div class="card-header">Basic Information</div>
+    <div class="card-body">
         <div class="row mb-3">
-            <div class="col">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" value="{{$stocksell->name}}" name="name" id="name" class="form-control" placeholder="No Data" required readonly>
+            <div class="col-md-4">
+                <strong>Name:</strong>
+                <p class="mb-0">{{ $stocksell->name }}</p>
             </div>
-            <div class="col">
-                <label for="description" class="form-label">Description</label>
-                <textarea id="description" name="description" class="form-control" placeholder="No Data" rows="3" readonly required>{{$stocksell->description}}</textarea>
+            <div class="col-md-4">
+                <strong>Quantity:</strong>
+                <p class="mb-0">{{ $stocksell->quantity }}</p>
+            </div>
+            <div class="col-md-4">
+                <strong>Unit:</strong>
+                <p class="mb-0">{{ $stocksell->unit ?? 'N/A' }}</p>
             </div>
         </div>
-        <!-- Second Row -->
         <div class="row mb-3">
-            <div class="col">
-                <label for="quantity" class="form-label">Quantity</label>
-                <input type="number" value="{{$stocksell->quantity}}" name="quantity" id="quantity" class="form-control" placeholder="No Data" readonly required>
+            <div class="col-md-4">
+                <strong>Status:</strong>
+                <p class="mb-0">{{ $stocksell->status }}</p>
             </div>
-            <div class="col">
-                <label for="status" class="form-label">Status</label>
-                <input type="text" value="{{$stocksell->status}}" name="status" id="status" class="form-control" placeholder="No Data" readonly required>
+            <div class="col-md-4">
+                <strong>Stock Type:</strong>
+                <p class="mb-0">{{ $stocksell->stock_type ?? 'N/A' }}</p>
             </div>
-            <div class="col">
-                <label for="industry" class="form-label">Industry</label>
-                <input type="text" value="{{ \App\Models\StockCategory::where('id',$stocksell->industry)->first()->name }}" name="industry" id="industry" class="form-control" placeholder="No Data" readonly required>
+            <div class="col-md-4">
+                <strong>Product:</strong>
+                <p class="mb-0">{{ $name }}</p>
             </div>
         </div>
-        <!-- Third Row -->
+    </div>
+</div>
+
+<!-- Classification -->
+<div class="card mb-4">
+    <div class="card-header">Classification</div>
+    <div class="card-body">
         <div class="row mb-3">
-            <div class="col">
-                <label for="product" class="form-label">Product</label>
-                <input type="text" value="{{ $name }}" name="product_id" id="product_id" class="form-control" placeholder="No Data" readonly required>
+            <div class="col-md-4">
+                <strong>Industry:</strong>
+                <p class="mb-0">{{ \App\Models\StockCategory::find($stocksell->industry)?->name ?? 'N/A' }}</p>
+            </div>
+            <div class="col-md-4">
+                <strong>Product Type:</strong>
+                <p class="mb-0">{{ $stocksell->product_type ?? 'N/A' }}</p>
+            </div>
+            <div class="col-md-4">
+                <strong>Origin:</strong>
+                <p class="mb-0">{{ $stocksell->origin ?? 'N/A' }}</p>
             </div>
         </div>
-        <!-- Fourth Row -->
         <div class="row mb-3">
-            <div class="col">
-                <label for="company_name" class="form-label">Company Name</label>
-                <input type="text" name="company_name" id="company_name" class="form-control" value="{{ $stocksell->company_name}}" placeholder="Enter Company Name"  readonly required
-                    required>
+            <div class="col-md-4">
+                <strong>Badge:</strong>
+                <p class="mb-0">{{ $stocksell->badge ?? 'N/A' }}</p>
             </div>
-            <div class="col">
-                <label for="company_address" class="form-label">Company Address</label>
-                <input type="text" name="company_address" id="company_address" class="form-control" value="{{ $stocksell->company_address}}" placeholder="Enter Company Address"  readonly required
-                    required>
+            <div class="col-md-4">
+                <strong>Refundable:</strong>
+                <p class="mb-0">{{ $stocksell->refundable ?? 'N/A' }}</p>
             </div>
-            <div class="col">
-                <label for="company_icon" class="form-label">Company Icon</label>
-                <img src="/{{$stocksell->company_icon}}" alt="Company Icon" style="width: 100px; height: 100px; object-fit: cover;">
+            <div class="col-md-4">
+                <strong>Compliance Status:</strong>
+                <p class="mb-0">{{ ucfirst($stocksell->compliance_status) ?? 'Pending' }}</p>
             </div>
         </div>
-        <!-- Display Existing Images -->
-        <div class="row mb-3">
-            <div class="col">
-                <label for="images" class="form-label">Product Images</label>
-                <div class="existing-images">
-                    @if ($stocksell->image) <!-- Check if images exist -->
-                        @foreach (json_decode($stocksell->image) as $image)
-                            <div class="image-preview">
-                                <img src="/{{$image}}" alt="Product Image"
-                                    style="width: 100px; height: 100px; object-fit: cover;">
-                            </div>
-                        @endforeach
-                    @else
-                        <p>No images uploaded yet.</p>
-                    @endif
-                </div>
+    </div>
+</div>
+
+<!-- Location -->
+<div class="card mb-4">
+    <div class="card-header">Location</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <strong>City:</strong>
+                <p class="mb-0">{{ $stocksell->city ?? 'N/A' }}</p>
+            </div>
+            <div class="col-md-6">
+                <strong>Country:</strong>
+                <p class="mb-0">{{ \App\Models\Country::find($stocksell->country)?->name ?? 'N/A' }}</p>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Company Info -->
+<div class="card mb-4">
+    <div class="card-header">Company Information</div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <strong>Company Name:</strong>
+                <p class="mb-0">{{ $stocksell->company_name }}</p>
+            </div>
+            <div class="col-md-4">
+                <strong>Company Address:</strong>
+                <p class="mb-0">{{ $stocksell->company_address }}</p>
+            </div>
+            <div class="col-md-4">
+                <strong>Company Icon:</strong><br>
+                <img src="/{{ $stocksell->company_icon }}" alt="Company Icon" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Description -->
+<div class="card mb-4">
+    <div class="card-header">Description</div>
+    <div class="card-body">
+        <div class="border p-3 bg-light rounded">
+            {!! $stocksell->description !!}
+        </div>
+    </div>
+</div>
+
+<!-- Product Images -->
+<div class="card mb-4">
+    <div class="card-header">Product Images</div>
+    <div class="card-body">
+        @if ($stocksell->image)
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (json_decode($stocksell->image) as $image)
+                    <img src="/{{ $image }}" alt="Image" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                @endforeach
+            </div>
+        @else
+            <p>No images uploaded.</p>
+        @endif
+    </div>
+</div>
         <!-- Submit Button -->
         <div class="row">
             <div class="col text-end">

@@ -738,6 +738,10 @@
         transition: all ease 0.3s;
     }
 
+    .globle-deals .box{
+        background-color: unset;
+    }
+
     .top-movers-container{
         position: absolute; 
         right: 17px;

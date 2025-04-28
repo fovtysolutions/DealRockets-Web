@@ -1,0 +1,98 @@
+/* Pagination */
+.pagination {
+    align-self: center;
+    display: flex;
+    max-width: 100%;
+    width: 509px;
+    align-items: stretch;
+    gap: 40px 91px;
+    font-size: 16px;
+    color: #515050;
+    font-weight: normal;
+    white-space: nowrap;
+    flex-wrap: wrap;
+    margin-top: 41px;
+}
+
+.pagination-pages {
+    display: flex;
+    align-items: stretch;
+    gap: 13px;
+    flex: 1;
+}
+
+.pagination-prev,
+.pagination-next {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.pagination-prev img,
+.pagination-next img {
+    aspect-ratio: 1;
+    object-fit: contain;
+    width: 40px;
+    flex-shrink: 0;
+    border-radius: 0px 0px 0px 0px;
+}
+
+.pagination-page {
+    aspect-ratio: 40.42/40.42;
+    border-radius: 4px;
+    border: 1px solid #D5D5D5;
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.pagination-active {
+    border-color: #FE4E44;
+    color: #FE4E44;
+}
+
+.pagination-info {
+    display: flex;
+    align-items: stretch;
+    gap: 21px;
+}
+
+.pagination-total {
+    border-radius: 4px;
+    border: 1px solid #D5D5D5;
+    background-color: white;
+    min-height: 40px;
+    padding: 11px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delthree {
+    display: none;
+}
+
+.search-input-field {
+    display: flex;
+    flex-direction: row;
+}
+
+.search-input-field input {
+    width: 88%;
+    border: 0;
+    outline: 0;
+}
+
+.search-input-field img {
+    width: 8%;
+}
+
+input[type="checkbox"] {
+    accent-color: #FE4E44;
+    /* Example: orange-500 (Tailwind) */
+}

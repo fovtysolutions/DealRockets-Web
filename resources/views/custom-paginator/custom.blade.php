@@ -1,4 +1,5 @@
 @if ($paginator->hasPages())
+  <link rel="stylesheet" href="{{ theme_asset('public/assets/custom-css/ai/custom-pagination.css') }}">
   <div class="pagination">
     <div class="pagination-pages">
       {{-- Previous Page Link --}}

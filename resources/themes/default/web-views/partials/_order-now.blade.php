@@ -1,5 +1,6 @@
 @php
     $trending = App\Utils\ChatManager::GetTrendingProducts();
+    $searches = App\Utils\HelperUtil::getsearchedproducts($trending);
 @endphp
 <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/ordernow.css') }}" />
 <section class="mainpagesection order-now">

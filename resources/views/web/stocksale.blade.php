@@ -83,94 +83,80 @@
             
             <div class="sidebar">
               <div class="filter-sidebar">
-                <div class="search-input">
-                  <div class="input-label">Search by Name</div>
-                  <div class="input-container">
-                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/793bda788c444c6fa750bc442f903d3640eb48a5?placeholderIfAbsent=true" alt="Search icon">
+                <form method="GET" action="{{ route('stocksale') }}" id="filterFormStockSale">
+                <div class="filter-section">
+                  <div class="search-section">
+                    <div class="search-label">Search by Name</div>
+                    <div class="search-input-container">
+                      <div class="search-input-field">
+                        <input type="text" name="search_query" id="nameFilter" placeholder="Enter name..." value="{{ request('name') }}" />
+                        <img
+                          src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
+                          class="search-icon"
+                          alt="Search icon"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
       
-                <div style="margin-top: 9px;">
-                  <div class="input-label">Filter By Country</div>
-                  <div class="input-container">
-                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/f1c85c4a500d673e402c69eef99db5caaa078e9d?placeholderIfAbsent=true" alt="Filter icon">
+                <div class="filter-section">
+                  <div class="search-label">Filter By Country</div>
+                  <div class="search-input-container">
+                    <div class="search-input-field">
+                      <input type="text" name="country_search" placeholder="Enter Country..." class="search-filter" data-target="#countriescheckbox" value="{{ request('country_search') }}" />
+                      <img
+                        src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
+                        class="search-icon"
+                        alt="Search icon"
+                      />                        
+                    </div>
                   </div>
-                </div>
       
-                <div class="country-list">
-                  <div class="checkbox-item">
-                    <div class="checkbox checkbox-checked"></div>
-                    <div class="checkbox-label">United States</div>
+                  <div class="filter-options country-list" id="countriescheckbox">
+                    @foreach($countries as $country)
+                      @php
+                        $countryDetails = \App\Utils\ChatManager::getCountryDetails($country);
+                        $isSelected = is_array(request()->input('country', [])) && in_array($country, request()->input('country', []));
+                      @endphp
+                      <div class="checkbox-item">
+                        <label class="filter-checkbox country-option filter-item">
+                          <input type="checkbox" name="country[]" value="{{ $country }}" {{ $isSelected ? 'checked' : '' }} />
+                          <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg" class="flag-icon" alt="{{ $country }} flag" />
+                          <div class="filter-label">{{ $countryDetails['countryName'] }}</div>
+                        </label>
+                      </div>
+                    @endforeach
                   </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">United Kingdom</div>
+                </div>  
+                
+                <!-- Filter By Category Section -->
+                <div class="filter-section deltwo">
+                  <div class="search-label">Search by Category</div>
+                  <div class="search-input-container">
+                    <div class="search-input-field">
+                      <input type="text" name="industry_search" placeholder="Enter Category..." class="search-filter" data-target="#categorycheckbox" value="{{ request('industry_search') }}" />
+                      <img
+                        src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
+                        class="search-icon"
+                        alt="Search icon"
+                      />
+                    </div>
                   </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">China</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Russia</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Australia</div>
-                  </div>
-                </div>
-      
-                <div class="input-label" style="margin-top: 11px;">Search by Category</div>
-                <div class="input-container">
-                  <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/793bda788c444c6fa750bc442f903d3640eb48a5?placeholderIfAbsent=true" alt="Search icon">
-                </div>
-      
-                <div class="category-list">
-                  <div class="checkbox-item">
-                    <div class="checkbox checkbox-checked"></div>
-                    <div class="checkbox-label">Agriculture</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Apparel & Accessories</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Automobiles & Motorcycles</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Beauty</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Building & Construction</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Chemicals</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Consumer Electronics & Components</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Electrical Equipment</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Fashion Accessories</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Food & Beverage</div>
-                  </div>
-                  <div class="checkbox-item">
-                    <div class="checkbox"></div>
-                    <div class="checkbox-label">Furniture</div>
+        
+                  <div class="category-list filter-options" id="categorycheckbox">
+                    @foreach($categoriesn as $industry)
+                      <div class="checkbox-item">
+                        <label class="filter-checkbox category-option filter-item">
+                          <input type="checkbox" name="industry[]" value="{{ $industry->id }}" {{ in_array($industry->id, request('industry', [])) ? 'checked' : '' }} />
+                          <div class="filter-label">{{ $industry->name }}</div>
+                        </label>
+                      </div>
+                    @endforeach
                   </div>
                 </div>
+
+                </form>
               </div>
             </div>
       
@@ -178,178 +164,10 @@
             <div class="product-list-section">
               <div class="product-list">
                 <div class="product-list-inner">
-                  <div class="product-cards-container">
-                    <!-- Product Card 1 (Featured) -->
-                    <div class="product-card" data-id="productCard">
-                      <div class="product-card-inner product-card-featured">
-                        <div class="product-card-content">
-                          <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4de8e965ad84b638b3a33b6125a0b45bb159b0f9?placeholderIfAbsent=true" class="product-image" alt="Fresh Apples">
-                          </div>
-                          <div class="product-info">
-                            <div class="product-header">
-                              <div class="product-title">Selling 300 Units of Fresh Apples</div>
-                              <img  class ="heart" src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/69456c03811ace2c0c568374d486fb1c0b4f38c1?placeholderIfAbsent=true" width="20" alt="Featured icon">
-                            </div>
-                            <div class="product-rate">
-                              <div class="product-rate-label">Offer Rate:</div>
-                              <div class="product-rate-value">$500-600/MT</div>
-                            </div>
-                            <div class="product-origin">
-                              <div>Origin:</div>
-                              <div class="product-origin-location">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true" width="15" alt="Location icon">
-                                <div>New York, US</div>
-                              </div>
-                            </div>
-                            <div class="product-description">
-                              Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-      
-                    <!-- Product Card 2 -->
-                    <div class="product-card" data-id="2">
-                      <div class="product-card-inner">
-                        <div class="product-card-content">
-                          <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4de8e965ad84b638b3a33b6125a0b45bb159b0f9?placeholderIfAbsent=true" class="product-image" alt="Fresh Apples">
-                          </div>
-                          <div class="product-info">
-                            <div class="product-header">
-                              <div class="product-title">Selling 300 Units of Fresh Apples</div>
-                              <img class ="heart" src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4138db3e7bada86a66bf44bd7fe2dc3b0959e290?placeholderIfAbsent=true" width="20" alt="Product icon">
-                            </div>
-                            <div class="product-rate">
-                              <div class="product-rate-label">Offer Rate:</div>
-                              <div class="product-rate-value">$500-600/MT</div>
-                            </div>
-                            <div class="product-origin">
-                              <div>Origin:</div>
-                              <div class="product-origin-location">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true" width="15" alt="Location icon">
-                                <div>New York, US</div>
-                              </div>
-                            </div>
-                            <div class="product-description">
-                              Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-      
-                    <!-- Product Card 3 -->
-                    <div class="product-card" data-id="3">
-                      <div class="product-card-inner">
-                        <div class="product-card-content">
-                          <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4de8e965ad84b638b3a33b6125a0b45bb159b0f9?placeholderIfAbsent=true" class="product-image" alt="Fresh Apples">
-                          </div>
-                          <div class="product-info">
-                            <div class="product-header">
-                              <div class="product-title">Selling 300 Units of Fresh Apples</div>
-                              <img  class ="heart" src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4138db3e7bada86a66bf44bd7fe2dc3b0959e290?placeholderIfAbsent=true" width="20" alt="Product icon">
-                            </div>
-                            <div class="product-rate">
-                              <div class="product-rate-label">Offer Rate:</div>
-                              <div class="product-rate-value">$500-600/MT</div>
-                            </div>
-                            <div class="product-origin">
-                              <div>Origin:</div>
-                              <div class="product-origin-location">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true" width="15" alt="Location icon">
-                                <div>New York, US</div>
-                              </div>
-                            </div>
-                            <div class="product-description">
-                              Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Product Card 4 -->
-                    <div class="product-card" data-id="3">
-                      <div class="product-card-inner">
-                        <div class="product-card-content">
-                          <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4de8e965ad84b638b3a33b6125a0b45bb159b0f9?placeholderIfAbsent=true" class="product-image" alt="Fresh Apples">
-                          </div>
-                          <div class="product-info">
-                            <div class="product-header">
-                              <div class="product-title">Selling 300 Units of Fresh Apples</div>
-                              <img  class ="heart" src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4138db3e7bada86a66bf44bd7fe2dc3b0959e290?placeholderIfAbsent=true" width="20" alt="Product icon">
-                            </div>
-                            <div class="product-rate">
-                              <div class="product-rate-label">Offer Rate:</div>
-                              <div class="product-rate-value">$500-600/MT</div>
-                            </div>
-                            <div class="product-origin">
-                              <div>Origin:</div>
-                              <div class="product-origin-location">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true" width="15" alt="Location icon">
-                                <div>New York, US</div>
-                              </div>
-                            </div>
-                            <div class="product-description">
-                              Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Product Card 5 -->
-                    <div class="product-card" data-id="3">
-                      <div class="product-card-inner">
-                        <div class="product-card-content">
-                          <div class="product-image-container">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4de8e965ad84b638b3a33b6125a0b45bb159b0f9?placeholderIfAbsent=true" class="product-image" alt="Fresh Apples">
-                          </div>
-                          <div class="product-info">
-                            <div class="product-header">
-                              <div class="product-title">Selling 300 Units of Fresh Apples</div>
-                              <img class ="heart" src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4138db3e7bada86a66bf44bd7fe2dc3b0959e290?placeholderIfAbsent=true" width="20" alt="Product icon">
-                            </div>
-                            <div class="product-rate">
-                              <div class="product-rate-label">Offer Rate:</div>
-                              <div class="product-rate-value">$500-600/MT</div>
-                            </div>
-                            <div class="product-origin">
-                              <div>Origin:</div>
-                              <div class="product-origin-location">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true" width="15" alt="Location icon">
-                                <div>New York, US</div>
-                              </div>
-                            </div>
-                            <div class="product-description">
-                              Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in bulk for retail or wholesale buyers.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                
-                <!-- Pagination -->
-                <div class="pagination">
-                  <div class="pagination-info">
-                    Items Per Page: 12
-                  </div>
-                  <div class="pagination-controls">
-                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4a5206e5d6ef2bdb743353eb6c64e547ad87c593?placeholderIfAbsent=true" class="pagination-arrow" alt="Previous page">
-                    
-                    <div class="pagination-pages">
-                      <div class="page-item active">1</div>
-                      <div class="page-item">2</div>
-                      <div class="page-item">20</div>
-                    </div>
-                    
-                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/4d6e7a69f970a12cc65c8adc1a439633aff3cbf6?placeholderIfAbsent=true" class="pagination-arrow" alt="Next page">
+                  @include('web.dynamic-partials.dynamic-stocksell')
+                  <!-- Pagination -->
+                  <div id="paginationControls">
+                      {{ $items->links('custom-paginator.custom') }}
                   </div>
                 </div>
               </div>
@@ -423,11 +241,108 @@
     </div>
     @include('web-views.partials._order-now')
     @include('web.partials.loginmodal')
-    @include('web.partials.stockdetailmodal')
 @endsection
 @push('script')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('filterFormStockSale');
+        
+        if (form) {
+            // Debounced input for text fields
+            form.querySelectorAll('input[type="text"]').forEach(function (input) {
+                let timeout;
+
+                input.addEventListener('input', function () {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(function () {
+                        if (input.value.trim() !== '') {
+                            applyFilters();
+                        }
+                    }, 500); // Wait 500ms before triggering the filter
+                });
+            });
+
+            // Submit when checkboxes are changed
+            form.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
+                    applyFilters();
+                });
+            });
+
+            // Handle search icon click
+            form.querySelectorAll('.search-icon').forEach(function (icon) {
+                icon.addEventListener('click', function () {
+                    applyFilters();
+                });
+            });
+        }
+
+        // Function to gather filter values and make the AJAX request
+        function applyFilters() {
+            let filters = {
+                name: document.getElementById('nameFilter').value,  // Adjust to your input field ID
+                country: Array.from(document.querySelectorAll('input[name="country[]"]:checked')).map(checkbox => checkbox.value), // For multiple checkboxes
+                industry: Array.from(document.querySelectorAll('input[name="industry[]"]:checked')).map(checkbox => checkbox.value)  // For multiple checkboxes
+            };
+
+            loadFilteredData(filters);
+        }
+
+        function loadFilteredData(filters) {
+            $('#dynamicLoader').css('display','block');
+            $.ajax({
+                url: "{{ route('dynamic-stocksell') }}", // Your endpoint to get filtered data
+                method: 'GET',
+                data: filters,
+                success: function(response) {
+                    // Update only the cards section
+                    $('#stocksaleOfferDynamic').html(response.html);  // Updated trade show cards
+                    $('#paginationControls').html(response.pagination);
+                    $('#dynamicLoader').css('display','none');
+                    initializeIconCarousel();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    });
+    </script> 
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Show only first 6 items initially
+        document.querySelectorAll('.filter-options').forEach(container => {
+          const items = container.querySelectorAll('.checkbox-item');
+          items.forEach((item, index) => {
+            item.style.display = index < 6 ? 'flex' : 'none';
+          });
+        });
+    
+        // Attach filter logic to all search-filter inputs
+        document.querySelectorAll('.search-filter').forEach(input => {
+          input.addEventListener('input', function () {
+            const targetSelector = this.getAttribute('data-target');
+            const container = document.querySelector(targetSelector);
+            const searchTerm = this.value.toLowerCase();
+            const items = container.querySelectorAll('.checkbox-item');
+    
+            let visibleCount = 0;
+    
+            items.forEach(item => {
+              const label = item.textContent.toLowerCase();
+              const matches = label.includes(searchTerm);
+    
+              if (matches && visibleCount < 6) {
+                item.style.display = 'flex';
+                visibleCount++;
+              } else {
+                item.style.display = 'none';
+              }
+            });
+          });
+        });
+      });
+    </script>    
     <script>
         const trendingsection = document.getElementById('trendingselection');
 
@@ -637,21 +552,6 @@
         }
     </script>
     <script>
-        document.getElementById("viewMoreBtn").addEventListener("click", function() {
-            // Set the new HTML content for #dpcontainerbox
-            const fullCategoryList = `
-            @foreach ($categoriesn as $category)
-                <li>
-                    <a href="{{ route('stocksale', ['categoryid' => $category->id]) }}">{{ $category->name }}</a>
-                </li>
-            @endforeach
-        `;
-            // Replace the current content with the full category list
-            document.getElementById("dpcontainerbox").innerHTML = fullCategoryList;
-            document.getElementById("dpcontainertwo").style.overflowY = 'scroll';
-        });
-    </script>
-    <script>
         document.addEventListener("DOMContentLoaded", function() {
             var urlParams = new URLSearchParams(window.location.search);
             var jobid = urlParams.get("jobid");
@@ -673,123 +573,6 @@
                 fetchJobData(job_first_id);
             } else {
                 console.error("No job ID found in URL or default input.");
-            }
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Show and hide dropdowns on click
-            const dropdownContainers = document.querySelectorAll(".dropdown-container");
-
-            dropdownContainers.forEach(container => {
-                const button = container.querySelector(".dropdown-button");
-                const list = container.querySelector(".dropdown-list");
-                const arrow = container.querySelector(".dropdown-arrow");
-
-                button.addEventListener("click", function(event) {
-                    event.stopPropagation(); // Prevent bubbling
-
-                    // Close other dropdowns
-                    document.querySelectorAll(".dropdown-list").forEach(otherList => {
-                        if (otherList !== list) {
-                            otherList.style.display = "none";
-                            const otherArrow = otherList.previousElementSibling
-                                .querySelector(".dropdown-arrow");
-                            if (otherArrow) otherArrow.classList.remove("rotate");
-                        }
-                    });
-
-                    // Toggle current dropdown
-                    const isVisible = list.style.display === "block";
-                    list.style.display = isVisible ? "none" : "block";
-
-                    // Rotate the arrow
-                    if (arrow) {
-                        if (isVisible) {
-                            arrow.classList.remove("rotate");
-                        } else {
-                            arrow.classList.add("rotate");
-                        }
-                    }
-                });
-            });
-
-            // Close dropdowns if clicked outside
-            document.addEventListener("click", function() {
-                dropdownContainers.forEach(container => {
-                    const list = container.querySelector(".dropdown-list");
-                    const arrow = container.querySelector(".dropdown-arrow");
-
-                    if (list.style.display === "block") {
-                        list.style.display = "none";
-                        if (arrow) arrow.classList.remove("rotate");
-                    }
-                });
-            });
-
-            // Filter function for dropdown search
-            function filterList(searchId, listId) {
-                const searchInput = document.getElementById(searchId);
-                const listItems = document.querySelectorAll(`#${listId} .dropdown-item`);
-
-                searchInput.addEventListener('input', function() {
-                    const query = searchInput.value.toLowerCase();
-                    listItems.forEach(function(item) {
-                        const text = item.textContent || item.innerText;
-                        item.style.display = text.toLowerCase().includes(query) ? 'block' : 'none';
-                    });
-                });
-            };
-
-            // Initialize filtering for Location dropdown
-            filterList('country-search', 'country-list');
-
-            // Handle item selection in dropdown
-            const dropdownItems = document.querySelectorAll(".dropdown-item");
-            dropdownItems.forEach(item => {
-                item.addEventListener("click", function() {
-                    const dropdownLabel = this.closest(".dropdown-container").querySelector(
-                        ".dropdown-label");
-                    dropdownLabel.textContent = this
-                        .textContent; // Update the label to selected item
-
-                    // Close the dropdown after selection
-                    const dropdownList = this.closest(".dropdown-list");
-                    dropdownList.style.display = "none";
-
-                    const arrow = dropdownList.previousElementSibling.querySelector(
-                        ".dropdown-arrow");
-                    if (arrow) arrow.classList.remove("rotate");
-
-                    applyFilters(); // Apply selected filters
-                });
-            });
-
-            // Apply filters when an option is selected
-            function applyFilters() {
-                const location = document.querySelector("input[name='country']:checked")?.value;
-                const time = document.querySelector("input[name='time']:checked")?.value;
-
-                console.log("Filters Applied:");
-                console.log("Location:", location);
-                console.log("Time:", time);
-            };
-
-            // Function to clear all filters
-            function clearFilters() {
-                document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
-                document.querySelectorAll(".dropdown-label").forEach(label => {
-                    label.textContent = label.getAttribute("data-default-label");
-                });
-                applyFilters();
-            };
-
-            // Clear Filters Button
-            const clearFiltersBtn = document.querySelector("#clear-filters-btn");
-            if (clearFiltersBtn) {
-                clearFiltersBtn.addEventListener("click", function() {
-                    clearFilters();
-                });
             }
         });
     </script>
@@ -848,46 +631,30 @@
         }
     </script>
     <script>
-        function formatTimeAgo(dateString) {
-            const now = new Date();
-            const postedDate = new Date(dateString);
-            const timeDiff = now - postedDate; // difference in milliseconds
+        function initializeIconCarousel(){
+          // Initialize Owl Carousel
+          $(".icon-carousel").owlCarousel({
+              items: 1, // Show 1 image at a time
+              loop: true, // Enable looping
+              autoplay: false, // Disable autoplay by default
+              nav: false, // Disable next/prev buttons
+              dots: false, // Disable pagination dots
+          });
 
-            const daysAgo = Math.floor(timeDiff / (1000 * 3600 * 24)); // converting milliseconds to days
-
-            if (daysAgo === 0) {
-                return "Posted today";
-            } else if (daysAgo === 1) {
-                return "Posted 1 day ago";
-            } else {
-                return `Posted ${daysAgo} days ago`;
-            }
-        }
+          // Play carousel on hover
+          $(".icon-carousel").hover(
+              function() {
+                  $(this).trigger('play.owl.autoplay', [1500]); // Start autoplay on hover
+              },
+              function() {
+                  $(this).trigger('stop.owl.autoplay'); // Stop autoplay when hover is removed
+              }
+          );
+        };
+        initializeIconCarousel();
     </script>
     <script>
-        $(document).ready(function() {
-            // Initialize Owl Carousel
-            $(".icon-carousel").owlCarousel({
-                items: 1, // Show 1 image at a time
-                loop: true, // Enable looping
-                autoplay: false, // Disable autoplay by default
-                nav: false, // Disable next/prev buttons
-                dots: false, // Disable pagination dots
-            });
-
-            // Play carousel on hover
-            $(".icon-carousel").hover(
-                function() {
-                    $(this).trigger('play.owl.autoplay', [1500]); // Start autoplay on hover
-                },
-                function() {
-                    $(this).trigger('stop.owl.autoplay'); // Stop autoplay when hover is removed
-                }
-            );
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
+        function initializeStockSellCarousel(){
             $(".stocksale-carousel").owlCarousel({
                 loop: true, // Enable looping
                 margin: 10, // Space between items
@@ -908,7 +675,8 @@
                     } // 1 item for large screens
                 }
             });
-        });
+        };
+        initializeStockSellCarousel();
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -948,6 +716,11 @@
                 }
             });
         });
+    </script>
+    <script>
+      function populateDetailedBox(){
+
+      };
     </script>
     <script>
         // Product selection functionality

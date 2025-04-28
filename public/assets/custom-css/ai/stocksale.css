@@ -36,6 +36,55 @@ body {
     width: 100%;
 }
 
+.stock-sale .search-input-field {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #D5D5D5;
+    background-color: white;
+    justify-content: center;
+    padding: 9px 25px;
+    border-radius: 6px;
+}
+
+.stock-sale .search-input-field input {
+    width: 88%;
+    border: 0;
+    outline: 0;
+}
+
+.stock-sale .search-input-field img {
+    width: 8%;
+}
+
+.stock-sale .filter-section {
+    width: 100%;
+    margin-top: 10px;
+}
+
+input[type='checkbox']{
+    accent-color: #FE4E44;
+}
+
+.stock-sale .search-label {
+    color: #0D0D0F;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.stock-sale .search-input-container {
+    width: 100%;
+    margin-top: 12px;
+    border-radius: 0px 0px 0px 0px;
+}
+
+.stock-sale .search-icon {
+    aspect-ratio: 0.95;
+    object-fit: contain;
+    width: 21px;
+    margin: 0 0 0 auto;
+}
+
+
 .stock-sale .input-label {
     color: #0D0D0F;
     font-size: 16px;
@@ -66,6 +115,11 @@ body {
     padding: 1.1rem 1.25rem;
     border-radius: 0.375rem;
     height: 100%;
+}
+
+.stock-sale .filter-item {
+    display: flex;
+    gap: 8px;
 }
 
 .stock-sale .checkbox-item {
@@ -102,10 +156,12 @@ body {
     flex-direction: column;
     min-height: 122px;
     max-width: 100%;
-    width: 8rem;
+    /* width: 8rem; */
     overflow: hidden;
     margin-top: 0.75rem;
 }
+
+
 
 .stock-sale .category-list {
     display: flex;
@@ -132,6 +188,14 @@ body {
     z-index: 10;
     margin-bottom: -174px;
     height: 890px;
+    display: inline;
+}
+
+.stock-sale .flag-icon {
+    aspect-ratio: 1;
+    object-fit: contain;
+    width: 20px;
+    flex-shrink: 0;
 }
 
 .stock-sale .product-card {
@@ -181,7 +245,7 @@ body {
     font-weight: 500;
 }
 
-.stock-sale .product-header .heart{
+.stock-sale .product-header .heart {
     height: 20px;
     width: 20px;
 }
@@ -239,37 +303,77 @@ body {
 }
 
 .stock-sale .pagination {
-    background-color: white;
-    box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.25);
+    align-self: center;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.937rem 2.56rem;
-    margin-top: 107px;
-    position: relative;
-}
-
-.stock-sale .pagination-info {
+    max-width: 100%;
+    width: 509px;
+    align-items: stretch;
+    gap: 40px 91px;
+    font-size: 16px;
     color: #515050;
-}
-
-.stock-sale .pagination-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-}
-
-.stock-sale .pagination-arrow {
-    width: 30px;
-    aspect-ratio: 1;
-    object-fit: contain;
-    cursor: pointer;
+    font-weight: normal;
+    white-space: nowrap;
+    flex-wrap: wrap;
+    margin-top: 41px;
 }
 
 .stock-sale .pagination-pages {
     display: flex;
+    align-items: stretch;
+    gap: 13px;
+    flex: 1;
+}
+
+.stock-sale .pagination-prev,
+.pagination-next {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.stock-sale .pagination-prev img,
+.pagination-next img {
+    aspect-ratio: 1;
+    object-fit: contain;
+    width: 40px;
+    flex-shrink: 0;
+    border-radius: 0px 0px 0px 0px;
+}
+
+.stock-sale .pagination-page {
+    aspect-ratio: 40.42/40.42;
+    border-radius: 4px;
+    border: 1px solid #D5D5D5;
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    padding: 0 15px;
+    display: flex;
     align-items: center;
-    gap: 0.625rem;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.stock-sale .pagination-active {
+    border-color: #FE4E44;
+    color: #FE4E44;
+}
+
+.stock-sale .pagination-info {
+    display: flex;
+    align-items: stretch;
+    gap: 21px;
+}
+
+.stock-sale .pagination-total {
+    border-radius: 4px;
+    border: 1px solid #D5D5D5;
+    background-color: white;
+    min-height: 40px;
+    padding: 11px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .stock-sale .page-item {

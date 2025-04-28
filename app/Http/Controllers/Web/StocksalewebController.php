@@ -39,6 +39,11 @@ class StocksalewebController extends Controller
         // Always filter by active status
         $query->where('status', 'active');
 
+        // Filter by country if necessary
+        $query->whereHas('countryRelation', function($query) {
+            $query->whereRaw('blacklist = ?', ['no']);
+        });
+
         // Text search
         if ($request->filled('search_query')) {
             $query->where('name', 'LIKE', '%' . $request->input('search_query') . '%');
@@ -79,7 +84,7 @@ class StocksalewebController extends Controller
         }
 
         // Paginate the filtered results
-        $items = $query->paginate(10);
+        $items = $query->paginate(6);
 
         // Ad Images
         $adimages = BusinessSetting::where('type', 'stocksale')->first();
@@ -117,6 +122,52 @@ class StocksalewebController extends Controller
         $quotationbanner =  BusinessSetting::where('type','quotation')->first()->value;
         $quotationdata = json_decode($quotationbanner,true)['banner'] ?? '';
         return view('web.stocksale', compact('industries','items','categoriesn','adimages','locations','times','stocksalebanner','counttotal','countrykeyvalue','countries','trending'));
+    }
+
+    public function stockSaleDynamic(Request $request){
+        $query = StockSell::query();
+
+        // Always filter by active status
+        $query->where('status', 'active');
+
+        // Filter by country if necessary
+        $query->whereHas('countryRelation', function($query) {
+            $query->whereRaw('blacklist = ?', ['no']);
+        });
+
+        // Text search
+        if ($request->filled('search_query')) {
+            $query->where('name', 'LIKE', '%' . $request->input('search_query') . '%');
+        }
+
+        // Apply filters based on URL parameters
+
+        // Filter by industry if it's an array of selected industries
+        if ($request->has('industry') && is_array($request->industry)) {
+            $query->whereIn('industry', $request->industry);
+        }
+
+        // Filter by country if it's an array of selected countries
+        if ($request->has('country') && is_array($request->country)) {
+            $query->whereIn('country', $request->country);
+        }
+
+        // Paginate the filtered results
+        $items = $query->paginate(6);
+
+        // If it's an AJAX request, return only the partial view with trade show cards
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('web.dynamic-partials.dynamic-stocksell', compact('items'))->render(),
+                'pagination' => $items->links('custom-paginator.custom')->render(),
+            ]);
+        }
+    
+        // Otherwise, return the full page
+        return response()->json([
+            'html' => view('web.dynamic-partials.dynamic-stocksell', compact('items'))->render(),
+            'pagination' => $items->links('custom-paginator.custom')->render(),
+        ]);
     }
 
     public function stocksaleview(Request $request){

@@ -1,5 +1,4 @@
 @extends('layouts.front-end.app')
-<link rel="stylesheet" href="{{ asset('assets/custom-css/vendor.css') }}" />
 @section('title', translate($data['data_from']) . ' ' . translate('products'))
 
 @push('css_or_js')

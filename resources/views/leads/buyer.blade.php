@@ -1,554 +1,499 @@
 @extends('layouts.front-end.app')
-<link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/leads.css') }}" />
 @section('title',translate('Buyers'. ' | ' . $web_config['name']->value))
+@push('css_or_js')
+<link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/buyer.css') }}" />
+@endpush
 @section('content')
-<?php
-    $categories = \App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
-    $unread = \App\Utils\ChatManager::unread_messages();
-    if (Auth('customer')->check()) {
-        $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
-        if (isset($membership['error'])) {
-            $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
-        }
-    }
-    $userdata = \App\Utils\ChatManager::getRoleDetail();
-    $user_id = $userdata['user_id'];
-    $role = $userdata['role'];
-?>
-<?php
-    $settingsp = \App\Models\BusinessSetting::where('type', 'buyer')->first();
-    $datap = $settingsp
-        ? json_decode($settingsp['value'], true)
-        : [
-            'color' => '#000000',
-        ];
-?>
-<style>
-    .leadpagedivision {
-        background-color: var(--web-bg);
-    }
+<section class="mainpagesection buy-offer" style="margin-top: 20px; background-color: unset;">
+    <div class="flex">
 
-    .gapbetweens {
-        height: 22px;
-        background-color: var(--web-bg);
-    }
-
-    /* body {
-            background-color: <?= htmlspecialchars($datap['color']) ?>
-    ;
-    }
-
-    */
-
-    .__inline-9 {
-        background-color: var(--web-bg);
-    }
-    .carousel-control-next, .carousel-control-prev{
-        width: 5%;
-    }
-    .mainpagesection{
-        background-color: unset;
-    }
-    .deal-assist-banner{
-        margin-top: 22px;
-    }
-</style>
-<div class="mainpagesection">
-    <div style="border-radius:10px;">
-        @if(empty($bannerimages))
-        {{-- No Carousel Images --}}
-        @else
-        <div>
-            <div id="carousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    @foreach ($bannerimages as $key => $value)
-                        <div class="carousel-item  {{ $key == 0 ? 'active' : '' }}">
-                            {{-- Banner --}}
-                            <img class="w-100 topclassbanner" src="{{ asset('storage/' . $value['img_path']) }}" alt="Banner">
-                        </div>
-                    @endforeach
-                </div>
-                @if(count($bannerimages) != 1)
-                    <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-                        <span style="font-size: 32px; color: black;"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
-                    </a>
-                    <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-                        <span style="font-size: 32px; color: black;"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></span>        
-                    </a>
-                @else
-                    {{-- Show Nothing --}}
-                @endif
-            </div>
+        <div class="search-and-filters-container">
+          <!-- Search Box -->
+          <div class ="search-box" >
+            <!-- Search Icon SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="black" style="margin-right: 6px;" viewBox="0 0 24 24">
+              <path d="M21 21L15.8 15.8M18 10.5A7.5 7.5 0 1 1 3 10.5a7.5 7.5 0 0 1 15 0Z" stroke="black" stroke-width="2" fill="none"></path>
+            </svg>
+            <input type="text" placeholder="Search by Name" style="border: none; outline: none;">
+          </div>
+        
+          <!-- Filters Button -->
+          <button class ="filters-button">
+            Filters
+            <!-- Filter Icon SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="black" viewBox="0 0 24 24">
+              <path d="M3 5h18M6 12h12M10 19h4" stroke="black" stroke-width="2" fill="none" stroke-linecap="round"></path>
+            </svg>
+          </button>
         </div>
-        @endif
-    </div>
-    <div class="gapbetweens border-0 rounded-0">
-        <!-- Empty Gap -->
-    </div>
-    <div class="card border-0 rounded-0" style="background-color: var(--web-bg);">
-        <span> <a class="custom-dealrock-text" href="/"> Home </a> / <a class="custom-dealrock-text" href="/buyers"> Buyer </a> </span>
-    </div>
-    {{-- <div class="gapbetweens border-0 rounded-0">
-        <!-- Empty Gap -->
-    </div>
-    <div class="card border-0 rounded-0" style="background-color: var(--web-bg);">
-        <h4><strong>List of Global B2B Buyers, Importers, and Purchase Managers</strong></h4>
-    </div> --}}
-    <div class="gapbetweens border-0 rounded-0">
-        <!-- Empty Gap -->
-    </div>
-    <div class="card border-0 rounded-0 hrhhr">
-        <!-- Buyers label on the left -->
-        <div class="rrrh">
-            <div class="btnbuyer custom-dealrock-subhead" style="color: white;">
-                Buy Leads
-            </div>
-        </div>
-
-        <!-- Container for the Search bar and Counter (right side) -->
-        <div class="egrrgr">
-            <!-- Search bar in the center -->
-            <div class="hrrgr">
-                <div class="main-search" style="width: 100%;">
-                    <form action="{{ route('buyer') }}" method="GET" id="header_search_bar" style="padding-bottom: 0;margin-bottom: 0;">
-                        <div class="search-field-cont" style="position: relative; display: flex; align-items: center; height: 100%;">
-                            <!-- Input field for search -->
-                            <input type="text" name="search_query" id="search_query" class="form-control dbbe"
-                                placeholder="Search..." required="">
-                            <!-- Magnifying glass icon -->
-                            <button type="submit" class="pl-2 pr-2 h-100 rrwbrwbr">
-                                <svg style="width:20px; height:20px;" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 512 512"
-                                    fill="var(--web-hover)"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                                    <path
-                                        d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
+        <!-- Left sidebar column -->
+        <div class="sidebar">
+          <aside>
+            <div class="sidebar-inner">
+              <div class="sidebar-content">
+                <!-- Search by Name -->
+                <div class="search-input-container">
+                  <label class="search-label" for="search-search-by-name">Search by Name</label>
+                  <div class="search-field">
+                    <div class="search-wrapper">
+                      <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3a64a9fd31e748785a7a5dadd46ebd0f926050b9?placeholderIfAbsent=true" alt="Search icon" class="search-icon">
+                      <input type="text" id="search-search-by-name" placeholder="Search..." class="search-input">
+                    </div>
+                  </div>
                 </div>
-            </div>
-
-            <!-- Counter on the right -->
-            <div class="rfbrbrrbr">
-                <div class="counter custom-dealrock-text" style="text-align: right;">
-                    RFQ's Total Count
-                    <span class="counteractual custom-dealrock-text">{{ $counttotal }}</span> <!-- Replace with actual counter logic -->
+                
+                <!-- Filter By Country -->
+                <div class="filter-group">
+                  <h3 class="filter-title">Filter By Country</h3>
+                  <div class="search-field">
+                    <div class="search-wrapper">
+                      <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3a64a9fd31e748785a7a5dadd46ebd0f926050b9?placeholderIfAbsent=true" alt="Search icon" class="search-icon">
+                      <input type="text" placeholder="Search countries..." class="search-input">
+                    </div>
+                  </div>
+                  <div class="checkboxes-container">
+                    <!-- <fieldset> -->
+                      <label class="sr-only">Select countries</label>
+                      <!-- United States -->
+                      <div class="checkbox-item">
+                        <div class="custom-checkbox selected" data-id="1">
+                          <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/fa3fb47b92badc40c5a98d6513d0cc4689a59f45?placeholderIfAbsent=true" alt="Selected checkbox">
+                        </div>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/310ff89f1dff8af2e8a965f3f1d0004b43241166?placeholderIfAbsent=true" alt="United States flag" class="flag-icon">
+                        <div class="my-auto">United States</div>
+                      </div>
+                      <!-- United Kingdom -->
+                      <div class="checkbox-item">
+                        <div class="custom-checkbox" data-id="2"></div>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/ea9b135ec0849f3a59662b5bd96bfd4b0dbc5008?placeholderIfAbsent=true" alt="United Kingdom flag" class="flag-icon">
+                        <div class="my-auto">United Kingdom</div>
+                      </div>
+                      <!-- China -->
+                      <div class="checkbox-item">
+                        <div class="custom-checkbox" data-id="3"></div>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/2cfe57c20dfb273b3473cef35f7ff35cfdc75ad5?placeholderIfAbsent=true" alt="China flag" class="flag-icon">
+                        <div class="my-auto">China</div>
+                      </div>
+                      <!-- Russia -->
+                      <div class="checkbox-item">
+                        <div class="custom-checkbox" data-id="4"></div>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/fca9c4ace3664357f9afbdc2e4b909a471f7a1af?placeholderIfAbsent=true" alt="Russia flag" class="flag-icon">
+                        <div class="my-auto">Russia</div>
+                      </div>
+                      <!-- Australia -->
+                      <div class="checkbox-item">
+                        <div class="custom-checkbox" data-id="5"></div>
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/84d7c1d487ad1947937ba29db5084ff668eed82d?placeholderIfAbsent=true" alt="Australia flag" class="flag-icon">
+                        <div class="my-auto">Australia</div>
+                      </div>
+                    <!-- </fieldset> -->
+                  </div>
                 </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="gapbetweens">
-        <!-- Empty Gap -->
-    </div>
-    <div class="leadpagedivision">
-        <div class="leadleftdivision">
-            <div class="shadow-sm p-3" style="background-color: white;display: flex;flex-direction: column;">
-                <form method="GET" action="{{ route('buyer') }}" id="filterForm">
-                    <h5 class="text-center custom-dealrock-subhead">Filter By Country</h5>
-                    <div>
-                        {{-- <h6 class="mb-3 text-secondary">Country</h6> --}}
-                        <div class="list-group">
-                            @foreach ($countrykeyvalue as $key => $value)
-                                @php
-                                    $countryDetails = \App\Utils\ChatManager::getCountryDetails(
-                                        $value['countryid'],
-                                    );
-                                @endphp
-                                <div class="list-group-item d-flex justify-content-between align-items-center border-left-0 border-right-0"
-                                    style="text-wrap-mode: nowrap;border-radius: unset;padding: 5px 10px 5px 10px;">
-                                    <a class="country-button mb-0 text-truncate flex-row d-flex"
-                                        href="{{ route('buyer', ['country' => $value['countryid']]) }}"
-                                        data-code="{{ $countryDetails['countryISO2'] }}">
-                                        <img src="/images/flags/{{ strtolower($countryDetails['countryISO2']) }}.png"
-                                            alt="{{ $countryDetails['countryName'] }} flag">
-                                        <h6 title="{{ $countryDetails['countryName'] }}" class="text-truncate p-0 m-0 custom-dealrock-text">{{ $countryDetails['countryName'] }}</h6>
-                                    </a>
-                                    <span style="color: black; padding: 5px 8px 5px 9px; border: 1px solid lightgrey;">{{ $value['totquotes'] >= 1000 ? round($value['totquotes'] / 1000) . 'K' : $value['totquotes'] }}</span>
-                                </div>
-                            @endforeach
+                
+                <!-- Search by Category -->
+                <div class="filter-group">
+                  <h3 class="filter-title">Search by Category</h3>
+                  <div class="search-field">
+                    <div class="search-wrapper">
+                      <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3a64a9fd31e748785a7a5dadd46ebd0f926050b9?placeholderIfAbsent=true" alt="Search icon" class="search-icon">
+                      <input type="text" placeholder="Search categories..." class="search-input">
+                    </div>
+                  </div>
+                  <div class="checkboxes-container">
+                    <!-- <fieldset> -->
+                      <label class="sr-only">Select categories </label>
+                      <!-- Agriculture -->
+                      <div class="checkbox-item">
+                        <div class="custom-checkbox selected" data-id="1">
+                          <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/fa3fb47b92badc40c5a98d6513d0cc4689a59f45?placeholderIfAbsent=true" alt="Selected checkbox">
                         </div>
-                    </div>
-                    <div class="grrgrbr">
-                        <a class="custom-dealrock-subhead" href="{{ route('leadcountry',['type' => 'buyer']) }}">
-                            Show More
-                        </a>
-                    </div>
-                    {{-- <div class="text-center mt-2">
-                        <button type="button" class="btn btn-primary btn-lg w-75" id="filterButton">Apply
-                            Filters</button>
-                    </div> --}}
-                </form>
-            </div>
-            <div class="leadrightdivision">
-                <div class="ad-section">
-                    <div class="vendor-ad">
-                        <div class="ad-content">
-                            <!-- Replace with actual vendor ad content -->
-                            <img src="storage/{{ $adimages['ad1_image'] }}" alt="Vendor Ad" class="ad-image">
-                        </div>
-                    </div>
-                    <div class="google-ad">
-                        <div class="ad-content">
-                            <!-- Google Ad code goes here -->
-                            <img src="storage/{{ $adimages['ad2_image'] }}" alt="Google Ad" class="ad-image">
-                        </div>
-                    </div>
+                        <div>Agriculture</div>
+                      </div>
+                      <!-- Fashion Accessories -->
+                      <div class="checkbox-item">
+                        <div class="custom-checkbox" data-id="2"></div>
+                        <div>Fashion Accessories</div>
+                      </div>
+                      <!-- Furniture -->
+                      <div class="checkbox-item">
+                        <div class="custom-checkbox" data-id="3"></div>
+                        <div>Furniture</div>
+                      </div>
+                      <!-- Trade Services -->
+                      <div class="checkbox-item">
+                        <div class="custom-checkbox" data-id="4"></div>
+                        <div>Trade Services</div>
+                      </div>
+                      <!-- Health & Medical -->
+                      <div class="checkbox-item">
+                        <div class="custom-checkbox" data-id="5"></div>
+                        <div>Health & Medical</div>
+                      </div>
+                    <!-- </fieldset> -->
+                  </div>
                 </div>
-            </div> 
+              </div>
+            </div>
+            <div class="ad-banner">
+              <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/7a9e912a4c8f6b77078cecb33ba617ba90c1939a?placeholderIfAbsent=true" alt="Advertisement">
+            </div>
+            <div class="ad-banner ad-banner-square">
+              <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/7141cec73fbe84e43712828a78a9956ea1d034a3?placeholderIfAbsent=true" alt="Advertisement">
+            </div>
+          </aside>
         </div>
-
-        <!-- Center Section with Fixed Layout -->
-        <div class="leadcenterdivision">
-            <div class="card border-0" id="leadList" style="background-color: var(--web-bg);">
-                @if (count($combinedLeadsPaginator) === 0)
-                    <div class="leadsrelatedbox">
-                        <p>No Leads Found.</p>
-                    </div>
-                @else
-                    @foreach ($combinedLeadsPaginator as $lead)
-                        <div class="leadsrelatedbox" data-country="{{ $lead['leads']->country }}"
-                            data-posted-date="{{ $lead['leads']->posted_date }}" style="margin-bottom:22px;">
-                            <div class="leadsrelatedboxcontent border-end border-secondary">
-                                <a href="{{ route('buyerview', ['name' => $lead['leads']->name, 'id' => $lead['leads']->id]) }}">
-                                    <h6 class="mb-2 mt-2 custom-dealrock-head">{{ $lead['leads']->name }}</h6>
-                                </a>
-                                <div class="d-flex">
-                                    <p class="bylinerelated mr-1 custom-dealrock-text">Quantity Required:
-                                        {{ $lead['leads']->quantity_required }}
-                                    </p>
-                                    <p class="bylinerelated mr-3 custom-dealrock-text">
-                                        {{ $lead['leads']->unit ?? 'No Unit'}}
-                                    </p>
-                                    <p class="bylinerelated mr-3 custom-dealrock-text">Term: 
-                                        {{ $lead['leads']->term ?? 'No Term Specified'}}
-                                    </p>
-                                        @php
-                                            $countryDetails = \App\Utils\ChatManager::getCountryDetails(
-                                                $lead['leads']->country,
-                                            );
-                                        @endphp
-                                    </p>
-                                </div>
-                                <p>{{ $lead['leads']->details }}</p>
-                                @php
-                                    $sellerName = \App\Utils\ChatManager::getsellername($lead['leads']->added_by);
-                                    $firstLetter = strtoupper(substr($sellerName, 0, 1));
-                                @endphp
-                                
-                                <div class="d-flex" style="justify-content: space-between;">
-                                    <p class="bylinerelated text-start text-capitalize custom-dealrock-text m-0">
-                                        <span class="rounded-box" style="color: white;">{{ $firstLetter }}</span> {{ $sellerName }} - {{$lead['leads']->company_name ?? 'No Company Added'}}
-                                    </p>
-                                    @if ($countryDetails['status'] == 200)
-                                    <p class="bylinerelated text-start text-capitalize custom-dealrock-text m-0 align-content-center">Origin: {{ $countryDetails['countryName'] }}
-                                        <img class="leadsflags"
-                                            src="/images/flags/{{ strtolower($countryDetails['countryISO2']) }}.png"
-                                            alt="Flag of {{ $countryDetails['countryName'] }}" />
-                                    @else
-                                        <span>Flag</span>
-                                    @endif
-                                    <p>
-                                        {{-- Empty Tag --}}
-                                    </p>
-                                </div>
-
-                                @php
-                                    // Convert the posted_date to a Carbon instance
-                                    $postedDate = \Carbon\Carbon::parse($lead['leads']->posted_date);
-
-                                    // Calculate the difference in days from the current date
-                                    $daysAgo = $postedDate->diffInDays(\Carbon\Carbon::now());
-                                @endphp
-
-                                <p class="bylinerelated my-3 text-start custom-dealrock-text">
-                                    Date Posted: {{ $daysAgo }} days ago ({{ $postedDate->format('F j, Y') }})
-                                </p>
-                            </div>
-                            <div class="leadsrelatedboxbutton">
-                                @if (auth('customer')->check() && auth('customer')->user()->id)
-                                    @if ($membership['status'] == 'active')
-                                        <button data-toggle="modal" data-target="#chatting_modalnew"
-                                            data-seller-id="{{ $lead['shop']['added_by'] }}" data-user-type="{{ $lead['leads']->role }}"
-                                            data-role="{{ $lead['shop']['role'] }}" data-leads-id="{{ $lead['leads']->id }}"
-                                            data-typereq="leads" data-shop-name="{{ $lead['shop']['shop_name'] }}"
-                                            onclick="openChatModalnew(this)" class="custom-dealrock-subhead">
-                                            Contact Seller
-                                        </button>
-                                    @else
-                                        <a href="{{ route('membership') }}">
-                                            <button class="custom-dealrock-subhead">
-                                                Contact Seller
-                                            </button>
-                                        </a>
-                                    @endif
-                                @else
-                                    <a href="javascript:void(0)" onclick="openLoginModal()">
-                                        <button class="custom-dealrock-subhead">
-                                            Contact Seller
-                                        </button>
-                                    </a>
-                                @endif
-                                <p class="bylinerelated m-1 custom-dealrock-text">{{ $lead['leads']->quotes_recieved }} quote Received
-                                </p>
+  
+        <!-- Main content column -->
+        <div class="main-content">
+          <div>
+            <div id="leads-container">
+                <!-- Lead cards will be dynamically inserted here -->
+                <article class="lead-card">
+                    <div class="lead-card-inner">
+                        <div class="lead-info">
+                        <div class="lead-header">
+                            <h2 class="lead-title">500 MT New Crop Basmati Rice Supplier</h2>
+                            <div class="lead-location visibleonhigh">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/aea079960aaf6436704a53b19b29379031cce2ed?placeholderIfAbsent=true" alt="Location icon">
+                            <span>Mumbai, India</span>
                             </div>
                         </div>
-                    @endforeach
-                @endif
-            </div>
-            {{ $combinedLeadsPaginator->links() }}
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="chatting_modalnew" tabindex="-1" role="dialog" aria-labelledby="chatModalNewLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-faded-info">
-                        <h6 class="modal-title text-capitalize" id="chatModalNewTitle"></h6>
-                        <button type="button" class="text-white close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="seller-chat-form">
-                            @csrf
-                            <input type="hidden" name="typereq" id="typereq" value="">
-                            <input type="hidden" name="leads_id" id="leads_id" value="">
-                            <input type="hidden" name="sender_id" id="sender_id" value="{{ $user_id }}">
-                            <input type="hidden" name="sender_type" id="sender_type" value="{{ $role }}">
-                            <input type="hidden" name="receiver_id" id="receiver_id" value="">
-                            <input type="hidden" name="receiver_type" id="receiver_type" value="">
-                            <textarea name="message" class="form-control min-height-100px max-height-200px" required
-                                placeholder="{{ translate('Write_here') }}..."></textarea>
-                            <br>
-                            <div class="justify-content-end gap-2 d-flex flex-wrap">
-                                <button type="button" class="btn btn--primary text-white"
-                                    id="send-message-btn">{{ translate('send') }}</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Right Section with Ads -->
-    </div>
-    @include('web-views.partials._quotation')
-    @include('web-views.partials._dealassist')
-    @include('web-views.partials._trending-selection')
-    @include('web.partials.loginmodal')
-    <script>
-        // Function to open the login modal
-        function openLoginModal() {
-            $('#exampleModalLong').modal('hide');
-            $('#loginModal').modal('show');
-        }
-    </script>
-    @if (!request()->has('country'))
-        <div class="d-flex mainpagesection" style="margin-top: 22px;">
-            <div class="filter-container">
-                <h5 class="filter-header">
-                    Filter by Country
-                </h5>
-                <div class="filter-description custom-dealrock-subhead">
-                    Choose a country to filter by. You can select multiple countries, and they will appear as tags
-                    below.
-                </div>
-                <!-- Country Buttons -->
-                <div class="country-buttons">
-                    @foreach ($countries as $key => $value)
-                                @php
-                                    $countryDetails = \App\Utils\ChatManager::getCountryDetails($value);
-                                @endphp
-                                <a class="country-button custom-dealrock-text" href="{{ route('buyer', ['country' => $value]) }}"
-                                    data-code="{{ $countryDetails['countryISO2'] }}">
-                                    <img src="/images/flags/{{ strtolower($countryDetails['countryISO2']) }}.png"
-                                        alt="{{ $countryDetails['countryName'] }} flag">
-                                    Buyers From {{ $countryDetails['countryName'] }}
-                                </a>
-                    @endforeach
-                </div>
-                <!-- Display selected tags -->
-                <div class="selected-tags" id="selectedTags"></div>
-            </div>
-        </div>
-    @endif
-    @if (!request()->has('industry'))
-        <div class="d-flex mainpagesection" style="border-radius: 10px; margin-top:22px;">
-            <div class="filter-container">
-                <h5 class="filter-header">
-                    Filter by Industry
-                </h5>
-                <div class="filter-description">
-                    Choose a Industry to filter by. You can select multiple Industry, and they will appear as tags
-                    below.
-                </div>
-                <!-- Country Buttons -->
-                <div class="country-buttons">
-                    @foreach ($industries as $key => $value)
-                        <div class="main-category">
-                            <a class="country-button font-weight-bold custom-dealrock-text" href="{{ route('buyer', ['industry' => $value]) }}">
-                                {{ $value['name'] }}
-                            </a>
-                            {{-- @if ($value->childes->count() > 0)
-                                <div class="sub-category-list">
-                                    @foreach ($value->childes as $sub_category)
-                                        <a class="sub-category-button font-weight-normal"
-                                            href="{{ route('buyer', ['industry' => $sub_category['id']]) }}">
-                                            {{ $sub_category['name'] }}
-                                        </a>
-                                        @if ($sub_category->childes->count() > 0)
-                                            <div class="sub-sub-category-list">
-                                                @foreach ($sub_category->childes as $sub_sub_category)
-                                                    <a class="sub-sub-category-button font-weight-light"
-                                                        href="{{ route('buyer', ['industry' => $sub_sub_category['id']]) }}">
-                                                        {{ $sub_sub_category['name'] }}
-                                                    </a>
-                                                @endforeach
-                                            </div>
-
-                                        @endif
-                                    @endforeach
-                                </div>
-                            @endif --}}
+                        <p class="lead-description">We are looking for a trusted supplier for 500 MT of premium
+                             Basmati Rice from the latest harvest. The rice should be long-grain, aromatic, 
+                             well-milled, and meet international quality standards. We require competitive
+                              pricing, proper packaging, and timely delivery. Interested suppliers, please
+                               provide quotations, quality certifications, and delivery terms for further 
+                               discussion
+                        </p>
+                        <div class="lead-location visibleonlow">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/aea079960aaf6436704a53b19b29379031cce2ed?placeholderIfAbsent=true" alt="Location icon">
+                            <span>Mumbai, India</span>
                         </div>
-                    @endforeach
-                </div>
-                <!-- Display selected tags -->
-                <div class="selected-tags" id="selectedTags"></div>
+                        <div class="lead-tags">
+                            <span class="lead-tags-label">Tags:</span>
+                            <span class="lead-tags-content">Buying Leads Supplier | Sourcing Agent Supplier | China Agent Supplier Buying Leads Supplier | Sourcing Agent Supplier | China Agent Supplier</span>
+                        </div>
+                        <div class="lead-details">
+                            <div class="detail-group">
+                            <div class="detail-row">
+                                <span class="detail-label">Quantity Required:</span>
+                                <span class="detail-value">500 MT</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Refundable:</span>
+                                <span class="detail-value">Refundable</span>
+                            </div>
+                            </div>
+                            <div class="detail-group">
+                            <div class="detail-row">
+                                <span class="detail-label">Term:</span>
+                                <span class="detail-value">500 MT</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Available Stock:</span>
+                                <span class="detail-value">98 kg</span>
+                            </div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-row">
+                                    <span class="detail-label">Lead Time:</span>
+                                    <span class="detail-value">10–18 days</span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="lead-actions">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/775ee05572e2f14d4118adf59e4ab6933d6d2125?placeholderIfAbsent=true" alt="Verified badge" class="verified-badge">
+                        <button class="contact-btn ">Contact Buyer</button>
+                        <div class="lead-posted">Posted: 10 days ago</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="lead-card">
+                    <div class="lead-card-inner">
+                        <div class="lead-info">
+                        <div class="lead-header">
+                            <h2 class="lead-title">500 MT New Crop Basmati Rice Supplier</h2>
+                            <div class="lead-location visibleonhigh">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/aea079960aaf6436704a53b19b29379031cce2ed?placeholderIfAbsent=true" alt="Location icon">
+                            <span>Mumbai, India</span>
+                            </div>
+                        </div>
+                        <p class="lead-description">We are looking for a trusted supplier for 500 MT of premium
+                             Basmati Rice from the latest harvest. The rice should be long-grain, aromatic, 
+                             well-milled, and meet international quality standards. We require competitive
+                              pricing, proper packaging, and timely delivery. Interested suppliers, please
+                               provide quotations, quality certifications, and delivery terms for further 
+                               discussion
+                        </p>
+                        <div class="lead-location visibleonlow">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/aea079960aaf6436704a53b19b29379031cce2ed?placeholderIfAbsent=true" alt="Location icon">
+                            <span>Mumbai, India</span>
+                        </div>
+                        <div class="lead-tags">
+                            <span class="lead-tags-label">Tags:</span>
+                            <span class="lead-tags-content">Buying Leads Supplier | Sourcing Agent Supplier | China Agent Supplier Buying Leads Supplier | Sourcing Agent Supplier | China Agent Supplier</span>
+                        </div>
+                        <div class="lead-details">
+                            <div class="detail-group">
+                            <div class="detail-row">
+                                <span class="detail-label">Quantity Required:</span>
+                                <span class="detail-value">500 MT</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Refundable:</span>
+                                <span class="detail-value">Refundable</span>
+                            </div>
+                            </div>
+                            <div class="detail-group">
+                            <div class="detail-row">
+                                <span class="detail-label">Term:</span>
+                                <span class="detail-value">500 MT</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Available Stock:</span>
+                                <span class="detail-value">98 kg</span>
+                            </div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-row">
+                                    <span class="detail-label">Lead Time:</span>
+                                    <span class="detail-value">10–18 days</span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="lead-actions">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/775ee05572e2f14d4118adf59e4ab6933d6d2125?placeholderIfAbsent=true" alt="Verified badge" class="verified-badge">
+                        <button class="contact-btn ">Contact Buyer</button>
+                        <div class="lead-posted">Posted: 10 days ago</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="lead-card">
+                    <div class="lead-card-inner">
+                        <div class="lead-info">
+                        <div class="lead-header">
+                            <h2 class="lead-title">500 MT New Crop Basmati Rice Supplier</h2>
+                            <div class="lead-location visibleonhigh">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/aea079960aaf6436704a53b19b29379031cce2ed?placeholderIfAbsent=true" alt="Location icon">
+                            <span>Mumbai, India</span>
+                            </div>
+                        </div>
+                        <p class="lead-description">We are looking for a trusted supplier for 500 MT of premium
+                             Basmati Rice from the latest harvest. The rice should be long-grain, aromatic, 
+                             well-milled, and meet international quality standards. We require competitive
+                              pricing, proper packaging, and timely delivery. Interested suppliers, please
+                               provide quotations, quality certifications, and delivery terms for further 
+                               discussion
+                        </p>
+                        <div class="lead-location visibleonlow">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/aea079960aaf6436704a53b19b29379031cce2ed?placeholderIfAbsent=true" alt="Location icon">
+                            <span>Mumbai, India</span>
+                        </div>
+                        <div class="lead-tags">
+                            <span class="lead-tags-label">Tags:</span>
+                            <span class="lead-tags-content">Buying Leads Supplier | Sourcing Agent Supplier | China Agent Supplier Buying Leads Supplier | Sourcing Agent Supplier | China Agent Supplier</span>
+                        </div>
+                        <div class="lead-details">
+                            <div class="detail-group">
+                            <div class="detail-row">
+                                <span class="detail-label">Quantity Required:</span>
+                                <span class="detail-value">500 MT</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Refundable:</span>
+                                <span class="detail-value">Refundable</span>
+                            </div>
+                            </div>
+                            <div class="detail-group">
+                            <div class="detail-row">
+                                <span class="detail-label">Term:</span>
+                                <span class="detail-value">500 MT</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Available Stock:</span>
+                                <span class="detail-value">98 kg</span>
+                            </div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-row">
+                                    <span class="detail-label">Lead Time:</span>
+                                    <span class="detail-value">10–18 days</span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="lead-actions">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/775ee05572e2f14d4118adf59e4ab6933d6d2125?placeholderIfAbsent=true" alt="Verified badge" class="verified-badge">
+                        <button class="contact-btn ">Contact Buyer</button>
+                        <div class="lead-posted">Posted: 10 days ago</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="lead-card">
+                    <div class="lead-card-inner">
+                        <div class="lead-info">
+                        <div class="lead-header">
+                            <h2 class="lead-title">500 MT New Crop Basmati Rice Supplier</h2>
+                            <div class="lead-location visibleonhigh">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/aea079960aaf6436704a53b19b29379031cce2ed?placeholderIfAbsent=true" alt="Location icon">
+                            <span>Mumbai, India</span>
+                            </div>
+                        </div>
+                        <p class="lead-description">We are looking for a trusted supplier for 500 MT of premium
+                             Basmati Rice from the latest harvest. The rice should be long-grain, aromatic, 
+                             well-milled, and meet international quality standards. We require competitive
+                              pricing, proper packaging, and timely delivery. Interested suppliers, please
+                               provide quotations, quality certifications, and delivery terms for further 
+                               discussion
+                        </p>
+                        <div class="lead-location visibleonlow">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/aea079960aaf6436704a53b19b29379031cce2ed?placeholderIfAbsent=true" alt="Location icon">
+                            <span>Mumbai, India</span>
+                        </div>
+                        <div class="lead-tags">
+                            <span class="lead-tags-label">Tags:</span>
+                            <span class="lead-tags-content">Buying Leads Supplier | Sourcing Agent Supplier | China Agent Supplier Buying Leads Supplier | Sourcing Agent Supplier | China Agent Supplier</span>
+                        </div>
+                        <div class="lead-details">
+                            <div class="detail-group">
+                            <div class="detail-row">
+                                <span class="detail-label">Quantity Required:</span>
+                                <span class="detail-value">500 MT</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Refundable:</span>
+                                <span class="detail-value">Refundable</span>
+                            </div>
+                            </div>
+                            <div class="detail-group">
+                            <div class="detail-row">
+                                <span class="detail-label">Term:</span>
+                                <span class="detail-value">500 MT</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Available Stock:</span>
+                                <span class="detail-value">98 kg</span>
+                            </div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-row">
+                                    <span class="detail-label">Lead Time:</span>
+                                    <span class="detail-value">10–18 days</span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="lead-actions">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/775ee05572e2f14d4118adf59e4ab6933d6d2125?placeholderIfAbsent=true" alt="Verified badge" class="verified-badge">
+                        <button class="contact-btn ">Contact Buyer</button>
+                        <div class="lead-posted">Posted: 10 days ago</div>
+                        </div>
+                    </div>
+                </article>
+                <article class="lead-card">
+                    <div class="lead-card-inner">
+                        <div class="lead-info">
+                        <div class="lead-header">
+                            <h2 class="lead-title">500 MT New Crop Basmati Rice Supplier</h2>
+                            <div class="lead-location visibleonhigh">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/aea079960aaf6436704a53b19b29379031cce2ed?placeholderIfAbsent=true" alt="Location icon">
+                            <span>Mumbai, India</span>
+                            </div>
+                        </div>
+                        <p class="lead-description">We are looking for a trusted supplier for 500 MT of premium
+                             Basmati Rice from the latest harvest. The rice should be long-grain, aromatic, 
+                             well-milled, and meet international quality standards. We require competitive
+                              pricing, proper packaging, and timely delivery. Interested suppliers, please
+                               provide quotations, quality certifications, and delivery terms for further 
+                               discussion
+                        </p>
+                        <div class="lead-location visibleonlow">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/aea079960aaf6436704a53b19b29379031cce2ed?placeholderIfAbsent=true" alt="Location icon">
+                            <span>Mumbai, India</span>
+                        </div>
+                        <div class="lead-tags">
+                            <span class="lead-tags-label">Tags:</span>
+                            <span class="lead-tags-content">Buying Leads Supplier | Sourcing Agent Supplier | China Agent Supplier Buying Leads Supplier | Sourcing Agent Supplier | China Agent Supplier</span>
+                        </div>
+                        <div class="lead-details">
+                            <div class="detail-group">
+                            <div class="detail-row">
+                                <span class="detail-label">Quantity Required:</span>
+                                <span class="detail-value">500 MT</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Refundable:</span>
+                                <span class="detail-value">Refundable</span>
+                            </div>
+                            </div>
+                            <div class="detail-group">
+                            <div class="detail-row">
+                                <span class="detail-label">Term:</span>
+                                <span class="detail-value">500 MT</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Available Stock:</span>
+                                <span class="detail-value">98 kg</span>
+                            </div>
+                            </div>
+                            <div class="detail-group">
+                                <div class="detail-row">
+                                    <span class="detail-label">Lead Time:</span>
+                                    <span class="detail-value">10–18 days</span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="lead-actions">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/775ee05572e2f14d4118adf59e4ab6933d6d2125?placeholderIfAbsent=true" alt="Verified badge" class="verified-badge">
+                        <button class="contact-btn ">Contact Buyer</button>
+                        <div class="lead-posted">Posted: 10 days ago</div>
+                        </div>
+                    </div>
+                </article>
             </div>
+  
+            <!-- Pagination -->
+            <nav aria-label="Pagination" class="pagination">
+              <div class="pagination-inner">
+                <div class="pagination-controls">
+                  <div class="items-per-page">Items Per Page: 12</div>
+                  <div class="page-buttons">
+                    <button class="page-btn disabled" id="prev-page" aria-label="Previous page" disabled>
+                      <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5eb6b06b3bcadcc55fe58b6d826dbed3f4da9dcd?placeholderIfAbsent=true" alt="Previous page">
+                    </button>
+                    <button class="page-btn active" aria-label="Page 1" aria-current="page" data-page="1">1</button>
+                    <button class="page-btn" aria-label="Page 2" data-page="2">2</button>
+                    <button class="page-btn" aria-label="Page 3" data-page="3">3</button>
+                    <button class="page-btn" aria-label="Page 4" data-page="4">4</button>
+                    <button class="page-btn" aria-label="Page 5" data-page="5">5</button>
+                  </div>
+                  <div class="pagination-total">
+                    <div class="total-items">276</div>
+                    <button class="page-btn" id="next-page" aria-label="Next page">
+                      <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/f33b71f7df6b8ca473e5ea478fe4d57efb81ddaf?placeholderIfAbsent=true" alt="Next page">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
         </div>
-    @endif
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script>
-    // Handle form submission with AJAX
-    $('#send-message-btn').on('click', function (e) {
-        e.preventDefault(); // Prevent default form submission
-
-        // Collect form data
-        var formData = {
-            sender_id: $('#sender_id').val(),
-            sender_type: $('#sender_type').val(),
-            receiver_id: $('#receiver_id').val(),
-            receiver_type: $('#receiver_type').val(),
-            type: $('#typereq').val(),
-            leads_id: $('#leads_id').val(),
-            message: $('textarea[name="message"]').val(),
-            _token: $('input[name="_token"]').val() // CSRF token
-        };
-
-        // Send AJAX POST request
-        $.ajax({
-            url: '{{ route('sendmessage.other') }}', // Backend route
-            type: 'POST',
-            data: formData,
-            success: function (response) {
-                toastr.success('Message sent successfully!', 'Success');
-                $('#chatting_modalnew').modal('hide'); // Hide modal
-            },
-            error: function (xhr, status, error) {
-                // Handle errors
-                toastr.error('An error occurred while sending the message.', 'Error');
-            }
-        });
-    });
-</script>
-<script>
-    function openChatModalnew(button) {
-        // Extract data from button attributes
-        const sellerId = button.getAttribute('data-seller-id');
-        const shopName = button.getAttribute('data-shop-name');
-        const role = button.getAttribute('data-role');
-        const leadsId = button.getAttribute('data-leads-id');
-        const typereq = button.getAttribute('data-typereq');
-
-        // Update modal title
-        document.getElementById('chatModalNewTitle').innerText = `Chat with ${shopName}`;
-
-        // Populate form hidden inputs
-        document.getElementById('typereq').value = typereq;
-        document.getElementById('leads_id').value = leadsId;
-        document.getElementById('receiver_id').value = sellerId;
-        document.getElementById('receiver_type').value = role;
-    }
-</script>
-<script>
-    // Define the filterLeads function globally
-    function filterLeads() {
-        // Gather Filter Data
-        let fromDateInput = document.querySelector('input[name="from"]');
-        let toDateInput = document.querySelector('input[name="to"]');
-        let selectedCountries = Array.from(document.querySelectorAll('input[name="countries[]"]:checked')).map(function (
-            checkbox) {
-            return checkbox.value;
-        });
-
-        let fromDate = new Date(fromDateInput.value);
-        let toDate = new Date(toDateInput.value);
-
-        // Filter Leads
-        let leadBoxes = document.querySelectorAll('#leadList .leadsrelatedbox');
-        leadBoxes.forEach(function (box) {
-            let leadDate = new Date(box.getAttribute('data-posted-date'));
-            let leadCountry = box.getAttribute('data-country');
-
-            let dateMatch = true;
-            if (!isNaN(fromDate) && leadDate < fromDate) {
-                dateMatch = false;
-            }
-            if (!isNaN(toDate) && leadDate > toDate) {
-                dateMatch = false;
-            }
-
-            let countryMatch = selectedCountries.length === 0 || selectedCountries.includes(leadCountry);
-
-            // Show or hide lead based on filters
-            if (dateMatch && countryMatch) {
-                box.style.display = 'flex';
-            } else {
-                box.style.display = 'none';
-            }
-        });
-    }
-
-    // Attach the filter function to the button click
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('filterButton').addEventListener('click', function () {
-            filterLeads();
-        });
-    });
-</script>
-<script>
-    function SearchbyCountry() {
-        var countryId = document.getElementById('countryselector').value;
-        if (countryId) {
-            window.location.href = '/buyers?country=' + countryId;
-        } else {
-            alert('Please Select a Country');
-        }
-    }
-</script>
-<script>
-    function SearchbyIndustry() {
-        var countryId = document.getElementById('industryselector').value;
-        if (countryId) {
-            window.location.href = '/buyers?industry=' + countryId;
-        } else {
-            alert('Please Select a Industry');
-        }
-    }
-</script>
-<script>
-    $(document).ready(function () {
-        // Initialize carousel with auto-slide if needed
-        $('#carousel').carousel({
-            interval: 5000, // Slide every 3 seconds (optional)
-            ride: 'carousel' // Start carousel on page load
-        });
-    });
-</script>
+      </div>
+  
+      <!-- Bottom banner -->
+      <div class="bottom-banner">
+        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/666290679db229039ce0c8d24be8ae4e66bd94f6?placeholderIfAbsent=true" alt="Advertisement banner">
+      </div>
+</section>
 @endsection
+@push('script')
+<script src="{{ theme_asset('public/js/buyer.js')}}"></script>
+@endpush

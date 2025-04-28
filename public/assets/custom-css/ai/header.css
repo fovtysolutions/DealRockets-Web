@@ -232,7 +232,7 @@
   
   .element-mobile .badge {
     position: relative;
-    width: 28px;
+    /* width: 28px; */
     height: 25px;
     object-fit: cover;
   }

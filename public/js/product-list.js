@@ -114,7 +114,11 @@ const filterButton = document.querySelector(".btn.btn-outline-light");
         function createProductCard(product) {
             return `
                 <div class="product-card">
-             
+                    <div class="heart-image">    
+                        <div class="circle-container">
+                            <img src="/img/Heart (1).png" alt="heart-image">
+                        </div>
+                    </div>
                     <img src="${product.imageUrl}" alt="${product.title}" class="product-image">
                     <div class="product-info">
                     <div class="d-flex justify-content-between">
@@ -147,7 +151,14 @@ const filterButton = document.querySelector(".btn.btn-outline-light");
         function createProductCardlist(product) {
             return `
             <div class="product-card1">
-               <div class="imagebox col-3"><img src="${product.imageUrl}" alt="${product.title}" class="product-image1"></div>
+                <div class="imagebox col-3">                
+                    <div class="heart-image">    
+                        <div class="circle-container">
+                            <img src="/img/Heart (1).png" alt="heart-image">
+                        </div>
+                    </div>
+                    <img src="${product.imageUrl}" alt="${product.title}" class="product-image1">
+                </div>
                 <div class="product-info1 col-6">
                 <div class="d-flex justify-content-between">
                  <p class="new">New</p>

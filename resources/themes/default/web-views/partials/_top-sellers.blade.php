@@ -1,7 +1,7 @@
     <div class="mainpagesection seller-card custom-dealrock-banner-small" style="background-color: var(--web-bg);">
         <div class="card border-0 h-100">
-            <div class="card-body" style="display:block; background-color: var(--web-bg);">
-                <div class="row d-flex justify-content-between">
+            <div style="display:block; background-color: var(--web-bg);">
+                <div class="row d-flex justify-content-between" style="height: 40px;">
                     <div class="seller-list-title hide-768">
                         <h5 class="m-0 text-capitalize leadstitle2" style="color: black; text-transform:uppercase; font-size: 20px;position: absolute;/* bottom: 1px; */top: 6px;left: 44%;">
                             {{ translate('top_sellers')}}

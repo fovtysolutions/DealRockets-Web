@@ -1,6 +1,6 @@
 <div class="product-cards-container" id="stocksaleOfferDynamic">
     @foreach($items as $stocksell)
-        <div class="product-card" data-id="productCard" onclick="populateDetailedBox()">
+        <div class="product-card" data-id="{{ $stocksell->id }}" onclick="populateDetailedBox(this)">
             <div class="product-card-inner">
                 <div class="product-card-content">
                     <div class="product-image-container">

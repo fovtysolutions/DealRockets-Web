@@ -71,6 +71,14 @@ input[type='checkbox']{
     font-weight: 500;
 }
 
+.stock-sale .detail-tab-content{
+    display: none;
+}
+
+.stock-sale .active{
+    display: flex;
+}
+
 .stock-sale .search-input-container {
     width: 100%;
     margin-top: 12px;
@@ -463,6 +471,7 @@ input[type='checkbox']{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0 20px;
     margin-top: 3.75rem;
 }
 

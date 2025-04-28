@@ -6,7 +6,7 @@
 <section class="mainpagesection order-now">
     <div class="order-now-box">
         <!-- Left Banner with Background Image -->
-        <div class="title-show-768">
+        {{-- <div class="title-show-768">
             <h5 class="m-0 text-capitalize" style="color: black;font-size: 20px;/* bottom: 1px; */top: 6px;left: 44%;">
                 {{ translate('Ready_to_Order')}}
             </h5>
@@ -16,7 +16,7 @@
                 <h5 class="fw-bold order-now-heading text-white">READY TO ORDER</h5>
                 <a href="{{ route('products') }}" class="btn btn-danger btn-sm">View More</a>
             </div>    
-        </div>
+        </div> --}}
         <!-- Product Cards Grid -->
         <div class="product-grid showabove768">
             @foreach($trending->take(4) as $product)

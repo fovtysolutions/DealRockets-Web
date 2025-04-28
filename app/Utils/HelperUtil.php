@@ -252,33 +252,40 @@ class HelperUtil
     }
     
     public static function automatedQuotation()
-    {   
-        $checkIfSettingQuotation = BusinessSetting::where('type','quotation_enabled')->first();
-        $state = json_decode($checkIfSettingQuotation,true)['enabled'];
+    {
+        $checkIfSettingQuotation = BusinessSetting::where('type', 'quotation_enabled')->first();
 
-        if ($state == 1){
-            // Get all quotations, ordered by the most recent first
-            $quotations = Quotation::orderBy('created_at', 'desc')->get();
+        if ($checkIfSettingQuotation) {
+            $settings = json_decode($checkIfSettingQuotation->value, true);
+            $state = $settings['enabled'] ?? null;
+            $runtime = isset($settings['runtime']) ? (int)$settings['runtime'] : null;
+        }
+
+        if (isset($state) && $state == 1 && isset($runtime)) {
+            $currentDateTime = Carbon::now();
+            $updated = false;
+
+            // Only fetch quotations that have NOT been converted yet
+            $quotations = Quotation::whereNull('converted_lead')->orderBy('created_at', 'desc')->get();
 
             foreach ($quotations as $quotation) {
-                // Get the current date and the quotation's creation date
-                $currentDate = Carbon::now();
                 $createdDate = Carbon::parse($quotation->created_at);
+                $ageInHours = $createdDate->diffInHours($currentDateTime);
 
-                // Calculate the age of the quotation in days
-                $ageInDays = $createdDate->diffInDays($currentDate);
-
-                // Check if the quotation is over 7 days old
-                if ($ageInDays > 7) {
-                    // Set the converted_lead field to active
-                    $quotation->converted_lead = 'active'; // Assuming "active" is the required value
+                if ($ageInHours > $runtime) {
+                    $quotation->converted_lead = 'active'; // Set status
                     $quotation->save();
 
-                    // Transfer data to leads if not already transferred
+                    // Transfer to leads
                     self::transferQuotationToLead($quotation);
-                    self::notifyAllAdmins();
-                    self::notifyAllVendors();
+
+                    $updated = true; // Mark that at least one quotation was updated
                 }
+            }
+
+            if ($updated) {
+                self::notifyAllAdmins();
+                self::notifyAllVendors();
             }
 
             return response()->json([
@@ -294,43 +301,58 @@ class HelperUtil
     }
 
     // Private function to transfer quotation to lead
-    private static function transferQuotationToLead($quotation)
+    public static function transferQuotationToLead($quotation)
     {
-        // Check if the quotation has already been transferred to leads
-        $existingLead = Leads::where('quotation_id', $quotation->id)->first();
-        if ($existingLead) {
-            return; // If already transferred, exit
-        }
-
-        // Map quotation data to lead data
-        $leadData = [
-            'type' => $quotation->type,
-            'name' => $quotation->name,
-            'country' => $quotation->country,
-            'product_id' => $quotation->product_id ?? '',
-            'industry' => $quotation->industry,
-            'term' => $quotation->term,
-            'unit' => $quotation->unit,
-            'company_name' => $quotation->company_name ?? '',
-            'contact_number' => $quotation->contact_number,
-            'quantity_required' => $quotation->quantity,
-            'buying_frequency' => $quotation->buying_frequency,
-            'details' => $quotation->details,
-            'role' => 'customer', // Default role if not provided
-            'added_by' => $quotation->user_id,
-            'created_at' => Carbon::now()->toDateString(),
-            'quotation_id' => $quotation->id // Keep track of the source quotation
-        ];
-
-        // Create a new lead record
-        Leads::create($leadData);
+        try {
+            // Check if the quotation has already been transferred to leads
+            $existingLead = Leads::where('quotation_id', $quotation->id)->first();
+            if ($existingLead) {
+                return; // If already transferred, exit
+            }
+        
+            // Map quotation data to lead data
+            $leadData = [
+                'type' => $quotation->type ?? null,
+                'name' => $quotation->name ?? null,
+                'country' => $quotation->country ?? null,
+                'product_id' => $quotation->product_id ?? null,
+                'industry' => $quotation->industry ?? null,
+                'term' => $quotation->term ?? null,
+                'unit' => $quotation->unit ?? null,
+                'company_name' => $quotation->company_name ?? null,
+                'contact_number' => $quotation->contact_number ?? null,
+                'quantity_required' => $quotation->quantity ?? null,
+                'buying_frequency' => $quotation->buying_frequency ?? null,
+                'details' => $quotation->description ?? null,
+                'role' => 'customer', // Default role if not provided
+                'added_by' => $quotation->user_id,
+                'created_at' => Carbon::now(),
+                'quotation_id' => $quotation->id, // Track the quotation
+            ];
+        
+            // Try to create a new lead
+            $newLead = Leads::create($leadData);
+        
+            if (!$newLead) {
+                // If lead creation somehow fails, revert quotation
+                $quotation->converted_lead = null;
+                $quotation->save();
+            }
+        } catch (\Exception $e) {
+            // In case of any exception, also revert quotation
+            $quotation->converted_lead = null;
+            $quotation->save();
+        
+            // Optionally, log the error
+            \Log::error('Failed to transfer quotation to lead: ' . $e->getMessage());
+        }        
     }
 
-    private static function notifyAllVendors(){
+    public static function notifyAllVendors(){
         Seller::query()->update(['lead_notif' => 1]);
     }
 
-    private static function notifyAllAdmins(){
+    public static function notifyAllAdmins(){
         Admin::query()->update(['lead_notif' => 1]);
     }
 

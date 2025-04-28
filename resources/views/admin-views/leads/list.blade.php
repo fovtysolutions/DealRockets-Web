@@ -57,10 +57,15 @@
                                 <select name="country" class="js-select2-custom form-control text-capitalize">
                                     <option value="" selected>{{ translate('all_countries') }}</option>
                                     @foreach ($country as $c)
-                                        <option value="{{ trim($c) }}"
-                                            {{ request('country') == trim($c) ? 'selected' : '' }}>
-                                            {{ \App\Models\Country::where('id', $c)->first()->name }}
-                                        </option>
+                                        @php
+                                            $countryRecord = \App\Models\Country::find(trim($c));
+                                        @endphp
+                                        @if ($countryRecord)
+                                            <option value="{{ trim($c) }}"
+                                                {{ request('country') == trim($c) ? 'selected' : '' }}>
+                                                {{ $countryRecord->name }}
+                                            </option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>

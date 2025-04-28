@@ -33,5 +33,6 @@ class Quotation extends Model
         'spin_time',
         'terms',
         'image',
+        'converted_lead',
     ];
 }

@@ -9357,4 +9357,5 @@ return [
 	"This lead has been flagged for compliance issues. Please review before updating." => "This lead has been flagged for compliance issues. Please review before updating.",
 	"Deal_Assist" => "Deal Assist",
 	"Deal_Assist_List" => "Deal Assist List",
+	"Pick a Time" => "Pick a Time",
 ];

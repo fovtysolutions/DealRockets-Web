@@ -40,6 +40,16 @@
                                 : translate('Disabled') }}
                         </span>
                     </p>
+
+                    <div class="form-check form-switch mb-1">
+                        <label class="form-check-label" for="quotationToggle">{{ translate('Pick a Time') }}</label>
+                        <input 
+                            class="form-control" 
+                            type="text" 
+                            name="hours_convert" 
+                            value = "{{ isset($existingDatae['runtime']) && $existingDatae['runtime'] ? $existingDatae['runtime'] : 24 }}"
+                        >
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">{{ translate('Save Settings') }}</button>

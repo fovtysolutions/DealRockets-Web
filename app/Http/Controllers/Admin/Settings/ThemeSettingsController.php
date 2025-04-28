@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Admin\Settings;
 use App\Http\Controllers\Controller;
 use App\Models\BusinessSetting;
 use App\Models\MembershipTier;
+use App\Models\Quotation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Utils\CategoryManager;
+use App\Utils\HelperUtil;
+use Illuminate\Support\Carbon;
 
 class ThemeSettingsController extends Controller
 {
@@ -1623,15 +1626,45 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
     public function updateQuotation(Request $request)
     {
         try {
-            // Retrieve the toggle value from the request
+            // Retrieve the toggle value and runtime from the request
             $quotationEnabled = $request->has('quotation_enabled') ? 1 : 0;
+            $runtime = $request->input('hours_convert');
+            $finalTime = isset($runtime) ? $runtime : 24;
 
-            // Save the quotation toggle setting
-            $this->saveOrUpdateSetting('quotation_enabled', ['enabled' => $quotationEnabled]);
+            // First, fetch old setting BEFORE updating
+            $oldSetting = BusinessSetting::where('type', 'quotation_enabled')->first();
+            $oldRuntime = null;
+            if ($oldSetting) {
+                $settings = json_decode($oldSetting->value, true);
+                $oldRuntime = $settings['runtime'] ?? null;
+            }
 
-            return redirect()->back()->with('success', __('Quotation settings updated successfully.'));
+            // Now save the new setting
+            $this->saveOrUpdateSetting('quotation_enabled', ['enabled' => $quotationEnabled, 'runtime' => $finalTime]);
+
+            // Now compare old runtime and new runtime
+            if (isset($oldRuntime) && isset($runtime) && $oldRuntime != $runtime) {
+                // Only fetch quotations where converted_lead is null
+                $quotations = Quotation::whereNull('converted_lead')->orderBy('created_at', 'desc')->get();
+                $updated = false;
+
+                foreach ($quotations as $quotation) {
+                    $quotation->converted_lead = 'active';
+                    $quotation->save();
+
+                    HelperUtil::transferQuotationToLead($quotation);
+                    $updated = true;
+                }
+
+                if ($updated) {
+                    HelperUtil::notifyAllAdmins();
+                    HelperUtil::notifyAllVendors();
+                }
+            }
+
+            return redirect()->back()->with('success', 'Quotation settings updated successfully.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', __('An error occurred while updating settings: ') . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while updating settings: ' . $e->getMessage());
         }
     }
 }

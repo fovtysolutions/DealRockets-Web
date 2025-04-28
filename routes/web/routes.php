@@ -252,6 +252,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::get('tradeshows',[TradeshowController::class,'index'])->name('tradeshow');
     Route::get('tradeshow/{name}/{id}',[TradeshowController::class,'detailsview'])->name('tradeshow.view');
     Route::get('tradeshow/filter-by-country/{search}/{country}/{industry}/{company}',[TradeshowController::class,'filterview'])->name('tradeshow.filter');
+    Route::get('tradeshow-dynamic',[TradeshowController::class,'dynamicData'])->name('tradeshow-dynamic');
 
     // Agro Tradex Controller
     Route::get('agro-tradex',[AgrotradexController::class,'index'])->name('agrotradex');

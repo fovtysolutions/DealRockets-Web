@@ -144,6 +144,30 @@
                 padding-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}: 1.95rem;
             }
         }
+
+        /* Simple loader styling */
+        #dynamicLoader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            display: none;  /* Initially hidden */
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #007bff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/custom.css') }}">

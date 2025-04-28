@@ -33,7 +33,7 @@
                         <div class="search-label">Search by Name</div>
                         <div class="search-input-container">
                           <div class="search-input-field">
-                            <input type="text" name="name" placeholder="Enter name..." value="{{ request('name') }}" />
+                            <input type="text" name="name" id="nameFilter" placeholder="Enter name..." value="{{ request('name') }}" />
                             <img
                               src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
                               class="search-icon"
@@ -118,68 +118,21 @@
           </aside>
 
           <!-- Main content area with trade show cards -->
-          <div class="main-content">
-            <div class="trade-shows-grid">
-              @foreach($tradeshows as $tradeshow)
-                <div class="trade-show-card">
-                  <div class="card-container">
-                    @php
-                      $imageData = json_decode($tradeshow->image, true);
-                      $image = !empty($imageData[0]) ? $imageData[0] : null;
-                    @endphp
-                    @if(isset($image))
-                      <img
-                        src="{{ asset('storage/' . $image) }}"
-                        class="card-image"
-                        alt="Trade Show"
-                      />
-                    @else
-                      <img
-                        src="{{ asset('images/placeholderimage.webp') }}"
-                        class="card-image"
-                        alt="Trade Show"
-                      />
-                    @endif
-                    <div class="card-content">
-                      <div class="card-title">{{ $tradeshow->name ?? '' }}</div>
-                      <div class="card-description">{{ $tradeshow->description ?? ''}}</div>
-                      <div class="card-details">
-                        <div class="detail-label">Duration:</div>
-                        <div class="detail-value">{{ \Carbon\Carbon::parse($tradeshow->start_date)->format('j') }} - 
-                          {{ \Carbon\Carbon::parse($tradeshow->end_date)->format('j F Y') }}
-                        </div>
-                      </div>
-                      <div class="card-location">
-                        <div class="location-label">Location: </div>
-                        <div class="location-value">
-                          @php
-                            $countryDetails = \App\Utils\ChatManager::getCountryDetails($tradeshow->country);
-                          @endphp
-                          <img
-                            src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
-                            class="location-icon"
-                            alt="China flag"
-                          />
-                          <div class="location-text">{{ $tradeshow->address ?? ''}}</div>
-                        </div>
-                      </div>
-                      <a href="{{ route('tradeshow.view',['name'=>$tradeshow->name,'id'=>$tradeshow->id]) }}" class="card-button">View Details</a>
-                    </div>
-                  </div>
-                </div>
-              @endforeach          
+          <div>
+            @include('tradeshow.partials.dynamic-list')
+            <div id="paginationControls">
+                {{ $tradeshows->links('custom-paginator.custom') }}
             </div>
           </div>
+      
         </div>
       </div>
 
-      <!-- Pagination controls -->
-      {{ $tradeshows->links('custom-paginator.custom')}}
+
     </section>
   </main>
 @endsection
 @push('script')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Handle the Location Dropdown
@@ -518,50 +471,66 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('filterFormTradeshow');
-
+    
     if (form) {
-      // Debounced submit for text inputs
-      form.querySelectorAll('input[type="text"]').forEach(function (input) {
-        let timeout;
+        // Debounced input for text fields
+        form.querySelectorAll('input[type="text"]').forEach(function (input) {
+            let timeout;
 
-        input.addEventListener('input', function () {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => {
-            if (input.value.trim() !== '') {
-              form.requestSubmit ? form.requestSubmit() : form.submit();
-            }
-          }, 500);
+            input.addEventListener('input', function () {
+                clearTimeout(timeout);
+                timeout = setTimeout(function () {
+                    if (input.value.trim() !== '') {
+                        applyFilters();
+                    }
+                }, 500); // Wait 500ms before triggering the filter
+            });
         });
 
-        // Handle Enter key for form submission
-        input.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            if (input.value.trim() !== '') {
-              form.requestSubmit ? form.requestSubmit() : form.submit();
-            }
-          }
+        // Submit when checkboxes are changed
+        form.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                applyFilters();
+            });
         });
-      });
 
-      // Submit on checkbox change
-      form.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
-        checkbox.addEventListener('change', function () {
-          form.requestSubmit ? form.requestSubmit() : form.submit();
+        // Handle search icon click
+        form.querySelectorAll('.search-icon').forEach(function (icon) {
+            icon.addEventListener('click', function () {
+                applyFilters();
+            });
         });
-      });
-
-      // Allow search icon click to submit
-      form.querySelectorAll('.search-icon').forEach(function (icon) {
-        icon.addEventListener('click', function () {
-          const parentForm = icon.closest('form');
-          if (parentForm) {
-            parentForm.requestSubmit ? parentForm.requestSubmit() : parentForm.submit();
-          }
-        });
-      });
     }
-  });
+
+    // Function to gather filter values and make the AJAX request
+    function applyFilters() {
+        let filters = {
+            name: document.getElementById('nameFilter').value,  // Adjust to your input field ID
+            country: Array.from(document.querySelectorAll('input[name="country[]"]:checked')).map(checkbox => checkbox.value), // For multiple checkboxes
+            industry: Array.from(document.querySelectorAll('input[name="industry[]"]:checked')).map(checkbox => checkbox.value)  // For multiple checkboxes
+        };
+
+        loadFilteredData(filters);
+    }
+
+    function loadFilteredData(filters) {
+        $('#dynamicLoader').css('display','block');
+        $.ajax({
+            url: "{{ route('tradeshow-dynamic') }}", // Your endpoint to get filtered data
+            method: 'GET',
+            data: filters,
+            success: function(response) {
+                // Update only the cards section
+                $('#tradeshowdynamicSection').html(response.html);  // Updated trade show cards
+                $('#paginationControls').html(response.pagination);
+                $('#dynamicLoader').css('display','none');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+});
 </script>
 <script>
   window.toggleFilterSection = function () {

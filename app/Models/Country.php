@@ -11,6 +11,7 @@ class Country extends Model
 
     protected  $table = 'countries';
     protected  $primaryKey = 'id';
+
     protected $fillable = [
         'short_name',
         'country_name',
@@ -19,6 +20,10 @@ class Country extends Model
         'phonecode',
         'continent',
         'blacklist',
+    ];
+
+    protected $casts = [
+        'blacklist' => 'string',
     ];
 
     public function states()

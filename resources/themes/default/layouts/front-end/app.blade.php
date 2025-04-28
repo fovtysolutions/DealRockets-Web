@@ -235,6 +235,10 @@
 
     <input type="hidden" id="base_url" value="{{url('/')}}">
 
+    <div id="dynamicLoader" style="display: none;">
+        <div class="spinner"></div>
+    </div> 
+
     @if ($google_tag_manager_id)
         <!-- Google Tag Manager (noscript) -->
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $google_tag_manager_id }}" height="0"

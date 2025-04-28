@@ -1,7 +1,4 @@
-<div class="main-content w-100">
-    <div id="dynamicLoader" style="display: none;">
-        <div class="spinner"></div>
-      </div>      
+<div class="main-content w-100">     
     <div class="trade-shows-grid" id="tradeshowdynamicSection">
     @if($tradeshows->isEmpty())
         <div class="no-data-message">

@@ -503,7 +503,7 @@
     }
 
     // Function to gather filter values and make the AJAX request
-    function applyFilters() {
+    function applyFilters(page = 1) {
         let filters = {
             name: document.getElementById('nameFilter').value,  // Adjust to your input field ID
             country: Array.from(document.querySelectorAll('input[name="country[]"]:checked')).map(checkbox => checkbox.value), // For multiple checkboxes
@@ -513,8 +513,11 @@
         loadFilteredData(filters);
     }
 
-    function loadFilteredData(filters) {
+    function loadFilteredData(filters,page = 1) {
         $('#dynamicLoader').css('display','block');
+
+        filters.page = page;
+
         $.ajax({
             url: "{{ route('tradeshow-dynamic') }}", // Your endpoint to get filtered data
             method: 'GET',
@@ -529,7 +532,22 @@
                 console.error('Error:', error);
             }
         });
-    }
+    };
+
+    $(document).on('click', '.pagination a', function(e) {
+        e.preventDefault(); 
+
+        let filters = {
+            name: document.getElementById('nameFilter').value,  // Adjust to your input field ID
+            country: Array.from(document.querySelectorAll('input[name="country[]"]:checked')).map(checkbox => checkbox.value), // For multiple checkboxes
+            industry: Array.from(document.querySelectorAll('input[name="industry[]"]:checked')).map(checkbox => checkbox.value)  // For multiple checkboxes
+        };
+
+        var page = $(this).data('page');
+        loadFilteredData(filters, page);
+    });
+
+    applyFilters();
 });
 </script>
 <script>

@@ -278,7 +278,7 @@
         }
 
         // Function to gather filter values and make the AJAX request
-        function applyFilters() {
+        function applyFilters(page = 1) {
             let filters = {
                 name: document.getElementById('nameFilter').value,  // Adjust to your input field ID
                 country: Array.from(document.querySelectorAll('input[name="country[]"]:checked')).map(checkbox => checkbox.value), // For multiple checkboxes
@@ -288,15 +288,17 @@
             loadFilteredData(filters);
         }
 
-        function loadFilteredData(filters) {
+        function loadFilteredData(filters,page=1) {
             $('#dynamicLoader').css('display','block');
+
+            filters.page = page;
+
             $.ajax({
-                url: "{{ route('dynamic-stocksell') }}", // Your endpoint to get filtered data
+                url: "{{ route('dynamic-stocksell') }}",
                 method: 'GET',
                 data: filters,
                 success: function(response) {
-                    // Update only the cards section
-                    $('#stocksaleOfferDynamic').html(response.html);  // Updated trade show cards
+                    $('#stocksaleOfferDynamic').html(response.html);
                     $('#paginationControls').html(response.pagination);
                     $('#dynamicLoader').css('display','none');
                     initializeIconCarousel();
@@ -305,7 +307,22 @@
                     console.error('Error:', error);
                 }
             });
-        }
+        };
+
+        $(document).on('click', '.pagination a', function(e) {
+            e.preventDefault(); 
+
+            let filters = {
+                name: document.getElementById('nameFilter').value,  // Adjust to your input field ID
+                country: Array.from(document.querySelectorAll('input[name="country[]"]:checked')).map(checkbox => checkbox.value), // For multiple checkboxes
+                industry: Array.from(document.querySelectorAll('input[name="industry[]"]:checked')).map(checkbox => checkbox.value)  // For multiple checkboxes
+            };
+
+            var page = $(this).data('page');
+            loadFilteredData(filters, page);
+        });
+
+        applyFilters();
     });
     </script> 
     <script>
@@ -447,52 +464,6 @@
             document.getElementById('leads_id').value = leadsId;
             document.getElementById('receiver_id').value = sellerId;
             document.getElementById('receiver_type').value = role;
-        }
-    </script>
-    <script>
-        function getLocationName(type, id) {
-            return new Promise(function(resolve, reject) {
-                if (!id) {
-                    resolve("Location not available");
-                    return;
-                }
-
-                var url = `/${type}name/${id}`;
-
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    },
-                    success: function(response) {
-                        resolve(response || "Location not available");
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error:", error);
-                        reject("Error loading location.");
-                    }
-                });
-            });
-        }
-        // Function to update company location
-        function updateCompanyLocation(job) {
-            // Fetch country, state, and city asynchronously
-            var countryPromise = getLocationName('country', job.country);
-
-            // Use Promise.all to wait for all the responses
-            Promise.all([countryPromise])
-                .then(function([countryName]) {
-                    // Update location element with the company location
-                    $("#company-location").text(countryName);
-                    $("#ncompany-location").text(countryName);
-                })
-                .catch(function(error) {
-                    // Handle error case if any AJAX call fails
-                    console.error("Error in loading location details:", error);
-                    $("#company-location").text(countryName);
-                    $("#ncompany-location").text(countryName);
-                });
         }
     </script>
     <script>
@@ -719,7 +690,8 @@
     </script>
     <script>
       function populateDetailedBox(){
-
+        console.log('box populated');
+        // Do Nothing For Now
       };
     </script>
     <script>

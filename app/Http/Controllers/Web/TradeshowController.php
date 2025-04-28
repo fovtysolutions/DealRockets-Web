@@ -195,8 +195,10 @@ class TradeshowController extends Controller
             $query->whereIn('industry', $request->industry);
         }
         
+        $page = $request->get('page', 1);
+        
         // Get the paginated results (9 per page)
-        $tradeshows = $query->paginate(9);
+        $tradeshows = $query->paginate(9, ['*'], 'page', $page);
         
         // If it's an AJAX request, return only the partial view with trade show cards
         if ($request->ajax()) {

@@ -152,8 +152,10 @@ class StocksalewebController extends Controller
             $query->whereIn('country', $request->country);
         }
 
+        $page = $request->get('page', 1);
+
         // Paginate the filtered results
-        $items = $query->paginate(6);
+        $items = $query->paginate(6, ['*'], 'page', $page);
 
         // If it's an AJAX request, return only the partial view with trade show cards
         if ($request->ajax()) {

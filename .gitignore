@@ -15,8 +15,3 @@ npm-debug.log
 yarn-error.log
 composer-setup.php
 .DS_Store
-
-
-/public/uploads/*
-/public/stock_images/*
-/public/images/*

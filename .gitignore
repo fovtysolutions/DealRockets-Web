@@ -19,4 +19,3 @@ composer-setup.php
 /storage/app/public/*
 /public/uploads/*
 /public/stock_images/*
-/public/images/*

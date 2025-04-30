@@ -6,27 +6,27 @@
 <section class="mainpagesection order-now">
     <div class="order-now-box">
         <!-- Left Banner with Background Image -->
-        {{-- <div class="title-show-768">
+        <div class="title-show-768">
             <h5 class="m-0 text-capitalize" style="color: black;font-size: 20px;/* bottom: 1px; */top: 6px;left: 44%;">
                 {{ translate('Ready_to_Order')}}
             </h5>
         </div>
         <div class="left-banner rounded">
             <div class="hide-768">
-                <h5 class="fw-bold order-now-heading text-white">READY TO ORDER</h5>
-                <a href="{{ route('products') }}" class="btn btn-danger btn-sm">View More</a>
+                <h5 class="fw-bold order-now-heading leadstitle2">READY TO ORDER</h5>
+                {{-- <a href="{{ route('products') }}" class="btn btn-danger btn-sm">View More</a> --}}
             </div>    
-        </div> --}}
+        </div>
         <!-- Product Cards Grid -->
         <div class="product-grid showabove768">
             @foreach($trending->take(4) as $product)
             <!-- Product 1 -->
-            <div class="card product-card">
+            <div class="product-card">
                 <img src="{{ $product->thumbnail !== 'imageurl' ? '/storage/product/thumbnail/' . $product->thumbnail : '/images/placeholderimage.webp' }}" class="card-img-top" alt="Product 1">
-                <div class="card-body text-left">
-                    <p class="small text-muted mb-1">{{ $product->name }}</p>
-                    <p class="fw-bold mb-1">US$ {{ number_format($product->unit_price, 2) }} / {{ $product->unit }}</p>
-                    <p class="small text-muted mb-2">{{ $product->min_qty }} {{ $product->unit }} (MOQ)</p>
+                <div class="text-left">
+                    <p class="small text-muted m-1">{{ $product->name }}</p>
+                    <p class="fw-bold m-1">US$ {{ number_format($product->unit_price, 2) }} / {{ $product->unit }}</p>
+                    <p class="small text-muted m-2">{{ $product->min_qty }} {{ $product->unit }} (MOQ)</p>
                     <a href="{{ route('product',['slug'=>$product->slug]) }}" class="btn btn-outline-dark btn-sm w-100">Start order</a>
                 </div>
             </div>
@@ -48,19 +48,3 @@
         </div>
     </div>
 </section>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        console.log("Window width:", window.innerWidth);
-
-        const titles = document.querySelectorAll(".mainpagesection .order-now-heading");
-
-        titles.forEach(title => {
-            const words = title.textContent.trim().split(" ");
-            
-            // Only modify on mobile
-            title.innerHTML = words.map(word => 
-                `<span style="text-shadow: 2px 2px 4px rgba(0,0,0,0.6); margin-right: 5px;">${word}</span>`
-            ).join(" ");
-        });
-    });
-</script>

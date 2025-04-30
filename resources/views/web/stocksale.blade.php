@@ -185,111 +185,229 @@
                 <div class="product-detail">
                     <div class="detail-tabs">
                         <div class="detail-tab active" id="tab-stock-photo">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/7d0a2a11ff9449e7aff27e271699d3e6dd4ac825?placeholderIfAbsent=true"
-                                class="detail-tab-icon" alt="Stock photo icon">
+                            <i class="fa-solid fa-circle-info detail-tab-icon"></i>
                             <div>Stock Photo</div>
                         </div>
                         <div class="detail-tab" id="tab-specification">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/ef9458326d55dc88fc6f7bebc00ffbcfac31016d?placeholderIfAbsent=true"
-                                class="detail-tab-icon" alt="Specification icon">
+                            <i class="fa-solid fa-list detail-tab-icon"></i>
                             <div>Specification</div>
                         </div>
                         <div class="detail-tab" id="tab-deal">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/2827236b066050a00f6b7815e8e9078274a5b298?placeholderIfAbsent=true"
-                                class="detail-tab-icon" alt="Deal icon">
+                            <i class="fa-solid fa-envelope detail-tab-icon"></i>
                             <div>Deal</div>
                         </div>
                         <div class="detail-tab" id="tab-contact">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/39d5ea4a9e67d861c878f366e8723186b08a5b10?placeholderIfAbsent=true"
-                                class="detail-tab-icon" alt="Contact icon">
+                            <i class="fa-regular fa-circle-question detail-tab-icon"></i>
                             <div>Contact</div>
                         </div>
                     </div>
 
-                    <div class="detail-content">
-                        <div id="content-stock-photo" class="detail-tab-content active">
-                            <div class="detail-title">Selling 300 Units of Fresh Apples</div>
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/247ec7c7bc1f6428f4d5acb3c10d89df21f5e0ba?placeholderIfAbsent=true"
-                                class="detail-image" alt="Fresh Apples">
-                            <div class="detail-description">
-                                Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in
-                                bulk for retail or wholesale buyers.
-                                <br><br>
-                                Sourced from trusted local orchards committed to quality and sustainability, our apples are
-                                available in bulk for retail or wholesale buyers, ensuring farm-fresh goodness in every
-                                bite.
-                            </div>
-                        </div>
-                        <div id="content-specification" class="detail-tab-content">
-                            <h3>Product Specifications</h3>
-                            <ul>
-                                <li><strong>Size:</strong> Available in bulk (10kg, 25kg, 50kg boxes)</li>
-                                <li><strong>Origin:</strong> Grown in New York's local orchards</li>
-                                <li><strong>Storage:</strong> Store in a cool, dry place</li>
-                                <li><strong>Packaging:</strong> Eco-friendly boxes</li>
-                                <li><strong>Shelf Life:</strong> Up to 30 days when stored properly</li>
-                                <li><strong>Certifications:</strong> Organic, Fair Trade</li>
-                            </ul>
-                        </div>
-                        <div id="content-deal" class="detail-tab-content">
-                            <h3>Current Deals & Offers</h3>
-                            <p>We’re offering great discounts on bulk orders! Get up to 15% off on orders of 1000kg or more.
-                                Available for a limited time only!</p>
-                            <p><strong>Bulk Pricing:</strong></p>
-                            <ul>
-                                <li>10-100kg: $2.50 per kg</li>
-                                <li>101-500kg: $2.25 per kg</li>
-                                <li>501-1000kg: $2.00 per kg</li>
-                                <li>1000kg and above: $1.80 per kg</li>
-                            </ul>
-                            <button class="deal-cta">Claim This Deal</button>
-                        </div>
-                        <div id="content-contact" class="detail-tab-content">
-                            <h3>Contact Information</h3>
-                            <p>If you have any questions about our fresh apples or would like to place an order, feel free
-                                to get in touch with us:</p>
-
-                            <div class="contact-details">
-                                <p><strong>Phone:</strong> +1 800 123 4567</p>
-                                <p><strong>Email:</strong> <a
-                                        href="mailto:support@marketunion.com">support@marketunion.com</a></p>
-                                <p><strong>Address:</strong> 123 Orchard Road, New York, US</p>
-                            </div>
-
-                            <h4>Or, leave us a message:</h4>
-                            <form action="#" method="POST">
-                                <label for="name">Your Name:</label>
-                                <input type="text" id="name" name="name" required>
-
-                                <label for="message">Your Message:</label>
-                                <textarea id="message" name="message" rows="4" required></textarea>
-
-                                <button type="submit" class="inquire-button">Send Message</button>
-                            </form>
-
-                        </div>
-                    </div>
-                    <div class="detail-footer">
-                        <div class="company-info">
-                            <div class="company-rating">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/9dcf86845a5774a466c010f69a48d3bed069ce99?placeholderIfAbsent=true"
-                                    width="25" alt="Company logo">
-                                <div class="rating-badge">
-                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3b8226d1f3a4db74d7c0ea4e4f0145078db18bbb?placeholderIfAbsent=true"
-                                        width="15" alt="Rating icon">
-                                    <div>4.9/5</div>
+                    <div class="d-flex flex-column justify-content-between h-100">
+                        <div class="detail-content">
+                            <div id="content-stock-photo" class="detail-tab-content active">
+                                <div class="detail-title">
+                                    Selling 300 Units of Fresh Apples
+                                    <div class="text-muted">
+                                        <img src="{{ asset('img/Ellipse 75.png') }}" alt="dot" style="height: 5px;">
+                                        <small>In Transit</small>
+                                    </div>
+                                </div>
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/247ec7c7bc1f6428f4d5acb3c10d89df21f5e0ba?placeholderIfAbsent=true"
+                                    class="detail-image" alt="Fresh Apples">
+                                <div class="detail-description">
+                                    Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in
+                                    bulk for retail or wholesale buyers.
+                                    <br><br>
+                                    Sourced from trusted local orchards committed to quality and sustainability, our apples are
+                                    available in bulk for retail or wholesale buyers, ensuring farm-fresh goodness in every
+                                    bite.
                                 </div>
                             </div>
-                            <div class="company-name">Market Union Co.Ltd</div>
-                            <div class="company-exhibitions">Exhibited at 2 GS shows</div>
-                            <div class="company-location">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3c2974afe389ac984c47d41dcc08c0e410f01010?placeholderIfAbsent=true"
-                                    width="15" alt="Location icon">
-                                <div>New York, US</div>
+                            <div id="content-specification" class="detail-tab-content custom-info">
+                                <div class="detail-title">Stock Specifications</div>
+                                <div class="detail-description">
+                                    Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in
+                                    bulk for retail or wholesale buyers.
+                                </div>
+                                <div class="product-info">
+                                    <table>
+                                      <tbody>
+                                        <tr class="row-even">
+                                          <td class="label">Name of Product</td>
+                                          <td class="value">
+                                            <div class="value-with-icon">
+                                              Apple
+                                            </div>
+                                          </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                          <td class="label">Type</td>
+                                          <td class="value">
+                                            <div class="value-with-icon">
+                                              Physical
+                                            </div>
+                                          </td>
+                                        </tr>
+                                        <tr class="row-even">
+                                          <td class="label">Origin</td>
+                                          <td class="value">
+                                            <div class="value-with-icon">
+                                                United State
+                                            </div>
+                                          </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                          <td class="label">Badge</td>
+                                          <td class="value">
+                                            <div class="value-with-icon">
+                                              Freshly Procured
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="content-deal" class="detail-tab-content custom-info">
+                                <div class="detail-title">Deal Information</div>
+                                <div class="product-info">
+                                    <table>
+                                      <tbody>
+                                        <tr class="row-even">
+                                          <td class="label">Name of Product</td>
+                                          <td class="value">
+                                            <div class="value-with-icon">
+                                              Apple
+                                            </div>
+                                          </td>
+                                        </tr>
+                                        <tr class="row-odd">
+                                          <td class="label">Type</td>
+                                          <td class="value">
+                                            <div class="value-with-icon">
+                                              Physical
+                                            </div>
+                                          </td>
+                                        </tr>
+                                        <tr class="row-even">
+                                            <td class="label">Refundable</td>
+                                            <td class="value">
+                                              <div class="value-with-icon">
+                                                  Refundable
+                                              </div>
+                                            </td>
+                                          </tr>
+                                          <tr class="row-odd">
+                                            <td class="label">Avaliable Stock</td>
+                                            <td class="value">
+                                              <div class="value-with-icon">
+                                                98 Kg
+                                              </div>
+                                            </td>
+                                          </tr>
+                                          <tr class="row-even">
+                                              <td class="label">Min. Order Quantity</td>
+                                              <td class="value">
+                                                <div class="value-with-icon">
+                                                    300 Units
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr class="row-odd">
+                                              <td class="label">Shipping Cost</td>
+                                              <td class="value">
+                                                <div class="value-with-icon">
+                                                  Shipping Not Avaliable
+                                                </div>
+                                              </td>
+                                            </tr>
+                                      </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div id="content-contact" class="detail-tab-content custom-contact">
+                                <div class="detail-title">Contact Information</div>
+                                <div class="detail-description">For any inquiries, you can reach us at:</div>
+    
+                                <div class="contact-grid">
+                                    <div class="contact-item">
+                                      <div class="icon-container">
+                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                                        </svg>
+                                      </div>
+                                      <div class="contact-info">
+                                        <p>Email</p>
+                                        <p><a href="mailto:contact@fovtysolutions.com">contact@fovtysolutions.com</a></p>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="contact-item">
+                                      <div class="icon-container">
+                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                        </svg>
+                                      </div>
+                                      <div class="contact-info">
+                                        <p>Phone</p>
+                                        <p>+919644888835</p>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="contact-item">
+                                      <div class="icon-container">
+                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                                          <circle cx="12" cy="10" r="3"></circle>
+                                        </svg>
+                                      </div>
+                                      <div class="contact-info">
+                                        <p>Address</p>
+                                        <p>Phoenix Street</p>
+                                      </div>
+                                    </div>
+                                    
+                                    <div class="contact-item">
+                                      <div class="icon-container">
+                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                          <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+                                          <path d="M2 7h20"></path>
+                                          <path d="M16 21V7"></path>
+                                          <path d="M8 21V7"></path>
+                                        </svg>
+                                      </div>
+                                      <div class="contact-info">
+                                        <p>Industry</p>
+                                        <p>Hot Stocks</p>
+                                      </div>
+                                    </div>
+                                  </div>
+    
                             </div>
                         </div>
-
-                        <button class="inquire-button">Inquire Now</button>
+                        <div class="detail-footer">
+                            <div class="company-info">
+                                <div class="company-rating">
+                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/9dcf86845a5774a466c010f69a48d3bed069ce99?placeholderIfAbsent=true"
+                                        width="25" alt="Company logo">
+                                    <div class="rating-badge">
+                                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3b8226d1f3a4db74d7c0ea4e4f0145078db18bbb?placeholderIfAbsent=true"
+                                            width="15" alt="Rating icon">
+                                        <div>4.9/5</div>
+                                    </div>
+                                </div>
+                                <div class="company-name">Market Union Co.Ltd</div>
+                                <div class="company-exhibitions">Exhibited at 2 GS shows</div>
+                                <div class="company-location">
+                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3c2974afe389ac984c47d41dcc08c0e410f01010?placeholderIfAbsent=true"
+                                        width="15" alt="Location icon">
+                                    <div>New York, US</div>
+                                </div>
+                            </div>
+    
+                            <button class="inquire-button">Inquire Now</button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,7 @@
                         <div class="product-header">
                             <div class="product-title">{{ $stocksell->name }}</div>
                             <img class ="heart"
-                                src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/69456c03811ace2c0c568374d486fb1c0b4f38c1?placeholderIfAbsent=true"
+                                src="{{ theme_asset('public/img/Heart (1).png') }}"
                                 width="20" alt="Featured icon">
                         </div>
                         <div class="product-rate">

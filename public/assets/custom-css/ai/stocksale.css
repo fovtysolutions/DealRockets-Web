@@ -61,7 +61,7 @@ body {
     margin-top: 10px;
 }
 
-input[type='checkbox']{
+input[type='checkbox'] {
     accent-color: #FE4E44;
 }
 
@@ -71,12 +71,12 @@ input[type='checkbox']{
     font-weight: 500;
 }
 
-.stock-sale .detail-tab-content{
+.stock-sale .detail-tab-content {
     display: none;
 }
 
-.stock-sale .active{
-    display: flex;
+.stock-sale .active {
+    display: block;
 }
 
 .stock-sale .search-input-container {
@@ -414,16 +414,19 @@ input[type='checkbox']{
 .stock-sale .detail-tabs {
     display: flex;
     border-bottom: 1px solid #D5D5D5;
+    width: 100%;
 }
 
 .stock-sale .detail-tab {
     display: flex;
     align-items: center;
-    padding: 0.1rem 1rem !important;
+    /* padding: 0.1rem 1rem !important; */
     min-height: 43px;
+    justify-content: center;
     font-size: 14px;
     color: black;
     cursor: pointer;
+    width: 25%;
 }
 
 .stock-sale .detail-tab.active {
@@ -432,12 +435,12 @@ input[type='checkbox']{
     color: #FE4E44;
     font-weight: 600;
     border-radius: 6px 0px 0px 0px;
+    /* width: 100%; */
 }
 
 .stock-sale .detail-tab-icon {
-    width: 17px;
-    aspect-ratio: 1;
-    margin-right: 0.687rem;
+    font-size: 17px;
+    margin-right: 10px;
 }
 
 .stock-sale .detail-content {
@@ -448,6 +451,8 @@ input[type='checkbox']{
     font-size: 18px;
     color: black;
     font-weight: 500;
+    justify-content: space-between;
+    display: flex;
 }
 
 .stock-sale .detail-image {
@@ -787,6 +792,107 @@ input[type='checkbox']{
     display: none;
 }
 
+.stock-sale .custom-info .product-info {
+    background-color: white;
+    /* border: 1px solid #e5e7eb; */
+    /* border-radius: 0.375rem; */
+    overflow: hidden;
+    margin-top: 24px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.stock-sale .custom-info table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.stock-sale .custom-info tr {
+    /* border-bottom: 1px solid #e5e7eb; */
+}
+
+.stock-sale .custom-info tr:last-child {
+    border-bottom: none;
+}
+
+.stock-sale .custom-info .row-even {
+    background-color: white;
+}
+
+.stock-sale .custom-info .row-odd {
+    /* background-color: #f9fafb; */
+}
+
+.stock-sale .custom-info td {
+    padding: 10px;
+    border-width: 1px 1px 1px 1px;
+    border-style: solid;
+    border-color: rgba(213, 213, 213, 1);
+}
+
+.stock-sale .custom-info .label {
+    /* font-weight: 500; */
+    color: #000000;
+}
+
+.stock-sale .custom-info .value {
+    color: #4b5563;
+}
+
+.stock-sale .custom-info .value-with-icon {
+    display: flex;
+    align-items: center;
+    color: #000;
+    font-weight: 600;
+}
+
+.stock-sale .custom-info .icon {
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.5rem;
+}
+
+
+
+.stock-sale .custom-contact .contact-grid {
+    display: grid;
+    margin-top: 44px;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+    
+  .stock-sale .custom-contact .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .stock-sale .custom-contact .icon-container {
+    background-color: #fee2e2;
+    border-radius: 9999px;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .stock-sale .custom-contact .icon {
+    color: #ef4444;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .stock-sale .custom-contact .contact-info p:first-child {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 3px;
+  }
+  
+  .stock-sale .custom-contact .contact-info p:last-child {
+    font-weight: 500;
+    margin-bottom: 3px;
+    color:black;
+  }
+
 @media (max-width: 1200px) {
     .stock-sale .sidebar {
         /* width: 100%; */
@@ -1082,6 +1188,10 @@ input[type='checkbox']{
         margin-top: 2.5rem;
     }
 
+    .stock-sale .custom-contact .contact-grid {
+        grid-template-columns: 1fr 1fr;
+      }  
+
     .stock-sale .quotation-content {
         flex-direction: column;
     }
@@ -1197,6 +1307,14 @@ input[type='checkbox']{
 
     .stock-sale .pagination {
         /* width: 379px; */
+    }
+
+    .stock-sale .custom-info .container {
+        max-width: 100%;
+    }
+
+    .stock-sale .custom-info td {
+        padding: 0.75rem 1rem;
     }
 
     .stock-sale .banner {

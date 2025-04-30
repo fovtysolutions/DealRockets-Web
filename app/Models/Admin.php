@@ -123,4 +123,9 @@ class Admin extends Authenticatable
         });
     }
 
+    public function product()
+    {
+        return $this->hasMany(Product::class, 'user_id')->where(['added_by'=>'admin']);
+    }
+
 }

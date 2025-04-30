@@ -300,6 +300,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::get('stock-sale/{name}/{id}',[StocksalewebController::class,'stocksaleview'])->name('stocksaleview');
     Route::post('get-data-from-stock/{id}',[StocksalewebController::class,'getDataOfStock']);
     Route::get('dynamic-stocksell',[StocksalewebController::class,'stockSaleDynamic'])->name('dynamic-stocksell');
+    Route::get('dynamic-stocksellview',[StocksalewebController::class,'stocksaleDynamicView'])->name('dynamic-stocksellview');
 
     // Lead Notification
     Route::post('mark-lead-notif',[HomeController::class,'mark_lead_notif'])->name('mark-lead-notif');

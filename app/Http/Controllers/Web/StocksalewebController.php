@@ -85,6 +85,9 @@ class StocksalewebController extends Controller
 
         // Paginate the filtered results
         $items = $query->paginate(6);
+        $firstId = optional($items->first())->id;
+
+        $stocksell = StockSell::where('id',$firstId)->first();
 
         // Ad Images
         $adimages = BusinessSetting::where('type', 'stocksale')->first();
@@ -121,7 +124,8 @@ class StocksalewebController extends Controller
 
         $quotationbanner =  BusinessSetting::where('type','quotation')->first()->value;
         $quotationdata = json_decode($quotationbanner,true)['banner'] ?? '';
-        return view('web.stocksale', compact('industries','items','categoriesn','adimages','locations','times','stocksalebanner','counttotal','countrykeyvalue','countries','trending'));
+        $stocktype = StockCategory::where('active',1)->get();
+        return view('web.stocksale', compact('industries','stocktype','items','categoriesn','adimages','locations','times','stocksalebanner','counttotal','countrykeyvalue','countries','trending','stocksell'));
     }
 
     public function stockSaleDynamic(Request $request){
@@ -169,6 +173,25 @@ class StocksalewebController extends Controller
         return response()->json([
             'html' => view('web.dynamic-partials.dynamic-stocksell', compact('items'))->render(),
             'pagination' => $items->links('custom-paginator.custom')->render(),
+        ]);
+    }
+
+    public function stocksaleDynamicView(Request $request){
+        $stocksell_id = $request->input('id');
+        if($stocksell_id){
+            $stocksell = StockSell::where('id',$stocksell_id)->first();
+            if($stocksell){
+                return response()->json([
+                    'status' => 'success',
+                    'html' => view('web.dynamic-partials.dynamic-stocksellview', compact('stocksell'))->render(),
+                ]);
+            }
+            return response()->json([
+                'status' => 'fail',
+            ]);
+        }
+        return response()->json([
+            'status' => 'fail',
         ]);
     }
 

@@ -162,7 +162,30 @@
                                 @endforeach
                             </div>
                         </div>
+                        <div class="filter-section deltwo">
+                            <div class="search-label">Search by Stock Type</div>
+                            <div class="search-input-container">
+                                <div class="search-input-field">
+                                    <input type="text" name="stock_search" placeholder="Enter Category..."
+                                        class="search-filter" data-target="#stockcheckbox"
+                                        value="{{ request('stock_search') }}" />
+                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
+                                        class="search-icon" alt="Search icon" />
+                                </div>
+                            </div>
 
+                            <div class="category-list filter-options" id="stockcheckbox">
+                                @foreach ($stocktype as $industry)
+                                    <div class="checkbox-item">
+                                        <label class="filter-checkbox category-option filter-item">
+                                            <input type="checkbox" name="industry[]" value="{{ $industry->id }}"
+                                                {{ in_array($industry->id, request('industry', [])) ? 'checked' : '' }} />
+                                            <div class="filter-label">{{ $industry->name }}</div>
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -202,212 +225,8 @@
                         </div>
                     </div>
 
-                    <div class="d-flex flex-column justify-content-between h-100">
-                        <div class="detail-content">
-                            <div id="content-stock-photo" class="detail-tab-content active">
-                                <div class="detail-title">
-                                    Selling 300 Units of Fresh Apples
-                                    <div class="text-muted">
-                                        <img src="{{ asset('img/Ellipse 75.png') }}" alt="dot" style="height: 5px;">
-                                        <small>In Transit</small>
-                                    </div>
-                                </div>
-                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/247ec7c7bc1f6428f4d5acb3c10d89df21f5e0ba?placeholderIfAbsent=true"
-                                    class="detail-image" alt="Fresh Apples">
-                                <div class="detail-description">
-                                    Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in
-                                    bulk for retail or wholesale buyers.
-                                    <br><br>
-                                    Sourced from trusted local orchards committed to quality and sustainability, our apples are
-                                    available in bulk for retail or wholesale buyers, ensuring farm-fresh goodness in every
-                                    bite.
-                                </div>
-                            </div>
-                            <div id="content-specification" class="detail-tab-content custom-info">
-                                <div class="detail-title">Stock Specifications</div>
-                                <div class="detail-description">
-                                    Juicy and crisp apples from the local farm. Perfect for snacking or baking. Available in
-                                    bulk for retail or wholesale buyers.
-                                </div>
-                                <div class="product-info">
-                                    <table>
-                                      <tbody>
-                                        <tr class="row-even">
-                                          <td class="label">Name of Product</td>
-                                          <td class="value">
-                                            <div class="value-with-icon">
-                                              Apple
-                                            </div>
-                                          </td>
-                                        </tr>
-                                        <tr class="row-odd">
-                                          <td class="label">Type</td>
-                                          <td class="value">
-                                            <div class="value-with-icon">
-                                              Physical
-                                            </div>
-                                          </td>
-                                        </tr>
-                                        <tr class="row-even">
-                                          <td class="label">Origin</td>
-                                          <td class="value">
-                                            <div class="value-with-icon">
-                                                United State
-                                            </div>
-                                          </td>
-                                        </tr>
-                                        <tr class="row-odd">
-                                          <td class="label">Badge</td>
-                                          <td class="value">
-                                            <div class="value-with-icon">
-                                              Freshly Procured
-                                            </div>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div id="content-deal" class="detail-tab-content custom-info">
-                                <div class="detail-title">Deal Information</div>
-                                <div class="product-info">
-                                    <table>
-                                      <tbody>
-                                        <tr class="row-even">
-                                          <td class="label">Name of Product</td>
-                                          <td class="value">
-                                            <div class="value-with-icon">
-                                              Apple
-                                            </div>
-                                          </td>
-                                        </tr>
-                                        <tr class="row-odd">
-                                          <td class="label">Type</td>
-                                          <td class="value">
-                                            <div class="value-with-icon">
-                                              Physical
-                                            </div>
-                                          </td>
-                                        </tr>
-                                        <tr class="row-even">
-                                            <td class="label">Refundable</td>
-                                            <td class="value">
-                                              <div class="value-with-icon">
-                                                  Refundable
-                                              </div>
-                                            </td>
-                                          </tr>
-                                          <tr class="row-odd">
-                                            <td class="label">Avaliable Stock</td>
-                                            <td class="value">
-                                              <div class="value-with-icon">
-                                                98 Kg
-                                              </div>
-                                            </td>
-                                          </tr>
-                                          <tr class="row-even">
-                                              <td class="label">Min. Order Quantity</td>
-                                              <td class="value">
-                                                <div class="value-with-icon">
-                                                    300 Units
-                                                </div>
-                                              </td>
-                                            </tr>
-                                            <tr class="row-odd">
-                                              <td class="label">Shipping Cost</td>
-                                              <td class="value">
-                                                <div class="value-with-icon">
-                                                  Shipping Not Avaliable
-                                                </div>
-                                              </td>
-                                            </tr>
-                                      </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div id="content-contact" class="detail-tab-content custom-contact">
-                                <div class="detail-title">Contact Information</div>
-                                <div class="detail-description">For any inquiries, you can reach us at:</div>
-    
-                                <div class="contact-grid">
-                                    <div class="contact-item">
-                                      <div class="icon-container">
-                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                                        </svg>
-                                      </div>
-                                      <div class="contact-info">
-                                        <p>Email</p>
-                                        <p><a href="mailto:contact@fovtysolutions.com">contact@fovtysolutions.com</a></p>
-                                      </div>
-                                    </div>
-                                    
-                                    <div class="contact-item">
-                                      <div class="icon-container">
-                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                        </svg>
-                                      </div>
-                                      <div class="contact-info">
-                                        <p>Phone</p>
-                                        <p>+919644888835</p>
-                                      </div>
-                                    </div>
-                                    
-                                    <div class="contact-item">
-                                      <div class="icon-container">
-                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                                          <circle cx="12" cy="10" r="3"></circle>
-                                        </svg>
-                                      </div>
-                                      <div class="contact-info">
-                                        <p>Address</p>
-                                        <p>Phoenix Street</p>
-                                      </div>
-                                    </div>
-                                    
-                                    <div class="contact-item">
-                                      <div class="icon-container">
-                                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                          <rect width="20" height="14" x="2" y="3" rx="2"></rect>
-                                          <path d="M2 7h20"></path>
-                                          <path d="M16 21V7"></path>
-                                          <path d="M8 21V7"></path>
-                                        </svg>
-                                      </div>
-                                      <div class="contact-info">
-                                        <p>Industry</p>
-                                        <p>Hot Stocks</p>
-                                      </div>
-                                    </div>
-                                  </div>
-    
-                            </div>
-                        </div>
-                        <div class="detail-footer">
-                            <div class="company-info">
-                                <div class="company-rating">
-                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/9dcf86845a5774a466c010f69a48d3bed069ce99?placeholderIfAbsent=true"
-                                        width="25" alt="Company logo">
-                                    <div class="rating-badge">
-                                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3b8226d1f3a4db74d7c0ea4e4f0145078db18bbb?placeholderIfAbsent=true"
-                                            width="15" alt="Rating icon">
-                                        <div>4.9/5</div>
-                                    </div>
-                                </div>
-                                <div class="company-name">Market Union Co.Ltd</div>
-                                <div class="company-exhibitions">Exhibited at 2 GS shows</div>
-                                <div class="company-location">
-                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/3c2974afe389ac984c47d41dcc08c0e410f01010?placeholderIfAbsent=true"
-                                        width="15" alt="Location icon">
-                                    <div>New York, US</div>
-                                </div>
-                            </div>
-    
-                            <button class="inquire-button">Inquire Now</button>
-                        </div>
+                    <div class="d-flex flex-column justify-content-between h-100" id="StockSellView">
+                        @include('web.dynamic-partials.dynamic-stocksellview')
                     </div>
                 </div>
             </div>
@@ -492,6 +311,7 @@
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', error);
+                        $('#dynamicLoader').css('display', 'none');
                     }
                 });
             };
@@ -627,43 +447,12 @@
         });
     </script>
     <script>
-        function insertcarousel(job) {
-            // Assuming 'job.image' is a JSON string containing image URLs
-            var images = JSON.parse(job.image);
-            // var inserthere = document.getElementById('hereinsert'); // Get the carousel container
-            var insertherealso = document.getElementById('hereinsertalso');
-
-            // inserthere.innerHTML = '';
-            insertherealso.innerHTML = '';
-
-            // Loop through the images and create carousel items
-            images.forEach(function(image) {
-                var imgElement = document.createElement('img');
-                imgElement.src = '/' + image; // Assuming image path is relative
-                imgElement.classList.add('item'); // Owl Carousel expects items to have a class
-
-                // Optional styling
-                imgElement.style.maxWidth = '100%';
-                // imgElement.style.maxHeight = '55vh';
-                imgElement.style.objectFit = 'contain';
-                imgElement.style.aspectRatio = '4/3';
-
-                // Create a wrapper div for each image
-                var itemDiv = document.createElement('div');
-                itemDiv.appendChild(imgElement);
-
-                // Append the item div to the carousel container
-                // inserthere.appendChild(itemDiv);
-                insertherealso.appendChild(itemDiv);
-            });
-
-            // Destroy Previous Owl Carousel
-            $('.details-carousel').owlCarousel('destroy');
+        function initializeDetailCarousel() {
             // Initialize Owl Carousel
             $('.details-carousel').owlCarousel({
                 loop: true,
                 margin: 10,
-                autoplay: true,
+                autoplay: false,
                 nav: false, // Show navigation arrows
                 dots: true, // Show dots for navigation
                 responsive: {
@@ -678,7 +467,8 @@
                     } // 5 items on large screens
                 }
             });
-        }
+        };
+        initializeDetailCarousel();
     </script>
     <script>
         function initializeIconCarousel() {
@@ -769,11 +559,34 @@
     </script>
     <script>
         function populateDetailedBox(card) {
-            console.log('box populated');
+            var id = $(card).data('id');
+            console.log('box populated',id);
             document.querySelectorAll('.product-card-inner').forEach(inner => {
                 inner.classList.remove('product-card-featured');
             });
             card.querySelector('.product-card-inner').classList.add('product-card-featured');
+            loadStockSellData(id);
+        };
+
+        function loadStockSellData(id) {
+            $('#dynamicLoader').css('display', 'block');
+
+            $.ajax({
+                url: "{{ route('dynamic-stocksellview') }}",
+                method: 'GET',
+                data: {
+                    'id': id,
+                },
+                success: function(response) {
+                    $('#StockSellView').html(response.html);
+                    initializeDetailCarousel();
+                    $('#dynamicLoader').css('display', 'none');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    $('#dynamicLoader').css('display', 'none');
+                }
+            });
         };
     </script>
     <script>

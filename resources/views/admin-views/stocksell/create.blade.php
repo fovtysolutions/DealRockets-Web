@@ -69,7 +69,7 @@
                 <label for="product" class="form-label">Industry</label>
                 <select name="industry" id="industry" class="form-control">
                     <option value="value" selected>Select a Industry</option>
-                    @foreach($categories as $country)
+                    @foreach($industry as $country)
                         <option value="{{ $country->id }}">{{ $country->name }}</option>
                     @endforeach
                 </select>
@@ -135,7 +135,12 @@
             </div>
             <div class="col">
                 <label for="stock_type" class="form-label">Stock Type</label>
-                <input type="text" name="stock_type" id="stock_type" class="form-control" placeholder="Enter Stock Type">
+                <select name="stock_type" id="stock_type" class="form-control">
+                    <option value="" selected>Select a Category</option>
+                    @foreach($categories as $country)
+                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         

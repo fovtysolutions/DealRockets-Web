@@ -73,9 +73,9 @@
                 <label for="product" class="form-label">Industry</label>
                 <select name="industry" id="industry" class="form-control">
                     <option value="{{ $stocksell->industry}}" selected>
-                        {{ \App\Models\StockCategory::where('id',$stocksell->industry)->first()->name }}
+                        {{ \App\Models\Category::where('id',$stocksell->industry)->first()->name }}
                     </option>
-                    @foreach($categories as $country)
+                    @foreach($industry as $country)
                         <option value="{{ $country->id }}">{{ $country->name }}</option>
                     @endforeach
                 </select>
@@ -163,7 +163,20 @@
             </div>
             <div class="col">
                 <label for="stock_type" class="form-label">Stock Type</label>
-                <input type="text" name="stock_type" id="stock_type" class="form-control" value="{{ $stocksell->stock_type }}" placeholder="Enter Stock Type">
+                <select name="stock_type" id="stock_type" class="form-control">
+                    <option value="" disabled>Select a Category</option>
+                    @php
+                        $selectedCategory = \App\Models\StockCategory::find($stocksell->stock_type);
+                    @endphp
+
+                    @if ($selectedCategory)
+                        <option value="{{ $selectedCategory->id }}" selected>{{ $selectedCategory->name }}</option>
+                    @endif
+
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         

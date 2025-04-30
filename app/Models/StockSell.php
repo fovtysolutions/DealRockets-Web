@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
 
 class StockSell extends Model
 {
@@ -19,5 +20,10 @@ class StockSell extends Model
     public function countryRelation()
     {
         return $this->belongsTo(Country::class, 'country', 'id'); // Adjust 'country' and 'id' as per your database schema
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class,'product_id');
     }
 }

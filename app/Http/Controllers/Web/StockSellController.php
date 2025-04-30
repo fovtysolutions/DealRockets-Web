@@ -52,8 +52,9 @@ class StockSellController extends Controller
         $role = $user_data['role'];
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
         $countries = CountrySetupController::getCountries();
+        $industry = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         $categories = StockCategory::all();
-        return view('admin-views.stocksell.create', compact('items', 'countries', 'categories'));
+        return view('admin-views.stocksell.create', compact('items', 'countries', 'industry', 'categories'));
     }
 
     public function store(Request $request)
@@ -116,8 +117,9 @@ class StockSellController extends Controller
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
         $name = ChatManager::getproductname($stocksell->product_id);
         $countries = CountrySetupController::getCountries();
+        $industry = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         $categories = StockCategory::all();
-        return view('admin-views.stocksell.edit', compact('stocksell', 'items', 'name', 'countries', 'categories'));
+        return view('admin-views.stocksell.edit', compact('stocksell', 'items', 'name', 'countries', 'industry', 'categories'));
     }
 
     public function update(Request $request, $id)

@@ -6,6 +6,8 @@
 
 .buy-offer .flex {
     display: flex;
+    width: 100%;
+    gap: 20px;
 }
 
 .buy-offer .flex-col {
@@ -163,8 +165,8 @@
 
 /* Main Content */
 .buy-offer .main-content {
-    width: 79%;
-    margin-left: 1.25rem;
+    width: 80%;
+    /* margin-left: 1.25rem; */
 }
 
 /* Lead Card */
@@ -192,14 +194,15 @@
 
 .buy-offer .lead-info {
     align-self: stretch;
-    width: 100%;
-    max-width: 625px;
+    width: 82%;
+    padding-right: 15px;
+    /* max-width: 625px; */
 }
 
 .buy-offer .lead-header {
     display: flex;
     width: 100%;
-    max-width: 625px;
+    /* max-width: 625px; */
     items-stretch: gap-5;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -268,7 +271,7 @@
 .buy-offer .lead-details {
     display: flex;
     width: 100%;
-    max-width: 681px;
+    /* max-width: 681px; */
     align-items: stretch;
     gap: 1.25rem;
     font-size: 0.875rem;
@@ -314,6 +317,7 @@
 
 .buy-offer .lead-actions {
     display: flex;
+    width: 17%;
     flex-direction: column;
     align-items: stretch;
     align-self: stretch;
@@ -324,7 +328,7 @@
     width: 2.5rem;
     aspect-ratio: 1;
     object-fit: contain;
-    margin-left: 97px;
+    margin-left: auto;
 }
 
 .buy-offer .contact-btn {
@@ -333,6 +337,7 @@
     font-size: 1rem;
     font-weight: 600;
     margin-top: 46px;
+    margin: 0 auto;
     padding: 0.5rem 1rem;
     border-radius: 59.302px;
     border: none;
@@ -478,7 +483,7 @@
     }
 
     .buy-offer .sidebar {
-        width: 22.5%;
+        width: 20%;
     }
 
     .buy-offer .contact-btn {
@@ -495,7 +500,7 @@
     }
 
     .buy-offer .verified-badge {
-        margin-left: 62px;
+        margin-left: auto;
     }
 
     .buy-offer .lead-title {
@@ -537,8 +542,8 @@
 
     .buy-offer .lead-info {
         align-self: stretch;
-        width: 100%;
-        max-width: 625px;
+        /* width: 100%; */
+        /* max-width: 625px; */
     }
 
     .buy-offer .pagination-inner {
@@ -578,7 +583,7 @@
     }
 
     .buy-offer .verified-badge {
-        margin-left: 62px;
+        margin-left: auto;
     }
 
     .buy-offer .lead-title {
@@ -621,7 +626,7 @@
     .buy-offer .lead-info {
         align-self: stretch;
         width: 100%;
-        max-width: 625px;
+        /* max-width: 625px; */
     }
 
     .buy-offer .pagination-inner {
@@ -783,7 +788,7 @@
     }
 
     .buy-offer .lead-info {
-        max-width: 675px !important;
+        /* max-width: 675px !important; */
     }
 
     .buy-offer .pagination-inner {

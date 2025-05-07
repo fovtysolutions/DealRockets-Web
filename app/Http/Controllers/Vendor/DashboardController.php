@@ -273,34 +273,34 @@ class DashboardController extends BaseController
             case 'vendor-inbox':
                 $title = 'Inbox';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Leads', 'value' => 12],
-                    ['link' => '#', 'title' => 'Stock Sale', 'value' => 12],
+                    ['link' => route('vendor.leads.get-vendor-messages'), 'title' => 'Leads', 'value' => 12],
+                    ['link' => route('vendor.stock.get-messages'), 'title' => 'Stock Sale', 'value' => 12],
                     ['link' => '#', 'title' => 'Industry Jobs', 'value' => 4],
-                    ['link' => '#', 'title' => 'Marketplace', 'value' => 4],
+                    ['link' => route('vendor.messages.index', ['type' => 'customer']), 'title' => 'Marketplace', 'value' => 4],
                 ];
                 break;
     
             case 'product-upload':
                 $title = 'Product Upload';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Upload Products', 'value' => 25],
-                    ['link' => '#', 'title' => 'Bulk Import', 'value' => 25],
+                    ['link' => route('vendor.products.add'), 'title' => 'Upload Products', 'value' => 25],
+                    ['link' => route('vendor.products.bulk-import'), 'title' => 'Bulk Import', 'value' => 25],
                 ];
                 break;
     
             case 'stock-sell':
                 $title = 'Stock Sell';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Manage Stock Sales', 'value' => 10],
-                    ['link' => '#', 'title' => 'Add Stock Sales', 'value' => 6],
+                    ['link' => route('vendor.stock.index'), 'title' => 'Manage Stock Sales', 'value' => 10],
+                    ['link' => route('vendor.stock.create'), 'title' => 'Add Stock Sales', 'value' => 6],
                 ];
                 break;
     
             case 'sell-offer':
                 $title = 'Sell Offer';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Manage Sell Offer', 'value' => 10],
-                    ['link' => '#', 'title' => 'Add Sell Offer', 'value' => 6],
+                    ['link' => route('vendor.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 10],
+                    ['link' => route('vendor.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 6],
                 ];
                 break;
     
@@ -314,18 +314,17 @@ class DashboardController extends BaseController
             case 'marketplace':
                 $title = 'Marketplace';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Manage Products', 'value' => 10],
-                    ['link' => '#', 'title' => 'Approved Products', 'value' => 6],
-                    ['link' => '#', 'title' => 'Denied Products', 'value' => 6],
-                    ['link' => '#', 'title' => 'New Product Request', 'value' => 6],
+                    ['link' => route('vendor.products.list',['type'=>'all']), 'title' => 'Manage Products', 'value' => 10],
+                    ['link' => route('vendor.products.list',['type'=>'approved']), 'title' => 'Approved Products', 'value' => 6],
+                    ['link' => route('vendor.products.list',['type'=>'denied']), 'title' => 'Denied Products', 'value' => 6],
+                    ['link' => route('vendor.products.list',['type'=>'new-request']), 'title' => 'New Product Request', 'value' => 6],
                 ];
                 break;
     
             case 'analytics':
                 $title = 'Reports and Analytics';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Product', 'value' => 75],
-                    ['link' => '#', 'title' => 'Order', 'value' => 75],
+                    ['link' => route('vendor.report.all-product'), 'title' => 'Product', 'value' => 75],
                     ['link' => '#', 'title' => 'Other Analytics', 'value' => 75],
                 ];
                 break;
@@ -366,8 +365,8 @@ class DashboardController extends BaseController
             case 'settings':
                 $title = 'Settings';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Shop Settings', 'value' => 'Yes'],
-                    ['link' => '#', 'title' => 'Membership', 'value' => 'Yes'],
+                    ['link' => route('vendor.shop.index'), 'title' => 'Shop Settings', 'value' => 'Yes'],
+                    ['link' => route('membership-vendor'), 'title' => 'Membership', 'value' => 'Yes'],
                 ];
                 break;
     

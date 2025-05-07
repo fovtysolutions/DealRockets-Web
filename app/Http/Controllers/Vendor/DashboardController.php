@@ -262,4 +262,125 @@ class DashboardController extends BaseController
         $method = $this->withdrawalMethodRepo->getFirstWhere(params:['id'=> $request['method_id'],'is_active'=>1]);
         return response()->json(['content'=>$method], 200);
     }
+
+    // Sub Cards Functions
+    public function subCardData($slug)
+    {
+        $title = '';
+        $cardData = [];
+    
+        switch ($slug) {
+            case 'vendor-inbox':
+                $title = 'Inbox';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Leads', 'value' => 12],
+                    ['link' => '#', 'title' => 'Stock Sale', 'value' => 12],
+                    ['link' => '#', 'title' => 'Industry Jobs', 'value' => 4],
+                    ['link' => '#', 'title' => 'Marketplace', 'value' => 4],
+                ];
+                break;
+    
+            case 'product-upload':
+                $title = 'Product Upload';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Upload Products', 'value' => 25],
+                    ['link' => '#', 'title' => 'Bulk Import', 'value' => 25],
+                ];
+                break;
+    
+            case 'stock-sell':
+                $title = 'Stock Sell';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Manage Stock Sales', 'value' => 10],
+                    ['link' => '#', 'title' => 'Add Stock Sales', 'value' => 6],
+                ];
+                break;
+    
+            case 'sell-offer':
+                $title = 'Sell Offer';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Manage Sell Offer', 'value' => 10],
+                    ['link' => '#', 'title' => 'Add Sell Offer', 'value' => 6],
+                ];
+                break;
+    
+            case 'buy-leads':
+                $title = 'Buy Leads';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Go To Buy Leads', 'value' => 10],
+                ];
+                break;
+    
+            case 'marketplace':
+                $title = 'Marketplace';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Manage Products', 'value' => 10],
+                    ['link' => '#', 'title' => 'Approved Products', 'value' => 6],
+                    ['link' => '#', 'title' => 'Denied Products', 'value' => 6],
+                    ['link' => '#', 'title' => 'New Product Request', 'value' => 6],
+                ];
+                break;
+    
+            case 'analytics':
+                $title = 'Reports and Analytics';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Product', 'value' => 75],
+                    ['link' => '#', 'title' => 'Order', 'value' => 75],
+                    ['link' => '#', 'title' => 'Other Analytics', 'value' => 75],
+                ];
+                break;
+    
+            case 'post-rfq':
+                $title = 'Post RFQ';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Go to RFQ Page', 'value' => 5],
+                ];
+                break;
+    
+            case 'post-job':
+                $title = 'Post a Job';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Posted Jobs', 'value' => 4],
+                    ['link' => '#', 'title' => 'Applications', 'value' => 23],
+                ];
+                break;
+    
+            case 'hire-employee':
+                $title = 'Hire an Employee';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Posted Jobs Details', 'value' => 3],
+                    ['link' => '#', 'title' => 'Interviews Scheduled', 'value' => 3],
+                    ['link' => '#', 'title' => 'Hired', 'value' => 1],
+                ];
+                break;
+    
+            case 'trade-shows':
+                $title = 'Trade Shows';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Upcoming Shows', 'value' => 2],
+                    ['link' => '#', 'title' => 'Ongoing Shows', 'value' => 2],
+                    ['link' => '#', 'title' => 'Past Shows', 'value' => 2],
+                ];
+                break;
+    
+            case 'settings':
+                $title = 'Settings';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Shop Settings', 'value' => 'Yes'],
+                    ['link' => '#', 'title' => 'Membership', 'value' => 'Yes'],
+                ];
+                break;
+    
+            case 'logout':
+                // Handle logout if needed, otherwise just redirect
+                return redirect()->route('logout');
+    
+            default:
+                $title = 'Unknown';
+                $cardData = [['link' => '#', 'title' => 'No Data Found', 'value' => 0]];
+                break;
+        }
+    
+        return view('vendor-views.dashboard.subcards.subcard', compact('title', 'cardData', 'slug'));
+    }    
 }

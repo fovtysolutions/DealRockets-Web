@@ -63,6 +63,10 @@ use App\Http\Controllers\Vendor\VendorStockSellController;
 Route::group(['middleware' => ['maintenance_mode']], function () {
 
     Route::group(['prefix' => 'vendor', 'as' => 'vendor.'], function () {
+
+        // Sub Card Route
+        Route::get('subcard/{slug}',[DashboardController::class,'subCardData'])->name('subcard');
+        
         /* authentication */
         Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
             Route::controller(LoginController::class)->group(function () {

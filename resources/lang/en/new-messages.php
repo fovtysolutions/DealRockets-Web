@@ -9358,4 +9358,10 @@ return [
 	"Deal_Assist" => "Deal Assist",
 	"Deal_Assist_List" => "Deal Assist List",
 	"Pick a Time" => "Pick a Time",
+	"Product Upload" => "Product Upload",
+	"Go To Buy Leads" => "Go To Buy Leads",
+	"Reports and Analytics" => "Reports and Analytics",
+	"Post RFQ" => "Post RFQ",
+	"Post a Job" => "Post a Job",
+	"Hire an Employee" => "Hire an Employee",
 ];

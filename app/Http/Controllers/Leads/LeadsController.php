@@ -439,7 +439,7 @@ class LeadsController extends Controller
             toastr()->success('Lead Added Successfully');
 
             // Success message
-            return redirect()->route('admin.leads.list')->with('success', 'Lead added successfully.');
+            return redirect()->back()->with('success', 'Lead added successfully.');
         } catch (\Exception $e) {
             // Log the error if needed
             Log::error('Error in storing lead: ' . $e->getMessage());
@@ -627,7 +627,7 @@ class LeadsController extends Controller
             toastr()->success('Lead Updated Successfully');
 
             return redirect()
-                ->route('admin.leads.view', ['id' => $id])
+                ->back()
                 ->with('success', 'Lead updated successfully.');
         } catch (\Exception $e) {
             // Log the error if needed
@@ -671,60 +671,10 @@ class LeadsController extends Controller
         $industries = Category::where('parent_id', '0')->get();
         return view('vendor-views.leads.add-new', compact('industries','items','categories', 'countries', 'brands', 'brandSetting', 'digitalProductSetting', 'colors', 'attributes', 'languages', 'defaultLanguage', 'digitalProductFileTypes', 'digitalProductAuthors', 'publishingHouseList'));
     }
-
-    public function vstore(Request $request)
-    {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'type' => 'required|string',
-            'name' => 'required|string|max:255',
-            'country' => 'required|string',
-            'product_id' => 'required',
-            'industry' => 'required|string|max:255',
-            'term' => 'required|string|max:255',
-            'unit' => 'required|string|max:255',
-            'company_name' => 'required|string|max:255',
-            'contact_number' => 'required|string|max:255',
-            'quantity_required' => 'required|string|max:255',
-            'buying_frequency' => 'required|string|max:255',
-            'details' => 'required|string|max:255', // Assuming 'details' should be a string
-        ]);
-
-        $userdata = ChatManager::getRoleDetail();
-        $userId = $userdata['user_id'];
-        $role = $userdata['role'];
-
-        $validatedData['role'] = $role;
-        $validatedData['added_by'] = $userId;
-        $validatedData['posted_date'] = Carbon::now()->toDateString(); // Correct Carbon usage
-
-        // Create a new supplier record
-        Leads::create(array_merge($validatedData));
-
-        // Redirect or return response
-        return redirect()->route('vendor.leads.list')->with('success', 'Supplier added successfully.');
-    }
     
     public function vgetBulkImportView()
     {
         return view('vendor-views.leads.bulk-import');
-    }
-
-    public function vimportBulkLeads(Request $request, LeadService $service)
-    {
-        $userdata = ChatManager::getRoleDetail();
-        $user_id = $userdata['user_id'];
-        $user_role = $userdata['role'];
-
-        $dataArray = $service->getImportLeadsServiceAuth(request: $request, addedBy: $user_id, role: $user_role);
-        if (!$dataArray['status']) {
-            toastr()->error($dataArray['message']);
-            return back();
-        }
-
-        DB::table('leads')->insert($dataArray['leads']);
-        toastr()->success(message: 'Leads Imported Successfully');
-        return back();
     }
 
     public function vlist(Request $request)
@@ -738,10 +688,8 @@ class LeadsController extends Controller
         $query->where('added_by', $vendorId);
 
         // Apply filters based on the request
-        if ($request->filled('type')) {
-            $query->where('type', $request->type);
-        }
-
+        $query->where('type','seller');
+        
         if ($request->filled('name')) {
             $query->where('name', 'LIKE', '%' . $request->name . '%');
         }
@@ -812,42 +760,7 @@ class LeadsController extends Controller
         return view('vendor-views.leads.edit', compact('industries','items','name','leads', 'countries', 'categories', 'languages', 'defaultLanguage'));
     }
 
-    public function vupdate(Request $request, $id)
-    {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'type' => 'required|string',
-            'name' => 'required|string|max:255',
-            'country' => 'required|string',
-            'product_id' => 'required',
-            'company_name' => 'required|string|max:255',
-            'contact_number' => 'required|string|max:255',
-            'posted_date' => 'required|date',
-            'quantity_required' => 'required|string|max:255',
-            'buying_frequency' => 'required|string|max:255',
-            'details' => 'required|string|max:255',
-            'industry' => 'required|string|max:255',
-            'term' => 'required|string|max:255',
-            'unit' => 'required|string|max:255'
-        ]);
-
-        $userdata = ChatManager::getRoleDetail();
-        $userId = $userdata['user_id'];
-        $role = $userdata['role'];
-
-        $validatedData['role'] = $role;
-        $validatedData['added_by'] = $userId;
-
-        // Update the lead record
-        $leads = Leads::findOrFail($id);
-        $leads->update(array_merge($validatedData));
-
-        return redirect()
-            ->route('vendor.leads.view', ['id' => $id])
-            ->with('success', 'Lead updated successfully.');
-    }
-
-    public function vtoggle($id)
+    public function toggle($id)
     {
         $saleOffer = ChatManager::checksaleofferlimit();
         if($saleOffer['status'] == 'failure'){
@@ -860,14 +773,6 @@ class LeadsController extends Controller
 
         toastr()->success($saleOffer['message']);
         return redirect()->back()->with('success', 'Status updated successfully!');
-    }
-
-    public function vdelete($id)
-    {
-        $leads = Leads::findOrFail($id); // Fetch supplier or throw 404
-        $leads->delete(); // Delete the lead
-
-        return redirect()->route('vendor.leads.list')->with('success', 'Supplier deleted successfully.');
     }
 
     public function getMessages()

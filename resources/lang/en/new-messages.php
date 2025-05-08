@@ -9364,4 +9364,10 @@ return [
 	"Post RFQ" => "Post RFQ",
 	"Post a Job" => "Post a Job",
 	"Hire an Employee" => "Hire an Employee",
+	"Upload Banner / Advertise" => "Upload Banner / Advertise",
+	"Explore Trade Shows" => "Explore Trade Shows",
+	"Go To Marketplace" => "Go To Marketplace",
+	"Clearing & Forwarding Services" => "Clearing & Forwarding Services",
+	"Account Settings" => "Account Settings",
+	"Stock_Show" => "Stock Show",
 ];

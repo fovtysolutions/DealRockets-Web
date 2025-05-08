@@ -64,6 +64,9 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
 
     Route::group(['prefix' => 'vendor', 'as' => 'vendor.'], function () {
 
+        // Other Dashboard
+        Route::get('otherDashboard',[DashboardController::class,'otherDashboard'])->name('otherDashboard');
+
         // Sub Card Route
         Route::get('subcard/{slug}',[DashboardController::class,'subCardData'])->name('subcard');
         
@@ -114,15 +117,15 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
             
             Route::get('leads/messages',[LeadsController::class,'getVendorMessages'])->name('leads.get-vendor-messages');
             Route::get(Leads::VADD[URI],[LeadsController::class,'vadd_new'])->name('add-new-leads');
-            Route::post('leads/vadd-new',[LeadsController::class,'vstore'])->name('store.leads');
+            Route::post('leads/vadd-new',[LeadsController::class,'store'])->name('store.leads');
             Route::get(Leads::VBULK[URI],[LeadsController::class,'vgetBulkImportView'])->name('bulk-import-leads');
-            Route::post('leads/vbulk',[LeadsController::class,'vimportBulkLeads'])->name('leads.bulk.import');
+            Route::post('leads/vbulk',[LeadsController::class,'importBulkLeads'])->name('leads.bulk.import');
             Route::get(Leads::VLIST[URI],[LeadsController::class,'vlist'])->name('leads.list');
             Route::get(Leads::VVIEW[URI].'/{id}',[LeadsController::class,'vview'])->name('leads.view');
             Route::get(Leads::VEDIT[URI].'/{id}',[LeadsController::class,'vedit'])->name('leads.edit');
-            Route::post('leads/vupdate'.'/{id}',[LeadsController::class,'vupdate'])->name('leads.update');
-            Route::patch('leads/toggle'.'/{id}', [LeadsController::class, 'vtoggle'])->name('leads.toggle');
-            Route::post('leads/vdelete'.'/{id}',[LeadsController::class,'vdelete'])->name('leads.delete');
+            Route::post('leads/vupdate'.'/{id}',[LeadsController::class,'update'])->name('leads.update');
+            Route::patch('leads/toggle'.'/{id}', [LeadsController::class, 'toggle'])->name('leads.toggle');
+            Route::post('leads/vdelete'.'/{id}',[LeadsController::class,'delete'])->name('leads.delete');
             Route::get('leads/buyers',[LeadsController::class,'buyeradminview'])->name('leads.buyers');
 
         

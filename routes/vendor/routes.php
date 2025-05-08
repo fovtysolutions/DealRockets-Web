@@ -108,6 +108,10 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
         /* end authentication */
         Route::group(['middleware' => ['seller']], function () {
 
+            // Banner Sub Page
+            Route::get('subbanner/{slug}',[DashboardController::class,'bannerDataPage'])->name('bannersetup');
+            Route::post('bannerstore',[DashboardController::class,'storeBannerData'])->name('bannerstore');
+
             Route::prefix('jobvacancy')->name('jobvacancy.')->group(function () {
                 Route::get('list', [JobseekerController::class, 'vendorindex'])->name('list');
                 Route::get('add', [JobseekerController::class, 'vendorcreate'])->name('create');

@@ -71,7 +71,8 @@ class Seller extends Authenticatable
         'membership_status',
         'current_chatrooms',
         'vendor_type',
-        'country'
+        'country',
+        'ad_banners',
     ];
 
     protected $casts = [

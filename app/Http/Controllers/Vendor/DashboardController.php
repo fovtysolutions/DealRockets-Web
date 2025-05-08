@@ -13,6 +13,7 @@ use App\Enums\OrderStatus;
 use App\Enums\ViewPaths\Vendor\Dashboard;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Vendor\WithdrawRequest;
+use App\Models\Seller;
 use App\Repositories\BrandRepository;
 use App\Repositories\OrderTransactionRepository;
 use App\Services\DashboardService;
@@ -42,9 +43,7 @@ class DashboardController extends BaseController
         private readonly WithdrawRequestRepositoryInterface $withdrawRequestRepo,
         private readonly WithdrawRequestService $withdrawRequestService,
         private readonly DashboardService $dashboardService,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param Request|null $request
@@ -59,14 +58,14 @@ class DashboardController extends BaseController
     /**
      * @return View
      */
-    public function getView():View
+    public function getView(): View
     {
         $vendorId = auth('seller')->id();
         $topSell = $this->productRepo->getTopSellList(
-            filters:[
-                'added_by'=>'seller',
-                'seller_id'=>$vendorId,
-                'request_status' =>1
+            filters: [
+                'added_by' => 'seller',
+                'seller_id' => $vendorId,
+                'request_status' => 1
             ],
             relations: ['orderDetails']
         )->take(DASHBOARD_TOP_SELL_DATA_LIMIT);
@@ -92,18 +91,18 @@ class DashboardController extends BaseController
 
         $from = now()->startOfYear()->format('Y-m-d');
         $to = now()->endOfYear()->format('Y-m-d');
-        $range = range(1,12);
+        $range = range(1, 12);
         $vendorEarning = $this->getVendorEarning(from: $from, to: $to, range: $range, type: 'month');
-        $commissionEarn = $this->getAdminCommission(from: $from ,to: $to,range: $range,type:'month');
+        $commissionEarn = $this->getAdminCommission(from: $from, to: $to, range: $range, type: 'month');
         $vendorWallet = $this->vendorWalletRepo->getFirstWhere(params: ['seller_id' => $vendorId]);
         $label = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         $dateType = 'yearEarn';
         $dashboardData = [
             'orderStatus' => $this->getOrderStatusArray(type: 'overall'),
-                'customers'=> $this->customerRepo->getList(dataLimit: 'all')->count(),
-            'products'=> $this->productRepo->getListWhere(filters: ['seller_id'=>$vendorId,'added_by'=>'seller'])->count(),
-            'orders'=> $this->orderRepo->getListWhere(filters: ['seller_id'=>$vendorId,'seller_is'=>'seller'])->count(),
-            'brands'=> $this->brandRepo->getListWhere(dataLimit: 'all')->count(),
+            'customers' => $this->customerRepo->getList(dataLimit: 'all')->count(),
+            'products' => $this->productRepo->getListWhere(filters: ['seller_id' => $vendorId, 'added_by' => 'seller'])->count(),
+            'orders' => $this->orderRepo->getListWhere(filters: ['seller_id' => $vendorId, 'seller_is' => 'seller'])->count(),
+            'brands' => $this->brandRepo->getListWhere(dataLimit: 'all')->count(),
             'topSell' => $topSell,
             'topRatedProducts' => $topRatedProducts,
             'topRatedDeliveryMan' => $topRatedDeliveryMan,
@@ -115,15 +114,15 @@ class DashboardController extends BaseController
             'collectedCash' => $vendorWallet->collected_cash ?? 0,
             'collectedTotalTax' => $vendorWallet->total_tax_collected ?? 0,
         ];
-        $withdrawalMethods = $this->withdrawalMethodRepo->getListWhere(filters:['is_active'=>1],dataLimit:'all');
-        return view(Dashboard::INDEX[VIEW],compact('dashboardData','vendorEarning','commissionEarn','withdrawalMethods','dateType','label'));
+        $withdrawalMethods = $this->withdrawalMethodRepo->getListWhere(filters: ['is_active' => 1], dataLimit: 'all');
+        return view(Dashboard::INDEX[VIEW], compact('dashboardData', 'vendorEarning', 'commissionEarn', 'withdrawalMethods', 'dateType', 'label'));
     }
 
     /**
      * @param string $type
      * @return JsonResponse
      */
-    public function getOrderStatus(string $type):JsonResponse
+    public function getOrderStatus(string $type): JsonResponse
     {
         $orderStatus = $this->getOrderStatusArray($type);
         return response()->json([
@@ -135,7 +134,7 @@ class DashboardController extends BaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function getEarningStatistics(Request $request):JsonResponse
+    public function getEarningStatistics(Request $request): JsonResponse
     {
         $dateType = $request['type'];
         $dateTypeArray = $this->dashboardService->getDateTypeData(dateType: $dateType);
@@ -149,7 +148,7 @@ class DashboardController extends BaseController
         $commissionEarn = array_values($commissionEarn);
         $label = $dateTypeArray['keyRange'] ?? [];
         return response()->json([
-            'view' => view(Dashboard::EARNING_STATISTICS[VIEW], compact('vendorEarning','commissionEarn','label','dateType'))->render(),
+            'view' => view(Dashboard::EARNING_STATISTICS[VIEW], compact('vendorEarning', 'commissionEarn', 'label', 'dateType'))->render(),
         ]);
     }
 
@@ -157,27 +156,27 @@ class DashboardController extends BaseController
      * @param WithdrawRequest $request
      * @return RedirectResponse
      */
-    public function getWithdrawRequest(WithdrawRequest $request):RedirectResponse
+    public function getWithdrawRequest(WithdrawRequest $request): RedirectResponse
     {
         $vendorId = auth('seller')->id();
-        $withdrawMethod = $this->withdrawalMethodRepo->getFirstWhere(params:['id'=>$request['withdraw_method']]);
-        $wallet = $this->vendorWalletRepo->getFirstWhere(params:['seller_id'=> auth('seller')->id()]);
+        $withdrawMethod = $this->withdrawalMethodRepo->getFirstWhere(params: ['id' => $request['withdraw_method']]);
+        $wallet = $this->vendorWalletRepo->getFirstWhere(params: ['seller_id' => auth('seller')->id()]);
         if (($wallet['total_earning']) >= currencyConverter($request['amount']) && $request['amount'] > 1) {
             $this->withdrawRequestRepo->add($this->withdrawRequestService->getWithdrawRequestData(
-                withdrawMethod:$withdrawMethod,
-                request:$request,
+                withdrawMethod: $withdrawMethod,
+                request: $request,
                 addedBy: 'vendor',
                 vendorId: $vendorId
             ));
             $totalEarning = $wallet['total_earning'] - currencyConverter($request['amount']);
             $pendingWithdraw = $wallet['pending_withdraw'] + currencyConverter($request['amount']);
             $this->vendorWalletRepo->update(
-                id:$wallet['id'],
-                data: $this->vendorWalletService->getVendorWalletData(totalEarning:$totalEarning,pendingWithdraw:$pendingWithdraw)
+                id: $wallet['id'],
+                data: $this->vendorWalletService->getVendorWalletData(totalEarning: $totalEarning, pendingWithdraw: $pendingWithdraw)
             );
             Toastr::success(translate('withdraw_request_has_been_sent'));
-        }else{
-            Toastr::error(translate('invalid_request').'!');
+        } else {
+            Toastr::error(translate('invalid_request') . '!');
         }
         return redirect()->back();
     }
@@ -186,7 +185,7 @@ class DashboardController extends BaseController
      * @param string $type
      * @return array
      */
-    protected function getOrderStatusArray(string $type) :array
+    protected function getOrderStatusArray(string $type): array
     {
         $vendorId = auth('seller')->id();
         $status = OrderStatus::LIST;
@@ -224,7 +223,7 @@ class DashboardController extends BaseController
             selectColumn: 'seller_amount',
             whereBetween: 'created_at',
             whereBetweenFilters: [$from, $to],
-            groupBy:  $type,
+            groupBy: $type,
         );
         return $this->dashboardService->getDateWiseAmount(range: $range, type: $type, amountArray: $vendorEarnings);
     }
@@ -236,41 +235,41 @@ class DashboardController extends BaseController
      * @param string $type
      * @return array
      */
-    protected function getAdminCommission(string|Carbon $from, string|Carbon $to, array $range, string $type ):array
+    protected function getAdminCommission(string|Carbon $from, string|Carbon $to, array $range, string $type): array
     {;
         $vendorId = auth('seller')->id();
         $commissionGiven = $this->orderTransactionRepo->getListWhereBetween(
-            filters:  [
-                'seller_is'=>'seller',
-                'seller_id'=>$vendorId,
-                'status'=>'disburse',
+            filters: [
+                'seller_is' => 'seller',
+                'seller_id' => $vendorId,
+                'status' => 'disburse',
             ],
-            selectColumn:  'admin_commission',
+            selectColumn: 'admin_commission',
             whereBetween: 'created_at',
             whereBetweenFilters: [$from, $to],
-            groupBy:  $type,
+            groupBy: $type,
         );
-        return $this->dashboardService->getDateWiseAmount(range: $range,type: $type,amountArray: $commissionGiven);;
+        return $this->dashboardService->getDateWiseAmount(range: $range, type: $type, amountArray: $commissionGiven);;
     }
 
     /**
      * @param Request $request
      * @return JsonResponse
      */
-    public function getMethodList(Request $request):JsonResponse
+    public function getMethodList(Request $request): JsonResponse
     {
-        $method = $this->withdrawalMethodRepo->getFirstWhere(params:['id'=> $request['method_id'],'is_active'=>1]);
-        return response()->json(['content'=>$method], 200);
+        $method = $this->withdrawalMethodRepo->getFirstWhere(params: ['id' => $request['method_id'], 'is_active' => 1]);
+        return response()->json(['content' => $method], 200);
     }
 
     public function otherDashboard(Request $request)
     {
         $vendorId = auth('seller')->id();
         $topSell = $this->productRepo->getTopSellList(
-            filters:[
-                'added_by'=>'seller',
-                'seller_id'=>$vendorId,
-                'request_status' =>1
+            filters: [
+                'added_by' => 'seller',
+                'seller_id' => $vendorId,
+                'request_status' => 1
             ],
             relations: ['orderDetails']
         )->take(DASHBOARD_TOP_SELL_DATA_LIMIT);
@@ -296,18 +295,18 @@ class DashboardController extends BaseController
 
         $from = now()->startOfYear()->format('Y-m-d');
         $to = now()->endOfYear()->format('Y-m-d');
-        $range = range(1,12);
+        $range = range(1, 12);
         $vendorEarning = $this->getVendorEarning(from: $from, to: $to, range: $range, type: 'month');
-        $commissionEarn = $this->getAdminCommission(from: $from ,to: $to,range: $range,type:'month');
+        $commissionEarn = $this->getAdminCommission(from: $from, to: $to, range: $range, type: 'month');
         $vendorWallet = $this->vendorWalletRepo->getFirstWhere(params: ['seller_id' => $vendorId]);
         $label = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         $dateType = 'yearEarn';
         $dashboardData = [
             'orderStatus' => $this->getOrderStatusArray(type: 'overall'),
-                'customers'=> $this->customerRepo->getList(dataLimit: 'all')->count(),
-            'products'=> $this->productRepo->getListWhere(filters: ['seller_id'=>$vendorId,'added_by'=>'seller'])->count(),
-            'orders'=> $this->orderRepo->getListWhere(filters: ['seller_id'=>$vendorId,'seller_is'=>'seller'])->count(),
-            'brands'=> $this->brandRepo->getListWhere(dataLimit: 'all')->count(),
+            'customers' => $this->customerRepo->getList(dataLimit: 'all')->count(),
+            'products' => $this->productRepo->getListWhere(filters: ['seller_id' => $vendorId, 'added_by' => 'seller'])->count(),
+            'orders' => $this->orderRepo->getListWhere(filters: ['seller_id' => $vendorId, 'seller_is' => 'seller'])->count(),
+            'brands' => $this->brandRepo->getListWhere(dataLimit: 'all')->count(),
             'topSell' => $topSell,
             'topRatedProducts' => $topRatedProducts,
             'topRatedDeliveryMan' => $topRatedDeliveryMan,
@@ -319,8 +318,75 @@ class DashboardController extends BaseController
             'collectedCash' => $vendorWallet->collected_cash ?? 0,
             'collectedTotalTax' => $vendorWallet->total_tax_collected ?? 0,
         ];
-        $withdrawalMethods = $this->withdrawalMethodRepo->getListWhere(filters:['is_active'=>1],dataLimit:'all');
-        return view('vendor-views.dashboard.subcards.dashboard-analytics',compact('dashboardData','vendorEarning','commissionEarn','withdrawalMethods','dateType','label'));
+        $withdrawalMethods = $this->withdrawalMethodRepo->getListWhere(filters: ['is_active' => 1], dataLimit: 'all');
+        return view('vendor-views.dashboard.subcards.dashboard-analytics', compact('dashboardData', 'vendorEarning', 'commissionEarn', 'withdrawalMethods', 'dateType', 'label'));
+    }
+
+    public function bannerDataPage($slug)
+    {
+        $validSlugs = ['marketplace', 'buyleads', 'selloffer', 'tradeshows'];
+        $userId = auth('seller')->id();
+        $seller = Seller::find($userId);
+
+        $banner_images = $seller->ad_banners[$slug];
+
+        if (!in_array($slug, $validSlugs)) {
+            abort(404);
+        }
+        
+        return view('vendor-views.banner.banner', compact('slug'));
+    }
+
+    public function storeBannerData(Request $request)
+    {
+        $slug = $request->input('slug');
+        $userId = auth('seller')->id();
+        $seller = Seller::find($userId);
+
+        // Ensure ad_banners is initialized
+        $existingBanners = $seller->ad_banners ?? [];
+        $currentBannerSet = $existingBanners[$slug] ?? [];
+
+        // Convert to associative array [index => image_path] for easy merging
+        $indexedBanners = collect($currentBannerSet)->keyBy('index')->toArray();
+
+        // Loop through input images
+        for ($i = 1; $i <= 3; $i++) {
+            $inputName = "banner_{$slug}{$i}";
+
+            if ($request->hasFile($inputName)) {
+                $file = $request->file($inputName);
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('uploads/banners', $filename, 'public');
+
+                // Replace or insert uploaded banner
+                $indexedBanners[$i] = [
+                    'slug' => $slug,
+                    'index' => $i,
+                    'image_path' => $path
+                ];
+            }
+        }
+
+        // Check for special case: only allow adding banner 2 if 1 and 3 already exist
+        if (!isset($indexedBanners[2]) && $request->hasFile("banner_{$slug}2")) {
+            if (!isset($indexedBanners[1]) || !isset($indexedBanners[3])) {
+                return response()->json([
+                    'message' => 'You can only add banner 2 if banner 1 and 3 exist.',
+                    'data' => $indexedBanners
+                ], 422);
+            }
+        }
+
+        // Re-index as numerically ordered array
+        $finalBanners = collect($indexedBanners)->sortKeys()->values()->all();
+
+        // Save updated banners
+        $existingBanners[$slug] = $finalBanners;
+        $seller->ad_banners = $existingBanners;
+        $seller->save();
+
+        return response()->back()->with('success','Images Added Successfully');
     }
 
     // Sub Cards Functions
@@ -328,13 +394,13 @@ class DashboardController extends BaseController
     {
         $title = '';
         $cardData = [];
-    
+
         switch ($slug) {
             case 'profile':
                 $title = 'Profile Settings';
                 $cardData = [
-                    ['link' => route('vendor.profile.update',[auth('seller')->id()]), 'title' => 'Manage Profile', 'value' => 12],
-                ];  
+                    ['link' => route('vendor.profile.update', [auth('seller')->id()]), 'title' => 'Manage Profile', 'value' => 12],
+                ];
                 break;
 
             case 'analytics':
@@ -355,10 +421,10 @@ class DashboardController extends BaseController
             case 'upload-banner':
                 $title = 'Banners Setup';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Marketplace', 'value' => 12],
-                    ['link' => '#', 'title' => 'Buy Leads', 'value' => 12],
-                    ['link' => '#', 'title' => 'Sell Offer', 'value' => 4],
-                    ['link' => '#', 'title' => 'Tradeshows', 'value' => 4],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'marketplace']), 'title' => 'Marketplace', 'value' => 12],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'buyleads']), 'title' => 'Buy Leads', 'value' => 12],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'selloffer']), 'title' => 'Sell Offer', 'value' => 4],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'tradeshows']), 'title' => 'Tradeshows', 'value' => 4],
                 ];
                 break;
 
@@ -371,7 +437,7 @@ class DashboardController extends BaseController
                     ['link' => route('vendor.messages.index', ['type' => 'customer']), 'title' => 'Marketplace', 'value' => 4],
                 ];
                 break;
-    
+
             case 'product-upload':
                 $title = 'Product Upload';
                 $cardData = [
@@ -379,7 +445,7 @@ class DashboardController extends BaseController
                     ['link' => route('vendor.products.bulk-import'), 'title' => 'Bulk Import', 'value' => 25],
                 ];
                 break;
-    
+
             case 'stock-sell':
                 $title = 'Stock Sell';
                 $cardData = [
@@ -387,7 +453,7 @@ class DashboardController extends BaseController
                     ['link' => route('vendor.stock.create'), 'title' => 'Add Stock Sales', 'value' => 6],
                 ];
                 break;
-    
+
             case 'sell-offer':
                 $title = 'Sell Offer';
                 $cardData = [
@@ -395,31 +461,32 @@ class DashboardController extends BaseController
                     ['link' => route('vendor.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 6],
                 ];
                 break;
-    
+
             case 'buy-leads':
-                $title = 'Buy Leads';
-                $cardData = [
-                    ['link' => route('vendor.leads.buyers'), 'title' => 'Go To Buy Leads', 'value' => 10],
-                ];
+                return redirect()->route('buyer');
+                // $title = 'Buy Leads';
+                // $cardData = [
+                //     ['link' => route('vendor.leads.buyers'), 'title' => 'Go To Buy Leads', 'value' => 10],
+                // ];
                 break;
-    
+
             case 'marketplace':
                 $title = 'Marketplace';
                 $cardData = [
-                    ['link' => route('vendor.products.list',['type'=>'all']), 'title' => 'Manage Products', 'value' => 10],
-                    ['link' => route('vendor.products.list',['type'=>'approved']), 'title' => 'Approved Products', 'value' => 6],
-                    ['link' => route('vendor.products.list',['type'=>'denied']), 'title' => 'Denied Products', 'value' => 6],
-                    ['link' => route('vendor.products.list',['type'=>'new-request']), 'title' => 'New Product Request', 'value' => 6],
+                    ['link' => route('vendor.products.list', ['type' => 'all']), 'title' => 'Manage Products', 'value' => 10],
+                    ['link' => route('vendor.products.list', ['type' => 'approved']), 'title' => 'Approved Products', 'value' => 6],
+                    ['link' => route('vendor.products.list', ['type' => 'denied']), 'title' => 'Denied Products', 'value' => 6],
+                    ['link' => route('vendor.products.list', ['type' => 'new-request']), 'title' => 'New Product Request', 'value' => 6],
                 ];
                 break;
-    
+
             case 'post-rfq':
                 $title = 'Post RFQ';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Go to RFQ Page', 'value' => 5],
+                    ['link' => route('quotationweb'), 'title' => 'Go to RFQ Page', 'value' => 5],
                 ];
                 break;
-    
+
             case 'post-job':
                 $title = 'Post a Job';
                 $cardData = [
@@ -427,29 +494,30 @@ class DashboardController extends BaseController
                     ['link' => route('vendor.jobvacancy.create'), 'title' => 'Add Job', 'value' => 10],
                 ];
                 break;
-    
+
             case 'hire-employee':
                 $title = 'Hire an Employee';
                 $cardData = [
                     ['link' => route('vendor.jobvacancy.job-applications'), 'title' => 'Applications', 'value' => 3],
                 ];
                 break;
-    
+
             case 'trade-shows':
-                $title = 'Trade Shows';
-                $cardData = [
-                    ['link' => '#', 'title' => 'Upcoming Shows', 'value' => 2],
-                    ['link' => '#', 'title' => 'Ongoing Shows', 'value' => 2],
-                    ['link' => '#', 'title' => 'Past Shows', 'value' => 2],
-                ];
+                return redirect()->route('tradeshow');
+                // $title = 'Trade Shows';
+                // $cardData = [
+                //     ['link' => '#', 'title' => 'Upcoming Shows', 'value' => 2],
+                //     ['link' => '#', 'title' => 'Ongoing Shows', 'value' => 2],
+                //     ['link' => '#', 'title' => 'Past Shows', 'value' => 2],
+                // ];
                 break;
 
             case 'clearing-forwarding':
                 $title = 'Clearing and Forwarding Services';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Clearing Service', 'value'=> 3],
-                    ['link' => '#', 'title' => 'Forwarding Service', 'value'=>30],
-                ];  
+                    ['link' => '#', 'title' => 'Clearing Service', 'value' => 3],
+                    ['link' => '#', 'title' => 'Forwarding Service', 'value' => 30],
+                ];
                 break;
 
             case 'settings':
@@ -473,17 +541,16 @@ class DashboardController extends BaseController
                     ['link' => '#', 'title' => 'Add FAQ', 'value' => 34],
                 ];
                 break;
-    
+
             case 'logout':
-                // Handle logout if needed, otherwise just redirect
-                return redirect()->route('logout');
-    
+                return redirect()->route('vendor.auth.logout');
+
             default:
                 $title = 'Unknown';
                 $cardData = [['link' => '#', 'title' => 'No Data Found', 'value' => 0]];
                 break;
         }
-    
+
         return view('vendor-views.dashboard.subcards.subcard', compact('title', 'cardData', 'slug'));
-    }    
+    }
 }

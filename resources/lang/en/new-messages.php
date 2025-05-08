@@ -9374,4 +9374,6 @@ return [
 	"Salary High" => "Salary High",
 	"Company Employees" => "Company Employees",
 	"Company Type" => "Company Type",
+	"Vendor Banner Setup" => "Vendor Banner Setup",
+	"Add Banners" => "Add Banners",
 ];

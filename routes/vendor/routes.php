@@ -60,6 +60,7 @@ use App\Http\Controllers\deal_assist\DealAssistController;
 use App\Http\Controllers\Leads\LeadsController;
 use App\Http\Controllers\Vendor\Supplier\SupplierController as VendorSupplier;
 use App\Http\Controllers\Vendor\VendorStockSellController;
+use App\Http\Controllers\Web\JobseekerController;
 
 Route::group(['middleware' => ['maintenance_mode']], function () {
 
@@ -106,6 +107,35 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
         
         /* end authentication */
         Route::group(['middleware' => ['seller']], function () {
+
+            Route::prefix('jobvacancy')->name('jobvacancy.')->group(function () {
+                Route::get('list', [JobseekerController::class, 'vendorindex'])->name('list');
+                Route::get('add', [JobseekerController::class, 'vendorcreate'])->name('create');
+                Route::post('store', [JobseekerController::class, 'store'])->name('store');
+                Route::get('edit/{id}', [JobseekerController::class, 'vendoredit'])->name('edit');
+                Route::post('update/{id}', [JobseekerController::class, 'update'])->name('update');
+                Route::get('view/{id}', [JobseekerController::class, 'vendorshow'])->name('show');
+                Route::delete('delete/{id}', [JobseekerController::class, 'destroy'])->name('destroy');
+                Route::post('update-status', [JobseekerController::class, 'updateStatus'])->name('update-status');
+                // Category Management
+                Route::prefix('category')->name('category.')->group(function () {
+                    // Display list of job categories
+                    Route::get('list', [JobseekerController::class, 'catindex'])->name('list');
+                    
+                    // Create new job category
+                    Route::get('create', [JobseekerController::class, 'catcreate'])->name('create');
+                    Route::post('store', [JobseekerController::class, 'catstore'])->name('store');
+                    
+                    // Edit job category
+                    Route::get('edit/{jobCategory}', [JobseekerController::class, 'catupdate'])->name('edit');
+                    Route::post('update/{jobCategory}', [JobseekerController::class, 'catupdate'])->name('update');
+                    
+                    // Delete job category
+                    Route::delete('delete/{jobCategory}', [JobseekerController::class, 'catdestroy'])->name('destroy');
+                });
+                Route::match(['get', 'post', 'put', 'delete'], '/job-applications', [JobseekerController::class, 'vendorjob_applications'])->name('job-applications');
+                Route::match(['get', 'post', 'put', 'delete'], '/registered-candidates', [JobseekerController::class, 'registered_candidates'])->name('registered-candidates');
+            });
 
             Route::group(['prefix' => 'dealassist','as'=>'dealassist.'], function(){
                 Route::get('index',[DealAssistController::class,'vendorindex'])->name('index');

@@ -12,7 +12,11 @@ class Vacancies extends Model
     protected $fillable = [
         'title',
         'description',
-        'salary',
+        'salary_low',
+        'salary_high',
+        'currency',
+        'company_employees',
+        'company_type',
         'employment_type',
         'status',
         'category',

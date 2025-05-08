@@ -9370,4 +9370,8 @@ return [
 	"Clearing & Forwarding Services" => "Clearing & Forwarding Services",
 	"Account Settings" => "Account Settings",
 	"Stock_Show" => "Stock Show",
+	"Salary Low" => "Salary Low",
+	"Salary High" => "Salary High",
+	"Company Employees" => "Company Employees",
+	"Company Type" => "Company Type",
 ];

@@ -315,6 +315,51 @@ class JobseekerController extends Controller
         ]);
     }
 
+    public function vendorindex(Request $request)
+    {
+        // Fetch filter parameters from the request
+        $category = $request->get('category');
+        $status = $request->get('status');
+        $employment_type = $request->get('employment_type');
+        $sort_by = $request->get('sort_by', 'title'); // Default sort by title
+        $sort_order = $request->get('sort_order', 'asc'); // Default to ascending order
+
+        // Start the query
+        $vacancies = Vacancies::query();
+
+        // Apply category filter if it's provided
+        if ($category) {
+            $vacancies = $vacancies->where('category', 'like', '%' . $category . '%');
+        }
+
+        // Apply status filter if it's provided
+        if ($status) {
+            $vacancies = $vacancies->where('status', $status);
+        }
+
+        // Apply employment type filter if it's provided
+        if ($employment_type) {
+            $vacancies = $vacancies->where('employment_type', $employment_type);
+        }
+
+        // Sort the results based on the user's selection
+        $vacancies = $vacancies->orderBy($sort_by, $sort_order);
+
+        // Paginate the results
+        $vacancies = $vacancies->paginate(10);
+
+        // Pass the data to the view
+        return view('vendor-views.jobseekers.index', [
+            'vacancies' => $vacancies,
+            'category' => $category,
+            'status' => $status,
+            'employment_type' => $employment_type,
+            'sort_by' => $sort_by,
+            'sort_order' => $sort_order,
+            'categories' => CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting(), // Assuming you have a categories table
+        ]);
+    }
+
     public function create()
     {
         // Get categories for the dropdown
@@ -323,6 +368,19 @@ class JobseekerController extends Controller
 
         // Return the create view with the categories
         return view('admin-views.jobseekers.add', [
+            'countries' => $countries,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function vendorcreate()
+    {
+        // Get categories for the dropdown
+        $categories = JobCategory::where('active','1')->get();
+        $countries = CountrySetupController::getCountries();
+
+        // Return the create view with the categories
+        return view('vendor-views.jobseekers.add', [
             'countries' => $countries,
             'categories' => $categories,
         ]);
@@ -345,13 +403,30 @@ class JobseekerController extends Controller
                 $logoPath = null; // If no logo is uploaded, set it to null
             }
 
-            $userId = Auth::Guard('admin')->user()->id;
+            // Get user details
+            $userdata = ChatManager::getRoleDetail();
+            $userId = $userdata['user_id'] ?? null;
+            $role = $userdata['role'] ?? null;
+
+            if ($role == 'seller'){
+                $vendorid = $userId;
+            } else if ($role == 'admin'){
+                $adminid = $userId;
+            } else {
+                $vendorid = null;
+                $adminid = null;
+                return back()
+                ->withInput()
+                ->with('error', 'An error occurred while creating the vacancy');
+            }
 
             // Create a new vacancy
             Vacancies::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'salary' => $request->salary,
+                'salary_low' => $request->salary_low,
+                'currency' => $request->currency,
+                'salary_high' => $request->salary_high,
                 'employment_type' => $request->employment_type,
                 'status' => $request->status,
                 'category' => $request->category,
@@ -360,6 +435,8 @@ class JobseekerController extends Controller
                 'company_website' => $request->company_website,
                 'company_email' => $request->company_email,
                 'company_phone' => $request->company_phone,
+                'company_employees' => $request->company_employees,
+                'company_type' => $request->company_type,
                 'company_logo' => $logoPath,
                 'location' => $request->location,
                 'city' => $request->city,
@@ -377,13 +454,13 @@ class JobseekerController extends Controller
                 'featured' => $request->featured ?? 0,
                 'vacancies' => $request->vacancies,
                 'remote' => $request->remote,
-                'user_id' => '',
-                'admin_id' => $userId,
+                'user_id' => $vendorid ?? null,
+                'admin_id' => $adminid ?? null,
                 'Approved' => 1,
             ]);
 
             // Redirect with success message
-            return redirect()->route('admin.jobvacancy.list')->with('success', 'Vacancy created successfully.');
+            return redirect()->back()->with('success', 'Vacancy created successfully.');
         } catch (Exception $e) {
             // Log the error for debugging
             Log::error('Vacancy creation failed: ' . $e->getMessage());
@@ -407,6 +484,18 @@ class JobseekerController extends Controller
         return view('admin-views.jobseekers.show', compact('vacancy', 'category', 'country', 'state', 'city'));
     }
 
+    public function vendorshow($id)
+    {
+        // Fetch the job vacancy by its ID
+        $vacancy = Vacancies::findOrFail($id);
+        $category = JobCategory::where('id', $vacancy->category)->value('name');
+        $country = Country::where('id', $vacancy->country)->value('name');
+        $state = State::where('id', $vacancy->state)->value('name');
+        $city = City::where('id', $vacancy->city)->value('name');
+        // Return the view and pass the vacancy data
+        return view('vendor-views.jobseekers.show', compact('vacancy', 'category', 'country', 'state', 'city'));
+    }
+
     public function edit($id)
     {
         $vacancy = Vacancies::findOrFail($id);
@@ -422,6 +511,23 @@ class JobseekerController extends Controller
         $categories = JobCategory::where('active','1')->get();
         $countries = CountrySetupController::getCountries();
         return view('admin-views.jobseekers.edit', compact('vacancy', 'categories', 'countries'));
+    }
+
+    public function vendoredit($id)
+    {
+        $vacancy = Vacancies::findOrFail($id);
+
+        $vacancy_skills = $vacancy->skills_required ? json_decode($vacancy->skills_required, true) : [];
+        $vacancy_certs = $vacancy->certifications_required ? json_decode($vacancy->certifications_required, true) : [];
+        $vacancy_benefits = $vacancy->benefits ? json_decode($vacancy->benefits, true) : [];
+
+        $vacancy->skills_required = implode(',', $vacancy_skills);
+        $vacancy->certifications_required = implode(',', $vacancy_certs);
+        $vacancy->benefits = implode(',', $vacancy_benefits);
+
+        $categories = JobCategory::where('active','1')->get();
+        $countries = CountrySetupController::getCountries();
+        return view('vendor-views.jobseekers.edit', compact('vacancy', 'categories', 'countries'));
     }
 
     public function update(Request $request, $id)
@@ -443,7 +549,9 @@ class JobseekerController extends Controller
         $updatedata = [
             'title' => $request->title,
             'description' => $request->description,
-            'salary' => $request->salary,
+            'salary_low' => $request->salary_low,
+            'currency' => $request->currency,
+            'salary_high' => $request->salary_high,
             'employment_type' => $request->employment_type,
             'status' => $request->status,
             'category' => $request->category,
@@ -452,6 +560,8 @@ class JobseekerController extends Controller
             'company_website' => $request->company_website,
             'company_email' => $request->company_email,
             'company_phone' => $request->company_phone,
+            'company_employees' => $request->company_employees,
+            'company_type' => $request->company_type,
             'company_logo' => $logoPath,
             'location' => $request->location,
             'city' => $request->city,
@@ -475,7 +585,7 @@ class JobseekerController extends Controller
         $vacancy->update($updatedata);
 
         // Redirect with success message
-        return redirect()->route('admin.jobvacancy.list')->with('success', 'Job updated successfully.');
+        return redirect()->back()->with('success', 'Job updated successfully.');
     }
 
     public function destroy($id)
@@ -805,6 +915,55 @@ class JobseekerController extends Controller
             }
             $consultants = $query->paginate(10);
             return view('admin-views.jobseekers.consultant_membership.index',compact('consultants'));
+        }
+    }
+
+    public function vendorjob_applications(Request $request)
+    {
+        if ($request->isMethod('get')) {
+            // Start the query
+            $query = JobAppliers::with(['user', 'job']); // Eager load related user and job data
+
+            // Get user details
+            $userdata = ChatManager::getRoleDetail();
+            $userId = $userdata['user_id'] ?? null;
+            $role = $userdata['role'] ?? null;
+
+            if ($role == 'seller'){
+                $vendorid = $userId;
+                $jobs = Vacancies::where('user_id',$vendorid)->get()->pluck('id');
+            } else if ($role == 'admin'){
+                $adminid = $userId;
+                $jobs = Vacancies::where('admin_id',$adminid)->get()->pluck('id');
+            } else {
+                $vendorid = null;
+                $adminid = null;
+                return back()
+                ->withInput()
+                ->with('error', 'An error occurred while creating the vacancy');
+            }
+
+            $query = $query->whereIn('jobid',$jobs);
+
+            // Get the search input
+            $search = $request->input('search');
+
+            // Apply search filter if provided
+            if ($search) {
+                $query = $query->whereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('phone', 'LIKE', "%{$search}%");
+                })->orWhereHas('job', function ($q) use ($search) {
+                    $q->where('title', 'LIKE', "%{$search}%");
+                });
+            }
+
+            // Paginate the results
+            $data['jobapplications'] = $query->paginate(10);
+
+            // Return the view with data
+            return view('vendor-views.jobseekers.job_applications.index', $data);
         }
     }
 

@@ -423,17 +423,15 @@ class DashboardController extends BaseController
             case 'post-job':
                 $title = 'Post a Job';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Posted Jobs', 'value' => 4],
-                    ['link' => '#', 'title' => 'Applications', 'value' => 23],
+                    ['link' => route('vendor.jobvacancy.list'), 'title' => 'Manage Jobs', 'value' => 4],
+                    ['link' => route('vendor.jobvacancy.create'), 'title' => 'Add Job', 'value' => 10],
                 ];
                 break;
     
             case 'hire-employee':
                 $title = 'Hire an Employee';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Posted Jobs Details', 'value' => 3],
-                    ['link' => '#', 'title' => 'Interviews Scheduled', 'value' => 3],
-                    ['link' => '#', 'title' => 'Hired', 'value' => 1],
+                    ['link' => route('vendor.jobvacancy.job-applications'), 'title' => 'Applications', 'value' => 3],
                 ];
                 break;
     

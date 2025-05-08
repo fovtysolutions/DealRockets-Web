@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('company_website')->nullable();  // Company website
             $table->string('company_logo')->nullable();  // Company logo URL or file path
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('sellers')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -12,6 +12,7 @@ use App\Utils\ChatManager;
 use App\Utils\CategoryManager;
 use Exception;
 use App\Models\Country;
+use App\Models\Favourites;
 use App\Models\StockCategory;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -402,6 +403,35 @@ class StockSellController extends Controller
             // Catch general errors
             toastr()->error('Unexpected error: ' . $e->getMessage());
             return redirect()->route('admin.stock.category.list');
+        }
+    }
+
+    public function toggle(Request $request)
+    {
+        $request->validate([
+            'listing_id' => 'required|integer',
+            'type' => 'required|string',
+            'role' => 'nullable|string',
+        ]);
+    
+        $user_id=$request->input('user_id');
+
+        $existing = Favourites::where('user_id', $user_id)
+            ->where('listing_id', $request->listing_id)
+            ->where('type', $request->type)
+            ->first();
+    
+        if ($existing) {
+            $existing->delete();
+            return response()->json(['status' => 'removed']);
+        } else {
+            Favourites::create([
+                'user_id'    => $user_id,
+                'listing_id' => $request->listing_id,
+                'role'       => $request->role,
+                'type'       => $request->type,
+            ]);
+            return response()->json(['status' => 'added']);
         }
     }
 }

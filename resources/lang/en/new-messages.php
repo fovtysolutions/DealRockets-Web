@@ -9376,4 +9376,5 @@ return [
 	"Company Type" => "Company Type",
 	"Vendor Banner Setup" => "Vendor Banner Setup",
 	"Add Banners" => "Add Banners",
+	"Favorites | Deal Rocket" => "Favorites | Deal Rocket",
 ];

@@ -62,6 +62,7 @@ use App\Http\Controllers\Web\ErrorController;
 use App\Http\Controllers\Web\StocksalewebController;
 use App\Http\Controllers\Web\MembershipTierController;
 use App\Http\Controllers\Web\MarketplaceController;
+use App\Http\Controllers\Web\StockSellController;
 
 /*
 |--------------------------------------------------------------------------
@@ -307,6 +308,10 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
 
     // Marketplace Routes
     Route::get('marketplace-categories/{id}',[MarketplaceController::class,'getCategoryDetails'])->name('marketplace-categories');
+
+    // Favourite Route
+    Route::post('make-favourite',[StockSellController::class,'toggle'])->name('toggle-favourite')->middleware('customer');
+    Route::get('get-favourite',[UserProfileController::class,'getfavourites'])->name('gotoshortlist')->middleware('customer');
 
     // Profile Route
     Route::controller(UserProfileController::class)->group(function () {

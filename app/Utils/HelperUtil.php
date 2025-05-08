@@ -4,6 +4,7 @@ namespace App\Utils;
 
 use App\Models\Admin;
 use App\Models\BusinessSetting;
+use App\Models\Favourites;
 use App\Models\Leads;
 use App\Models\Product;
 use App\Models\ProductTag;
@@ -389,5 +390,15 @@ class HelperUtil
                 'error' => $e->getMessage()
             ];
         }
+    }
+
+    public static function checkIfFavourite($listingId, $userId)
+    {
+        // Check if the item is already favorited
+        $favourite = Favourites::where('user_id', $userId)
+                              ->where('listing_id', $listingId)
+                              ->first();
+
+        return $favourite ? true : false; // Return true if found, false otherwise
     }
 }

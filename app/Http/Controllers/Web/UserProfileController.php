@@ -44,6 +44,7 @@ use App\Models\TableJobProfile;
 use App\Models\Vacancies;
 use App\Models\Country;
 use App\Models\CV;
+use App\Models\Favourites;
 use Illuminate\Support\Facades\Log;
 use App\Models\JobAppliers;
 use App\Utils\CategoryManager;
@@ -1178,5 +1179,12 @@ class UserProfileController extends Controller
             ->paginate(8);
 
         return view(VIEW_FILE_NAMES['user_coupons'], compact('coupons'));
+    }
+
+    public function getfavourites(Request $request){
+        $user = auth('customer')->user(); // Or use auth()->user() based on guard
+        $favourites = Favourites::where('user_id', $user->id)->where('role','customer')->get();
+    
+        return view('web.getfavourites', compact('favourites'));
     }
 }

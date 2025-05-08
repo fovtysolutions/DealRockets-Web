@@ -284,7 +284,7 @@
             // Function to gather filter values and make the AJAX request
             function applyFilters(page = 1) {
                 let filters = {
-                    name: document.getElementById('nameFilter').value, // Adjust to your input field ID
+                    search_query: document.getElementById('nameFilter').value, // Adjust to your input field ID
                     country: Array.from(document.querySelectorAll('input[name="country[]"]:checked')).map(
                         checkbox => checkbox.value), // For multiple checkboxes
                     industry: Array.from(document.querySelectorAll('input[name="industry[]"]:checked')).map(
@@ -320,7 +320,8 @@
                 e.preventDefault();
 
                 let filters = {
-                    name: document.getElementById('nameFilter').value, // Adjust to your input field ID
+                    search_query: document.getElementById('nameFilter')
+                        .value, // Adjust to your input field ID
                     country: Array.from(document.querySelectorAll('input[name="country[]"]:checked'))
                         .map(checkbox => checkbox.value), // For multiple checkboxes
                     industry: Array.from(document.querySelectorAll('input[name="industry[]"]:checked'))
@@ -451,7 +452,7 @@
             // Initialize Owl Carousel
             $('.details-carousel').owlCarousel({
                 loop: true,
-                margin: 10,
+                margin: 30,
                 autoplay: false,
                 nav: false, // Show navigation arrows
                 dots: true, // Show dots for navigation
@@ -475,6 +476,7 @@
             // Initialize Owl Carousel
             $(".icon-carousel").owlCarousel({
                 items: 1, // Show 1 image at a time
+                margin: 30,
                 loop: true, // Enable looping
                 autoplay: false, // Disable autoplay by default
                 nav: false, // Disable next/prev buttons
@@ -497,7 +499,7 @@
         function initializeStockSellCarousel() {
             $(".stocksale-carousel").owlCarousel({
                 loop: true, // Enable looping
-                margin: 10, // Space between items
+                margin: 30, // Space between items
                 nav: false, // Show navigation arrows
                 dots: false, // Show dots navigation
                 autoplay: true, // Auto slide
@@ -560,7 +562,7 @@
     <script>
         function populateDetailedBox(card) {
             var id = $(card).data('id');
-            console.log('box populated',id);
+            console.log('box populated', id);
             document.querySelectorAll('.product-card-inner').forEach(inner => {
                 inner.classList.remove('product-card-featured');
             });
@@ -592,22 +594,22 @@
     <script>
         // Tab switching functionality
         document.querySelectorAll('.detail-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-          document.querySelectorAll('.detail-tab').forEach(t => {
-            t.classList.remove('active');
-          });
-          document.querySelectorAll('.detail-tab-content').forEach(content => {
-            content.classList.remove('active');
-          });
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.detail-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                document.querySelectorAll('.detail-tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
 
-          this.classList.add('active');
+                this.classList.add('active');
 
-          const targetId = this.id.replace('tab-', 'content-');
-          const targetContent = document.getElementById(targetId);
+                const targetId = this.id.replace('tab-', 'content-');
+                const targetContent = document.getElementById(targetId);
 
-          targetContent.classList.add('active');
+                targetContent.classList.add('active');
+            });
         });
-      });
 
         // Checkbox toggle functionality
         document.querySelectorAll('.checkbox').forEach(checkbox => {
@@ -615,5 +617,43 @@
                 this.classList.toggle('checkbox-checked');
             });
         });
+    </script>
+    <script>
+        function sendtologin(){
+            window.location.href = '/customer/auth/login';
+        }
+
+        function makeFavourite(element) {
+            const listingId = element.getAttribute('data-id');
+            const user_id = element.getAttribute('data-userid');
+            const type = element.getAttribute('data-type');
+            const role = element.getAttribute('data-role');
+            const btn = element;
+
+            var data = {
+                listing_id: listingId,
+                user_id: user_id,
+                type: type,
+                role: role,
+                _token: '{{ csrf_token() }}'
+            };
+
+            $.ajax({
+                url: '{{ route('toggle-favourite') }}',
+                method: 'POST',
+                data: data,
+                success: function(response) {
+                    if (response.status === 'added') {
+                        toastr.success('Added Favourite');
+                        btn.src = '/img/Heart (2).png'; // or change icon class
+                    } else {
+                        btn.src = '/img/Heart (1).png';
+                    }
+                },
+                error: function() {
+                    toastr.Error('Something Went Wrong');
+                }
+            });
+        }
     </script>
 @endpush

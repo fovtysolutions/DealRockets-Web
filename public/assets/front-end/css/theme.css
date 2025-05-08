@@ -18831,7 +18831,7 @@ body {
 }
 
 .nav-link {
-    color: white !important;
+    color: white;
 }
 
 .navbar-stuck-menu {

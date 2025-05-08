@@ -144,8 +144,6 @@ class StocksalewebController extends Controller
             $query->where('name', 'LIKE', '%' . $request->input('search_query') . '%');
         }
 
-        // Apply filters based on URL parameters
-
         // Filter by industry if it's an array of selected industries
         if ($request->has('industry') && is_array($request->industry)) {
             $query->whereIn('industry', $request->industry);

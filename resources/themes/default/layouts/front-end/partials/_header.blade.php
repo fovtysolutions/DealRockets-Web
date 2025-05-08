@@ -333,7 +333,7 @@
                           </a>
                         </div>
                         <div class="group-13">
-                        <a href="{{ route('shop-cart') }}">
+                        <a href="{{ route('gotoshortlist') }}">
                           <img class="heart img-default" src="/img/heart-1.png" />
                           <img class="heart img-hover" src="/img/heart (2).png" />
                           <div class="text-wrapper-11">Shortlist</div>

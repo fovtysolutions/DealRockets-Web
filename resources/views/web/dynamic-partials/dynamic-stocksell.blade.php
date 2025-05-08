@@ -8,7 +8,7 @@
                             <!-- Loop through the images (using PHP) -->
                             @foreach (json_decode($stocksell->image, true) as $image)
                                 <div class="item">
-                                    <img class="ico" src="/{{ $image }}" style="height: 106px;"/>
+                                    <img class="ico" src="/{{ $image }}" style="height: 106px; width: 100%;"/>
                                 </div>
                             @endforeach
                         </div>
@@ -16,9 +16,23 @@
                     <div class="product-info">
                         <div class="product-header">
                             <div class="product-title">{{ $stocksell->name }}</div>
-                            <img class ="heart"
-                                src="{{ theme_asset('public/img/Heart (1).png') }}"
-                                width="20" alt="Featured icon">
+                            @php
+                                $user = auth('customer')->user();
+                                $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($stocksell->id, $user->id);
+                            @endphp
+                            @if(auth('customer')->user())
+                                <img class="heart favourite-img" onclick="makeFavourite(this)"  
+                                    data-id="{{ $stocksell->id }}" 
+                                    data-userid="{{ $user->id }}"
+                                    data-type="stocksell" 
+                                    data-role="{{ auth()->user()->role ?? 'customer' }}"
+                                    src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
+                                    width="20" alt="Featured icon">
+                            @else
+                                <img class="heart favourite-img" onclick="sendtologin()"  
+                                    src="{{ theme_asset('public/img/Heart (1).png') }}"
+                                    width="20" alt="Featured icon">
+                            @endif
                         </div>
                         <div class="product-rate">
                             <div class="product-rate-label">Offer Rate:</div>
@@ -27,8 +41,15 @@
                         <div class="product-origin">
                             <div>Origin:</div>
                             <div class="product-origin-location">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/5b1bea327edb9b7946bc239f6a800e8695ba92c6?placeholderIfAbsent=true"
-                                    width="15" alt="Location icon">
+                                @php
+                                    $countryDetails = \App\Utils\ChatManager::getCountryDetails($stocksell->country);
+                                    $countryISO2 = $countryDetails['countryISO2'] ?? null;
+                                    $imagepath = $countryISO2 ? "/flags/" . strtolower($countryISO2) . ".svg" : null;
+                                @endphp
+
+                                @if($imagepath)
+                                    <img src="{{ $imagepath }}" width="15" alt="Location icon">
+                                @endif
                                 <div>{{ $stocksell->city ?? 'N/A' }}, {{ \App\Models\Country::where('id',$stocksell->country)->first()->name }}</div>
                             </div>
                         </div>

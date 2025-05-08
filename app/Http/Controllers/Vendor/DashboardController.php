@@ -348,8 +348,7 @@ class DashboardController extends BaseController
             case 'deal-assist':
                 $title = 'Deal Assist';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Manage Deal Assist', 'value' => 75],
-                    ['link' => '#', 'title' => 'Add Deal Assist', 'value' => 25],
+                    ['link' => route('vendor.dealassist.index'), 'title' => 'Manage Deal Assist', 'value' => 75],
                 ];
                 break;
 

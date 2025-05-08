@@ -4,6 +4,7 @@ namespace App\Http\Controllers\deal_assist;
 
 use App\Http\Controllers\Controller;
 use App\Models\DealAssist;
+use App\Utils\ChatManager;
 use Illuminate\Http\Request;
 
 class DealAssistController extends Controller
@@ -15,14 +16,30 @@ class DealAssistController extends Controller
         return view('admin-views.deal_assist.index', compact('dealAssists'));
     }
 
+    // Vendor View
+    public function vendorindex()
+    {
+        $userdata = ChatManager::getRoleDetail();
+        $userId = $userdata['user_id'] ?? null;
+        $role = $userdata['role'] ?? null;
+        $dealAssists = DealAssist::where('user_id',$userId)->where('role',$role)->paginate(10);
+        return view('vendor-views.deal_assist.index', compact('dealAssists'));
+    }
+
     public function store(Request $request)
     {
+        $userdata = ChatManager::getRoleDetail();
+        $userId = $userdata['user_id'] ?? null;
+        $role = $userdata['role'] ?? null;
+
         $validated = $request->validate([
-            'user_id' => 'required|integer',
             'phone_number' => 'required',
             'email' => 'required|email',
             'name' => 'required|string|max:255',
         ]);
+
+        $validated['user_id'] = $userId;
+        $validated['role'] = $role;
 
         DealAssist::create($validated);
         return redirect()->back()->with('success', 'Deal Assist created.');

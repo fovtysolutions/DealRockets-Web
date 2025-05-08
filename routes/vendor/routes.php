@@ -56,6 +56,7 @@ use App\Http\Controllers\Vendor\TransactionReportController;
 use App\Http\Controllers\Vendor\ProductReportController;
 use App\Http\Controllers\Vendor\OrderReportController;
 use App\Enums\ViewPaths\Admin\Leads;
+use App\Http\Controllers\deal_assist\DealAssistController;
 use App\Http\Controllers\Leads\LeadsController;
 use App\Http\Controllers\Vendor\Supplier\SupplierController as VendorSupplier;
 use App\Http\Controllers\Vendor\VendorStockSellController;
@@ -105,6 +106,14 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
         
         /* end authentication */
         Route::group(['middleware' => ['seller']], function () {
+
+            Route::group(['prefix' => 'dealassist','as'=>'dealassist.'], function(){
+                Route::get('index',[DealAssistController::class,'vendorindex'])->name('index');
+                Route::post('store',[DealAssistController::class,'store'])->name('store');
+                Route::post('update',[DealAssistController::class,'update'])->name('update');
+                Route::delete('delete/{id}', [DealAssistController::class, 'destroy'])->name('destroy');
+            });
+
             Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
                 Route::controller(DashboardController::class)->group(function () {
                     Route::get(Dashboard::INDEX[URI], 'index')->name('index');

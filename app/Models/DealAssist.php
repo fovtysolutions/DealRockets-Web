@@ -10,6 +10,6 @@ class DealAssist extends Model
     use HasFactory;
     protected $table = 'deal_assist';
     protected $fillable = [
-        'user_id','phone_number','email','name'
+        'user_id','phone_number','email','name','role'
     ];
 }

@@ -1203,7 +1203,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::get(Leads::VIEW[URI] . '/{id}', [LeadsController::class, 'view'])->name('leads.view');
     Route::get(Leads::EDIT[URI] . '/{id}', [LeadsController::class, 'edit'])->name('leads.edit');
     Route::post('leads/update' . '/{id}', [LeadsController::class, 'update'])->name('leads.update');
-    Route::post('leads/delete' . '/{id}', [LeadsController::class, 'delete'])->name('leads.delete');
+    Route::delete('leads/delete' . '/{id}', [LeadsController::class, 'delete'])->name('leads.delete');
     Route::get('leads/get-messages',[LeadsController::class,'getMessages'])->name('leads.get-messages');
 
     // Admin Tradeshow
@@ -1243,7 +1243,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::get(CV::VIEW[URI] . '/{id}', [CVController::class, 'view'])->name('cv.view');
     Route::get(CV::EDIT[URI] . '/{id}', [CVController::class, 'edit'])->name('cv.edit');
     Route::post('cv/update' . '/{id}', [CVController::class, 'update'])->name('cv.update');
-    Route::post('cv/delete' . '/{id}', [CVController::class, 'delete'])->name('cv.delete');
+    Route::delete('cv/delete' . '/{id}', [CVController::class, 'delete'])->name('cv.delete');
 
     // Admin Stock Sell
     Route::prefix('stock')->name('stock.')->group(function () {

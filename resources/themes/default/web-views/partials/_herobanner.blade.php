@@ -75,14 +75,6 @@
                             <img src="img/main.png" class="d-block w-100" alt="Slide 3">
                         </div>
                     </div>
-                    <!-- <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button> -->
-                    <!-- <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button> -->
                 </div>
             </div>
 
@@ -168,39 +160,6 @@
         text.style.color = "var(--web-hover)";
     });
 </script>
-<!-- Owl Carousel Initialization -->
-{{-- <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const categoryContainer = document.getElementById("highlightbanner"); 
-    if (!categoryContainer) return; // Prevent errors if missing
-
-    // Create the full-screen shadow overlay
-    const fullScreenShadow = document.createElement("div");
-    fullScreenShadow.classList.add("fullscreen-shadow");
-    document.body.appendChild(fullScreenShadow);
-
-    let hoverTimeout;
-
-    function showShadow() {
-        clearTimeout(hoverTimeout);
-        fullScreenShadow.style.display = "block";
-    }
-
-    function hideShadow() {
-        hoverTimeout = setTimeout(() => {
-            fullScreenShadow.style.display = "none";
-        }, 200); // Small delay prevents flickering when moving between elements
-    }
-
-    categoryContainer.addEventListener("mouseenter", showShadow);
-    categoryContainer.addEventListener("mouseleave", hideShadow);
-
-    // Ensure shadow remains active if cursor moves over it
-    fullScreenShadow.addEventListener("mouseenter", showShadow);
-    fullScreenShadow.addEventListener("mouseleave", hideShadow);
-});
-</script> --}}
-<!-- Initialize Owl Carousel Script -->
 <script>
     $(document).ready(function() {
         $('#banner-carousel1').carousel({

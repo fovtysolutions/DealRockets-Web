@@ -45,6 +45,7 @@
         </tbody>
     </table>
 
+    @if(!$dealAssists->empty())
     <!-- Edit Modal -->
     <div class="modal fade" id="editModal" tabindex="-1">
         <div class="modal-dialog">
@@ -67,6 +68,7 @@
             </form>
         </div>
     </div>
+    @endif
 
     <!-- Create Modal -->
     <div class="modal fade" id="createModal" tabindex="-1">

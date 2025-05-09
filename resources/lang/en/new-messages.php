@@ -9377,4 +9377,6 @@ return [
 	"Vendor Banner Setup" => "Vendor Banner Setup",
 	"Add Banners" => "Add Banners",
 	"Favorites | Deal Rocket" => "Favorites | Deal Rocket",
+	"Vendor_has_been_rejected_successfully" => "Vendor has been rejected successfully",
+	"Vendor_Registration_Denied" => "Vendor Registration Denied",
 ];

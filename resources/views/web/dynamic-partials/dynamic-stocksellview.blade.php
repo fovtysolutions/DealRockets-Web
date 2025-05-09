@@ -1,3 +1,4 @@
+@if(isset($stocksell))
 <div class="detail-content">
     <div id="content-stock-photo" class="detail-tab-content active">
         <div class="detail-title">
@@ -334,3 +335,4 @@
     </div>
   </div>
 </div>
+@endif

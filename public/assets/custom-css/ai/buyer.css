@@ -20,7 +20,7 @@
 
 /* Sidebar */
 .buy-offer .sidebar {
-    width: 25%;
+    width: 18%;
 }
 
 .buy-offer .sidebar-inner {
@@ -110,6 +110,7 @@
 .buy-offer .checkbox-item {
     display: flex;
     align-items: center;
+    margin-left: 10px;
     gap: 0.625rem;
     margin-top: 0.625rem;
 }
@@ -185,7 +186,7 @@
     background-color: white;
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    /* gap: 1.25rem; */
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0.875rem 29px;
@@ -319,9 +320,9 @@
     display: flex;
     width: 17%;
     flex-direction: column;
+    justify-content: space-between;
     align-items: stretch;
     align-self: stretch;
-    margin: auto 0;
 }
 
 .buy-offer .verified-badge {
@@ -461,12 +462,148 @@
     margin-top: 176px;
 }
 
+.buy-offer .search-input {
+    width: 100%;
+}
 
+.buy-offer .search-input-field {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #D5D5D5;
+    background-color: white;
+    justify-content: center;
+    padding: 9px 16px;
+    border-radius: 6px;
+}
 
+.buy-offer .search-input-field input {
+    width: 88%;
+    border: 0;
+    outline: 0;
+}
 
+.buy-offer .search-input-field img {
+    width: 20px;
+}
 
+.buy-offer .filter-section:first-child{
+    margin-top: 0;
+}
 
+.buy-offer .filter-section {
+    width: 100%;
+    margin-top: 10px;
+    background: white;
+    padding: 15px;
+}
 
+.buy-offer .country-list {
+    display: flex;
+    flex-direction: column;
+    min-height: 122px;
+    max-height: 215px;
+    max-width: 100%;
+    /* width: 8rem; */
+    overflow-y: scroll;
+    margin-top: 0.75rem;
+    background-color: #e0dce24a;
+}
+
+.buy-offer .category-list {
+    display: flex;
+    flex-direction: column;
+    /* min-height: 477px; */
+    max-width: 100%;
+    max-height: 215px;
+    /* width: 199px; */
+    overflow-y: scroll;
+    margin-top: 0.75rem;
+    background-color: #e0dce24a;
+}
+
+.buy-offer .filter-item {
+    display: flex;
+    gap: 8px;
+}
+
+input[type='checkbox'] {
+    accent-color: #FE4E44;
+}
+
+/* Inquiry Form Styles */
+.buy-offer .inquiry-form {
+    background: white;
+    width: 100%;
+    box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.25);
+}
+
+.buy-offer .inquiry-header {
+    background: #EBEBEB;
+    padding: 19px 30px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.buy-offer .inquiry-body {
+    padding: 30px;
+}
+
+.buy-offer .form-group {
+    margin-bottom: 20px;
+}
+
+.buy-offer .form-group label {
+    display: block;
+    font-size: 14px;
+    color: #515050;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.buy-offer .supplier-name-field {
+    background: white;
+    padding: 16px 32px;
+    font-size: 16px;
+}
+
+.buy-offer #email,
+.buy-offer #message {
+    width: 100%;
+    padding: 17px 31px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.buy-offer #message {
+    resize: none;
+    height: 200px;
+}
+
+.buy-offer .btn-inquire-now {
+    background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.buy-offer .filter-button {
+    display: none;
+    margin-left: 50px;
+    width: 101px;
+    height: 30px;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    background-color: white;
+    cursor: pointer;
+}
 
 @media (max-width: 1400px) {
     .buy-offer .container {

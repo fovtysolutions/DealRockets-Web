@@ -34,12 +34,12 @@
                         @endforeach
                     </ul>
                 </div>
-
+    
                 <div class="card-body">
                     @foreach ($languages as $lang)
                         <div class="{{ $lang != $defaultLanguage ? 'd-none' : '' }} form-system-language-form"
                             id="{{ $lang }}-form">
-
+    
                             <div class="row mb-4">
                                 <!-- Buyer/Seller Dropdown -->
                                 <div class="col form-group">
@@ -53,7 +53,7 @@
                                         <option value="seller">{{ translate('seller') }}</option>
                                     </select>
                                 </div>
-
+    
                                 <!-- Lead Name -->
                                 <div class="col form-group">
                                     <label class="title-color" for="{{ $lang }}_name">{{ translate('Lead_name') }}
@@ -68,7 +68,7 @@
                                         placeholder="{{ translate('new_lead') }}">
                                 </div>
                             </div>
-
+    
                             <div class="row mb-4">
                                 <!-- Country -->
                                 <div class="col form-group">
@@ -86,7 +86,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-
+    
                                 {{-- Leads Industry --}}
                                 <div class="col form-group">
                                     <label class="title-color"
@@ -105,7 +105,7 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-
+    
                                 <div class=" col form-group">
                                     <label for="{{ $lang }}_product" class="form-label">Product</label>
                                     <input type="text" {{ $lang == $defaultLanguage ? 'required' : '' }} name="product_id"
@@ -113,7 +113,7 @@
                                         class="form-control {{ $lang == $defaultLanguage ? 'product-title-default-language' : '' }}"
                                         placeholder="{{ translate('product') }}">
                                 </div>
-
+    
                                 <div class="col form-group">
                                     <label for="images" class="form-label">{{ translate('product_images') }}</label>
                                     <input type="file" 
@@ -132,7 +132,7 @@
                                 value="{{ old('unit', $leads->unit ?? '') }}">
                         </div> --}}
                             </div>
-
+    
                             <div class="row mb-4">
                                 <!-- Company Name -->
                                 <div class="col form-group">
@@ -148,7 +148,7 @@
                                         class="form-control {{ $lang == $defaultLanguage ? 'product-title-default-language' : '' }}"
                                         placeholder="{{ translate('enter_company_name') }}">
                                 </div>
-
+    
                                 <!-- Contact Number -->
                                 <div class="col form-group">
                                     <label class="title-color"
@@ -160,7 +160,7 @@
                                         placeholder="{{ translate('enter_contact_number') }}">
                                 </div>
                             </div>
-
+    
                             <!-- Quantity Required -->
                             <div class="row mb-4">
                                 <div class="col-md-6">
@@ -181,9 +181,9 @@
                                         placeholder="{{ translate('Enter Unit') }}">
                                 </div>
                             </div>
-
+    
                             <div class="row mb-4">
-
+    
                                 <!-- Term -->
                                 <div class="col form-group">
                                     <label class="title-color" for="{{ $lang }}_term">{{ translate('Term') }}
@@ -193,7 +193,7 @@
                                         name="term" id="{{ $lang }}_term" class="form-control"
                                         placeholder="{{ translate('Enter Term') }}">
                                 </div>
-
+    
                                 <!-- Buying Frequency -->
                                 <div class="col form-group">
                                     <label class="title-color"
@@ -212,17 +212,17 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-
+    
                                 <!-- Compliance Status (Hidden Field) -->
                                 <div class="col form-group">
                                     <label for="compliance_status" class="form-label">Compliance Status</label>
                                     <select name="compliance_status" id="compliance_status" class="form-control">
                                         <option value="pending" selected>Pending</option>
-                                        <option value="approved">Approved</option>
-                                        <option value="flagged">Flagged</option>
+                                        {{-- <option value="approved">Approved</option>
+                                        <option value="flagged">Flagged</option> --}}
                                     </select>
                                 </div>
-
+    
                                 <!-- City -->
                                 <div class="col form-group">
                                     <label for="{{ $lang }}_city">{{ translate('city') }}</label>
@@ -232,7 +232,7 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-
+    
                                 <!-- Tags -->
                                 <div class="col form-group">
                                     <label for="{{ $lang }}_tags">{{ translate('tags') }}</label>
@@ -240,7 +240,7 @@
                                         class="form-control" placeholder="{{ translate('enter_tags') }}"
                                         value="{{ old('tags', $leads->tags ?? '') }}">
                                 </div>
-
+    
                                 <!-- Refund -->
                                 <div class="col form-group">
                                     <label for="{{ $lang }}_refund">{{ translate('refund_policy') }}</label>
@@ -250,7 +250,7 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-
+    
                                 <!-- Available Stock -->
                                 <div class="col form-group">
                                     <label for="{{ $lang }}_avl_stock">{{ translate('available_stock') }}</label>
@@ -258,7 +258,7 @@
                                         class="form-control" placeholder="{{ translate('enter_available_stock') }}"
                                         value="{{ old('avl_stock', $leads->avl_stock ?? '') }}">
                                 </div>
-
+    
                                 <!-- Available Stock Unit -->
                                 <div class="col form-group">
                                     <label
@@ -267,10 +267,10 @@
                                         class="form-control" placeholder="{{ translate('enter_available_stock_unit') }}"
                                         value="{{ old('avl_stock_unit', $leads->avl_stock_unit ?? '') }}">
                                 </div>
-
+    
                             </div>
                             <div class="row mb-4">
-
+    
                                 <!-- Lead Time -->
                                 <div class="col form-group">
                                     <label for="{{ $lang }}_lead_time">{{ translate('lead_time') }}</label>
@@ -278,7 +278,7 @@
                                         class="form-control" placeholder="{{ translate('enter_lead_time') }}"
                                         value="{{ old('lead_time', $leads->lead_time ?? '') }}">
                                 </div>
-
+    
                                 <!-- Brand -->
                                 <div class="col form-group">
                                     <label for="{{ $lang }}_brand">{{ translate('brand') }}</label>
@@ -288,7 +288,7 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-
+    
                                 <!-- Payment Option -->
                                 <div class="col form-group">
                                     <label
@@ -297,7 +297,7 @@
                                         class="form-control" placeholder="{{ translate('enter_payment_option') }}"
                                         value="{{ old('payment_option', $leads->payment_option ?? '') }}">
                                 </div>
-
+    
                                 <!-- Offer Type -->
                                 <div class="col form-group">
                                     <label for="{{ $lang }}_offer_type">{{ translate('offer_type') }}</label>
@@ -307,7 +307,7 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-
+    
                                 <!-- Size -->
                                 <div class="col form-group">
                                     <label for="{{ $lang }}_size">{{ translate('size') }}</label>
@@ -315,7 +315,7 @@
                                         class="form-control" placeholder="{{ translate('enter_size') }}"
                                         value="{{ old('size', $leads->size ?? '') }}">
                                 </div>
-
+    
                                 <!-- Additional Details -->
                                 <div class="col form-group">
                                     <label class="title-color"
@@ -324,7 +324,7 @@
                                         placeholder="{{ translate('enter_details') }}" rows="3"></textarea>
                                 </div>
                             </div>
-
+    
                             <!-- Compliance Warning -->
                             <div id="compliance-warning" class="alert alert-warning d-none">
                                 {{ translate('This lead may not comply with platform standards. Please review before submitting.') }}

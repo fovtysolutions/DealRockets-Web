@@ -379,31 +379,6 @@
         });
     </script>       
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var urlParams = new URLSearchParams(window.location.search);
-            var jobid = urlParams.get("jobid");
-            var job_first_id = document.getElementById("jobid") ?
-                document.getElementById("jobid").value :
-                null;
-
-            var jobDetailsVisible =
-                $("#jobdetails").length && $("#jobdetails").css("display") === "block";
-
-            if (jobid) {
-                if (jobDetailsVisible) {
-                    fetchJobData(jobid);
-                } else {
-                    $("#exampleModalLong").modal("show");
-                    fetchJobData(jobid);
-                }
-            } else if (job_first_id) {
-                fetchJobData(job_first_id);
-            } else {
-                console.error("No job ID found in URL or default input.");
-            }
-        });
-    </script>
-    <script>
         function initializeDetailCarousel() {
             // Initialize Owl Carousel
             $('.details-carousel').owlCarousel({

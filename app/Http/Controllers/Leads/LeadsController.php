@@ -76,7 +76,7 @@ class LeadsController extends Controller
 
     public function buyer(Request $request)
     {
-        $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
+        $categoriesn = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         // Filter Countries
         $leadsQuery = Leads::where('type', 'buyer')->whereHas('countryRelation', function ($query) {
             $query->where('blacklist', 'no');
@@ -133,26 +133,8 @@ class LeadsController extends Controller
         // Top 20 Countries by quotes recieved
         $countries = Leads::where('type', 'buyer')->orderBy('quotes_recieved','DESC')->select('country')->distinct()->pluck('country');
 
-        // All Industry
-        $industries =  CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
-
         // Trending Section
         $trending = ChatManager::GetTrendingProducts();
-
-        // Total RFQ
-        $totalrfq = Leads::where('type','buyer')->get();
-        $length = count($totalrfq);
-        $i = 0;
-        $counttotal = 0;
-        $countrykeyvalue = [];
-        while($i < $length){
-            $counttotal += $totalrfq[$i]['quotes_recieved'];
-            $countrykeyvalue[] = [
-                'countryid' => $totalrfq[$i]['country'],
-                'totquotes' => self::totalquotescountry('buyer',$totalrfq[$i]['country']),
-            ];
-            $i++;
-        }
 
         // Ad Images
         $adimages = BusinessSetting::where('type', 'buyer')->first();
@@ -169,9 +151,56 @@ class LeadsController extends Controller
         $quotationbanner =  BusinessSetting::where('type','quotation')->first()->value;
         $quotationdata = json_decode($quotationbanner,true)['banner'] ?? '';
 
+        $items = Leads::where('type','buyer')->get();
+
         // Return the Data to Frontend Page
-        return view('leads.buyer', compact('categories', 'leads', 'combinedLeads', 'countries', 'adimages', 'buyerbanner','combinedLeadsPaginator'
-            ,'counttotal','countrykeyvalue','industries','trending','bannerimages','quotationdata'));
+        return view('leads.buyer', compact('categoriesn', 'leads', 'items', 'combinedLeads', 'countries', 'adimages', 'buyerbanner','combinedLeadsPaginator','trending','bannerimages','quotationdata'));
+    }
+
+    public function leadsDynamic(Request $request){
+        $query = Leads::query();
+
+        // Always filter by active status
+        $query->where('type','buyer');
+
+        // Filter by country if necessary
+        $query->whereHas('countryRelation', function($query) {
+            $query->whereRaw('blacklist = ?', ['no']);
+        });
+
+        // Text search
+        if ($request->filled('search_query')) {
+            $query->where('name', 'LIKE', '%' . $request->input('search_query') . '%');
+        }
+
+        // Filter by industry if it's an array of selected industries
+        if ($request->has('industry') && is_array($request->industry)) {
+            $query->whereIn('industry', $request->industry);
+        }
+
+        // Filter by country if it's an array of selected countries
+        if ($request->has('country') && is_array($request->country)) {
+            $query->whereIn('country', $request->country);
+        }
+
+        $page = $request->get('page', 1);
+
+        // Paginate the filtered results
+        $items = $query->paginate(6, ['*'], 'page', $page);
+        
+        // If it's an AJAX request, return only the partial view with trade show cards
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('leads.partials.dynamic-buyers', compact('items'))->render(),
+                'pagination' => $items->links('custom-paginator.custom')->render(),
+            ]);
+        }
+    
+        // Otherwise, return the full page
+        return response()->json([
+            'html' => view('leads.partials.dynamic-buyers', compact('items'))->render(),
+            'pagination' => $items->links('custom-paginator.custom')->render(),
+        ]);
     }
 
     public function buyerview(Request $request){

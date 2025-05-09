@@ -56,43 +56,12 @@
     <section class="mainpagesection stock-sale" style="background-color: unset; margin-top: 30px;">
         <div class="main-content">
             <!-- Left sidebar with filters -->
-            <!-- for mobile media  -->
-            <div class="search-and-filters-container">
-                <!-- Search Box -->
-                <div id="search-box"
-                    style="background: #fff;  width: 196.66px; display: flex; align-items: center; border: 1px solid #ccc; border-radius: 8px; padding: 6px 10px;">
-                    <!-- Search Icon SVG -->
-                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="black"
-                        style="margin-right: 6px;" viewBox="0 0 24 24">
-                        <path d="M21 21L15.8 15.8M18 10.5A7.5 7.5 0 1 1 3 10.5a7.5 7.5 0 0 1 15 0Z" stroke="black"
-                            stroke-width="2" fill="none" />
-                    </svg>
-                    <input type="text" placeholder="Search by Name" style="border: none; outline: none;" />
-                </div>
-
-                <!-- Filters Button -->
-                <button id="filters-button"
-                    style="display: flex;     margin-left: 50px;
-                width: 101px;
-                height: 30px;  align-items: center; gap: 6px; border: 1px solid #ccc; padding: 6px 12px; background-color: white; cursor: pointer;">
-                    Filters
-                    <!-- Filter Icon SVG -->
-                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="black"
-                        viewBox="0 0 24 24">
-                        <path d="M3 5h18M6 12h12M10 19h4" stroke="black" stroke-width="2" fill="none"
-                            stroke-linecap="round" />
-                    </svg>
-                </button>
-            </div>
-
-
-
             <div class="sidebar">
                 <div class="filter-sidebar">
                     <form method="GET" action="{{ route('stocksale') }}" id="filterFormStockSale">
-                        <div class="filter-section">
+                        <div class="filter-section showbelow768">
                             <div class="search-section">
-                                <div class="search-label">Search by Name</div>
+                                <div class="search-label notshowbelow768">Search by Name</div>
                                 <div class="search-input-container">
                                     <div class="search-input-field">
                                         <input type="text" name="search_query" id="nameFilter"
@@ -102,10 +71,20 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <button id="filters-button" class="filter-button" onclick="toggleFilters(event)">
+                                Filters
+                                <!-- Filter Icon SVG -->
+                                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="black"
+                                    viewBox="0 0 24 24">
+                                    <path d="M3 5h18M6 12h12M10 19h4" stroke="black" stroke-width="2" fill="none"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </button>
                         </div>
 
-                        <div class="filter-section">
-                            <div class="search-label">Filter By Country</div>
+                        <div class="filter-section togglebelow768">
+                            <div class="search-label">Search by Country</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="country_search" placeholder="Enter Country..."
@@ -138,7 +117,7 @@
                         </div>
 
                         <!-- Filter By Category Section -->
-                        <div class="filter-section deltwo">
+                        <div class="filter-section togglebelow768">
                             <div class="search-label">Search by Category</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
@@ -162,7 +141,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="filter-section deltwo">
+                        <div class="filter-section togglebelow768">
                             <div class="search-label">Search by Stock Type</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
@@ -206,6 +185,9 @@
             <!-- Right section with product details -->
             <div class="product-detail-section" id="productModal">
                 <div class="product-detail">
+                    <button type="button" class="close filter-button" data-dismiss="modal" onclick="toggleDetailBox()" aria-label="Close" style="margin: auto !important;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>    
                     <div class="detail-tabs">
                         <div class="detail-tab active" id="tab-stock-photo">
                             <i class="fa-solid fa-circle-info detail-tab-icon"></i>
@@ -257,12 +239,7 @@
                     let timeout;
 
                     input.addEventListener('input', function() {
-                        clearTimeout(timeout);
-                        timeout = setTimeout(function() {
-                            if (input.value.trim() !== '') {
-                                applyFilters();
-                            }
-                        }, 500); // Wait 500ms before triggering the filter
+                        applyFilters();
                     });
                 });
 
@@ -341,7 +318,7 @@
             document.querySelectorAll('.filter-options').forEach(container => {
                 const items = container.querySelectorAll('.checkbox-item');
                 items.forEach((item, index) => {
-                    item.style.display = index < 6 ? 'flex' : 'none';
+                    item.style.display = index < 160 ? 'flex' : 'none';
                 });
             });
 
@@ -371,57 +348,36 @@
         });
     </script>
     <script>
-        // Handle form submission with AJAX
-        $('#send-message-btn').on('click', function(e) {
-            e.preventDefault(); // Prevent default form submission
-
-            // Collect form data
+        $('#inquiryForm').on('submit', function(e) {
+            e.preventDefault();
+    
             var formData = {
                 sender_id: $('#sender_id').val(),
                 sender_type: $('#sender_type').val(),
                 receiver_id: $('#receiver_id').val(),
                 receiver_type: $('#receiver_type').val(),
-                type: $('#typereq').val(),
-                leads_id: $('#leads_id').val(),
-                message: $('textarea[name="message"]').val(),
-                _token: $('input[name="_token"]').val() // CSRF token
+                type: $('#type').val(),
+                stocksell_id: $('#stocksell_id').val(),
+                email: $('#email').val(),
+                message: $('#message').val(),
+                _token: $('input[name="_token"]').val()
             };
-
-            // Send AJAX POST request
+    
             $.ajax({
-                url: "{{ route('sendmessage.other') }}", // Backend route
+                url: "{{ route('sendmessage.other') }}",
                 type: 'POST',
                 data: formData,
                 success: function(response) {
-                    toastr.success('Message sent successfully!', 'Success');
-                    $('#chatting_modalnew').modal('hide'); // Hide modal
+                    toastr.success('Inquiry sent successfully!', 'Success');
+                    $('#inquireButton').modal('hide');
+                    $('#inquiryForm')[0].reset();
                 },
-                error: function(xhr, status, error) {
-                    // Handle errors
-                    toastr.error('An error occurred while sending the message.', 'Error');
+                error: function(xhr) {
+                    toastr.error('Failed to send inquiry.', 'Error');
                 }
             });
         });
-    </script>
-    <script>
-        function openChatModalnew(button) {
-            // Extract data from button attributes
-            const sellerId = button.getAttribute('data-seller-id');
-            const shopName = button.getAttribute('data-shop-name');
-            const role = button.getAttribute('data-role');
-            const leadsId = button.getAttribute('data-leads-id');
-            const typereq = button.getAttribute('data-typereq');
-
-            // Update modal title
-            document.getElementById('chatModalNewTitle').innerText = `Chat with ${shopName}`;
-
-            // Populate form hidden inputs
-            document.getElementById('typereq').value = typereq;
-            document.getElementById('leads_id').value = leadsId;
-            document.getElementById('receiver_id').value = sellerId;
-            document.getElementById('receiver_type').value = role;
-        }
-    </script>
+    </script>       
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var urlParams = new URLSearchParams(window.location.search);
@@ -562,11 +518,14 @@
     <script>
         function populateDetailedBox(card) {
             var id = $(card).data('id');
-            console.log('box populated', id);
+            // console.log('box populated', id);
             document.querySelectorAll('.product-card-inner').forEach(inner => {
                 inner.classList.remove('product-card-featured');
             });
             card.querySelector('.product-card-inner').classList.add('product-card-featured');
+            if (window.innerWidth < 768) {
+                toggleDetailBox(); // Show modal or detail box
+            }
             loadStockSellData(id);
         };
 
@@ -619,6 +578,31 @@
         });
     </script>
     <script>
+        function toggleDetailBox() {
+            const element = document.querySelector('#productModal');
+            const currentDisplay = window.getComputedStyle(element).display;
+
+            if (currentDisplay === 'none') {
+                element.style.display = 'flex';
+            } else {
+                element.style.display = 'none';
+            }
+        }
+
+        function toggleFilters(e){
+            e.preventDefault();
+            if(window.innerWidth < 768){
+                const elements = document.querySelectorAll('.togglebelow768');
+                elements.forEach(el => {
+                    if (el.style.display === 'none' || getComputedStyle(el).display === 'none') {
+                        el.style.display = 'block';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                });
+            }
+        }
+
         function sendtologin(){
             window.location.href = '/customer/auth/login';
         }

@@ -18,7 +18,11 @@
                             <div class="product-title">{{ $stocksell->name }}</div>
                             @php
                                 $user = auth('customer')->user();
-                                $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($stocksell->id, $user->id);
+                                if($user){
+                                    $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($stocksell->id, $user->id);
+                                } else {
+                                    $isFavourite = false;
+                                }
                             @endphp
                             @if(auth('customer')->user())
                                 <img class="heart favourite-img" onclick="makeFavourite(this)"  

@@ -277,5 +277,60 @@
         </div>
     </div>
 
-    <button class="inquire-button">Inquire Now</button>
+    <button class="inquire-button" data-toggle="modal" data-target="#inquireButton">Inquire Now</button>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="inquireButton" tabindex="-1" role="dialog" aria-labelledby="inquireButtonLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="inquiry-form">
+        <div class="inquiry-header">
+          Send a direct inquiry to this supplier
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin: auto !important;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="inquiry-body">
+          <form id="inquiryForm">
+            @csrf
+            @php
+              $userdata = \App\Utils\ChatManager::getRoleDetail();
+              $userId = $userdata['user_id'] ?? null;
+              $role = $userdata['role'] ?? null;
+            @endphp
+            <!-- Hidden fields -->
+            <input type="hidden" id="sender_id" name="sender_id" value={{ $userId }}>
+            <input type="hidden" id="sender_type" name="sender_type" value={{ $role }}>
+            <input type="hidden" id="receiver_id" name="receiver_id" value={{ $stocksell->user_id }}>
+            <input type="hidden" id="receiver_type" name="receiver_type" value={{ $stocksell->role }}>
+            <input type="hidden" id="type" name="type" value="stocksell">
+            <input type="hidden" id="stocksell_id" name="stocksell_id" value={{ $stocksell->id }}>
+
+            <!-- Visible fields -->
+            <div class="form-group">
+              <label for="supplier">To</label>
+              <div class="supplier-name-field">{{ $shopName }}</div>
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail Address</label>
+              <input type="email" id="email" name="email" placeholder="Please enter your business e-mail address" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Enter product details such as color, size, materials and other specific requirements." rows="6" required></textarea>
+            </div>
+            @if (auth('customer')->check() && auth('customer')->user()->id)
+              @if ($membership['status'] == 'active')
+                <button type="submit" class="btn-inquire-now">Send Inquiry Now</button>
+              @else
+                <button href="{{ route('membership') }}" class="btn-inquire-now">Send Inquiry Now</button>
+              @endif
+            @else
+              <button href="#" onclick="sendtologin()" class="btn-inquire-now">Send Inquiry Now</button>
+            @endif
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

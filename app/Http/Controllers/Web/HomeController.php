@@ -69,60 +69,71 @@ class HomeController extends Controller
 
     public function default_theme(): View
     {
+        $settings = BusinessSetting::whereIn('type', [
+            'bannersetting', 'bannertradesetting', 'firstbox', 'secondbox', 'thirdbox', 'fourthbox', 'fifthbox',
+            'bgimages', 'register_banner', 'quotation', 'marketplace', 'homepage_second_settings',
+            'genresection1', 'company_banner_logo', 'company_banner_logo1', 'company_banner_logo2', 'company_banner_logo3',
+            'memsetting', 'memsettingseller', 'tradeshowhomepage'
+        ])->get()->keyBy('type');
+    
         // Image Calling Service
         $imagegets = $this->imagegetService->getimagepaths();
         $imagegetsd = $this->imagegetService->decodedpaths($imagegets);
-        // Banner Stuff
-        $bannerdata = BusinessSetting::where('type','bannersetting')->first();
-        $bannercard = json_decode($bannerdata['value'],true);
-        // Secondary Banner
-        $bannerdatatwo = BusinessSetting::where('type','bannertradesetting')->first();
-        $bannercardtwo = json_decode($bannerdatatwo['value'],true);
-        // Leads Section
+    
+        $bannercard = json_decode($settings['bannersetting']->value ?? '[]', true);
+        $bannercardtwo = json_decode($settings['bannertradesetting']->value ?? '[]', true);
+    
+        $firstbox = json_decode($settings['firstbox']->value ?? '[]', true);
+        $secondbox = json_decode($settings['secondbox']->value ?? '[]', true);
+        $thirdbox = json_decode($settings['thirdbox']->value ?? '[]', true);
+        $fourthbox = json_decode($settings['fourthbox']->value ?? '[]', true);
+        $fifthbox = json_decode($settings['fifthbox']->value ?? '[]', true);
+    
+        $data = json_decode($settings['bgimages']->value ?? '[]', true);
+        $carouselimages = array_slice(array_filter($data), 0, 5);
+    
+        $registerbanner = json_decode($settings['register_banner']->value ?? '[]', true)['banner'] ?? '';
+        $quotationdata = json_decode($settings['quotation']->value ?? '[]', true) ?? [];
+        $marketplacedata = json_decode($settings['marketplace']->value ?? '[]', true)['background_image'] ?? '';
+        $newbaublesdata = json_decode($settings['homepage_second_settings']->value ?? '[]', true);
+        $homepagesetting = json_decode($settings['genresection1']->value ?? '[]', true);
+    
+        $getBannerImage = function($key) use ($settings) {
+            return json_decode($settings[$key]->value ?? '{}', true)['image_name'] ?? '';
+        };
+    
+        $banners = array_filter([
+            $getBannerImage('company_banner_logo'),
+            $getBannerImage('company_banner_logo1'),
+            $getBannerImage('company_banner_logo2'),
+            $getBannerImage('company_banner_logo3')
+        ]);
+    
+        $bannerCount = count($banners);
+    
+        // Membership Details
+        $memdata = json_decode($settings['memsetting']->value ?? '[]', true);
+        $memdatar = json_decode($settings['memsettingseller']->value ?? '[]', true);
+    
+        // Tradeshow Box
+        $tradeshowhomepage = json_decode($settings['tradeshowhomepage']->value ?? '{}', true);
+    
+        // Sectional Data
         $leads = ChatManager::Leads();
-        // Supplier Section
         $suppliers = ChatManager::Suppliers();
-        // Trending Products
         $trending = ChatManager::GetTrendingProducts();
-        // Boxes
-        $firstbox = BusinessSetting::where('type','firstbox')->first();
-        $secondbox = BusinessSetting::where('type','secondbox')->first();
-        $thirdbox = BusinessSetting::where('type','thirdbox')->first();
-        $fourthbox = BusinessSetting::where('type','fourthbox')->first();
-        $fifthbox = BusinessSetting::where('type','fifthbox')->first();
-
-        $firstbox = $firstbox ? json_decode($firstbox['value'], true) : [];;
-        $secondbox = $secondbox ? json_decode($secondbox['value'], true) : [];;
-        $thirdbox = $thirdbox ? json_decode($thirdbox['value'], true) : [];;
-        $fourthbox = $fourthbox ? json_decode($fourthbox['value'], true) : [];;
-        $fifthbox = $fifthbox ? json_decode($fifthbox['value'], true) : [];;
-        // Boxes End 
-        // Banner Carousel Images
-        $data = BusinessSetting::where('type','bgimages')->first();
-        $data = $data ? json_decode($data['value'],true) : [];
-        $carouselimages = [];
-        $i = 0;
-        $max = 5;
-        for($i;$i < $max;$i++){
-            if (isset($data[$i])) {
-                $carouselimages[] = $data[$i];
-            }
-        }
-        // End Banner Carousel
-        $registerbannnerdata =  BusinessSetting::where('type','register_banner')->first()->value;
-        $registerbanner = json_decode($registerbannnerdata,true)['banner'] ?? '';
-        $quotationbanner =  BusinessSetting::where('type','quotation')->first()->value;
-        $quotationdata = json_decode($quotationbanner,true) ?? [];
-        $marketplacebanner =  BusinessSetting::where('type','marketplace')->first()->value;
-        $marketplacedata = json_decode($marketplacebanner,true)['background_image'] ?? '';
-        $newbaubles = BusinessSetting::where('type','homepage_second_settings')->first();
-        $newbaublesdata = $newbaubles ? json_decode($newbaubles->value,true) : [];
-        $industries =  CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
+        $allstocksale = StockSell::where('status','active')->orderBy('quote_recieved','DESC')->get();
+    
+        // Category Data
+        $industries = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
-        $userId = Auth::guard('customer')->user() ? Auth::guard('customer')->id() : 0;
+    
+        // Flash Deal & Home Categories
+        $userId = Auth::guard('customer')->user()?->id ?? 0;
         $flashDeal = ProductManager::getPriorityWiseFlashDealsProductsQuery(userId: $userId);
         $theme_name = theme_root_path();
-        $brand_setting = BusinessSetting::where('type', 'product_brand')->first()->value;
+        $brand_setting = $settings['product_brand']->value ?? '';
+    
         $homeCategories = Category::where('home_status', true)->priority()->get();
         $homeCategories->map(function ($data) {
             $id = '"' . $data['id'] . '"';
@@ -131,166 +142,92 @@ class HomeController extends Controller
                 ->where('category_ids', 'like', "%{$id}%");
             $data['products'] = ProductManager::getPriorityWiseCategoryWiseProductsQuery(query: $homeCategoriesProducts, dataLimit: 12);
         });
-        $current_date = date('Y-m-d H:i:s');
-
+    
+        $current_date = now()->format('Y-m-d H:i:s');
+    
         $topVendorsList = Shop::active()
-            ->withCount(['products' => function ($query) {
-                $query->active();
-            }])
-            ->with('seller', function ($query) {
-                $query->with(['product' => function ($query) {
-                    $query->active()->with(['reviews' => function ($query) {
-                        $query->active();
-                    }]);
-                }])->withCount(['orders']);
-            })
+            ->withCount(['products' => fn($q) => $q->active()])
+            ->with(['seller' => fn($q) => $q->with(['product.reviews'])->withCount('orders')])
             ->get()
             ->each(function ($shop) {
                 $shop->orders_count = $shop->seller->orders_count;
-
-                $products = $shop->seller->product;
-                $productReviews = $products->pluck('reviews')->collapse();
-
+                $productReviews = $shop->seller->product->pluck('reviews')->collapse();
                 $shop->average_rating = $productReviews->avg('rating');
                 $shop->review_count = $productReviews->count();
                 $shop->total_rating = $productReviews->sum('rating');
-
-                $positiveReviewsCount = $productReviews->where('rating', '>=', 4)->count();
-                $shop->positive_review = $shop->review_count > 0
-                    ? ($positiveReviewsCount * 100) / $shop->review_count
-                    : 0;
-
-                // Vacation mode check
-                $currentDate = date('Y-m-d');
-                $shop->is_vacation_mode_now = $shop['vacation_status'] &&
-                    $currentDate >= $shop['vacation_start_date'] &&
-                    $currentDate <= $shop['vacation_end_date'] ? 1 : 0;
-
-                // Store views (sum of product views)
-                $shop->store_views = $products->sum('views');
-            })
-            ->take(12);
-
-        $inhouseProducts = Product::active()->with(['reviews', 'rating'])->withCount('reviews')->where(['added_by' => 'admin'])->get();
-        $inhouseProductCount = $inhouseProducts->count();
-
+                $shop->positive_review = $shop->review_count ? ($productReviews->where('rating', '>=', 4)->count() * 100) / $shop->review_count : 0;
+                $currentDate = now()->format('Y-m-d');
+                $shop->is_vacation_mode_now = $shop->vacation_status && $currentDate >= $shop->vacation_start_date && $currentDate <= $shop->vacation_end_date ? 1 : 0;
+                $shop->store_views = $shop->seller->product->sum('views');
+            })->take(12);
+    
+        $inhouseProducts = Product::active()->with(['reviews', 'rating'])->withCount('reviews')->where('added_by', 'admin')->get();
         $inhouseReviewData = Review::active()->whereIn('product_id', $inhouseProducts->pluck('id'));
         $inhouseReviewDataCount = $inhouseReviewData->count();
-        $inhouseRattingStatusPositive = 0;
-        foreach ($inhouseReviewData->pluck('rating') as $singleRating) {
-            ($singleRating >= 4 ? ($inhouseRattingStatusPositive++) : '');
-        }
-
+        $inhouseRattingStatusPositive = $inhouseReviewData->pluck('rating')->filter(fn($r) => $r >= 4)->count();
+    
         $inhouseShop = $this->getInHouseShopObject();
-        $inhouseShop->id = 0;
-        $inhouseShop->products_count = $inhouseProductCount;
-        $inhouseShop->total_rating = $inhouseReviewDataCount;
-        $inhouseShop->review_count = $inhouseReviewDataCount;
-        $inhouseShop->average_rating = $inhouseReviewData->avg('rating');
-        $inhouseShop->positive_review = $inhouseReviewDataCount != 0 ? ($inhouseRattingStatusPositive * 100) / $inhouseReviewDataCount : 0;
-        $inhouseShop->orders_count = Order::where(['seller_is' => 'admin'])->count();
-        $topVendorsList = $topVendorsList->prepend($inhouseShop);
-
-        $topVendorsList = ProductManager::getPriorityWiseTopVendorQuery($topVendorsList);
-
+        $inhouseShop->fill([
+            'id' => 0,
+            'products_count' => $inhouseProducts->count(),
+            'total_rating' => $inhouseReviewDataCount,
+            'review_count' => $inhouseReviewDataCount,
+            'average_rating' => $inhouseReviewData->avg('rating'),
+            'positive_review' => $inhouseReviewDataCount ? ($inhouseRattingStatusPositive * 100) / $inhouseReviewDataCount : 0,
+            'orders_count' => Order::where('seller_is', 'admin')->count(),
+        ]);
+    
+        $topVendorsList = ProductManager::getPriorityWiseTopVendorQuery($topVendorsList->prepend($inhouseShop));
+    
         $featuredProductsList = ProductManager::getPriorityWiseFeaturedProductsQuery(query: $this->product->active(), dataLimit: 12);
-
-        $latest_products = $this->product->with(['reviews'])->active()->orderBy('id', 'desc')->take(8)->get();
+        $latest_products = $this->product->with(['reviews'])->active()->latest()->take(8)->get();
         $newArrivalProducts = ProductManager::getPriorityWiseNewArrivalProductsQuery(query: $this->product->active(), dataLimit: 8);
-
+    
         $brands = Brand::active()->take(15)->get();
-
+    
         $bestSellProduct = $this->order_details->with('product.reviews')
-            ->whereHas('product', function ($query) {
-                $query->active();
-            })
+            ->whereHas('product', fn($q) => $q->active())
             ->select('product_id', DB::raw('COUNT(product_id) as count'))
             ->groupBy('product_id')
-            ->orderBy("count", 'desc')
+            ->orderBy('count', 'desc')
             ->take(6)
             ->get();
-
+    
         $topRated = Review::with('product')
-            ->whereHas('product', function ($query) {
-                $query->active();
-            })
+            ->whereHas('product', fn($q) => $q->active())
             ->select('product_id', DB::raw('AVG(rating) as count'))
             ->groupBy('product_id')
-            ->orderBy("count", 'desc')
+            ->orderBy('count', 'desc')
             ->take(6)
             ->get();
-
-        if ($bestSellProduct->count() == 0) {
-            $bestSellProduct = $latest_products;
-        }
-
-        if ($topRated->count() == 0) {
-            $topRated = $bestSellProduct;
-        }
-
-        $deal_of_the_day = DealOfTheDay::join('products', 'products.id', '=', 'deal_of_the_days.product_id')->select('deal_of_the_days.*', 'products.unit_price')->where('products.status', 1)->where('deal_of_the_days.status', 1)->first();
+    
+        $bestSellProduct = $bestSellProduct->isEmpty() ? $latest_products : $bestSellProduct;
+        $topRated = $topRated->isEmpty() ? $bestSellProduct : $topRated;
+    
+        $deal_of_the_day = DealOfTheDay::join('products', 'products.id', '=', 'deal_of_the_days.product_id')
+            ->select('deal_of_the_days.*', 'products.unit_price')
+            ->where('products.status', 1)->where('deal_of_the_days.status', 1)
+            ->first();
+    
         $main_banner = $this->banner->where(['banner_type' => 'Main Banner', 'theme' => $theme_name, 'published' => 1])->latest()->get();
-        $main_section_banner = $this->banner->where(['banner_type' => 'Main Section Banner', 'theme' => $theme_name, 'published' => 1])->orderBy('id', 'desc')->latest()->first();
-
+        $main_section_banner = $this->banner->where(['banner_type' => 'Main Section Banner', 'theme' => $theme_name, 'published' => 1])->latest()->first();
         $recommendedProduct = $this->product->active()->inRandomOrder()->first();
-        $footer_banner = $this->banner->where('banner_type', 'Footer Banner')->where('theme', theme_root_path())->where('published', 1)->orderBy('id', 'desc')->get();
-
-        $allstocksale = StockSell::where('status','active')->orderBy('quote_recieved','DESC')->get();
-
-        $data = BusinessSetting::where('type', 'genresection1')->first();
-        $homepagesetting = $data ? json_decode($data->value, true) : [];
-
-        function getBannerImage($type) {
-            $setting = BusinessSetting::where('type', $type)->first();
-            return $setting ? json_decode($setting->value, true)['image_name'] ?? '' : '';
-        }
+        $footer_banner = $this->banner->where('banner_type', 'Footer Banner')->where('theme', theme_root_path())->where('published', 1)->latest()->get();
     
-        $banners = [
-            getBannerImage('company_banner_logo'),
-            getBannerImage('company_banner_logo1'),
-            getBannerImage('company_banner_logo2'),
-            getBannerImage('company_banner_logo3')
-        ];
-    
-        // Remove empty values
-        $banners = array_filter($banners);
-        $bannerCount = count($banners);
-
-        // Membership Details
         $customer_tiers = MembershipTier::orderBy('membership_order','asc')->where('membership_type','customer')->where('membership_active',1)->get();
         $seller_tiers = MembershipTier::orderBy('membership_order','asc')->where('membership_type','seller')->where('membership_active',1)->get();
-        $getDBfield = BusinessSetting::where('type','memsetting')->first();
-        $decodedData = json_decode($getDBfield['value'],true);
-        $getDBfieldr = BusinessSetting::where('type','memsettingseller')->first();
-        $decodedDatar = json_decode($getDBfield['value'],true);
-        if(!empty($getDBfield)){
-            $memdata = $decodedData;
-        } else {
-            $memdata = [];
-        }
-        if(!empty($getDBfieldr)){
-            $memdatar = $decodedDatar;
-        } else {
-            $memdatar = [];
-        }
-        
-        // Tradeshow Box
-        $settings = BusinessSetting::where('type', 'tradeshowhomepage')->first();
-        $tradeshowhomepage = json_decode($settings->value ?? '{}', true);
-
-        // Tradeshows
         $tradeshows = HelperUtil::getLatestTradeshows();
-        
-        return view(VIEW_FILE_NAMES['home'],
-            compact(
-                'tradeshows','tradeshowhomepage','customer_tiers','seller_tiers','memdata','memdatar','flashDeal', 'featuredProductsList', 'topRated', 'bestSellProduct', 'latest_products', 'categories', 'brands',
-                'deal_of_the_day', 'topVendorsList', 'homeCategories', 'brand_setting', 'main_banner', 'main_section_banner',
-                'current_date', 'recommendedProduct', 'footer_banner', 'newArrivalProducts','imagegetsd','bannercard','leads','suppliers','trending','allstocksale','bannercardtwo','firstbox','secondbox'
-                ,'thirdbox','fourthbox','fifthbox','carouselimages','industries','banners','bannerCount','registerbanner','quotationdata','marketplacedata','newbaublesdata','homepagesetting'
-            )
-        );
+    
+        return view(VIEW_FILE_NAMES['home'], compact(
+            'tradeshows','tradeshowhomepage','customer_tiers','seller_tiers','memdata','memdatar','flashDeal',
+            'featuredProductsList', 'topRated', 'bestSellProduct', 'latest_products', 'categories', 'brands',
+            'deal_of_the_day', 'topVendorsList', 'homeCategories', 'brand_setting', 'main_banner', 'main_section_banner',
+            'current_date', 'recommendedProduct', 'footer_banner', 'newArrivalProducts','imagegetsd','bannercard','leads',
+            'suppliers','trending','allstocksale','bannercardtwo','firstbox','secondbox','thirdbox','fourthbox','fifthbox',
+            'carouselimages','industries','banners','bannerCount','registerbanner','quotationdata','marketplacedata','newbaublesdata','homepagesetting'
+        ));
     }
-
+    
     public function theme_aster(): View
     {
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting(dataLimit: 11);

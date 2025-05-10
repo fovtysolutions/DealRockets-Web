@@ -6,9 +6,11 @@ use Illuminate\Support\Str;
 use Rap2hpoutre\FastExcel\FastExcel;
 use App\Models\BusinessSetting;
 
-class ImagegetService{
-    public static function getimagepaths(){
+class ImagegetService {
+    public static function getimagepaths() {
         $data = BusinessSetting::get();
+        
+        // Define allowed keys for company images
         $arrayOfCompaniesValue = [
             'company_web_logo',
             'company_mobile_logo',
@@ -21,24 +23,35 @@ class ImagegetService{
             'boxiconimage_three',
             'boxiconimage_four'
         ];
+        
         $result = [];
-        foreach($data as $item){
-            if(in_array($item->type,$arrayOfCompaniesValue)){
+        
+        // Filter the data to get only the necessary image paths
+        foreach ($data as $item) {
+            if (in_array($item->type, $arrayOfCompaniesValue)) {
                 $result[$item->type] = $item->value;
             }
         }
-        return $result;
+        
+        // Decode image paths if available
+        return self::decodedpaths($result);
     }
-    public static function decodedpaths($data){    
+
+    public static function decodedpaths($data) {
         $imagegetsd = [];
-        foreach($data as $key => $value){
-            $decoded = json_decode($value,true);
-            if($decoded && isset($decoded['image_name'],$decoded['storage'])){
-                $imagegetsd[$key] = '/' . $decoded['storage'] . '/company/' . $decoded ['image_name'];
+        
+        foreach ($data as $key => $value) {
+            // Decode the JSON data
+            $decoded = json_decode($value, true);
+            
+            // Check if the decoded data contains necessary fields
+            if ($decoded && isset($decoded['image_name'], $decoded['storage'])) {
+                $imagegetsd[$key] = '/' . $decoded['storage'] . '/company/' . $decoded['image_name'];
             } else {
                 $imagegetsd[$key] = null;
             }
         }
+        
         return $imagegetsd;
-    } 
+    }
 }

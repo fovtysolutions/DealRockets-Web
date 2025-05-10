@@ -29,238 +29,169 @@ use Mpdf\Tag\B;
 
 class ChatManager
 {
-    public static function getProductsFooter(){
+    public static function getProductsFooter()
+    {
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         $footer_prods = [];
-        foreach ($categories->take(10) as $key => $value){
-            $productsCate = Product::orderBy('views','desc')->where('category_id',$key+1)->take(5)->get();
+
+        foreach ($categories->take(10) as $category) {
+            $products = Product::where('category_id', $category['id'])
+                ->orderBy('views', 'desc')
+                ->take(5)
+                ->get();
+
             $footer_prods[] = [
-                'id' => $value['id'],
-                'name' => $value['name'],
-                'products' => $productsCate
+                'id' => $category['id'],
+                'name' => $category['name'],
+                'products' => $products
             ];
         }
+
         return $footer_prods;
     }
 
     public static function unread_messages()
     {
         $userId = auth('customer')->id();
-        $userhist = Chatting::where('user_id', $userId);
-        $read = $userhist->where('seen_by_customer', '0')->count();
+        $count = Chatting::where('user_id', $userId)
+            ->where('seen_by_customer', 0)
+            ->count();
 
-        // Counter
-        if ($read > 9) {
-            $unread = "9+";
-            return $unread;
-        } else {
-            $unread = $read;
-            return $unread;
-        }
+        return $count > 9 ? '9+' : (string) $count;
     }
 
     public static function read_message()
     {
-        $usedId = auth('customer')->id();
-        $userhist = Chatting::where('user_id', $usedId)->where('seen_by_customer', '0');
-        $userhist->update(['seen_by_customer' => 1]);
+        Chatting::where('user_id', auth('customer')->id())
+            ->where('seen_by_customer', 0)
+            ->update(['seen_by_customer' => 1]);
     }
 
     public static function decoder($message)
     {
-        $decoded = implode(',', json_decode($message, true));
-        return $decoded;
+        return implode(',', json_decode($message, true));
     }
 
     public static function daysexpiry($message)
     {
-        $date = Carbon::parse($message);
-        $now = Carbon::now();
-        $diffinDays = $now->diffInDays($date, false);
-        return $diffinDays > 31 ? 0 : 1;
+        return Carbon::now()->diffInDays(Carbon::parse($message), false) > 31 ? 0 : 1;
     }
 
     public static function getjobapplierdetails($user_id, $method)
     {
-        $user = User::where('id', $user_id)->first();
-        if ($method == 'cv') {
-            $cv = CV::where('user_id', $user_id)->first();
-            $data[] = [
-                'userdata' => $user,
-                'jb' => $cv,
-            ];
-            return $data;
-        } else if ($method == 'form') {
-            $profile = TableJobProfile::where('user_id', $user_id)->first();
-            $data[] = [
-                'userdata' => $profile,
-                'jb' => $profile,
-            ];
-            return $data;
-        } else {
-            // Send No Data
-            return 0;
+        if ($method === 'cv') {
+            return [[
+                'userdata' => User::find($user_id),
+                'jb' => CV::where('user_id', $user_id)->first()
+            ]];
         }
+
+        if ($method === 'form') {
+            $profile = TableJobProfile::where('user_id', $user_id)->first();
+            return [[
+                'userdata' => $profile,
+                'jb' => $profile
+            ]];
+        }
+
+        return 0;
     }
 
     public static function getjobapplierdetailsless($user_id)
     {
-        $profile = User::where('id', $user_id)->first();
-        return $profile;
+        return User::find($user_id);
     }
 
     public static function getsellername($id)
     {
-        if ($id == 'admin') {
-            return 'admin';
-        } else {
-            $seller = Seller::where('id', $id)->first();
-            if ($seller) {
-                $sellerfname = $seller->f_name;
-                $sellerlname = $seller->l_name;
-                $full_name = $sellerfname . ' ' . $sellerlname;
-                return $full_name;
-            } else {
-                return 'Admin';
-            }
-        }
+        if ($id === 'admin') return 'admin';
+
+        $seller = Seller::find($id);
+        return $seller ? trim("{$seller->f_name} {$seller->l_name}") : 'Admin';
     }
 
     public static function getstockname($id)
     {
-        if ($id == 'admin') {
-            return 'admin';
-        } else {
-            $seller = Seller::where('id', $id)->first();
-            if ($seller) {
-                $sellerfname = $seller->f_name;
-                $sellerlname = $seller->l_name;
-                $full_name = $sellerfname . ' ' . $sellerlname;
-                return $full_name;
-            } else {
-                return 'Admin';
-            }
-        }
+        if ($id === 'admin') return 'admin';
+
+        $seller = Seller::find($id);
+        return $seller ? trim("{$seller->f_name} {$seller->l_name}") : 'Admin';
     }
 
     public static function getMembershipStatusCustomer($id)
     {
-        if ($id) {
-            $user = User::find($id);
-            if ($user) {
-                $membership = Membership::where('membership_id', $user->id)->first();
-                if ($membership) {
-                    $membership_status = $membership->membership_status;
+        if (!$id) return ['error' => 'Invalid ID'];
 
-                    switch ($membership_status) {
-                        case 'active':
-                            return ['status' => 'active', 'message' => 'You have Already Upgraded'];
-                        case 'inactive':
-                            return ['status' => 'inactive', 'message' => 'Your Plan is being Upgraded'];
-                        case 'suspended':
-                            return ['status' => 'suspended', 'message' => 'Your Plan is Suspended'];
-                        case 'expired':
-                            return ['status' => 'expired', 'message' => 'Your Plan is Expired'];
-                        default:
-                            return ['status' => 'unknown', 'message' => 'Invalid Plan! Contact Admin'];
-                    }
-                } else {
-                    return ['error' => 'Membership not found'];
-                }
-            } else {
-                return ['error' => 'User not found'];
-            }
-        } else {
-            return ['error' => 'Invalid ID'];
-        }
+        $user = User::find($id);
+        if (!$user) return ['error' => 'User not found'];
+
+        $membership = Membership::where('membership_id', $user->id)->first();
+        if (!$membership) return ['error' => 'Membership not found'];
+
+        return match ($membership->membership_status) {
+            'active' => ['status' => 'active', 'message' => 'You have Already Upgraded'],
+            'inactive' => ['status' => 'inactive', 'message' => 'Your Plan is being Upgraded'],
+            'suspended' => ['status' => 'suspended', 'message' => 'Your Plan is Suspended'],
+            'expired' => ['status' => 'expired', 'message' => 'Your Plan is Expired'],
+            default => ['status' => 'unknown', 'message' => 'Invalid Plan! Contact Admin'],
+        };
     }
 
     public static function getRoleDetail()
     {
-        if (auth('customer')->check()) {
-            $role = 'customer';
-            $userId = auth('customer')->user()->id;
-        } else if (auth('seller')->check()) {
-            $role = 'seller';
-            $userId = auth('seller')->user()->id;
-        } else if (auth('admin')->check()) {
-            $role = 'admin';
-            $userId = auth('admin')->user()->id;
-        } else {
-            $role = 'web';
-            $userId = null;
+        foreach (['customer', 'seller', 'admin'] as $guard) {
+            if (auth($guard)->check()) {
+                return [
+                    'role' => $guard,
+                    'user_id' => auth($guard)->user()->id,
+                ];
+            }
         }
-        return ['role' => $role, 'user_id' => $userId];
+
+        return ['role' => 'web', 'user_id' => null];
     }
+
     public static function Leads()
     {
-        $getleads = json_decode(BusinessSetting::where('type', 'buyer')->first()->value, true)['limit'];
-        $getsellers = json_decode(BusinessSetting::where('type', 'seller')->first()->value, true)['limit'];
-        $buyerleads = Leads::where('type', 'buyer')->take($getleads)->get();
-        $sellerleads1 = Leads::where('type', 'seller')->where('role','admin')->take($getsellers)->get();
-        $sellerleads2 = Leads::where('type','seller')->where('role','seller')->where('active',1)->get();
-        $sellerleads = array_merge($sellerleads1->toArray(),$sellerleads2->toArray());
-        return ['buyer' => $buyerleads, 'seller' => $sellerleads];
+        $buyerLimit = json_decode(BusinessSetting::where('type', 'buyer')->value('value'), true)['limit'] ?? 10;
+        $sellerLimit = json_decode(BusinessSetting::where('type', 'seller')->value('value'), true)['limit'] ?? 10;
+
+        $buyerLeads = Leads::where('type', 'buyer')->take($buyerLimit)->get();
+        $sellerLeads1 = Leads::where('type', 'seller')->where('role', 'admin')->take($sellerLimit)->get();
+        $sellerLeads2 = Leads::where('type', 'seller')->where('role', 'seller')->where('active', 1)->get();
+
+        return [
+            'buyer' => $buyerLeads,
+            'seller' => $sellerLeads1->merge($sellerLeads2),
+        ];
     }
 
     public static function Suppliers()
     {
-        // Fetch the limit from business_settings
-        $limit = DB::table('business_settings')
-            ->where('type', 'topsupplier')
-            ->value('value');
-
-        $limit = json_decode($limit, true)['limit'] ?? 6; // Default to 6 if no value found
-
-        $suppliers = Supplier::take((int) $limit)->get();
-        return $suppliers;
+        $limit = json_decode(DB::table('business_settings')->where('type', 'topsupplier')->value('value'), true)['limit'] ?? 6;
+        return Supplier::take((int) $limit)->get();
     }
 
-    public static function IncreaseProductView($productid)
+    public static function IncreaseProductView($productId)
     {
-        $getProduct = Product::findOrFail($productid);
-
-        $currentViews = $getProduct->views;
-        $getProduct->views = $currentViews + 1;
-        $getProduct->save();
-
+        $product = Product::findOrFail($productId);
+        $product->increment('views');
         return ['Success', 'Views Added Successfully'];
     }
 
     public static function GetTrendingProducts()
     {
-        // Fetch the limit from business_settings
-        $limit = DB::table('business_settings')
-            ->where('type', 'trendingproducts')
-            ->value('value');
-
-        $limit = json_decode($limit, true)['limit'] ?? 12; // Default to 6 if no value found
-
-        $getProducts = Product::orderBy('views', 'DESC')
-            ->take((int) $limit)
-            ->get();
-
-        return $getProducts;
+        $limit = json_decode(DB::table('business_settings')->where('type', 'trendingproducts')->value('value'), true)['limit'] ?? 12;
+        return Product::orderByDesc('views')->take((int) $limit)->get();
     }
 
     public static function getCategoryName($categoryId)
     {
-        // Retrieve the category by id
-        $category = Category::where('id', $categoryId)->first();
-
-        // Check if category is found
-        if ($category) {
-            // Return the name of the category if found
-            return $category->name;
-        } else {
-            // Return null if the category is not found
-            return null;
-        }
+        return Category::find($categoryId)?->name;
     }
 
     public static function getCountryDetails($countryId)
     {
-        // Ensure countryId is an integer or a valid numeric string
         if (!is_numeric($countryId)) {
             return [
                 'status' => 400,
@@ -272,180 +203,134 @@ class ChatManager
 
         $country = Country::find((int) $countryId);
 
-        if ($country) {
-            return [
-                'status' => 200,
-                'countryName' => $country->name,
-                'countryISO2' => $country->iso2,
-            ];
-        } else {
-            return [
-                'status' => 404,
-                'message' => 'Country not found',
-                'countryName' => null,
-                'countryISO2' => null,
-            ];
-        }
+        return $country
+            ? ['status' => 200, 'countryName' => $country->name, 'countryISO2' => $country->iso2]
+            : ['status' => 404, 'message' => 'Country not found', 'countryName' => null, 'countryISO2' => null];
     }
 
     public static function getStateName($id)
     {
-        $state = State::where('id', $id)->first();
-        if ($state) {
-            return $state->name;
-        } else {
-            return null;
-        }
+        return State::find($id)?->name;
     }
 
     public static function getCityName($id)
     {
-        $city = City::where('id', $id)->first();
-        if ($city) {
-            return $city->name;
-        } else {
-            return null;
-        }
+        return City::find($id)?->name;
     }
 
     public static function getIndustryDetails($id)
     {
-        // Ensure id is an integer or a valid numeric string
         if (!is_numeric($id)) {
-            return [
-                'status' => 400,
-                'message' => 'Industry country ID',
-                'name' => null,
-            ];
+            return ['status' => 400, 'message' => 'Invalid industry ID', 'name' => null];
         }
 
         $industry = Category::find((int) $id);
 
-        if ($industry) {
-            return [
-                'status' => 200,
-                'name' => $industry->name,
-            ];
-        } else {
-            return [
-                'status' => 404,
-                'message' => 'Industry not found',
-                'countryName' => null,
-            ];
-        }
+        return $industry
+            ? ['status' => 200, 'name' => $industry->name]
+            : ['status' => 404, 'message' => 'Industry not found', 'name' => null];
     }
 
     public static function fetchusername($id)
     {
-        $user_name = User::where('id', $id)->first()->name;
-        return $user_name;
+        return User::find($id)?->name;
     }
 
-    public static function getproductimage($id)
+
+    public static function getProductImage($id)
     {
-        $prod_image = Product::where('id', $id)->first()->thumbnail;
-        return $prod_image;
+        $product = Product::find($id);
+        return $product ? $product->thumbnail : null;
     }
 
-    public static function fetchimage($id)
+    public static function fetchImage($id)
     {
-        $image = User::where('id', $id)->first()->image;
-        return $image;
+        $user = User::find($id);
+        return $user ? $user->image : null;
     }
 
     private static function imageCreateFromAny($filepath)
     {
+        if (!file_exists($filepath)) {
+            return false;
+        }
 
-        $type = exif_imagetype($filepath); // [] if you don't have exif you could use getImageSize()
+        $type = @exif_imagetype($filepath);
 
-        $allowedTypes = array(
-            1,  // [] gif
-            2,  // [] jpg
-            3,  // [] png
-            6   // [] bmp
-        );
+        $allowedTypes = [
+            IMAGETYPE_GIF,
+            IMAGETYPE_JPEG,
+            IMAGETYPE_PNG,
+            IMAGETYPE_BMP
+        ];
 
         if (!in_array($type, $allowedTypes)) {
-
             return false;
         }
 
         switch ($type) {
-
-            case 1:
-
-                $im = imageCreateFromGif($filepath);
-
-                break;
-
-            case 2:
-
-                $im = imageCreateFromJpeg($filepath);
-
-                break;
-
-            case 3:
-
-                $im = imageCreateFromPng($filepath);
-
-                break;
-
-            case 6:
-
-                $im = imageCreateFromBmp($filepath);
-
-                break;
+            case IMAGETYPE_GIF:
+                return imageCreateFromGif($filepath);
+            case IMAGETYPE_JPEG:
+                return imageCreateFromJpeg($filepath);
+            case IMAGETYPE_PNG:
+                return imageCreateFromPng($filepath);
+            case IMAGETYPE_BMP:
+                return imageCreateFromBmp($filepath);
+            default:
+                return false;
         }
-        return $im;
     }
 
-    public static function getimagecolorat($image, $x, $y)
+    public static function getImageColorAt($image, $x, $y)
     {
         try {
-            $imagepath = public_path($image);
+            $imagePath = public_path($image);
 
-            $imageResource = self::imageCreateFromAny($imagepath);
-
+            $imageResource = self::imageCreateFromAny($imagePath);
             if (!$imageResource) {
-                throw new Exception("Unable to load image: " . $imagepath);
+                throw new Exception("Unable to load or process image: $imagePath");
             }
 
             $color = imagecolorat($imageResource, $x, $y);
-
             if ($color === false) {
-                throw new Exception("Failed to retrieve color at coordinates ($x, $y) from image: " . $imagepath);
+                throw new Exception("Failed to get color at ($x, $y) from image: $imagePath");
             }
 
             return strtoupper(dechex($color));
         } catch (Exception $e) {
-            Log::info('Code Errored with Message' . $e->getMessage());
+            Log::error('Image color fetch error', [
+                'image' => $image,
+                'x' => $x,
+                'y' => $y,
+                'error' => $e->getMessage()
+            ]);
+            return null;
         }
     }
 
     private static function hexToRgb($hex)
     {
         $hex = ltrim($hex, '#');
-        $rgb = array();
-        $rgb['r'] = hexdec(substr($hex, 0, 2));
-        $rgb['g'] = hexdec(substr($hex, 2, 2));
-        $rgb['b'] = hexdec(substr($hex, 4, 2));
 
-        return $rgb;
+        return [
+            'r' => hexdec(substr($hex, 0, 2)),
+            'g' => hexdec(substr($hex, 2, 2)),
+            'b' => hexdec(substr($hex, 4, 2)),
+        ];
     }
 
-    private static function luminance($rgb)
+    private static function luminance(array $rgb)
     {
-        // Normalize RGB values to the range 0-1
-        $r = $rgb['r'] / 255;
-        $g = $rgb['g'] / 255;
-        $b = $rgb['b'] / 255;
+        $normalize = function ($value) {
+            $value /= 255;
+            return ($value <= 0.03928) ? $value / 12.92 : pow(($value + 0.055) / 1.055, 2.4);
+        };
 
-        // Apply the luminance formula
-        $r = ($r <= 0.03928) ? $r / 12.92 : pow(($r + 0.055) / 1.055, 2.4);
-        $g = ($g <= 0.03928) ? $g / 12.92 : pow(($g + 0.055) / 1.055, 2.4);
-        $b = ($b <= 0.03928) ? $b / 12.92 : pow(($b + 0.055) / 1.055, 2.4);
+        $r = $normalize($rgb['r']);
+        $g = $normalize($rgb['g']);
+        $b = $normalize($rgb['b']);
 
-        // Calculate luminance using the weighted sum
         return 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
     }
 
@@ -453,20 +338,15 @@ class ChatManager
     {
         $rgb = self::hexToRgb($hex);
         $lum = self::luminance($rgb);
-        $color = $lum > 0.5 ? '#000000' : '#FFFFFF';
-        return $color;
+        return $lum > 0.5 ? '#000000' : '#FFFFFF';
     }
 
-    public static function getproductname($id)
+    public static function getProductName($id)
     {
-        $data = Product::where('id', $id)->first();
-        if ($data){
-            $name = $data->name;
-            return $name;
-        } else {
-            return "Select A Product";
-        }
+        $product = Product::find($id);
+        return $product ? $product->name : "Select A Product";
     }
+
 
     public static function getMessagersName($user_data, $type, $sender_type)
     {
@@ -479,213 +359,157 @@ class ChatManager
             throw new \Exception($validated->errors()->first());
         }
 
-        $messages = [];
-        $groupedMessages = [];
-
-        $allmessages = ChatsOther::where('receiver_type', $user_data['role'])
+        $messages = ChatsOther::where('receiver_type', $user_data['role'])
             ->where('receiver_id', $user_data['user_id'])
             ->where('type', $type)
             ->where('sender_type', $sender_type)
             ->get();
 
-        foreach ($allmessages as $message) {
-            if ($message->type == $type) {
-                $messages[] = [
-                    'sender_id' => $message->sender_id,
-                    'sender_type' => $message->sender_type,
-                    'receiver_id' => $message->receiver_id,
-                    'receiver_type' => $message->receiver_type,
-                    'message' => $message->message,
-                    'stocksell_id' => $message->stocksell_id,
-                    'suppliers_id' => $message->suppliers_id,
-                    'leads_id' => $message->leads_id,
-                    'sent_at' => $message->sent_at,
-                    'is_read' => $message->is_read
-                ];
-            }
-        }
-
-        usort($messages, function ($a, $b) {
-            return strtotime($b['sent_at']) <=> strtotime($a['sent_at']);
-        });
-
-        foreach ($messages as $message) {
-            $groupedMessages[$message['sender_id']][] = $message;
-        }
+        // Group messages by sender
+        $groupedMessages = $messages->groupBy('sender_id');
 
         foreach ($groupedMessages as $sender_id => &$messageGroup) {
-            $unread_messages = 0;
+            $unreadMessages = $messageGroup->where('is_read', 0)->count();
+            $messageGroup['unread_messages'] = $unreadMessages;
 
-            foreach ($messageGroup as $mess) {
-                if ($mess['is_read'] === 0) {
-                    $unread_messages++;
-                }
-            }
-            $messageGroup['unread_messages'] = $unread_messages;
-
-            $sender_id = $messageGroup[0]['sender_id'];
-            $sender_type = $messageGroup[0]['sender_type'];
-            $openstatus = self::getavgopenstatus($type, $sender_id, $sender_type);
-
+            // Get average open status
+            $openstatus = self::getavgopenstatus($type, $sender_id, $messageGroup->first()->sender_type);
             $messageGroup['openstatus'] = $openstatus;
         }
-        unset($messageGroup);
+
         return $groupedMessages;
     }
 
-    public static function getchats($sender_data, $reciever_data, $type)
+    public static function getchats($sender_data, $receiver_data, $type)
     {
-        $data = ChatsOther::where('type', $type)
-            ->where(function ($query) use ($sender_data, $reciever_data) {
+        $chats = ChatsOther::where('type', $type)
+            ->where(function ($query) use ($sender_data, $receiver_data) {
                 $query->where([
                     ['sender_type', $sender_data['role']],
                     ['sender_id', $sender_data['user_id']],
-                    ['receiver_id', $reciever_data['user_id']],
-                    ['receiver_type', $reciever_data['role']],
+                    ['receiver_id', $receiver_data['user_id']],
+                    ['receiver_type', $receiver_data['role']],
                 ])->orWhere([
-                    ['sender_type', $reciever_data['role']],
-                    ['sender_id', $reciever_data['user_id']],
+                    ['sender_type', $receiver_data['role']],
+                    ['sender_id', $receiver_data['user_id']],
                     ['receiver_id', $sender_data['user_id']],
                     ['receiver_type', $sender_data['role']],
                 ]);
             })
-            ->orderBy('sent_at', 'asc')->get();
-        $cleandata = [];
-        foreach ($data as $key => $value) {
-            $cleandata[] = [
-                "id" => $value->id,
-                "sender_id" => $value->sender_id,
-                "sender_type" => $value->sender_type,
-                "receiver_id" => $value->receiver_id,
-                "receiver_type" => $value->receiver_type,
-                "message" => $value->message,
-                "sent_at" => $value->sent_at,
-                "is_read" => $value->is_read
+            ->orderBy('sent_at', 'asc')
+            ->get();
+
+        return $chats->map(function ($chat) {
+            return [
+                "id" => $chat->id,
+                "sender_id" => $chat->sender_id,
+                "sender_type" => $chat->sender_type,
+                "receiver_id" => $chat->receiver_id,
+                "receiver_type" => $chat->receiver_type,
+                "message" => $chat->message,
+                "sent_at" => $chat->sent_at,
+                "is_read" => $chat->is_read,
             ];
-        }
-        return $cleandata;
+        });
     }
 
     public static function getavgopenstatus($type, $sender_id, $sender_type)
     {
         try {
-            $user_chat_data = ChatsOther::where('type', $type)
+            $userChatData = ChatsOther::where('type', $type)
                 ->where('sender_id', $sender_id)
                 ->where('sender_type', $sender_type)
                 ->get();
 
-            $average_status = $user_chat_data->avg('openstatus');
-            return $average_status;
+            return $userChatData->avg('openstatus');
         } catch (Exception $e) {
-            Log::error('Set Read Error: ' . $e->getMessage());
-            return response('Error setting read status', 500);
+            Log::error('Get Avg Open Status Error: ' . $e->getMessage());
+            return null;
         }
     }
 
     public static function checkifsupplier()
     {
         $user_data = ChatManager::getRoleDetail();
-        $seller = Seller::where('id', $user_data['user_id'])->first();
-        if ($seller->vendor_type == 'supplier') {
-            return true;
-        } else {
-            return false;
-        }
+        $seller = Seller::find($user_data['user_id']);
+        return $seller && $seller->vendor_type == 'supplier';
     }
 
     public static function checkconfirmsupplier()
     {
         $user_data = ChatManager::getRoleDetail();
-        $seller = Seller::where('id', $user_data['user_id'])->first();
-        if ($seller->suppliers_confirm_status == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        $seller = Seller::find($user_data['user_id']);
+        return $seller && $seller->suppliers_confirm_status == 1;
     }
 
     public static function checkStatusSupplier()
     {
         $user_data = ChatManager::getRoleDetail();
-        $seller = Seller::where('id', $user_data['user_id'])->first();
-        if (isset($seller)) {
-            if ($seller->vendor_type == 'supplier') {
-                $supplier_status = $seller->suppliers_confirm_status;
-                if ($supplier_status == 1) {
-                    Log::info("Returned 1");
-                    return 1;
-                } else if ($supplier_status == 0) {
-                    Log::info("Returned 0");
-                    return 0;
-                }
-            } else if ($seller->vendor_type == 'vendor') {
-                Log::info("Returned 1");
-                return 1;
-            }
-        } else {
-            Log::info("Returned 2");
+        $seller = Seller::find($user_data['user_id']);
+
+        if (!$seller) {
+            Log::info("Seller not found, returning 2");
             return 2;
         }
+
+        if ($seller->vendor_type == 'supplier') {
+            $supplierStatus = $seller->suppliers_confirm_status;
+            Log::info("Returned supplier status: $supplierStatus");
+            return $supplierStatus == 1 ? 1 : 0;
+        }
+
+        Log::info("Returned vendor status: 1");
+        return 1;
     }
 
     public static function RedirectSupplierDetails()
     {
-        $supplier_status = self::checkStatusSupplier();
+        $supplierStatus = self::checkStatusSupplier();
 
-        switch ($supplier_status) {
+        switch ($supplierStatus) {
             case 0:
-                Log::info("Returned case 0");
-                return [
-                    'route' => 'vendor.supplier.status.update'
-                ];
+                Log::info("Redirecting to update supplier status");
+                return ['route' => 'vendor.supplier.status.update'];
             case 1:
-                Log::info("Returned case 1");
-                return [
-                    'route' => 'vendor.dashboard.index'
-                ];
+                Log::info("Redirecting to vendor dashboard");
+                return ['route' => 'vendor.dashboard.index'];
             default:
-                Log::info("Returned case def");
-                return [
-                    'route' => 'error403'
-                ];
+                Log::info("Returning error page");
+                return ['route' => 'error403'];
         }
     }
 
-    public static function getcapchastatus()
+    public static function getCapchaStatus()
     {
-        $capchastatus = BusinessSetting::where('type', 'recaptcha')->first();
-        $getstatus = $capchastatus->status;
-        return $getstatus;
+        $captchaStatus = BusinessSetting::where('type', 'recaptcha')->first();
+        return $captchaStatus ? $captchaStatus->status : null;
     }
+
 
     private static function getCurrentRole()
     {
         try {
             $currentRole = self::getRoleDetail();
-            if($currentRole['role'] == 'customer'){
-                $userId = $currentRole['user_id'];
-            } 
-            if($currentRole['role'] == 'seller') {
-                $sellerId = $currentRole['user_id'];
+
+            if (!isset($currentRole['role']) || !in_array($currentRole['role'], ['customer', 'seller'])) {
+                return [
+                    'error' => true,
+                    'message' => 'User not logged in or invalid role.',
+                ];
             }
 
-            if (isset($userId)) {
-                $user = auth('customer')->user(); // Retrieve the authenticated user
+            $userId = $currentRole['user_id'];
+            $role = $currentRole['role'];
+
+            if ($role == 'customer') {
+                $user = auth('customer')->user();
                 if (!$user) {
-                    // No user is logged in
                     return [
                         'error' => true,
                         'message' => 'No user is logged in.',
                     ];
                 }
 
-                // Ensure $userdata is not null
-                if (!$user) {
-                    return [
-                        'error' => true,
-                        'message' => 'User data not found.',
-                    ];
-                }
                 return [
                     'error' => false,
                     'userdata' => $user,
@@ -693,21 +517,14 @@ class ChatManager
                     'status' => $user->membership_status,
                     'user_id' => $userId,
                 ];
-            } else if (isset($sellerId)) {
-                $seller = auth('seller')->user(); // Retrieve the authenticated user
+            }
+
+            if ($role == 'seller') {
+                $seller = auth('seller')->user();
                 if (!$seller) {
-                    // No user is logged in
                     return [
                         'error' => true,
                         'message' => 'No seller is logged in.',
-                    ];
-                }
-
-                // Ensure $userdata is not null
-                if (!$seller) {
-                    return [
-                        'error' => true,
-                        'message' => 'Seller data not found.',
                     ];
                 }
 
@@ -716,16 +533,15 @@ class ChatManager
                     'userdata' => $seller,
                     'role' => $seller->membership,
                     'status' => $seller->membership_status,
-                    'seller_id' => $sellerId,
-                ];
-            } else {
-                return [
-                    'error' => true,
-                    'message' => 'User not Logged In or Invalid Login'
+                    'seller_id' => $userId,
                 ];
             }
+
+            return [
+                'error' => true,
+                'message' => 'Role not recognized.',
+            ];
         } catch (\Exception $e) {
-            // Handle unexpected errors
             return [
                 'error' => true,
                 'message' => 'An unexpected error occurred: ' . $e->getMessage(),
@@ -742,7 +558,6 @@ class ChatManager
             ];
         }
 
-        // Find the membership record based on the ID
         $membership = Membership::find($userdata->membership_id);
 
         if (!$membership) {
@@ -752,11 +567,9 @@ class ChatManager
             ];
         }
 
-        // Calculate the age of the membership
         $daysSinceCreated = now()->diffInDays($membership->created_at);
 
         if ($daysSinceCreated > 31) {
-            // Expire the membership
             $userdata->membership_status = 'expired';
             $userdata->save();
 
@@ -774,401 +587,241 @@ class ChatManager
 
     public static function membershipChecker()
     {
-        $getRole = self::getCurrentRole();
-        if ($getRole['error'] === false) {
-            $checkValidity = self::checkValidity($getRole['userdata']);
-            if ($checkValidity['valid'] === true) {
+        $role = self::getCurrentRole();
+        if (!$role['error']) {
+            $validityCheck = self::checkValidity($role['userdata']);
+            if ($validityCheck['valid']) {
                 return [
                     'status' => 'success',
-                    'membership' => $getRole['role'],
-                ];
-            } else {
-                return [
-                    'status' => 'failure',
-                    'message' => $checkValidity['message'],
+                    'membership' => $role['role'],
                 ];
             }
-        } else {
             return [
                 'status' => 'failure',
-                'message' => $getRole['message'],
+                'message' => $validityCheck['message'],
             ];
         }
+        return [
+            'status' => 'failure',
+            'message' => $role['message'],
+        ];
     }
 
     private static function BuyLeadsUsedThisWeek($userId, $weeklyLimit, $leadType = 'buyer')
     {
-        if ($userId) {
-            // Get the start and end of the current week
-            $startOfWeek = now()->startOfWeek();
-            $endOfWeek = now()->endOfWeek();
-
-            // Get all leads of the specified type
-            $leadIds = Leads::where('type', $leadType)->pluck('id');
-
-            // Filter ChatsOther by sender_id, lead_id, and date range
-            $leadsByUser = ChatsOther::where('sender_id', $userId)
-                ->whereIn('lead_id', $leadIds) // Filter by lead type
-                ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-                ->distinct()
-                ->get();
-
-            $used = $leadsByUser->count();
-            $remaining = $weeklyLimit - $used;
-
+        if (!$userId) {
             return [
-                'used' => $used,
-                'remaining' => $remaining > 0 ? $remaining : 0
+                'used' => 0,
+                'remaining' => 0,
             ];
         }
 
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+
+        $leadIds = Leads::where('type', $leadType)->pluck('id');
+
+        $leadsUsed = ChatsOther::where('sender_id', $userId)
+            ->whereIn('lead_id', $leadIds)
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->distinct()
+            ->count();
+
+        $remaining = max($weeklyLimit - $leadsUsed, 0);
+
         return [
-            'used' => 0,
-            'remaining' => 0
+            'used' => $leadsUsed,
+            'remaining' => $remaining,
         ];
     }
 
+
     private static function BuyLeadsUsedThisMonth($userId, $monthlyLimit, $leadType = 'buyer')
     {
-        if ($userId) {
-            // Get the start and end of the current month
-            $startOfMonth = now()->startOfMonth();
-            $endOfMonth = now()->endOfMonth();
-
-            // Get all leads of the specified type
-            $leadIds = Leads::where('type', $leadType)->pluck('id');
-
-            // Filter ChatsOther by sender_id, lead_id, and date range
-            $leadsByUser = ChatsOther::where('sender_id', $userId)
-                ->whereIn('lead_id', $leadIds) // Filter by lead type
-                ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                ->distinct()
-                ->get();
-
-            $used = $leadsByUser->count();
-            $remaining = $monthlyLimit - $used;
-
+        if (!$userId) {
             return [
-                'used' => $used,
-                'remaining' => $remaining > 0 ? $remaining : 0
+                'used' => 0,
+                'remaining' => 0
             ];
         }
 
+        // Get the start and end of the current month
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
+
+        // Get all leads of the specified type
+        $leadIds = Leads::where('type', $leadType)->pluck('id');
+
+        // Filter ChatsOther by sender_id, lead_id, and date range
+        $leadsByUser = ChatsOther::where('sender_id', $userId)
+            ->whereIn('lead_id', $leadIds) // Filter by lead type
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->distinct()
+            ->get();
+
+        $used = $leadsByUser->count();
+        $remaining = max($monthlyLimit - $used, 0);
+
         return [
-            'used' => 0,
-            'remaining' => 0
+            'used' => $used,
+            'remaining' => $remaining
         ];
     }
 
     public static function checkbuyleadslimit()
     {
         $getRole = self::getCurrentRole();
-        if ($getRole['error'] === false) {
-            $checkValidity = self::checkValidity($getRole['userdata']);
-            if ($checkValidity['valid'] === true) {
-                if (isset($getRole['user_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'customer')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    if($membershipDetails['buy_leads'] == -1){
-                        return [
-                            'status' => 'success',
-                            'message' => 'Unlimited Leads'
-                        ];
-                    }
-                    if ($getRole['role'] == 'Free') {
-                        $leadslimit = $membershipDetails['buy_leads'];
-
-                        // Get Leads used this week
-                        $leadsUsedWeek = self::BuyLeadsUsedThisWeek($getRole['user_id'], $leadslimit);
-                        if ($leadsUsedWeek['used'] >= $leadslimit) {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Leads Used Up. Wait for Next week for Limit to reset.'
-                            ];
-                        } else if ($leadsUsedWeek['used'] < $leadslimit) {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Leads Remaining' . $leadsUsedWeek['remaining']
-                            ];
-                        }
-                    } else if ($getRole['role'] != 'Free') {
-                        $leadslimit = $membershipDetails['buy_leads'];
-
-                        // Get Leads used this week
-                        $leadsUsedMonthly = self::BuyLeadsUsedThisMonth($getRole['user_id'], $leadslimit);
-                        if ($leadsUsedMonthly['used'] >= $leadslimit) {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Leads Used Up. Wait for Next week for Limit to reset.'
-                            ];
-                        } else if ($leadsUsedMonthly['used'] < $leadslimit) {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Leads Remaining' . $leadsUsedMonthly['remaining']
-                            ];
-                        } else {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Contact Admin or Support Ticket'
-                            ];
-                        }
-                    } else {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Contact Admin or Support Ticket'
-                        ];
-                    }
-                } else if (isset($getRole['seller_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'seller')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    if($membershipDetails['buy_leads'] == -1){
-                        return [
-                            'status' => 'success',
-                            'message' => 'Unlimited Leads'
-                        ];
-                    }
-                    if ($getRole['role'] == 'Free') {
-                        $leadslimit = $membershipDetails['buy_leads'];
-
-                        // Get Leads used this week
-                        $leadsUsedWeek = self::BuyLeadsUsedThisWeek($getRole['seller_id'], $leadslimit);
-                        if ($leadsUsedWeek['used'] >= $leadslimit) {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Leads Used Up. Wait for Next week for Limit to reset.'
-                            ];
-                        } else if ($leadsUsedWeek['used'] < $leadslimit) {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Leads Remaining' . $leadsUsedWeek['remaining']
-                            ];
-                        }
-                    } else if ($getRole['role'] != 'Free') {
-                        $leadslimit = $membershipDetails['buy_leads'];
-
-                        // Get Leads used this week
-                        $leadsUsedMonthly = self::BuyLeadsUsedThisMonth($getRole['seller_id'], $leadslimit);
-                        if ($leadsUsedMonthly['used'] >= $leadslimit) {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Leads Used Up. Wait for Next week for Limit to reset.'
-                            ];
-                        } else if ($leadsUsedMonthly['used'] < $leadslimit) {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Leads Remaining' . $leadsUsedMonthly['remaining']
-                            ];
-                        } else {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Contact Admin or Support Ticket'
-                            ];
-                        }
-                    } else {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Contact Admin or Support Ticket'
-                        ];
-                    }
-                } else {
-                    return [
-                        'status' => 'failure',
-                        'membership' => $checkValidity['message'],
-                    ];
-                }
-            } else {
-                return [
-                    'status' => 'failure',
-                    'message' => $checkValidity['message'],
-                ];
-            }
-        } else {
+        if ($getRole['error']) {
             return [
                 'status' => 'failure',
                 'message' => $getRole['message'],
             ];
         }
+
+        $checkValidity = self::checkValidity($getRole['userdata']);
+        if (!$checkValidity['valid']) {
+            return [
+                'status' => 'failure',
+                'message' => $checkValidity['message'],
+            ];
+        }
+
+        $roleDetails = $getRole['role'] === 'customer' ? 'customer' : 'seller';
+        $membershipDetails = MembershipTier::where('membership_type', $roleDetails)
+            ->where('membership_name', $getRole['role'])
+            ->first()->membership_benefits;
+
+        $membershipDetails = json_decode($membershipDetails, true);
+        $leadslimit = $membershipDetails['buy_leads'];
+
+        if ($leadslimit == -1) {
+            return [
+                'status' => 'success',
+                'message' => 'Unlimited Leads'
+            ];
+        }
+
+        // Determine the user's weekly or monthly limit
+        $usedLeads = $getRole['role'] === 'Free'
+            ? self::BuyLeadsUsedThisWeek($getRole['user_id'] ?? $getRole['seller_id'], $leadslimit)
+            : self::BuyLeadsUsedThisMonth($getRole['user_id'] ?? $getRole['seller_id'], $leadslimit);
+
+        if ($usedLeads['used'] >= $leadslimit) {
+            return [
+                'status' => 'failure',
+                'message' => 'Leads Used Up. Wait for Next ' . ($getRole['role'] === 'Free' ? 'week' : 'month') . ' for Limit to reset.'
+            ];
+        }
+
+        return [
+            'status' => 'success',
+            'message' => 'Leads Remaining: ' . $usedLeads['remaining']
+        ];
     }
 
     private static function SellLeadsUsedThisWeek($userId, $weeklyLimit, $leadType = 'seller')
     {
-        if ($userId) {
-            // Get the start and end of the current week
-            $startOfWeek = now()->startOfWeek();
-            $endOfWeek = now()->endOfWeek();
-
-            // Get all leads of the specified type
-            $leadIds = Leads::where('type', $leadType)->pluck('id');
-
-            // Filter ChatsOther by sender_id, lead_id, and date range
-            $leadsByUser = ChatsOther::where('sender_id', $userId)
-                ->whereIn('lead_id', $leadIds) // Filter by lead type
-                ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-                ->distinct()
-                ->get();
-
-            $used = $leadsByUser->count();
-            $remaining = $weeklyLimit - $used;
-
+        if (!$userId) {
             return [
-                'used' => $used,
-                'remaining' => $remaining > 0 ? $remaining : 0
+                'used' => 0,
+                'remaining' => 0
             ];
         }
 
+        // Get the start and end of the current week
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+
+        // Get all leads of the specified type
+        $leadIds = Leads::where('type', $leadType)->pluck('id');
+
+        // Filter ChatsOther by sender_id, lead_id, and date range
+        $leadsByUser = ChatsOther::where('sender_id', $userId)
+            ->whereIn('lead_id', $leadIds) // Filter by lead type
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->distinct()
+            ->get();
+
+        $used = $leadsByUser->count();
+        $remaining = max($weeklyLimit - $used, 0);
+
         return [
-            'used' => 0,
-            'remaining' => 0
+            'used' => $used,
+            'remaining' => $remaining
         ];
     }
 
-    private static function SellLeadsUsedThisMonth($userId, $monthlyLimit, $leadType = 'seller')
+
+    private static function LeadsUsed($userId, $limit, $leadType, $timePeriod = 'month')
     {
-        if ($userId) {
-            // Get the start and end of the current month
-            $startOfMonth = now()->startOfMonth();
-            $endOfMonth = now()->endOfMonth();
-
-            // Get all leads of the specified type
-            $leadIds = Leads::where('type', $leadType)->pluck('id');
-
-            // Filter ChatsOther by sender_id, lead_id, and date range
-            $leadsByUser = ChatsOther::where('sender_id', $userId)
-                ->whereIn('lead_id', $leadIds) // Filter by lead type
-                ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
-                ->distinct()
-                ->get();
-
-            $used = $leadsByUser->count();
-            $remaining = $monthlyLimit - $used;
-
+        if (!$userId) {
             return [
-                'used' => $used,
-                'remaining' => $remaining > 0 ? $remaining : 0
+                'used' => 0,
+                'remaining' => 0
             ];
         }
 
+        // Determine start and end of the specified time period
+        $start = ($timePeriod == 'week') ? now()->startOfWeek() : now()->startOfMonth();
+        $end = ($timePeriod == 'week') ? now()->endOfWeek() : now()->endOfMonth();
+
+        // Filter by lead type and count the number of leads used by the user in the given time period
+        $used = ChatsOther::where('sender_id', $userId)
+            ->whereIn('lead_id', Leads::where('type', $leadType)->pluck('id'))
+            ->whereBetween('created_at', [$start, $end])
+            ->distinct()
+            ->count();
+
+        $remaining = max(0, $limit - $used);
+
         return [
-            'used' => 0,
-            'remaining' => 0
+            'used' => $used,
+            'remaining' => $remaining
         ];
     }
 
-    public static function checksellleadslimit()
+    public static function checkLeadsLimit($leadType = 'buyer', $timePeriod = 'month')
     {
         $getRole = self::getCurrentRole();
         if ($getRole['error'] === false) {
             $checkValidity = self::checkValidity($getRole['userdata']);
             if ($checkValidity['valid'] === true) {
-                if (isset($getRole['user_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'customer')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    if($membershipDetails['sell_leads'] == -1){
+                $userId = $getRole['user_id'] ?? $getRole['seller_id'];
+                $membershipType = isset($getRole['user_id']) ? 'customer' : 'seller';
+                $role = $getRole['role'];
+
+                if ($userId) {
+                    // Retrieve membership details once
+                    $membershipDetails = MembershipTier::where('membership_type', $membershipType)
+                        ->where('membership_name', $role)
+                        ->first()->membership_benefits;
+                    $membershipDetails = json_decode($membershipDetails, true);
+
+                    // Handle unlimited leads scenario
+                    if ($membershipDetails["{$leadType}_leads"] == -1) {
                         return [
                             'status' => 'success',
                             'message' => 'Unlimited Leads'
                         ];
                     }
-                    if ($getRole['role'] == 'Free') {
-                        $leadslimit = $membershipDetails['sell_leads'];
 
-                        // Get Leads used this week
-                        $leadsUsedWeek = self::SellLeadsUsedThisWeek($getRole['user_id'], $leadslimit);
-                        if ($leadsUsedWeek['used'] >= $leadslimit) {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Leads Used Up. Wait for Next week for Limit to reset.'
-                            ];
-                        } else if ($leadsUsedWeek['used'] < $leadslimit) {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Leads Remaining' . $leadsUsedWeek['remaining']
-                            ];
-                        }
-                    } else if ($getRole['role'] != 'Free') {
-                        $leadslimit = $membershipDetails['sell_leads'];
+                    // Determine lead limit and check used/remaining leads
+                    $leadLimit = $membershipDetails["{$leadType}_leads"];
+                    $leadsUsed = self::LeadsUsed($userId, $leadLimit, $leadType, $timePeriod);
+                    $remainingLeadsMessage = "Leads Remaining: {$leadsUsed['remaining']}";
 
-                        // Get Leads used this week
-                        $leadsUsedMonthly = self::SellLeadsUsedThisMonth($getRole['user_id'], $leadslimit);
-                        if ($leadsUsedMonthly['used'] >= $leadslimit) {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Leads Used Up. Wait for Next week for Limit to reset.'
-                            ];
-                        } else if ($leadsUsedMonthly['used'] < $leadslimit) {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Leads Remaining' . $leadsUsedMonthly['remaining']
-                            ];
-                        } else {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Contact Admin or Support Ticket'
-                            ];
-                        }
-                    } else {
+                    // Handle limit checks based on lead usage
+                    if ($leadsUsed['used'] >= $leadLimit) {
                         return [
                             'status' => 'failure',
-                            'message' => 'Contact Admin or Support Ticket'
+                            'message' => 'Leads Used Up. Wait for Next ' . ucfirst($timePeriod) . ' for Limit to reset.'
                         ];
-                    }
-                } else if (isset($getRole['seller_id'])) {
-                    $membershipDetails = MembershipTier::where('membership_type', 'seller')->where('membership_name', $getRole['role'])->first()->membership_benefits;
-                    $membershipDetails = json_decode($membershipDetails,true);
-                    if($membershipDetails['sell_leads'] == -1){
+                    } elseif ($leadsUsed['used'] < $leadLimit) {
                         return [
                             'status' => 'success',
-                            'message' => 'Unlimited Leads'
+                            'message' => $remainingLeadsMessage
                         ];
                     }
-                    if ($getRole['role'] == 'Free') {
-                        $leadslimit = $membershipDetails['sell_leads'];
-
-                        // Get Leads used this week
-                        $leadsUsedWeek = self::SellLeadsUsedThisWeek($getRole['seller_id'], $leadslimit);
-                        if ($leadsUsedWeek['used'] >= $leadslimit) {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Leads Used Up. Wait for Next week for Limit to reset.'
-                            ];
-                        } else if ($leadsUsedWeek['used'] < $leadslimit) {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Leads Remaining' . $leadsUsedWeek['remaining']
-                            ];
-                        }
-                    } else if ($getRole['role'] != 'Free') {
-                        $leadslimit = $membershipDetails['sell_leads'];
-
-                        // Get Leads used this week
-                        $leadsUsedMonthly = self::SellLeadsUsedThisMonth($getRole['seller_id'], $leadslimit);
-                        if ($leadsUsedMonthly['used'] >= $leadslimit) {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Leads Used Up. Wait for Next week for Limit to reset.'
-                            ];
-                        } else if ($leadsUsedMonthly['used'] < $leadslimit) {
-                            return [
-                                'status' => 'success',
-                                'message' => 'Leads Remaining' . $leadsUsedMonthly['remaining']
-                            ];
-                        } else {
-                            return [
-                                'status' => 'failure',
-                                'message' => 'Contact Admin or Support Ticket'
-                            ];
-                        }
-                    } else {
-                        return [
-                            'status' => 'failure',
-                            'message' => 'Contact Admin or Support Ticket'
-                        ];
-                    }
-                } else {
-                    return [
-                        'status' => 'failure',
-                        'membership' => $checkValidity['message'],
-                    ];
                 }
             } else {
                 return [
@@ -1182,57 +835,35 @@ class ChatManager
                 'message' => $getRole['message'],
             ];
         }
-    }
-
-    private static function CVUsedThisWeek($userId, $weeklyLimit, $leadType = 'seller')
-    {
-        if ($userId) {
-            // Get the start and end of the current week
-            $startOfWeek = now()->startOfWeek();
-            $endOfWeek = now()->endOfWeek();
-
-            // Get all leads of the specified type
-            $leadIds = Leads::where('type', $leadType)->pluck('id');
-
-            // Filter ChatsOther by sender_id, lead_id, and date range
-            $leadsByUser = ChatsOther::where('sender_id', $userId)
-                ->whereIn('lead_id', $leadIds) // Filter by lead type
-                ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
-                ->distinct()
-                ->get();
-
-            $used = $leadsByUser->count();
-            $remaining = $weeklyLimit - $used;
-
-            return [
-                'used' => $used,
-                'remaining' => $remaining > 0 ? $remaining : 0
-            ];
-        }
 
         return [
-            'used' => 0,
-            'remaining' => 0
+            'status' => 'failure',
+            'message' => 'Contact Admin or Support Ticket'
         ];
     }
 
-    private static function CVUsedThisMonth($userId, $monthlyLimit, $leadType = 'seller')
+
+    private static function CVUsed($userId, $limit, $leadType = 'seller', $timePeriod = 'month')
     {
         if (!$userId) return ['used' => 0, 'remaining' => 0];
 
-        $startOfMonth = now()->startOfMonth();
-        $endOfMonth = now()->endOfMonth();
+        // Determine the time range based on the time period (week or month)
+        $start = ($timePeriod == 'week') ? now()->startOfWeek() : now()->startOfMonth();
+        $end = ($timePeriod == 'week') ? now()->endOfWeek() : now()->endOfMonth();
 
+        // Get the lead IDs for the specified lead type
         $leadIds = Leads::where('type', $leadType)->pluck('id');
+
+        // Count the number of leads used by the user in the given time period
         $used = ChatsOther::where('sender_id', $userId)
             ->whereIn('lead_id', $leadIds)
-            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->whereBetween('created_at', [$start, $end])
             ->distinct()
             ->count();
 
         return [
             'used' => $used,
-            'remaining' => max(0, $monthlyLimit - $used)
+            'remaining' => max(0, $limit - $used)
         ];
     }
 
@@ -1240,6 +871,7 @@ class ChatManager
     {
         if (!$userId) return ['used' => 0, 'remaining' => 0];
 
+        // Count the number of active offers made by the user
         $used = Leads::where([
             ['type', $leadType],
             ['added_by', $userId],
@@ -1268,6 +900,7 @@ class ChatManager
         $accessCheck = self::checkindustryjobsaccess();
         if ($accessCheck['status'] !== 'success') return $accessCheck;
 
+        // Determine if user is a customer or seller
         $userType = isset($getRole['user_id']) ? 'customer' : 'seller';
         $userId = $getRole[$userType . '_id'] ?? null;
 
@@ -1275,6 +908,7 @@ class ChatManager
             return ['status' => 'failure', 'message' => 'Contact Admin or Support Ticket'];
         }
 
+        // Get membership details
         $membership = MembershipTier::where([
             ['membership_type', $userType],
             ['membership_name', $getRole['role']]
@@ -1287,23 +921,49 @@ class ChatManager
             return ['status' => 'success', 'message' => 'Unlimited Leads'];
         }
 
+        // Check for any extra limits from top-up
         $extraLimit = HelperUtil::getCvTopUpValue($userId, $getRole['role']);
         $totalLimit = $leadLimit + $extraLimit;
 
-        $leadsUsed = $getRole['role'] === 'Free'
-            ? self::CVUsedThisWeek($userId, $totalLimit)
-            : self::CVUsedThisMonth($userId, $totalLimit);
+        // Check leads usage for the current period (week or month)
+        $leadsUsed = ($getRole['role'] === 'Free')
+            ? self::CVUsed($userId, $totalLimit, 'seller', 'week')  // For free users, check weekly
+            : self::CVUsed($userId, $totalLimit, 'seller', 'month'); // For others, check monthly
 
         if ($leadsUsed['used'] >= $totalLimit) {
             return ['status' => 'failure', 'message' => 'Leads Used Up. Wait for the limit to reset.'];
         }
 
+        // Handle top-up usage if the user has surpassed the free limit
         if ($leadsUsed['used'] >= $leadLimit && $extraLimit > 0) {
             HelperUtil::consumeCvTopUp($userId, $userType);
             return ['status' => 'success', 'message' => 'Using Top-Up. Leads Remaining: ' . ($totalLimit - $leadsUsed['used'])];
         }
 
+        // Return remaining leads within the basic limit
         return ['status' => 'success', 'message' => 'Leads Remaining: ' . ($leadLimit - $leadsUsed['used'])];
+    }
+
+
+    private static function getUserMembership($getRole, $membershipType)
+    {
+        if (!isset($getRole[$membershipType . '_id'])) {
+            return null;
+        }
+
+        $membership = MembershipTier::where([
+            ['membership_type', $membershipType],
+            ['membership_name', $getRole['role']]
+        ])->first();
+
+        return $membership ? json_decode($membership->membership_benefits, true) : null;
+    }
+
+    private static function getAccessStatus($benefits, $accessType)
+    {
+        return isset($benefits[$accessType]) && $benefits[$accessType] === 'yes'
+            ? ['status' => 'success', 'message' => 'Access Granted']
+            : ['status' => 'failure', 'message' => 'Access Denied'];
     }
 
     public static function checksaleofferlimit()
@@ -1318,6 +978,7 @@ class ChatManager
             return ['status' => 'failure', 'message' => $checkValidity['message']];
         }
 
+        // Check if the user is a seller
         if (isset($getRole['user_id'])) {
             return ['status' => 'failure', 'message' => 'Not Available for Seller'];
         }
@@ -1326,20 +987,18 @@ class ChatManager
             return ['status' => 'failure', 'message' => 'Contact Admin or Support Ticket'];
         }
 
-        $membership = MembershipTier::where([
-            ['membership_type', 'seller'],
-            ['membership_name', $getRole['role']]
-        ])->first();
+        // Fetch membership benefits for the seller
+        $benefits = self::getUserMembership($getRole, 'seller');
+        if (!$benefits) {
+            return ['status' => 'failure', 'message' => 'Membership details not found'];
+        }
 
-        $benefits = json_decode($membership->membership_benefits, true);
         $leadLimit = $benefits['sell_offer'];
-
         if ($leadLimit == -1) {
             return ['status' => 'success', 'message' => 'Unlimited Leads'];
         }
 
         $leadsUsed = self::SaleOfferMade($getRole['seller_id'], $leadLimit);
-
         if ($leadsUsed['used'] >= $leadLimit) {
             return ['status' => 'failure', 'message' => 'Sale Offer Used Up'];
         }
@@ -1360,74 +1019,38 @@ class ChatManager
         }
 
         $userType = isset($getRole['user_id']) ? 'customer' : 'seller';
-        $membership = MembershipTier::where([
-            ['membership_type', $userType],
-            ['membership_name', $getRole['role']]
-        ])->first();
+        $benefits = self::getUserMembership($getRole, $userType);
 
-        $benefits = json_decode($membership->membership_benefits, true);
-        $access = $benefits['industry_jobs'] ?? 'no';
+        if (!$benefits) {
+            return ['status' => 'failure', 'message' => 'Membership details not found'];
+        }
 
-        return $access === 'yes'
-            ? ['status' => 'success', 'message' => 'Access Granted']
-            : ['status' => 'failure', 'message' => 'Access Denied'];
-    }    
+        return self::getAccessStatus($benefits, 'industry_jobs');
+    }
 
     public static function checkAccessByType($accessType)
     {
         $getRole = self::getCurrentRole();
-        if ($getRole['error'] !== false) {
-            return [
-                'status' => 'failure',
-                'message' => $getRole['message'],
-            ];
+        if ($getRole['error']) {
+            return ['status' => 'failure', 'message' => $getRole['message']];
         }
 
         $checkValidity = self::checkValidity($getRole['userdata']);
-        if ($checkValidity['valid'] !== true) {
-            return [
-                'status' => 'failure',
-                'message' => $checkValidity['message'],
-            ];
+        if (!$checkValidity['valid']) {
+            return ['status' => 'failure', 'message' => $checkValidity['message']];
         }
 
-        // Determine user type (customer or seller)
-        if (isset($getRole['user_id'])) {
-            $membershipType = 'customer';
-        } elseif (isset($getRole['seller_id'])) {
-            $membershipType = 'seller';
-        } else {
-            return [
-                'status' => 'failure',
-                'membership' => $checkValidity['message'],
-            ];
+        $userType = isset($getRole['user_id']) ? 'customer' : (isset($getRole['seller_id']) ? 'seller' : null);
+        if (!$userType) {
+            return ['status' => 'failure', 'message' => 'Membership details not found'];
         }
 
-        $membership = MembershipTier::where('membership_type', $membershipType)
-            ->where('membership_name', $getRole['role'])
-            ->first();
-
-        if (!$membership) {
-            return [
-                'status' => 'failure',
-                'message' => 'Membership details not found',
-            ];
+        $benefits = self::getUserMembership($getRole, $userType);
+        if (!$benefits) {
+            return ['status' => 'failure', 'message' => 'Membership details not found'];
         }
 
-        $membershipDetails = json_decode($membership->membership_benefits, true);
-        $access = $membershipDetails[$accessType] ?? 'no';
-
-        if ($access === "yes") {
-            return [
-                'status' => 'success',
-                'message' => 'Access Granted'
-            ];
-        } else {
-            return [
-                'status' => 'failure',
-                'message' => 'Access Denied'
-            ];
-        }
+        return self::getAccessStatus($benefits, $accessType);
     }
 
     // Specific access checkers

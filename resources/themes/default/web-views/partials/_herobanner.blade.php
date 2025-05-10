@@ -144,23 +144,6 @@
 </div>
 </section>
 <script>
-    const button = document.querySelector(".postrequest-button");
-    const icon = document.querySelector(".postrequesticon");
-    const text = document.querySelector(".postrequestptag");
-
-    button.addEventListener("mouseover", () => {
-        button.classList.add("hovered");
-        icon.style.color = "white";
-        text.style.color = "white";
-    });
-
-    button.addEventListener("mouseout", () => {
-        button.classList.remove("hovered");
-        icon.style.color = "var(--web-hover)";
-        text.style.color = "var(--web-hover)";
-    });
-</script>
-<script>
     $(document).ready(function() {
         $('#banner-carousel1').carousel({
             autoplay: true,

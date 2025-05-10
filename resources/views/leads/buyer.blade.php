@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/buyer.css') }}" />
 @endpush
 @section('content')
-    <section class="mainpagesection buy-offer" style="margin-top: 20px; background-color: unset;">
+    <section class="mainpagesection buy-offer" style="margin-top: 30px; background-color: unset;">
         <div class="flex">
             <div class="sidebar">
                 <div class="filter-sidebar">

@@ -22,7 +22,10 @@
     $role = App\Models\User::where('id', $userId)->first();
     $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
     ?>
-    <div class="element-mobile header-wrapper">
+    <p style="height: 124px; visiblity: none;">
+        Hidden height From Top
+    </p>
+    <div class="element-mobile header-wrapper navbar-sticky navbar-floating navbar-dark">
       <div class="navbar-wrapper">
         <div class="navbar-2">
           <div class="group-14">
@@ -369,16 +372,6 @@
             .append("<i class='czi-arrow-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}'></i>");
     </script>
     <script>
-        document.getElementById('menu-button').addEventListener('click', function() {
-            const navbar = document.getElementById('navbarhidden');
-            if (navbar.style.display === 'block') {
-                navbar.style.display = 'none';
-            } else {
-                navbar.style.display = 'block';
-            }
-        });
-    </script>
-    <script>
         document.addEventListener("DOMContentLoaded", function() {
             const dropdown = document.querySelector('.dropdown');
             const defaultOption = document.querySelector('.default_option');
@@ -405,23 +398,6 @@
             document.addEventListener('click', function(event) {
                 if (!dropdown.contains(event.target)) {
                     dropdownList.classList.remove('active'); // Close dropdown if clicked outside
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdown = document.querySelector('.custom-dropdown');
-            const trigger = dropdown.querySelector('.dropdown-trigger');
-
-            trigger.addEventListener('click', function() {
-                dropdown.classList.toggle('show');
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!dropdown.contains(event.target)) {
-                    dropdown.classList.remove('show');
                 }
             });
         });
@@ -500,69 +476,6 @@
                     'display': 'none',
                     'pointer-events': 'none',
                 });
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var signinheader = document.getElementsByClassName('signinheader');
-            var message = document.getElementsByClassName('messageheader');
-            var cartheader = document.getElementsByClassName('cartheader');
-            var getheader = document.getElementsByClassName('addcontents');
-
-            function checkNavbarScroll() {
-                var navbar = document.querySelector('.centernavbar'); // Get the navbar element
-                if (navbar && navbar.classList.contains('navbar-stuck')) {
-                    for (var i = 0; i < signinheader.length; i++) {
-                        signinheader[i].style.display = 'none';
-                    }
-                    for (var i = 0; i < message.length; i++) {
-                        message[i].style.display = 'none';
-                    }
-                    for (var i = 0; i < cartheader.length; i++) {
-                        cartheader[i].style.display = 'none';
-                    }
-                    getheader[0].style.display = 'contents';
-                } else {
-                    for (var i = 0; i < signinheader.length; i++) {
-                        signinheader[i].style.display = 'inline-block'; // Adjust based on your layout
-                    }
-                    for (var i = 0; i < message.length; i++) {
-                        message[i].style.display = 'inline-block'; // Adjust based on your layout
-                    }
-                    for (var i = 0; i < cartheader.length; i++) {
-                        cartheader[i].style.display = 'inline-block'; // Adjust based on your layout
-                    }
-                    getheader[0].style.display = '';
-                }
-            }
-
-            checkNavbarScroll();
-
-            window.addEventListener('scroll', function() {
-                checkNavbarScroll();
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get the dropdown toggle button and the dropdown menu
-            const dropdownToggle = document.getElementById('profileDropdown');
-            const dropdownMenu = document.querySelector('#profileDropdownContainer .dropdown-menu');
-
-            // Listen for click event on the dropdown toggle
-            dropdownToggle.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent the default behavior (jumping to the top of the page)
-
-                // Toggle the 'show' class to show or hide the dropdown menu
-                dropdownMenu.classList.toggle('show');
-            });
-
-            // Close the dropdown if clicked outside
-            document.addEventListener('click', function(event) {
-                if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                    dropdownMenu.classList.remove('show');
-                }
             });
         });
     </script>

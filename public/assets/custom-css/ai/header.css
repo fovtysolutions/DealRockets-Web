@@ -809,7 +809,6 @@
     position: absolute;
     width: 100%;
     height: 80px;
-    background-image: url(./img/rectangle-20-1.svg);
     background-size: 100% 100%;
     /* max-width: 1280px; */
     margin: 0 auto;
@@ -867,14 +866,12 @@
     height: 40px;
     top: 2px;
     left: 0;
-    background-image: url(./img/rectangle-19.svg);
     background-size: 100% 100%;
   }
   
   .element-mobile .overlap-group-4 {
     position: relative;
     height: 40px;
-    background-image: url(./img/rectangle-19-stroke.svg);
     background-size: 100% 100%;
   }
   

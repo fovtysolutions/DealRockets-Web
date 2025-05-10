@@ -214,10 +214,10 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
 
     // Leads Route
     Route::get(Leads::BUYER[URI],[LeadsController::class,'buyer'])->name('buyer');
-    Route::get('buyers/{name}/{id}',[LeadsController::class,'buyerview'])->name('buyerview');
+    Route::get('buy-leads/{name}/{id}',[LeadsController::class,'buyerview'])->name('buyerview');
     Route::get('dynamic-leads',[LeadsController::class,'leadsDynamic'])->name('dynamic-leads');
     Route::get(Leads::SELLER[URI],[LeadsController::class,'seller'])->name('seller');
-    Route::get('sellers/{name}/{id}',[LeadsController::class,'sellerview'])->name('sellerview');
+    Route::get('sell-offer/{name}/{id}',[LeadsController::class,'sellerview'])->name('sellerview');
     Route::get('searchbycountry/{type}',[LeadsController::class,'searchbycountry'])->name('leadcountry');
 
     // Errors

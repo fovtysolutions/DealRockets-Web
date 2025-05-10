@@ -4,12 +4,12 @@ namespace App\Enums\ViewPaths\Admin;
 
 enum Leads{
     CONST BUYER = [
-        URI => 'buyers',
+        URI => 'buy-leads',
         VIEW => 'views.leads.buyer',
     ];
 
     CONST SELLER = [
-        URI => 'sellers',
+        URI => 'sell-offer',
         VIEW => 'views.leads.seller',
     ];
 

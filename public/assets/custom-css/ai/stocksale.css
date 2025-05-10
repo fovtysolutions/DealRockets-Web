@@ -132,6 +132,10 @@ input[type='checkbox'] {
     gap: 8px;
 }
 
+.stock-sale .filter-section:first-child{
+    margin-top: 0;
+}
+
 .stock-sale .checkbox-item {
     display: flex;
     align-items: center;

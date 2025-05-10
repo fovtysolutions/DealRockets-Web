@@ -17,18 +17,21 @@ use Illuminate\Http\Request;
 
 class StocksalewebController extends Controller
 {
-    private function totalquotescountry(){
+    private function totalquotescountry()
+    {
         $totquotesrecieved = StockSell::all();
         return count($totquotesrecieved);
     }
 
-    private function totalquotescountryt($country){
-        $totquotesrecieved = StockSell::where('country',$country)->get();
+    private function totalquotescountryt($country)
+    {
+        $totquotesrecieved = StockSell::where('country', $country)->get();
         return count($totquotesrecieved);
     }
 
     public function index(Request $request)
     {
+        // Initialize the query for StockSell
         $query = StockSell::query();
         $categoriesn = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
 
@@ -37,32 +40,28 @@ class StocksalewebController extends Controller
         $categoryId = $request->get('categoryid');
 
         // Always filter by active status
-        $query->where('status', 'active');
+        $query->where('status', 'active')
+            ->whereHas('countryRelation', function ($query) {
+                $query->where('blacklist', 'no');
+            });
 
-        // Filter by country if necessary
-        $query->whereHas('countryRelation', function($query) {
-            $query->whereRaw('blacklist = ?', ['no']);
-        });
-
-        // Text search
+        // Filter by text search if available
         if ($request->filled('search_query')) {
             $query->where('name', 'LIKE', '%' . $request->input('search_query') . '%');
         }
 
         // Apply filters based on URL parameters
-
-        if ($categoryId){
-            $query->where('industry',$categoryId);
+        if ($categoryId) {
+            $query->where('industry', $categoryId);
         }
 
         if ($time) {
-            // Time filter logic
-            $date = now()->subDays($time); // Subtract the number of days based on the selected time range
+            $date = now()->subDays($time); // Subtract days based on time range
             $query->whereDate('created_at', '>=', $date);
         }
 
-        if ($request->has('country') && $request->country) {
-            $query->whereIn('country', [(int) $request->country]);
+        if ($location) {
+            $query->where('country', (int) $location);
         }
 
         // Date range filter
@@ -87,55 +86,59 @@ class StocksalewebController extends Controller
         $items = $query->paginate(6);
         $firstId = optional($items->first())->id;
 
-        $stocksell = StockSell::where('id',$firstId)->first();
-
-        // Ad Images
+        // Get stocksell and other data (eager loading if necessary)
         $adimages = BusinessSetting::where('type', 'stocksale')->first();
-        $adimages = json_decode($adimages['value'], true);
+        $adimages = json_decode($adimages->value, true);
 
-        // Banner Images
-        $stocksalebanner = BusinessSetting::where('type', 'stocksalebanner')->first();
-        $stocksalebanner = json_decode($stocksalebanner['value'], true);
+        // $stocksalebanner = BusinessSetting::where('type', 'stocksalebanner')->first();
+        // $stocksalebanner = json_decode($stocksalebanner->value, true);
 
-        $counttotal = self::totalquotescountry();
+        // Top 20 Countries by quotes received
+        $countries = StockSell::orderBy('quote_recieved', 'DESC')
+            ->select('country')
+            ->distinct()
+            ->pluck('country');
 
-        $totalrfq = StockSell::all();
-        $length = count($totalrfq);
-        $i = 0;
-        $countrykeyvalue = [];
-        while($i < $length){
-            $counttotal += $totalrfq[$i]['quotes_recieved'];
-            $countrykeyvalue[] = [
-                'countryid' => $totalrfq[$i]['country'],
-                'totquotes' => self::totalquotescountryt($totalrfq[$i]['country']),
-            ];
-            $i++;
-        }
-
-        // Top 20 Countries by quotes recieved
-        $countries = StockSell::orderBy('quote_recieved','DESC')->select('country')->distinct()->pluck('country');
-
+        // Retrieve distinct locations and times
         $locations = StockSell::distinct()->pluck('country');
         $times = StockSell::distinct()->pluck('created_at');
 
+        // Trending products
         $trending = ChatManager::GetTrendingProducts();
 
-        $industries =  CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
+        // Get industries for the dropdown
+        $industries = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
 
-        $quotationbanner =  BusinessSetting::where('type','quotation')->first()->value;
-        $quotationdata = json_decode($quotationbanner,true)['banner'] ?? '';
-        $stocktype = StockCategory::where('active',1)->get();
-        return view('web.stocksale', compact('industries','stocktype','items','categoriesn','adimages','locations','times','stocksalebanner','counttotal','countrykeyvalue','countries','trending','stocksell'));
+        // Quotation banner
+        $quotationbanner = BusinessSetting::where('type', 'quotation')->first()->value;
+        $quotationdata = json_decode($quotationbanner, true)['banner'] ?? '';
+
+        // Get active stock categories
+        $stocktype = StockCategory::where('active', 1)->get();
+
+        // Return the view with compacted data
+        return view('web.stocksale', compact(
+            'industries',
+            'stocktype',
+            'items',
+            'categoriesn',
+            'adimages',
+            'locations',
+            'times',
+            'countries',
+            'trending',
+        ));
     }
 
-    public function stockSaleDynamic(Request $request){
+    public function stockSaleDynamic(Request $request)
+    {
         $query = StockSell::query();
 
         // Always filter by active status
         $query->where('status', 'active');
 
         // Filter by country if necessary
-        $query->whereHas('countryRelation', function($query) {
+        $query->whereHas('countryRelation', function ($query) {
             $query->whereRaw('blacklist = ?', ['no']);
         });
 
@@ -166,7 +169,7 @@ class StocksalewebController extends Controller
                 'pagination' => $items->links('custom-paginator.custom')->render(),
             ]);
         }
-    
+
         // Otherwise, return the full page
         return response()->json([
             'html' => view('web.dynamic-partials.dynamic-stocksell', compact('items'))->render(),
@@ -174,11 +177,12 @@ class StocksalewebController extends Controller
         ]);
     }
 
-    public function stocksaleDynamicView(Request $request){
+    public function stocksaleDynamicView(Request $request)
+    {
         $stocksell_id = $request->input('id');
-        if($stocksell_id){
-            $stocksell = StockSell::where('id',$stocksell_id)->first();
-            if($stocksell){
+        if ($stocksell_id) {
+            $stocksell = StockSell::where('id', $stocksell_id)->first();
+            if ($stocksell) {
                 return response()->json([
                     'status' => 'success',
                     'html' => view('web.dynamic-partials.dynamic-stocksellview', compact('stocksell'))->render(),
@@ -193,16 +197,17 @@ class StocksalewebController extends Controller
         ]);
     }
 
-    public function stocksaleview(Request $request){
+    public function stocksaleview(Request $request)
+    {
         // Get Lead by Id
-        $leadrequest = StockSell::where('id',$request->id)->first();
+        $leadrequest = StockSell::where('id', $request->id)->first();
 
         // Total RFQ
         $totalrfq = StockSell::all();
         $length = count($totalrfq);
         $i = 0;
         $counttotal = 0;
-        while($i < $length){
+        while ($i < $length) {
             $counttotal += $totalrfq[$i]['quote_recieved'];
             $i++;
         }
@@ -225,24 +230,25 @@ class StocksalewebController extends Controller
         $stocksalebanner = BusinessSetting::where('type', 'stocksalebanner')->first();
         $stocksalebanner = json_decode($stocksalebanner['value'], true);
 
-        $quotationbanner =  BusinessSetting::where('type','quotation')->first()->value;
-        $quotationdata = json_decode($quotationbanner,true)['banner'] ?? '';
-        
+        $quotationbanner =  BusinessSetting::where('type', 'quotation')->first()->value;
+        $quotationdata = json_decode($quotationbanner, true)['banner'] ?? '';
+
         // Return Buyer View Page
-        return view('web.stocksaleview',compact('adimages','quotationdata','stocksalebanner','counttotal','leadrequest','shopName','role'));
+        return view('web.stocksaleview', compact('adimages', 'quotationdata', 'stocksalebanner', 'counttotal', 'leadrequest', 'shopName', 'role'));
     }
 
-    public function getDataOfStock($id){
-        $data = StockSell::where('id',$id)->first();
-        $data->industry = StockCategory::where('id',$data->industry)->first()->name;
-        $stockdata = Product::where('id',$data->product_id)->first();
-        $stockdata->origin = Country::where('id',$stockdata->origin)->first()->name;
-        if ($data->role == 'admin'){
-            $userdata = Admin::where('id',$data->user_id)->first();
+    public function getDataOfStock($id)
+    {
+        $data = StockSell::where('id', $id)->first();
+        $data->industry = StockCategory::where('id', $data->industry)->first()->name;
+        $stockdata = Product::where('id', $data->product_id)->first();
+        $stockdata->origin = Country::where('id', $stockdata->origin)->first()->name;
+        if ($data->role == 'admin') {
+            $userdata = Admin::where('id', $data->user_id)->first();
         } else if ($data->role == 'seller') {
-            $userdata = Seller::where('id',$data->user_id)->first();
+            $userdata = Seller::where('id', $data->user_id)->first();
         } else {
-            $userdata = User::where('id',$data->user_id)->first();
+            $userdata = User::where('id', $data->user_id)->first();
         }
         $response = [
             'job_data' => $data,
@@ -250,5 +256,5 @@ class StocksalewebController extends Controller
             'user_data' => $userdata,
         ];
         return response()->json($response);
-    }   
+    }
 }

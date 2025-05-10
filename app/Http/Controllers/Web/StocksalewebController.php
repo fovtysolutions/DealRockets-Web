@@ -116,10 +116,20 @@ class StocksalewebController extends Controller
         // Get active stock categories
         $stocktype = StockCategory::where('active', 1)->get();
 
+        if (Auth('customer')->check()) {
+            $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
+            if (isset($membership['error'])) {
+                $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
+            }
+        } else {
+            $membership = ['status' => 'NotMade', 'message' => 'Membership Not Avaliable'];
+        }
+
         // Return the view with compacted data
         return view('web.stocksale', compact(
             'industries',
             'stocktype',
+            'membership',
             'items',
             'categoriesn',
             'adimages',
@@ -182,10 +192,18 @@ class StocksalewebController extends Controller
         $stocksell_id = $request->input('id');
         if ($stocksell_id) {
             $stocksell = StockSell::where('id', $stocksell_id)->first();
+             if (Auth('customer')->check()) {
+                $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
+                if (isset($membership['error'])) {
+                    $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
+                }
+            } else {
+                $membership = ['status' => 'NotMade', 'message' => 'Membership Not Avaliable'];
+            }
             if ($stocksell) {
                 return response()->json([
                     'status' => 'success',
-                    'html' => view('web.dynamic-partials.dynamic-stocksellview', compact('stocksell'))->render(),
+                    'html' => view('web.dynamic-partials.dynamic-stocksellview', compact('stocksell','membership'))->render(),
                 ]);
             }
             return response()->json([

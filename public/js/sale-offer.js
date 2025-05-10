@@ -1,107 +1,102 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("filterFormSeller");
 
-    $('#toggleSidebarBtn').on('click', function () {
-        const sidebar = $('#sidebar-mobile-content-saleoffer');
-        const isHidden = sidebar.css('display') === 'none';
-        sidebar.css('display',isHidden ? 'block' : 'none');
-    });
+    if (form) {
+        // Debounced input for text fields
+        form.querySelectorAll('input[type="text"]').forEach(function (input) {
+            let timeout;
 
-    document.addEventListener("click", function (e) {
-        if (e.target.classList.contains("view-detail-btn")) {
-            const index = e.target.getAttribute("data-index");
-            const product = allProducts[index];
-
-            const modalContent = `
-                <div class="product-details-col col-md-6">
-                    <table class="table table-bordered">
-                    <tr><td><strong>Rate</strong></td><td>${product.price} /Piece</td></tr>
-                    <tr><td><strong>Size</strong></td><td>${product.size}</td></tr>
-                    <tr><td><strong>Type</strong></td><td>${product.type}</td></tr>
-                    <tr><td><strong>Terms</strong></td><td>${product.terms}</td></tr>
-                    <tr><td><strong>Payment</strong></td><td>${product.payment}</td></tr>
-                    <tr><td><strong>Brand</strong></td><td>${product.brand}</td></tr>
-                    </table>
-                </div>
-                <div class="contact-seller-col col-md-6">
-                    <img src="${product.image}" alt="${product.title}" class="img-fluid mb-3">
-                    <i class="far fa-heart favorite-icon fs-4 mb-2"></i>
-                    <button class="btn btn-success w-100 mb-2">Contact Seller</button>
-                    <div class="seller-name fw-bold">${product.sellerName}</div>
-                    <div class="company-name text-muted">${product.companyName}</div>
-                </div>
-                `;
-
-            document.getElementById("modalContent").innerHTML = modalContent;
-            const modal = new bootstrap.Modal(
-                document.getElementById("productDetailModal")
-            );
-            modal.show();
-        }
-    });
-
-    const checkboxItems = document.querySelectorAll(".checkbox-item");
-    checkboxItems.forEach((item) => {
-        item.addEventListener("click", function () {
-            const checkbox = this.querySelector('input[type="checkbox"]');
-            checkbox.checked = !checkbox.checked;
-            this.classList.toggle("checked", checkbox.checked);
-        });
-    });
-
-    const favoriteIcons = document.querySelectorAll(".favorite-icon");
-    favoriteIcons.forEach((icon) => {
-        icon.addEventListener("click", function () {
-            this.classList.toggle("active");
-            this.classList.toggle("fas");
-            this.classList.toggle("far");
-        });
-    });
-
-    const paginationNumbers = document.querySelectorAll(".pagination-number");
-    paginationNumbers.forEach((number) => {
-        number.addEventListener("click", function () {
-            paginationNumbers.forEach((num) => num.classList.remove("active"));
-            this.classList.add("active");
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
+            input.addEventListener("input", function () {
+                applyFilters();
             });
         });
-    });
 
-    const prevPageBtn = document.getElementById("prev-page");
-    const nextPageBtn = document.getElementById("next-page");
-
-    prevPageBtn.addEventListener("click", function () {
-        const activePage = document.querySelector(".pagination-number.active");
-        const prevPage = activePage?.previousElementSibling;
-        if (prevPage?.classList.contains("pagination-number")) {
-            activePage.classList.remove("active");
-            prevPage.classList.add("active");
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
+        // Submit when checkboxes are changed
+        form.querySelectorAll('input[type="checkbox"]').forEach(function (
+            checkbox
+        ) {
+            checkbox.addEventListener("change", function () {
+                applyFilters();
             });
-        }
-    });
+        });
 
-    nextPageBtn.addEventListener("click", function () {
-        const activePage = document.querySelector(".pagination-number.active");
-        const nextPage = activePage?.nextElementSibling;
-        if (nextPage?.classList.contains("pagination-number")) {
-            activePage.classList.remove("active");
-            nextPage.classList.add("active");
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
+        // Handle search icon click
+        form.querySelectorAll(".search-icon").forEach(function (icon) {
+            icon.addEventListener("click", function () {
+                applyFilters();
             });
-        }
-    });
+        });
+    }
 
-    const rfqForm = document.querySelector(".rfq-form");
-    rfqForm?.addEventListener("submit", function (e) {
+    // Function to gather filter values and make the AJAX request
+    function applyFilters(page = 1) {
+        let filters = {
+            search_query: document.getElementById("nameFilter").value, // Adjust to your input field ID
+            country: Array.from(
+                document.querySelectorAll('input[name="country[]"]:checked')
+            ).map((checkbox) => checkbox.value), // For multiple checkboxes
+            industry: Array.from(
+                document.querySelectorAll('input[name="industry[]"]:checked')
+            ).map((checkbox) => checkbox.value), // For multiple checkboxes
+        };
+
+        loadFilteredData(filters);
+    }
+
+    $(document).on("click", ".pagination a", function (e) {
         e.preventDefault();
-        alert("Request for Quotation submitted!");
-        this.reset();
+
+        let filters = {
+            search_query: document.getElementById("nameFilter").value, // Adjust to your input field ID
+            country: Array.from(
+                document.querySelectorAll('input[name="country[]"]:checked')
+            ).map((checkbox) => checkbox.value), // For multiple checkboxes
+            industry: Array.from(
+                document.querySelectorAll('input[name="industry[]"]:checked')
+            ).map((checkbox) => checkbox.value), // For multiple checkboxes
+        };
+
+        var page = $(this).data("page");
+        loadFilteredData(filters, page);
+    });
+
+    applyFilters();
+});
+
+function sendtologin(){
+    window.location.href = '/customer/auth/login';
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Show only first 6 items initially
+    document.querySelectorAll(".filter-options").forEach((container) => {
+        const items = container.querySelectorAll(".checkbox-item");
+        items.forEach((item, index) => {
+            item.style.display = index < 160 ? "flex" : "none";
+        });
+    });
+
+    // Attach filter logic to all search-filter inputs
+    document.querySelectorAll(".search-filter").forEach((input) => {
+        input.addEventListener("input", function () {
+            const targetSelector = this.getAttribute("data-target");
+            const container = document.querySelector(targetSelector);
+            const searchTerm = this.value.toLowerCase();
+            const items = container.querySelectorAll(".checkbox-item");
+
+            let visibleCount = 0;
+
+            items.forEach((item) => {
+                const label = item.textContent.toLowerCase();
+                const matches = label.includes(searchTerm);
+
+                if (matches && visibleCount < 6) {
+                    item.style.display = "flex";
+                    visibleCount++;
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        });
     });
 });

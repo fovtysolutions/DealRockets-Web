@@ -1,11 +1,3 @@
-@php
-    if (Auth('customer')->check()) {
-        $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
-        if (isset($membership['error'])) {
-            $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
-        }
-    }
-@endphp
 @extends('layouts.front-end.app')
 @section('title', translate('Buyers' . ' | ' . $web_config['name']->value))
 @push('css_or_js')
@@ -127,8 +119,8 @@
 @push('script')
     <script src="{{ theme_asset('public/js/buyer.js') }}"></script>
     <script>
-        $('#inquiryForm').on('submit', function(e) {
-            e.preventDefault();
+        function triggerChat() {
+            var _token = $('input[name="_token"]').val()
 
             var formData = {
                 sender_id: $('#sender_id').val(),
@@ -138,14 +130,17 @@
                 type: $('#type').val(),
                 leads_id: $('#buyer_id').val(),
                 email: $('#email').val(),
-                message: $('#message').val(),
-                _token: $('input[name="_token"]').val()
+                message: $('#message').val()
             };
 
             $.ajax({
                 url: "{{ route('sendmessage.other') }}",
                 type: 'POST',
-                data: formData,
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': _token,
+                },
                 success: function(response) {
                     toastr.success('Inquiry sent successfully!', 'Success');
                     window.location.reload();
@@ -154,7 +149,7 @@
                     toastr.error('Failed to send inquiry.', 'Error');
                 }
             });
-        });
+        }
     </script>
     <script>
         function loadFilteredData(filters, page = 1) {

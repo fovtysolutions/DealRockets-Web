@@ -148,15 +148,15 @@
                                             placeholder="Enter product details such as color, size, materials and other specific requirements." rows="6"
                                             required></textarea>
                                     </div>
-                                    @if (auth('customer')->check() && auth('customer')->user()->id)
-                                        @if ($membership['status'] == 'active')
-                                            <button type="submit" class="btn-inquire-now">Send Inquiry Now</button>
+                                    @if (auth('customer')->check())
+                                        @if (strtolower(trim($membership['status'] ?? '')) == 'active')
+                                            <button type="button" onclick="triggerChat()" class="btn-inquire-now">Send Inquiry Now</button>
                                         @else
-                                            <button href="{{ route('membership') }}" class="btn-inquire-now">Send
-                                                Inquiry Now</button>
+                                            <a href="{{ route('membership') }}" class="btn-inquire-now">Send Inquiry
+                                                Now</a>
                                         @endif
                                     @else
-                                        <button href="#" onclick="sendtologin()" class="btn-inquire-now">Send
+                                        <button type="button" onclick="sendtologin()" class="btn-inquire-now">Send
                                             Inquiry Now</button>
                                     @endif
                                 </form>

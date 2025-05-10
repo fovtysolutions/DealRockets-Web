@@ -9,7 +9,7 @@
             <div class="main-content">
                 <div class="sidebar">
                     <div class="filter-sidebar">
-                        <form method="GET" action="{{ route('buyer') }}" id="filterFormBuyer">
+                        <form method="GET" action="{{ route('buyer') }}" id="filterFormSeller">
                             <div class="filter-section showbelow768">
                                 <div class="search-section">
                                     <div class="search-label notshowbelow768">Search by Name</div>
@@ -122,4 +122,93 @@
 @endsection
 @push('script')
     <script src="{{ theme_asset('js/sale-offer.js') }}"></script>
+    <script>
+        function triggerChat() {
+            var _token = $('input[name="_token"]').val()
+
+            var formData = {
+                sender_id: $('#sender_id').val(),
+                sender_type: $('#sender_type').val(),
+                receiver_id: $('#receiver_id').val(),
+                receiver_type: $('#receiver_type').val(),
+                type: $('#type').val(),
+                leads_id: $('#buyer_id').val(),
+                email: $('#email').val(),
+                message: $('#message').val()
+            };
+
+            $.ajax({
+                url: "{{ route('sendmessage.other') }}",
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': _token,
+                },
+                success: function(response) {
+                    toastr.success('Inquiry sent successfully!', 'Success');
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                    toastr.error('Failed to send inquiry.', 'Error');
+                }
+            });
+        };
+    </script>
+    <script>
+        function loadFilteredData(filters, page = 1) {
+            $("#dynamicLoader").css("display", "block");
+
+            filters.page = page;
+
+            $.ajax({
+                url: "{{ route('dynamic-sellleads') }}",
+                method: "GET",
+                data: filters,
+                success: function(response) {
+                    $("#dynamicSellLeads").html(response.html);
+                    $("#paginationControls").html(response.pagination);
+                    $("#dynamicLoader").css("display", "none");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error:", error);
+                    $("#dynamicLoader").css("display", "none");
+                },
+            });
+        }
+    </script>
+    <script>
+        function makeFavourite(element) {
+            const listingId = element.getAttribute('data-id');
+            const user_id = element.getAttribute('data-userid');
+            const type = element.getAttribute('data-type');
+            const role = element.getAttribute('data-role');
+            const btn = element;
+
+            var data = {
+                listing_id: listingId,
+                user_id: user_id,
+                type: type,
+                role: role,
+                _token: '{{ csrf_token() }}'
+            };
+
+            $.ajax({
+                url: '{{ route('toggle-favourite') }}',
+                method: 'POST',
+                data: data,
+                success: function(response) {
+                    if (response.status === 'added') {
+                        toastr.success('Added Favourite');
+                        btn.src = '/img/Heart (2).png'; // or change icon class
+                    } else {
+                        btn.src = '/img/Heart (1).png';
+                    }
+                },
+                error: function() {
+                    toastr.Error('Something Went Wrong');
+                }
+            });
+        }
+    </script>
 @endpush

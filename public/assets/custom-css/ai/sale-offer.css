@@ -603,6 +603,81 @@
     margin-top: 2px;
 }
 
+/* Inquiry Form Styles */
+.sale-offer-page .inquiry-form {
+    background: white;
+    width: 100%;
+    box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.25);
+}
+
+.sale-offer-page .inquiry-header {
+    background: #EBEBEB;
+    padding: 19px 30px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.sale-offer-page .inquiry-body {
+    padding: 30px;
+}
+
+.sale-offer-page .form-group {
+    margin-bottom: 20px;
+}
+
+.sale-offer-page .form-group label {
+    display: block;
+    font-size: 14px;
+    color: #515050;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.sale-offer-page .supplier-name-field {
+    background: white;
+    padding: 16px 32px;
+    font-size: 16px;
+}
+
+.sale-offer-page #email,
+.sale-offer-page #message {
+    width: 100%;
+    padding: 17px 31px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.sale-offer-page #message {
+    resize: none;
+    height: 200px;
+}
+
+.sale-offer-page .btn-inquire-now {
+    background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.sale-offer-page .filter-button {
+    display: none;
+    margin-left: 50px;
+    width: 101px;
+    height: 30px;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    background-color: white;
+    cursor: pointer;
+}
+
 @media (max-width: 1400px) {
     .sale-offer-page .contact-btn {
         padding: 7px 10px !important;

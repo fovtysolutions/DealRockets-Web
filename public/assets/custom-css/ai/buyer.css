@@ -41,6 +41,7 @@
 /* Search Input */
 .buy-offer .search-input-container {
     width: 100%;
+    margin-top: 12px;
 }
 
 .buy-offer .visibleonlow{

@@ -101,34 +101,8 @@ class LeadsController extends Controller
         if ($request->has('industry') && $request->industry){
             $leadsQuery->where('industry',$request->industry);
         }
-        $leads = $leadsQuery->paginate(10);
-        $combinedLeads = [];
-        foreach ($leads as $lead) {
-            $addedby = $lead->added_by;
-            $role = $lead->role;
-            if ($role == 'seller') {
-                $shopName = Shop::where('seller_id', $addedby)->first()->name;
-            }
-            if ($role == 'admin') {
-                $shopName = 'XYZ Store';
-            }
-            $combinedLeads[] = [
-                'leads' => $lead,
-                'shop' => [
-                    'added_by' => $addedby,
-                    'role' => $role,
-                    'shop_name' => $shopName,
-                ],
-            ];
-        }
 
-        // Make a Paginator
-        $page = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 10;
-        $offset = ($page - 1) * $perPage;
-        $itemsForCurrentPage = array_slice($combinedLeads, $offset, $perPage);
-
-        $combinedLeadsPaginator = new LengthAwarePaginator($itemsForCurrentPage, count($combinedLeads), $perPage, $page, ['path' => LengthAwarePaginator::resolveCurrentPath()]);
+        $items = $leadsQuery->paginate(10);
 
         // Top 20 Countries by quotes recieved
         $countries = Leads::where('type', 'buyer')->orderBy('quotes_recieved','DESC')->select('country')->distinct()->pluck('country');
@@ -151,10 +125,8 @@ class LeadsController extends Controller
         $quotationbanner =  BusinessSetting::where('type','quotation')->first()->value;
         $quotationdata = json_decode($quotationbanner,true)['banner'] ?? '';
 
-        $items = Leads::where('type','buyer')->get();
-
         // Return the Data to Frontend Page
-        return view('leads.buyer', compact('categoriesn', 'leads', 'items', 'combinedLeads', 'countries', 'adimages', 'buyerbanner','combinedLeadsPaginator','trending','bannerimages','quotationdata'));
+        return view('leads.buyer', compact('categoriesn', 'items', 'countries', 'adimages', 'buyerbanner','trending','bannerimages','quotationdata'));
     }
 
     public function leadsDynamic(Request $request){
@@ -203,52 +175,9 @@ class LeadsController extends Controller
         ]);
     }
 
-    public function buyerview(Request $request){
-        // Get Lead by Id
-        $leadrequest = Leads::where('id',$request->id)->first();
-
-        // Total RFQ
-        $totalrfq = Leads::where('type','buyer')->get();
-        $length = count($totalrfq);
-        $i = 0;
-        $counttotal = 0;
-        while($i < $length){
-            $counttotal += $totalrfq[$i]['quotes_recieved'];
-            $i++;
-        }
-
-        // Shop Details for Chat
-        $addedby = $leadrequest->added_by;
-        $role = $leadrequest->role;
-        if ($role == 'seller') {
-            $shopName = Shop::where('seller_id', $addedby)->first()->name;
-        }
-        if ($role == 'admin') {
-            $shopName = 'XYZ Store';
-        }
-
-        // Ad Images
-        $adimages = BusinessSetting::where('type', 'buyer')->first();
-        $adimages = json_decode($adimages['value'], true);
-
-        // Banner Images
-        $buyerbanner = BusinessSetting::where('type', 'buyerbanner')->first();
-        $buyerbanner = json_decode($buyerbanner['value'], true);
-
-        // Banner Buyers
-        $buyerbanner = BusinessSetting::where('type', 'banners_buyers')->first();
-        $bannerimages = $buyerbanner ? json_decode($buyerbanner->value, true) : [];
-        
-        $quotationbanner =  BusinessSetting::where('type','quotation')->first()->value;
-        $quotationdata = json_decode($quotationbanner,true)['banner'] ?? '';
-
-        // Return Buyer View Page
-        return view('leads.buyerview',compact('adimages','buyerbanner','counttotal','leadrequest','shopName','role','bannerimages'));
-    }
-
     public function seller(Request $request)
     {
-        $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
+        $categoriesn = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         // Filter Countries
         $leadsQuery = Leads::where('type', 'seller');
         // Filter Section
@@ -270,34 +199,8 @@ class LeadsController extends Controller
         if ($request->has('industry') && $request->industry){
             $leadsQuery->where('industry',$request->industry);
         }
-        $leads = $leadsQuery->paginate(10);
-        $combinedLeads = [];
-        foreach ($leads as $lead) {
-            $addedby = $lead->added_by;
-            $role = $lead->role;
-            if ($role == 'seller') {
-                $shopName = Shop::where('seller_id', $addedby)->first()->name;
-            }
-            if ($role == 'admin') {
-                $shopName = 'XYZ Store';
-            }
-            $combinedLeads[] = [
-                'leads' => $lead,
-                'shop' => [
-                    'added_by' => $addedby,
-                    'role' => $role,
-                    'shop_name' => $shopName,
-                ],
-            ];
-        }
 
-        // Make a Paginator
-        $page = LengthAwarePaginator::resolveCurrentPage();
-        $perPage = 10;
-        $offset = ($page - 1) * $perPage;
-        $itemsForCurrentPage = array_slice($combinedLeads, $offset, $perPage);
-
-        $combinedLeadsPaginator = new LengthAwarePaginator($itemsForCurrentPage, count($combinedLeads), $perPage, $page, ['path' => LengthAwarePaginator::resolveCurrentPath()]);
+        $items = $leadsQuery->paginate(10);
 
         // Top 20 Countries by quotes recieved
         $countries = Leads::where('type', 'seller')->orderBy('quotes_recieved','DESC')->select('country')->distinct()->pluck('country');
@@ -307,21 +210,6 @@ class LeadsController extends Controller
 
         // Trending Section
         $trending = ChatManager::GetTrendingProducts();
-
-        // Total RFQ
-        $totalrfq = Leads::where('type','seller')->get();
-        $length = count($totalrfq);
-        $i = 0;
-        $counttotal = 0;
-        $countrykeyvalue = [];
-        while($i < $length){
-            $counttotal += $totalrfq[$i]['quotes_recieved'];
-            $countrykeyvalue[] = [
-                'countryid' => $totalrfq[$i]['country'],
-                'totquotes' => self::totalquotescountry('seller',$totalrfq[$i]['country']),
-            ];
-            $i++;
-        }
 
         // Ad Images
         $adimages = BusinessSetting::where('type', 'seller')->first();
@@ -334,48 +222,7 @@ class LeadsController extends Controller
         $quotationbanner =  BusinessSetting::where('type','quotation')->first()->value;
         $quotationdata = json_decode($quotationbanner,true)['banner'] ?? '';
 
-        return view('leads.seller', compact('categories', 'leads', 'combinedLeads', 'countries', 'adimages', 'bannerimages','combinedLeadsPaginator'
-            ,'counttotal','countrykeyvalue','industries','trending','quotationdata'));
-    }
-
-    public function sellerview(Request $request){
-        // Get Lead by Id
-        $leadrequest = Leads::where('id',$request->id)->first();
-
-        // Total RFQ
-        $totalrfq = Leads::where('type','seller')->get();
-        $length = count($totalrfq);
-        $i = 0;
-        $counttotal = 0;
-        while($i < $length){
-            $counttotal += $totalrfq[$i]['quotes_recieved'];
-            $i++;
-        }
-
-        // Shop Details for Chat
-        $addedby = $leadrequest->added_by;
-        $role = $leadrequest->role;
-        if ($role == 'seller') {
-            $shopName = Shop::where('seller_id', $addedby)->first()->name;
-        }
-        if ($role == 'admin') {
-            $shopName = 'XYZ Store';
-        }
-
-        // Ad Images
-        $adimages = BusinessSetting::where('type', 'seller')->first();
-        $adimages = json_decode($adimages['value'], true);
-
-        // Banner Images
-        $buyerbanner = BusinessSetting::where('type', 'sellerbanner')->first();
-        $buyerbanner = json_decode($buyerbanner['value'], true);
-
-        // Banner Images
-        $buyerbanner = BusinessSetting::where('type', 'sellers_buyers')->first();
-        $bannerimages = json_decode($buyerbanner['value'], true);
-
-        // Return Buyer View Page
-        return view('leads.sellerview',compact('adimages','buyerbanner','counttotal','leadrequest','shopName','role','bannerimages'));
+        return view('leads.seller', compact('categoriesn', 'items', 'countries', 'adimages', 'bannerimages','industries','trending','quotationdata'));
     }
 
     public function add_new()

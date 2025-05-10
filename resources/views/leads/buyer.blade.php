@@ -109,6 +109,9 @@
                     <div id="leads-container">
                         <!-- Lead cards will be dynamically inserted here -->
                         @include('leads.partials.dynamic-buyers')
+                        <div id="paginationControls">
+                            {{ $items->links('custom-paginator.custom') }}
+                        </div>
                     </div>
                 </div>
             </div>

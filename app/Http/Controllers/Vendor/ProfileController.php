@@ -8,6 +8,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\Vendor\VendorBankInfoRequest;
 use App\Http\Requests\Vendor\VendorPasswordRequest;
 use App\Http\Requests\Vendor\VendorRequest;
+use App\Models\CompanyProfile;
 use App\Repositories\VendorRepository;
 use App\Services\VendorService;
 use Brian2694\Toastr\Facades\Toastr;
@@ -63,7 +64,14 @@ class ProfileController extends BaseController
         }
         $vendor = $this->vendorRepo->getFirstWhere(['id'=>auth('seller')->id()]);
         $shopBanner = $this->shopRepo->getFirstWhere(['seller_id'=>auth('seller')->id()])->banner;
-        return view(Profile::UPDATE[VIEW],compact('vendor','shopBanner'));
+        $cp = CompanyProfile::where('seller',auth('seller')->user()->id)->first();
+        
+        if($cp){
+            return view(Profile::UPDATE[VIEW],compact('vendor','shopBanner','cp'));
+        }else{
+            $cp = [];
+            return view(Profile::UPDATE[VIEW],compact('vendor','shopBanner','cp'));
+        }
     }
 
     /**

@@ -56,6 +56,7 @@ use App\Http\Controllers\Vendor\TransactionReportController;
 use App\Http\Controllers\Vendor\ProductReportController;
 use App\Http\Controllers\Vendor\OrderReportController;
 use App\Enums\ViewPaths\Admin\Leads;
+use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\deal_assist\DealAssistController;
 use App\Http\Controllers\Leads\LeadsController;
 use App\Http\Controllers\Vendor\Supplier\SupplierController as VendorSupplier;
@@ -71,6 +72,15 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
 
         // Sub Card Route
         Route::get('subcard/{slug}',[DashboardController::class,'subCardData'])->name('subcard');
+
+        // Create FAQ's
+        Route::get('managefaq',[DashboardController::class,'faq'])->name('managefaq');
+        Route::post('crudfaq',[DashboardController::class,'crudFAQ'])->name('crudfaq');
+        Route::get('createfaq',[DashboardController::class,'createFAQ'])->name('createfaq');
+
+        // Company Profile
+        Route::post('cp/store', [CompanyProfileController::class,'store'])->name('cp.store');
+        Route::delete('cp/destroy', [CompanyProfileController::class,'destroy'])->name('cp.destroy');
         
         /* authentication */
         Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {

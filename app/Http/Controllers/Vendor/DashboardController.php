@@ -13,6 +13,7 @@ use App\Enums\OrderStatus;
 use App\Enums\ViewPaths\Vendor\Dashboard;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Vendor\WithdrawRequest;
+use App\Models\faq;
 use App\Models\Seller;
 use App\Repositories\BrandRepository;
 use App\Repositories\OrderTransactionRepository;
@@ -322,19 +323,80 @@ class DashboardController extends BaseController
         return view('vendor-views.dashboard.subcards.dashboard-analytics', compact('dashboardData', 'vendorEarning', 'commissionEarn', 'withdrawalMethods', 'dateType', 'label'));
     }
 
+    public function faq()
+    {
+        $seller = auth('seller')->user()->id;
+        if ($seller){
+            $faqs = faq::where('seller',$seller)->get();
+            return view('vendor-views.faq.manage', compact('faqs'));
+        } else {
+            return redirect()->back()->with('error','login Again');
+        }
+    }
+
+    public function crudFAQ(Request $request)
+    {
+        $action = $request->input('action');
+
+        switch ($action) {
+            case 'create':
+                $request->validate([
+                    'seller' => 'required|exists:sellers,id',
+                    'question' => 'required|string',
+                    'answer' => 'required|string',
+                ]);
+                $faq = FAQ::create($request->only('question', 'seller', 'answer'));
+                return response()->json(['message' => 'FAQ created', 'faq' => $faq]);
+
+            case 'read':
+                $faqs = FAQ::all();
+                return response()->json($faqs);
+
+            case 'update':
+                $request->validate([
+                    'id' => 'required|exists:faq,id',
+                    'seller' => 'required|exists:sellers,id',
+                    'question' => 'required|string',
+                    'answer' => 'required|string',
+                ]);
+                $faq = FAQ::find($request->id);
+                $faq->update($request->only('question', 'seller', 'answer'));
+                return response()->json(['message' => 'FAQ updated', 'faq' => $faq]);
+
+            case 'delete':
+                $request->validate([
+                    'id' => 'required|exists:faq,id',
+                ]);
+                FAQ::destroy($request->id);
+                return response()->json(['message' => 'FAQ deleted']);
+
+            default:
+                return response()->json(['error' => 'Invalid action'], 400);
+        }
+    }
+
+    public function createFAQ(){
+        return view('vendor-views.faq.create');
+    }
+
     public function bannerDataPage($slug)
     {
         $validSlugs = ['marketplace', 'buyleads', 'selloffer', 'tradeshows'];
         $userId = auth('seller')->id();
         $seller = Seller::find($userId);
-
-        $banner_images = $seller->ad_banners[$slug];
+        $banner_images = $seller->ad_banners;
+        $decodedArray = json_decode($banner_images, true);
+        if (isset($decodedArray[$slug])) {
+            $banner_images = $decodedArray[$slug];
+        } else {
+            $banner_images = [];
+        }
 
         if (!in_array($slug, $validSlugs)) {
             abort(404);
         }
-        
-        return view('vendor-views.banner.banner', compact('slug'));
+
+        return view('vendor-views.banner.banner', compact('slug', 'banner_images'));
     }
 
     public function storeBannerData(Request $request)
@@ -344,7 +406,7 @@ class DashboardController extends BaseController
         $seller = Seller::find($userId);
 
         // Ensure ad_banners is initialized
-        $existingBanners = $seller->ad_banners ?? [];
+        $existingBanners = json_decode($seller->ad_banners, true) ?? [];
         $currentBannerSet = $existingBanners[$slug] ?? [];
 
         // Convert to associative array [index => image_path] for easy merging
@@ -368,25 +430,15 @@ class DashboardController extends BaseController
             }
         }
 
-        // Check for special case: only allow adding banner 2 if 1 and 3 already exist
-        if (!isset($indexedBanners[2]) && $request->hasFile("banner_{$slug}2")) {
-            if (!isset($indexedBanners[1]) || !isset($indexedBanners[3])) {
-                return response()->json([
-                    'message' => 'You can only add banner 2 if banner 1 and 3 exist.',
-                    'data' => $indexedBanners
-                ], 422);
-            }
-        }
-
         // Re-index as numerically ordered array
         $finalBanners = collect($indexedBanners)->sortKeys()->values()->all();
 
         // Save updated banners
         $existingBanners[$slug] = $finalBanners;
-        $seller->ad_banners = $existingBanners;
+        $seller->ad_banners = json_encode($existingBanners);
         $seller->save();
 
-        return response()->back()->with('success','Images Added Successfully');
+        return redirect()->back()->with('success', 'Images Added Successfully');
     }
 
     // Sub Cards Functions
@@ -433,7 +485,6 @@ class DashboardController extends BaseController
                 $cardData = [
                     ['link' => route('vendor.leads.get-vendor-messages'), 'title' => 'Leads', 'value' => 12],
                     ['link' => route('vendor.stock.get-messages'), 'title' => 'Stock Sale', 'value' => 12],
-                    ['link' => '#', 'title' => 'Industry Jobs', 'value' => 4],
                     ['link' => route('vendor.messages.index', ['type' => 'customer']), 'title' => 'Marketplace', 'value' => 4],
                 ];
                 break;
@@ -537,8 +588,8 @@ class DashboardController extends BaseController
             case 'faq':
                 $title = 'FAQ';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Manage FAQ', 'value' => 32],
-                    ['link' => '#', 'title' => 'Add FAQ', 'value' => 34],
+                    ['link' => route('vendor.managefaq'), 'title' => 'Manage FAQ', 'value' => 32],
+                    ['link' => route('vendor.createfaq'), 'title' => 'Add FAQ', 'value' => 34],
                 ];
                 break;
 

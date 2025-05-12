@@ -28,6 +28,7 @@
                 <div class="tab-pane fade show active" id="stocksell" role="tabpanel">
                     @include('web.partials.favourite', [
                         'items' => $favourites->where('type', 'stocksell'),
+                        'type' => 'stocksell',
                     ])
                 </div>
 
@@ -35,6 +36,7 @@
                 <div class="tab-pane fade" id="buyleads" role="tabpanel">
                     @include('web.partials.favourite', [
                         'items' => $favourites->where('type', 'buyleads'),
+                        'type' => 'buyleads',
                     ])
                 </div>
 
@@ -42,6 +44,7 @@
                 <div class="tab-pane fade" id="saleoffer" role="tabpanel">
                     @include('web.partials.favourite', [
                         'items' => $favourites->where('type', 'saleoffer'),
+                        'type' => 'saleoffer',
                     ])
                 </div>
             </div>

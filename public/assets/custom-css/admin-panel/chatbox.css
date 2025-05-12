@@ -98,17 +98,17 @@ a.add img {
 .chat-area .nav-tabs .nav-item.show .nav-link,
 .chat-area .nav-tabs .nav-link.active {
     background-color: #fff;
-    border-color: transparent transparent var(--web-hover);
+    border-color: transparent transparent var(--c1);
 }
 
 .chat-area .nav-tabs .nav-link:focus,
 .chat-area .nav-tabs .nav-link:hover {
-    border-color: transparent transparent var(--web-hover);
+    border-color: transparent transparent var(--c1);
     isolation: isolate;
 }
 
 .chat-list h3 {
-    color: var(--web-hover);
+    color: var(--c1);
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;
@@ -376,7 +376,7 @@ li.repaly .time {
 
 .send-box button {
     border: none;
-    background: #3867d6;
+    background: var(--c1);
     padding: 0.375rem 5px;
     color: #fff;
     border-radius: 0.25rem;

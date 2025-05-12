@@ -451,65 +451,65 @@ class DashboardController extends BaseController
             case 'profile':
                 $title = 'Profile Settings';
                 $cardData = [
-                    ['link' => route('vendor.profile.update', [auth('seller')->id()]), 'title' => 'Manage Profile', 'value' => 12],
+                    ['link' => route('vendor.profile.update', [auth('seller')->id()]), 'title' => 'Manage Profile', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'analytics':
                 $title = 'Dashboard';
                 $cardData = [
-                    ['link' => route('vendor.report.all-product'), 'title' => 'Product', 'value' => 75],
-                    ['link' => route('vendor.otherDashboard'), 'title' => 'Other Analytics', 'value' => 75],
+                    ['link' => route('vendor.report.all-product'), 'title' => 'Product', 'value' => 'Yes'],
+                    ['link' => route('vendor.otherDashboard'), 'title' => 'Other Analytics', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'deal-assist':
                 $title = 'Deal Assist';
                 $cardData = [
-                    ['link' => route('vendor.dealassist.index'), 'title' => 'Manage Deal Assist', 'value' => 75],
+                    ['link' => route('vendor.dealassist.index'), 'title' => 'Manage Deal Assist', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'upload-banner':
                 $title = 'Banners Setup';
                 $cardData = [
-                    ['link' => route('vendor.bannersetup', ['slug' => 'marketplace']), 'title' => 'Marketplace', 'value' => 12],
-                    ['link' => route('vendor.bannersetup', ['slug' => 'buyleads']), 'title' => 'Buy Leads', 'value' => 12],
-                    ['link' => route('vendor.bannersetup', ['slug' => 'selloffer']), 'title' => 'Sell Offer', 'value' => 4],
-                    ['link' => route('vendor.bannersetup', ['slug' => 'tradeshows']), 'title' => 'Tradeshows', 'value' => 4],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'marketplace']), 'title' => 'Marketplace', 'value' => 'Yes'],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'buyleads']), 'title' => 'Buy Leads', 'value' => 'Yes'],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'selloffer']), 'title' => 'Sell Offer', 'value' => 'Yes'],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'tradeshows']), 'title' => 'Tradeshows', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'vendor-inbox':
                 $title = 'Inbox';
                 $cardData = [
-                    ['link' => route('vendor.leads.get-vendor-messages'), 'title' => 'Leads', 'value' => 12],
-                    ['link' => route('vendor.stock.get-messages'), 'title' => 'Stock Sale', 'value' => 12],
-                    ['link' => route('vendor.messages.index', ['type' => 'customer']), 'title' => 'Marketplace', 'value' => 4],
+                    ['link' => route('vendor.leads.get-vendor-messages'), 'title' => 'Leads', 'value' => 'Yes'],
+                    ['link' => route('vendor.stock.get-messages'), 'title' => 'Stock Sale', 'value' => 'Yes'],
+                    ['link' => route('vendor.messages.index', ['type' => 'customer']), 'title' => 'Marketplace', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'product-upload':
                 $title = 'Product Upload';
                 $cardData = [
-                    ['link' => route('vendor.products.add'), 'title' => 'Upload Products', 'value' => 25],
-                    ['link' => route('vendor.products.bulk-import'), 'title' => 'Bulk Import', 'value' => 25],
+                    ['link' => route('vendor.products.add'), 'title' => 'Upload Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.bulk-import'), 'title' => 'Bulk Import', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'stock-sell':
                 $title = 'Stock Sell';
                 $cardData = [
-                    ['link' => route('vendor.stock.index'), 'title' => 'Manage Stock Sales', 'value' => 10],
-                    ['link' => route('vendor.stock.create'), 'title' => 'Add Stock Sales', 'value' => 6],
+                    ['link' => route('vendor.stock.index'), 'title' => 'Manage Stock Sales', 'value' => 'Yes'],
+                    ['link' => route('vendor.stock.create'), 'title' => 'Add Stock Sales', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'sell-offer':
                 $title = 'Sell Offer';
                 $cardData = [
-                    ['link' => route('vendor.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 10],
-                    ['link' => route('vendor.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 6],
+                    ['link' => route('vendor.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 'Yes'],
+                    ['link' => route('vendor.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -517,39 +517,39 @@ class DashboardController extends BaseController
                 return redirect()->route('buyer');
                 // $title = 'Buy Leads';
                 // $cardData = [
-                //     ['link' => route('vendor.leads.buyers'), 'title' => 'Go To Buy Leads', 'value' => 10],
+                //     ['link' => route('vendor.leads.buyers'), 'title' => 'Go To Buy Leads', 'value' => 'Yes'],
                 // ];
                 break;
 
             case 'marketplace':
                 $title = 'Marketplace';
                 $cardData = [
-                    ['link' => route('vendor.products.list', ['type' => 'all']), 'title' => 'Manage Products', 'value' => 10],
-                    ['link' => route('vendor.products.list', ['type' => 'approved']), 'title' => 'Approved Products', 'value' => 6],
-                    ['link' => route('vendor.products.list', ['type' => 'denied']), 'title' => 'Denied Products', 'value' => 6],
-                    ['link' => route('vendor.products.list', ['type' => 'new-request']), 'title' => 'New Product Request', 'value' => 6],
+                    ['link' => route('vendor.products.list', ['type' => 'all']), 'title' => 'Manage Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'approved']), 'title' => 'Approved Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'denied']), 'title' => 'Denied Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'new-request']), 'title' => 'New Product Request', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'post-rfq':
                 $title = 'Post RFQ';
                 $cardData = [
-                    ['link' => route('quotationweb'), 'title' => 'Go to RFQ Page', 'value' => 5],
+                    ['link' => route('quotationweb'), 'title' => 'Go to RFQ Page', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'post-job':
                 $title = 'Post a Job';
                 $cardData = [
-                    ['link' => route('vendor.jobvacancy.list'), 'title' => 'Manage Jobs', 'value' => 4],
-                    ['link' => route('vendor.jobvacancy.create'), 'title' => 'Add Job', 'value' => 10],
+                    ['link' => route('vendor.jobvacancy.list'), 'title' => 'Manage Jobs', 'value' => 'Yes'],
+                    ['link' => route('vendor.jobvacancy.create'), 'title' => 'Add Job', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'hire-employee':
                 $title = 'Hire an Employee';
                 $cardData = [
-                    ['link' => route('vendor.jobvacancy.job-applications'), 'title' => 'Applications', 'value' => 3],
+                    ['link' => route('vendor.jobvacancy.job-applications'), 'title' => 'Applications', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -566,8 +566,8 @@ class DashboardController extends BaseController
             case 'clearing-forwarding':
                 $title = 'Clearing and Forwarding Services';
                 $cardData = [
-                    ['link' => '#', 'title' => 'Clearing Service', 'value' => 3],
-                    ['link' => '#', 'title' => 'Forwarding Service', 'value' => 30],
+                    ['link' => '#', 'title' => 'Clearing Service', 'value' => 'No'],
+                    ['link' => '#', 'title' => 'Forwarding Service', 'value' => 'No'],
                 ];
                 break;
 
@@ -588,8 +588,8 @@ class DashboardController extends BaseController
             case 'faq':
                 $title = 'FAQ';
                 $cardData = [
-                    ['link' => route('vendor.managefaq'), 'title' => 'Manage FAQ', 'value' => 32],
-                    ['link' => route('vendor.createfaq'), 'title' => 'Add FAQ', 'value' => 34],
+                    ['link' => route('vendor.managefaq'), 'title' => 'Manage FAQ', 'value' => 'Yes'],
+                    ['link' => route('vendor.createfaq'), 'title' => 'Add FAQ', 'value' => 'Yes'],
                 ];
                 break;
 

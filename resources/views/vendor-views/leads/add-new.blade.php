@@ -107,7 +107,7 @@
                             <div class=" col form-group">
                                 <label for="{{ $lang }}_product" class="form-label">Product</label>
                                 <input type="text" {{ $lang == $defaultLanguage ? 'required' : '' }} name="product_id"
-                                    id="{{ $lang }}_product"
+                                    id="{{ $lang }}_product" value="{{ request('product_name') }}"
                                     class="form-control {{ $lang == $defaultLanguage ? 'product-title-default-language' : '' }}"
                                     placeholder="{{ translate('product') }}">
                             </div>

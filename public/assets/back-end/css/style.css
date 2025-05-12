@@ -1,18 +1,22 @@
 :root {
-    --c1: #0177cd;
-    --c1-rgb: 1, 119, 205;
-    --c2: #ff6767;
-    --title-color: #334257;
-    --text-color: #5b6777;
-    --border-color: rgba(180, 208, 224, 0.5);
+    --c1: #4caf50;
+    --c2: #ff9800;
+    --title-color: #253e53;
+    --text-color: #4e5d52;
+    --border-color: #dcdedc;
     --font: "Inter", sans-serif;
+    --background-color: #f6f7f4;
+    --highlight-color: #81c784;
+    --active-bg-color: #eafaf1;
+    --sidebar: #073b74;
 }
+
 
 body {
     font-family: var(--font);
     color: var(--text-color);
-    line-height: 1.4;
-    background-color: #f9f9fb;
+    line-height: 1.5;
+    background-color: var(--background-color);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -97,7 +101,7 @@ a:hover {
 }
 
 .navbar-vertical-content {
-    background: #073b74;
+    background: var(--sidebar);
     padding: 10px 15px;
 }
 
@@ -144,7 +148,7 @@ a:hover {
         > .navbar-nav
         > .navbar-vertical-aside-has-menu
         > .nav {
-        background-color: #073b74;
+        background-color: var(--sidebar);
     }
 }
 .cmn--media {
@@ -5400,7 +5404,7 @@ select {
     position: sticky;
     top: 0;
     z-index: 9;
-    background: #073b74;
+    background: var(--sidebar);
 }
 
 aside .navbar-vertical-content {

@@ -55,7 +55,7 @@ $quotationdata = json_decode($quotationbanner, true) ?? [];
         </div>
     </div>
 </section>
-<script>
+<script defer>
     // console.log('validjs');
     $(document).ready(function() {
         function fetchQuotationData() {
@@ -98,7 +98,7 @@ $quotationdata = json_decode($quotationbanner, true) ?? [];
         }, 30000);
     });
 </script>
-<script>
+<script defer>
     function NeedLogin() {
         console.log('worked login!');
         toastr.info('You Need to Be Logged In to Continue');

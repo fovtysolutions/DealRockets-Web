@@ -153,12 +153,12 @@ class ChatManager
 
     public static function Leads()
     {
-        $buyerLimit = json_decode(BusinessSetting::where('type', 'buyer')->value('value'), true)['limit'] ?? 10;
-        $sellerLimit = json_decode(BusinessSetting::where('type', 'seller')->value('value'), true)['limit'] ?? 10;
+        $buyerLimit = json_decode(BusinessSetting::select('type','value')->where('type', 'buyer')->value('value'), true)['limit'] ?? 10;
+        $sellerLimit = json_decode(BusinessSetting::select('type','value')->where('type', 'seller')->value('value'), true)['limit'] ?? 10;
 
-        $buyerLeads = Leads::where('type', 'buyer')->take($buyerLimit)->get();
-        $sellerLeads1 = Leads::where('type', 'seller')->where('role', 'admin')->take($sellerLimit)->get();
-        $sellerLeads2 = Leads::where('type', 'seller')->where('role', 'seller')->where('active', 1)->get();
+        $buyerLeads = Leads::select('id','posted_date','name','country')->where('type', 'buyer')->take($buyerLimit)->get();
+        $sellerLeads1 = Leads::select('id','posted_date','name','country')->where('type', 'seller')->where('role', 'admin')->take($sellerLimit)->get();
+        $sellerLeads2 = Leads::select('id','posted_date','name','country')->where('type', 'seller')->where('role', 'seller')->where('active', 1)->get();
 
         return [
             'buyer' => $buyerLeads,

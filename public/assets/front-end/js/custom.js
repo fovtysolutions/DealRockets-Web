@@ -1,5 +1,32 @@
 "use strict";
 
+document.addEventListener("DOMContentLoaded", function () {
+    const lazyImages = document.querySelectorAll("img.lazyload");
+
+    lazyImages.forEach((img) => {
+        img.addEventListener("load", function () {
+            img.classList.add("loaded");
+            img.parentElement.classList.remove("shimmer");
+        });
+
+        img.src = img.dataset.src;
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const bgEl = document.querySelector(".bg-shimmer");
+    const imageUrl = bgEl.getAttribute("data-bg");
+
+    const img = new Image();
+    img.src = imageUrl;
+    img.onload = function () {
+        bgEl.style.backgroundImage = `url('${imageUrl}')`;
+        bgEl.style.backgroundSize = "cover";
+        bgEl.style.backgroundPosition = "center";
+        bgEl.classList.add("loaded");
+    };
+});
+
 (function ($) {
     $(".profile-aside-btn").on("click", function () {
         $("#shop-sidebar, .profile-aside-overlay").toggleClass("active");
@@ -239,16 +266,16 @@ $("#inputChecked").change(function () {
     }
 });
 
-$(".submitVerifyForm").on('click', function () {
-    let formElement = $(this).closest('form');
-    formElement.attr('action', formElement.data('verify'));
-    $(this).closest('form').submit();
+$(".submitVerifyForm").on("click", function () {
+    let formElement = $(this).closest("form");
+    formElement.attr("action", formElement.data("verify"));
+    $(this).closest("form").submit();
 });
 
-$(".resendVerifyForm").on('click', function () {
-    let formElement = $(this).closest('form');
-    formElement.attr('action', formElement.data('resend'));
-    $(this).closest('form').submit();
+$(".resendVerifyForm").on("click", function () {
+    let formElement = $(this).closest("form");
+    formElement.attr("action", formElement.data("resend"));
+    $(this).closest("form").submit();
 });
 
 // $(".resendVerifyForm").on('click', function () {
@@ -435,7 +462,6 @@ $(".shop-page-sidebar-close").on("click", function () {
 $(".action-sort-shop-products-by-data").on("change", function () {
     sortShopProductsByData($(this).val());
 });
-
 
 $("#shop-view-chat-form").on("submit", function (e) {
     e.preventDefault();
@@ -624,8 +650,11 @@ $(".click-to-copy-data-value").on("click", function () {
 });
 
 $("#customer-login-form").on("submit", function (e) {
-    var recaptchaContainer = document.getElementById('recaptcha_element');
-    if (recaptchaContainer && recaptchaContainer.innerHTML.trim()?.toString() !== "") {
+    var recaptchaContainer = document.getElementById("recaptcha_element");
+    if (
+        recaptchaContainer &&
+        recaptchaContainer.innerHTML.trim()?.toString() !== ""
+    ) {
         var response = grecaptcha.getResponse();
         if (response.length === 0) {
             e.preventDefault();
@@ -1071,7 +1100,11 @@ function productQuickViewFunctionalityInitialize() {
     });
 }
 
-function addToCart(form_id = "add-to-cart-form", redirect_to_checkout = false, url = null) {
+function addToCart(
+    form_id = "add-to-cart-form",
+    redirect_to_checkout = false,
+    url = null
+) {
     if (checkAddToCartValidity()) {
         $.ajaxSetup({
             headers: {
@@ -1140,7 +1173,10 @@ function addToCart(form_id = "add-to-cart-form", redirect_to_checkout = false, u
 
                     return false;
                 } else if (response.status == 0) {
-                    if (redirectToCheckoutValue !== "false" || !redirect_to_checkout) {
+                    if (
+                        redirectToCheckoutValue !== "false" ||
+                        !redirect_to_checkout
+                    ) {
                         $("#out-of-stock-modal-message").html(response.message);
                         $("#out-of-stock-modal").modal("show");
                         return false;
@@ -1225,12 +1261,11 @@ function orderSummaryStickyFunction() {
             stickyElement.removeClass("stick");
             $(".floating-btn-grp").addClass("style-2");
         }
-    } catch (e) {
-    }
+    } catch (e) {}
 }
 
-$(window).on('resize', orderSummaryStickyFunction)
-$(window).on('scroll', orderSummaryStickyFunction)
+$(window).on("resize", orderSummaryStickyFunction);
+$(window).on("scroll", orderSummaryStickyFunction);
 function cartListQuantityUpdateInit() {
     $(".action-update-cart-quantity").on("click", function () {
         let cartId = $(this).data("cart-id");
@@ -1707,7 +1742,7 @@ function cartItemRemoveFunction(remove_url, token, cart_id, segment) {
                 CloseButton: true,
                 ProgressBar: true,
             });
-            getUpdateProductAddUpdateCartBtn(response)
+            getUpdateProductAddUpdateCartBtn(response);
             if (
                 segment === "shop-cart" ||
                 segment === "checkout-payment" ||
@@ -1721,22 +1756,24 @@ function cartItemRemoveFunction(remove_url, token, cart_id, segment) {
 
 function getUpdateProductAddUpdateCartBtn(response) {
     try {
-        let productInfo = $('.product-generated-variation-code');
+        let productInfo = $(".product-generated-variation-code");
         let productVariantExist = false;
 
         response?.cartList?.map(function (item, index) {
-            if (productInfo.data('product-id') == item?.id && productInfo.val() == item?.variant) {
+            if (
+                productInfo.data("product-id") == item?.id &&
+                productInfo.val() == item?.variant
+            ) {
                 productVariantExist = true;
             }
-        })
+        });
 
         if (!productVariantExist) {
-            let actionAddToCartBtn = $('.action-add-to-cart-form');
-            actionAddToCartBtn.html(actionAddToCartBtn.data('add-text'))
-            $('.in_cart_key[name="key"]').val('');
+            let actionAddToCartBtn = $(".action-add-to-cart-form");
+            actionAddToCartBtn.html(actionAddToCartBtn.data("add-text"));
+            $('.in_cart_key[name="key"]').val("");
         }
-    } catch (e) {
-    }
+    } catch (e) {}
 }
 
 $("#add-to-cart-form input").on("change", function () {
@@ -2074,15 +2111,15 @@ $(".password-check").on("keyup keypress change click", function () {
 function setEqualHeight(slides) {
     let maxHeight = 0;
 
-    slides.forEach(slide => {
-        slide.style.height = '';
+    slides.forEach((slide) => {
+        slide.style.height = "";
         if (slide.offsetHeight > maxHeight) {
             maxHeight = slide.offsetHeight;
         }
     });
 
-    slides.forEach(slide => {
-        slide.style.height = maxHeight + 'px';
+    slides.forEach((slide) => {
+        slide.style.height = maxHeight + "px";
     });
 }
 $(".footer-slider").owlCarousel({
@@ -2122,13 +2159,17 @@ $(".footer-top-slider").owlCarousel({
         },
     },
 });
-function  sameHeight(){
-    setEqualHeight(document.querySelectorAll('.footer-slider-container .footer-slider .owl-item'))
-    setEqualHeight(document.querySelectorAll('.footer-top-slider .owl-item'))
+function sameHeight() {
+    setEqualHeight(
+        document.querySelectorAll(
+            ".footer-slider-container .footer-slider .owl-item"
+        )
+    );
+    setEqualHeight(document.querySelectorAll(".footer-top-slider .owl-item"));
 }
-sameHeight()
+sameHeight();
 
-$(window).on('resize', sameHeight)
+$(window).on("resize", sameHeight);
 
 $(".promotional-banner-slider").owlCarousel({
     margin: 20,
@@ -2197,17 +2238,18 @@ $(".sidebar-overlay").on("click", function () {
     $(".cz-sidebar").removeClass("show active");
 });
 
-
 function getSessionRecaptchaCode(sessionKey, inputSelector) {
     try {
-        let routeGetSessionRecaptchaCode = $('#route-get-session-recaptcha-code');
-        if (routeGetSessionRecaptchaCode.data('mode').toString() === 'dev') {
-            let string = '.';
+        let routeGetSessionRecaptchaCode = $(
+            "#route-get-session-recaptcha-code"
+        );
+        if (routeGetSessionRecaptchaCode.data("mode").toString() === "dev") {
+            let string = ".";
             let intervalId = setInterval(() => {
-                if (string === '......') {
-                    string = '.';
+                if (string === "......") {
+                    string = ".";
                 }
-                string = string + '.';
+                string = string + ".";
                 $(inputSelector).val(string);
             }, 100);
 
@@ -2215,12 +2257,14 @@ function getSessionRecaptchaCode(sessionKey, inputSelector) {
                 clearInterval(intervalId);
                 $.ajaxSetup({
                     headers: {
-                        "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
+                        "X-CSRF-TOKEN": $('meta[name="_token"]').attr(
+                            "content"
+                        ),
                     },
                 });
                 $.ajax({
                     type: "POST",
-                    url: $('#route-get-session-recaptcha-code').data('route'),
+                    url: $("#route-get-session-recaptcha-code").data("route"),
                     data: {
                         _token: $('meta[name="_token"]').attr("content"),
                         sessionKey: sessionKey,
@@ -2236,41 +2280,44 @@ function getSessionRecaptchaCode(sessionKey, inputSelector) {
     }
 }
 
-$('.get-session-recaptcha-auto-fill').each(function () {
-    getSessionRecaptchaCode($(this).data('session'), $(this).data('input'))
+$(".get-session-recaptcha-auto-fill").each(function () {
+    getSessionRecaptchaCode($(this).data("session"), $(this).data("input"));
 });
 
-$('.get-session-recaptcha-auto-fill').on('click', function () {
-    getSessionRecaptchaCode($(this).data('session'), $(this).data('input'));
+$(".get-session-recaptcha-auto-fill").on("click", function () {
+    getSessionRecaptchaCode($(this).data("session"), $(this).data("input"));
 });
 
-$('.otp-login-btn').on('click', function () {
-    $(this).addClass('d-none');
-    $('.manual-login-btn').removeClass('d-none');
-    $('.manual-login-items').addClass('d-none');
-    $('.otp-login-items').removeClass('d-none');
-    $('.phone-input-with-country-picker').attr('required', true);
-    $('.auth-email-input').attr('required', false);
-    $('.auth-password-input').attr('required', false);
-    $('.auth-login-type-input').val('otp-login');
-})
+$(".otp-login-btn").on("click", function () {
+    $(this).addClass("d-none");
+    $(".manual-login-btn").removeClass("d-none");
+    $(".manual-login-items").addClass("d-none");
+    $(".otp-login-items").removeClass("d-none");
+    $(".phone-input-with-country-picker").attr("required", true);
+    $(".auth-email-input").attr("required", false);
+    $(".auth-password-input").attr("required", false);
+    $(".auth-login-type-input").val("otp-login");
+});
 
-$('.manual-login-btn').on('click', function () {
-    $(this).addClass('d-none');
-    $('.otp-login-btn').removeClass('d-none');
-    $('.otp-login-items').addClass('d-none');
-    $('.manual-login-items').removeClass('d-none');
-    $('.phone-input-with-country-picker').attr('required', false);
-    $('.auth-email-input').attr('required', true);
-    $('.auth-password-input').attr('required', true);
-    $('.auth-login-type-input').val('manual-login');
-})
+$(".manual-login-btn").on("click", function () {
+    $(this).addClass("d-none");
+    $(".otp-login-btn").removeClass("d-none");
+    $(".otp-login-items").addClass("d-none");
+    $(".manual-login-items").removeClass("d-none");
+    $(".phone-input-with-country-picker").attr("required", false);
+    $(".auth-email-input").attr("required", true);
+    $(".auth-password-input").attr("required", true);
+    $(".auth-login-type-input").val("manual-login");
+});
 
-$('.customer-centralize-login-form').on('submit', async function (event) {
+$(".customer-centralize-login-form").on("submit", async function (event) {
     event.preventDefault();
 
-    var recaptchaContainer = document.getElementById('recaptcha_element');
-    if (recaptchaContainer && recaptchaContainer.innerHTML.trim()?.toString() !== "") {
+    var recaptchaContainer = document.getElementById("recaptcha_element");
+    if (
+        recaptchaContainer &&
+        recaptchaContainer.innerHTML.trim()?.toString() !== ""
+    ) {
         var response = grecaptcha.getResponse();
         if (response.length === 0) {
             toastr.error($("#message-please-check-recaptcha").data("text"));
@@ -2288,14 +2335,14 @@ $('.customer-centralize-login-form').on('submit', async function (event) {
     // }
 
     $.ajax({
-        url: $(this).attr('action'),
-        method: $(this).attr('method'),
+        url: $(this).attr("action"),
+        method: $(this).attr("method"),
         data: $(this).serialize(),
         beforeSend: function () {
             $("#loading").show();
         },
         success: function (response) {
-            responseManager(response)
+            responseManager(response);
         },
         complete: function () {
             $("#loading").hide();
@@ -2303,9 +2350,8 @@ $('.customer-centralize-login-form').on('submit', async function (event) {
     });
 });
 
-
 function responseManager(response) {
-    if (response.status === 'success') {
+    if (response.status === "success") {
         if (response.message) {
             toastr.success(response.message);
         }
@@ -2314,18 +2360,14 @@ function responseManager(response) {
         } else if (response?.redirect_url) {
             location.href = response?.redirect_url;
         }
-    } else if (response.status === 'error') {
+    } else if (response.status === "error") {
         if (response.message) {
             toastr.error(response.message);
         }
     }
 
     if (response.errors) {
-        for (
-            let index = 0;
-            index < response.errors.length;
-            index++
-        ) {
+        for (let index = 0; index < response.errors.length; index++) {
             toastr.error(response.errors[index].message, {
                 CloseButton: true,
                 ProgressBar: true,
@@ -2343,8 +2385,6 @@ function responseManager(response) {
     }
 }
 
-$('.clean-phone-input-value').on("input", function () {
+$(".clean-phone-input-value").on("input", function () {
     $(this).val($(this).val().replace(/\s/g, ""));
 });
-
-

@@ -7,7 +7,7 @@ $getcategoryid = App\Models\Category::where('name',$homepagesetting[0]['category
     <div class="sourcenow-sec">
         <div class="sourcemaindiv d-flex">
             <!-- Left Banner Section -->
-            <div class="sourcefirstdiv" style="background-image: url('{{ 'storage/'.$homepagesetting[0]['background_image']; }}');">
+            <div class="sourcefirstdiv bg-shimmer" data-bg='{{ 'storage/' . $homepagesetting[0]['background_image'] }}'>
                 <div class="cnt-1">
                     <div class="text-overlay">
                         <h4 class="title fourthshow" style="color:white !important; font-size: 20px;">
@@ -33,12 +33,12 @@ $getcategoryid = App\Models\Category::where('name',$homepagesetting[0]['category
                     ?>
                         <div class="prd-item">
                             <a style="all: unset; cursor: pointer;" href="{{ route('products', ['searchInput' => $homepagesetting[0]['products'][$i]['name'] ]) }}" class="text-decoration-none">
-                                <div class="source-product-item">
+                                <div class="source-product-item image-wrapper shimmer">
                                     <div class="product-name text-left d-flex flex-column justify-content-center">
                                         <p class="custom-dealrock-text">{{ $homepagesetting[0]['products'][$i]['name'] }}</p>
                                     </div>
                                     {{-- <div class="redtriangle"> --}}
-                                    <img src="storage/{{ $homepagesetting[0]['products'][$i]['image'] }}" alt="product" class="source-product-img align-self-end" />
+                                    <img data-src="storage/{{ $homepagesetting[0]['products'][$i]['image'] }}" alt="product" class="source-product-img lazyload align-self-end" />
                                 </div>
                             </a>
                         </div>
@@ -53,12 +53,12 @@ $getcategoryid = App\Models\Category::where('name',$homepagesetting[0]['category
                     ?>
                         <div class="prd-item">
                             <a style="all: unset; cursor: pointer;" href="{{ route('products', ['searchInput' => $homepagesetting[0]['products'][$i]['name'] ]) }}" class="text-decoration-none">
-                                <div class="source-product-item">
+                                <div class="source-product-item image-wrapper shimmer">
                                     <div class="product-name text-left d-flex flex-column justify-content-center">
                                         <p class="custom-dealrock-text">{{ $homepagesetting[0]['products'][$i]['name'] }}</p>
                                     </div>
                                     {{-- <div class="redtriangle"> --}}
-                                    <img src="storage/{{ $homepagesetting[0]['products'][$i]['image'] }}" alt="product" class="source-product-img align-self-end" />
+                                    <img data-src="storage/{{ $homepagesetting[0]['products'][$i]['image'] }}" alt="product" class="source-product-img lazyload align-self-end" />
                                 </div>
                             </a>
                         </div>
@@ -73,12 +73,12 @@ $getcategoryid = App\Models\Category::where('name',$homepagesetting[0]['category
                     ?>
                         <div class="prd-item">
                             <a style="all: unset; cursor: pointer;" href="{{ route('products', ['searchInput' => $homepagesetting[0]['products'][$i]['name'] ]) }}" class="text-decoration-none">
-                                <div class="source-product-item">
+                                <div class="source-product-item image-wrapper shimmer">
                                     <div class="product-name text-left d-flex flex-column justify-content-center">
                                         <p class="custom-dealrock-text">{{ $homepagesetting[0]['products'][$i]['name'] }}</p>
                                     </div>
                                     {{-- <div class="redtriangle"> --}}
-                                    <img src="storage/{{ $homepagesetting[0]['products'][$i]['image'] }}" alt="product" class="source-product-img align-self-end" />
+                                    <img data-src="storage/{{ $homepagesetting[0]['products'][$i]['image'] }}" alt="product" class="source-product-img lazyload align-self-end" />
                                 </div>
                             </a>
                         </div>

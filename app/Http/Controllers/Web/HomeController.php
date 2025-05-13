@@ -69,7 +69,7 @@ class HomeController extends Controller
 
     public function default_theme(): View
     {
-        $settings = BusinessSetting::whereIn('type', [
+        $settings = BusinessSetting::select('type','value')->whereIn('type', [
             'bannersetting', 'bannertradesetting', 'firstbox', 'secondbox', 'thirdbox', 'fourthbox', 'fifthbox',
             'bgimages', 'register_banner', 'quotation', 'marketplace', 'homepage_second_settings',
             'genresection1', 'company_banner_logo', 'company_banner_logo1', 'company_banner_logo2', 'company_banner_logo3',
@@ -120,9 +120,6 @@ class HomeController extends Controller
     
         // Sectional Data
         $leads = ChatManager::Leads();
-        $suppliers = ChatManager::Suppliers();
-        $trending = ChatManager::GetTrendingProducts();
-        $allstocksale = StockSell::where('status','active')->orderBy('quote_recieved','DESC')->get();
     
         // Category Data
         $industries = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
@@ -223,7 +220,7 @@ class HomeController extends Controller
             'featuredProductsList', 'topRated', 'bestSellProduct', 'latest_products', 'categories', 'brands',
             'deal_of_the_day', 'topVendorsList', 'homeCategories', 'brand_setting', 'main_banner', 'main_section_banner',
             'current_date', 'recommendedProduct', 'footer_banner', 'newArrivalProducts','imagegetsd','bannercard','leads',
-            'suppliers','trending','allstocksale','bannercardtwo','firstbox','secondbox','thirdbox','fourthbox','fifthbox',
+            'bannercardtwo','firstbox','secondbox','thirdbox','fourthbox','fifthbox',
             'carouselimages','industries','banners','bannerCount','registerbanner','quotationdata','marketplacedata','newbaublesdata','homepagesetting'
         ));
     }

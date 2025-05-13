@@ -101,7 +101,7 @@
         </div>
     </div>
 </section>
-<script>
+<script defer>
     $(document).ready(function() {
         const itemHeight = $(".lead-item").outerHeight(true); // Height of one item, including margins
         const scrollSpeed = 2000; // Scroll speed for one step

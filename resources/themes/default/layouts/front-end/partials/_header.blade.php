@@ -1,13 +1,6 @@
 @php($announcement = getWebConfig(name: 'announcement'))
 <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/header.css')}}" />
 {{-- Start Content --}}
-    <?php
-    $colorSetting = App\Models\BusinessSetting::where('type', 'colorsu')->first();
-    $hovercolor = $colorSetting ? json_decode($colorSetting->value, true)['hovercolor'] : '#FFFFFF';
-    $textcolor = App\Utils\ChatManager::getTextColorBasedOnBackground($hovercolor);
-    $checkerFunction = App\Utils\ChatManager::membershipChecker();
-    // If we want notification in future
-    ?>
     @if (isset($announcement) && $announcement['status'] == 1)
         <div class="text-center position-relative px-4 py-1" id="announcement"
             style="background-color: {{ $announcement['color'] }}; color: {{ $announcement['text_color'] }};">
@@ -16,7 +9,6 @@
         </div>
     @endif
     <?php
-    $categories = App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
     $unread = App\Utils\ChatManager::unread_messages();
     $userId = Auth::guard('customer')->user() ? Auth::guard('customer')->id() : 0;
     $role = App\Models\User::where('id', $userId)->first();
@@ -365,13 +357,13 @@
         <a href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a>
         </div>
 @push('script')
-    <script>
+    <script defer>
         "use strict";
         $(".category-menu").find(".mega_menu").parents("li")
             .addClass("has-sub-item").find("> a")
             .append("<i class='czi-arrow-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}'></i>");
     </script>
-    <script>
+    <script defer>
         document.addEventListener("DOMContentLoaded", function() {
             const dropdown = document.querySelector('.dropdown');
             const defaultOption = document.querySelector('.default_option');
@@ -402,7 +394,7 @@
             });
         });
     </script>
-    <script>
+    <script defer>
         document.addEventListener('DOMContentLoaded', function() {
             const dropdown = document.getElementById('productDropdown');
             const defaultOption = dropdown.querySelector('.default_option');
@@ -438,7 +430,7 @@
             });
         });
     </script>
-    <script>
+    <script defer>
         $('#togglenavbar').on('click', function(event) {
             $('#navbarCollapse').show();
         });
@@ -446,12 +438,12 @@
             $('#navbarCollapse').hide();
         });
     </script>
-    <script>
+    <script defer>
         $('#closebutton').on('click', function(event) {
             $('#searchformclose').removeClass('active');
         });
     </script>
-    <script>
+    <script defer>
         $(document).ready(function() {
             $('#dropdownbar').on('mouseenter', function() {
                 $(this).css({
@@ -479,7 +471,7 @@
             });
         });
     </script>
-    <script>
+    <script defer>
         document.addEventListener('DOMContentLoaded', function() {
             var dropdownbutton = document.getElementById('productssearch');
             var dropdownbuttonu = document.getElementById('leadsbuy');
@@ -505,7 +497,7 @@
             }
         });
     </script>
-    <script>
+    <script defer>
         function toggleDropdown() {
             document.getElementById("dropdownNav").classList.toggle("show");
         }

@@ -23,18 +23,21 @@
             <ul id="categoryList" class="category-list">
                 @foreach ($categories as $key => $category)
                     <li class="text-left">
-                        <a href="{{ route('marketplace-categories', ['id' => $category['id']]) }}">{{ $category->name }}</a>
+                        <a
+                            href="{{ route('marketplace-categories', ['id' => $category['id']]) }}">{{ $category->name }}</a>
                         @if ($category->childes->count() > 0)
                             <div class="mega_menu_new">
                                 @foreach ($category->childes as $sub_category)
                                     <div class="mega_menu_inner_new">
                                         <h6>
-                                            <a href="{{ route('products', ['category_id' => $sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">{{ $sub_category->name }}</a>
+                                            <a
+                                                href="{{ route('products', ['category_id' => $sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">{{ $sub_category->name }}</a>
                                         </h6>
                                         @if ($sub_category->childes->count() > 0)
                                             @foreach ($sub_category->childes as $sub_sub_category)
                                                 <div>
-                                                    <a href="{{ route('products', ['category_id' => $sub_sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">{{ $sub_sub_category->name }}</a>
+                                                    <a
+                                                        href="{{ route('products', ['category_id' => $sub_sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">{{ $sub_sub_category->name }}</a>
                                                 </div>
                                             @endforeach
                                         @endif
@@ -47,7 +50,7 @@
             </ul>
             <div>
                 <a class="arrow-move-hover" href="{{ route('categories') }}" style="text-decoration: none;">
-                    View All 
+                    View All
                     <span class="arrow-icon">
                         <img src="/img/Right arrow.png" alt="arrow-right" style="height:16px; width: 16px;">
                     </span>
@@ -55,7 +58,7 @@
                         <img src="/img/Right arrow (1).png" alt="arrow-right" style="height:16px; width: 16px;">
                     </span>
                 </a>
-            </div>            
+            </div>
         </div>
     </div>
 
@@ -66,13 +69,9 @@
                 <div id="carouselExample" class="carousel slide h-100">
                     <div class="carousel-inner h-100">
                         <div class="carousel-item active h-100">
-                            <img src="img/main.png" class="d-block w-100 h-100" alt="Slide 1">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="img/main.png" class="d-block w-100" alt="Slide 2">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="img/main.png" class="d-block w-100" alt="Slide 3">
+                            <div class="image-wrapper shimmer">
+                                <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,11 +79,11 @@
 
             <!-- Sidebar Section -->
             <div class="flex-column gap-3 mt-md-0 mt-sm-2 sidebannerbox" style="gap:13px">
-                <div class="card">
-                    <img class="" src="img/side1.png" alt="Card Image">
+                <div class="card image-wrapper shimmer">
+                    <img class="lazyload" data-src="img/side1.png" alt="Card Image">
                 </div>
-                <div class="card">
-                    <img class="" src="img/side1.png" alt="Card Image">
+                <div class="card image-wrapper shimmer">
+                    <img class="lazyload" data-src="img/side1.png" alt="Card Image">
                 </div>
             </div>
         </div>
@@ -92,44 +91,49 @@
         <!-- Footer Section -->
         <div class="scroll-wrapper position-relative">
             <div class="scroll-arrow-right" onclick="scrollRight()">
-              &#10095;
-            </div>          
+                &#10095;
+            </div>
             <div class="card-group scroll-container" style="gap:10px; justify-content:space-around;">
                 <div class="cardbottom">
-                    <a href="{{ $firstbox['url'] ?? '#' }}" style="text-decoration: none;">
-                    <img src="/storage/{{ $firstbox['image'] ?? 'default-image.jpg' }}" class="" alt="...">
-                    <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
-                        <h5 class="card-titlebottom">{{ $firstbox['title'] ?? 'Trade Shows' }}</h5>
-                    </div>
-                </a>
+                    <a href="{{ $firstbox['url'] ?? '#' }}" style="text-decoration: none;" class="image-wrapper shimmer">
+                        <img data-src="/storage/{{ $firstbox['image'] ?? 'default-image.jpg' }}" class="lazyload"
+                            alt="...">
+                        <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
+                            <h5 class="card-titlebottom">{{ $firstbox['title'] ?? 'Trade Shows' }}</h5>
+                        </div>
+                    </a>
                 </div>
                 <div class="cardbottom">
-                    <a href="{{ $secondbox['url'] ?? '#' }}" style="text-decoration: none;">
-                    <img src="/storage/{{ $secondbox['image'] ?? 'default-image.jpg' }}" class="" alt="...">
-                    <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
-                        <h5 class="card-titlebottom">{{ $secondbox['title'] ?? 'Trade Shows' }}</h5>
-                    </div>
-                </a>
+                    <a href="{{ $secondbox['url'] ?? '#' }}" style="text-decoration: none;" class="image-wrapper shimmer">
+                        <img data-src="/storage/{{ $secondbox['image'] ?? 'default-image.jpg' }}" class="lazyload"
+                            alt="...">
+                        <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
+                            <h5 class="card-titlebottom">{{ $secondbox['title'] ?? 'Trade Shows' }}</h5>
+                        </div>
+                    </a>
                 </div>
                 <div class="cardbottom">
-                    <a href="{{ $thirdbox['url'] ?? '#' }}" style="text-decoration: none;">
-                    <img src="/storage/{{ $thirdbox['image'] ?? 'default-image.jpg' }}" class="" alt="...">
-                    <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
-                        <h5 class="card-titlebottom">{{ $thirdbox['title'] ?? 'Trade Shows' }}</h5>
-                    </div>
-                </a>
+                    <a href="{{ $thirdbox['url'] ?? '#' }}" style="text-decoration: none;" class="image-wrapper shimmer">
+                        <img data-src="/storage/{{ $thirdbox['image'] ?? 'default-image.jpg' }}" class="lazyload"
+                            alt="...">
+                        <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
+                            <h5 class="card-titlebottom">{{ $thirdbox['title'] ?? 'Trade Shows' }}</h5>
+                        </div>
+                    </a>
                 </div>
                 <div class="cardbottom">
-                    <a href="{{ $fourthbox['url'] ?? '#' }}" style="text-decoration: none;">
-                        <img src="/storage/{{ $fourthbox['image'] ?? 'default-image.jpg' }}" class="" alt="...">
+                    <a href="{{ $fourthbox['url'] ?? '#' }}" style="text-decoration: none;" class="image-wrapper shimmer">
+                        <img data-src="/storage/{{ $fourthbox['image'] ?? 'default-image.jpg' }}" class="lazyload"
+                            alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
                             <h5 class="card-titlebottom">{{ $fourthbox['title'] ?? 'Trade Shows' }}</h5>
                         </div>
                     </a>
                 </div>
                 <div class="cardbottom">
-                    <a href="{{ $fifthbox['url'] ?? '#' }}" style="text-decoration: none;">
-                        <img src="/storage/{{ $fifthbox['image'] ?? 'default-image.jpg' }}" class="" alt="...">
+                    <a href="{{ $fifthbox['url'] ?? '#' }}" style="text-decoration: none;" class="image-wrapper shimmer">
+                        <img data-src="/storage/{{ $fifthbox['image'] ?? 'default-image.jpg' }}" class="lazyload"
+                            alt="...">
                         <div class="card-bodybottom" style="background-color: #E2E8F0;">
                             <h5 class="card-titlebottom py-0">{{ $fifthbox['title'] ?? 'Trade Shows' }}</h5>
                             <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
@@ -143,7 +147,7 @@
     </div>
 </div>
 </section>
-<script>
+<script defer>
     $(document).ready(function() {
         $('#banner-carousel1').carousel({
             autoplay: true,
@@ -156,25 +160,25 @@
         });
     });
 </script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
+<script defer>
+    document.addEventListener('DOMContentLoaded', function() {
         const toggleBtn = document.querySelector('.menu-toggle');
         const sidebar = document.getElementById('sidebarMenu');
 
-        toggleBtn.addEventListener('click', function () {
+        toggleBtn.addEventListener('click', function() {
             sidebar.classList.toggle('d-block');
         });
     });
 </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
+<script defer>
+    document.addEventListener("DOMContentLoaded", function() {
         if (window.innerWidth > 768) {
             const wrapper = document.getElementById('categoryList');
             const referenceBox = document.querySelector('.insideinsidebox');
             const scrollBoxHeight = document.querySelector('.scroll-wrapper');
-        
+
             if (!wrapper || !referenceBox || !scrollBoxHeight) return;
-        
+
             const setMaxHeight = () => {
                 wrapper.style.maxHeight = 'none'; // reset to measure full
                 const fullHeight = wrapper.scrollHeight;
@@ -186,10 +190,10 @@
                     wrapper.style.maxHeight = `${fullHeight}px`;
                 }
             };
-        
+
             // Wait a little for layout/rendering to settle
             setTimeout(setMaxHeight, 100);
-        
+
             window.addEventListener('resize', () => {
                 if (!wrapper.classList.contains('expanded')) {
                     setMaxHeight();
@@ -200,4 +204,3 @@
         }
     });
 </script>
-    

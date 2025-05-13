@@ -1573,3 +1573,68 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%; /* or whatever size you want */
+    background: #f6f7f8;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.image-wrapper.shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150px;
+    width: 100px;
+    height: 100%;
+    background: linear-gradient(to right, #f6f7f8 0%, #edeef1 50%, #f6f7f8 100%);
+    animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        left: -150px;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.image-wrapper img.loaded {
+    opacity: 1;
+}
+
+.bg-shimmer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #f6f7f8;
+    overflow: hidden;
+}
+
+.bg-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150px;
+    width: 100px;
+    height: 100%;
+    background: linear-gradient(to right, #f6f7f8 0%, #edeef1 50%, #f6f7f8 100%);
+    animation: shimmer 1.5s infinite;
+}
+
+.bg-shimmer.loaded::before {
+    display: none;
+}

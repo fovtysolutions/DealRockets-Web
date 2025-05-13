@@ -6,7 +6,6 @@
                 <div class="leadstitle2 active" data-tab="tab-4" style="outline: none;position: absolute;left: 44%;top: 27px;text-transform: uppercase;">
                     Trade shows</div>
                 <a href="{{ route('tradeshow') }}" class="top-movers-viewall" style="text-decoration: none;">View All <i style="color:#ED4553;" class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i></a>
-                {{-- <button class="tab-linksuno" data-tab="tab-5" style="outline: none;"><i class="fas fa-list"></i>Marketplace</button> --}}
             </div>
 
             <div class="tab-contentuno active" id="tab-4">

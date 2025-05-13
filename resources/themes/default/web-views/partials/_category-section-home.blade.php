@@ -48,9 +48,9 @@
                                     @if ($key<10)
                                         <div class="text-center m-0 __cate-item w-100">
                                             <a href="{{route('products',['category_id'=> $category['id'],'data_from'=>'category','page'=>1])}}" style="text-decoration: none;">
-                                                <div class="__img h-auto" style="width:142px;">
-                                                    <img class="shadow-lg" alt="{{ $category->name }}"
-                                                         src="{{ getStorageImages(path: $category->icon_full_url, type: 'category') }}">
+                                                <div class="__img h-auto image-wrapper shimmer" style="width:142px;">
+                                                    <img class="shadow-lg lazyload" alt="{{ $category->name }}"
+                                                        data-src="{{ getStorageImages(path: $category->icon_full_url, type: 'category') }}">
                                                 </div>
                                                 <p style="color:black; padding-top:22px;" class="wrgewrgwr">{{Str::limit($category->name, 12)}}</p>
                                             </a>

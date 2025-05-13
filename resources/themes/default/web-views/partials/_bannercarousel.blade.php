@@ -24,7 +24,7 @@
         @endif
     </div>
 </div>
-<script>
+<script defer>
     $(document).ready(function () {
         // Initialize carousel with auto-slide if needed
         $('#carousel').carousel({

@@ -15,10 +15,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ $web_config['fav_icon']['path'] }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ $web_config['fav_icon']['path'] }}">
-    <link rel="stylesheet" media="screen" href="{{ theme_asset(path: 'public/assets/front-end/vendor/simplebar/dist/simplebar.min.css') }}">
-    <link rel="stylesheet" media="screen" href="{{ theme_asset(path: 'public/assets/front-end/vendor/tiny-slider/dist/tiny-slider.css') }}">
-    <link rel="stylesheet" media="screen" href="{{ theme_asset(path: 'public/assets/front-end/vendor/drift-zoom/dist/drift-basic.min.css') }}">
-    <link rel="stylesheet" media="screen" href="{{ theme_asset(path: 'public/assets/front-end/vendor/lightgallery.js/dist/css/lightgallery.min.css') }}">
+    <link rel="stylesheet" media="screen"
+        href="{{ theme_asset(path: 'public/assets/front-end/vendor/simplebar/dist/simplebar.min.css') }}">
+    <link rel="stylesheet" media="screen"
+        href="{{ theme_asset(path: 'public/assets/front-end/vendor/tiny-slider/dist/tiny-slider.css') }}">
+    <link rel="stylesheet" media="screen"
+        href="{{ theme_asset(path: 'public/assets/front-end/vendor/drift-zoom/dist/drift-basic.min.css') }}">
+    <link rel="stylesheet" media="screen"
+        href="{{ theme_asset(path: 'public/assets/front-end/vendor/lightgallery.js/dist/css/lightgallery.min.css') }}">
     <link rel="stylesheet" media="screen" href="{{ theme_asset(path: 'public/assets/front-end/css/theme.css') }}">
     <link rel="stylesheet" media="screen" href="{{ theme_asset(path: 'public/assets/front-end/css/slick.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/font-awesome.min.css') }}">
@@ -30,38 +34,39 @@
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/css/lightbox.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/back-end/vendor/icon-set/style.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/owl.carousel.min.css') }}">
-    
+
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/body.css') }}" />
     {{-- End Custom Css --}}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 
     {{-- Start Call CSS Stacks --}}
     @stack('css_or_js')
     {{-- End Call CSS Stacks --}}
-    <?php 
+    <?php
     $imagegets = \App\Services\ImagegetService::getimagepaths();
     $imagegetsd = \App\Services\ImagegetService::decodedpaths($imagegets);
     ?>
-    <meta property="og:image" content="{{$imagegetsd['company_web_logo']}}" />
-    <meta property="og:title" content="Welcome To {{$web_config['name']->value}} Home" />
-    <meta property="og:url" content="{{env('APP_URL')}}">
+    <meta property="og:image" content="{{ $imagegetsd['company_web_logo'] }}" />
+    <meta property="og:title" content="Welcome To {{ $web_config['name']->value }} Home" />
+    <meta property="og:url" content="{{ env('APP_URL') }}">
     <meta property="og:description"
         content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
 
-    <meta property="twitter:card" content="{{$imagegetsd['company_web_logo']}}" />
+    <meta property="twitter:card" content="{{ $imagegetsd['company_web_logo'] }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <meta property="twitter:title" content="Welcome To {{$web_config['name']->value}} Home" />
-    <meta property="twitter:url" content="{{env('APP_URL')}}">
+    <meta property="twitter:title" content="Welcome To {{ $web_config['name']->value }} Home" />
+    <meta property="twitter:url" content="{{ env('APP_URL') }}">
     <meta property="twitter:description"
         content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
 
-    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/body.css')}}" />
-    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/popup.css')}}" />
-    <link rel="stylesheet" href="{{theme_asset(path: 'public/assets/front-end/css/home.css')}}" />
+    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/body.css') }}" />
+    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/popup.css') }}" />
+    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/home.css') }}" />
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/style.css') }}" />
@@ -71,10 +76,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/css/swiper.css"
-    integrity="sha512-uMIpMpgk4n6esmgdfJtATLLezuZNRb96YEgJXVeo4diHFOF/gqlgu4Y5fg+56qVYZfZYdiqnAQZlnu4j9501ZQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-uMIpMpgk4n6esmgdfJtATLLezuZNRb96YEgJXVeo4diHFOF/gqlgu4Y5fg+56qVYZfZYdiqnAQZlnu4j9501ZQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
@@ -89,50 +95,35 @@
     <style>
         :root {
             --base:
-                {{ $web_config['primary_color'] }}
-            ;
+                {{ $web_config['primary_color'] }};
             --base-2:
-                {{ $web_config['secondary_color'] }}
-            ;
+                {{ $web_config['secondary_color'] }};
             --web-primary:
-                {{ $web_config['primary_color'] }}
-            ;
+                {{ $web_config['primary_color'] }};
             --web-primary-10:
-                {{ $web_config['primary_color'] }}
-                10;
+                {{ $web_config['primary_color'] }} 10;
             --web-primary-20:
-                {{ $web_config['primary_color'] }}
-                20;
+                {{ $web_config['primary_color'] }} 20;
             --web-primary-40:
-                {{ $web_config['primary_color'] }}
-                40;
+                {{ $web_config['primary_color'] }} 40;
             --web-secondary:
-                {{ $web_config['secondary_color'] }}
-            ;
+                {{ $web_config['secondary_color'] }};
             --web-text:
-                {{ $web_config['text_color']}}
-            ;
+                {{ $web_config['text_color'] }};
             --web-hover:
-                {{ $web_config['hover_color']}}
-            ;
+                {{ $web_config['hover_color'] }};
             --web-bg:
-                {{ $web_config['bg_color']}}
-            ;
+                {{ $web_config['bg_color'] }};
             --web-firsthead:
-                {{ $web_config['first_header_color']}}
-            ;
+                {{ $web_config['first_header_color'] }};
             --web-secondhead:
-                {{ $web_config['second_header_color']}}
-            ;
+                {{ $web_config['second_header_color'] }};
             --web-direction:
-                {{ Session::get('direction') }}
-            ;
+                {{ Session::get('direction') }};
             --text-align-direction:
-                {{ Session::get('direction') === 'rtl' ? 'right' : 'left' }}
-            ;
+                {{ Session::get('direction') === 'rtl' ? 'right' : 'left' }};
             --text-align-direction-alt:
-                {{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}
-            ;
+                {{ Session::get('direction') === 'rtl' ? 'left' : 'right' }};
         }
 
         .dropdown-menu:not(.m-0) {
@@ -152,7 +143,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10;
-            display: none;  /* Initially hidden */
+            display: none;
+            /* Initially hidden */
         }
 
         .spinner {
@@ -165,8 +157,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 
@@ -177,7 +174,7 @@
         <!-- Google Tag Manager -->
         <script>
             try {
-                (function (w, d, s, l, i) {
+                (function(w, d, s, l, i) {
                     w[l] = w[l] || [];
                     w[l].push({
                         'gtm.start': new Date().getTime(),
@@ -202,9 +199,9 @@
     @if ($pixel_analytics_user_code)
         <!-- Facebook Pixel Code -->
         <script>
-            ! function (f, b, e, v, n, t, s) {
+            ! function(f, b, e, v, n, t, s) {
                 if (f.fbq) return;
-                n = f.fbq = function () {
+                n = f.fbq = function() {
                     n.callMethod ?
                         n.callMethod.apply(n, arguments) : n.queue.push(arguments)
                 };
@@ -233,16 +230,16 @@
 
 <body class="toolbar-enabled">
 
-    <input type="hidden" id="base_url" value="{{url('/')}}">
+    <input type="hidden" id="base_url" value="{{ url('/') }}">
 
     <div id="dynamicLoader" style="display: none;">
         <div class="spinner"></div>
-    </div> 
+    </div>
 
     @if ($google_tag_manager_id)
         <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $google_tag_manager_id }}" height="0"
-                width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $google_tag_manager_id }}"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
     @endif
 
@@ -326,7 +323,8 @@
     <span class="system-default-country-code" data-value="{{ getWebConfig(name: 'country_code') ?? 'us' }}"></span>
     <span id="system-session-direction" data-value="{{ session()->get('direction') ?? 'ltr' }}"></span>
 
-    <span id="is-request-customer-auth-sign-up" data-value="{{ Request::is('customer/auth/sign-up*') ? 1 : 0 }}"></span>
+    <span id="is-request-customer-auth-sign-up"
+        data-value="{{ Request::is('customer/auth/sign-up*') ? 1 : 0 }}"></span>
     <span id="is-customer-auth-active" data-value="{{ auth('customer')->check() ? 1 : 0 }}"></span>
 
     <span id="storage-flash-deals" data-value="{{ $web_config['flash_deals']['start_date'] ?? '' }}"></span>
@@ -341,7 +339,8 @@
                 <div class="wa-widget-send-button">
                     <a href="https://wa.me/{{ $whatsapp['phone'] }}?text=Hello%20there!" target="_blank">
                         <img src="{{ theme_asset(path: 'public/assets/front-end/img/whatsapp.svg') }}"
-                            class="wa-messenger-svg-whatsapp wh-svg-icon" alt="{{ translate('Chat_with_us_on_WhatsApp') }}">
+                            class="wa-messenger-svg-whatsapp wh-svg-icon"
+                            alt="{{ translate('Chat_with_us_on_WhatsApp') }}">
                     </a>
                 </div>
             @endif
@@ -356,13 +355,12 @@
     </script>
     <script
         src="{{ theme_asset(path: 'public/assets/front-end/vendor/bs-custom-file-input/dist/bs-custom-file-input.min.js') }}">
-        </script>
+    </script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/simplebar/dist/simplebar.min.js') }}"></script>
-    <script
-        src="{{ theme_asset(path: 'public/assets/front-end/vendor/tiny-slider/dist/min/tiny-slider.js') }}"></script>
+    <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/tiny-slider/dist/min/tiny-slider.js') }}"></script>
     <script
         src="{{ theme_asset(path: 'public/assets/front-end/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js') }}">
-        </script>
+    </script>
     <script src="{{ theme_asset(path: 'public/js/lightbox.min.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/drift-zoom/dist/Drift.min.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/lightgallery.js/dist/js/lightgallery.min.js') }}">
@@ -384,57 +382,60 @@
                     observer.unobserve(entry.target); // Stop observing once it's visible
                 }
             });
-        }, { threshold: 0.5 }); // Trigger when 50% of the element is visible
+        }, {
+            threshold: 0.5
+        }); // Trigger when 50% of the element is visible
 
         elements.forEach(element => {
             observer.observe(element); // Observe each element
         });
     </script>
     <!-- Catalog ,buy lead , sell lead , star supplier, trade show -->
-    <?php 
+    <?php
     function get_client_ip()
-{
-    $ipaddress = '';
-    if (isset($_SERVER['HTTP_CLIENT_IP']))
-        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-    else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    else if (isset($_SERVER['HTTP_X_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-    else if (isset($_SERVER['HTTP_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-    else if (isset($_SERVER['HTTP_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED'];
-    else if (isset($_SERVER['REMOTE_ADDR']))
-        $ipaddress = $_SERVER['REMOTE_ADDR'];
-    else
-        $ipaddress = 'UNKNOWN';
-
-    if (filter_var($ipaddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-        return $ipaddress;
-    } else if (filter_var($ipaddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-        return $ipaddress;
-    } else {
-        return 'INVALID_IPV4 & INVALID_IPV6';
+    {
+        $ipaddress = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED'])) {
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        } elseif (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        } elseif (isset($_SERVER['HTTP_FORWARDED'])) {
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        } else {
+            $ipaddress = 'UNKNOWN';
+        }
+    
+        if (filter_var($ipaddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            return $ipaddress;
+        } elseif (filter_var($ipaddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+            return $ipaddress;
+        } else {
+            return 'INVALID_IPV4 & INVALID_IPV6';
+        }
     }
-}
-
-$ip = get_client_ip();
-// echo $ip;
+    
+    $ip = get_client_ip();
+    // echo $ip;
     ?>
 
     {!! Toastr::message() !!}
 
-    @include('layouts.front-end.partials._firebase-script')
+    {{-- @include('layouts.front-end.partials._firebase-script') --}}
 
     <script>
         "use strict";
 
         @if (Request::is('/') && \Illuminate\Support\Facades\Cookie::has('popup_banner') == false)
-        $(document).ready(function () {
-            $('#popup-modal').modal('show');
-        });
-        @php(\Illuminate\Support\Facades\Cookie:: queue('popup_banner', 'off', 1))
+            $(document).ready(function() {
+                $('#popup-modal').modal('show');
+            });
+            @php(\Illuminate\Support\Facades\Cookie::queue('popup_banner', 'off', 1))
         @endif
 
         @if ($errors->any())
@@ -446,7 +447,7 @@ $ip = get_client_ip();
             @endforeach
         @endif
 
-        $(document).mouseup(function (e) {
+        $(document).mouseup(function(e) {
             let container = $(".search-card");
             if (!container.is(e.target) && container.has(e.target).length === 0) {
                 container.hide();
@@ -488,16 +489,16 @@ $ip = get_client_ip();
             </div>
         </div>
     `;
-        $(document).on('click', '#cookie-accept', function () {
+        $(document).on('click', '#cookie-accept', function() {
             document.cookie = 'blaxk_cookie_consent=accepted; max-age=' + 60 * 60 * 24 * 30;
             $('#cookie-section').hide();
         });
-        $(document).on('click', '#cookie-reject', function () {
+        $(document).on('click', '#cookie-reject', function() {
             document.cookie = 'blaxk_cookie_consent=reject; max-age=' + 60 * 60 * 24;
             $('#cookie-section').hide();
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             if (document.cookie.indexOf("blaxk_cookie_consent=accepted") !== -1) {
                 $('#cookie-section').hide();
             } else {

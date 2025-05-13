@@ -4,7 +4,7 @@
 @include('web-views.partials._genresection2')
 @include('web-views.partials._genresection3')
 </section>
-<script>
+<script defer>
     document.addEventListener("DOMContentLoaded", function () {
         console.log("Window width:", window.innerWidth);
 

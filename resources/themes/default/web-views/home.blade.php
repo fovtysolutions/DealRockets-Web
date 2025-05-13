@@ -68,7 +68,6 @@
         @include('web-views.partials._bannercarousel')
     @endif
     @include('web-views.partials._herobanner')
-    {{-- @include('web-views.partials._trending-selection') --}}
     <div class="mainpagesection" style="background-color: var(--web-bg);">
         @include('web-views.partials._category-section-home')
     </div>
@@ -76,14 +75,9 @@
     @include('web-views.partials._leads')
     @include('web-views.partials._registerforfree')
     @include('web-views.partials._quotation')
-    {{-- @include('web-views.partials._multiboxes') --}}
     @include('web-views.partials._multistuff')
-    {{-- @include('web-views.partials._suscribe') --}}
     @include('web-views.partials._top-sellers')
     @include('web-views.partials._order-now')
-    {{-- @if ($bestSellProduct->count() > 0)
-        @include('web-views.partials._best-selling')
-    @endif --}}
     @php($businessMode = getWebConfig(name: 'business_mode'))
 
         <section class="new-arrival-section">
@@ -110,9 +104,9 @@
 @endsection
 
 @push('script')
-    <script src="{{theme_asset(path: 'public/assets/front-end/js/owl.carousel.min.js')}}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/js/home.js') }}"></script>
-    <script>
+    <script defer src="{{theme_asset(path: 'public/assets/front-end/js/owl.carousel.min.js')}}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/js/home.js') }}"></script>
+    <script defer>
         $(document).ready(function () {
             const searchProductsBtn = $('#searchProducts');
             const searchSuppliersBtn = $('#searchSuppliers');

@@ -1,11 +1,5 @@
 @extends('layouts.front-end.app')
 <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/dealassist.css')}}" />
-<!-- Include jQuery and Owl Carousel -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 @section('title',translate('Deal Assist'. ' | ' . $web_config['name']->value))
 @section('content')
 <div class="mainpagesection">

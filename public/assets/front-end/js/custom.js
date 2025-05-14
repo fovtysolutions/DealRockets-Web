@@ -14,17 +14,27 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const bgEl = document.querySelector(".bg-shimmer");
-    const imageUrl = bgEl.getAttribute("data-bg");
+    const bgElements = document.querySelectorAll(".bg-shimmer");
 
-    const img = new Image();
-    img.src = imageUrl;
-    img.onload = function () {
-        bgEl.style.backgroundImage = `url('${imageUrl}')`;
-        bgEl.style.backgroundSize = "cover";
-        bgEl.style.backgroundPosition = "center";
-        bgEl.classList.add("loaded");
-    };
+    bgElements.forEach(function (bgEl) {
+        const imageUrl = bgEl.getAttribute("data-bg");
+        if(bgEl.getAttribute('data-bgtype')){
+            bgEl.style.backgroundImage = imageUrl;
+            bgEl.style.backgroundSize = "cover";
+            bgEl.style.backgroundPosition = "center";
+            bgEl.classList.add("loaded");
+        } else {
+            const img = new Image();
+            img.src = imageUrl;
+
+            img.onload = function () {
+                bgEl.style.backgroundImage = `url(${imageUrl})`;
+                bgEl.style.backgroundSize = "cover";
+                bgEl.style.backgroundPosition = "center";
+                bgEl.classList.add("loaded");
+            };
+        }
+    });
 });
 
 (function ($) {

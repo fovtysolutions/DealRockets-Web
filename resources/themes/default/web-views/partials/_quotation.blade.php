@@ -9,7 +9,7 @@ $quotationbanner = \App\Models\BusinessSetting::where('type', 'quotation')->firs
 $quotationdata = json_decode($quotationbanner, true) ?? [];
 ?>
 <section class="mainpagesection custom-dealrock-banner-large" style="background-color: var(--web-bg);">
-    <div class="rfq-section">
+    <div class="rfq-section bg-shimmer" data-bg="linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),url('/img/rfq-image-1.png')" data-bgtype='withlinear'>
         <div class="hiddenuntil768"> Request For Quotations (RFQ)</div>
         <div class="rfq-info">
             <h2>Request for Quotations (RFQ)</h2>

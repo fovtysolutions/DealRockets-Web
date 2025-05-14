@@ -14,11 +14,13 @@
                       $image = !empty($imageData[0]) ? $imageData[0] : null;
                     @endphp
                     @if(isset($image))
-                      <img
-                        src="{{ asset('storage/' . $image) }}"
-                        class="card-image"
-                        alt="Trade Show"
-                      />
+                      <div class="image-wrapper shimmer">
+                        <img
+                          data-src="{{ asset('storage/' . $image) }}"
+                          class="card-image lazyload"
+                          alt="Trade Show"
+                        />
+                      </div>
                     @else
                       <img
                         src="{{ asset('images/placeholderimage.webp') }}"

@@ -25,9 +25,9 @@
 
                         @foreach ($topVendorsList as $vendorData)
                             <a stlye="text-decoration: none;" href="{{route('shopView',['id'=> $vendorData['id']])}}" class="others-store-card text-capitalize">
-                                <div class="overflow-hidden other-store-banner">
-                                    <img class="w-100 h-100 object-cover" alt=""
-                                         src="{{ getStorageImages(path: $vendorData->banner_full_url, type: 'shop-banner') }}">
+                                <div class="overflow-hidden other-store-banner image-wrapper shimmer">
+                                    <img class="w-100 h-100 object-cover lazyload" alt=""
+                                         data-src="{{ getStorageImages(path: $vendorData->banner_full_url, type: 'shop-banner') }}">
                                 </div>
                                 <div class="name-area">
                                     {{-- <div class="position-relative">

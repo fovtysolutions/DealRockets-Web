@@ -3,7 +3,6 @@
     display: flex;
     gap: 40px;
     margin-top: 50px;
-    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("/img/rfq-image-1.png");
     background-size: cover;
     background-position: center;
     padding: 40px;

@@ -11,10 +11,6 @@
             <div class="tab-contentuno active" id="tab-4">
                 @include('web-views.partials._tradeshow')
             </div>
-
-            <div class="tab-contentuno" id="tab-5">
-                @include('web-views.partials._marketplacesticker')
-            </div>
         </div>
     </div>
 </div>

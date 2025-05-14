@@ -25,36 +25,6 @@
 @section('content')
     @php($decimalPointSettings = !empty(getWebConfig(name: 'decimal_point_settings')) ? getWebConfig(name:'decimal_point_settings') : 0)
 
-    @if($web_config['featured_deals'] && (count($web_config['featured_deals']) > 0))
-        <section class="featured_deal">
-            <div class="container">
-                <div class="__featured-deal-wrap bg--light">
-                    <div class="d-flex flex-wrap justify-content-between gap-8 mb-3">
-                        <div class="w-0 flex-grow-1">
-                            <span class="featured_deal_title font-bold text-dark">{{ translate('featured_deal')}}</span>
-                            <br>
-                            <span
-                                class="text-left text-nowrap">{{ translate('see_the_latest_deals_and_exciting_new_offers')}}!</span>
-                        </div>
-                        <div>
-                            <a class="text-capitalize view-all-text web-text-primary"
-                                href="{{route('products', ['data_from' => 'featured_deal'])}}">
-                                {{ translate('view_all')}}
-                                <i
-                                    class="czi-arrow-{{Session::get('direction') === 'rtl' ? 'left mr-1 ml-n1 mt-1' : 'right ml-1'}}"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="owl-carousel owl-theme new-arrivals-product">
-                        @foreach($web_config['featured_deals'] as $key => $product)
-                            @include('web-views.partials._product-card-1', ['product' => $product, 'decimal_point_settings' => $decimalPointSettings])
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </section>
-    @endif
-
     @if (isset($main_section_banner))
         <div class="container rtl pt-4 px-0 px-md-3">
             <a href="{{$main_section_banner->url}}" target="_blank" class="cursor-pointer d-block">
@@ -78,19 +48,7 @@
     @include('web-views.partials._multistuff')
     @include('web-views.partials._top-sellers')
     @include('web-views.partials._order-now')
-    @php($businessMode = getWebConfig(name: 'business_mode'))
-
-        <section class="new-arrival-section">
-
-            <div class="mainpagesection shadow" style="max-width: 1600px; padding-left:0; padding-right:0; background-color: unset;">
-                <div class="row g-3 mx-max-md-0">
-                </div>
-            </div>
-        </section>
-
-    @if(auth('customer')->check())
-        {{-- Do Nothing --}}
-    @else
+    {{-- @if(!auth('customer')->check())
         <div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true"
             data-bs-backdrop="static">
             <div class="modal-dialog modal-dialog-centered">
@@ -99,7 +57,7 @@
                 </div>
             </div>
         </div>
-    @endif
+    @endif --}}
     <span id="direction-from-session" data-value="{{ session()->get('direction') }}"></span>
 @endsection
 

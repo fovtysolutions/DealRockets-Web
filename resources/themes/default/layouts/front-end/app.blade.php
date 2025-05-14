@@ -15,18 +15,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ $web_config['fav_icon']['path'] }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ $web_config['fav_icon']['path'] }}">
-    <link rel="stylesheet" media="screen"
+    <link rel="stylesheet" media="print" onload="this.media='all'"
         href="{{ theme_asset(path: 'public/assets/front-end/vendor/simplebar/dist/simplebar.min.css') }}">
-    <link rel="stylesheet" media="screen"
+    <link rel="stylesheet" media="print" onload="this.media='all'"
         href="{{ theme_asset(path: 'public/assets/front-end/vendor/tiny-slider/dist/tiny-slider.css') }}">
-    <link rel="stylesheet" media="screen"
+    <link rel="stylesheet" media="print" onload="this.media='all'"
         href="{{ theme_asset(path: 'public/assets/front-end/vendor/drift-zoom/dist/drift-basic.min.css') }}">
-    <link rel="stylesheet" media="screen"
+    <link rel="stylesheet" media="print" onload="this.media='all'"
         href="{{ theme_asset(path: 'public/assets/front-end/vendor/lightgallery.js/dist/css/lightgallery.min.css') }}">
-    <link rel="stylesheet" media="screen" href="{{ theme_asset(path: 'public/assets/front-end/css/theme.css') }}">
-    <link rel="stylesheet" media="screen" href="{{ theme_asset(path: 'public/assets/front-end/css/slick.css') }}">
-    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/back-end/css/toastr.css') }}" />
+    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/theme.css') }}">
+    <link rel="stylesheet" media="print" onload="this.media='all'" href="{{ theme_asset(path: 'public/assets/front-end/css/slick.css') }}">
+    <link rel="stylesheet" media="print" onload="this.media='all'" href="{{ theme_asset(path: 'public/assets/front-end/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" media="print" onload="this.media='all'" href="{{ theme_asset(path: 'public/assets/back-end/css/toastr.css') }}" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/master.css') }}" />
@@ -82,8 +82,8 @@
         integrity="sha512-uMIpMpgk4n6esmgdfJtATLLezuZNRb96YEgJXVeo4diHFOF/gqlgu4Y5fg+56qVYZfZYdiqnAQZlnu4j9501ZQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     {{-- End Developer Added Links --}}
 
     @include(VIEW_FILE_NAMES['robots_meta_content_partials'])
@@ -350,29 +350,29 @@
         </a>
     </div>
 
-    <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/jquery/dist/jquery-2.2.4.min.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}">
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/vendor/jquery/dist/jquery-2.2.4.min.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}">
     </script>
     <script
         src="{{ theme_asset(path: 'public/assets/front-end/vendor/bs-custom-file-input/dist/bs-custom-file-input.min.js') }}">
     </script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/simplebar/dist/simplebar.min.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/tiny-slider/dist/min/tiny-slider.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/vendor/simplebar/dist/simplebar.min.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/vendor/tiny-slider/dist/min/tiny-slider.js') }}"></script>
     <script
         src="{{ theme_asset(path: 'public/assets/front-end/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js') }}">
     </script>
-    <script src="{{ theme_asset(path: 'public/js/lightbox.min.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/drift-zoom/dist/Drift.min.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/lightgallery.js/dist/js/lightgallery.min.js') }}">
+    <script defer src="{{ theme_asset(path: 'public/js/lightbox.min.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/vendor/drift-zoom/dist/Drift.min.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/vendor/lightgallery.js/dist/js/lightgallery.min.js') }}">
     </script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/vendor/lg-video.js/dist/lg-video.min.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/back-end/js/toastr.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/js/theme.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/js/slick.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/js/sweet_alert.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/js/custom.js') }}"></script>
-    <script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/vendor/lg-video.js/dist/lg-video.min.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/js/owl.carousel.min.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/back-end/js/toastr.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/js/theme.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/js/slick.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/js/sweet_alert.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/js/custom.js') }}"></script>
+    <script defer>
         const elements = document.querySelectorAll('.fade-in-on-scroll');
 
         const observer = new IntersectionObserver((entries, observer) => {

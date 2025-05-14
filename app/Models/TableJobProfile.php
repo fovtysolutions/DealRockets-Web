@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TableJobProfile extends Model
 {
     use HasFactory;
+    protected $table = 'table_jobprofile';
     protected $fillable = [
         'user_id',
         'full_name',

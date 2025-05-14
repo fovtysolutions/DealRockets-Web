@@ -638,7 +638,7 @@
 
 .globle-deals .insideinsidebox{
     margin-bottom: 11.6px;
-    width: 100%;
+    width: 98%;
 }
 
 .globle-deals .cardbottom{
@@ -667,6 +667,7 @@
 .globle-deals .scroll-wrapper {
     position: relative;
     overflow: hidden;
+    width: 98%;
   }
   
 .globle-deals .scroll-container {

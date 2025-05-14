@@ -4,7 +4,7 @@
 
 /*Redesign CSS*/
 body {
-    color: #262d34;
+    background-color: #f5f5f5;
     font-family: var(--font-family-sans-serif);
     text-align: start;
 }

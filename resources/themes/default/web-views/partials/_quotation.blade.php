@@ -5,8 +5,13 @@ $keyword = 'Product name or keywords';
 $description = 'Product description';
 $quantity = 'Product Quantity';
 $inputType = 'text';
-$quotationbanner = \App\Models\BusinessSetting::where('type', 'quotation')->first()->value;
-$quotationdata = json_decode($quotationbanner, true) ?? [];
+
+// Retrieve quotation data from the database
+$quotationbanner = \App\Models\BusinessSetting::where('type', 'quotation')->first();
+$quotationdata = $quotationbanner ? json_decode($quotationbanner->value, true) : [];
+
+// Handle null or missing data
+$quotationDescription = isset($quotationdata['description']) ? $quotationdata['description'] : 'No RFQ data available.';
 ?>
 <section class="mainpagesection custom-dealrock-banner-large" style="background-color: var(--web-bg);">
     <div class="rfq-section bg-shimmer" data-bg="linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),url('/img/rfq-image-1.png')" data-bgtype='withlinear'>
@@ -14,7 +19,7 @@ $quotationdata = json_decode($quotationbanner, true) ?? [];
         <div class="rfq-info">
             <h2>Request for Quotations (RFQ)</h2>
             <p class="rfq-description" id="rfq-description">
-                tester
+                <?php echo $quotationDescription; ?>  <!-- Display the quotation description or default message -->
             </p>
             <a href="{{ route('seller') }}" class="view-more" style="text-decoration: none;">View More</a>
             <ul class="rfq-benefits">
@@ -55,49 +60,47 @@ $quotationdata = json_decode($quotationbanner, true) ?? [];
         </div>
     </div>
 </section>
+
 <script defer>
-    // console.log('validjs');
     $(document).ready(function() {
         function fetchQuotationData() {
             $.ajax({
                 url: '{{ route('rotating-leads') }}',
                 type: 'GET',
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content') // Ensure this meta tag is present
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(data) {
-                    if (data.status === 'success') {
+                    if (data.status === 'success' && data.data) {
                         const quotation = data.data;
-                        console.log(quotation); // Log the fetched quotation data
-                        // Update the RFQ description dynamically
+                        console.log(quotation);
                         const companyName = quotation.company_name ?
-                            quotation.company_name[0] + '*'.repeat(quotation.company_name.length -
-                                1) :
+                            quotation.company_name[0] + '*'.repeat(quotation.company_name.length - 1) :
                             'Unknown';
                         const description = `
-              ${companyName} from ${quotation.country} is looking for 
-              ${quotation.details ? quotation.details.substring(0, 50) + '...' : 'N/A'} 
-              and has received ${quotation.quotes_recieved} quotation(s).
-            `;
-                        $('#rfq-description').text(
-                        description); // Update the RFQ description in the DOM
+                            ${companyName} from ${quotation.country} is looking for 
+                            ${quotation.details ? quotation.details.substring(0, 50) + '...' : 'N/A'} 
+                            and has received ${quotation.quotes_recieved} quotation(s).
+                        `;
+                        $('#rfq-description').text(description);
                     } else {
-                        console.error('Failed to fetch quotation data:', data.message);
-                        $('#rfq-description').text('No RFQ data available.');
+                        console.error('No RFQ data available or failed to fetch.');
+                        $('#rfq-description').text('No RFQ data available. Please check back later.');
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching quotation data:', error);
+                    $('#rfq-description').text('Error fetching data. Please try again later.');
                 }
             });
         }
-        fetchQuotationData(); // Initial fetch
+        fetchQuotationData();
         setInterval(() => {
             fetchQuotationData(); // Fetch every 30 seconds
         }, 30000);
     });
 </script>
+
 <script defer>
     function NeedLogin() {
         console.log('worked login!');
@@ -106,10 +109,17 @@ $quotationdata = json_decode($quotationbanner, true) ?? [];
             window.location.href = "{{ route('customer.auth.login') }}";
         }, 2000);
     };
+
     $('#quotationButton').on('click', function(event) {
         event.preventDefault();
         const form = $(this).closest('form');
         const formData = new FormData(form[0]);
+
+        // Validate if required fields are filled
+        if (!formData.get('productName') || !formData.get('port') || !formData.get('mobile') || !formData.get('quantity') || !formData.get('unit')) {
+            toastr.error('Please fill all required fields.');
+            return;
+        }
 
         // Store the Quotation Data
         sessionStorage.setItem('productName', formData.get('productName'));

@@ -66,63 +66,71 @@
                 
                 @for ($i = 1; $i <= 3; $i++)
                 <div class="mb-4 border p-3 rounded">
-                    <h5>{{ translate('Section') }} {{ $i }}</h5>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">{{ translate('Image') }}</label>
-                        <input type="file" name="image_{{ $i }}" class="form-control">
-                        @if(!empty($existingData["image_$i"]))
-                            <img src="{{ asset('storage/' . $existingData["image_$i"]) }}" alt="Image {{ $i }}" class="mt-2" width="100">
-                        @endif
-                    </div>
-                    <input type="hidden" name="existing_image_{{ $i }}" value="{{ $existingData["image_$i"] }}">
-                    
-                    <div class="mb-3">
-                        <label class="form-label">{{ translate('Heading') }}</label>
-                        <input type="text" name="heading_{{ $i }}" class="form-control" value="{{ $existingData["heading_$i"] ?? '' }}">
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">{{ translate('Sub Text') }}</label>
-                        <input type="text" name="sub_text_{{ $i }}" class="form-control" value="{{ $existingData["sub_text_$i"] ?? '' }}">
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">{{ translate('Link') }}</label>
-                        <input type="text" name="link_{{ $i }}" class="form-control" value="{{ $existingData["link_$i"] ?? '' }}">
-                    </div>
+    <h5>{{ translate('Section') }} {{ $i }}</h5>
 
-                    <div class="mb-3">
-                        <label class="form-label">{{ translate('Sub Text Font Color') }}</label>
-                        <input type="color" name="sub_text_color_{{ $i }}" class="form-control form-control-color" value="{{ $existingData["sub_text_color_$i"] ?? '#000000' }}">
-                    </div>
-                    
-                    @for ($j = 1; $j <= 4; $j++)
-                    <div class="mb-3">
-                        <label class="form-label">{{ translate('Bauble Icon') }} {{ $j }}</label>
-                        <input type="file" name="bauble_icon_{{ $i }}_{{ $j }}" class="form-control">
-                        @if(!empty($existingData["bauble_icon_{$i}_{$j}"]))
-                            <img src="{{ asset('storage/' . $existingData["bauble_icon_{$i}_{$j}"]) }}" alt="Bauble Icon {{ $j }}" class="mt-2" width="50">
-                        @endif
-                    </div>
-                    <input type="hidden" name="existing_bauble_icon_{{$i}}_{{$j}}" value="{{ $existingData["bauble_icon_{$i}_{$j}"] }}">
+    {{-- Image Upload --}}
+    <div class="mb-3">
+        <label class="form-label">{{ translate('Image') }}</label>
+        <input type="file" name="image_{{ $i }}" class="form-control">
+        @if(!empty($existingData["image_$i"]))
+            <img src="{{ asset('storage/' . $existingData["image_$i"]) }}" alt="Image {{ $i }}" class="mt-2" width="100">
+        @endif
+    </div>
+    <input type="hidden" name="existing_image_{{ $i }}" value="{{ $existingData["image_$i"] ?? '' }}">
 
-                    <div class="mb-3">
-                        <label class="form-label">{{ translate('Bauble Text') }} {{ $j }}</label>
-                        <input type="text" name="bauble_text_{{ $i }}_{{ $j }}" class="form-control" value="{{ $existingData["bauble_text_{$i}_{$j}"] ?? '' }}">
-                    </div>
+    {{-- Heading --}}
+    <div class="mb-3">
+        <label class="form-label">{{ translate('Heading') }}</label>
+        <input type="text" name="heading_{{ $i }}" class="form-control" value="{{ $existingData["heading_$i"] ?? 'Default Heading' }}">
+    </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">{{ translate('Bauble Link') }} {{ $j }}</label>
-                        <input type="text" name="bauble_link_{{ $i }}_{{ $j }}" class="form-control form-control-color" value="{{ $existingData["bauble_link_{$i}_{$j}"] ?? '' }}">
-                    </div>
-                    @endfor
-                    
-                    <div class="mb-3">
-                        <label class="form-label">{{ translate('Bauble Text Font Color') }}</label>
-                        <input type="color" name="bauble_text_color_{{ $i }}" class="form-control form-control-color" value="{{ $existingData["bauble_text_color_$i"] ?? '#000000' }}">
-                    </div>
-                </div>
+    {{-- Sub Text --}}
+    <div class="mb-3">
+        <label class="form-label">{{ translate('Sub Text') }}</label>
+        <input type="text" name="sub_text_{{ $i }}" class="form-control" value="{{ $existingData["sub_text_$i"] ?? 'Default sub text' }}">
+    </div>
+
+    {{-- Link --}}
+    <div class="mb-3">
+        <label class="form-label">{{ translate('Link') }}</label>
+        <input type="text" name="link_{{ $i }}" class="form-control" value="{{ $existingData["link_$i"] ?? '#' }}">
+    </div>
+
+    {{-- Sub Text Font Color --}}
+    <div class="mb-3">
+        <label class="form-label">{{ translate('Sub Text Font Color') }}</label>
+        <input type="color" name="sub_text_color_{{ $i }}" class="form-control form-control-color" value="{{ $existingData["sub_text_color_$i"] ?? '#000000' }}">
+    </div>
+
+    {{-- Baubles --}}
+    @for ($j = 1; $j <= 4; $j++)
+        <div class="mb-3">
+            <label class="form-label">{{ translate('Bauble Icon') }} {{ $j }}</label>
+            <input type="file" name="bauble_icon_{{ $i }}_{{ $j }}" class="form-control">
+            @if(!empty($existingData["bauble_icon_{$i}_{$j}"]))
+                <img src="{{ asset('storage/' . $existingData["bauble_icon_{$i}_{$j}"]) }}" alt="Bauble Icon {{ $j }}" class="mt-2" width="50">
+            @endif
+        </div>
+        <input type="hidden" name="existing_bauble_icon_{{ $i }}_{{ $j }}" value="{{ $existingData["bauble_icon_{$i}_{$j}"] ?? '' }}">
+
+        <div class="mb-3">
+            <label class="form-label">{{ translate('Bauble Text') }} {{ $j }}</label>
+            <input type="text" name="bauble_text_{{ $i }}_{{ $j }}" class="form-control" value="{{ $existingData["bauble_text_{$i}_{$j}"] ?? 'Default Bauble Text' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">{{ translate('Bauble Link') }} {{ $j }}</label>
+            <input type="text" name="bauble_link_{{ $i }}_{{ $j }}" class="form-control" value="{{ $existingData["bauble_link_{$i}_{$j}"] ?? '#' }}">
+        </div>
+    @endfor
+
+    {{-- Bauble Text Color --}}
+    <div class="mb-3">
+        <label class="form-label">{{ translate('Bauble Text Font Color') }}</label>
+        <input type="color" name="bauble_text_color_{{ $i }}" class="form-control form-control-color" value="{{ $existingData["bauble_text_color_$i"] ?? '#000000' }}">
+    </div>
+</div>
+
                 @endfor
 
                 <button type="submit" class="btn btn-primary">{{ translate('Save Settings') }}</button>

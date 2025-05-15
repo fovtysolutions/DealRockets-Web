@@ -70,14 +70,17 @@
                                         <div class="job-detail">
                                             <img src="https://img.icons8.com/material-outlined/16/000000/home-office.png"
                                                 alt="work location" class="job-icon">
-                                            <span>Work from home</span>
+                                            <span>{{ $item->employment_space }}</span>
                                         </div>
                                     </div>
                                     <div class="job-details">
                                         <div class="job-detail">
                                             <img src="https://img.icons8.com/material-outlined/16/000000/marker.png"
                                                 alt="city" class="job-icon">
-                                            <span>London</span>
+                                            @php
+                                                $cityname = \App\Models\City::find($item->city)->name;
+                                            @endphp
+                                            <span>{{ $cityname }}</span>
                                         </div>
                                         <div class="job-detail">
                                             <img src="https://img.icons8.com/material-outlined/16/000000/clock.png"

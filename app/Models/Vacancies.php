@@ -17,6 +17,7 @@ class Vacancies extends Model
         'currency',
         'company_employees',
         'company_type',
+        'employment_space',
         'employment_type',
         'status',
         'category',

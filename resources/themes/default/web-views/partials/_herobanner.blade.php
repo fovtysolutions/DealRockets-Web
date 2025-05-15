@@ -76,7 +76,7 @@
             </div>
 
             <!-- Sidebar Section -->
-            <div class="flex-column gap-3 mt-md-0 mt-sm-2 sidebannerbox" style="gap:13px">
+            <div class="flex-column mt-md-0 mt-sm-2 sidebannerbox">
                 <div id="carouselExample1" class="carousel slide owl-carousel owl-theme">
                     <div class="item">
                         <div class="card image-wrapper shimmer">

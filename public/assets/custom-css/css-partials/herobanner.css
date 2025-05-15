@@ -639,14 +639,15 @@
 
 .globle-deals .sidebannerbox{
     padding: 0;
-    margin-left: 10px;
     width: 26%;
     display: flex;
+    gap: 10px;
 }
 
 .globle-deals .insideinsidebox{
     margin-bottom: 11.6px;
     width: 100%;
+    gap:13px;
 }
 
 .globle-deals .cardbottom{

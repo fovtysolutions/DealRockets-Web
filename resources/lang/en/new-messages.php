@@ -9423,4 +9423,5 @@ return [
 	"Contact Name" => "Contact Name",
 	"Department" => "Department",
 	"update_company_profile" => "Update company profile",
+	"Employment Space" => "Employment Space",
 ];

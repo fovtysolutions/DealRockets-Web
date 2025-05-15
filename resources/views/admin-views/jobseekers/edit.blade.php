@@ -62,6 +62,28 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        
+                                        <div class="col">
+                                            <!-- Employment Type -->
+                                            <div class="form-group">
+                                                <label for="employment_space">{{ translate('Employment Space') }}</label>
+                                                <select class="form-control" name="employment_space" id="employment_space"
+                                                    required>
+                                                    <option value="work-from-home"
+                                                        {{ old('employment_space',$vacancy->employment_space) == 'work-from-home' ? 'selected' : '' }}>
+                                                        Work From Home</option>
+                                                    <option value="in-office"
+                                                        {{ old('employment_space',$vacancy->employment_space) == 'in-office' ? 'selected' : '' }}>
+                                                        In Office</option>
+                                                    <option value="hybrid"
+                                                        {{ old('employment_space',$vacancy->employment_space) == 'hybrid' ? 'selected' : '' }}>
+                                                        Hybrid</option>
+                                                </select>
+                                                @error('employment_space')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col">

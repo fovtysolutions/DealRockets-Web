@@ -1,3 +1,11 @@
+#carouselExample .owl-dots{
+    bottom: 12px;
+    position: absolute;
+    justify-content: end;
+    display: flex;
+    padding-right: 19px;
+}
+
 /* Hero Section */
 .mainpagesection {
     margin: 0 auto;
@@ -626,13 +634,13 @@
 
 .globle-deals .mainbannerbox{
     padding: 0;
-    width: 70%;
+    width: 74%;
 }
 
 .globle-deals .sidebannerbox{
     padding: 0;
     margin-left: 10px;
-    width: 30%;
+    width: 26%;
     display: flex;
 }
 
@@ -846,14 +854,6 @@
         margin-bottom: 20px;
     }
 
-    .globle-deals .sidebar {
-        display: none;
-        width: 100%;
-        border: none;        
-        overflow: scroll;
-        height: 300px !important;
-    }
-
     .globle-deals .menu-toggle {
         display: block;
     }
@@ -934,6 +934,14 @@
     .globle-deals .insidebox{
         margin: 0;
         width: 100%;
+    }
+    
+    .globle-deals .sidebar {
+        display: none;
+        width: 100%;
+        border: none;        
+        overflow: scroll;
+        height: 300px !important;
     }
 
     .globle-deals .hidebelow728{

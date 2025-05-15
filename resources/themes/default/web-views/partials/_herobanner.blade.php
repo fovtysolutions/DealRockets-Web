@@ -66,12 +66,10 @@
         <div class="d-flex flex-row insideinsidebox">
             <!-- Carousel Section -->
             <div class="mainbannerbox">
-                <div id="carouselExample" class="carousel slide h-100">
-                    <div class="carousel-inner h-100">
-                        <div class="carousel-item active h-100">
-                            <div class="image-wrapper shimmer">
-                                <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
-                            </div>
+                <div id="carouselExample" class="carousel slide owl-carousel owl-theme">
+                    <div class="item">
+                        <div class="image-wrapper shimmer">
+                            <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
                         </div>
                     </div>
                 </div>
@@ -79,11 +77,19 @@
 
             <!-- Sidebar Section -->
             <div class="flex-column gap-3 mt-md-0 mt-sm-2 sidebannerbox" style="gap:13px">
-                <div class="card image-wrapper shimmer">
-                    <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                <div id="carouselExample1" class="carousel slide owl-carousel owl-theme">
+                    <div class="item">
+                        <div class="card image-wrapper shimmer">
+                            <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                        </div>
+                    </div>
                 </div>
-                <div class="card image-wrapper shimmer">
-                    <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                <div id="carouselExample2" class="carousel slide owl-carousel owl-theme">
+                    <div class="item">
+                        <div class="card image-wrapper shimmer">
+                            <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,7 +101,8 @@
             </div>
             <div class="card-group scroll-container" style="gap:10px; justify-content:space-around;">
                 <div class="cardbottom">
-                    <a href="{{ $firstbox['url'] ?? '#' }}" style="text-decoration: none;" class="image-wrapper shimmer">
+                    <a href="{{ $firstbox['url'] ?? '#' }}" style="text-decoration: none;"
+                        class="image-wrapper shimmer">
                         <img data-src="/storage/{{ $firstbox['image'] ?? 'default-image.jpg' }}" class="lazyload"
                             alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
@@ -104,7 +111,8 @@
                     </a>
                 </div>
                 <div class="cardbottom">
-                    <a href="{{ $secondbox['url'] ?? '#' }}" style="text-decoration: none;" class="image-wrapper shimmer">
+                    <a href="{{ $secondbox['url'] ?? '#' }}" style="text-decoration: none;"
+                        class="image-wrapper shimmer">
                         <img data-src="/storage/{{ $secondbox['image'] ?? 'default-image.jpg' }}" class="lazyload"
                             alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
@@ -113,7 +121,8 @@
                     </a>
                 </div>
                 <div class="cardbottom">
-                    <a href="{{ $thirdbox['url'] ?? '#' }}" style="text-decoration: none;" class="image-wrapper shimmer">
+                    <a href="{{ $thirdbox['url'] ?? '#' }}" style="text-decoration: none;"
+                        class="image-wrapper shimmer">
                         <img data-src="/storage/{{ $thirdbox['image'] ?? 'default-image.jpg' }}" class="lazyload"
                             alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
@@ -122,7 +131,8 @@
                     </a>
                 </div>
                 <div class="cardbottom">
-                    <a href="{{ $fourthbox['url'] ?? '#' }}" style="text-decoration: none;" class="image-wrapper shimmer">
+                    <a href="{{ $fourthbox['url'] ?? '#' }}" style="text-decoration: none;"
+                        class="image-wrapper shimmer">
                         <img data-src="/storage/{{ $fourthbox['image'] ?? 'default-image.jpg' }}" class="lazyload"
                             alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
@@ -131,7 +141,8 @@
                     </a>
                 </div>
                 <div class="cardbottom">
-                    <a href="{{ $fifthbox['url'] ?? '#' }}" style="text-decoration: none;" class="image-wrapper shimmer">
+                    <a href="{{ $fifthbox['url'] ?? '#' }}" style="text-decoration: none;"
+                        class="image-wrapper shimmer">
                         <img data-src="/storage/{{ $fifthbox['image'] ?? 'default-image.jpg' }}" class="lazyload"
                             alt="...">
                         <div class="card-bodybottom" style="background-color: #E2E8F0;">
@@ -148,17 +159,50 @@
 </div>
 </section>
 <script defer>
-    $(document).ready(function() {
-        $('#banner-carousel1').carousel({
+    function initiateCarousel() {
+        $('#carouselExample').owlCarousel({
+            items: 1,
+            loop: true,
+            nav: false,
+            dots: true,
+            margin: 30,
             autoplay: true,
-            loop: true, // Loop the carousel
-            margin: 10, // Space between items
-            responsiveClass: true, // Makes the carousel responsive
-            nav: false, // Disables navigation arrows
-            dots: {{ count($bannercard) + count($bannercardtwo) > 1 ? 'true' : 'false' }}, // Shows dots only if more than one banner
-            items: 1 // Only show one banner at a time
+            autoplayTimeout: 5000,
+            // lazyLoad: true,
+            smartSpeed: 800,
+            autoHeight: false,
         });
-    });
+    }
+
+    function initiateCarousel1() {
+        $('#carouselExample1').owlCarousel({
+            items: 1,
+            loop: true,
+            nav: false,
+            dots: true,
+            margin: 30,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            // lazyLoad: true,
+            smartSpeed: 800,
+            autoHeight: false,
+        });
+    }
+
+    function initiateCarousel2() {
+        $('#carouselExample2').owlCarousel({
+            items: 1,
+            loop: true,
+            nav: false,
+            dots: true,
+            margin: 30,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            // lazyLoad: true,
+            smartSpeed: 800,
+            autoHeight: false,
+        });
+    }
 </script>
 <script defer>
     document.addEventListener('DOMContentLoaded', function() {
@@ -180,27 +224,69 @@
             if (!wrapper || !referenceBox || !scrollBoxHeight) return;
 
             const setMaxHeight = () => {
+                if (wrapper.classList.contains('expanded')) return;
+
                 wrapper.style.maxHeight = 'none'; // reset to measure full
                 const fullHeight = wrapper.scrollHeight;
                 const refHeight = referenceBox.offsetHeight + scrollBoxHeight.offsetHeight - 60;
-                console.log("fullHeight:", fullHeight, "| refHeight:", refHeight);
-                if (fullHeight > refHeight) {
-                    wrapper.style.maxHeight = `${refHeight}px`;
-                } else {
-                    wrapper.style.maxHeight = `${fullHeight}px`;
-                }
+
+                const maxHeight = Math.min(fullHeight, refHeight);
+                wrapper.style.maxHeight = `${maxHeight}px`;
             };
 
-            // Wait a little for layout/rendering to settle
-            setTimeout(setMaxHeight, 100);
+            initiateCarousel();
+            initiateCarousel1();
+            initiateCarousel2();
 
+            // Debounce to prevent excessive calls
+            let resizeTimeout;
+            const debouncedSetMaxHeight = () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(setMaxHeight, 100);
+            };
+
+            // Initial
+            setMaxHeight();
+
+            // On window resize
             window.addEventListener('resize', () => {
-                if (!wrapper.classList.contains('expanded')) {
-                    setMaxHeight();
-                }
+                debouncedSetMaxHeight();
             });
+
+            // ResizeObserver for dynamic layout/element size changes
+            const resizeObserver = new ResizeObserver(() => {
+                debouncedSetMaxHeight();
+            });
+            resizeObserver.observe(referenceBox);
+            resizeObserver.observe(scrollBoxHeight);
+            resizeObserver.observe(wrapper);
+
+            // MutationObserver for DOM content changes
+            const mutationObserver = new MutationObserver(() => {
+                debouncedSetMaxHeight();
+            });
+            mutationObserver.observe(wrapper, {
+                childList: true,
+                subtree: true
+            });
+
+            // Final layout fallback on load (e.g., images, fonts)
+            window.addEventListener('load', () => setTimeout(() => {
+                setMaxHeight();
+            }, 300));
         } else {
             return;
         }
     });
+
+    function scrollRight() {
+        const container = document.querySelector('.scroll-container');
+        if (!container) return;
+
+        const scrollAmount = container.offsetWidth * 0.8; // Scroll by 80% of visible width
+        container.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    }
 </script>

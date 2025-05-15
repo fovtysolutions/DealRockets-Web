@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CV;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\CV;
 use Illuminate\Support\Facades\Storage;
@@ -11,12 +12,31 @@ use App\Services\CVService;
 use Brian2694\Toastr\Toastr;
 use App\Models\User;
 use App\Models\JobAppliers;
+use App\Models\Vacancies;
 
 class CVController extends Controller
 {
     public function index()
     {
-        return view('web.cv');
+        // Category Counter
+        $categories = Category::withCount('vacancies')->orderBy('vacancies_count', 'DESC')->limit(8)->get();
+
+        $jobspercategory = [];
+
+        foreach ($categories as $category) {
+            $jobspercategory[] = [
+                'name' => $category->name,
+                'count' => $category->vacancies_count,
+                'image' => $category->icon ?? null,
+            ];
+        }
+        $data['jobspercategory'] = $jobspercategory;
+
+        // Avaliable Jobs
+        $jobs = Vacancies::withCount('jobAppliers')->orderBy('job_appliers_count', 'DESC')->limit(8)->get();
+        $data['jobs'] = $jobs;
+        
+        return view('web.cv',$data);
     }
 
     public function cvpublic(Request $request){

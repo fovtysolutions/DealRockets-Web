@@ -61,6 +61,10 @@ class Category extends Model
         return $this->morphMany('App\Models\Translation', 'translationable');
     }
 
+    public function vacancies() {
+        return $this->belongsTo(Vacancies::class, 'id'); 
+    }
+
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'parent_id')->orderBy('priority', 'desc');

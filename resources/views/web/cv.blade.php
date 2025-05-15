@@ -11,7 +11,8 @@
                 <div class="hero-content">
                     <div class="hero-left">
                         <div class="logo-container">
-                            <img src="/img/a0b617ba94804b374f010991f905edd8.png" alt="DealRocket Logo" class="dealrocket-logo">
+                            <img src="/img/a0b617ba94804b374f010991f905edd8.png" alt="DealRocket Logo"
+                                class="dealrocket-logo">
                             <span class="industry-jobs">INDUSTRY JOB'S</span>
                         </div>
                         <h1 class="hero-title">Find the Right Opportunity</h1>
@@ -32,86 +33,18 @@
             <section class="job-categories">
                 <h2 class="section-title1">Job <span class="highlight">Categories</span></h2>
                 <div class="categories-grid">
-                    <div class="category-card">
-                        <div class="category-icon-container">
-                            <img src="https://img.icons8.com/ios/50/BF9E66/wheat.png" alt="Agriculture icon"
-                                class="category-icon">
+                    @foreach ($jobspercategory as $item)
+                        <div class="category-card">
+                            <div class="category-icon-container">
+                                <img src="{{ !empty($item['image']) ? '/storage/category/' . $item['image'] : '/images/missing_image.jpg' }}"
+                                    alt="{{ $item['name'] }}" class="category-icon">
+                            </div>
+                            <div class="category-info">
+                                <h3 class="category-title">{{ $item['name'] }}</h3>
+                                <p class="category-count">{{ $item['count'] }} Jobs Available</p>
+                            </div>
                         </div>
-                        <div class="category-info">
-                            <h3 class="category-title">Agriculture</h3>
-                            <p class="category-count">235 Jobs Available</p>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-icon-container">
-                            <img src="https://img.icons8.com/ios/50/BF9E66/factory.png" alt="Manufacturing icon"
-                                class="category-icon">
-                        </div>
-                        <div class="category-info">
-                            <h3 class="category-title">Manufacturing</h3>
-                            <p class="category-count">235 Jobs Available</p>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-icon-container">
-                            <img src="https://img.icons8.com/ios/50/BF9E66/cottage.png" alt="Real Estate icon"
-                                class="category-icon">
-                        </div>
-                        <div class="category-info">
-                            <h3 class="category-title">Real Estate</h3>
-                            <p class="category-count">235 Jobs Available</p>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-icon-container">
-                            <img src="https://img.icons8.com/ios/50/BF9E66/test-tube.png" alt="Chemicals icon"
-                                class="category-icon">
-                        </div>
-                        <div class="category-info">
-                            <h3 class="category-title">Chemicals</h3>
-                            <p class="category-count">235 Jobs Available</p>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-icon-container">
-                            <img src="https://img.icons8.com/ios/50/BF9E66/t-shirt.png" alt="Apparel icon"
-                                class="category-icon">
-                        </div>
-                        <div class="category-info">
-                            <h3 class="category-title">Apparel</h3>
-                            <p class="category-count">235 Jobs Available</p>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-icon-container">
-                            <img src="https://img.icons8.com/ios/50/BF9E66/heart-health.png" alt="Health icon"
-                                class="category-icon">
-                        </div>
-                        <div class="category-info">
-                            <h3 class="category-title">Health</h3>
-                            <p class="category-count">235 Jobs Available</p>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-icon-container">
-                            <img src="https://img.icons8.com/ios/50/BF9E66/electrical.png" alt="Electrician icon"
-                                class="category-icon">
-                        </div>
-                        <div class="category-info">
-                            <h3 class="category-title">Electrician</h3>
-                            <p class="category-count">235 Jobs Available</p>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-icon-container">
-                            <img src="https://img.icons8.com/ios/50/BF9E66/car.png" alt="Automobiles icon"
-                                class="category-icon">
-                        </div>
-                        <div class="category-info">
-                            <h3 class="category-title">Automobiles</h3>
-                            <p class="category-count">235 Jobs Available</p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </section>
 
@@ -120,232 +53,43 @@
                 <h2 class="section-title">Available <span class="highlight1">Job's</span></h2>
                 <div class="jobs-grid">
                     <div class="job-row">
-                        <div class="job-card">
-                            <div class="job-header">
-                                <h3 class="job-title">Vice President Marketing</h3>
-                                <span class="job-posted">9 hrs ago by <span
-                                        class="highlight2">eFinancialCareers</span></span>
-                            </div>
-                            <div class="job-details-container">
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/us-dollar.png"
-                                            alt="salary" class="job-icon">
-                                        <span>10,000 to 15,000</span>
+                        @foreach ($jobs as $item)
+                            <div class="job-card">
+                                <div class="job-header">
+                                    <h3 class="job-title">{{ $item->title }}</h3>
+                                    <span class="job-posted">{{ $item->created_at->diffForHumans() }} by <span
+                                            class="highlight2">{{ $item->company_name }}</span></span>
+                                </div>
+                                <div class="job-details-container">
+                                    <div class="job-details">
+                                        <div class="job-detail">
+                                            <img src="https://img.icons8.com/material-outlined/16/000000/us-dollar.png"
+                                                alt="salary" class="job-icon">
+                                            <span>{{ $item->currency }} {{ $item->salary_low }} to {{ $item->salary_high }}</span>
+                                        </div>
+                                        <div class="job-detail">
+                                            <img src="https://img.icons8.com/material-outlined/16/000000/home-office.png"
+                                                alt="work location" class="job-icon">
+                                            <span>Work from home</span>
+                                        </div>
                                     </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/home-office.png"
-                                            alt="work location" class="job-icon">
-                                        <span>Work from home</span>
+                                    <div class="job-details">
+                                        <div class="job-detail">
+                                            <img src="https://img.icons8.com/material-outlined/16/000000/marker.png"
+                                                alt="city" class="job-icon">
+                                            <span>London</span>
+                                        </div>
+                                        <div class="job-detail">
+                                            <img src="https://img.icons8.com/material-outlined/16/000000/clock.png"
+                                                alt="job type" class="job-icon">
+                                            <span>{{ $item->employment_type }}</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/marker.png"
-                                            alt="city" class="job-icon">
-                                        <span>London</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/clock.png"
-                                            alt="job type" class="job-icon">
-                                        <span>Permanent, full-time</span>
-                                    </div>
-                                </div>
+                                <p class="job-description">{{ $item->description }}</p>
+                                <button class="btn btn-outline-small">Apply Now</button>
                             </div>
-                            <p class="job-description">Eames is working with a cutting-edge insurance data and platform
-                                provider on the appointment of an Operations Manager to join their growing UK and European
-                                Operations team on a remote working basis.</p>
-                            <button class="btn btn-outline-small">Apply Now</button>
-                        </div>
-
-                        <div class="job-card">
-                            <div class="job-header">
-                                <h3 class="job-title">Vice President Marketing</h3>
-                                <span class="job-posted">9 hrs ago by <span
-                                        class="highlight2">eFinancialCareers</span></span>
-                            </div>
-                            <div class="job-details-container">
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/us-dollar.png"
-                                            alt="salary" class="job-icon">
-                                        <span>10,000 to 15,000</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/home-office.png"
-                                            alt="work location" class="job-icon">
-                                        <span>Work from home</span>
-                                    </div>
-                                </div>
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/marker.png"
-                                            alt="city" class="job-icon">
-                                        <span>London</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/clock.png"
-                                            alt="job type" class="job-icon">
-                                        <span>Permanent, full-time</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="job-description">Eames is working with a cutting-edge insurance data and platform
-                                provider on the appointment of an Operations Manager to join their growing UK and European
-                                Operations team on a remote working basis.</p>
-                            <button class="btn btn-outline-small">Apply Now</button>
-                        </div>
-
-                        <div class="job-card">
-                            <div class="job-header">
-                                <h3 class="job-title">Vice President Marketing</h3>
-                                <span class="job-posted">9 hrs ago by <span
-                                        class="highlight2">eFinancialCareers</span></span>
-                            </div>
-                            <div class="job-details-container">
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/us-dollar.png"
-                                            alt="salary" class="job-icon">
-                                        <span>10,000 to 15,000</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/home-office.png"
-                                            alt="work location" class="job-icon">
-                                        <span>Work from home</span>
-                                    </div>
-                                </div>
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/marker.png"
-                                            alt="city" class="job-icon">
-                                        <span>London</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/clock.png"
-                                            alt="job type" class="job-icon">
-                                        <span>Permanent, full-time</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="job-description">Eames is working with a cutting-edge insurance data and platform
-                                provider on the appointment of an Operations Manager to join their growing UK and European
-                                Operations team on a remote working basis.</p>
-                            <button class="btn btn-outline-small">Apply Now</button>
-                        </div>
-                        <div class="job-card">
-                            <div class="job-header">
-                                <h3 class="job-title">Vice President Marketing</h3>
-                                <span class="job-posted">9 hrs ago by <span
-                                        class="highlight2">eFinancialCareers</span></span>
-                            </div>
-                            <div class="job-details-container">
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/us-dollar.png"
-                                            alt="salary" class="job-icon">
-                                        <span>10,000 to 15,000</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/home-office.png"
-                                            alt="work location" class="job-icon">
-                                        <span>Work from home</span>
-                                    </div>
-                                </div>
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/marker.png"
-                                            alt="city" class="job-icon">
-                                        <span>London</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/clock.png"
-                                            alt="job type" class="job-icon">
-                                        <span>Permanent, full-time</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="job-description">Eames is working with a cutting-edge insurance data and platform
-                                provider on the appointment of an Operations Manager to join their growing UK and European
-                                Operations team on a remote working basis.</p>
-                            <button class="btn btn-outline-small">Apply Now</button>
-                        </div>
-
-                        <div class="job-card">
-                            <div class="job-header">
-                                <h3 class="job-title">Vice President Marketing</h3>
-                                <span class="job-posted">9 hrs ago by <span
-                                        class="highlight2">eFinancialCareers</span></span>
-                            </div>
-                            <div class="job-details-container">
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/us-dollar.png"
-                                            alt="salary" class="job-icon">
-                                        <span>10,000 to 15,000</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/home-office.png"
-                                            alt="work location" class="job-icon">
-                                        <span>Work from home</span>
-                                    </div>
-                                </div>
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/marker.png"
-                                            alt="city" class="job-icon">
-                                        <span>London</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/clock.png"
-                                            alt="job type" class="job-icon">
-                                        <span>Permanent, full-time</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="job-description">Eames is working with a cutting-edge insurance data and platform
-                                provider on the appointment of an Operations Manager to join their growing UK and European
-                                Operations team on a remote working basis.</p>
-                            <button class="btn btn-outline-small">Apply Now</button>
-                        </div>
-
-                        <div class="job-card">
-                            <div class="job-header">
-                                <h3 class="job-title">Vice President Marketing</h3>
-                                <span class="job-posted">9 hrs ago by <span
-                                        class="highlight2">eFinancialCareers</span></span>
-                            </div>
-                            <div class="job-details-container">
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/us-dollar.png"
-                                            alt="salary" class="job-icon">
-                                        <span>10,000 to 15,000</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/home-office.png"
-                                            alt="work location" class="job-icon">
-                                        <span>Work from home</span>
-                                    </div>
-                                </div>
-                                <div class="job-details">
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/marker.png"
-                                            alt="city" class="job-icon">
-                                        <span>London</span>
-                                    </div>
-                                    <div class="job-detail">
-                                        <img src="https://img.icons8.com/material-outlined/16/000000/clock.png"
-                                            alt="job type" class="job-icon">
-                                        <span>Permanent, full-time</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="job-description">Eames is working with a cutting-edge insurance data and platform
-                                provider on the appointment of an Operations Manager to join their growing UK and European
-                                Operations team on a remote working basis.</p>
-                            <button class="btn btn-outline-small">Apply Now</button>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </section>
@@ -378,7 +122,7 @@
                         </div>
                         <div class="hiring-right">
                             <img src="/img/image (2).png" alt="Hiring image" class="hiring-image">
-                        </div> 
+                        </div>
 
                     </div>
                 </section>

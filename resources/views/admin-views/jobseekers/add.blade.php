@@ -78,14 +78,35 @@
                                 <div class="col">
                                     <!-- Salary -->
                                     <div class="form-group">
-                                        <label for="salary">{{ translate('Salary') }}</label>
-                                        <input type="number" class="form-control" id="salary" name="salary"
-                                            step="0.01" value="{{ old('salary') }}">
-                                        @error('salary')
+                                        <label for="salary_low">{{ translate('Salary Low') }}</label>
+                                        <input type="number" class="form-control" id="salary_low" name="salary_low"
+                                            step="0.01" value="{{ old('salary_low') }}">
+                                        @error('salary_low')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
-
+                                </div>
+                                <div class="col">
+                                    <!-- Salary -->
+                                    <div class="form-group">
+                                        <label for="salary_high">{{ translate('Salary High') }}</label>
+                                        <input type="number" class="form-control" id="salary_high" name="salary_high"
+                                            step="0.01" value="{{ old('salary_high') }}">
+                                        @error('salary_high')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <!-- Salary -->
+                                    <div class="form-group">
+                                        <label for="currency">{{ translate('Currency') }}</label>
+                                        <input type="text" class="form-control" id="currency" name="currency"
+                                         value="{{ old('currency') }}">
+                                        @error('currency')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="col">
                                     <!-- Status -->
@@ -146,6 +167,17 @@
                                         <input type="file" class="form-control" name="company_logo" id="company_logo">
                                     </div>
                                 </div>
+                                <div class="col">
+                                    <!-- Company Name -->
+                                    <div class="form-group">
+                                        <label for="company_employees">{{ translate('Company Employees') }}</label>
+                                        <input type="text" class="form-control" id="company_employees" name="company_employees"
+                                            value="{{ old('company_employees') }}" required>
+                                        @error('company_employees')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -161,6 +193,17 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col">
+                                    <!-- Company Name -->
+                                    <div class="form-group">
+                                        <label for="company_type">{{ translate('Company Type') }}</label>
+                                        <input type="text" class="form-control" id="company_type" name="company_type"
+                                            value="{{ old('company_type') }}" required>
+                                        @error('company_type')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div class="col">
                                     <!-- Company Website -->
                                     <div class="form-group">

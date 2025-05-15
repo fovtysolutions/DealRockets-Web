@@ -78,4 +78,9 @@ class Vacancies extends Model
     {
         return $this->belongsTo(Country::class, 'country', 'id'); // Adjust 'country' and 'id' as per your database schema
     }
+
+    public function jobAppliers()
+    {
+        return $this->hasMany(JobAppliers::class, 'jobid');
+    }
 }

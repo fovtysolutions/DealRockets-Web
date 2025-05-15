@@ -143,7 +143,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                 <div class="contentgroup">
                     <img class="rectangle-stroke-2" src="/img/rectangle-20-stroke-1.svg" />
                     <div class="group-17">
-                        <img class="logo-3" src="/img/logo-2.png" />
+                        <a href="{{ url('/') }}">
+                            <img class="logo-3" src="/img/logo-2.png" />
+                        </a>
                         <div class="group-18">
                             <div class="group-19">
                                 <div class="overlap-group-4">
@@ -379,10 +381,10 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
     </div>
 </div>
 <div class="dropdown-nav" id="dropdownNav">
-    <div class="flexboxlogocross">
+    <a class="flexboxlogocross" href="{{ url('/') }}">
         <img class="logo-3" src="/img/logo-2.png" />
         <button class="drawer-close" onclick="toggleDropdown()">✕</button>
-    </div>
+    </a>
     <a href="{{ route('stocksale') }}">Stock Sale</a>
     <a href="{{ route('buyer') }}">Buy Leads</a>
     <a href="{{ route('seller') }}">Sell Offer</a>

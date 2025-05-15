@@ -6,7 +6,7 @@
             style="/* background-color: unset; */ margin-top: 320px; box-shadow: 0px 0px 1px 0px;">
 @endif
 <div class="globle-deals">
-    <div class="box flex p-0" style="max-width: 221px; height:auto;">
+    <div class="box flex p-0">
         <!-- Toggle Button for Small Screens -->
         <div class="btn menu-toggle d-flex justify-content-between d-md-none w-100 h-100">
             {{-- <i class="fa-solid fa-bars pr-2 align-items-center"></i> --}}

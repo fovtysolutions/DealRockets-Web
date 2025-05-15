@@ -1,5 +1,3 @@
-
-
 <?php
 
 use App\Enums\ViewPaths\Admin\FirebaseOTPVerification;

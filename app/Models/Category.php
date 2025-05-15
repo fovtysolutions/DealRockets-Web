@@ -52,6 +52,10 @@ class Category extends Model
         'updated_at' => 'datetime',
     ];
 
+    public function products() {
+        return $this->hasMany(Product::class)->orderBy('views', 'desc')->limit(5);
+    }
+
     public function translations(): MorphMany
     {
         return $this->morphMany('App\Models\Translation', 'translationable');

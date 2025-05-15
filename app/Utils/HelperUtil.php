@@ -20,189 +20,170 @@ use Illuminate\Support\Facades\DB;
 
 class HelperUtil
 {
-    private static function get_user_search($userId)
+/**
+     * Get all search tags and counts for a user.
+     */
+    private static function getUserSearch(int $userId): array
     {
-        // Fetch all searches for the given user ID
-        $existing_search = SearchHistUsers::where('user_id', $userId)->get(['tag', 'count']);
-    
-        if ($existing_search->isNotEmpty()) {
-            // Return the tags and their counts
+        $existingSearch = SearchHistUsers::where('user_id', $userId)->get(['tag', 'count']);
+
+        if ($existingSearch->isNotEmpty()) {
             return [
                 'status' => 'success',
-                'data' => $existing_search
+                'data' => $existingSearch
             ];
         }
-    
-        // Return a failure response if no data is found
+
         return [
             'status' => 'failure',
             'data' => [],
             'message' => 'No search history found for this user.'
         ];
     }
-    
-    public static function getsearchedproducts($existing)
+
+    /**
+     * Get products based on user's search tags combined with existing products.
+     */
+    public static function getSearchedProducts($existing)
     {
-        if(auth('customer')->check()){
-            // Get the authenticated user's ID
-            $userId = auth('customer')->id();
-
-            // Get the user's search tags
-            $response = self::get_user_search($userId);
-
-            // Check if there are any tags in the response
-            if ($response['status'] === 'success' && !empty($response['data'])) {
-                $searchTags = $response['data']->pluck('tag')->toArray(); // Extract tags as an array
-
-                // Get the IDs of tags in the Tag model that match the user's search tags
-                $tagIds = Tag::whereIn('tag', $searchTags)->pluck('id');
-
-                // Find product tags that match the tag IDs
-                $productTags = ProductTag::whereIn('tag_id', $tagIds)->get();
-
-                // Get the unique product IDs associated with the matching tags
-                $productIds = $productTags->pluck('product_id')->unique();
-
-                // Retrieve the products using the product IDs
-                $products = Product::whereIn('id', $productIds)->get();
-
-                $combinedArray = array_merge($products->toArray(),$existing->toArray());
-                
-                $limit = DB::table('business_settings')
-                ->where('type', 'trendingproducts')
-                ->value('value');
-
-                $limit = json_decode($limit, true)['limit'] ?? 12;
-                
-                $arraySliced = array_slice($combinedArray,0,$limit);
-
-                // Return the products and tags
-                return [
-                    'status' => 'success',
-                    'products' => $products,
-                    'matched_tags' => $searchTags,
-                    'array' => $arraySliced,
-                ];
-            } else if ($response['status'] === 'failure'){
-                return [
-                    'status' => 'success',
-                    'array' => $existing->toArray(),
-                ];
-            }
-        } else if(!auth('customer')->check()) {
+        if (!auth('customer')->check()) {
             return [
                 'status' => 'success',
                 'array' => $existing->toArray(),
             ];
-        } else {
-            // If no tags match or no search history is found, return failure
+        }
+
+        $userId = auth('customer')->id();
+        $response = self::getUserSearch($userId);
+
+        if ($response['status'] !== 'success' || empty($response['data'])) {
+            // No search tags found, return existing products only
             return [
-                'status' => 'failure',
-                'message' => 'No matching products found for the user search tags.',
+                'status' => 'success',
+                'array' => $existing->toArray(),
             ];
         }
-    }
-    
-    public static function getLatestTradeshows(){
-        $allTradeshows = Tradeshow::orderBy('start_date','desc')->get();
-        $tradeshows = $allTradeshows;
-        return $tradeshows;
+
+        $searchTags = $response['data']->pluck('tag')->toArray();
+
+        // Get matching tag IDs from Tag model
+        $tagIds = Tag::whereIn('tag', $searchTags)->pluck('id');
+
+        // Get product tags that match the tag IDs
+        $productTags = ProductTag::whereIn('tag_id', $tagIds)->get();
+
+        // Unique product IDs related to those tags
+        $productIds = $productTags->pluck('product_id')->unique();
+
+        // Retrieve matching products
+        $products = Product::whereIn('id', $productIds)->get();
+
+        // Combine searched products with existing ones
+        $combinedArray = array_merge($products->toArray(), $existing->toArray());
+
+        // Fetch limit from settings, default 12
+        $limitJson = DB::table('business_settings')
+            ->where('type', 'trendingproducts')
+            ->value('value');
+
+        $limit = 12; // Default limit
+        if ($limitJson) {
+            $decoded = json_decode($limitJson, true);
+            if (isset($decoded['limit']) && is_numeric($decoded['limit'])) {
+                $limit = (int) $decoded['limit'];
+            }
+        }
+
+        $arraySliced = array_slice($combinedArray, 0, $limit);
+
+        return [
+            'status' => 'success',
+            'products' => $products,
+            'matched_tags' => $searchTags,
+            'array' => $arraySliced,
+        ];
     }
 
-    public static function IncCVTopUp($userId, $userType, $amount) {
+    /**
+     * Get all tradeshows ordered by start date descending.
+     */
+    public static function getLatestTradeshows()
+    {
+        return Tradeshow::orderBy('start_date', 'desc')->get();
+    }
+
+    /**
+     * Increase CV top-up amount for given user and user type.
+     */
+    public static function incCvTopUp(int $userId, string $userType, int $amount): array
+    {
         try {
-            // Determine the model to use based on user type
-            switch ($userType):
-                case 'customer':
-                    $user = User::find($userId);
-                    if (!$user) {
-                        throw new Exception("User not found.");
-                    }
-                    break;
-    
-                case 'seller':
-                    $user = Seller::find($userId);
-                    if (!$user) {
-                        throw new Exception("Seller not found.");
-                    }
-                    break;
-    
-                default:
-                    throw new Exception("Invalid user type.");
-            endswitch;
-    
-            // Decode the existing mem_benefits JSON or initialize an empty array
-            $memBenefits = $user->mem_benefits ? json_decode($user->mem_benefits, true) : [];
-    
-            // Increase the cv_topup by the specified amount
-            if (!isset($memBenefits['cv_topup'])) {
-                $memBenefits['cv_topup'] = 0;
+            $user = self::findUserByType($userId, $userType);
+            if (!$user) {
+                throw new Exception(ucfirst($userType) . " not found.");
             }
-            $memBenefits['cv_topup'] += $amount;
-    
-            // Encode back to JSON and update the mem_benefits field
+
+            $memBenefits = $user->mem_benefits ? json_decode($user->mem_benefits, true) : [];
+
+            $memBenefits['cv_topup'] = ($memBenefits['cv_topup'] ?? 0) + $amount;
+
             $user->mem_benefits = json_encode($memBenefits);
             $user->save();
-    
-            // Return success response
+
             return [
                 'status' => 'success',
                 'message' => 'CV Top-up increased successfully.',
-                'new_cv_topup' => $memBenefits['cv_topup']
+                'new_cv_topup' => $memBenefits['cv_topup'],
             ];
-    
         } catch (Exception $e) {
-            // Return error message
             return [
                 'status' => 'error',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ];
         }
     }
 
-    public static function getCvTopUpValue($userId, $userType) {
+    /**
+     * Get CV top-up value for given user and user type.
+     */
+    public static function getCvTopUpValue(int $userId, string $userType): array
+    {
         try {
-            // Determine the model to use based on user type
-            switch ($userType):
-                case 'customer':
-                    $user = User::find($userId);
-                    if (!$user) {
-                        throw new Exception("User not found.");
-                    }
-                    break;
-    
-                case 'seller':
-                    $user = Seller::find($userId);
-                    if (!$user) {
-                        throw new Exception("Seller not found.");
-                    }
-                    break;
-    
-                default:
-                    throw new Exception("Invalid user type.");
-            endswitch;
-    
-            // Decode the existing mem_benefits JSON
+            $user = self::findUserByType($userId, $userType);
+            if (!$user) {
+                throw new Exception(ucfirst($userType) . " not found.");
+            }
+
             $memBenefits = $user->mem_benefits ? json_decode($user->mem_benefits, true) : [];
-    
-            // Get the cv_topup value or return 0 if not set
-            $cvTopUp = isset($memBenefits['cv_topup']) ? $memBenefits['cv_topup'] : 0;
-    
-            // Return the cv_topup value
+            $cvTopUp = $memBenefits['cv_topup'] ?? 0;
+
             return [
                 'status' => 'success',
-                'cv_topup' => $cvTopUp
+                'cv_topup' => $cvTopUp,
             ];
-    
         } catch (Exception $e) {
-            // Return error message
             return [
                 'status' => 'error',
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ];
         }
     }
 
+    /**
+     * Helper to find a user model instance by type.
+     */
+    private static function findUserByType(int $userId, string $userType)
+    {
+        switch ($userType) {
+            case 'customer':
+                return User::find($userId);
+            case 'seller':
+                return Seller::find($userId);
+            default:
+                throw new Exception("Invalid user type.");
+        }
+    }
+    
     public static function consumeCvTopUp($userId, $userType)
     {
         try {

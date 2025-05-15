@@ -621,7 +621,7 @@
 .globle-deals .insidebox{
     /* margin-left:20px; */
     padding: 0px;
-    width: 100%;
+    width: 80%;
 }
 
 .globle-deals .mainbannerbox{
@@ -638,7 +638,7 @@
 
 .globle-deals .insideinsidebox{
     margin-bottom: 11.6px;
-    width: 98%;
+    width: 100%;
 }
 
 .globle-deals .cardbottom{
@@ -667,7 +667,7 @@
 .globle-deals .scroll-wrapper {
     position: relative;
     overflow: hidden;
-    width: 98%;
+    width: 100%;
   }
   
 .globle-deals .scroll-container {
@@ -741,6 +741,7 @@
 
     .globle-deals .box{
         background-color: unset;
+        width: 20%;
     }
 
     .top-movers-container{
@@ -848,7 +849,9 @@
     .globle-deals .sidebar {
         display: none;
         width: 100%;
-        border: none;
+        border: none;        
+        overflow: scroll;
+        height: 300px !important;
     }
 
     .globle-deals .menu-toggle {
@@ -925,10 +928,12 @@
     .globle-deals .box{
         display: block;
         background: none;
+        width: 100%;
     }
 
     .globle-deals .insidebox{
         margin: 0;
+        width: 100%;
     }
 
     .globle-deals .hidebelow728{

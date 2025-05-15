@@ -56,7 +56,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens,StorageTrait;
+    use Notifiable, HasApiTokens, StorageTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -115,7 +115,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -167,6 +168,11 @@ class User extends Authenticatable
         return $this->hasMany(Wishlist::class, 'customer_id');
     }
 
+    public function membership()
+    {
+        return $this->hasOne(Membership::class, 'membership_id', 'id');
+    }
+
     public function orders(): hasMany
     {
         return $this->hasMany(Order::class, 'customer_id');
@@ -187,7 +193,7 @@ class User extends Authenticatable
     }
     public function refundOrders(): HasMany
     {
-        return $this->hasMany(RefundRequest::class, 'customer_id')->where('status','refunded');
+        return $this->hasMany(RefundRequest::class, 'customer_id')->where('status', 'refunded');
     }
 
     // Old Relation: compare_list
@@ -204,13 +210,13 @@ class User extends Authenticatable
         return $this->hasMany(Wishlist::class, 'customer_id');
     }
 
-    public function getImageFullUrlAttribute():array
+    public function getImageFullUrlAttribute(): array
     {
         $value = $this->image;
-        if (count($this->storage) > 0 ) {
-            $storage = $this->storage->where('key','image')->first();
+        if (count($this->storage) > 0) {
+            $storage = $this->storage->where('key', 'image')->first();
         }
-        return $this->storageLink('profile',$value,$storage['value'] ?? 'public');
+        return $this->storageLink('profile', $value, $storage['value'] ?? 'public');
     }
     protected $appends = ['image_full_url'];
 
@@ -218,7 +224,7 @@ class User extends Authenticatable
     {
         parent::boot();
         static::saved(function ($model) {
-            if($model->isDirty('image')){
+            if ($model->isDirty('image')) {
                 $storage = config('filesystems.disks.default') ?? 'public';
                 DB::table('storages')->updateOrInsert([
                     'data_type' => get_class($model),
@@ -232,5 +238,4 @@ class User extends Authenticatable
             }
         });
     }
-
 }

@@ -48,14 +48,15 @@
     }
 
     #employer-post-new-job .res-step-form {
-        border: 1px solid #d2d2d2;
-        box-shadow: 0px 6px 4px -2px silver;
+        /* border: 1px solid #d2d2d2; */
+        /* box-shadow: 0px 6px 4px -2px silver; */
         position:relative;
     }
 
-    #employer-post-new-job .res-step-form h3 {
+    #employer-post-new-job .res-step-form h3,
+    #employer-post-new-job .res-step-form h4 {
         margin: 10px 0;
-        color: #0aa7e1;
+        color: #0aa7e1 !important;
         font-size: 18px
     }
 
@@ -113,9 +114,9 @@
                         @csrf
                         <input class="jobidselected" id="jobidselected" name="jobid" value="" type="hidden">
                         <section id="employer-post-new-job">
-                            <div class="row">
-                                <div class="container">
-                                    <div class="row">
+                            <div>
+                                <div>
+                                    <div>
                                     <div class="col-xs-10 col-xs-offset-1" id="container">
                                         <div class="res-steps-container">
                                             <div class="res-steps res-step-one active" data-class=".res-form-one">
@@ -279,7 +280,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="text-center">
-                                                            <button type="button" class="btn btn-default col-xs-offset-1 btn res-btn-orange" data-class=".res-form-one">Next</button>
+                                                            <button type="button" class="btn btn-primary col-xs-offset-1 btn res-btn-orange" data-class=".res-form-one">Next</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -381,8 +382,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                 <div class="text-center">
-                                                        <button type="button" class="btn btn-default btn res-btn-gray" data-class=".res-form-two">Back</button>
-                                                        <button type="button" class="btn btn-default col-xs-offset-1 btn res-btn-orange" data-class=".res-form-two">Next</button>
+                                                        <button type="button" class="btn btn-primary btn res-btn-gray" data-class=".res-form-two">Back</button>
+                                                        <button type="button" class="btn btn-primary col-xs-offset-1 btn res-btn-orange" data-class=".res-form-two">Next</button>
                                                 </div>
                                                 </div>
                                             </form>
@@ -500,8 +501,8 @@
                                                 </div>
                                                 <div class="form-group">
                                                 <div class="text-center">
-                                                        <button type="button" class="btn btn-default btn res-btn-gray" data-class=".res-form-three">Back</button>
-                                                        <button type="button" class="btn btn-default col-xs-offset-1 btn res-btn-orange" data-class=".res-form-three">Next</button>
+                                                        <button type="button" class="btn btn-primary btn res-btn-gray" data-class=".res-form-three">Back</button>
+                                                        <button type="button" class="btn btn-primary col-xs-offset-1 btn res-btn-orange" data-class=".res-form-three">Next</button>
                                                 </div>
                                                 </div>
                                             </form>
@@ -596,8 +597,8 @@
                                                 </div>
                                                     <div class="form-group">
                                                         <div class="text-center">
-                                                            <button type="button" class="btn btn-default btn res-btn-gray" data-class=".res-form-four">Back</button>
-                                                            <button type="submit" class="btn btn-default col-xs-offset-1 btn res-btn-orange" data-class=".res-form-four">Submit</button>
+                                                            <button type="button" class="btn btn-primary btn res-btn-gray" data-class=".res-form-four">Back</button>
+                                                            <button type="submit" class="btn btn-primary col-xs-offset-1 btn res-btn-orange" data-class=".res-form-four">Submit</button>
                                                         </div>
                                                     </div>
                                                 </form>

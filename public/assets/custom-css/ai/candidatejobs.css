@@ -31,15 +31,15 @@
 
 .candidate-jobs .container {
     display: flex;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 2rem;
+    margin: 20px auto;
+    width: 100%;
+    padding: unset;
     gap: 1.5rem;
 }
 
 /* Sidebar Styles */
 .candidate-jobs .sidebar {
-    width: 250px;
+    /* width: 250px; */
     background-color: var(--white);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow);
@@ -51,6 +51,11 @@
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--border-color);
+}
+
+.candidate-jobs .filter-section .filter-options{
+    max-height: 300px;
+    overflow-y: scroll;
 }
 
 .candidate-jobs .filter-section:last-child {
@@ -106,6 +111,7 @@
 
 .candidate-jobs .salary-values {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     font-size: 0.9rem;
     color: var(--text-medium);
@@ -140,11 +146,16 @@
     align-items: center;
     margin-bottom: 0.6rem;
     cursor: pointer;
+    gap: 5px;
     font-size: 0.875rem;
 }
 
+.candidate-jobs .filter-option label {
+    margin-bottom: 0px;
+}
+
 .candidate-jobs input[type="checkbox"] {
-    display: none;
+    accent-color: rgba(191, 158, 102, 1);
 }
 
 .candidate-jobs .checkbox-custom {
@@ -288,6 +299,7 @@
     border: 1px solid var(--border-color);
     background-color: var(--white);
     border-radius: 4px;
+    text-wrap-mode: nowrap;
     font-size: 0.875rem;
     cursor: pointer;
 }
@@ -326,7 +338,7 @@
     width: 80px;
     height: 80px;
     border-radius: var(--border-radius-md);
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .candidate-jobs .company-meta h1 {
@@ -472,6 +484,19 @@
     color: var(--text-medium);
 }
 
+.candidate-jobs .showbelow768{
+    display: none;
+}
+
+.candidate-jobs .leftdiv{
+    width: 19%;
+}
+
+.candidate-jobs .rightdiv{
+    width: 81%;
+    gap: 1.5rem; 
+}
+
 /* Responsive Design */
 @media(max-width: 1100px) {
     
@@ -511,11 +536,11 @@
     }
 
     .candidate-jobs .jobs {
-        flex-direction: row;
+        flex-direction: column;
     }
 
     .candidate-jobs .job-details-panel {
-        max-width: 472px !important;
+        max-width: 472px;
     }
 
     .candidate-jobs .btn-gold {
@@ -527,6 +552,15 @@
         border-top-left-radius: 1.5rem !important;
         border-bottom-left-radius: 1.5rem !important;
 
+    }
+
+    .candidate-jobs .leftdiv{
+        width: 100%;
+    }
+
+    .candidate-jobs .rightdiv{
+        width: 100%;
+        gap: 1.5rem; 
     }
 
     .candidate-jobs .btn-gold:hover {
@@ -573,6 +607,10 @@
 
     hr {
         margin: 0 !important;
+    }
+
+    .candidate-jobs .showbelow768{
+        display: block;
     }
 
     .candidate-jobs .info-item {
@@ -673,7 +711,7 @@
     }
 
     .candidate-jobs .job-details-panel {
-        display: none !important;
+        display: none;
     }
 
     .candidate-jobs .action-icons {

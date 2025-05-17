@@ -136,57 +136,13 @@ class JobseekerController extends Controller
         $categoryId = $request->get('categoryid');
         $vacancy = $request->get('vacancy');
 
-        $location = $request->get('location');
-        $time = $request->get('time');
-        $company = $request->get('company');
-        $jobType = $request->get('job_type');
-        $experienceLevelFrom = $request->get('experience_level_from');
-        $experienceLevelTo = $request->get('experience_level_to');
-        $remote = $request->get('remote');
-
-        // Fetch job vacancies, optionally filtered by category and other filters
         $jobseekerQuery = Vacancies::query();
 
         $jobseekerQuery->where('Approved', '1');
         $jobseekerQuery->where('status', 'active');
-        $jobseekerQuery->whereHas('countryRelation',function($query){
-            $query->where('blacklist','no');
+        $jobseekerQuery->whereHas('countryRelation', function ($query) {
+            $query->where('blacklist', 'no');
         });
-
-        // Apply filters based on URL parameters
-        if ($location) {
-            $jobseekerQuery->where('location', $location);
-        }
-
-        if ($categoryId){
-            $jobseekerQuery->where('category',$categoryId);
-        }
-
-        if ($time) {
-            // Time filter logic
-            $date = now()->subDays($time); // Subtract the number of days based on the selected time range
-            $jobseekerQuery->whereDate('created_at', '>=', $date);
-        }
-
-        if ($company) {
-            $jobseekerQuery->where('company_name', $company);
-        }
-
-        if ($jobType) {
-            $jobseekerQuery->where('employment_type', $jobType);
-        }
-
-        if ($experienceLevelFrom) {
-            $jobseekerQuery->where('experience_required', '>=', $experienceLevelFrom);
-        }
-
-        if ($experienceLevelTo) {
-            $jobseekerQuery->where('experience_required', '<=', $experienceLevelTo);
-        }
-
-        if ($remote == '1') {
-            $jobseekerQuery->where('remote', 1);
-        }
 
         // Get the filtered job vacancies
         $jobseeker = $jobseekerQuery->paginate(20);
@@ -218,14 +174,135 @@ class JobseekerController extends Controller
         }
 
         // Get distinct values for locations, times, companies, job types, and experience levels
-        $locations = Vacancies::distinct()->pluck('location');
-        $times = Vacancies::distinct()->pluck('created_at');
-        $companies = Vacancies::distinct()->pluck('company_name');
-        $jobTypes = Vacancies::distinct()->pluck('employment_type');
-        $experienceLevels = Vacancies::distinct()->pluck('experience_required');
+        $currencies = Vacancies::distinct()->pluck('currency');
+        $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
+
+        $firstdata = optional($jobseeker->first());
 
         // Pass all data to the view
-        return view('web.jobseeker', compact('profile', 'jobseeker', 'countries', 'locations', 'times', 'companies', 'jobTypes', 'experienceLevels','newcategories'));
+        return view('web.jobseeker', compact('profile', 'countries', 'jobseeker', 'firstdata', 'newcategories', 'categories', 'currencies'));
+    }
+
+    public function dynamicData(Request $request)
+    {
+        $jobseekerQuery = Vacancies::query();
+
+        $jobseekerQuery->where('Approved', '1')
+            ->where('status', 'active')
+            ->whereHas('countryRelation', function ($query) {
+                $query->where('blacklist', 'no');
+            });
+
+        // Location, Category, Time, Company, Job Type, Experience Level, Remote
+        if ($request->filled('search_filter')) {
+            $jobseekerQuery->where('title','LIKE','%' . $request->search_filter . '%');
+        }
+
+        if ($request->filled('job_type')) {
+            $jobseekerQuery->where('employment_type', $request->job_type);
+        }
+
+        if ($request->filled('experience_level_from')) {
+            $jobseekerQuery->where('experience_required', '>=', $request->experience_level_from);
+        }
+
+        if ($request->filled('experience_level_to')) {
+            $jobseekerQuery->where('experience_required', '<=', $request->experience_level_to);
+        }
+
+        if ($request->filled('remote') && $request->remote == '1') {
+            $jobseekerQuery->where('remote', 1);
+        }
+
+        // Filter by salary range (from min_salary to max_salary)
+        if ($request->filled('min_salary') && $request->filled('max_salary')) {
+            $jobseekerQuery->where(function ($query) use ($request) {
+                $query->where(function ($q) use ($request) {
+                    $q->whereNotNull('salary_low')
+                        ->where('salary_low', '>=', $request->min_salary);
+                })->orWhere(function ($q) use ($request) {
+                    $q->whereNotNull('salary_high')
+                        ->where('salary_high', '<=', $request->max_salary);
+                });
+            });
+        } elseif ($request->filled('min_salary')) {
+            $jobseekerQuery->where(function ($query) use ($request) {
+                $query->whereNotNull('salary_low')
+                    ->where('salary_low', '>=', $request->min_salary);
+            });
+        } elseif ($request->filled('max_salary')) {
+            $jobseekerQuery->where(function ($query) use ($request) {
+                $query->whereNotNull('salary_high')
+                    ->where('salary_high', '<=', $request->max_salary);
+            });
+        }
+
+        if ($request->filled('currencies')) {
+            $jobseekerQuery->whereIn('currency', $request->currencies);
+        }
+
+        if ($request->filled('specializations')) {
+            $jobseekerQuery->whereIn('category', $request->specializations);
+        }
+
+        if ($request->filled('job_types')) {
+            $jobseekerQuery->whereIn('employment_type', $request->job_types);
+        }
+
+        if ($request->filled('posted_by')) {
+            if(in_array('Deal Rocket',$request->posted_by)){    
+                // Jobs posted by admin
+                $jobseekerQuery->whereNotNull('admin_id');
+            } else {
+                $jobseekerQuery->whereNull('admin_id');
+            }
+        }
+
+        if ($request->filled('min_experience')) {
+            $jobseekerQuery->where('experience_required', '>=', $request->min_experience);
+        }
+
+        if ($request->filled('max_experience')) {
+            $jobseekerQuery->where('experience_required', '<=', $request->max_experience);
+        }
+
+        $jobseeker = $jobseekerQuery->paginate(20);
+
+        $html = view('web.dynamic-partials.dynamic-vacancies', compact('jobseeker'))->render();
+        $pagination = $jobseeker->links()->render();
+
+        return response()->json([
+            'html' => $html,
+            'pagination' => $pagination,
+        ]);
+    }
+
+    public function jobseekerDynamicView(Request $request)
+    {
+        $jobseeker = $request->input('id');
+        if ($jobseeker) {
+            $firstdata = Vacancies::find('id');
+             if (Auth('customer')->check()) {
+                $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
+                if (isset($membership['error'])) {
+                    $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
+                }
+            } else {
+                $membership = ['status' => 'NotMade', 'message' => 'Membership Not Avaliable'];
+            }
+            if ($firstdata) {
+                return response()->json([
+                    'status' => 'success',
+                    'html' => view('web.dynamic-partials.dynamic-vacanciesview', compact('firstdata','membership'))->render(),
+                ]);
+            }
+            return response()->json([
+                'status' => 'fail',
+            ]);
+        }
+        return response()->json([
+            'status' => 'fail',
+        ]);
     }
 
     public function updateStatus(Request $request)
@@ -364,7 +441,7 @@ class JobseekerController extends Controller
     public function create()
     {
         // Get categories for the dropdown
-        $categories = JobCategory::where('active','1')->get();
+        $categories = JobCategory::where('active', '1')->get();
         $countries = CountrySetupController::getCountries();
 
         // Return the create view with the categories
@@ -377,7 +454,7 @@ class JobseekerController extends Controller
     public function vendorcreate()
     {
         // Get categories for the dropdown
-        $categories = JobCategory::where('active','1')->get();
+        $categories = JobCategory::where('active', '1')->get();
         $countries = CountrySetupController::getCountries();
 
         // Return the create view with the categories
@@ -409,16 +486,16 @@ class JobseekerController extends Controller
             $userId = $userdata['user_id'] ?? null;
             $role = $userdata['role'] ?? null;
 
-            if ($role == 'seller'){
+            if ($role == 'seller') {
                 $vendorid = $userId;
-            } else if ($role == 'admin'){
+            } else if ($role == 'admin') {
                 $adminid = $userId;
             } else {
                 $vendorid = null;
                 $adminid = null;
                 return back()
-                ->withInput()
-                ->with('error', 'An error occurred while creating the vacancy');
+                    ->withInput()
+                    ->with('error', 'An error occurred while creating the vacancy');
             }
 
             // Create a new vacancy
@@ -510,7 +587,7 @@ class JobseekerController extends Controller
         $vacancy->certifications_required = implode(',', $vacancy_certs);
         $vacancy->benefits = implode(',', $vacancy_benefits);
 
-        $categories = JobCategory::where('active','1')->get();
+        $categories = JobCategory::where('active', '1')->get();
         $countries = CountrySetupController::getCountries();
         return view('admin-views.jobseekers.edit', compact('vacancy', 'categories', 'countries'));
     }
@@ -527,7 +604,7 @@ class JobseekerController extends Controller
         $vacancy->certifications_required = implode(',', $vacancy_certs);
         $vacancy->benefits = implode(',', $vacancy_benefits);
 
-        $categories = JobCategory::where('active','1')->get();
+        $categories = JobCategory::where('active', '1')->get();
         $countries = CountrySetupController::getCountries();
         return view('vendor-views.jobseekers.edit', compact('vacancy', 'categories', 'countries'));
     }
@@ -906,19 +983,20 @@ class JobseekerController extends Controller
         }
     }
 
-    public function consultant_membership(Request $request){
-        if ($request->isMethod('get')){
-            $query = User::where('typerole','findtalent');
+    public function consultant_membership(Request $request)
+    {
+        if ($request->isMethod('get')) {
+            $query = User::where('typerole', 'findtalent');
             $search = $request->input('search');
-            if ($search){
-                $query = $query->where(function($q) use ($search){
+            if ($search) {
+                $query = $query->where(function ($q) use ($search) {
                     $q->where('name', 'LIKE', "%{$search}%")
-                      ->orWhere('email', 'LIKE', "%{$search}%")
-                      ->orWhere('phone', 'LIKE', "%{$search}%");
+                        ->orWhere('email', 'LIKE', "%{$search}%")
+                        ->orWhere('phone', 'LIKE', "%{$search}%");
                 });
             }
             $consultants = $query->paginate(10);
-            return view('admin-views.jobseekers.consultant_membership.index',compact('consultants'));
+            return view('admin-views.jobseekers.consultant_membership.index', compact('consultants'));
         }
     }
 
@@ -933,21 +1011,21 @@ class JobseekerController extends Controller
             $userId = $userdata['user_id'] ?? null;
             $role = $userdata['role'] ?? null;
 
-            if ($role == 'seller'){
+            if ($role == 'seller') {
                 $vendorid = $userId;
-                $jobs = Vacancies::where('user_id',$vendorid)->get()->pluck('id');
-            } else if ($role == 'admin'){
+                $jobs = Vacancies::where('user_id', $vendorid)->get()->pluck('id');
+            } else if ($role == 'admin') {
                 $adminid = $userId;
-                $jobs = Vacancies::where('admin_id',$adminid)->get()->pluck('id');
+                $jobs = Vacancies::where('admin_id', $adminid)->get()->pluck('id');
             } else {
                 $vendorid = null;
                 $adminid = null;
                 return back()
-                ->withInput()
-                ->with('error', 'An error occurred while creating the vacancy');
+                    ->withInput()
+                    ->with('error', 'An error occurred while creating the vacancy');
             }
 
-            $query = $query->whereIn('jobid',$jobs);
+            $query = $query->whereIn('jobid', $jobs);
 
             // Get the search input
             $search = $request->input('search');
@@ -956,8 +1034,8 @@ class JobseekerController extends Controller
             if ($search) {
                 $query = $query->whereHas('user', function ($q) use ($search) {
                     $q->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('email', 'LIKE', "%{$search}%")
-                    ->orWhere('phone', 'LIKE', "%{$search}%");
+                        ->orWhere('email', 'LIKE', "%{$search}%")
+                        ->orWhere('phone', 'LIKE', "%{$search}%");
                 })->orWhereHas('job', function ($q) use ($search) {
                     $q->where('title', 'LIKE', "%{$search}%");
                 });
@@ -984,8 +1062,8 @@ class JobseekerController extends Controller
             if ($search) {
                 $query = $query->whereHas('user', function ($q) use ($search) {
                     $q->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('email', 'LIKE', "%{$search}%")
-                    ->orWhere('phone', 'LIKE', "%{$search}%");
+                        ->orWhere('email', 'LIKE', "%{$search}%")
+                        ->orWhere('phone', 'LIKE', "%{$search}%");
                 })->orWhereHas('job', function ($q) use ($search) {
                     $q->where('title', 'LIKE', "%{$search}%");
                 });
@@ -997,7 +1075,7 @@ class JobseekerController extends Controller
             // Return the view with data
             return view('admin-views.jobseekers.job_applications.index', $data);
         }
-    }                   
+    }
 
     public function registered_candidates(Request $request)
     {
@@ -1007,8 +1085,8 @@ class JobseekerController extends Controller
             $search = $request->input('search');
             if ($search) {
                 $query = $query->where('full_name', 'LIKE', "%{$search}%")
-                               ->orWhere('email', 'LIKE', "%{$search}%")
-                               ->orWhere('phone', 'LIKE', "%{$search}%");
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('phone', 'LIKE', "%{$search}%");
             }
 
             $data['candidates'] = $query->paginate(10);

@@ -634,14 +634,14 @@
 
 .globle-deals .mainbannerbox{
     padding: 0;
-    width: 74%;
+    width: 73%;
 }
 
 .globle-deals .sidebannerbox{
     padding: 0;
     width: 26%;
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
 }
 
 .globle-deals .insideinsidebox{

@@ -285,6 +285,8 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::post('customerjob-status',[JobseekerController::class,'customerjob_status'])->name('customerjob-status')->middleware('customer');
     Route::post('customerjob-shortlist',[JobseekerController::class,'customer_shortlist'])->name('customerjob-shortlist')->middleware('customer');
     Route::post('applicants/{id}',[JobseekerController::class,'getapplicants'])->name('getapplicants');
+    Route::get('dynamic-jobs',[JobseekerController::class,'dynamicData'])->name('dynamic-jobs');
+    Route::get('dynamic-jobview',[JobseekerController::class, 'jobseekerDynamicView'])->name('dynamic-jobview');
     
     // Talentfinder Controller
     Route::get('talent-finder',[TalentfinderController::class,'webindex'])->name('talentfinder');

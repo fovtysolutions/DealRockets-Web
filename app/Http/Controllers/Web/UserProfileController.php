@@ -12,6 +12,7 @@ use App\Utils\Helpers;
 use App\Events\OrderStatusEvent;
 use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\DeliveryMan;
 use App\Models\DeliveryZipCode;
@@ -54,9 +55,7 @@ class UserProfileController extends Controller
 {
     use CommonTrait, PdfGenerator;
 
-    public function __construct(private Order $order, private Seller $seller, private Product $product, private Review $review, private DeliveryMan $deliver_man, private ProductCompare $compare, private Wishlist $wishlist, private readonly BusinessSettingRepositoryInterface $businessSettingRepo, private readonly RobotsMetaContentRepositoryInterface $robotsMetaContentRepo)
-    {
-    }
+    public function __construct(private Order $order, private Seller $seller, private Product $product, private Review $review, private DeliveryMan $deliver_man, private ProductCompare $compare, private Wishlist $wishlist, private readonly BusinessSettingRepositoryInterface $businessSettingRepo, private readonly RobotsMetaContentRepositoryInterface $robotsMetaContentRepo) {}
 
     public function user_profile(Request $request)
     {
@@ -81,8 +80,8 @@ class UserProfileController extends Controller
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         $countries = CountrySetupController::getCountries();
         $userId = Auth::Guard('customer')->user()->id;
-        $userjobs = Vacancies::where('user_id', $userId)->where('Approved','1')->get();
-        $jobs_posted = Vacancies::where('user_id', $userId)->where('Approved','1')->pluck('id');
+        $userjobs = Vacancies::where('user_id', $userId)->where('Approved', '1')->get();
+        $jobs_posted = Vacancies::where('user_id', $userId)->where('Approved', '1')->pluck('id');
         $jobapplys = [];
         foreach ($jobs_posted as $jobs) {
             $jobapplys[] = [
@@ -146,28 +145,46 @@ class UserProfileController extends Controller
         $countries = CountrySetupController::getCountries();
 
         if ($profile) {
-            // Decoding Some Inputs
-            $profile->languages = json_decode($profile->languages, true);
-            $profile->languages = implode(',', $profile->languages);
+            if (isset($profile->languages)) {
+                $profile->languages = json_decode($profile->languages, true);
+                $profile->languages = implode(',', $profile->languages);
+            }
+            if (isset($profile->skills)) {
+                $profile->skills = json_decode($profile->skills, true);
+                $profile->skills = implode(',', $profile->skills);
+            }
+            if (isset($profile->preferred_locations)) {
+                $profile->preferred_locations = json_decode($profile->preferred_locations, true);
+                $profile->preferred_locations = implode(',', $profile->preferred_locations);
+            }
+            if (isset($profile->references)) {
+                $profile->references = json_decode($profile->references, true);
+                $profile->references = implode(',', $profile->references);
+            }
+            if (isset($profile->portfolio_items)) {
+                $profile->portfolio_items = json_decode($profile->portfolio_items, true);
+                $profile->portfolio_items = implode(',', $profile->portfolio_items);
+            }
+            if (isset($profile->videos)) {
+                $profile->videos = json_decode($profile->videos, true);
+                $profile->videos = implode(',', $profile->videos);
+            }
+            if (isset($profile->previous_employers)) {
+                $profile->previous_employers = json_decode($profile->previous_employers, true);
+                $profile->previous_employers = implode(',', $profile->previous_employers);
+            }
 
-            $profile->skills = json_decode($profile->skills, true);
-            $profile->skills = implode(',', $profile->skills);
+            $currencies = TableJobProfile::distinct()->pluck('currency');
+            $keywords = TableJobProfile::distinct()->pluck('skills');
+            $industries = Category::all();
 
-            $profile->preferred_locations = json_decode($profile->preferred_locations, true);
-            $profile->preferred_locations = implode(',', $profile->preferred_locations);
-
-            $profile->references = json_decode($profile->references, true);
-            $profile->references = implode(',', $profile->references);
-
-            $profile->portfolio_items = json_decode($profile->portfolio_items, true);
-            $profile->portfolio_items = implode(',', $profile->portfolio_items);
-
-            $profile->videos = json_decode($profile->videos, true);
-            $profile->videos = implode(',', $profile->videos);
-
-            return view('web.jobprofile', compact('profile', 'countries'));
+            return view('web.jobprofile', compact('profile', 'countries', 'currencies', 'keywords', 'industries'));
         }
-        return view('web.jobprofile', compact('countries','profile'));
+
+        $currencies = TableJobProfile::distinct()->pluck('currency');
+        $keywords = TableJobProfile::distinct()->pluck('skills');
+        $industries = Category::all();
+        return view('web.jobprofile', compact('countries', 'profile', 'currencies', 'keywords', 'industries'));
     }
 
     public function updatejobprofile(Request $request)
@@ -237,6 +254,8 @@ class UserProfileController extends Controller
             'profile_views' => 'nullable|integer',
             'applications_sent' => 'nullable|integer',
             'connections' => 'nullable|integer',
+            'currency' => 'string',
+            'previous_employers' => 'string',
         ]);
 
         $validated['user_id'] = $user;
@@ -246,6 +265,7 @@ class UserProfileController extends Controller
         $validated['references'] = json_encode(explode(',', $validated['references']));
         $validated['portfolio_items'] = json_encode(explode(',', $validated['portfolio_items']));
         $validated['videos'] = json_encode(explode(',', $validated['videos']));
+        $validated['previous_employers'] = json_encode(explode(',', $validated['previous_employers']));
 
         // Fetch existing profile
         $profile = TableJobProfile::where('user_id', $user)->first();
@@ -1181,10 +1201,11 @@ class UserProfileController extends Controller
         return view(VIEW_FILE_NAMES['user_coupons'], compact('coupons'));
     }
 
-    public function getfavourites(Request $request){
+    public function getfavourites(Request $request)
+    {
         $user = auth('customer')->user(); // Or use auth()->user() based on guard
-        $favourites = Favourites::where('user_id', $user->id)->where('role','customer')->get();
-    
+        $favourites = Favourites::where('user_id', $user->id)->where('role', 'customer')->get();
+
         return view('web.getfavourites', compact('favourites'));
     }
 }

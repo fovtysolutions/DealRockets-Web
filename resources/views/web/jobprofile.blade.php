@@ -1,6 +1,6 @@
 @extends('layouts.front-end.app')
 
-@section('title',translate('Job Profile'. ' | ' . $web_config['name']->value))
+@section('title', translate('Job Profile' . ' | ' . $web_config['name']->value))
 
 @push('css_or_js')
     <link rel="stylesheet"
@@ -95,10 +95,10 @@
                                 <div class="col-md-4">
                                     <label for="country" class="form-label">{{ translate('Country') }}</label>
                                     <select type="text" class="form-control" id="country" name="country">
-                                        <option value="" name="country">Select a Country</option>
+                                        <option value="{{ isset($profile->country) ? $profile->country : '' }}" name="country">Select a Country</option>
                                         @foreach ($countries as $country)
-                                            <option value="{{ $country->id }}" name="{{ $country->short_name }}">
-                                                {{ $country->country_name }}
+                                            <option value="{{ $country->id }}" name="{{ $country->name }}">
+                                                {{ $country->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -106,13 +106,13 @@
                                 <div class="col-md-4">
                                     <label for="state" class="form-label">{{ translate('State') }}</label>
                                     <select type="text" class="form-control" id="state" name="state">
-                                        <option value="">Select a Country</option>
+                                        <option value="{{ isset($profile->state) ? $profile->state : '' }}">Select a Country</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="city" class="form-label">{{ translate('City') }}</label>
                                     <select type="text" class="form-control" id="city" name="city">
-                                        <option value="">Select a State</option>
+                                        <option value="{{ isset($profile->city) ? $profile->city : '' }}">Select a State</option>
                                     </select>
                                 </div>
                             </div>
@@ -153,8 +153,9 @@
                                         class="form-label">{{ translate('Profile Photo') }}</label>
                                     <input type="file" class="form-control" id="profile_photo" name="profile_photo">
                                     @if ($profile && $profile->profile_photo)
-                                    <img src="{{ asset('storage/'.$profile->profile_photo) }}" alt="Profile Photo" width="100">
-                                @endif
+                                        <img src="{{ asset('storage/' . $profile->profile_photo) }}" alt="Profile Photo"
+                                            width="100">
+                                    @endif
                                 </div>
                             </div>
 
@@ -187,29 +188,56 @@
                                 <div class="col-md-6">
                                     <label for="graduation_year"
                                         class="form-label">{{ translate('Graduation Year') }}</label>
-                                        <input type="year" pattern="\d{4}" class="form-control" id="graduation_year"
+                                    <input type="year" pattern="\d{4}" class="form-control" id="graduation_year"
                                         name="graduation_year"
                                         value="{{ old('graduation_year', $profile->graduation_year ?? '') }}">
                                 </div>
                             </div>
 
-                            <!-- Additional Courses -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="additional_courses"
-                                        class="form-label">{{ translate('Additional Courses') }}</label>
-                                    <textarea class="form-control" id="additional_courses" name="additional_courses">{{ old('additional_courses', $profile->additional_courses ?? '') }}</textarea>
+                            <div class="row">
+                                <!-- Additional Courses -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="additional_courses"
+                                            class="form-label">{{ translate('Additional Courses') }}</label>
+                                        <textarea class="form-control" id="additional_courses" name="additional_courses">{{ old('additional_courses', $profile->additional_courses ?? '') }}</textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Currency -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="currency" class="form-label">{{ translate('Currency') }}</label>
+                                        <input class="form-control" id="currency" name="currency"
+                                            value="{{ old('currency', $profile->currency ?? '') }}"></input>
+                                    </div>
+                                </div>
+
+                                <!-- Previous Employees -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="previous_employers"
+                                            class="form-label">{{ translate('Previous Employers') }}</label>
+                                        <textarea class="form-control" id="previous_employers" name="previous_employers" rows="6"
+                                            placeholder="Example:&#10;Emirates Trading LLC - Sales Manager (Present)&#10;Gulf Info - Sales Executive (2019 - 2021)">
+                                            {{ old('previous_employers', $profile->previous_employers ?? '') }}
+                                        </textarea>
+                                        <small class="text-muted">Format: Company Name - Job Title (Years)</small>
+                                    </div>
+                                </div>
+
+
+                                <!-- Certifications -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="certifications"
+                                            class="form-label">{{ translate('Certifications') }}</label>
+                                        <textarea class="form-control" id="certifications" name="certifications">{{ old('certifications', $profile->certifications ?? '') }}</textarea>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Certifications -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="certifications"
-                                        class="form-label">{{ translate('Certifications') }}</label>
-                                    <textarea class="form-control" id="certifications" name="certifications">{{ old('certifications', $profile->certifications ?? '') }}</textarea>
-                                </div>
-                            </div>
+
 
                             <div class="row">
                                 <!-- Languages -->
@@ -338,9 +366,28 @@
                                     <div class="mb-3">
                                         <label for="employment_type"
                                             class="form-label">{{ translate('Employment Type') }}</label>
-                                        <input type="text" class="form-control" id="employment_type"
-                                            name="employment_type"
-                                            value="{{ old('employment_type', $profile->employment_type ?? '') }}">
+                                        <select class="form-control" id="employment_type" name="employment_type">
+                                            <option value="">Select Job Type</option>
+                                            <option value="Full-Time"
+                                                {{ old('employment_type', $profile->employment_type ?? '') == 'Full-Time' ? 'selected' : '' }}>
+                                                Full-Time</option>
+                                            <option value="Part-Time"
+                                                {{ old('employment_type', $profile->employment_type ?? '') == 'Part-Time' ? 'selected' : '' }}>
+                                                Part-Time</option>
+                                            <option value="Weekly"
+                                                {{ old('employment_type', $profile->employment_type ?? '') == 'Weekly' ? 'selected' : '' }}>
+                                                Weekly</option>
+                                            <option value="Hourly"
+                                                {{ old('employment_type', $profile->employment_type ?? '') == 'Hourly' ? 'selected' : '' }}>
+                                                Hourly</option>
+                                            <option value="Contract"
+                                                {{ old('employment_type', $profile->employment_type ?? '') == 'Contract' ? 'selected' : '' }}>
+                                                Contract</option>
+                                            <option value="Freelancing"
+                                                {{ old('employment_type', $profile->employment_type ?? '') == 'Freelancing' ? 'selected' : '' }}>
+                                                Freelancing</option>
+                                        </select>
+
                                     </div>
                                 </div>
                             </div>
@@ -378,8 +425,15 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="industry" class="form-label">{{ translate('Industry') }}</label>
-                                        <input type="text" class="form-control" id="industry" name="industry"
-                                            value="{{ old('industry', $profile->industry ?? '') }}">
+                                        <select class="form-control" id="industry" name="industry">
+                                            <option value="">Select Industry</option>
+                                            @foreach ($industries as $industry)
+                                                <option value="{{ $industry }}"
+                                                    {{ old('industry', $profile->industry ?? '') == $industry ? 'selected' : '' }}>
+                                                    {{ $industry->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 

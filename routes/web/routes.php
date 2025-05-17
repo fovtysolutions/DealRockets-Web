@@ -237,7 +237,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     // CV Controllers
     Route::post('cv',[CVController::class,'store'])->name('storecv');
     Route::post('cvpublic',[CVController::class,'cvpublic'])->name('cvpublic');
-    Route::get('cv',[CVController::class,'index'])->name('sendcv');
+    Route::get('industry-jobs',[CVController::class,'index'])->name('sendcv');
 
     // Details Controller
     Route::get('info',[WebController::class,'webinfo'])->name('webinfo');
@@ -253,8 +253,8 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
 
     // Trade Show Controller
     Route::get('tradeshows',[TradeshowController::class,'index'])->name('tradeshow');
-    Route::get('tradeshow/{name}/{id}',[TradeshowController::class,'detailsview'])->name('tradeshow.view');
-    Route::get('tradeshow/filter-by-country/{search}/{country}/{industry}/{company}',[TradeshowController::class,'filterview'])->name('tradeshow.filter');
+    Route::get('tradeshows/{name}/{id}',[TradeshowController::class,'detailsview'])->name('tradeshow.view');
+    Route::get('tradeshows/filter-by-country/{search}/{country}/{industry}/{company}',[TradeshowController::class,'filterview'])->name('tradeshow.filter');
     Route::get('tradeshow-dynamic',[TradeshowController::class,'dynamicData'])->name('tradeshow-dynamic');
 
     // Agro Tradex Controller
@@ -277,7 +277,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::post('/chat/setopenstatus',[CustomChatController::class,'setOpenStatus'])->name('set-open-status');
 
     // Jobseeker Controller
-    Route::get('job-seeker',[JobseekerController::class,'webindex'])->name('jobseeker');
+    Route::get('industry-jobs/job-seeker',[JobseekerController::class,'webindex'])->name('jobseeker');
     Route::post('get-data-from-job/{id}',[JobseekerController::class,'get_data_from_job']);
     Route::post('store-job-seeker-details',[JobseekerController::class,'applybyform'])->name('apply_by_form');
     Route::post('customer-job-destroy/{id}',[JobseekerController::class,'customerjob_destroy'])->name('customerjob_destroy')->middleware('customer');
@@ -287,9 +287,10 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::post('applicants/{id}',[JobseekerController::class,'getapplicants'])->name('getapplicants');
     Route::get('dynamic-jobs',[JobseekerController::class,'dynamicData'])->name('dynamic-jobs');
     Route::get('dynamic-jobview',[JobseekerController::class, 'jobseekerDynamicView'])->name('dynamic-jobview');
-    
+    Route::get('dynamic-jobprofile',[TalentfinderController::class, 'get_dynamic_data'])->name('dynamic-jobprofile');
+
     // Talentfinder Controller
-    Route::get('talent-finder',[TalentfinderController::class,'webindex'])->name('talentfinder');
+    Route::get('industry-jobs/talent-finder',[TalentfinderController::class,'webindex'])->name('talentfinder');
     Route::post('get-talent-by-id/{id}',[TalentfinderController::class,'get_data_candidate'])->name('gettalentbyid');
 
     // Country Filtering Route

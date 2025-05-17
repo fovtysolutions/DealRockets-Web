@@ -181,7 +181,11 @@
 
   .element-mobile .text-wrapper-2:hover{
     color: #FE4E44;
-  } 
+  }
+  
+  .element-mobile .active-menu{
+    color: #FE4E44 !important;
+  }
 
   .element-mobile .text-wrapper-3:hover{
     color: #FE4E44;

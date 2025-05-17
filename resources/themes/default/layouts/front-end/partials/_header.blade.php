@@ -30,18 +30,26 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                             </div>
                         </div>
                         <div class="navbar-3">
-                            <a class="text-wrapper-2 deleight" href="{{ route('home') }}">Home</a>
-                            <a class="text-wrapper-3 delseven" href="{{ route('stocksale') }}">Stock Sale</a>
-                            <a class="text-wrapper-3 delsix" href="{{ route('buyer') }}">Buy Leads</a>
-                            <a class="text-wrapper-3 delfive" href="{{ route('seller') }}">Sell Offer</a>
-                            <a class="text-wrapper-3 delfour" href="{{ route('dealassist') }}">Deal Assist</a>
-                            <a class="text-wrapper-3 delone" href="{{ route('sendcv') }}">Industry Jobs</a>
-                            <div class="frame-2 deltwo"><a class="text-wrapper-3" href="{{ route('tradeshow') }}">Trade
-                                    Shows</a></div>
-                            <div class="frame-2 delthree">
-                                <a class="text-wrapper-3" href="{{ route('vendor.auth.registration.index') }}">Vendor
-                                    Zone</a>
+                            <a class="text-wrapper-3 deleight" href="{{ route('home') }}" data-menu="">Home</a>
+                            <a class="text-wrapper-3 delseven" href="{{ route('stocksale') }}"
+                                data-menu="stock-sale">Stock Sale</a>
+                            <a class="text-wrapper-3 delsix" href="{{ route('buyer') }}" data-menu="buy-leads">Buy
+                                Leads</a>
+                            <a class="text-wrapper-3 delfive" href="{{ route('seller') }}" data-menu="sell-offer">Sell
+                                Offer</a>
+                            <a class="text-wrapper-3 delfour" href="{{ route('dealassist') }}"
+                                data-menu="deal-assist">Deal Assist</a>
+                            <a class="text-wrapper-3 delone" href="{{ route('sendcv') }}"
+                                data-menu="industry-jobs">Industry Jobs</a>
+                            <div class="frame-2 deltwo">
+                                <a class="text-wrapper-3" href="{{ route('tradeshow') }}" data-menu="tradeshow">Trade
+                                    Shows</a>
                             </div>
+                            <div class="frame-2 delthree">
+                                <a class="text-wrapper-3" href="{{ route('vendor.auth.registration.index') }}"
+                                    data-menu="vendorzone">Vendor Zone</a>
+                            </div>
+
                         </div>
                         <div class="frame-6 delnine">
                             <a href="{{ route('webinfo') }}">
@@ -532,6 +540,21 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                     changehere.name = 'search_query';
                 });
             }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('[data-menu]');
+            const currentPath = window.location.pathname;
+
+            links.forEach(link => {
+                const menuPath = link.getAttribute('data-menu');
+                if (currentPath.startsWith(menuPath)) {
+                    link.classList.add('active-menu');
+                } else {
+                    link.classList.remove('active-menu');
+                }
+            });
         });
     </script>
     <script defer>

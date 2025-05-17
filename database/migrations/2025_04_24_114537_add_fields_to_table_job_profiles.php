@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('table_job_profiles', function (Blueprint $table) {
-            $table->string('currency');
-            $table->longText('previous_employers');
+            $table->string('currency')->nullable();
+            $table->longText('previous_employers')->nullable();
         });
     }
 

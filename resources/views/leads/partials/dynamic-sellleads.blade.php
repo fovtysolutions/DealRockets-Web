@@ -94,7 +94,7 @@
                         $role = $userdata['role'] ?? null;
                     @endphp
                     <button class="contact-btn" data-toggle="modal"
-                        data-target="#inquireButton{{ $seller->id }}">Contact seller</button>
+                        data-target="#inquireButton{{ $seller->id }}">Contact Seller</button>
                     <div class="seller-name">{{ $shopName }}</div>
                     <div class="company-name">{{ $shopAddress }}</div>
                 </div>

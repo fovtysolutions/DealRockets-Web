@@ -9424,4 +9424,7 @@ return [
 	"Department" => "Department",
 	"update_company_profile" => "Update company profile",
 	"Employment Space" => "Employment Space",
+	"Job Profile | Deal Rocket" => "Job Profile | Deal Rocket",
+	"Previous Employees" => "Previous Employees",
+	"Previous Employers" => "Previous Employers",
 ];

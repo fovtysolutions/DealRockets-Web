@@ -71,6 +71,8 @@ class TableJobProfile extends Model
         'profile_views',
         'applications_sent',
         'connections',
+        'currency',
+        'previous_employers',
     ];
 
     // The attributes that should be hidden for arrays (e.g., password)

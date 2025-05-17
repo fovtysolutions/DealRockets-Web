@@ -55,7 +55,7 @@
     /* width: 8rem; */
     overflow-y: scroll;
     margin-top: 0.75rem;
-    background-color: #e0dce24a;
+    /* background-color: #e0dce24a; */
 }
 
 .sale-offer-page .category-list {
@@ -67,7 +67,7 @@
     /* width: 199px; */
     overflow-y: scroll;
     margin-top: 0.75rem;
-    background-color: #e0dce24a;
+    /* background-color: #e0dce24a; */
 }
 
 .sale-offer-page .filter-item {
@@ -318,8 +318,9 @@
     border-top: 1px solid #D5D5D5;
     border-bottom: 1px solid #D5D5D5;
     border-left: 1px solid #D5D5D5;
-    padding: 11px 17px;
-    text-align: left;
+    padding: 11px 0px;
+    text-align: center;
+    text-wrap-mode: nowrap;
 }
 
 .sale-offer-page .detail-value {

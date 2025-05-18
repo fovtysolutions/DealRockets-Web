@@ -57,17 +57,18 @@ class TradeshowController extends Controller
         private readonly DealOfTheDayRepositoryInterface $dealOfTheDayRepo,
         private readonly ReviewRepositoryInterface $reviewRepo,
         private readonly BannerRepositoryInterface $bannerRepo,
-    ) {}
-    
+    ) {
+    }
+
     public function index(Request $request)
     {
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
-        
+
         $query = Tradeshow::query();
-        
-        $query->whereHas('countryRelation', function($query) {
+
+        $query->whereHas('countryRelation', function ($query) {
             $query->whereRaw('blacklist = ?', ['no']);
-        });        
+        });
 
         if ($request->filled('name')) {
             $query->where('description', 'LIKE', '%' . $request->name . '%');
@@ -84,9 +85,14 @@ class TradeshowController extends Controller
         $tradeshows = $query->paginate(9);
 
         $bannerslimit = BusinessSetting::where('type', 'tradeshowbannerrotatingbox')->first();
-        $banners = $bannerslimit ? json_decode($bannerslimit->value, true) : [];
-        $banners = $banners['tradeshowbannerrotatingbox'];
+        $banners = [];
 
+        if ($bannerslimit) {
+            $decoded = json_decode($bannerslimit->value, true);
+            if (is_array($decoded) && array_key_exists('tradeshowbannerrotatingbox', $decoded)) {
+                $banners = $decoded['tradeshowbannerrotatingbox'];
+            }
+        }
         $industries = Category::all();
         $countries = Tradeshow::select('country')->distinct()->pluck('country');
         $locations = CountrySetupController::getCountries();
@@ -99,7 +105,15 @@ class TradeshowController extends Controller
             ->take(10)
             ->get();
         $featuredOrganizers = Tradeshow::where('featured', '1')->take(10)->get();
-        $rotatingbox = json_decode(BusinessSetting::where('type', 'tradeshowrotatingbox')->first()->value, true)['tradeshowrotatingbox'];
+        $rotatingbox = [];
+
+        $setting = BusinessSetting::where('type', 'tradeshowrotatingbox')->first();
+        if ($setting) {
+            $decoded = json_decode($setting->value, true);
+            if (is_array($decoded) && array_key_exists('tradeshowrotatingbox', $decoded)) {
+                $rotatingbox = $decoded['tradeshowrotatingbox'];
+            }
+        }
 
         return view('tradeshow.index', compact(
             'categories',
@@ -125,11 +139,11 @@ class TradeshowController extends Controller
         $industries = TradeCategory::where('active', '1')->get();
         $locations = CountrySetupController::getCountries();
         $related = Tradeshow::orderBy('popularity', 'DESC')
-        ->where('country', $tradeshow->country)
-        ->where('id', '!=', $id) // Exclude the current tradeshow
-        ->take(4)
-        ->get();
-        return view('tradeshow.detail', compact('tradeshow', 'bannerslimit', 'banners', 'industries', 'locations','related'));
+            ->where('country', $tradeshow->country)
+            ->where('id', '!=', $id) // Exclude the current tradeshow
+            ->take(4)
+            ->get();
+        return view('tradeshow.detail', compact('tradeshow', 'bannerslimit', 'banners', 'industries', 'locations', 'related'));
     }
 
     public function filterview(Request $request, $search, $country, $industry, $company)
@@ -160,8 +174,8 @@ class TradeshowController extends Controller
         }
 
         // Filter by company if provided
-        if (!($company == 'all')){
-            $query->where('company_name',$company);
+        if (!($company == 'all')) {
+            $query->where('company_name', $company);
         }
 
         // Paginate results
@@ -170,36 +184,37 @@ class TradeshowController extends Controller
         return view('tradeshow.filter', compact('tradeshows', 'banners', 'industries', 'locations'));
     }
 
-    public function dynamicData(Request $request) {
+    public function dynamicData(Request $request)
+    {
 
         // Start building the query for Tradeshow
         $query = Tradeshow::query();
-        
+
         // Filter by country if necessary
-        $query->whereHas('countryRelation', function($query) {
+        $query->whereHas('countryRelation', function ($query) {
             $query->whereRaw('blacklist = ?', ['no']);
         });
-        
+
         // Filter by description/name if it's provided
         if ($request->filled('name')) {
             $query->where('description', 'LIKE', '%' . $request->name . '%');
         }
-        
+
         // Filter by country if it's an array of selected countries
         if ($request->has('country') && is_array($request->country)) {
             $query->whereIn('country', $request->country);
         }
-        
+
         // Filter by industry if it's an array of selected industries
         if ($request->has('industry') && is_array($request->industry)) {
             $query->whereIn('industry', $request->industry);
         }
-        
+
         $page = $request->get('page', 1);
-        
+
         // Get the paginated results (9 per page)
         $tradeshows = $query->paginate(9, ['*'], 'page', $page);
-        
+
         // If it's an AJAX request, return only the partial view with trade show cards
         if ($request->ajax()) {
             return response()->json([
@@ -207,14 +222,14 @@ class TradeshowController extends Controller
                 'pagination' => $tradeshows->links('custom-paginator.custom')->render(),
             ]);
         }
-    
+
         // Otherwise, return the full page
         return response()->json([
             'html' => view('tradeshow.partials.dynamic-list', compact('tradeshows'))->render(),
             'pagination' => $tradeshows->links('custom-paginator.custom')->render(),
         ]);
-    }        
-    
+    }
+
     public function add_new()
     {
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');

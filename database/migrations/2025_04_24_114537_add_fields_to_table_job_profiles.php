@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('table_job_profiles', function (Blueprint $table) {
+        Schema::table('table_jobprofile', function (Blueprint $table) {
             $table->string('currency')->nullable();
             $table->longText('previous_employers')->nullable();
         });
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('table_job_profiles', function (Blueprint $table) {
+        Schema::table('table_jobprofile', function (Blueprint $table) {
             $table->dropColumn('currency');
             $table->dropColumn('previous_employers');
         });

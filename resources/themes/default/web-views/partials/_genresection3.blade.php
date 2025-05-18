@@ -20,7 +20,7 @@ $getcategoryid = optional(Category::where('name', $homepagesetting[3]['category_
     <div class="sourcenow-sec">
         <div class="sourcemaindiv d-flex">
             <!-- Left Banner Section -->
-            <div class="sourcefirstdiv bg-shimmer" data-bg='{{ 'storage/' . ($homepagesetting[3]['background_image'] ?? 'default-bg.jpg') }}'>
+            <div class="sourcefirstdiv bg-shimmer" data-bg='{{ isset($homepagesetting[0]['background_image']) ? asset('storage/' . $homepagesetting[0]['background_image']) : asset('/images/placeholderimage.webp') }}'>
                 <div class="cnt-1">
                     <div class="text-overlay">
                         <h4 class="title fourthshow" style="color:{{$text_color}} !important; font-size: 20px;">
@@ -53,7 +53,7 @@ $getcategoryid = optional(Category::where('name', $homepagesetting[3]['category_
                                             <div class="product-name text-left d-flex flex-column justify-content-center">
                                                 <p class="custom-dealrock-text">{{ $product['name'] }}</p>
                                             </div>
-                                            <img data-src="storage/{{ $product['image'] }}" alt="product" class="source-product-img lazyload align-self-end" />
+                                            <img data-src="{{ isset($product['image']) ? asset('storage/' . $product['image']) : asset('/images/placeholderimage.webp') }}" alt="product" class="source-product-img lazyload align-self-end" />
                                         </div>
                                     </a>
                                 </div>
@@ -76,7 +76,7 @@ $getcategoryid = optional(Category::where('name', $homepagesetting[3]['category_
                                             <div class="product-name text-left d-flex flex-column justify-content-center">
                                                 <p class="custom-dealrock-text">{{ $product['name'] }}</p>
                                             </div>
-                                            <img data-src="storage/{{ $product['image'] }}" alt="product" class="source-product-img lazyload align-self-end" />
+                                            <img data-src="{{ isset($product['image']) ? asset('storage/' . $product['image']) : asset('/images/placeholderimage.webp') }}" alt="product" class="source-product-img lazyload align-self-end" />
                                         </div>
                                     </a>
                                 </div>
@@ -99,7 +99,7 @@ $getcategoryid = optional(Category::where('name', $homepagesetting[3]['category_
                                             <div class="product-name text-left d-flex flex-column justify-content-center">
                                                 <p class="custom-dealrock-text">{{ $product['name'] }}</p>
                                             </div>
-                                            <img data-src="storage/{{ $product['image'] }}" alt="product" class="source-product-img lazyload align-self-end" />
+                                            <img data-src="{{ isset($product['image']) ? asset('storage/' . $product['image']) : asset('/images/placeholderimage.webp') }}" alt="product" class="source-product-img lazyload align-self-end" />
                                         </div>
                                     </a>
                                 </div>

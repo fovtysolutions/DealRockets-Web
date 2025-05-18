@@ -1,8 +1,16 @@
 <section class="mainpagesection" style="gap: 20px;display: flex;flex-direction: column; background-color: var(--web-bg) !important;">
-@include('web-views.partials._genresection')
-@include('web-views.partials._genresection1')
-@include('web-views.partials._genresection2')
-@include('web-views.partials._genresection3')
+@if (!empty($homepagesetting[0]['products']))
+    @include('web-views.partials._genresection')
+@endif
+@if (!empty($homepagesetting[0]['products']))
+    @include('web-views.partials._genresection1')
+@endif
+@if (!empty($homepagesetting[0]['products']))
+    @include('web-views.partials._genresection2')
+@endif
+@if (!empty($homepagesetting[0]['products']))
+    @include('web-views.partials._genresection3')
+@endif
 </section>
 <script defer>
     document.addEventListener("DOMContentLoaded", function () {

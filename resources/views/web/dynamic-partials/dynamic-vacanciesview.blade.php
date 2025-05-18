@@ -1,36 +1,49 @@
 <button type="button" class="close showbelow768" aria-label="Close" onclick="toggleDetailBox()">
     <span aria-hidden="true">&times;</span>
 </button>
+
 <div class="job-header-panel">
     <div class="company-info">
-        <img src="{{ isset($firstdata->company_logo) ? 'storage/' . $firstdata->company_logo : '/img/image 154 (1).png' }}"
-            alt="Company Logo" class="company-logo">
+        <img src="{{ isset($firstdata->company_logo) && $firstdata->company_logo
+    ? asset('storage/' . $firstdata->company_logo)
+    : asset('/img/image 154 (1).png') }}" alt="Company Logo" class="company-logo">
+
         <div class="company-meta">
-            <h1>{{ $firstdata->title }}</h1>
-            <p>{{ $firstdata->company_name }} - {{ $firstdata->company_address }}</p>
-            <p class="posted-time">Posted {{ $firstdata->created_at->diffForHumans() }}</p>
+            <h1>{{ $firstdata->title ?? 'No Title Provided' }}</h1>
+            <p>
+                {{ $firstdata->company_name ?? 'Company name unavailable' }} -
+                {{ $firstdata->company_address ?? 'Address unavailable' }}
+            </p>
+            <p class="posted-time">
+                Posted {{ optional($firstdata->created_at)->diffForHumans() ?? 'Date not available' }}
+            </p>
         </div>
     </div>
+
     <div class="action-icons">
-        <button class="share-btn" onclick="copyLinkToClipboard()"><i class="fas fa-share-alt"></i></button>
+        <button class="share-btn" onclick="copyLinkToClipboard()">
+            <i class="fas fa-share-alt"></i>
+        </button>
         {{-- <button class="more-btn"><i class="fas fa-ellipsis-h"></i></button> --}}
     </div>
 </div>
 
 <div class="action-buttons">
     <button class="apply-now-btn" data-toggle="modal" data-target="#modalJobApply">Apply Now</button>
+
     @php
         $user = auth('customer')->user();
-        if ($user) {
+        $isFavourite = false;
+        if ($user && isset($firstdata->id)) {
             $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($firstdata->id, $user->id);
-        } else {
-            $isFavourite = false;
         }
     @endphp
-    @if (auth('customer')->user())
-        <button class="save-btn" onclick="makeFavourite(this)" data-id="{{ $firstdata->id }}"
-            data-userid="{{ $user->id }}" data-type="industryjob"
-            data-role="{{ auth()->user()->role ?? 'customer' }}">{{ $isFavourite ? 'Saved' : 'Save' }}</button>
+
+    @if ($user)
+        <button class="save-btn" onclick="makeFavourite(this)" data-id="{{ $firstdata->id ?? '' }}"
+            data-userid="{{ $user->id ?? '' }}" data-type="industryjob" data-role="{{ $user->role ?? 'customer' }}">
+            {{ $isFavourite ? 'Saved' : 'Save' }}
+        </button>
     @else
         <button class="save-btn" onclick="sendtologin()">Save</button>
     @endif
@@ -42,19 +55,24 @@
     <div class="job-info-left">
         <div class="info-item">
             <i class="fa-sharp fa-solid fa-dollar-sign"></i>
-            <span>{{ $firstdata->salary_low }} to {{ $firstdata->salary_high }} {{ $firstdata->currency }}</span>
+            <span>
+                {{ $firstdata->salary_low ?? 'N/A' }} to {{ $firstdata->salary_high ?? 'N/A' }}
+                {{ $firstdata->currency ?? '' }}
+            </span>
         </div>
         <div class="info-item">
             <i class="fas fa-map-marker-alt"></i>
-            <span>{{ \App\Models\City::where('id', $firstdata->city)->first()->name }}</span>
+            <span>
+                {{ optional(\App\Models\City::find($firstdata->city))->name ?? 'Unknown Location' }}
+            </span>
         </div>
         <div class="info-item">
             <i class="fas fa-home"></i>
-            <span>{{ $firstdata->employment_space }}</span>
+            <span>{{ $firstdata->employment_space ?? 'Not specified' }}</span>
         </div>
         <div class="info-item">
             <i class="fa-sharp fa-solid fa-house"></i>
-            <span>{{ $firstdata->employment_type }}</span>
+            <span>{{ $firstdata->employment_type ?? 'Not specified' }}</span>
         </div>
     </div>
 
@@ -62,8 +80,9 @@
 
     <div class="job-info-right">
         <h3>Company</h3>
-        <p>{{ $firstdata->company_employees }} employee</p>
-        <p>{{ \App\Models\Category::find($firstdata->category)->name }}</p>
+        <p>{{ $firstdata->company_employees ? $firstdata->company_employees . ' employee' : 'Employee count unavailable' }}
+        </p>
+        <p>{{ optional(\App\Models\Category::find($firstdata->category))->name ?? 'Category unavailable' }}</p>
     </div>
 </div>
 
@@ -72,7 +91,7 @@
 <div class="job-description-section">
     <h3>Job Description</h3>
     <div class="description-text">
-        {{ $firstdata->description }}
+        {{ $firstdata->description ?? 'No description provided.' }}
     </div>
 </div>
 
@@ -80,28 +99,30 @@
     <div class="contact-row">
         <div class="contact-item">
             <i class="fas fa-envelope"></i>
-            <span>{{ $firstdata->company_email }}</span>
+            <span>{{ $firstdata->company_email ?? 'Email not available' }}</span>
         </div>
         <div class="contact-item">
             <i class="fas fa-globe"></i>
             <span>
-                <a href="{{ $firstdata->company_website }}">
-                    Click here to go to Website
-                </a>
+                @if(!empty($firstdata->company_website))
+                    <a href="{{ $firstdata->company_website }}" target="_blank" rel="noopener noreferrer">
+                        Click here to go to Website
+                    </a>
+                @else
+                    Website not available
+                @endif
             </span>
         </div>
-
     </div>
     <div class="contact-row">
         <div class="contact-item">
             <i class="fas fa-phone"></i>
-            <span>{{ $firstdata->company_phone }}</span>
+            <span>{{ $firstdata->company_phone ?? 'Phone not available' }}</span>
         </div>
         <div class="contact-item">
             <i class="fas fa-map-marker-alt"></i>
-            <span>{{ $firstdata->company_address }}</span>
+            <span>{{ $firstdata->company_address ?? 'Address not available' }}</span>
         </div>
-
     </div>
 </div>
 <script>

@@ -66,7 +66,8 @@ class LeadsController extends Controller
         private readonly DealOfTheDayRepositoryInterface $dealOfTheDayRepo,
         private readonly ReviewRepositoryInterface $reviewRepo,
         private readonly BannerRepositoryInterface $bannerRepo,
-    ) {}
+    ) {
+    }
 
     private function totalquotescountry($type, $country)
     {
@@ -111,19 +112,20 @@ class LeadsController extends Controller
         $trending = ChatManager::GetTrendingProducts();
 
         // Ad Images
-        $adimages = BusinessSetting::where('type', 'buyer')->first();
-        $adimages = json_decode($adimages['value'], true);
+        $adSetting = BusinessSetting::where('type', 'buyer')->first();
+        $adimages = $adSetting ? json_decode($adSetting->value, true) : [];
 
-        // Banner Images
-        $buyerbanner = BusinessSetting::where('type', 'buyerbanner')->first();
-        $buyerbanner = json_decode($buyerbanner['value'], true);
+        // Buyer Banner Images
+        $buyerBannerSetting = BusinessSetting::where('type', 'buyerbanner')->first();
+        $buyerbanner = $buyerBannerSetting ? json_decode($buyerBannerSetting->value, true) : [];
 
-        // Banner Buyers
-        $buyerbanner = BusinessSetting::where('type', 'banners_buyers')->first();
-        $bannerimages = $buyerbanner ? json_decode($buyerbanner->value, true) : [];
+        // Banners for Buyers (separate type)
+        $bannerBuyersSetting = BusinessSetting::where('type', 'banners_buyers')->first();
+        $bannerimages = $bannerBuyersSetting ? json_decode($bannerBuyersSetting->value, true) : [];
 
-        $quotationbanner =  BusinessSetting::where('type', 'quotation')->first()->value;
-        $quotationdata = json_decode($quotationbanner, true)['banner'] ?? '';
+        // Quotation Banner
+        $quotationSetting = BusinessSetting::where('type', 'quotation')->first();
+        $quotationdata = $quotationSetting ? (json_decode($quotationSetting->value, true)['banner'] ?? '') : '';
 
         if (Auth('customer')->check()) {
             $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
@@ -283,21 +285,22 @@ class LeadsController extends Controller
         $countries = Leads::where('type', 'seller')->orderBy('quotes_recieved', 'DESC')->select('country')->distinct()->pluck('country');
 
         // All Industry
-        $industries =  CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
+        $industries = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
 
         // Trending Section
         $trending = ChatManager::GetTrendingProducts();
 
-        // Ad Images
-        $adimages = BusinessSetting::where('type', 'seller')->first();
-        $adimages = json_decode($adimages['value'], true);
+        // Seller Ad Images
+        $sellerAdSetting = BusinessSetting::where('type', 'seller')->first();
+        $adimages = $sellerAdSetting ? json_decode($sellerAdSetting->value, true) : [];
 
-        // Banner Images
-        $buyerbanner = BusinessSetting::where('type', 'sellers_buyers')->first();
-        $bannerimages = json_decode($buyerbanner['value'], true);
+        // Seller-Buyer Banner Images
+        $sellerBuyerBannerSetting = BusinessSetting::where('type', 'sellers_buyers')->first();
+        $bannerimages = $sellerBuyerBannerSetting ? json_decode($sellerBuyerBannerSetting->value, true) : [];
 
-        $quotationbanner =  BusinessSetting::where('type', 'quotation')->first()->value;
-        $quotationdata = json_decode($quotationbanner, true)['banner'] ?? '';
+        // Quotation Banner
+        $quotationSetting = BusinessSetting::where('type', 'quotation')->first();
+        $quotationdata = $quotationSetting ? (json_decode($quotationSetting->value, true)['banner'] ?? '') : '';
 
         if (Auth('customer')->check()) {
             $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);

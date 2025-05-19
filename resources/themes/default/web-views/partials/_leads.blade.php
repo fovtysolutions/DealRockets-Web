@@ -13,7 +13,7 @@
                     @if (!empty($leads['buyer']) && count($leads['buyer']) > 0)
                         @foreach ($leads['buyer'] as $lead)
                             <a id="buyer" class="lead-item"
-                                href="{{ route('buyerview', ['name' => $lead->name, 'id' => $lead->id]) }}">
+                                href="javascript:">
                                 @php
                                     $countryDetails = \App\Utils\ChatManager::getCountryDetails($lead['country']);
                                 @endphp
@@ -42,9 +42,7 @@
                             </a>
                         @endforeach
                     @else
-                        <li class="lead-item">
-                            <span>No buyer leads available</span>
-                        </li>
+                        <span>No buyer leads available</span>
                     @endif
                 </ul>
             </div>
@@ -63,7 +61,7 @@
                     @if (!empty($leads['seller']) && count($leads['seller']) > 0)
                         @foreach ($leads['seller'] as $lead)
                             <a id="seller" class="lead-item"
-                                href="{{ route('sellerview', ['name' => $lead['name'], 'id' => $lead['id']]) }}">
+                                href="javascript:">
                                 @php
                                     $countryDetails = \App\Utils\ChatManager::getCountryDetails($lead['country']);
                                 @endphp
@@ -92,9 +90,7 @@
                             </a>
                         @endforeach
                     @else
-                        <li class="lead-item">
-                            <span>No Seller leads available</span>
-                        </li>
+                        <span>No Seller leads available</span>
                     @endif
                 </ul>
             </div>

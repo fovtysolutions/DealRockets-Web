@@ -171,9 +171,17 @@
                         <select class="form-control form-control-user" id="shop_membership" name="shop_membership"
                             required>
                             <option value="" disabled selected>{{ translate('Select Membership') }}</option>
-                            <option value="Gold">{{ translate('Gold') }}</option>
-                            <option value="Platinum">{{ translate('Platinum') }}</option>
-                            <option value="Bronze">{{ translate('Bronze') }}</option>
+                            <option value="Free">{{ translate('Free') }}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <label for="vendor_type"
+                            class="title-color d-flex gap-1 align-items-center">{{ translate('Vendor Type') }}</label>
+                        <select class="form-control form-control-user" id="vendor_type" name="vendor_type"
+                            required>
+                            <option value="" disabled selected>{{ translate('Select Vendor Type') }}</option>
+                            <option value="vendor">{{ translate('Vendor') }}</option>
+                            <option value="supplier">{{ translate('Supplier') }}</option>
                         </select>
                     </div>
                     @php 

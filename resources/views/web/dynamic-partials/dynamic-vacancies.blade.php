@@ -1,33 +1,43 @@
-    @foreach ($jobseeker as $item)
-        <div class="job-card" data-id="{{ $item->id }}" onclick="populateDetailedBox(this)">
-            <div class="job-header">
-                <h2>{{ $item->title }}</h2>
-                <p class="job-meta">{{ $item->created_at->diffForHumans() }} by {{ $item->company_name }}</p>
-            </div>
-            <div class="job-details">
-                <div class="" style="display: flex; justify-content: space-between;">
-                    <div class="job-info">
-                        <div class="salary"><i class="fa-sharp fa-solid fa-dollar-sign"></i> {{ $item->salary_low }} to
-                            {{ $item->salary_high }}</div>
-                        <div class="location"><i class="fas fa-map-marker-alt"></i>
-                            {{ \App\Models\City::where('id', $item->city)->first()->name }}</div>
-                        <div class="type"><i class="fa-sharp fa-solid fa-house"></i> {{ $item->employment_space }}
-                        </div>
-                        <div class="commitment"><i class="fas fa-clock"></i> {{ $item->employment_type }}</div>
+@foreach ($jobseeker as $item)
+    <div class="job-card" data-id="{{ $item->id }}" onclick="populateDetailedBox(this)">
+        <div class="job-header">
+            <h2>{{ $item->title ?? 'Untitled Position' }}</h2>
+            <p class="job-meta">
+                {{ optional($item->created_at)->diffForHumans() ?? 'Date not available' }} 
+                by {{ $item->company_name ?? 'Unknown Company' }}
+            </p>
+        </div>
+        <div class="job-details">
+            <div style="display: flex; justify-content: space-between;">
+                <div class="job-info">
+                    <div class="salary">
+                        <i class="fa-sharp fa-solid fa-dollar-sign"></i> 
+                        {{ $item->salary_low ?? 'N/A' }} to {{ $item->salary_high ?? 'N/A' }}
                     </div>
-                    {{-- <div>
-                        <button class="apply-btn">Apply Now</button>
-                    </div> --}}
 
+                    <div class="location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{ optional(\App\Models\City::find($item->city))->name ?? 'Unknown Location' }}
+                    </div>
+
+                    <div class="type">
+                        <i class="fa-sharp fa-solid fa-house"></i> 
+                        {{ $item->employment_space ?? 'Not specified' }}
+                    </div>
+
+                    <div class="commitment">
+                        <i class="fas fa-clock"></i> 
+                        {{ $item->employment_type ?? 'Not specified' }}
+                    </div>
                 </div>
+            </div>
 
-                <div class="job-description">
-                    <p>{{ $item->description }}</p>
-                </div>
-
+            <div class="job-description">
+                <p>{{ $item->description ?? 'No description provided.' }}</p>
             </div>
         </div>
-    @endforeach
+    </div>
+@endforeach
 <script>
     function populateDetailedBox(card) {
         var id = $(card).data("id");

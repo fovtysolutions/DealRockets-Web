@@ -40,7 +40,6 @@
 <script src="{{theme_asset(path: 'public/assets/front-end/js/theme.min.js')}}"></script>
 <script src="{{theme_asset(path: 'public/assets/front-end/js/slick.min.js')}}"></script>
 <script src="{{theme_asset(path: 'public/assets/front-end/js/sweet_alert.js')}}"></script>
-<script src={{theme_asset(path: "public/assets/back-end/js/toastr.js")}}></script>
 {!! Toastr::message() !!}
 <script>
     'use strict';

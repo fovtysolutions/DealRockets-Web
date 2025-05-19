@@ -87,8 +87,8 @@ class StocksalewebController extends Controller
         $firstId = optional($items->first())->id;
 
         // Get stocksell and other data (eager loading if necessary)
-        $adimages = BusinessSetting::where('type', 'stocksale')->first();
-        $adimages = json_decode($adimages->value, true);
+        $setting = BusinessSetting::where('type', 'stocksale')->first();
+        $adimages = $setting ? json_decode($setting->value, true) : [];
 
         // $stocksalebanner = BusinessSetting::where('type', 'stocksalebanner')->first();
         // $stocksalebanner = json_decode($stocksalebanner->value, true);
@@ -110,8 +110,8 @@ class StocksalewebController extends Controller
         $industries = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
 
         // Quotation banner
-        $quotationbanner = BusinessSetting::where('type', 'quotation')->first()->value;
-        $quotationdata = json_decode($quotationbanner, true)['banner'] ?? '';
+$quotationdata = optional(BusinessSetting::where('type', 'quotation')->first())
+    ->value ? (json_decode(optional(BusinessSetting::where('type', 'quotation')->first())->value, true)['banner'] ?? '') : '';
 
         // Get active stock categories
         $stocktype = StockCategory::where('active', 1)->get();

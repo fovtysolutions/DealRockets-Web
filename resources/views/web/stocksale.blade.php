@@ -220,7 +220,7 @@
             <div class="google-ad">
                 <div class="ad-content">
                     <!-- Google Ad code goes here -->
-                    <img src="storage/{{ $adimages['ad2_image'] }}" alt="Google Ad" class="ad-image">
+                    <img src="{{ isset($adimages['ad2_image']) && $adimages['ad2_image'] ? asset('storage/' . $adimages['ad2_image']) : asset('/images/placeholderimage.webp') }}" alt="Google Ad" class="ad-image">
                 </div>
             </div>
         </div>

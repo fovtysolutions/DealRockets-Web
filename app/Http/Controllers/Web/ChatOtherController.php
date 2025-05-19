@@ -24,7 +24,7 @@ class ChatOtherController extends Controller
                 'message' => 'required|string|max:1000',
                 'type' => 'required|string',
                 'leads_id' => 'integer|exists:leads,id',
-                'suppliers' => 'integer|exists:suppliers,id',
+                'suppliers_id' => 'integer|exists:suppliers,id',
                 'stocksell_id' => 'integer|exists:stock_sell,id',
             ]);
             

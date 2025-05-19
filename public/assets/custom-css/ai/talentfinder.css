@@ -486,6 +486,68 @@
   display: none;
 }
 
+/* Inquiry Form Styles */
+.talent-finder .inquiry-form {
+    background: white;
+    width: 100%;
+    box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.25);
+}
+
+.talent-finder .inquiry-header {
+    background: #EBEBEB;
+    padding: 19px 30px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.talent-finder .inquiry-body {
+    padding: 30px;
+}
+
+.talent-finder .form-group {
+    margin-bottom: 20px;
+}
+
+.talent-finder .form-group label {
+    display: block;
+    font-size: 14px;
+    color: #515050;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.talent-finder .supplier-name-field {
+    background: white;
+    padding: 16px 32px;
+    font-size: 16px;
+}
+
+.talent-finder #email,
+.talent-finder #message {
+    width: 100%;
+    padding: 17px 31px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.talent-finder #message {
+    resize: none;
+    height: 200px;
+}
+
+.talent-finder .btn-inquire-now {
+    background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .talent-finder .container {

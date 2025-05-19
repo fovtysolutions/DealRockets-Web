@@ -30,24 +30,25 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                             </div>
                         </div>
                         <div class="navbar-3">
-                            <a class="text-wrapper-3 deleight" href="{{ route('home') }}" data-menu="">Home</a>
+                            <a class="text-wrapper-3 deleight" href="{{ route('home') }}" data-menu="/"
+                                data-home='true'>Home</a>
                             <a class="text-wrapper-3 delseven" href="{{ route('stocksale') }}"
-                                data-menu="stock-sale">Stock Sale</a>
-                            <a class="text-wrapper-3 delsix" href="{{ route('buyer') }}" data-menu="buy-leads">Buy
+                                data-menu="/stock-sale">Stock Sale</a>
+                            <a class="text-wrapper-3 delsix" href="{{ route('buyer') }}" data-menu="/buy-leads">Buy
                                 Leads</a>
-                            <a class="text-wrapper-3 delfive" href="{{ route('seller') }}" data-menu="sell-offer">Sell
+                            <a class="text-wrapper-3 delfive" href="{{ route('seller') }}" data-menu="/sell-offer">Sell
                                 Offer</a>
                             <a class="text-wrapper-3 delfour" href="{{ route('dealassist') }}"
-                                data-menu="deal-assist">Deal Assist</a>
+                                data-menu="/deal-assist">Deal Assist</a>
                             <a class="text-wrapper-3 delone" href="{{ route('sendcv') }}"
-                                data-menu="industry-jobs">Industry Jobs</a>
+                                data-menu="/industry-jobs">Industry Jobs</a>
                             <div class="frame-2 deltwo">
-                                <a class="text-wrapper-3" href="{{ route('tradeshow') }}" data-menu="tradeshow">Trade
+                                <a class="text-wrapper-3" href="{{ route('tradeshow') }}" data-menu="/tradeshow">Trade
                                     Shows</a>
                             </div>
                             <div class="frame-2 delthree">
                                 <a class="text-wrapper-3" href="{{ route('vendor.auth.registration.index') }}"
-                                    data-menu="vendorzone">Vendor Zone</a>
+                                    data-menu="/vendorzone">Vendor Zone</a>
                             </div>
 
                         </div>
@@ -542,14 +543,32 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
             }
         });
     </script>
-    <script>
+    <script defer>
         document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('[data-menu]');
             const currentPath = window.location.pathname;
 
-            links.forEach(link => {
+            links.forEach((link, index) => {
                 const menuPath = link.getAttribute('data-menu');
-                if (currentPath.startsWith(menuPath)) {
+                const hasHomeCheck = link.hasAttribute('data-home');
+
+                // If data-home is true, only evaluate the first link
+                if (hasHomeCheck && index !== 0) return;
+
+                // If data-home is not set, skip first link
+                if (!hasHomeCheck && index === 0) return;
+
+                let isMatch = false;
+
+                if (menuPath === "/") {
+                    // Exact match only for Home
+                    isMatch = (currentPath === "/");
+                } else {
+                    // Use prefix match for everything else
+                    isMatch = currentPath.startsWith(menuPath);
+                }
+
+                if (isMatch) {
                     link.classList.add('active-menu');
                 } else {
                     link.classList.remove('active-menu');

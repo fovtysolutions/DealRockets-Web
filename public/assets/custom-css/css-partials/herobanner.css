@@ -547,8 +547,8 @@
 
 
 .globle-deals .sidebar {
-    width: 250px;
-    max-width: 221px;
+    width: 100%;
+    /* max-width: 221px; */
     background: white;
     border: 1px solid #ddd;
     /* padding: 15px; */

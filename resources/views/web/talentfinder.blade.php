@@ -186,7 +186,6 @@
                 receiver_id: $('#receiver_id').val(),
                 receiver_type: $('#receiver_type').val(),
                 type: $('#type').val(),
-                email: $('#email').val(),
                 message: $('#message').val()
             };
 
@@ -229,6 +228,9 @@
                     $("#dynamicLoader").css("display", "none");
                 },
             });
+        }
+        function sendtologin() {
+            window.location.href = '/customer/auth/login';
         }
     </script>
 @endpush

@@ -12,7 +12,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE chats_others MODIFY COLUMN type ENUM('leads', 'supplier', 'stocksale') NULL");
         DB::statement("ALTER TABLE chats_others MODIFY COLUMN receiver_type ENUM('seller','admin','customer') NULL");
         Schema::table('chats_others', function (Blueprint $table) {
             $table->unsignedBigInteger('stocksell_id')->nullable()->after('type');
@@ -29,7 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("ALTER TABLE chats_others MODIFY COLUMN type ENUM('leads', 'supplier') NULL");
         DB::statement("ALTER TABLE chats_others MODIFY COLUMN receiver_type ENUM('seller','admin') NULL");
         Schema::table('chats_others',function(Blueprint $table){
             $table->dropForeign('chats_others_stocksell_id_foreign');

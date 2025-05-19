@@ -44,6 +44,15 @@ class TalentfinderController extends Controller
             ->values();
         $data['countries'] = Country::all();
         $data['jobtitle'] = TableJobProfile::distinct()->pluck('desired_position');
+        if (Auth('customer')->check()) {
+            $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
+            if (isset($membership['error'])) {
+                $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
+            }
+        } else {
+            $membership = ['status' => 'NotMade', 'message' => 'Membership Not Avaliable'];
+        }
+        $data['membership'] = $membership;
         return view('web.talentfinder', $data);
     }
 
@@ -96,11 +105,18 @@ class TalentfinderController extends Controller
 
         // Paginate the filtered results
         $items = $query->paginate(6, ['*'], 'page', $page);
-
+        if (Auth('customer')->check()) {
+            $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
+            if (isset($membership['error'])) {
+                $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
+            }
+        } else {
+            $membership = ['status' => 'NotMade', 'message' => 'Membership Not Avaliable'];
+        }
         // AJAX or normal?
         if ($request->ajax()) {
-            $html = view('web.dynamic-partials.dynamic-talentfinder', compact('items'))->render();
-            $mobhtml = view('web.dynamic-partials.dynamic-mobtalentfinder', compact('items'))->render();
+            $html = view('web.dynamic-partials.dynamic-talentfinder', compact('items','membership'))->render();
+            $mobhtml = view('web.dynamic-partials.dynamic-mobtalentfinder', compact('items','membership'))->render();
             $pagination = $items->links('custom-paginator.custom')->render();
 
             return response()->json([
@@ -110,8 +126,8 @@ class TalentfinderController extends Controller
             ]);
         }
 
-        $html = view('web.dynamic-partials.dynamic-talentfinder', compact('items'))->render();
-        $mobhtml = view('web.dynamic-partials.dynamic-mobtalentfinder', compact('items'))->render();
+        $html = view('web.dynamic-partials.dynamic-talentfinder', compact('items','membership'))->render();
+        $mobhtml = view('web.dynamic-partials.dynamic-mobtalentfinder', compact('items','membership'))->render();
         $pagination = $items->links('custom-paginator.custom')->render();
 
         return response()->json([

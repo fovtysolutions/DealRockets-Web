@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('chats_others', function (Blueprint $table) {
-            $table->enum('type', ['leads', 'supplier']); // Default value set
+            $table->string('type'); // Default value set
             
             $table->unsignedBigInteger('leads_id')->nullable();
             $table->foreign('leads_id')->references('id')->on('leads')->onDelete('cascade');

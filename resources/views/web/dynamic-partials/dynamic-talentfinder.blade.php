@@ -50,7 +50,63 @@
             </div>
 
             <div class="job-actions col-auto align-self-center p-4">
-                <button type="button" class="message-btn">Message</button>
+                <button type="button" data-toggle="modal" data-target="#inquireButton{{ $item->id }}" class="message-btn">Message</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="inquireButton{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="inquireButtonLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="inquiry-form">
+                    <div class="inquiry-header">
+                        Send a direct inquiry to this supplier
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            style="margin: auto !important;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="inquiry-body">
+                        <form id="inquiryForm">
+                            @csrf
+                            @php
+                                $userdata = \App\Utils\ChatManager::getRoleDetail();
+                                $userId = $userdata['user_id'] ?? null;
+                                $role = $userdata['role'] ?? null;
+                            @endphp
+                            <!-- Hidden fields -->
+                            <input type="hidden" id="sender_id" name="sender_id" value={{ $userId }}>
+                            <input type="hidden" id="sender_type" name="sender_type" value={{ $role }}>
+                            <input type="hidden" id="receiver_id" name="receiver_id" value={{ $item->user_id }}>
+                            <input type="hidden" id="receiver_type" name="receiver_type" value='customer'>
+                            <input type="hidden" id="type" name="type" value="reachout">
+
+                            <!-- Visible fields -->
+                            <div class="form-group">
+                                <label for="supplier">To</label>
+                                <div class="supplier-name-field">{{ $item->full_name }}</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message"
+                                    placeholder="Enter a Reach Out Message" rows="6"
+                                    required></textarea>
+                            </div>
+                            @if (auth('customer')->check() && auth('customer')->user()->id)
+                                @if ($membership['status'] == 'active')
+                                    <button type="button" onclick="triggerChat()" class="btn-inquire-now">Send Inquiry Now</button>
+                                @else
+                                    <button href="{{ route('membership') }}" class="btn-inquire-now">Send Inquiry
+                                        Now</button>
+                                @endif
+                            @else
+                                <button href="#" onclick="sendtologin()" class="btn-inquire-now">Send Inquiry
+                                    Now</button>
+                            @endif
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -49,19 +49,17 @@
                     <!-- Product Images Section -->
                     <div class="product-images">
 
-                        <img id="mainImage" src="<?php echo asset('assets\front-end\img\image 99.png'); ?>" alt="Main product view" class="main-image">
+                        <img id="mainImage"
+                            src="{{ isset($product->thumbnail) ? '/storage/product/thumbnail/' . $product->thumbnail : '/images/placeholderimage.webp' }}"
+                            alt="Main product view" class="main-image">
                         <div class="thumbnail-container">
-                            <!-- <img src="lovable-uploads/a8162771-3113-49ef-9581-7dd4e19220ca.png" alt="Thumbnail 1" class="thumbnail"> -->
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/f3c0381041ef8f92243b60873062c2b77239c367"
-                                alt="Thumbnail 2" class="thumbnail">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/a3e7c9c266f3d808cac5cb97662da382d479482b"
-                                alt="Thumbnail 3" class="thumbnail">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/bb98adedc0858f92f23ec8d7ac4b78c5120aa076"
-                                alt="Thumbnail 4" class="thumbnail">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0323c9df36474d00d3016191da5f45c19dc3ae5a"
-                                alt="Thumbnail 5" class="thumbnail">
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0c97a9b52935fdb41fa8b3586f6558996b0953fd"
-                                alt="Thumbnail 6" class="thumbnail">
+                            @php
+                                $productArray = json_decode($product->images, true);
+                            @endphp
+                            @foreach ($productArray as $key => $value)
+                                <img src="{{ '/storage/product/' . $value['image_name'] }}" alt="Thumbnail 2"
+                                    class="thumbnail">
+                            @endforeach
                         </div>
                     </div>
                     <!-- </div> -->
@@ -77,17 +75,16 @@
                     <!-- Product Details Section -->
                     <div class="product-details">
                         <div class="price-details-box">
-                            <h1 class="product-title">Wholesale High quality Mini camera 4G Low Power 1080P HD Wireless
-                                cameras Micro 2600mAh Battery Support Full Netcom 4G mini camera</h1>
+                            <h1 class="product-title">{{ $product->name }}</h1>
 
                             <div class="price-box">
                                 <div class="price-info">
                                     <div class="price">
-                                        <span class="amount">US$ 25 - 29</span>
-                                        <span class="unit">/1 Piece</span>
+                                        <span class="amount">US$ {{ $product->unit_price }}</span>
+                                        <span class="unit">/1 {{ $product->unit }}</span>
                                     </div>
                                     <div class="min-order">
-                                        <span class="quantity">5 Pieces</span>
+                                        <span class="quantity">{{ $product->minimum_order_qty }} {{ $product->unit }}</span>
                                         <span class="label">Minimum order</span>
                                     </div>
                                 </div>
@@ -98,28 +95,27 @@
                             <div class="product-specs">
                                 <div class="spec-row">
                                     <span class="spec-label">Customization:</span>
-                                    <span class="spec-value">Available</span>
+                                    <span class="spec-value">{{ $product->customization }}</span>
                                 </div>
                                 <div class="spec-row">
                                     <span class="spec-label">Style:</span>
-                                    <span class="spec-value">In-ear</span>
+                                    <span class="spec-value">{{ $product->style }}</span>
                                 </div>
                                 <div class="spec-row">
                                     <span class="spec-label">Usage:</span>
-                                    <span class="spec-value margin">Mobile Phone, Call Center, MP3 & MP4, Computer, Game
-                                        Player</span>
+                                    <span class="spec-value margin">{{ $product->usage }}</span>
                                 </div>
                             </div>
 
 
                             <div class="action-buttons" data-toggle="modal" data-target="#exampleModal">
-                                <div class="quantity-input">
+                                {{-- <div class="quantity-input">
                                     <span>Enter Qty</span>
                                     <div class="divider"></div>
                                     <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/2fb86a15b06a52a02d4ed45c08ac901377aa5b4e"
                                         alt="Dropdown" class="dropdown-icon">
                                 </div>
-                                <button class="btn-cart">Add to Cart</button>
+                                <button class="btn-cart">Add to Cart</button> --}}
                                 <button type="button" class="btn custom-inquiry-btn" data-bs-toggle="modal"
                                     data-bs-target="#inquiryModal">
                                     <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
@@ -131,28 +127,40 @@
                             <div class="product-costs">
                                 <div class="cost-item">
                                     <div class="cost-label">Total Product Cost</div>
-                                    <div class="cost-value">US$ 29.00</div>
+                                    <div class="cost-value">US$ {{ $product->unit_price }} / {{ $product->unit }}</div>
                                 </div>
                                 <div class="cost-item">
                                     <div class="cost-label">Shipping Cost</div>
-                                    <div class="cost-value">To be provided by supplier</div>
+                                    <div class="cost-value">{{ $product->shipping_cost }}</div>
                                 </div>
                                 <div class="cost-item">
                                     <div class="cost-label">Total</div>
-                                    <div class="cost-value">Pending supplier's quote</div>
+                                    <div class="cost-value">{{ $product->unit_price + $product->shipping_cost }} /
+                                        {{ $product->unit }}</div>
                                 </div>
                             </div>
 
                             <div class="samples-info">
-                                Samples: $50.00/Piece | 1–4 Pieces | <span class="buy-sample">Buy Sample</span>
+                                Samples: {{ $product->sample_price }}/{{ $product->unit }} |
+                                {{ $product->sample_amount }} {{ $product->unit }} | <span class="buy-sample">Buy
+                                    Sample</span>
                             </div>
                         </div>
                         <div class="supplier-info">
+                            @php
+                                if ($product->added_by = 'admin') {
+                                    $isAdmin = true;
+                                } else {
+                                    $isAdmin = false;
+                                }
+                            @endphp
                             <div>
-                                <div class="supplier-name">Wenzhou Ivspeed Co.,Ltd</div>
+                                <div class="supplier-name">{{ $isAdmin ? 'Admin Shop' : $product->seller->shop->name }}
+                                </div>
                                 <div class="supplier-meta">
-                                    <span class="years">14 years</span>
-                                    <span class="country">China</span>
+                                    <span
+                                        class="years">{{ $isAdmin ? 'Admin' : $product->seller->years . 'years' }}</span>
+                                    <span class="country">{{ $isAdmin ? 'DealRocket' : $product->seller->country }}</span>
                                 </div>
                                 <div class="response-data">
                                     <div class="response-rate"><span class="label">Response Rate:</span> <span
@@ -257,19 +265,20 @@
                             <div class="info-table">
                                 <div class="info-row">
                                     <div class="info-label">Model Number</div>
-                                    <div class="info-value">IV-4GIPC001-01</div>
+                                    <div class="info-value">{{ $product->model_number }}</div>
                                 </div>
                                 <div class="info-row">
                                     <div class="info-label">Brand Name</div>
-                                    <div class="info-value">IVSPEED</div>
+                                    <div class="info-value">{{ $product->brand }}</div>
                                 </div>
                                 <div class="info-row">
                                     <div class="info-label">Origin</div>
-                                    <div class="info-value">China</div>
+                                    <div class="info-value">{{ $product->origin }}</div>
                                 </div>
                                 <div class="info-row">
                                     <div class="info-label">Small Orders</div>
-                                    <div class="info-value">Accepted</div>
+                                    <div class="info-value">
+                                        {{ $product->small_orders == 1 ? 'Accepted' : 'Not Accepted' }}</div>
                                 </div>
                             </div>
 
@@ -277,130 +286,33 @@
                             <h2 class="display-title">Product Display</h2>
 
                             <div class="product-display-images">
-                                <img src="<?php echo asset('assets/front-end/img/image 99.png'); ?>" alt="Product Display 1" class="display-image">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/75f87a23563ea2c57ac1a8a3ffac61ad1427e3dd"
-                                    alt="Product Display 2" class="display-image">
+                                @foreach ($productArray as $key => $value)
+                                    <img src="{{ '/storage/product/' . $value['image_name'] }}" alt="Thumbnail 2"
+                                        class="display-image">
+                                @endforeach
                             </div>
 
                             <div class="specs-tables">
-                                <table class="specs-table">
-                                    <tr>
-                                        <th rowspan="5">Image Capture</th>
-                                        <td class="spec-name">Image sensor</td>
-                                        <td class="spec-detail">GC2053,1/2.9 inch 1080p progressive scan CMOS sensor
-                                            (100W/200W/300W optional)</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Minimum Illumination</td>
-                                        <td class="spec-detail">0.3-0.5Lux(color mode), 0 Lux(B&W mode)</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Lens</td>
-                                        <td class="spec-detail">GC2053 integrated module</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">View Angle</td>
-                                        <td class="spec-detail">140 (Diagonal)</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Night vision</td>
-                                        <td class="spec-detail">Photosensitive filter with auto-switching,8pcs 940nm SMD IR
-                                            LED, IR irradiation distance: 3~5 m</td>
-                                    </tr>
-                                </table>
-
-                                <table class="specs-table hide">
-                                    <tr>
-                                        <th rowspan="2">Video</th>
-                                        <td class="spec-name">Input</td>
-                                        <td class="spec-detail">Built-in 38db microphone</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Output</td>
-                                        <td class="spec-detail">Built-in 8 & 1 w speakers</td>
-                                    </tr>
-                                </table>
-
-                                <table class="specs-table hide audio-table">
-                                    <tr>
-                                        <th rowspan="5">Audio</th>
-                                        <td class="spec-name">Input</td>
-                                        <td class="spec-detail">Built-in 38db microphone</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Output</td>
-                                        <td class="spec-detail">Built-in 8 & 1 w speakers</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Sampling frequency / Bit width</td>
-                                        <td class="spec-detail">8KHz/16bit</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Input</td>
-                                        <td class="spec-detail">Input</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Compression standard / code rate</td>
-                                        <td class="spec-detail">ADPCM/32kbps</td>
-                                    </tr>
-                                </table>
-
-                                <table class="specs-table hide">
-                                    <tr>
-                                        <th rowspan="2">Network frequency</th>
-                                        <td class="spec-name">Input</td>
-                                        <td class="spec-detail">FDD:B1/B3/B5/B8 TDD:B34/B38/B39/B40/B41 WCDMA:B1/B5/B8</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">EU/Southeast Asia</td>
-                                        <td class="spec-detail">WCDMA:B1/B5/B8 FDD:B1/B3/B5/B7/B8/B20 TDD:B38/B40/B41</td>
-                                    </tr>
-                                </table>
-
-                                <table class="specs-table hide">
-                                    <tr>
-                                        <th>MemorySocket</th>
-                                        <td class="spec-name">Socket</td>
-                                        <td class="spec-detail">TF Push-push socket,Maximum support 256GB; Cloud Storage
-                                        </td>
-                                    </tr>
-                                </table>
-
-                                <table class="specs-table hide">
-                                    <tr>
-                                        <th>Alarm</th>
-                                        <td class="spec-name">Alarm Trigger</td>
-                                        <td class="spec-detail">Support PIR detection</td>
-                                    </tr>
-                                </table>
-
-                                <table class="specs-table hide">
-                                    <tr>
-                                        <th rowspan="6">Physical Environmental</th>
-                                        <td class="spec-name">Rated voltage</td>
-                                        <td class="spec-detail">DC5V±5%</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Power supply</td>
-                                        <td class="spec-detail">Built-in 2600mAh batteries/USB DC5V</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Power consumption</td>
-                                        <td class="spec-detail">Sleep mode: 5mA working mode: 500mA</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Operating condition</td>
-                                        <td class="spec-detail">Temperature:-10~50℃,humidity:<90%< /td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Weight</td>
-                                        <td class="spec-detail">Net: 90g Gross:240g (Note: in kind prevail)</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="spec-name">Package size</td>
-                                        <td class="spec-detail">130x90x45 mm (L×W×H)</td>
-                                    </tr>
-                                </table>
+                                @php
+                                    $additionalDetailsArray = json_decode($product->additional_details, true);
+                                @endphp
+                                @foreach ($additionalDetailsArray as $item)
+                                    <table class="specs-table">
+                                        @php
+                                            $subheads = $item['sub_heads'];
+                                            $countofsubheads = count($subheads);
+                                        @endphp
+                                        @foreach ($subheads as $index => $subhead)
+                                            <tr>
+                                                @if ($index == 0)
+                                                    <th rowspan="{{ $countofsubheads }}">{{ $item['title'] }}</th>
+                                                @endif
+                                                <td class="spec-name">{{ $subhead['sub_head'] }}</td>
+                                                <td class="spec-detail">{{ $subhead['sub_head_data'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                @endforeach
                             </div>
                             <button class="see-more-btn" onclick="showHiddenTables()">See more details</button>
                             <script>
@@ -423,67 +335,23 @@
 
                         <div class="contact-us-section">
                             <h2 class="contact-us-title">Contact Us</h2>
-                            <div class="contact-us-banner">
-                                <div>
-                                    <img class=" contact-img" src="<?php echo asset('assets/front-end/img/image (1).png'); ?>" alt="Product Display 1"
-                                        class="display-image">
-                                </div>
-                                <!-- <div class="contact-text">CONTACT US</div> -->
+                            <div class="contact-text">
+                                {{ $isAdmin ? 'Admin Shop' : $product->seller->shop->name }} <br>
+                                {{ $isAdmin ? 'Admin Address' : $product->seller->shop->address }}
                             </div>
                         </div>
 
                         <div class="faq-section">
                             <h2 class="faq-title">Faq</h2>
                             <div class="faq-list">
-                                <div class="faq-item">
-                                    <div class="faq-question">Q1. What is your terms of packing?</div>
-                                    <div class="faq-answer">A: Generally the Neutral packing, our colored packing or
-                                        according to customer's requirement are all acceptable.</div>
-                                </div>
-                                <div class="faq-item">
-                                    <div class="faq-question">Q2. What's your minimum order quantity?</div>
-                                    <div class="faq-answer">A: In general,MOQ is 50pcs, but different items with different
-                                        MOQ.</div>
-                                </div>
-                                <div class="faq-item">
-                                    <div class="faq-question">Q3. How about your delivery time?</div>
-                                    <div class="faq-answer">A: Generally, if we have goods in stock, 1-3 days are
-                                        needed.<br><br>Otherwise, it will take 15 to 40 days after receiving your advance
-                                        payment. The specific delivery time depends on the items and the quantity of your
-                                        order.</div>
-                                </div>
-                                <div class="faq-item">
-                                    <div class="faq-question">Q4. What is your terms of payment?</div>
-                                    <div class="faq-answer">A: T/T 30% as deposit, and 70% before delivery. We'll show you
-                                        the photos of the products and packages before you pay the balance.</div>
-                                </div>
-                                <div class="faq-item">
-                                    <div class="faq-question">Q5. What is your terms of delivery?</div>
-                                    <div class="faq-answer">A: FOB, EXW, CFR, CIF, DDU, DDP, DAP.</div>
-                                </div>
-                                <div class="faq-item">
-                                    <div class="faq-question">Q6. What is your sample policy?</div>
-                                    <div class="faq-answer">A: We can supply the sample if we have ready parts in stock,
-                                        but customers have to pay the sample cost and the courier cost.</div>
-                                </div>
-                                <div class="faq-item">
-                                    <div class="faq-question">Q7: How is your quality control?</div>
-                                    <div class="faq-answer">A: Original OEM quality</div>
-                                </div>
+                                {!! $product->faq !!}
                             </div>
                         </div>
 
                         <div class="why-choose-us-section">
                             <h2 class="why-choose-us-title">Why Choose Us?</h2>
                             <div class="why-choose-us-content">
-                                1. A wide range for options.<br>
-                                2. Quality assurance: Advanced equipment, 100% finished product check, safe fixed, stable,
-                                durable.<br>
-                                3. Fast delivery, Prompt response, Professional staffs<br>
-                                4.The customized components also can be manufactured<br>
-                                5.Neutral packing, export standard carton, all of the products are inspected carefully by QC
-                                before delivery.<br>
-                                6.Completive price: Order a HQ container, price will be more favorable.
+                                {!! $product->why_choose_us !!}
                             </div>
 
                             <table class="company-table">

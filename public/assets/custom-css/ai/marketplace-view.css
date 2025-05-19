@@ -667,8 +667,8 @@
 .product-view-section .contact-text {
     position: relative !important;
     z-index: 1 !important;
-    color: white !important;
-    font-size: 30px !important;
+    color: black white !important;
+    font-size: 14px !important;
     font-weight: 600 !important;
 }
 

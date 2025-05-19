@@ -15,9 +15,7 @@ class ProductService
 {
     use FileManagerTrait;
 
-    public function __construct(private readonly Color $color)
-    {
-    }
+    public function __construct(private readonly Color $color) {}
 
     public function getProcessedImages(object $request): array
     {
@@ -80,7 +78,6 @@ class ProductService
             'image_names' => $imageNames ?? [],
             'colored_image_names' => $colorImageSerial ?? []
         ];
-
     }
 
     public function getProcessedUpdateImages(object $request, object $product): array
@@ -372,7 +369,7 @@ class ProductService
         $processedImages = $this->getProcessedImages(request: $request); //once the images are processed do not call this function again just use the variable
         $combinations = $this->getCombinations($this->getOptions(request: $request));
         $variations = $this->getVariations(request: $request, combinations: $combinations);
-        $stockCount = count($combinations[0]) > 0 ? $this->getTotalQuantity(variations: $variations) : (integer) $request['current_stock'];
+        $stockCount = count($combinations[0]) > 0 ? $this->getTotalQuantity(variations: $variations) : (int) $request['current_stock'];
 
         $digitalFile = '';
         if ($request['product_type'] == 'digital' && $request['digital_product_type'] == 'ready_product' && $request['digital_file_ready']) {
@@ -436,6 +433,31 @@ class ProductService
             'meta_image' => $request->has('meta_image') ? $this->upload(dir: 'product/meta/', format: 'webp', image: $request['meta_image']) : $request->existing_meta_image,
             'badge' => $request['badge'],
             'origin' => $request['origin'],
+            'customization' => $request['customization'] ?? null,
+            'style' => $request['style'] ?? null,
+            'usage' => $request['usage'] ?? null,
+            'sample_price' => $request['sample_price'] ?? null,
+            'sample_amount' => $request['sample_amount'] ?? null,
+            'model_number' => $request['model_number'] ?? null,
+            'small_orders' => $request['small_orders'] ?? null,
+            'additional_details' => isset($request['dynamic_data']) ? json_encode($request['dynamic_data']) : null,
+            'faq' => $request['faq'] ?? null,
+            'why_choose_us' => $request['why_choose_us'] ?? null,
+            'fob_port' => $request['fob_port'] ?? null,
+            'weight_per_unit' => $request['weight_per_unit'] ?? null,
+            'hts_code' => $request['hts_code'] ?? null,
+            'export_carton_dimensions' => $request['export_carton_dimensions'] ?? null,
+            'logistics_attributes' => $request['logistics_attributes'] ?? null,
+            'lead_time' => $request['lead_time'] ?? null,
+            'dimensions_per_unit' => $request['dimensions_per_unit'] ?? null,
+            'units_per_carton' => $request['units_per_carton'] ?? null,
+            'carton_weight' => $request['carton_weight'] ?? null,
+            'export_markets' => $request['export_markets'] ?? null,
+            'payment_methods' => $request['payment_methods'] ?? null,
+            'currency_accepted' => $request['currency_accepted'] ?? null,
+            'payment_terms' => $request['payment_terms'] ?? null,
+            'invoicing' => $request['invoicing'] ?? null,
+            'refund_policy' => $request['refund_policy'] ?? null,
         ];
     }
 
@@ -445,7 +467,7 @@ class ProductService
         $processedImages = $this->getProcessedUpdateImages(request: $request, product: $product);
         $combinations = $this->getCombinations($this->getOptions(request: $request));
         $variations = $this->getVariations(request: $request, combinations: $combinations);
-        $stockCount = count($combinations[0]) > 0 ? $this->getTotalQuantity(variations: $variations) : (integer) $request['current_stock'];
+        $stockCount = count($combinations[0]) > 0 ? $this->getTotalQuantity(variations: $variations) : (int) $request['current_stock'];
 
         if ($request->has('extensions_type') && $request->has('digital_product_variant_key')) {
             $digitalFile = null;
@@ -506,6 +528,31 @@ class ProductService
             'meta_image' => $request->file('meta_image') ? $this->update(dir: 'product/meta/', oldImage: $product['meta_image'], format: 'png', image: $request['meta_image']) : $product['meta_image'],
             'badge' => $request['badge'],
             'origin' => $request['origin'],
+            'customization' => $request['customization'] ?? null,
+            'style' => $request['style'] ?? null,
+            'usage' => $request['usage'] ?? null,
+            'sample_price' => $request['sample_price'] ?? null,
+            'sample_amount' => $request['sample_amount'] ?? null,
+            'model_number' => $request['model_number'] ?? null,
+            'small_orders' => $request['small_orders'] ?? null,
+            'additional_details' => isset($request['dynamic_data']) ? json_encode($request['dynamic_data']) : null,
+            'faq' => $request['faq'] ?? null,
+            'why_choose_us' => $request['why_choose_us'] ?? null,
+            'fob_port' => $request['fob_port'] ?? null,
+            'weight_per_unit' => $request['weight_per_unit'] ?? null,
+            'hts_code' => $request['hts_code'] ?? null,
+            'export_carton_dimensions' => $request['export_carton_dimensions'] ?? null,
+            'logistics_attributes' => $request['logistics_attributes'] ?? null,
+            'lead_time' => $request['lead_time'] ?? null,
+            'dimensions_per_unit' => $request['dimensions_per_unit'] ?? null,
+            'units_per_carton' => $request['units_per_carton'] ?? null,
+            'carton_weight' => $request['carton_weight'] ?? null,
+            'export_markets' => $request['export_markets'] ?? null,
+            'payment_methods' => $request['payment_methods'] ?? null,
+            'currency_accepted' => $request['currency_accepted'] ?? null,
+            'payment_terms' => $request['payment_terms'] ?? null,
+            'invoicing' => $request['invoicing'] ?? null,
+            'refund_policy' => $request['refund_policy'] ?? null,
         ];
 
         if ($request->file('image')) {

@@ -161,6 +161,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
 
     Route::controller(ProductListController::class)->group(function () {
         Route::get('products', 'products')->name('products');
+        Route::get('products-dynamic','dynamicProduct')->name('product-dynamic');
     });
 
     Route::controller(ShopViewController::class)->group(function () {

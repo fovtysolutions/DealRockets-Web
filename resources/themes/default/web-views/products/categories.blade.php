@@ -42,21 +42,21 @@
                 <div class="country-buttons">
                     @foreach ($categories as $key => $value)
                         <div class="main-category">
-                            <a class="country-button font-weight-bold" href="{{ route('buyer', ['industry' => $value]) }}">
+                            <a class="country-button font-weight-bold" href="{{ route('products', ['industry' => $value]) }}">
                                 {{ $value['name'] }}
                             </a>
                             @if ($value->childes->count() > 0)
                                 <div class="sub-category-list">
                                     @foreach ($value->childes as $sub_category)
                                         <a class="sub-category-button font-weight-normal"
-                                            href="{{ route('buyer', ['industry' => $sub_category['id']]) }}">
+                                            href="{{ route('products', ['industry' => $sub_category['id']]) }}">
                                             {{ $sub_category['name'] }}
                                         </a>
                                         @if ($sub_category->childes->count() > 0)
                                             <div class="sub-sub-category-list">
                                                 @foreach ($sub_category->childes as $sub_sub_category)
                                                     <a class="sub-sub-category-button font-weight-light"
-                                                        href="{{ route('buyer', ['industry' => $sub_sub_category['id']]) }}">
+                                                        href="{{ route('products', ['industry' => $sub_sub_category['id']]) }}">
                                                         {{ $sub_sub_category['name'] }}
                                                     </a>
                                                 @endforeach

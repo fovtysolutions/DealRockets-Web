@@ -11,7 +11,7 @@
             <!-- <div class="container bg-white form-con my-4 d-flex" > -->
             <div class="category-section bg-white">
                 <div class="category-sidebar">
-                    <h3 class="protection-head"><strong>{{ $categories->name }}</strong> </h3>
+                    <h3 class="protection-head"><strong><a href="{{ route('products', ['category_id' => $categories->id, 'data_from' => 'category', 'page' => 1]) }}">{{ $categories->name }}</a></strong> </h3>
                     <ul class="ul-desktop">
                         @foreach($categories->childes as $subcategory)
                             <li>
@@ -26,65 +26,6 @@
                             </li>
                         @endforeach
                     </ul>
-                    <p class="gap-1 bg-white a-phone">
-                        <a class="Security-btn" data-bs-toggle="collapse" href="#collapseHome" role="button"
-                            aria-expanded="false" aria-controls="collapseHome">
-                            Home Security
-                        </a>
-                        <a class="Security-btn" data-bs-toggle="collapse" href="#collapseWorkplace" role="button"
-                            aria-expanded="false" aria-controls="collapseWorkplace">
-                            Workplace Safety
-                        </a>
-                        <a class="Security-btn" data-bs-toggle="collapse" href="#collapsePersonal" role="button"
-                            aria-expanded="false" aria-controls="collapsePersonal">
-                            Personal Safety
-                        </a>
-                    </p>
-
-                    <div id="accordionExample">
-                        <div class="collapse" id="collapseHome" data-bs-parent="#accordionExample">
-                            <div class="card card-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="cctv">
-                                    <label class="form-check-label" for="cctv">CCTV Cameras</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="alarm">
-                                    <label class="form-check-label" for="alarm">Alarm Systems</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="lock">
-                                    <label class="form-check-label" for="lock">Smart Locks</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="collapse" id="collapseWorkplace" data-bs-parent="#accordionExample">
-                            <div class="card card-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="extinguisher">
-                                    <label class="form-check-label" for="extinguisher">Fire Extinguishers</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="firstaid">
-                                    <label class="form-check-label" for="firstaid">First Aid Kits</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="collapse" id="collapsePersonal" data-bs-parent="#accordionExample">
-                            <div class="card card-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="spray">
-                                    <label class="form-check-label" for="spray">Pepper Spray</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="alarmPersonal">
-                                    <label class="form-check-label" for="alarmPersonal">Personal Alarms</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="category-grid">

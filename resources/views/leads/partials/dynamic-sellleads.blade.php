@@ -57,7 +57,7 @@
                     @php
                         $user = auth('customer')->user();
                         if ($user) {
-                            $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($seller->id, $user->id);
+                            $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($seller->id, $user->id,'saleoffer');
                         } else {
                             $isFavourite = false;
                         }

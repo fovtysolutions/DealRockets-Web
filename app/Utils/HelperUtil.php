@@ -373,11 +373,12 @@ class HelperUtil
         }
     }
 
-    public static function checkIfFavourite($listingId, $userId)
+    public static function checkIfFavourite($listingId, $userId, $type)
     {
         // Check if the item is already favorited
         $favourite = Favourites::where('user_id', $userId)
                               ->where('listing_id', $listingId)
+                              ->where('type', $type)
                               ->first();
 
         return $favourite ? true : false; // Return true if found, false otherwise

@@ -113,7 +113,7 @@
                 <div class="cardbottom">
                     <a href="{{ $secondbox['url'] ?? '#' }}" style="text-decoration: none;"
                         class="image-wrapper shimmer">
-                        <img data-src="{{ isset($secondbox['image']) ?  '/storage/' . $secondbox['image'] : '/images/placeholderimage.webp' }} class="lazyload"
+                        <img data-src="{{ isset($secondbox['image']) ?  '/storage/' . $secondbox['image'] : '/images/placeholderimage.webp' }}" class="lazyload"
                             alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
                             <h5 class="card-titlebottom">{{ $secondbox['title'] ?? 'Trade Shows' }}</h5>
@@ -123,7 +123,7 @@
                 <div class="cardbottom">
                     <a href="{{ $thirdbox['url'] ?? '#' }}" style="text-decoration: none;"
                         class="image-wrapper shimmer">
-                        <img data-src="{{ isset($thirdbox['image']) ?  '/storage/' . $thirdbox['image'] : '/images/placeholderimage.webp' }} class="lazyload"
+                        <img data-src="{{ isset($thirdbox['image']) ?  '/storage/' . $thirdbox['image'] : '/images/placeholderimage.webp' }}" class="lazyload"
                             alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
                             <h5 class="card-titlebottom">{{ $thirdbox['title'] ?? 'Trade Shows' }}</h5>

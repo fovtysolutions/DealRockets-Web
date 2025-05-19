@@ -414,6 +414,10 @@
     position: relative;
     height: 40px;
   }
+
+  .element-mobile .dropdown-item:hover {
+    color: white !important;
+  }
   
   .element-mobile .rectangle {
     position: absolute;

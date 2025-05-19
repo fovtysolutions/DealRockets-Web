@@ -63,7 +63,7 @@
                         @php
                             $user = auth('customer')->user();
                             if ($user) {
-                                $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($buyer->id, $user->id);
+                                $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($buyer->id, $user->id, 'buyleads');
                             } else {
                                 $isFavourite = false;
                             }

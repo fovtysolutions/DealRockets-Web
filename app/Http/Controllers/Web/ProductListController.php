@@ -37,9 +37,10 @@ use App\Models\SearchHistUsers;
 
 class ProductListController extends Controller
 {
-    private function add_user_search($tag){
-        $existing_search = SearchHistUsers::where('user_id',auth('customer')->id())->where('tag',$tag)->first();
-        if($existing_search){
+    private function add_user_search($tag)
+    {
+        $existing_search = SearchHistUsers::where('user_id', auth('customer')->id())->where('tag', $tag)->first();
+        if ($existing_search) {
             $existing_search->count = $existing_search->count + 1;
             $existing_search->save();
             return [
@@ -80,8 +81,18 @@ class ProductListController extends Controller
 
         $data = self::getProductListRequestData(request: $request);
         if ($request['data_from'] == 'category' && $request['category_id']) {
-            $data['cate_name'] = Category::find((int) Category::where('id',(int)$request['category_id'])->first()->parent_id)->name;
-            $data['brand_name'] = Category::find((int)$request['category_id'])->name;
+            $category = Category::find((int)$request['category_id']);
+
+            if ($category) {
+                $data['brand_name'] = $category->name;
+
+                // Load parent category name safely
+                $parentCategory = Category::find((int) $category->parent_id);
+                $data['cate_name'] = $parentCategory ? $parentCategory->name : null;
+            } else {
+                $data['brand_name'] = null;
+                $data['cate_name'] = null;
+            }
         }
         if ($request['data_from'] == 'brand') {
             $brand_data = Brand::active()->find((int)$request['brand_id']);
@@ -96,7 +107,7 @@ class ProductListController extends Controller
         $productListData = ProductManager::getProductListData(request: $request);
         $products = $productListData->paginate(20)->appends($data);
 
-        if(auth('customer')->check()){
+        if (auth('customer')->check() && isset($request->searchInput)) {
             self::add_user_search($request->searchInput);
         }
 
@@ -108,10 +119,9 @@ class ProductListController extends Controller
         }
         $productsCountries = Product::select('origin')->distinct()->pluck('origin');
 
-        $countries = Country::whereIn('id',$productsCountries)->get();
-
-        if ($request['country']){
-            $products = Product::where('origin',$request['country'])->get();
+        $countries = Country::whereIn('id', $productsCountries)->get();
+        if ($request['country']) {
+            $products = Product::where('origin', $request['country'])->get();
             $products = $products->paginate(20);
         }
 
@@ -121,6 +131,69 @@ class ProductListController extends Controller
             'activeBrands' => $activeBrands,
             'categories' => $categories,
             'countries' => $countries,
+        ]);
+    }
+
+    public function dynamicProduct(Request $request)
+    {
+        $query = Product::query();
+
+        // Hard Filters
+
+        // Always fetch only active products
+        $query->where('status', 1);
+
+        // Filter by searchInput (e.g. top search bar)
+        if ($request->filled('searchInput')) {
+            $query->where('name', 'LIKE', '%' . $request->input('searchInput') . '%');
+        }
+
+        // Filter by specific category if explicitly provided
+        if ($request->filled('category_id') && is_numeric($request->input('category_id'))) {
+            $query->where('category_id', (int) $request->input('category_id'));
+        }
+
+        // Ensure only non-blacklisted countries are used
+        $query->whereHas('countryRelation', function ($query) {
+            $query->where('blacklist', 'no');
+        });
+
+        // Soft Filters
+
+        // Text search
+        if ($request->filled('search_query')) {
+            $query->where('name', 'LIKE', '%' . $request->input('search_query') . '%');
+        }
+
+        // Filter by industry if it's an array of selected industries
+        if (!$request->filled('category_id') && $request->has('industry') && is_array($request->industry)) {
+            $query->whereIn('category_id', $request->industry);
+        }
+
+        // Filter by country if it's an array of selected countries
+        if ($request->has('country') && is_array($request->country)) {
+            $query->whereIn('origin', $request->country);
+        }
+
+        $page = $request->get('page', 1);
+
+        // Paginate the filtered results
+        $products = $query->paginate(6, ['*'], 'page', $page);
+
+        // If it's an AJAX request, return only the partial view with trade show cards
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('web-views.products.partials.dynamic-product-grid', compact('products'))->render(),
+                'html2' => view('web-views.products.partials.dynamic-product-list', compact('products'))->render(),
+                'pagination' => $products->links('custom-paginator.custom')->render(),
+            ]);
+        }
+
+        // Otherwise, return the full page
+        return response()->json([
+            'html' => view('web-views.products.partials.dynamic-product-grid', compact('products'))->render(),
+            'html2' => view('web-views.products.partials.dynamic-product-list', compact('products'))->render(),
+            'pagination' => $products->links('custom-paginator.custom')->render(),
         ]);
     }
 
@@ -275,13 +348,16 @@ class ProductListController extends Controller
                 'view' => view(VIEW_FILE_NAMES['products__ajax_partials'], compact('products', 'getProductIds'))->render(),
             ], 200);
         }
-        return view(VIEW_FILE_NAMES['products_view_page'], compact(
-            'products',
-            'getProductIds',
-            'categories',
-            'allProductsColorList',
-            'banner',
-            'ratings')
+        return view(
+            VIEW_FILE_NAMES['products_view_page'],
+            compact(
+                'products',
+                'getProductIds',
+                'categories',
+                'allProductsColorList',
+                'banner',
+                'ratings'
+            )
         );
     }
 

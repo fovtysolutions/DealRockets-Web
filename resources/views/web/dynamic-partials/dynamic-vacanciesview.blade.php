@@ -35,7 +35,7 @@
         $user = auth('customer')->user();
         $isFavourite = false;
         if ($user && isset($firstdata->id)) {
-            $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($firstdata->id, $user->id);
+            $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($firstdata->id, $user->id, 'industryjob');
         }
     @endphp
 

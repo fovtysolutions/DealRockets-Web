@@ -651,6 +651,7 @@ class LeadsController extends Controller
         $vendorId = auth('seller')->id();
 
         $query->where('added_by', $vendorId);
+        $query->where('role','seller');
 
         // Apply filters based on the request
         $query->where('type', 'seller');

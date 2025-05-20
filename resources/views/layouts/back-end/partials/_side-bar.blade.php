@@ -260,6 +260,14 @@
                                             <span class="text-truncate">{{ translate('CV_List') }}</span>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ Request::is('admin.jobvacancy.category.list') ? 'active' : '' }}"
+                                            title="{{ translate('Job Category List') }}"
+                                            href="{{ route('admin.jobvacancy.category.list') }}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{ translate('Job Category List') }}</span>
+                                        </a>
+                                    </li>
                                     <li id="jobvacancy" class="nav-item">
                                         <a class="nav-link {{ Request::is('admin.jobvacancy.list') ? 'active' : '' }}"
                                             title="{{ translate('Job Vacancies List') }}"

@@ -191,7 +191,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <img src="/storage/{{ $vendorsetting['ad1_image'] }}" alt="For Buyers">
+                        <img src="/storage/{{ $vendorsetting['ad1_image'] ?? '' }}"
+                            onerror="this.onerror=null; this.src='/images/placeholderimage.webp';" alt="For Buyers">
                     </div>
 
                     <div id="supplierBanner" class="d-none banner supplier-banner mr-4 h-100" style="width:60%;">
@@ -205,7 +206,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <img src="/storage/{{ $vendorsetting['ad2_image'] }}" alt="For Suppliers">
+                        <img src="/storage/{{ $vendorsetting['ad2_image'] ?? '' }}"
+                            onerror="this.onerror=null; this.src='/images/placeholderimage.webp';" alt="For Suppliers">
                     </div>
                     <div class="card card-lg" style="width:38%;">
                         <div class="card-body">
@@ -282,12 +284,9 @@
                                 @else
                                     <div class="row py-2">
                                         <div class="col-6 pr-0">
-                                            <input type="text"
-                                                class="form-control form-control-lg form-control-focus-none"
-                                                name="vendorRecaptchaKey" value=""
-                                                id="vendor-login-recaptcha-input"
-                                                placeholder="{{ translate('enter_captcha_value') }}"
-                                                autocomplete="off">
+                                            <input type="text" class="form-control form-control-lg form-control-focus-none"
+                                                name="vendorRecaptchaKey" value="" id="vendor-login-recaptcha-input"
+                                                placeholder="{{ translate('enter_captcha_value') }}" autocomplete="off">
                                         </div>
                                         <div class="col-6 input-icons bg-white rounded">
                                             <a class="get-login-recaptcha-verify cursor-pointer get-session-recaptcha-auto-fill"
@@ -336,16 +335,16 @@
         data-mode="{{ env('APP_MODE') }}"></span>
     <script>
         // Script to toggle banners based on button clicks
-        document.getElementById('buyerBtn').addEventListener('click', function() {
+        document.getElementById('buyerBtn').addEventListener('click', function () {
             showBanner('buyerBanner');
         });
-        document.getElementById('supplierBtn').addEventListener('click', function() {
+        document.getElementById('supplierBtn').addEventListener('click', function () {
             showBanner('supplierBanner');
         });
 
         function showBanner(bannerId) {
             // Hide all banners
-            document.querySelectorAll('.banner').forEach(function(banner) {
+            document.querySelectorAll('.banner').forEach(function (banner) {
                 banner.classList.add('d-none');
             });
 
@@ -360,14 +359,14 @@
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/vendor/login.js') }}"></script>
     {!! Toastr::message() !!}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const wideBannerTexts = document.querySelectorAll('.overlayclipped');
 
             wideBannerTexts.forEach(element => {
                 // Generate two random, visually appealing colors
                 const randomColor1 = `hsl(${Math.floor(Math.random() * 360)}, 70%, 40%)`; // Darker hue
                 const randomColor2 =
-                `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`; // Medium-light hue
+                    `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`; // Medium-light hue
 
                 // Set the linear gradient as the background
                 element.style.background = `linear-gradient(45deg, ${randomColor1}, ${randomColor2})`;
@@ -378,9 +377,9 @@
         <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
         <script type="text/javascript">
             "use strict";
-            var onloadCallback = function() {
+            var onloadCallback = function () {
                 grecaptcha.render('recaptcha_element', {
-                    'sitekey': '{{ getWebConfig(name: 'recaptcha',)['site_key'] }}'
+                    'sitekey': '{{ getWebConfig(name: 'recaptcha', )['site_key'] }}'
                 });
             };
         </script>

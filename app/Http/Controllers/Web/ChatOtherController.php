@@ -26,6 +26,8 @@ class ChatOtherController extends Controller
                 'leads_id' => 'integer|exists:leads,id',
                 'suppliers_id' => 'integer|exists:suppliers,id',
                 'stocksell_id' => 'integer|exists:stock_sell,id',
+                'product_id' => 'integer|exists:products,id',
+                'product_qty' => 'integer',
             ]);
             
             $chat = ChatsOther::create($validated);

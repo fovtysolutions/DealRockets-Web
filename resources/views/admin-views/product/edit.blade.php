@@ -393,7 +393,7 @@
                                         </div>
 
                                         <div class="sub-heads" data-title-index="{{ $index }}">
-                                            @foreach ($detail['subheads'] ?? [] as $subIndex => $subhead)
+                                            @foreach ($detail['sub_heads'] ?? [] as $subIndex => $subhead)
                                                 <div class="row mb-2 sub-head-row">
                                                     <div class="col-md-5">
                                                         <input type="text"

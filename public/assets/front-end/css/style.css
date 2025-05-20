@@ -6275,7 +6275,7 @@ a {
 
 @media screen and (min-width: 1200px) {
     .container {
-        max-width: 1600px;
+        max-width: 1440px;
     }
     .recommended-product-card img {
         height: 280px;

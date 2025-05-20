@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app-seller')
+@extends('layouts.back-end.app-partialseller')
 @section('title', translate('order_List'))
 
 @push('css_or_js')

@@ -1,7 +1,7 @@
 @php
 use Illuminate\Support\Facades\Session;
 @endphp
-@extends('layouts.back-end.app-seller')
+@extends('layouts.back-end.app-partialseller')
 
 @section('title', translate('add_Shipping'))
 

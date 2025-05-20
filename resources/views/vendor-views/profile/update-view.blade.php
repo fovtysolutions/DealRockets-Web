@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app-seller')
+@extends('layouts.back-end.app-partialseller')
 
 @section('title', translate('profile_Settings'))
 @push('css_or_js')
@@ -17,9 +17,9 @@
                     </h2>
                 </div>
                 <div class="col-sm-auto">
-                    <a class="btn btn--primary" href="{{ route('vendor.dashboard.index') }}">
+                    {{-- <a class="btn btn--primary" href="{{ route('vendor.dashboard.index') }}">
                         <i class="tio-home mr-1"></i> {{ translate('dashboard') }}
-                    </a>
+                    </a> --}}
                 </div>
             </div>
         </div>

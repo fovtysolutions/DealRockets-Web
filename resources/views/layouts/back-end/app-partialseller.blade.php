@@ -59,13 +59,9 @@
             </div>
         </div>
     </div>
-    @include('layouts.back-end.partials-seller._header')
-    @include('layouts.back-end.partials-seller._side-bar')
-
+    
     <main id="content" role="main" class="main pointer-event">
         @yield('content')
-
-        @include('layouts.back-end.partials-seller._footer')
 
         @include('layouts.back-end.partials-seller._modals')
 

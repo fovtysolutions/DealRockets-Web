@@ -69,7 +69,7 @@
                 <div id="carouselExample" class="carousel slide owl-carousel owl-theme">
                     <div class="item">
                         <div class="image-wrapper shimmer">
-                            <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                            <img data-src="final_images/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
                         </div>
                     </div>
                 </div>
@@ -80,14 +80,14 @@
                 <div id="carouselExample1" class="carousel slide owl-carousel owl-theme">
                     <div class="item">
                         <div class="card image-wrapper shimmer">
-                            <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                            <img class="lazyload" data-src="final_images/side1.png" alt="Card Image">
                         </div>
                     </div>
                 </div>
                 <div id="carouselExample2" class="carousel slide owl-carousel owl-theme">
                     <div class="item">
                         <div class="card image-wrapper shimmer">
-                            <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                            <img class="lazyload" data-src="final_images/side1.png" alt="Card Image">
                         </div>
                     </div>
                 </div>

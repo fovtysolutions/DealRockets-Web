@@ -55,8 +55,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                         <div class="frame-6 delnine">
                             <a href="{{ route('webinfo') }}">
                                 <div class="our-features group-features">
-                                    <img class="badge img-default" src="/img/badge-1.png" />
-                                    <img class="badge img-hover" src="/img/badge (2).png" />
+                                    <img class="badge img-default" src="/final_images/badge-1.png" />
+                                    <img class="badge img-hover" src="/final_images/badge (2).png" />
                                     <div class="text-wrapper-4">Our Features</div>
                                 </div>
                             </a>
@@ -68,8 +68,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                         {{-- <img class="img" src="/img/arrow-down-sign-to-navigate-4.png" /> --}}
                                     </div>
                                     <div class="icon-hover group-help">
-                                        <img class="question img-default" src="/img/question-1.png" />
-                                        <img class="question img-hover" src="/img/help-web-button.png" />
+                                        <img class="question img-default" src="/final_images/question-1.png" />
+                                        <img class="question img-hover" src="/final_images/help-web-button.png" />
                                     </div>
                                 </a>
                             </div>
@@ -87,8 +87,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                         {{-- <img class="img" src="/img/arrow-down-sign-to-navigate-5.png" /> --}}
                                     </div>
                                     <div class="icon-hover group-language">
-                                        <img class="language img-default" src="/img/language-1.png" />
-                                        <img class="language img-hover" src="/img/language (2).png" />
+                                        <img class="language img-default" src="/final_images/language-1.png" />
+                                        <img class="language img-hover" src="/final_images/language (2).png" />
                                     </div>
                                 </div>
                                 <ul id="languageDropdown-class" class="language-dropdown"
@@ -111,8 +111,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                 <a href="{{ route('customer.auth.login') }}">
                                     <div class="group-5 group-user">
                                         <div class="text-wrapper-6">Sign in/ Join</div>
-                                        <img class="user img-default" src="/img/user-1.png" />
-                                        <img class="user img-hover" src="/img/user (2).png" />
+                                        <img class="user img-default" src="/final_images/user-1.png" />
+                                        <img class="user img-hover" src="/final_images/user (2).png" />
                                     </div>
                                 </a>
                             @else
@@ -150,10 +150,10 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
             </div>
             <div class="group-16">
                 <div class="contentgroup">
-                    <img class="rectangle-stroke-2" src="/img/rectangle-20-stroke-1.svg" />
+                    <img class="rectangle-stroke-2" src="/final_images/svgs/rectangle-20-stroke-1.svg" />
                     <div class="group-17">
                         <a href="{{ url('/') }}">
-                            <img class="logo-3" src="/img/logo-2.png" />
+                            <img class="logo-3" src="/final_images/logo-2.png" />
                         </a>
                         <div class="group-18">
                             <div class="group-19">
@@ -245,7 +245,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                             onclick="document.getElementsByClassName('wrapperform')[0].submit()"
                                                             style="width: 177px;">
                                                             {{-- <span>Search</span> --}}
-                                                            <img src="/images/magnify_icon.png" alt="magnify"
+                                                            <img src="/final_images/magnify_icon.png" alt="magnify"
                                                                 style="height: 16px; width: 16px;"><span
                                                                 class="ml-1" style="font-size: 18px;">Search<span>
                                                         </div>
@@ -263,16 +263,16 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                             <div class="frame-11">
                                 <a href="{{ route('quotationweb') }}" target="_blank">
                                     <div class="group-9">
-                                        <img class="chat img-default" src="/img/chat-1.png" />
-                                        <img class="chat img-hover" src="/img/chat (2).png" />
+                                        <img class="chat img-default" src="/final_images/chat-1.png" />
+                                        <img class="chat img-hover" src="/final_images/chat (2).png" />
                                         <div class="text-wrapper-9">RFQ</div>
                                     </div>
                                 </a>
                                 <div class="group-10">
                                     <a href="{{ route('vendor.auth.login') }}" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
-                                        <img class="parcel img-default" src="/img/parcel-1.png" />
-                                        <img class="parcel img-hover" src="/img/parcel (2).png" />
+                                        <img class="parcel img-default" src="/final_images/parcel-1.png" />
+                                        <img class="parcel img-hover" src="/final_images/parcel (2).png" />
                                         <div class="text-wrapper-10">Supplier</div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
@@ -320,8 +320,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                 <div class="group-11">
                                     <a href="{{ route('vendor.auth.login') }}" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
-                                        <img class="customer img-default" src="/img/customer-1.png" />
-                                        <img class="customer img-hover" src="/img/customer (2).png" />
+                                        <img class="customer img-default" src="/final_images/customer-1.png" />
+                                        <img class="customer img-hover" src="/final_images/customer (2).png" />
                                         <div class="text-wrapper-10">Buyer</div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
@@ -367,20 +367,20 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                 </div>
                                 <div class="group-12">
                                     <a href="{{ route('chat', ['type' => 'customer']) }}">
-                                        <img class="chatting img-default" src="/img/chatting-1.png" />
-                                        <img class="chatting img-hover" src="/img/chatting (2).png" />
+                                        <img class="chatting img-default" src="/final_images/chatting-1.png" />
+                                        <img class="chatting img-hover" src="/final_images/chatting (2).png" />
                                         <div class="text-wrapper-10">Message</div>
                                     </a>
                                 </div>
                                 <div class="group-13">
                                     <a href="{{ route('gotoshortlist') }}">
-                                        <img class="heart img-default" src="/img/heart-1.png" />
-                                        <img class="heart img-hover" src="/img/heart (2).png" />
+                                        <img class="heart img-default" src="/final_images/heart-1.png" />
+                                        <img class="heart img-hover" src="/final_images/heart (2).png" />
                                         <div class="text-wrapper-11">Shortlist</div>
                                     </a>
                                 </div>
                             </div>
-                            <div class="hamburger" onclick="toggleDropdown()"><img src="/img/menu.png"
+                            <div class="hamburger" onclick="toggleDropdown()"><img src="/final_images/menu.png"
                                     alt="menu" style="height: 16px; width: 16px;"></div>
                         </div>
                     </div>
@@ -391,7 +391,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
 </div>
 <div class="dropdown-nav" id="dropdownNav">
     <a class="flexboxlogocross" href="{{ url('/') }}">
-        <img class="logo-3" src="/img/logo-2.png" />
+        <img class="logo-3" src="/final_images/logo-2.png" />
         <button class="drawer-close" onclick="toggleDropdown()">✕</button>
     </a>
     <a href="{{ route('stocksale') }}">Stock Sale</a>

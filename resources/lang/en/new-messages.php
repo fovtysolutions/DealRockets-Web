@@ -9464,4 +9464,6 @@ return [
 	"Job Category List" => "Job Category List",
 	"Job Profile | Marketplace" => "Job Profile | Marketplace",
 	"Job Applied | Marketplace" => "Job Applied | Marketplace",
+	"Custom Chatbox" => "Custom Chatbox",
+	"All Messages" => "All Messages",
 ];

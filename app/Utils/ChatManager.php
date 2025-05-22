@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use App\Models\Admin;
 use App\Models\BusinessSetting;
 use App\Models\Chatting;
 use Illuminate\Support\Carbon;
@@ -214,6 +215,34 @@ class ChatManager
         }
 
         return $result;
+    }
+
+    public static function getUserDataChat($userId,$userRole)
+    {   
+        if ($userRole == 'customer'){
+            $userdata = User::find($userId);
+            $userdata = [
+                'name' => $userdata['name'],
+            ];
+            return $userdata;
+        } else if($userRole == 'seller'){   
+            $userdata = Seller::find($userId);
+            $userdata = [
+                'name' => $userdata['f_name'] . ' ' . $userdata['l_name'],
+            ];
+            return $userdata;
+        } else if($userRole == 'admin'){
+            $userdata = Admin::find($userId);
+            $userdata = [
+                'name' => $userdata['name'],
+            ];
+            return $userdata;
+        } else {
+            $userdata = [
+                'name' => 'N/A',
+            ];
+            return $userdata;
+        }
     }
 
     // Detect authenticated user role and ID

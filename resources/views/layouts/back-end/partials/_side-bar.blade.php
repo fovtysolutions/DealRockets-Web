@@ -1236,6 +1236,16 @@
                                 </a>
                             </li>
                             <li
+                                class="navbar-vertical-aside-has-menu {{ Request::is('admin.get-chat-lists*') ? 'active' : '' }}">
+                                <a class="nav-link"
+                                    href="{{ route('admin.get-chat-lists',['special' => 'all']) }}">
+                                    <i class="tio-chat nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Custom Chatbox') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/contact*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.contact.list') }}" title="{{ translate('messages') }}">

@@ -67,7 +67,7 @@ class ChatOtherController extends Controller
         return response()->json(['message' => 'Message sent successfully!', 'data' => $chat], 201);
     }
 
-    public function getChatboxStatistics()
+    public static function getChatboxStatistics()
     {
         // Count total messages
         $totalMessages = ChatsOther::count();
@@ -95,52 +95,77 @@ class ChatOtherController extends Controller
             ->groupBy('sender_type')
             ->get();
 
-        return response()->json([
+        $data = [
             'total_messages'     => $totalMessages,
             'read_messages'      => $readMessages,
             'unread_messages'    => $unreadMessages,
             'messages_by_type'   => $messagesByType,
             'status_distribution' => $statusStats,
             'by_sender_type'     => $bySenderType,
-        ]);
+        ];
+
+        return $data;
     }
 
-    public function getInitialMessages()
+    public static function getInitialMessages($special=null)
     {
-
         $roledetail = ChatManager::getRoleDetail();
-
         $role = $roledetail['role'];
         $userId = $roledetail['user_id'];
 
         $query = ChatsOther::query();
 
-        switch ($role){
+        if($special != null){
+            switch ($special) {
+                case 'unread':
+                    $query->where('is_read',0);
+                    break;
+                case 'read':
+                    $query->where('is_read',1);
+                    break;
+                case 'all':
+                default:
+                    break;
+            }
+        }
+
+        switch ($role) {
             case 'seller':
                 $query->whereIn('receiver_type', ['seller'])
                     ->where('receiver_id', $userId)
-                    ->orderBy('sent_at', 'asc'); // or 'id' if you prefer
-
+                    ->orderBy('sent_at', 'asc');
+                break;
             case 'admin':
                 $query->whereIn('receiver_type', ['admin', 'seller'])
-                    ->orderBy('sent_at', 'asc'); // or 'id' if you prefer
+                    ->orderBy('sent_at', 'asc');
+                break;
         }
 
-        // Fetch all, group by relevant context ID
         $messages = $query->get()
             ->filter(function ($item) {
-                return $item->leads_id || $item->stocksell_id || $item->product_id || $item->suppliers_id;
+                return $item->leads_id || $item->stocksell_id || $item->product_id || $item->type === 'reachout';
             })
             ->groupBy(function ($item) {
                 return match ($item->type) {
                     'stocksell' => 'stocksell_' . $item->stocksell_id,
                     'products' => 'product_' . $item->product_id,
-                    'buyleads', 'reachout' => 'lead_' . $item->leads_id,
-                    'sellleads' => 'supplier_' . $item->suppliers_id,
+                    'buyleads', 'sellleads' => 'lead_' . $item->leads_id,
+                    'reachout' => 'reachout_' . $item->id,
                     default => 'unknown_' . $item->id,
                 };
-            });
+            })
+            ->map(fn($group) => $group->first())
+            ->groupBy(fn($item) => $item->type)
+            ->toArray();
 
-        return response()->json(['data' => $messages]);
+        return $messages;
+    }
+
+    public function adminChatbox(Request $request)
+    {
+        $special = $request->input('special');
+        $data['intialMessages'] = self::getInitialMessages($special);
+        $data['chatboxStatics'] = self::getChatboxStatistics();
+        return view('admin-views.betterchat.messages',$data);
     }
 }

@@ -181,6 +181,7 @@ use App\Http\Controllers\Admin\Settings\ThemeSettingsController;
 use App\Http\Controllers\Quotation\QuotatioController;
 use App\Http\Controllers\CV\CVController;
 use App\Http\Controllers\deal_assist\DealAssistController;
+use App\Http\Controllers\Web\ChatOtherController;
 use App\Http\Controllers\Web\JobseekerController;
 use App\Http\Controllers\Web\StockSellController;
 use App\Http\Controllers\Web\MembershipTierController;
@@ -287,6 +288,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::post(Product::DELETE_PREVIEW_FILE[URI], 'deletePreviewFile')->name('delete-preview-file');
         });
     });
+
+
+    Route::get('/get-chat-lists',[ChatOtherController::class, 'adminChatbox'])->name('get-chat-lists');
 
     Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(OrderController::class)->group(function () {

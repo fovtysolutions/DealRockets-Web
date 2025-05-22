@@ -35,19 +35,19 @@ class ImportDatabase extends Command
         // Import the 504_admin.sql file first (since migrations are run after)
         $this->importLargeSqlFile($files['504_admin'], '504_admin');
 
-        // Run Migrations after 504_admin.sql import
-        $this->executeWithRetry(function () {
-            $this->info('Running Migrations');
-            Artisan::call('migrate');
-            $this->info('Migrations completed successfully.');
-        });
-
         // Now import the rest of the SQL files (after migrations)
         foreach ($files as $key => $file) {
             if ($key !== '504_admin') {
                 $this->importLargeSqlFile($file, $key);
             }
         }
+        
+        // Run Migrations after 504_admin.sql import
+        $this->executeWithRetry(function () {
+            $this->info('Running Migrations');
+            Artisan::call('migrate');
+            $this->info('Migrations completed successfully.');
+        });
     }
 
     // Import large SQL file with chunking

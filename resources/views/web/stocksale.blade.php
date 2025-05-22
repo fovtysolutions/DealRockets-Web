@@ -256,37 +256,6 @@
         };
     </script>
     <script>
-        $('#inquiryForm').on('submit', function(e) {
-            e.preventDefault();
-
-            var formData = {
-                sender_id: $('#sender_id').val(),
-                sender_type: $('#sender_type').val(),
-                receiver_id: $('#receiver_id').val(),
-                receiver_type: $('#receiver_type').val(),
-                type: $('#type').val(),
-                stocksell_id: $('#stocksell_id').val(),
-                email: $('#email').val(),
-                message: $('#message').val(),
-                _token: $('input[name="_token"]').val()
-            };
-
-            $.ajax({
-                url: "{{ route('sendmessage.other') }}",
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    toastr.success('Inquiry sent successfully!', 'Success');
-                    $('#inquireButton').modal('hide');
-                    $('#inquiryForm')[0].reset();
-                },
-                error: function(xhr) {
-                    toastr.error('Failed to send inquiry.', 'Error');
-                }
-            });
-        });
-    </script>
-    <script>
         function loadStockSellData(id) {
             $('#dynamicLoader').css('display', 'block');
 

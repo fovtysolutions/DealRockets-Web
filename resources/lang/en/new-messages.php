@@ -9466,4 +9466,5 @@ return [
 	"Job Applied | Marketplace" => "Job Applied | Marketplace",
 	"Custom Chatbox" => "Custom Chatbox",
 	"All Messages" => "All Messages",
+	"select_sub_category" => "Select sub category",
 ];

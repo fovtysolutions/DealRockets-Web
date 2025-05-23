@@ -5,12 +5,12 @@
             <button class="grid place-content-center rounded-full hover:bg-gray-200  text-gray-700 px-1 h-full"><i
                     class="fa-solid fa-caret-down"></i></button>
         </div>
-        <button class="grid place-content-center rounded-full hover:bg-gray-200 p-3"><i
+        <button class="grid place-content-center rounded-full hover:bg-gray-200 p-3" onclick="location.reload();"><i
                 class="fa-solid fa-rotate-right"></i></button>
     </div>
     <div class="flex gap-1">
         <div class="flex items-center h-full rounded-md px-2 cursor-pointer hover:bg-gray-200">
-            <p>1-50 of 4,814</p>
+            <p>1-50 of {{ $count }}</p>
         </div>
         <button class="grid place-content-center rounded-full hover:bg-gray-200 p-3"><i
                 class="fa-solid fa-chevron-left"></i></button>
@@ -40,7 +40,9 @@
     </div>
     <div class="tab-content-wrapper flex flex-col h-full">
         <div id="tab-rfq" class="tab-content">
-            @include('admin-views.betterchat.partials.rfqentries', ['chatdata' => $chatData['buyleads'] ?? []])
+            @include('admin-views.betterchat.partials.rfqentries', [
+                'chatdata' => $chatData['buyleads'] ?? [],
+            ])
         </div>
         <div id="tab-sell" class="tab-content hidden">
             @include('admin-views.betterchat.partials.saleofferentries', [
@@ -57,24 +59,233 @@
                 'chatdata' => $chatData['products'] ?? [],
             ])
         </div>
+        <div id="chatbox" class="hidden h-100">
+            @include('admin-views.betterchat.partials.messages')
+        </div>
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('.tab-button').on('click', function () {
+    $(document).ready(function() {
+        let lastActiveTab = 'rfq'; // default, adjust if needed
+
+        // Hide all tabs helper
+        function hideAllTabs() {
+            $('.tab-content').addClass('hidden');
+        }
+
+        // Show chatbox helper
+        function showChatbox() {
+            $('#chatbox').removeClass('hidden');
+        }
+
+        // Hide chatbox helper
+        function hideChatbox() {
+            $('#chatbox').addClass('hidden');
+        }
+
+        // Show a specific tab
+        function showTab(tabId) {
+            $('#tab-' + tabId).removeClass('hidden');
+            lastActiveTab = tabId;
+        }
+
+        function populateChat(response) {
+            let chat_code = "";
+            let lastDate = null;
+
+            response.forEach((element) => {
+                const messageDate = new Date(element.sent_at);
+                if (isNaN(messageDate)) {
+                    console.warn("Invalid sent_at date:", element.sent_at);
+                    return;
+                }
+
+                const formattedDate = formatDate(messageDate);
+
+                // Add date divider if the date changes
+                if (lastDate !== formattedDate) {
+                    chat_code += `<li class="divider"><h6>${formattedDate}</h6></li>`;
+                    lastDate = formattedDate;
+                }
+
+                // Use the `flag` to determine message alignment
+                if (element.flag === "self") {
+                    chat_code += `
+                <li class="repaly">
+                    <p>${element.message}</p>
+                    <span class="time">${formatTime(messageDate)}</span>
+                </li>`;
+                } else if (element.flag === "other") {
+                    chat_code += `
+                <li class="sender">
+                    <p>${element.message}</p>
+                    <span class="time">${formatTime(messageDate)}</span>
+                </li>`;
+                } else {
+                    console.warn("Unexpected flag value:", element.flag);
+                }
+            });
+
+            // Update chat DOM
+            const chatList = document.getElementById("chat-messages");
+            if (chatList) {
+                chatList.innerHTML = chat_code;
+                const body = document.getElementsByClassName('modal-body');
+                if (body[1]) {
+                    body[1].scrollTo({
+                        top: body[1].scrollHeight,
+                        behavior: 'smooth'
+                    });
+                }
+            } else {
+                console.error("Chat messages container not found");
+            }
+        }
+
+        // Format date for chat messages
+        function formatDate(date) {
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+
+            if (isSameDay(date, today)) {
+                return "Today";
+            } else if (isSameDay(date, yesterday)) {
+                return "Yesterday";
+            } else {
+                return date.toLocaleDateString("en-US", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                });
+            }
+        }
+
+        // Format time for chat messages
+        function formatTime(date) {
+            return date.toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+        }
+
+        // Check if two dates are on the same day
+        function isSameDay(date1, date2) {
+            return (
+                date1.getDate() === date2.getDate() &&
+                date1.getMonth() === date2.getMonth() &&
+                date1.getFullYear() === date2.getFullYear()
+            );
+        }
+
+        function loadChat(userId, userType, type, listingId) {
+            let url = `/chat-by-listing/${userId}/${userType}/${type}/${listingId}`;
+
+            $.ajax({
+                method: 'POST',
+                url: url,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                },
+                success: function(response) {
+                    // Populate Chat
+                    populateChat(response);
+                },
+                error: function(xhr) {
+                    console.error(`Error occurred: ${xhr.statusText} - ${xhr.responseText}`);
+                },
+            });
+        }
+
+        // When a tab button is clicked (your existing code)
+        $('.tab-button').on('click', function() {
             const tabId = $(this).data('tab');
 
-            // Remove active style from all buttons
+            // Remove active styles from all buttons
             $('.tab-button').removeClass('active-tab text-blue-600 border-blue-600 border-b-[3px]');
 
-            // Add active style to clicked button
+            // Add active styles to clicked button
             $(this).addClass('active-tab text-blue-600 border-blue-600 border-b-[3px]');
 
-            // Hide all tab contents
-            $('.tab-content').addClass('hidden');
+            // Hide all tabs and chatbox
+            hideAllTabs();
+            hideChatbox();
 
-            // Show the matching tab
-            $('#tab-' + tabId).removeClass('hidden');
+            // Show the clicked tab content
+            showTab(tabId);
+        });
+
+        // When any chat entry is clicked
+        $('.chat-entry').on('click', function() {
+            // Save last active tab container ID (for closing chatbox later)
+            lastActiveTab = $(this).closest('.tab-content').attr('id').replace('tab-', '');
+
+            // Hide all tab contents
+            hideAllTabs();
+
+            // Show chatbox
+            showChatbox();
+
+            // Render Chat
+            let userId = this.dataset.userId;
+            let userType = this.dataset.userType;
+            let type = this.dataset.type;
+            let listingId = this.dataset.listingId;
+            let sendtoId = this.dataset.sendtoid;
+            let sendtoType = this.dataset.sendtotype;
+
+            // Setup Reply Function 
+            document.getElementById('typeuniq').value = type;
+            document.getElementById('receiver_iduniq').value = sendtoId;
+            document.getElementById('receiver_typeuniq').value = sendtoType;
+            document.getElementById('listing_id').value = listingId;
+
+            loadChat(userId, userType, type, listingId);
+        });
+
+        // Close chat button click
+        $('#closeChat').on('click', function() {
+            hideChatbox();
+            showTab(lastActiveTab);
+
+            // Disable input again (no chat)
+            $('#chatInput, #chatForm button').prop('disabled', true);
+
+            // Clear chat messages
+            $('#chatMessages').html(
+                '<p class="text-gray-500">Select a conversation to start chatting.</p>');
+        });
+
+        $('#chatForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const message = $('#chatinput').val().trim();
+            if (!message) return;
+
+            const formData = {
+                sender_id: $('#sender_id').val(), // assuming hidden input with auth user ID
+                sender_type: $('#sender_type').val(), // assuming hidden input with auth user type
+                receiver_id: $('#receiver_iduniq').val(),
+                receiver_type: $('#receiver_typeuniq').val(),
+                listing_id: $('#listing_id').val(),
+                message: message,
+                type: $('#typeuniq').val(),
+                _token: "{{ csrf_token() }}", // or pass it explicitly
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route("send-reply-message") }}',
+                data: formData,
+                success: function(response) {
+                    $('#chatInput').val(''); // clear input
+                    toastr.success('Replied Successfully');
+                    loadChat(formData.sender_id, formData.sender_type, formData.type, $('#listing_id').val());
+                },
+                error: function(xhr) {
+                    alert('Failed to send message: ' + xhr.responseText);
+                },
+            });
         });
     });
 </script>

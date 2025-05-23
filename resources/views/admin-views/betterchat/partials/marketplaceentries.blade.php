@@ -1,5 +1,6 @@
 @foreach ($chatdata as $item)
-    <div class="flex h-9 px-2 items-center text-sm border-b border-gray-200 hover:shadow-md cursor-pointer md:py-0 py-6">
+    <div @if ($item['is_read'] == 1) style="background-color: #d3d3d394;" @endif data-user-id="{{ $item['receiver_id'] }}" data-user-type="{{ $item['receiver_type'] }}" data-type="{{ $item['type'] }}"  data-sendToId="{{ $item['sender_id'] }}" data-sendToType="{{ $item['sender_type'] }}" data-listing-id="{{ $item['product_id'] }}" 
+        class="chat-entry flex h-9 px-2 items-center text-sm border-b border-gray-200 hover:shadow-md cursor-pointer md:py-0 py-6">
         <!-- mail right section  -->
         <div class="flex text-gray-600 h-full leading-none items-center font-semibold w-1/5 py-1">
             <div class="md:grid place-content-center h-full w-8 rounded-full hover:bg-gray-200 hidden">

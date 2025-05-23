@@ -4,11 +4,11 @@
 
 @push('css_or_js')
     <link href="{{ dynamicAsset('public/assets/custom-css/gmail-ui/style.css') }}" rel="stylesheet">
+    <link href="{{ dynamicAsset('public/assets/custom-css/admin-panel/chatbox.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
-    <div class="gmail-ui">
-
+    <div class="gmail-ui" style="padding-bottom: 30px;">
         <body class="h-screen flex flex-col md:pb-2 bg-[#f6f9ff] relative">
             <nav class="w-full py-2 flex px-4 text-gray-600 justify-between">
                 <div class="flex items-center w-[70%] justify-between gap-3">

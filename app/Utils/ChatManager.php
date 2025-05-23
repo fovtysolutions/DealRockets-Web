@@ -217,21 +217,21 @@ class ChatManager
         return $result;
     }
 
-    public static function getUserDataChat($userId,$userRole)
-    {   
-        if ($userRole == 'customer'){
+    public static function getUserDataChat($userId, $userRole)
+    {
+        if ($userRole == 'customer') {
             $userdata = User::find($userId);
             $userdata = [
                 'name' => $userdata['name'],
             ];
             return $userdata;
-        } else if($userRole == 'seller'){   
+        } else if ($userRole == 'seller') {
             $userdata = Seller::find($userId);
             $userdata = [
                 'name' => $userdata['f_name'] . ' ' . $userdata['l_name'],
             ];
             return $userdata;
-        } else if($userRole == 'admin'){
+        } else if ($userRole == 'admin') {
             $userdata = Admin::find($userId);
             $userdata = [
                 'name' => $userdata['name'],
@@ -629,37 +629,78 @@ class ChatManager
      * @param string $type
      * @return \Illuminate\Support\Collection
      */
-    public static function getchats($sender_data, $receiver_data, $type)
+    public static function getchats($other_user_id, $other_user_type, $type, $listing_id)
     {
-        $chats = ChatsOther::where('type', $type)
-            ->where(function ($query) use ($sender_data, $receiver_data) {
-                $query->where([
-                    ['sender_type', $sender_data['role']],
-                    ['sender_id', $sender_data['user_id']],
-                    ['receiver_id', $receiver_data['user_id']],
-                    ['receiver_type', $receiver_data['role']],
-                ])->orWhere([
-                    ['sender_type', $receiver_data['role']],
-                    ['sender_id', $receiver_data['user_id']],
-                    ['receiver_id', $sender_data['user_id']],
-                    ['receiver_type', $sender_data['role']],
-                ]);
-            })
-            ->orderBy('sent_at', 'asc')
-            ->get();
+        $current_user = ChatManager::getRoleDetail();
 
-        return $chats->map(function ($chat) {
-            return [
-                "id" => $chat->id,
-                "sender_id" => $chat->sender_id,
-                "sender_type" => $chat->sender_type,
-                "receiver_id" => $chat->receiver_id,
-                "receiver_type" => $chat->receiver_type,
-                "message" => $chat->message,
-                "sent_at" => $chat->sent_at,
-                "is_read" => $chat->is_read,
-            ];
-        });
+        $userId = $current_user['user_id'];
+        $userRole = $current_user['role'];
+
+        $query = ChatsOther::query()->where('type', $type);
+
+        switch ($type) {
+            case 'products':
+                $query->where('product_id', $listing_id);
+                break;
+            case 'stocksell':
+                $query->where('stocksell_id', $listing_id);
+                break;
+            case 'buyleads':
+            case 'sellleads':
+                $query->where('leads_id', $listing_id);
+                break;
+            default:
+                return [];
+        }
+
+        $data = $query->get();
+        
+        dd($data);
+
+        $finalChat = [];
+
+        // Collect message IDs to be marked as read
+        $idsToMarkAsRead = [];
+
+        foreach ($data as $key => $value) {
+            if ($userId == $value->receiver_id && $userRole == $value->receiver_type) {
+                if (!$value->is_read) {
+                    $idsToMarkAsRead[] = $value->id;
+                }
+
+                // Message received by user — sender is 'other'
+                $finalChat[] = [
+                    'id' => $value->id,
+                    'sender_id' => $value->sender_id,
+                    'sender_type' => $value->sender_type,
+                    'receiver_id' => $value->receiver_id,
+                    'receiver_type' => $value->receiver_type,
+                    'message' => $value->message,
+                    'sent_at' => $value->sent_at,
+                    'is_read' => $value->is_read,
+                    'flag' => 'other',  // sender is other party
+                ];
+            } elseif ($userId == $value->sender_id && $userRole == $value->sender_type) {
+                // Message sent by user — flag as 'self'
+                $finalChat[] = [
+                    'id' => $value->id,
+                    'sender_id' => $value->sender_id,
+                    'sender_type' => $value->sender_type,
+                    'receiver_id' => $value->receiver_id,
+                    'receiver_type' => $value->receiver_type,
+                    'message' => $value->message,
+                    'sent_at' => $value->sent_at,
+                    'is_read' => $value->is_read,
+                    'flag' => 'self',  // sender is logged-in user
+                ];
+            }
+        }
+
+        if (!empty($idsToMarkAsRead)) {
+            ChatsOther::whereIn('id', $idsToMarkAsRead)->update(['is_read' => 1]);
+        }
+
+        return $finalChat;
     }
 
     /**

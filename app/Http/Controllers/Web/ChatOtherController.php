@@ -67,6 +67,63 @@ class ChatOtherController extends Controller
         return response()->json(['message' => 'Message sent successfully!', 'data' => $chat], 201);
     }
 
+    public function sendReplyMessage(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'sender_id' => 'required|integer',
+                'sender_type' => 'required|in:customer,seller,admin',
+                'receiver_id' => 'required|integer',
+                'receiver_type' => 'required|in:seller,admin,customer',
+                'message' => 'required|string|max:1000',
+                'listing_id' => 'required',
+                'type' => 'required|string',
+            ]);
+
+            $type = $validated['type'];
+            $listingId = $validated['listing_id'];
+
+            // Assign specific listing ID key based on type
+            switch ($type) {
+                case 'products':
+                    $validated['product_id'] = $listingId;
+                    break;
+                case 'stocksell':
+                    $validated['stocksell_id'] = $listingId;
+                    break;
+                case 'buyleads':
+                case 'sellleads':
+                    $validated['leads_id'] = $listingId;
+                    break;
+                default:
+                    return response()->json([
+                        'error' => 'Invalid listing type.',
+                        'details' => "Type '$type' is not supported.",
+                    ], 422);
+            }
+
+            // Keep 'type', but no need to keep 'listing_id'
+            unset($validated['listing_id']);
+
+            $chat = ChatsOther::create($validated);
+
+            return response()->json([
+                'message' => 'Message sent successfully!',
+                'data' => $chat,
+            ], 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'error' => 'Validation failed.',
+                'details' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Failed to send message.',
+                'details' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public static function getChatboxStatistics()
     {
         // Count total messages
@@ -107,7 +164,7 @@ class ChatOtherController extends Controller
         return $data;
     }
 
-    public static function getInitialMessages($special=null)
+    public static function getInitialMessages($special = null)
     {
         $roledetail = ChatManager::getRoleDetail();
         $role = $roledetail['role'];
@@ -115,13 +172,13 @@ class ChatOtherController extends Controller
 
         $query = ChatsOther::query();
 
-        if($special != null){
+        if ($special != null) {
             switch ($special) {
                 case 'unread':
-                    $query->where('is_read',0);
+                    $query->where('is_read', 0);
                     break;
                 case 'read':
-                    $query->where('is_read',1);
+                    $query->where('is_read', 1);
                     break;
                 case 'all':
                 default:
@@ -165,7 +222,14 @@ class ChatOtherController extends Controller
     {
         $special = $request->input('special');
         $data['intialMessages'] = self::getInitialMessages($special);
+        $data['count'] = count($data['intialMessages']);
         $data['chatboxStatics'] = self::getChatboxStatistics();
-        return view('admin-views.betterchat.messages',$data);
+        return view('admin-views.betterchat.messages', $data);
+    }
+
+    public function fetchChat($user_id, $user_type, $type, $listing_id)
+    {
+        $chats = ChatManager::getchats($user_id, $user_type, $type, $listing_id);
+        return response()->json($chats);
     }
 }

@@ -780,9 +780,9 @@ a {
 }
 
 .__cate-item:hover img {
-    /* transform: scale(0.88); */
-    border-color: linear-gradient(to right,#FE4E44,#9F0900);
-    border: 2px solid;
+    transform: scale(0.979);
+    /* border-color: linear-gradient(to right,#FE4E44,#9F0900);
+    border: 2px solid; */
 }
 
 .widget-list-item {
@@ -1227,6 +1227,7 @@ a {
     height: 100px;
     aspect-ratio: 1;
     border-radius: 50%;
+    background: linear-gradient(to right, #FE4E44, #9F0900);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.0509803922);
 }
 .__cate-item .__img .temporary-closed {

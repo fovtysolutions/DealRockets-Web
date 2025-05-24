@@ -272,9 +272,13 @@ class ChatManager
     // Get buyer and seller leads respecting limits from business settings
     public static function Leads()
     {
+        $targetCount = 30;
+
+        // Limits from settings
         $buyerLimit = self::getBusinessSettingLimit('buyer', 10);
         $sellerLimit = self::getBusinessSettingLimit('seller', 10);
 
+        // Fetch initial leads
         $buyerLeads = Leads::select('id', 'posted_date', 'name', 'country')
             ->where('type', 'buyer')
             ->limit($buyerLimit)
@@ -292,10 +296,32 @@ class ChatManager
             ->where('active', 1)
             ->get();
 
+        $finalBuyerLeads = self::repeatCollectionToCount($buyerLeads, $targetCount);
+        $mergedSellers = $sellerLeadsAdmin->merge($sellerLeadsSeller);
+        $finalSellerLeads = self::repeatCollectionToCount($mergedSellers, $targetCount);
+
         return [
-            'buyer' => $buyerLeads,
-            'seller' => $sellerLeadsAdmin->merge($sellerLeadsSeller),
+            'buyer' => $finalBuyerLeads,
+            'seller' => $finalSellerLeads,
         ];
+    }
+
+    private static function repeatCollectionToCount($collection, $targetCount)
+    {
+        $result = collect();
+        $original = $collection->values(); // reset keys
+        $index = 0;
+
+        if ($original->isEmpty()) {
+            return $result; // return empty if no data to repeat
+        }
+
+        while ($result->count() < $targetCount) {
+            $result->push($original[$index % $original->count()]);
+            $index++;
+        }
+
+        return $result;
     }
 
     // Get top suppliers limited by business setting
@@ -654,7 +680,7 @@ class ChatManager
         }
 
         $data = $query->get();
-        
+
         $finalChat = [];
 
         // Collect message IDs to be marked as read

@@ -1,0 +1,54 @@
+@mixin white-gradient-vertical {
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+$animationSpeed: 40s;
+
+// Animation
+@keyframes scroll-vertical {
+	0% { transform: translateY(0); }
+	100% { transform: translateY(calc(-100px * 7)); }
+}
+
+// Styling
+.leads-container .slider {
+	background: white;
+	box-shadow: 0 10px 20px -5px rgba(0, 0, 0, .125);
+	width: 250px;
+	height: 700px; // Adjust as needed
+	margin: auto;
+	overflow: hidden;
+	position: relative;
+
+	&::before,
+	&::after {
+		@include white-gradient-vertical;
+		content: "";
+		width: 250px;
+		height: 100px;
+		position: absolute;
+		z-index: 2;
+		left: 0;
+	}
+	
+	&::before {
+		top: 0;
+	}
+	
+	&::after {
+		bottom: 0;
+		transform: rotateX(180deg);
+	}
+	
+	.slide-track {
+		animation: scroll-vertical $animationSpeed linear infinite;
+		display: flex;
+		flex-direction: column;
+		height: calc(100px * 14); // Number of slides x height
+	}
+	
+	.slide {
+		width: 250px;
+		height: 100px;
+	}
+}

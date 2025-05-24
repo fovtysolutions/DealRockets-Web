@@ -655,8 +655,6 @@ class ChatManager
 
         $data = $query->get();
         
-        dd($data);
-
         $finalChat = [];
 
         // Collect message IDs to be marked as read

@@ -222,10 +222,8 @@
                         </table>
                     </div>
 
-                    <div class="table-responsive mt-4">
-                        <div class="px-4 d-flex justify-content-lg-end">
-                            {{ $leads->links() }}
-                        </div>
+                    <div class="mt-4">
+                        {{ $leads->links() }}
                     </div>
 
                     @if (count($leads) == 0)

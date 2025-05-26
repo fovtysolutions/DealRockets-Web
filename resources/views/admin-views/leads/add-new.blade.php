@@ -218,8 +218,8 @@
                                     <label for="compliance_status" class="form-label">Compliance Status</label>
                                     <select name="compliance_status" id="compliance_status" class="form-control">
                                         <option value="pending" selected>Pending</option>
-                                        {{-- <option value="approved">Approved</option>
-                                        <option value="flagged">Flagged</option> --}}
+                                        <option value="approved">Approved</option>
+                                        <option value="flagged">Flagged</option>
                                     </select>
                                 </div>
     

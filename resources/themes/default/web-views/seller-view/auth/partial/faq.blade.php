@@ -1,26 +1,71 @@
 <section class="pt-4 pt-lg-5">
-    <div class="container">
-        <div class="d-flex flex-column gap-2 align-items-center text-center">
-            <h2 class="section-title mb-2">{{translate('Frequently Asked Questions')}}</h2>
-            <p class="max-w-500 mb-4">{{translate('got_questions_about_becoming_a_vendor').' ? '.translate('explore_our_vendor_FAQ_section_for_answers_to_any_queries_you_may_have_about_joining_our_platform_as_a_vendor')}}</p>
-        </div>
+    <section class="faq-section">
+        <div class="container">
+            <h3 class="faq-title">Frequently asked questions</h3>
+            <p class="faq-subtitle">Everything you need to know about the product and billing.</p>
 
-        <div class="accordion__custom" id="accordion">
-            @foreach($helpTopics as $key=>$topic)
-                <div class="card">
-                    <div class="card-header" id="heading-{{$key}}">
-                        <h6 class="faq-title mb-0 py-2 collapsed" data-toggle="collapse" data-target="#collapse-{{$key}}" aria-expanded="true" aria-controls="collapse-{{$key}}">
-                            {{$topic->question}}
-                        </h6>
-                    </div>
-
-                    <div id="collapse-{{$key}}" class="collapse" aria-labelledby="heading-{{$key}}" data-parent="#accordion">
-                        <div class="card-body">
-                            {{$topic->answer}}
-                        </div>
-                    </div>
+            <div class="faq-item open">
+                <div class="faq-question">
+                    <strong>How do I handle customer inquiries?</strong>
+                    <i class="bi quetion-icon  bi-dash-lg"></i>
                 </div>
-            @endforeach
+                <div class="faq-answer">
+                    You can manage customer inquiries directly through our platform’s messaging system, ensuring quick
+                    and efficient communication.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <strong>How do I upload products?</strong>
+                    <i class="bi quetion-icon bi-plus-lg"></i>
+                </div>
+                <div class="faq-answer">
+                    <!-- Hidden until toggled -->
+                    You can upload products through your dashboard, using our easy-to-use upload form and product
+                    editor.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <strong>What are the fees for selling?</strong>
+                    <i class="bi quetion-icon  bi-plus-lg"></i>
+                </div>
+                <div class="faq-answer">
+                    <!-- Hidden until toggled -->
+                    We charge a small commission per successful sale. Check our pricing page for full details.
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 </section>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const faqItems = document.querySelectorAll(".faq-item");
+
+        faqItems.forEach(item => {
+            const question = item.querySelector(".faq-question");
+
+            question.addEventListener("click", () => {
+                const isOpen = item.classList.contains("open");
+
+                // Close all others
+                faqItems.forEach(i => {
+                    i.classList.remove("open");
+                    const icon = i.querySelector("i");
+                    icon.classList.remove("bi-dash-lg");
+                    icon.classList.add("bi-plus-lg");
+                });
+
+                // Toggle this item
+                if (!isOpen) {
+                    item.classList.add("open");
+                    const icon = item.querySelector("i");
+                    icon.classList.remove("bi-plus-lg");
+                    icon.classList.add("bi-dash-lg");
+                }
+            });
+        });
+    });
+</script>

@@ -1,7 +1,7 @@
 <div class="second-el d--none">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-12 mb-5">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="mb-4">{{translate('create_an_account')}}</h3>

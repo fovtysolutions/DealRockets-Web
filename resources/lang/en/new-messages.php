@@ -9467,4 +9467,7 @@ return [
 	"Custom Chatbox" => "Custom Chatbox",
 	"All Messages" => "All Messages",
 	"select_sub_category" => "Select sub category",
+	"The email field is required" => "The email field is required",
+	"The shop name field is required" => "The shop name field is required",
+	"The shop address field is required" => "The shop address field is required",
 ];

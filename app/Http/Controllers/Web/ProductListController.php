@@ -33,6 +33,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Country;
+use App\Models\Leads;
 use App\Models\SearchHistUsers;
 
 class ProductListController extends Controller
@@ -60,6 +61,23 @@ class ProductListController extends Controller
         return [
             'status' => 'failure',
         ];
+    }
+
+    public function getProductsOnSearch(Request $request){
+        $search = $request->input('search');
+        $type = $request->input('type');
+
+        if ($type == 'products'){
+            $data = Product::where('name','LIKE', '%'. $search .'%')->limit(10)->get();
+        } else if ($type == 'buyer'){
+            $data = Leads::where('type','buyer')->where('name','LIKE','%'. $search .'%')->limit(10)->get();
+        } else if ($type == 'seller'){
+            $data = Leads::where('type','seller')->where('name','LIKE','%'. $search .'%')->limit(10)->get();
+        } else {
+            $data = collect();
+        }
+
+        return $data;
     }
 
     public function products(Request $request)

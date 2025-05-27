@@ -864,6 +864,27 @@
     margin-bottom: 5px;
 }
 
+.suggestion-dropdown{
+    display: flex;
+    flex-direction: column;
+    width: 96%;
+    left: 25px;
+}
+
+.suggestion-dropdown li{
+    font-size: 14px;
+    border-bottom: 1px solid lightgrey;
+    width: 98%;
+}
+
+.suggestion-dropdown li:nth-last-child{
+    border: none;
+}
+
+.suggestion-dropdown li a{
+    padding:6px;
+}
+
 .guest_user {
     text-decoration: none;
     outline: none;

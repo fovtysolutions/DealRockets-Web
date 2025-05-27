@@ -201,24 +201,21 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                             <ul id="dropdownOptions">
                                                                 <li id="productssearch" data-value="products"
                                                                     data-route="{{ route('products') }}"
-                                                                    data-suggest="products"
-                                                                    data-type="products"
+                                                                    data-suggest="products" data-type="products"
                                                                     data-placeholder="Search for products..."
                                                                     class="custom-dealrock-text">
                                                                     Products
                                                                 </li>
                                                                 <li id="leadsbuy" data-value="buyleads"
                                                                     data-route="{{ route('buyer') }}"
-                                                                    data-suggest="buyer"
-                                                                    data-type="buyer"
+                                                                    data-suggest="buyer" data-type="buyer"
                                                                     data-placeholder="Search for buy leads..."
                                                                     class="custom-dealrock-text">
                                                                     Buy Leads
                                                                 </li>
                                                                 <li id="leadssell" data-value="sellleads"
                                                                     data-route="{{ route('seller') }}"
-                                                                    data-suggest="seller"
-                                                                    data-type="seller"
+                                                                    data-suggest="seller" data-type="seller"
                                                                     data-placeholder="Search for sell leads..."
                                                                     class="custom-dealrock-text">
                                                                     Sell offer
@@ -241,9 +238,10 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                                 placeholder="{{ translate('Search for Candidates') }}...">
                                                         @else
                                                             <input class="custom-dealrock-text" type="text"
-                                                                id="searchInput" name="searchInput" class="input" data-suggest="products"
-                                                                style="width: inherit;height: 100%;border: 0;outline: 0;" data-type="products"
-                                                                value="{{ request('name') }}"
+                                                                id="searchInput" name="searchInput" class="input"
+                                                                data-suggest="products"
+                                                                style="width: inherit;height: 100%;border: 0;outline: 0;"
+                                                                data-type="products" value="{{ request('name') }}"
                                                                 placeholder="{{ translate('Search for products') }}...">
                                                         @endif
 
@@ -255,7 +253,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                                 style="height: 16px; width: 16px;"><span
                                                                 class="ml-1" style="font-size: 18px;">Search<span>
                                                         </div>
-                                                        <ul id="suggestions" class="dropdown-menu suggestion-dropdown" style="display: none;"></ul>
+                                                        <ul id="suggestions" class="dropdown-menu suggestion-dropdown"
+                                                            style="display: none;"></ul>
                                                     </div>
                                                 </div>
                                                 </form>
@@ -377,6 +376,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                         <img class="chatting img-default" src="/img/chatting-1.png" />
                                         <img class="chatting img-hover" src="/img/chatting (2).png" />
                                         <div class="text-wrapper-10">Message</div>
+                                        @if (auth('customer')->check() && isset($unread))
+                                            <span class="unread-badge">{{ $unread }}</span>
+                                        @endif
                                     </a>
                                 </div>
                                 <div class="group-13">

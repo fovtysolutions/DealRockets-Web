@@ -180,7 +180,8 @@
                     </button>
                 </div>
                 <div class="w-90 flex-row d-flex">
-                    <div id="buyerBanner" class="d-none banner buyer-banner mr-4 h-100" style="width:60%;">
+                    <img src="/img/image2.png" style="width:60%; z-index: 10; max-height: 500px;">
+                    {{-- <div id="buyerBanner" class="d-none banner buyer-banner mr-4 h-100" style="width:60%;">
                         <div class="overlayclipped">
                             <div class="banner-text slide-left">
                                 <h3>{{ translate('For Buyers') }}</h3>
@@ -208,17 +209,17 @@
                         </div>
                         <img src="/storage/{{ $vendorsetting['ad2_image'] ?? '' }}"
                             onerror="this.onerror=null; this.src='/images/placeholderimage.webp';" alt="For Suppliers">
-                    </div>
+                    </div> --}}
                     <div class="card card-lg" style="width:38%;">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between mb-4">
+                            {{-- <div class="d-flex justify-content-between mb-4">
                                 <button type="button" class="btn btn-primary"
                                     id="buyerBtn">{{ translate('Buyer') }}</button>
                                 <button type="button" class="btn btn-secondary"
                                     id="supplierBtn">{{ translate('Supplier') }}</button>
                                 <a href="{{ route('customer.auth.sign-up') }}" class="btn btn-info"
                                     id="consultantBtn">{{ translate('Consultant') }}</a>
-                            </div>
+                            </div> --}}
                             <form action="{{ route('vendor.auth.login') }}" method="post" id="vendor-login-form">
                                 @csrf
                                 <div class="text-center">

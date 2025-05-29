@@ -91,7 +91,7 @@
                         <img class="navbar-brand-logo-mini for-web-logo max-h-30"
                             src="{{ $web_config['web_logo']['path'] }}" alt="{{ translate('logo') }}">
                     </a>
-                    <button type="button"
+                    {{-- <button type="button"
                         class="d-none js-navbar-vertical-aside-toggle-invoker navbar-vertical-aside-toggle btn btn-icon btn-xs btn-ghost-dark">
                         <i class="tio-clear tio-lg"></i>
                     </button>
@@ -100,7 +100,7 @@
                         <i class="tio-first-page navbar-vertical-aside-toggle-short-align"></i>
                         <i class="tio-last-page navbar-vertical-aside-toggle-full-align"
                             data-template="<div class=&quot;tooltip d-none d-sm-block&quot; role=&quot;tooltip&quot;><div class=&quot;arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>"></i>
-                    </button>
+                    </button> --}}
                 </div>
                 <div class="navbar-vertical-content">
                     <div class="sidebar--search-form pb-3 pt-4">
@@ -115,7 +115,7 @@
                             class="navbar-vertical-aside-has-menu {{ Request::is('admin/dashboard' . Dashboard::VIEW[URI]) ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link" title="{{ translate('dashboard') }}"
                                 href="{{ route('admin.dashboard.index') }}">
-                                <i class="tio-home-vs-1-outlined nav-icon"></i>
+                                <i class='bx  bxs-dashboard'></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                     {{ translate('dashboard') }}
                                 </span>
@@ -124,6 +124,7 @@
                         @if (Helpers::module_permission_check('user_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/customer/' . Customer::LIST[URI]) || Request::is('admin/customer/' . Customer::VIEW[URI] . '*') || Request::is('admin/customer/' . Customer::SUBSCRIBER_LIST[URI]) || Request::is('admin/vendors/' . Vendor::ADD[URI]) || Request::is('admin/vendors/' . Vendor::LIST[URI]) || Request::is('admin/delivery-man*') ? 'scroll-here' : '' }}">
+                                <i class='bx  bx-user-square'  ></i> 
                                 <small class="nav-subtitle"
                                     title="">{{ translate('user_management') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -133,7 +134,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/customer/wallet*') || Request::is('admin/customer/' . Customer::LIST[URI]) || Request::is('admin/customer/' . Customer::VIEW[URI] . '*') || Request::is('admin/reviews*') || Request::is('admin/customer/loyalty/' . Customer::LOYALTY_REPORT[URI]) ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('customers') }}">
-                                    <i class="tio-wallet nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('customers') }}</span>
                                 </a>
@@ -143,14 +143,12 @@
                                         class="nav-item {{ Request::is('admin/customer/' . Customer::LIST[URI]) || Request::is('admin/customer/' . Customer::VIEW[URI] . '*') ? 'active' : '' }}">
                                         <a class="nav-link " href="{{ route('admin.customer.list') }}"
                                             title="{{ translate('Customer_List') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('customer_List') }} </span>
                                         </a>
                                     </li>
                                     {{-- <li class="nav-item {{ Request::is('admin/reviews*') ? 'active' : '' }}">
                                         <a class="nav-link" href="{{ route('admin.reviews.list') }}"
                                             title="{{ translate('customer_Reviews') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                 {{ translate('customer_Reviews') }}
@@ -161,7 +159,6 @@
                                         class="nav-item {{ Request::is('admin/customer/wallet/' . CustomerWallet::REPORT[URI]) ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('wallet') }}"
                                             href="{{ route('admin.customer.wallet.report') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('wallet') }}
                                             </span>
@@ -171,7 +168,6 @@
                                         class="nav-item {{ Request::is('admin/customer/wallet/' . CustomerWallet::BONUS_SETUP[URI]) ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('wallet_Bonus_Setup') }}"
                                             href="{{ route('admin.customer.wallet.bonus-setup') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('wallet_Bonus_Setup') }}
                                             </span>
@@ -181,7 +177,6 @@
                                         class="nav-item {{ Request::is('admin/customer/loyalty/' . Customer::LOYALTY_REPORT[URI]) ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('loyalty_Points') }}"
                                             href="{{ route('admin.customer.loyalty.report') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('loyalty_Points') }}
                                             </span>
@@ -194,7 +189,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/vendors*') || Request::is('admin/vendors/withdraw-method/*') || (Request::is('admin/orders/details/*') && request()->has('vendor-order-list')) ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('vendors') }}">
-                                    <i class="tio-users-switch nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('vendors') }}</span>
                                 </a>
@@ -204,7 +198,6 @@
                                         class="nav-item {{ Request::is('admin/vendors/' . Vendor::ADD[URI]) ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('add_New_Vendor') }}"
                                             href="{{ route('admin.vendors.add') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('add_New_Vendor') }}
                                             </span>
@@ -214,7 +207,6 @@
                                         class="nav-item {{ Request::is('admin/vendors/' . Vendor::LIST[URI]) || Request::is('admin/vendors/' . Vendor::VIEW[URI] . '*') ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('vendor_List') }}"
                                             href="{{ route('admin.vendors.vendor-list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('vendor_List') }}
                                             </span>
@@ -224,7 +216,6 @@
                                         class="nav-item {{ Request::is('admin/vendors/' . Vendor::WITHDRAW_LIST[URI]) || Request::is('admin/vendors/' . Vendor::WITHDRAW_VIEW[URI] . '/*') ? 'active' : '' }}">
                                         <a class="nav-link " href="{{ route('admin.vendors.withdraw_list') }}"
                                             title="{{ translate('withdraws') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('withdraws') }}</span>
                                         </a>
                                     </li>
@@ -233,7 +224,6 @@
                                         <a class="nav-link "
                                             href="{{ route('admin.vendors.withdraw-method.list') }}"
                                             title="{{ translate('withdrawal_Methods') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('withdrawal_Methods') }}</span>
                                         </a>
                                     </li> --}}
@@ -244,7 +234,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/delivery-man*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle text-capitalize"
                                     href="javascript:" title="{{ translate('job_seekers') }}">
-                                    <i class="tio-user nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate text-capitalize">
                                         {{ translate('job_seekers') }}
@@ -256,7 +245,6 @@
                                         <a class="nav-link {{ Request::is('admin.cv.list') ? 'active' : '' }}"
                                             title="{{ translate('CV_List') }}"
                                             href="{{ route('admin.cv.list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('CV_List') }}</span>
                                         </a>
                                     </li>
@@ -264,7 +252,6 @@
                                         <a class="nav-link {{ Request::is('admin.jobvacancy.category.list') ? 'active' : '' }}"
                                             title="{{ translate('Job Category List') }}"
                                             href="{{ route('admin.jobvacancy.category.list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Job Category List') }}</span>
                                         </a>
                                     </li>
@@ -272,7 +259,6 @@
                                         <a class="nav-link {{ Request::is('admin.jobvacancy.list') ? 'active' : '' }}"
                                             title="{{ translate('Job Vacancies List') }}"
                                             href="{{ route('admin.jobvacancy.list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Job Vacancy List') }}</span>
                                         </a>
                                     </li>
@@ -280,7 +266,6 @@
                                         <a class="nav-link {{ Request::is('admin.jobvacancy.create') ? 'active' : '' }}"
                                             title="{{ translate('Add Job Vacancies') }}"
                                             href="{{ route('admin.jobvacancy.create') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Add Job Vacancy') }}</span>
                                         </a>
                                     </li>
@@ -288,7 +273,6 @@
                                         <a class="nav-link {{ Request::is('admin.jobvacancy.registered-candidates') ? 'active' : '' }}"
                                             title="{{ translate('Registered Candidates') }}"
                                             href="{{ route('admin.jobvacancy.registered-candidates') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Registered Candidates') }}</span>
                                         </a>
                                     </li>
@@ -300,7 +284,6 @@
                                     class="navbar-vertical-aside-has-menu">
                                     <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                         href="javascript:" title="{{ translate('job_consultants') }}">
-                                        <i class="tio-user nav-icon"></i>
                                         <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                             {{ translate('Job Consultants') }}
                                         </span>
@@ -310,7 +293,6 @@
                                             <a class="nav-link {{ Request::is('admin.jobvacancy.consultant-membership') ? 'active' : '' }}"
                                                 title="{{ translate('Consultant Membership') }}"
                                                 href="{{ route('admin.jobvacancy.consultant-membership') }}">
-                                                <span class="tio-circle nav-indicator-icon"></span>
                                                 <span class="text-truncate">{{ translate('Consultant Membership') }}</span>
                                             </a>
                                         </li>
@@ -318,7 +300,6 @@
                                             <a class="nav-link {{ Request::is('admin.jobvacancy.job-applications') ? 'active' : '' }}"
                                                 title="{{ translate('Job Applications') }}"
                                                 href="{{ route('admin.jobvacancy.job-applications') }}">
-                                                <span class="tio-circle nav-indicator-icon"></span>
                                                 <span class="text-truncate">{{ translate('Job Applications') }}</span>
                                             </a>
                                         </li>
@@ -329,6 +310,7 @@
 
                         @if (Helpers::module_permission_check('listings_management'))
                             <li class="nav-item {{ Request::is('admin/stock/*') ? 'active' : '' }}">
+                                <i class='bx  bx-barn'  ></i> 
                                 <small class="nav-subtitle" title="">
                                     {{ translate('Stock Sell') }}
                                 </small>
@@ -338,7 +320,6 @@
                                                     'admin/stock/category/create') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('Category_management') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{ translate('Category_management') }}</span>
                                     </span>
@@ -348,7 +329,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.stock.category.list') }}"
                                             title="{{ translate('Category_list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Category_list') }}</span>
                                         </a>
                                     </li>
@@ -356,7 +336,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.stock.category.create') }}"
                                             title="{{ translate('Add_category') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Add_category') }}</span>
                                         </a>
                                     </li>
@@ -366,7 +345,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/stock/index') || Request::is('admin/stock/edit/*') || Request::is('admin/stock/show/*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.stock.index') }}" title="{{ translate('Category Management') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('stock_List') }}</span>
                                 </a>
@@ -376,7 +354,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.stock.create') }}"
                                     title="{{ translate('Create Stock') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('Stock_Create') }}</span>
                                 </a>
@@ -386,7 +363,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.stock.get-messages') }}"
                                     title="{{ translate('Messages') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{ translate('Messages') }}</span>
                                     </span>
@@ -397,6 +373,7 @@
                         @if (Helpers::module_permission_check('listings_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/leads/add-new' || 'admin/leads/bulk' || 'admin/leads/list' || 'admin/leads/view' || 'admin/leads/edit') ? 'active' : '' }}">
+                                <i class='bx  bx-barcode-square'  ></i> 
                                 <small class="nav-subtitle"
                                     title="">{{ translate('leads_management') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -404,7 +381,6 @@
                             <li id="leads" class="navbar-vertical-aside-has-menu">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('Leads') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{ translate('Leads') }}</span>
                                     </span>
@@ -414,7 +390,6 @@
                                         {{ Request::is('admin/leads/list') ? 'active' : '' }}>
                                         <a class="nav-link" title="{{ translate('Leads_List') }}"
                                             href="{{ route('admin.leads.list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Leads_List') }}
                                                 <!-- <span class="badge badge-soft-success badge-pill ml-1">
                                                     {{ getAdminProductsCount('all') }}
@@ -426,7 +401,6 @@
                                         class="nav-item {{ Request::is('admin/leads/add-new') ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('add_New_Leads') }}"
                                             href="{{ route('admin.add-new-leads') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('add_New_Leads') }}</span>
                                         </a>
                                     </li>
@@ -434,7 +408,6 @@
                                         class="nav-item {{ Request::is('admin/leads/bulk') ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('bulk_import') }}"
                                             href="{{ route('admin.bulk-import-leads') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('bulk_import') }}</span>
                                         </a>
                                     </li>
@@ -444,7 +417,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.leads.get-messages') }}"
                                     title="{{ translate('Messages') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{ translate('Messages') }}</span>
                                     </span>
@@ -455,6 +427,7 @@
                         @if (Helpers::module_permission_check('listings_management'))
                             <li
                                 class="nav-item {{ Request::is('dealassist/list') ? 'active' : '' }}">
+                                <i class='bx  bx-people-handshake'  ></i> 
                                 <small class="nav-subtitle"
                                     title="">{{ translate('Deal_Assist') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -462,7 +435,6 @@
                             <li class="navbar-vertical-aside-has-menu">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('Deal Assist') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{ translate('Deal Assist') }}</span>
                                     </span>
@@ -472,7 +444,6 @@
                                         {{ Request::is('dealassist/list') ? 'active' : '' }}>
                                         <a class="nav-link" title="{{ translate('Deal_Assist_List') }}"
                                             href="{{ route('dealassist.index') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('List') }}</span>
                                         </a>
                                     </li>
@@ -693,6 +664,7 @@
                         @if (Helpers::module_permission_check('listings_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/brand*') || Request::is('admin/category*') || Request::is('admin/sub*') || Request::is('admin/attribute*') || Request::is('admin/products*') ? 'scroll-here' : '' }}">
+                                <i class='bx  bx-store-alt-2'  ></i> 
                                 <small class="nav-subtitle"
                                     title="">{{ translate('product_management') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -701,7 +673,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/category*') || Request::is('admin/sub-category*') || Request::is('admin/sub-sub-category*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('category_Setup') }}">
-                                    <i class="tio-filter-list nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('category_Setup') }}
                                     </span>
@@ -712,7 +683,6 @@
                                         class="nav-item {{ Request::is('admin/category/' . Category::LIST[URI]) ? 'active' : '' }}">
                                         <a class="nav-link " href="{{ route('admin.category.view') }}"
                                             title="{{ translate('categories') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('categories') }}</span>
                                         </a>
                                     </li>
@@ -720,7 +690,6 @@
                                         class="nav-item {{ Request::is('admin/sub-category/' . SubCategory::LIST[URI]) ? 'active' : '' }}">
                                         <a class="nav-link " href="{{ route('admin.sub-category.view') }}"
                                             title="{{ translate('sub_Categories') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('sub_Categories') }}</span>
                                         </a>
                                     </li>
@@ -728,7 +697,6 @@
                                         class="nav-item {{ Request::is('admin/sub-sub-category/' . SubSubCategory::LIST[URI]) ? 'active' : '' }}">
                                         <a class="nav-link " href="{{ route('admin.sub-sub-category.view') }}"
                                             title="{{ translate('sub_Sub_Categories') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('sub_Sub_Categories') }}</span>
                                         </a>
                                     </li>
@@ -738,7 +706,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/brand*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('brands') }}">
-                                    <i class="tio-star nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('brands') }}</span>
                                 </a>
@@ -747,14 +714,12 @@
                                     <li class="nav-item {{ Request::is('admin/brand/' . Brand::ADD[URI]) ? 'active' : '' }}"
                                         title="{{ translate('add_new') }}">
                                         <a class="nav-link " href="{{ route('admin.brand.add-new') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('add_new') }}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item {{ Request::is('admin/brand/' . Brand::LIST[URI]) ? 'active' : '' }}"
                                         title="{{ translate('list') }}">
                                         <a class="nav-link " href="{{ route('admin.brand.list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('list') }}</span>
                                         </a>
                                     </li>
@@ -765,7 +730,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.attribute.view') }}"
                                     title="{{ translate('product_Attribute_Setup') }}">
-                                    <i class="tio-category-outlined nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('product_Attribute_Setup') }}</span>
                                 </a>
@@ -774,7 +738,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/products/' . Product::LIST[URI] . '/in-house') || Request::is('admin/products/' . Product::BULK_IMPORT[URI]) || Request::is('admin/products/' . Product::ADD[URI]) || Request::is('admin/products/' . Product::VIEW[URI] . '/in-house/*') || Request::is('admin/products/' . Product::BARCODE_GENERATE[URI] . '/*') || (Request::is('admin/products/' . Product::UPDATE[URI] . '/*') && request()->has('product-gallery')) ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('in-House_Products') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{ translate('in-House_Products') }}</span>
                                     </span>
@@ -785,7 +748,6 @@
                                         class="nav-item {{ Request::is('admin/products/' . Product::LIST[URI] . '/in-house') || Request::is('admin/products/' . \App\Enums\ViewPaths\Admin\Product::VIEW[URI] . '/in-house/*') || Request::is('admin/products/' . \App\Enums\ViewPaths\Admin\Product::STOCK_LIMIT[URI] . '/in-house') || Request::is('admin/products/' . \App\Enums\ViewPaths\Admin\Product::BARCODE_GENERATE[URI] . '/*') ? 'active' : '' }}">
                                         <a class="nav-link " href="{{ route('admin.products.list', ['in-house']) }}"
                                             title="{{ translate('Product_List') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Product_List') }}
                                                 <span class="badge badge-soft-success badge-pill ml-1">
                                                     {{ getAdminProductsCount('all') }}
@@ -797,7 +759,6 @@
                                         class="nav-item {{ Request::is('admin/products/' . Product::ADD[URI]) || (Request::is('admin/products/' . Product::UPDATE[URI] . '/*') && request()->has('product-gallery')) ? 'active' : '' }}">
                                         <a class="nav-link " href="{{ route('admin.products.add') }}"
                                             title="{{ translate('add_New_Product') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('add_New_Product') }}</span>
                                         </a>
                                     </li>
@@ -805,7 +766,6 @@
                                         class="nav-item {{ Request::is('admin/products/' . Product::BULK_IMPORT[URI]) ? 'active' : '' }}">
                                         <a class="nav-link " href="{{ route('admin.products.bulk-import') }}"
                                             title="{{ translate('bulk_import') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('bulk_import') }}</span>
                                         </a>
                                     </li>
@@ -815,7 +775,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/products/' . Product::LIST[URI] . '/vendor*') || Request::is('admin/products/' . \App\Enums\ViewPaths\Admin\Product::VIEW[URI] . '/vendor/*') || Request::is('admin/products/' . \App\Enums\ViewPaths\Admin\Product::UPDATED_PRODUCT_LIST[URI]) ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('vendor_Products') }}">
-                                    <i class="tio-airdrop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('vendor_Products') }}
                                     </span>
@@ -826,7 +785,6 @@
                                         class="nav-item {{ str_contains(url()->current() . '?status=' . request()->get('status'), 'admin/products/' . \App\Enums\ViewPaths\Admin\Product::LIST[URI] . '/vendor?status=0') == 1 ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('new_Products_Requests') }}"
                                             href="{{ route('admin.products.list', ['vendor', 'status' => '0']) }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('new_Products_Requests') }}
                                                 <span class="badge badge-soft-danger badge-pill ml-1">
                                                     {{ getVendorProductsCount('new-product') }}
@@ -840,7 +798,6 @@
                                             <a class="nav-link text-capitalize"
                                                 title="{{ translate('product_update_requests') }}"
                                                 href="{{ route('admin.products.updated-product-list') }}">
-                                                <span class="tio-circle nav-indicator-icon"></span>
                                                 <span
                                                     class="text-truncate text-capitalize">{{ Str::limit(translate('product_update_requests'), 18, '...') }}
                                                     <span class="badge badge-soft-info badge-pill ml-1">
@@ -854,7 +811,6 @@
                                         class="nav-item {{ str_contains(url()->current() . '?status=' . request()->get('status'), '/admin/products/' . Product::LIST[URI] . '/vendor?status=1') == 1 ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('approved_Products') }}"
                                             href="{{ route('admin.products.list', ['vendor', 'status' => '1']) }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('approved_Products') }}
                                                 <span class="badge badge-soft-success badge-pill ml-1">
                                                     {{ getVendorProductsCount('approved') }}
@@ -866,7 +822,6 @@
                                         class="nav-item {{ str_contains(url()->current() . '?status=' . request()->get('status'), '/admin/products/' . Product::LIST[URI] . '/vendor?status=2') == 1 ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('denied_Products') }}"
                                             href="{{ route('admin.products.list', ['vendor', 'status' => '2']) }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('denied_Products') }}
                                                 <span class="badge badge-soft-danger badge-pill ml-1">
                                                     {{ getVendorProductsCount('denied') }}
@@ -881,7 +836,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.products.product-gallery') }}"
                                     title="{{ translate('product_gallery') }}">
-                                    <i class="tio-survey nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('product_gallery') }}</span>
                                 </a>
@@ -891,6 +845,7 @@
                         {{-- @if (Helpers::module_permission_check('supplier_management')) --}}
                             <li
                                 class="nav-item {{ Request::is('admin/' . Supplier::LIST[URI] . '/suppliers') || Request::is('admin/' . Supplier::VIEW[URI] . '/suppliers/*') ? 'active' : ' ' }}">
+                                <i class='bx  bx-garage'  ></i> 
                                 <small class="nav-subtitle"
                                     title="{{ translate('Supplier') }}">{{ translate('supplier_management') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -898,7 +853,6 @@
                             <li id="suppliers" class="navbar-vertical-aside-has-menu">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('Supplier') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{ translate('Supplier') }}</span>
                                     </span>
@@ -908,7 +862,6 @@
                                         class="nav-item {{ Request::is('admin/' . Supplier::LIST[URI]) ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('Supplier_List') }}"
                                             href="{{ route('admin.suppliers.list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Supplier_List') }}
                                                 <!-- <span class="badge badge-soft-success badge-pill ml-1">
                                                     {{ getAdminProductsCount('all') }}
@@ -920,7 +873,6 @@
                                         class="nav-item {{ Request::is('admin/' . Supplier::ADD[URI]) || Request::is('admin/' . Supplier::EDIT[URI] . '/*') ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('add_New_Supplier') }}"
                                             href="{{ route('admin.add-new-suppliers') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('add_New_Supplier') }}</span>
                                         </a>
                                     </li>
@@ -928,7 +880,6 @@
                                         class="nav-item {{ Request::is('admin/' . Supplier::BULK[URI]) ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('bulk_import') }}"
                                             href="{{ route('admin.suppliers.bulk') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('bulk_import') }}</span>
                                         </a>
                                     </li>
@@ -939,6 +890,7 @@
                         @if (Helpers::module_permission_check('trade_shows_management'))
                             <li
                                 class="nav-item {{ Request::is('admin/tradeshow/add-new' || 'admin/tradeshow/bulk' || 'admin/tradeshow/list' || 'admin/tradeshow/view' || 'admin/tradeshow/edit') ? 'active' : '' }}">
+                                <i class='bx  bx-swap-diagonal'  ></i> 
                                 <small class="nav-subtitle"
                                     title="">{{ translate('trade_show_management') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -947,7 +899,6 @@
                                                     'admin/tradeshow/category/create') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('Category_management') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{ translate('Category_management') }}</span>
                                     </span>
@@ -957,7 +908,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.tradeshow.category.list') }}"
                                             title="{{ translate('Category_list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Category_list') }}</span>
                                         </a>
                                     </li>
@@ -965,7 +915,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.tradeshow.category.create') }}"
                                             title="{{ translate('Add_category') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Add_category') }}</span>
                                         </a>
                                     </li>
@@ -974,7 +923,6 @@
                             <li id="tradeshow" class="navbar-vertical-aside-has-menu">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('trade_Show') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{ translate('trade_Show') }}</span>
                                     </span>
@@ -984,7 +932,6 @@
                                         {{ Request::is('admin/tradeshow/list') ? 'active' : '' }}>
                                         <a class="nav-link" title="{{ translate('Trades_List') }}"
                                             href="{{ route('admin.tradeshow.list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Trades_List') }}
                                                 <!-- <span class="badge badge-soft-success badge-pill ml-1">
                                                     {{ getAdminProductsCount('all') }}
@@ -996,7 +943,6 @@
                                         class="nav-item {{ Request::is('admin/tradeshow/add-new') ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('add_New_Leads') }}"
                                             href="{{ route('admin.add-new-tradeshow') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('add_New_Trades') }}</span>
                                         </a>
                                     </li>
@@ -1004,7 +950,6 @@
                                         class="nav-item {{ Request::is('admin/tradeshow/bulk') ? 'active' : '' }}">
                                         <a class="nav-link" title="{{ translate('bulk_import') }}"
                                             href="{{ route('admin.bulk-import-tradeshow') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('bulk_import') }}</span>
                                         </a>
                                     </li>
@@ -1014,6 +959,7 @@
 
                         @if (Helpers::module_permission_check('listings_management'))
                             <li class="nav-item">
+                                <i class='bx  bx-newspaper'  ></i> 
                                 <small class="nav-subtitle"
                                     title="">{{ translate('quotation_management') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -1022,7 +968,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle 
                                 {{ Request::is('admin.quotation.list', 'admin.bulk-import-quotation') ? 'active' : '' }}"
                                     href="javascript:" title="{{ translate('quotation') }}">
-                                    <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{ translate('quotation') }}</span>
                                     </span>
@@ -1032,7 +977,6 @@
                                         <a class="nav-link {{ Request::is('admin.quotation.list') ? 'active' : '' }}"
                                             title="{{ translate('Quotation_List') }}"
                                             href="{{ route('admin.quotation.list') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{ translate('Quotation_List') }}</span>
                                         </a>
                                     </li>
@@ -1051,6 +995,7 @@
                         @if (Helpers::module_permission_check('settings'))
                             <li
                                 class="nav-item {{ Request::is('admin/banner*') || Request::is('admin/coupon*') || Request::is('admin/notification*') || Request::is('admin/deal*') ? 'scroll-here' : '' }}">
+                                <i class='bx  bx-discount'  ></i> 
                                 <small class="nav-subtitle"
                                     title="">{{ translate('promotion_management') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -1060,7 +1005,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.banner.list') }}"
                                     title="{{ translate('banner_Setup') }}">
-                                    <i class="tio-photo-square-outlined nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('banner_Setup') }}</span>
                                 </a>
@@ -1070,7 +1014,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/coupon*') || Request::is('admin/deal*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('offers_&_Deals') }}">
-                                    <i class="tio-users-switch nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('offers_&_Deals') }}</span>
                                 </a>
@@ -1081,7 +1024,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.coupon.add') }}"
                                             title="{{ translate('coupon') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('coupon') }}</span>
                                         </a>
@@ -1091,7 +1033,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.deal.flash') }}"
                                             title="{{ translate('flash_Deals') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('flash_Deals') }}</span>
                                         </a>
@@ -1101,7 +1042,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.deal.day') }}"
                                             title="{{ translate('deal_of_the_day') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                 {{ translate('deal_of_the_day') }}
@@ -1113,7 +1053,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.deal.feature') }}"
                                             title="{{ translate('featured_Deal') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                 {{ translate('featured_Deal') }}
@@ -1127,7 +1066,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/notification*') || Request::is('admin/push-notification/*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('notifications') }}">
-                                    <i class="tio-users-switch nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('notifications') }}</span>
                                 </a>
@@ -1138,9 +1076,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.notification.index') }}"
                                             title="{{ translate('send_notification') }}">
-                                            <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/send-notification.svg') }}"
-                                                alt="{{ translate('send_notification_svg') }}" width="15"
-                                                class="mr-2">
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate text-capitalize">
                                                 {{ translate('send_notification') }}
@@ -1152,9 +1087,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
                                             href="{{ route('admin.push-notification.index') }}"
                                             title="{{ translate('push_notifications_setup') }}">
-                                            <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/push-notification.svg') }}"
-                                                alt="{{ translate('push_notification_svg') }}" width="15"
-                                                class="mr-2">
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate text-capitalize">
                                                 {{ translate('push_notifications_setup') }}
@@ -1168,7 +1100,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.business-settings.announcement') }}"
                                     title="{{ translate('announcement') }}">
-                                    <i class="tio-mic-outlined nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('announcement') }}
                                     </span>
@@ -1180,6 +1111,7 @@
                             @if (count(config('get_theme_routes')) > 0)
                                 <li
                                     class="nav-item {{ Request::is('admin/banner*') || Request::is('admin/coupon*') || Request::is('admin/notification*') || Request::is('admin/deal*') ? 'scroll-here' : '' }}">
+                                    <i class='bx  bx-help-circle'  ></i> 
                                     <small class="nav-subtitle"
                                         title="">{{ config('get_theme_routes')['name'] }}
                                         {{ translate('Menu') }}</small>
@@ -1206,7 +1138,6 @@
                                                             <a class="js-navbar-vertical-aside-menu-link nav-link"
                                                                 href="{{ $sub_route['url'] }}"
                                                                 title="{{ translate($sub_route['name']) }}">
-                                                                <span class="tio-circle nav-indicator-icon"></span>
                                                                 <span
                                                                     class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate($sub_route['name']) }}</span>
                                                             </a>
@@ -1222,6 +1153,7 @@
                         @if (Helpers::module_permission_check('settings'))
                             <li
                                 class="nav-item {{ Request::is('admin/support-ticket*') || Request::is('admin/contact*') ? 'scroll-here' : '' }}">
+                                <i class='bx  bx-help-circle'  ></i> 
                                 <small class="nav-subtitle" title="">{{ translate('help_&_support') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
@@ -1229,7 +1161,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/messages*') ? 'active' : '' }}">
                                 <a class="nav-link"
                                     href="{{ route('admin.messages.index', ['type' => 'customer']) }}">
-                                    <i class="tio-chat nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('inbox') }}
                                     </span>
@@ -1239,7 +1170,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin.get-chat-lists*') ? 'active' : '' }}">
                                 <a class="nav-link"
                                     href="{{ route('admin.get-chat-lists',['special' => 'all']) }}">
-                                    <i class="tio-chat nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Custom Chatbox') }}
                                     </span>
@@ -1249,7 +1179,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/contact*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.contact.list') }}" title="{{ translate('messages') }}">
-                                    <i class="tio-messages nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="position-relative">
                                             {{ translate('messages') }}
@@ -1267,7 +1196,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.support-ticket.view') }}"
                                     title="{{ translate('support_Ticket') }}">
-                                    <i class="tio-support nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="position-relative">
                                             {{ translate('support_Ticket') }}
@@ -1283,6 +1211,7 @@
                         @if (Helpers::module_permission_check('analytics_reports'))
                             <li
                                 class="nav-item {{ Request::is('admin/report/earning') || Request::is('admin/report/' . InhouseProductSale::VIEW[URI]) || Request::is('admin/report/vendor-report') || Request::is('admin/report/earning') || Request::is('admin/transaction/list') || Request::is('admin/refund-section/refund-list') || Request::is('admin/stock/product-in-wishlist') || Request::is('admin/reviews*') || Request::is('admin/stock/product-stock') || Request::is('admin/transaction/wallet-bonus') || Request::is('admin/report/order') ? 'scroll-here' : '' }}">
+                                <i class='bx  bx-report'  ></i> 
                                 <small class="nav-subtitle" title="">
                                     {{ translate('reports_&_Analysis') }}
                                 </small>
@@ -1293,7 +1222,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/report/admin-earning') || Request::is('admin/report/vendor-earning') || Request::is('admin/report/' . InhouseProductSale::VIEW[URI]) || Request::is('admin/report/vendor-report') || Request::is('admin/report/earning') || Request::is('admin/transaction/order-transaction-list') || Request::is('admin/transaction/expense-transaction-list') || Request::is('admin/report/transaction/' . App\Enums\ViewPaths\Admin\RefundTransaction::INDEX[URI]) || Request::is('admin/transaction/wallet-bonus') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('sales_&_Transaction_Report') }}">
-                                    <i class="tio-chart-bar-4 nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('sales_&_Transaction_Report') }}
                                     </span>
@@ -1305,7 +1233,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.report.admin-earning') }}"
                                             title="{{ translate('Earning_Reports') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                 {{ translate('Earning_Reports') }}
@@ -1316,7 +1243,6 @@
                                         class="nav-item {{ Request::is('admin/report/' . InhouseProductSale::VIEW[URI]) ? 'active' : '' }}">
                                         <a class="nav-link" href="{{ route('admin.report.inhouse-product-sale') }}"
                                             title="{{ translate('inhouse_Sales') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('inhouse_Sales') }}
                                             </span>
@@ -1326,7 +1252,6 @@
                                         class="nav-item {{ Request::is('admin/report/vendor-report') ? 'active' : '' }}">
                                         <a class="nav-link" href="{{ route('admin.report.vendor-report') }}"
                                             title="{{ translate('vendor_Sales') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate text-capitalize">
                                                 {{ translate('vendor_Sales') }}
                                             </span>
@@ -1337,7 +1262,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.transaction.order-transaction-list') }}"
                                             title="{{ translate('transaction_Report') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                 {{ translate('transaction_Report') }}
@@ -1352,7 +1276,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.report.all-product') }}"
                                     title="{{ translate('product_Report') }}">
-                                    <i class="tio-chart-bar-4 nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="position-relative">
                                             {{ translate('product_Report') }}
@@ -1366,7 +1289,6 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('admin.report.order') }}"
                                     title="{{ translate('order_Report') }}">
-                                    <i class="tio-chart-bar-1 nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('order_Report') }}
                                     </span>
@@ -1377,6 +1299,7 @@
                         @if (Helpers::module_permission_check('settings'))
                             <li
                                 class="nav-item {{ Request::is('admin/customer/' . Customer::LIST[URI]) || Request::is('admin/customer/' . Customer::VIEW[URI] . '*') || Request::is('admin/customer/' . Customer::SUBSCRIBER_LIST[URI]) || Request::is('admin/vendors/' . Vendor::ADD[URI]) || Request::is('admin/vendors/' . Vendor::LIST[URI]) || Request::is('admin/delivery-man*') ? 'scroll-here' : '' }}">
+                                <i class='bx  bx-cog'  ></i> 
                                 <small class="nav-subtitle"
                                     title="">{{ translate('admin_management') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -1436,7 +1359,6 @@
                                     class="navbar-vertical-aside-has-menu {{ Request::is('admin/employee*') || Request::is('admin/custom-role*') ? 'active' : '' }}">
                                     <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                         href="javascript:" title="{{ translate('employees') }}">
-                                        <i class="tio-user nav-icon"></i>
                                         <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                             {{ translate('employees') }}
                                         </span>
@@ -1448,7 +1370,6 @@
                                             <a class="js-navbar-vertical-aside-menu-link nav-link"
                                                 href="{{ route('admin.custom-role.create') }}"
                                                 title="{{ translate('Create_Employee_Role') }}">
-                                                <span class="tio-circle nav-indicator-icon"></span>
                                                 <span
                                                     class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                     {{ translate('Create_Employee_Role') }}</span>
@@ -1458,7 +1379,6 @@
                                             <a class="js-navbar-vertical-aside-menu-link nav-link"
                                                 href="{{ route('admin.custom-role.list') }}"
                                                 title="{{ translate('Employee Roles List') }}">
-                                                <span class="tio-circle nav-indicator-icon"></span>
                                                 <span
                                                     class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                     {{ translate('Employee Roles List') }}</span>
@@ -1468,7 +1388,6 @@
                                             class="nav-item {{ Request::is('admin/employee/' . Employee::LIST[URI]) || Request::is('admin/employee/' . Employee::ADD[URI]) || Request::is('admin/employee/' . Employee::UPDATE[URI] . '*') ? 'active' : '' }}">
                                             <a class="nav-link" href="{{ route('admin.employee.list') }}"
                                                 title="{{ translate('employees') }}">
-                                                <span class="tio-circle nav-indicator-icon"></span>
                                                 <span class="text-truncate">{{ translate('employees') }}</span>
                                             </a>
                                         </li>
@@ -1480,7 +1399,6 @@
                                 class="navbar-vertical-aside-has-menu {{ Request::is('admin/customer/' . Customer::SUBSCRIBER_LIST[URI]) ? 'active' : '' }}">
                                 <a class="nav-link " href="{{ route('admin.customer.subscriber-list') }}"
                                     title="{{ translate('subscribers') }}">
-                                    <span class="tio-user nav-icon"></span>
                                     <span class="text-truncate">{{ translate('subscribers') }} </span>
                                 </a>
                             </li>
@@ -1521,7 +1439,8 @@
                                     ? 'scroll-here'
                                     : '' }}">
 
-                                <small class="nav-subtitle"
+<i class='bx  bx-cog'  ></i>                                 
+<small class="nav-subtitle"
                                     title="">{{ translate('system_Settings') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
@@ -1529,7 +1448,6 @@
                             <li class="navbar-vertical-aside-has-menu">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('business_Setup') }}">
-                                    <i class="tio-pages-outlined nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('business_Setup') }}
                                     </span>
@@ -1575,7 +1493,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.business-settings.web-config.index') }}"
                                             title="{{ translate('business_Settings') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('business_Settings') }}
                                             </span>
@@ -1586,7 +1503,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.product-settings.inhouse-shop') }}"
                                             title="{{ translate('in-house_Shop') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('in-house_Shop') }}
                                             </span>
@@ -1602,7 +1518,6 @@
                                             : '' }}">
                                         <a class="nav-link" href="{{ route('admin.seo-settings.web-master-tool') }}"
                                             title="{{ translate('SEO_Settings') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('SEO_Settings') }}
                                             </span>
@@ -1613,7 +1528,6 @@
                             <li class="navbar-vertical-aside-has-menu ">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('system_Setup') }}">
-                                    <i class="tio-pages-outlined nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('system_Setup') }}
                                     </span>
@@ -1653,7 +1567,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.business-settings.web-config.environment-setup') }}"
                                             title="{{ translate('system_Settings') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('system_Settings') }}
                                             </span>
@@ -1668,7 +1581,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.system-setup.login-settings.customer-login-setup') }}"
                                             title="{{ translate('login_Settings') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('login_Settings') }}
                                             </span>
@@ -1682,7 +1594,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.business-settings.web-config.theme.setup') }}"
                                             title="{{ translate('themes_&_Addons') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('themes_&_Addons') }}
                                             </span>
@@ -1693,7 +1604,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.business-settings.email-templates.view', ['admin', EmailTemplateKey::ADMIN_EMAIL_LIST[0]]) }}"
                                             title="{{ translate('in-house_Shop') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate text-capitalize">
                                                 {{ translate('email_template') }}
                                             </span>
@@ -1705,7 +1615,6 @@
                             <li class="navbar-vertical-aside-has-menu">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('3rd_Party') }}">
-                                    <span class="tio-key nav-icon"></span>
                                     <span class="text-truncate">{{ translate('3rd_Party') }}</span>
                                 </a>
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
@@ -1736,7 +1645,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.business-settings.payment-method.index') }}"
                                             title="{{ translate('payment_methods') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('payment_methods') }}
                                             </span>
@@ -1759,7 +1667,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.social-media-chat.view') }}"
                                             title="{{ translate('other_Configurations') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                 {{ translate('other_Configurations') }}
@@ -1790,7 +1697,6 @@
                                     : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:" title="{{ translate('Pages_&_Media') }}">
-                                    <i class="tio-pages-outlined nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Pages_&_Media') }}
                                     </span>
@@ -1810,7 +1716,6 @@
                                         <a class="nav-link"
                                             href="{{ route('admin.business-settings.terms-condition') }}"
                                             title="{{ translate('business_Pages') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('business_Pages') }}
                                             </span>
@@ -1829,7 +1734,6 @@
                                             : '' }}">
                                         <a class="nav-link" href="{{ route('admin.webtheme.index') }}"
                                             title="{{ translate('website_Theme') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('website_Settings') }}
                                             </span>
@@ -1838,7 +1742,6 @@
                                     <li class="nav-item {{ Request::is('admin/membershiptier') ? 'active' : ''}}">
                                         <a class="nav-link" href="{{ route('admin.membershiptier') }}"
                                             title="{{ translate('membership_Tier') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">
                                                 {{ translate('membership_Tier')}}
                                             </span>
@@ -1849,7 +1752,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.business-settings.social-media') }}"
                                             title="{{ translate('social_Media_Links') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                 {{ translate('social_Media_Links') }}
@@ -1862,7 +1764,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.file-manager.index') }}"
                                             title="{{ translate('gallery') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                 {{ translate('gallery') }}
@@ -1874,7 +1775,6 @@
                                         <a class="js-navbar-vertical-aside-menu-link nav-link"
                                             href="{{ route('admin.business-settings.vendor-registration-settings.index') }}"
                                             title="{{ translate('vendor_Registration') }}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
                                             <span
                                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                 {{ translate('vendor_Registration') }}
@@ -1894,7 +1794,6 @@
                             ">
                                     <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                         href="javascript:" title="{{ translate('Pages_&_Media') }}">
-                                        <i class="tio-puzzle nav-icon"></i>
                                         <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                             {{ translate('addon_Menus') }}
                                         </span>
@@ -1914,7 +1813,6 @@
                                                     <a class="js-navbar-vertical-aside-menu-link nav-link"
                                                         href="{{ $route['url'] }}"
                                                         title="{{ translate($route['name']) }}">
-                                                        <span class="tio-circle nav-indicator-icon"></span>
                                                         <span
                                                             class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                                             {{ translate($route['name']) }}

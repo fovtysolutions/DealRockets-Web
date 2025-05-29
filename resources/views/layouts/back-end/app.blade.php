@@ -40,6 +40,7 @@
 
     {{-- Lightbox CSS --}}
     <link rel="stylesheet" href="{{ dynamicAsset(path: 'public/css/lightbox.css') }}">
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
     {{-- FontAwesome via CDN (ensure it's used only where needed) --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">

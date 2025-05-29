@@ -55,8 +55,7 @@
                             <small class="nav-subtitle" title="">{{ translate('Supplier_section') }}</small>
                             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                         </li>
-                        <li
-                            class="navbar-vertical-aside-has-menu {{ Request::is('vendor/supplier/status-update') ? 'active' : '' }}">
+                        <li class="navbar-vertical-aside-has-menu {{ Request::is('vendor/supplier/status-update') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link"
                                 href="{{ route('vendor.supplier.status.update') }}"
                                 title="{{ translate('Supplier_Profile') }}">

@@ -27,36 +27,32 @@
                             <span class="lead-tags-label">Tags:</span>
                             <span class="lead-tags-content">{{ $buyer->tags ?? 'N/A' }}</span>
                         </div>
-                        <div class="lead-details">
-                            <div class="detail-group">
-                                <div class="detail-row">
-                                    <span class="detail-label">Quantity Required:</span>
-                                    <span class="detail-value">{{ $buyer->quantity_required ?? 'N/A' }}
-                                        {{ $buyer->unit ?? 'N/A' }}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Refundable:</span>
-                                    <span class="detail-value">{{ $buyer->refund ?? 'N/A' }}</span>
-                                </div>
-                            </div>
-                            <div class="detail-group">
-                                <div class="detail-row">
-                                    <span class="detail-label">Term:</span>
-                                    <span class="detail-value">{{ $buyer->term ?? 'N/A' }}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Available Stock:</span>
-                                    <span class="detail-value">{{ $buyer->avl_stock ?? 'N/A' }}
-                                        {{ $buyer->avl_stock_unit ?? 'N/A' }}</span>
-                                </div>
-                            </div>
-                            <div class="detail-group">
-                                <div class="detail-row">
-                                    <span class="detail-label">Lead Time:</span>
-                                    <span class="detail-value">{{ $buyer->lead_time ?? 'N/A' }}</span>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="lead-details-table">
+                        <table class="detail-table">
+                            <tr>
+                                <td class="detail-label">Quantity Required</td>
+                                <td class="detail-value">{{ $buyer->quantity_required ?? 'N/A' }}
+                                        {{ $buyer->unit ?? 'N/A' }}</span></td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Refundable</td>
+                                <td class="detail-value">{{ $buyer->refund ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Term</td>
+                                <td class="detail-value">{{ $buyer->term ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Available Stock</td>
+                                <td class="detail-value">{{ $buyer->avl_stock ?? 'N/A' }}
+                                        {{ $buyer->avl_stock_unit ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Lead Time</td>
+                                <td class="detail-value">{{ $buyer->lead_time ?? 'N/A' }}</td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="divider"></div>
                     <div class="lead-actions">

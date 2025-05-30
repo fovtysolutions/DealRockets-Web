@@ -4,7 +4,7 @@
                 <div class="row d-flex justify-content-between" style="height: 40px;">
                     <div class="seller-list-title hide-768">
                         <h5 class="m-0 text-capitalize leadstitle2" style="color: black; text-transform:uppercase; font-size: 20px;position: absolute;/* bottom: 1px; */top: 6px;left: 44%;">
-                            {{ translate('top_sellers')}}
+                            {{ translate('TOP SELLERS')}}
                         </h5>
                     </div>
                     <div class="title-show-768">
@@ -62,13 +62,13 @@
                                     <div class="info-item">
                                         <span>{{ translate('Store Views') }}</span>
                                         <h6 style="color: black;">
-                                            {{$vendorData->store_views < 1000 ? $vendorData->store_views : number_format($vendorData->store_views/1000 , 1).'K'}}
+                                            {{ isset($vendorData->store_views) ? ($vendorData->store_views < 1000 ? $vendorData->store_views : number_format($vendorData->store_views/1000 , 1).'K') : '0'}}
                                         </h6>
                                     </div>
                                     <div class="info-item">
                                         <span>{{ translate('Total Products') }}</span>
                                         <h6 style="color: black;">
-                                            {{$vendorData->products_count < 1000 ? $vendorData->products_count : number_format($vendorData->products_count/1000 , 1).'K'}}
+                                            {{ isset($vendorData->store_views) ? ($vendorData->products_count < 1000 ? $vendorData->products_count : number_format($vendorData->products_count/1000 , 1).'K') : '0'}}
                                         </h6>
                                     </div>
                                 </div>

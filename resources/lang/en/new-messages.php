@@ -9470,4 +9470,5 @@ return [
 	"The email field is required" => "The email field is required",
 	"The shop name field is required" => "The shop name field is required",
 	"The shop address field is required" => "The shop address field is required",
+	"TOP SELLERS" => "TOP SELLERS",
 ];

@@ -46,6 +46,10 @@
     .leads-container .slider .slide {
         height: 100px;
     }
+
+    .leads-container .slider:hover .slide-track {
+        animation-play-state: paused;
+    }
 </style>
 <section class="mainpagesection fade-in-on-scroll">
     <div class="leads-container">
@@ -66,7 +70,8 @@
                             <div class="slide-track">
                                 <div class="slide">
                                     @foreach ($leads['buyer'] as $lead)
-                                        <a id="buyer" class="lead-item" href="/buy-leads?specific_id={{ $lead['id'] }}">
+                                        <a id="buyer" class="lead-item"
+                                            href="/buy-leads?specific_id={{ $lead['id'] }}">
                                             @php
                                                 $countryDetails = \App\Utils\ChatManager::getCountryDetails(
                                                     $lead['country'],
@@ -98,7 +103,8 @@
                                         </a>
                                     @endforeach
                                     @foreach ($leads['buyer'] as $lead)
-                                        <a id="buyer" class="lead-item" href="/buy-leads?specific_id={{ $lead['id'] }}">
+                                        <a id="buyer" class="lead-item"
+                                            href="/buy-leads?specific_id={{ $lead['id'] }}">
                                             @php
                                                 $countryDetails = \App\Utils\ChatManager::getCountryDetails(
                                                     $lead['country'],
@@ -156,7 +162,8 @@
                             <div class="slide-track">
                                 <div class="slide">
                                     @foreach ($leads['seller'] as $lead)
-                                        <a id="seller" class="lead-item" href="/sell-offer?specific_id={{ $lead['id'] }}">
+                                        <a id="seller" class="lead-item"
+                                            href="/sell-offer?specific_id={{ $lead['id'] }}">
                                             @php
                                                 $countryDetails = \App\Utils\ChatManager::getCountryDetails(
                                                     $lead['country'],
@@ -188,7 +195,8 @@
                                         </a>
                                     @endforeach
                                     @foreach ($leads['seller'] as $lead)
-                                        <a id="seller" class="lead-item" href="/sell-offer?specific_id={{ $lead['id'] }}">
+                                        <a id="seller" class="lead-item"
+                                            href="/sell-offer?specific_id={{ $lead['id'] }}">
                                             @php
                                                 $countryDetails = \App\Utils\ChatManager::getCountryDetails(
                                                     $lead['country'],

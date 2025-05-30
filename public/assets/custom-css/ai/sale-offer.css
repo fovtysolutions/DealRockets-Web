@@ -295,7 +295,7 @@
 
 /* Product Details Column */
 .sale-offer-page .product-details-col {
-    width: 37%;
+    width: 46%;
 }
 
 .sale-offer-page .detail-table {
@@ -349,7 +349,7 @@
 
 /* Contact Seller Column */
 .sale-offer-page .contact-seller-col {
-    width: 29%;
+    width: 20%;
     display: flex;
     flex-direction: column;
     align-items: flex-end;

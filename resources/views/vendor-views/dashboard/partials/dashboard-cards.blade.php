@@ -67,7 +67,7 @@
             <a class="card {{ $gradientClass }} business-analytics p-3 d-flex flex-column justify-content-between position-relative h-100"
                 href="{{ route('vendor.subcard', ['slug' => $slug]) }}" style="min-height: 130px;">
                 <div style="align-self: self-end;">
-                    <img src="{{ asset($icon) }}" alt="{{ $title }}" class="mb-2" style="width: 65px; height: 58px;">
+                    <img src="{{ asset($icon) }}" alt="{{ $title }}" class="mb-2" style="width: 58px; height: 58px;">
                 </div>
                 <div>
                     <p class="mb-0 text-start" style="color: white; font-size: 18px;">{{ translate($title) }}</p>

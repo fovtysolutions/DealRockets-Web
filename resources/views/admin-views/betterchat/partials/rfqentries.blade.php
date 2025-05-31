@@ -3,11 +3,6 @@
         class="chat-entry flex h-9 px-2 items-center text-sm border-b border-gray-200 hover:shadow-md cursor-pointer md:py-0 py-6">
         <!-- mail right section  -->
         <div class="flex text-gray-600 h-full leading-none items-center font-semibold w-1/5 py-1">
-            <div class="md:grid place-content-center h-full w-8 rounded-full hover:bg-gray-200 hidden">
-                <input type="checkbox" name="" id="">
-            </div>
-            <button class="md:grid hidden place-content-center rounded-full hover:bg-gray-200 p-2"><i
-                    class="fa-regular fa-star"></i></button>
             <p class="text-black ml-1">
                 {{ \App\Utils\ChatManager::getUserDataChat($item['sender_id'], $item['sender_type'])['name'] }}</p>
 

@@ -682,42 +682,39 @@ class ChatManager
         $data = $query->get();
 
         $finalChat = [];
-
-        // Collect message IDs to be marked as read
         $idsToMarkAsRead = [];
 
-        foreach ($data as $key => $value) {
-            if ($userId == $value->receiver_id && $userRole == $value->receiver_type) {
-                if (!$value->is_read) {
-                    $idsToMarkAsRead[] = $value->id;
-                }
+        if ($data->isEmpty()) {
+            return [];
+        }
 
-                // Message received by user — sender is 'other'
-                $finalChat[] = [
-                    'id' => $value->id,
-                    'sender_id' => $value->sender_id,
-                    'sender_type' => $value->sender_type,
-                    'receiver_id' => $value->receiver_id,
-                    'receiver_type' => $value->receiver_type,
-                    'message' => $value->message,
-                    'sent_at' => $value->sent_at,
-                    'is_read' => $value->is_read,
-                    'flag' => 'other',  // sender is other party
-                ];
-            } elseif ($userId == $value->sender_id && $userRole == $value->sender_type) {
-                // Message sent by user — flag as 'self'
-                $finalChat[] = [
-                    'id' => $value->id,
-                    'sender_id' => $value->sender_id,
-                    'sender_type' => $value->sender_type,
-                    'receiver_id' => $value->receiver_id,
-                    'receiver_type' => $value->receiver_type,
-                    'message' => $value->message,
-                    'sent_at' => $value->sent_at,
-                    'is_read' => $value->is_read,
-                    'flag' => 'self',  // sender is logged-in user
-                ];
+        // Get first message's sender as the 'reference sender'
+        $firstMessage = $data->first();
+        $referenceSenderId = $firstMessage->sender_id;
+        $referenceSenderType = $firstMessage->sender_type;
+
+        foreach ($data as $value) {
+            // Flag based on whether sender matches the first message's sender
+            $flag = ($value->sender_id == $referenceSenderId && $value->sender_type == $referenceSenderType)
+                ? 'other'
+                : 'self';
+
+            // Mark as read if the current user is the receiver
+            if ($userId == $value->receiver_id && $userRole == $value->receiver_type && !$value->is_read) {
+                $idsToMarkAsRead[] = $value->id;
             }
+
+            $finalChat[] = [
+                'id' => $value->id,
+                'sender_id' => $value->sender_id,
+                'sender_type' => $value->sender_type,
+                'receiver_id' => $value->receiver_id,
+                'receiver_type' => $value->receiver_type,
+                'message' => $value->message,
+                'sent_at' => $value->sent_at,
+                'is_read' => $value->is_read,
+                'flag' => $flag,
+            ];
         }
 
         if (!empty($idsToMarkAsRead)) {

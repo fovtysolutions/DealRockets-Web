@@ -278,6 +278,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::get('/get-chat-lists',[ChatOtherController::class, 'getInitialMessages'])->name('get-chat-lists');
     Route::post('/chat-by-listing/{user_id}/{user_type}/{type}/{listing_id}',[ChatOtherController::class, 'fetchChat'])->name('chat-by-listing');
     Route::post('/send-reply-message',[ChatOtherController::class,'sendReplyMessage'])->name('send-reply-message');
+    Route::post('/get-chat-header-data',[ChatOtherController::class, 'getChatHeaderData'])->name('get-chat-header-data');
     Route::post('/chatleads/getchat-leads/{user_id}/{user_type}/{type}',[CustomChatController::class,'fetchChat'])->name('getchat-leads');
     Route::post('/chat/setallread',[CustomChatController::class,'setRead'])->name('set-all-read');
     Route::post('/chat/setopenstatus',[CustomChatController::class,'setOpenStatus'])->name('set-open-status');

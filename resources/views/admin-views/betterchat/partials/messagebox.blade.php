@@ -1,16 +1,11 @@
 <div class="bg-white w-full sticky top-0 flex py-2 px-4 text-gray-600 text-[0.7rem] justify-between">
     <div class="flex gap-1">
-        <div class="flex gap-1">
-            <input class="py-auto px-2" type="checkbox" name="select" id="select">
-            <button class="grid place-content-center rounded-full hover:bg-gray-200  text-gray-700 px-1 h-full"><i
-                    class="fa-solid fa-caret-down"></i></button>
-        </div>
         <button class="grid place-content-center rounded-full hover:bg-gray-200 p-3" onclick="location.reload();"><i
                 class="fa-solid fa-rotate-right"></i></button>
     </div>
     <div class="flex gap-1">
         <div class="flex items-center h-full rounded-md px-2 cursor-pointer hover:bg-gray-200">
-            <p>1-50 of {{ $count }}</p>
+            <p>1-Inf of {{ $count }}</p>
         </div>
         <button class="grid place-content-center rounded-full hover:bg-gray-200 p-3"><i
                 class="fa-solid fa-chevron-left"></i></button>
@@ -89,9 +84,42 @@
             lastActiveTab = tabId;
         }
 
+        function getchatHeaderData(id,firstresponse) {
+            $.ajax({
+                method: 'POST',
+                url: "{{ route('get-chat-header-data') }}",
+                data:{
+                    id: id,
+                    _token: "{{ csrf_token() }}",
+                },
+                success: function(response) {
+                    let username = document.getElementById('username');
+                    let listing_name = document.getElementById('listing_name');
+                    let listing_created = document.getElementById('listing_created');
+
+                    let senderType = firstresponse.sender_type.charAt(0).toUpperCase() +
+                        firstresponse.sender_type
+                        .slice(1);
+                    let senderId = firstresponse.sender_id;
+                    let type = response.type;
+                    let listing = response.listing;
+
+                    username.textContent = `Chat from ${senderType} #${senderId} for ${type} listing`;
+                    listing_name.textContent = listing.name;
+                    listing_created.textContent = new Date(listing.created_at).toString();
+                },
+                error: function(xhr) {
+
+                }
+            });
+        }
+
         function populateChat(response) {
             let chat_code = "";
             let lastDate = null;
+
+            let firstresponse = response[0];
+            getchatHeaderData(firstresponse.id,firstresponse);
 
             response.forEach((element) => {
                 const messageDate = new Date(element.sent_at);
@@ -275,12 +303,13 @@
 
             $.ajax({
                 type: 'POST',
-                url: '{{ route("send-reply-message") }}',
+                url: '{{ route('send-reply-message') }}',
                 data: formData,
                 success: function(response) {
                     $('#chatInput').val(''); // clear input
                     toastr.success('Replied Successfully');
-                    loadChat(formData.sender_id, formData.sender_type, formData.type, $('#listing_id').val());
+                    loadChat(formData.sender_id, formData.sender_type, formData.type, $(
+                        '#listing_id').val());
                 },
                 error: function(xhr) {
                     alert('Failed to send message: ' + xhr.responseText);

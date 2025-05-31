@@ -9,6 +9,7 @@
 
 @section('content')
     <div class="gmail-ui" style="padding-bottom: 30px;">
+
         <body class="h-screen flex flex-col md:pb-2 bg-[#f6f9ff] relative">
             <nav class="w-full py-2 flex px-4 text-gray-600 justify-between">
                 <div class="flex items-center w-[70%] justify-between gap-3">
@@ -17,7 +18,7 @@
                         <button class="grid place-content-center rounded-full hover:bg-gray-200 p-2"><i
                                 class="fa-solid fa-magnifying-glass"></i></button>
                         <input class="h-full focus:outline-none bg-[#e5f1ff] py-2 w-full group-hover:bg-white"
-                            type="text" name="saerch" id="saerch" placeholder="Search mail">
+                            type="text" name="search" id="search" placeholder="Search mail">
                     </div>
                 </div>
             </nav>
@@ -71,4 +72,12 @@
             </div>
         </body>
     </div>
+    <script>
+        document.getElementById('search').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                const value = e.target.value;
+                window.location.href = `?search=${encodeURIComponent(value)}`;
+            }
+        });
+    </script>
 @endsection

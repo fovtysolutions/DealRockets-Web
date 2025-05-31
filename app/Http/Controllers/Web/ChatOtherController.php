@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ChatsOther;
 use App\Models\Leads;
+use App\Models\Product;
 use App\Models\StockSell;
 use App\Utils\ChatManager;
 use Exception;
@@ -164,13 +165,17 @@ class ChatOtherController extends Controller
         return $data;
     }
 
-    public static function getInitialMessages($special = null)
+    public static function getInitialMessages($special = null,$search = null)
     {
         $roledetail = ChatManager::getRoleDetail();
         $role = $roledetail['role'];
         $userId = $roledetail['user_id'];
 
         $query = ChatsOther::query();
+
+        if ($search != null){
+            $query->where('message','LIKE','%'.$search.'%');
+        }
 
         if ($special != null) {
             switch ($special) {
@@ -221,7 +226,9 @@ class ChatOtherController extends Controller
     public function adminChatbox(Request $request)
     {
         $special = $request->input('special');
-        $data['intialMessages'] = self::getInitialMessages($special);
+        $search = $request->input('search',null);
+        
+        $data['intialMessages'] = self::getInitialMessages($special,$search);
         $data['count'] = count($data['intialMessages']);
         $data['chatboxStatics'] = self::getChatboxStatistics();
         return view('admin-views.betterchat.messages', $data);
@@ -231,5 +238,52 @@ class ChatOtherController extends Controller
     {
         $chats = ChatManager::getchats($user_id, $user_type, $type, $listing_id);
         return response()->json($chats);
+    }
+
+    public function getChatHeaderData(Request $request)
+    {
+        $id = $request->post('id');
+        $chat = ChatsOther::where('id', $id)->first();
+
+        if (!$chat) {
+            return response()->json(['error' => 'Chat not found'], 404);
+        }
+
+        $type = $chat->type;
+
+        switch ($type) {
+            case 'stocksell':
+                return [
+                    'type' => $type,
+                    'listing' => StockSell::find($chat->stocksell_id),
+                ];
+
+            case 'buyleads':
+                return [
+                    'type' => $type,
+                    'listing' => Leads::where('type', 'buyer')->find($chat->leads_id),
+                ];
+
+            case 'sellleads':
+                return [
+                    'type' => $type,
+                    'listing' => Leads::where('type', 'seller')->find($chat->leads_id),
+                ];
+
+            case 'products':
+                return [
+                    'type' => $type,
+                    'listing' => Product::find($chat->product_id),
+                ];
+
+            case 'reachout':
+                return [
+                    'type' => $type,
+                    'listing' => 'N/A',
+                ];
+
+            default:
+                return response()->json(['error' => 'Unknown chat type'], 400);
+        }
     }
 }

@@ -19,11 +19,15 @@
                     </div>
                     <div class="col-2">
                         <div class="flex-grow-1 ms-3">
-                            <button type="button" id="closeChat" class="btn btn--primary m-2">
+                            <button type="button" id="closeChat" class="btn btn--primary m-2" style="background-color: #E72528;color: white;padding: 10px;">
                                 Close Chat
                             </button>
                         </div>
                     </div>
+                </div>
+                <div class="row" style="display: flex;margin-left: 20px;flex-direction: column;">
+                    <h5 id="listing_name"></h5><br>
+                    <span id="listing_created"> </span>
                 </div>
             </div>
             <div class="modal-body" style="height: 50%;">

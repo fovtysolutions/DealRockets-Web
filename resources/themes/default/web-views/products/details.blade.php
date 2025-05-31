@@ -44,7 +44,7 @@
         <div class="container mt-4 rtl text-align-direction">
             <div class="product-view-section" style="    background: #f7f7f7;">
                 <!-- Product View Section -->
-                <div class="product-view">
+                <div class="product-view" style="margin-bottom: 40px;">
 
                     <!-- Product Images Section -->
                     <div class="product-images">
@@ -109,15 +109,10 @@
 
 
                             <div class="action-buttons" data-toggle="modal" data-target="#exampleModal">
-                                {{-- <div class="quantity-input">
-                                    <span>Enter Qty</span>
-                                    <div class="divider"></div>
-                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/2fb86a15b06a52a02d4ed45c08ac901377aa5b4e"
-                                        alt="Dropdown" class="dropdown-icon">
-                                </div>
-                                <button class="btn-cart">Add to Cart</button> --}}
-                                <button type="button" class="btn custom-inquiry-btn" data-bs-toggle="modal"
-                                    data-bs-target="#inquiryModal">
+                                <input type="number" min="0" placeholder="Enter Qty" id="productQty"
+                                    class="quantity-input form-control"></input>
+                                <button type="button" class="btn custom-inquiry-btn" data-toggle="modal"
+                                    data-target="#inquiryModal">
                                     <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
                                         alt="Inquire" class="inquire-icon">
                                     Inquire Now
@@ -148,19 +143,19 @@
                         </div>
                         <div class="supplier-info">
                             @php
-                                if ($product->added_by = 'admin') {
-                                    $isAdmin = true;
+                                if ($product->added_by == 'admin') {
+                                    $isAdmin = 1;
                                 } else {
-                                    $isAdmin = false;
+                                    $isAdmin = 0;
                                 }
                             @endphp
                             <div>
-                                <div class="supplier-name">{{ $isAdmin ? 'Admin Shop' : $product->seller->shop->name }}
+                                <div class="supplier-name">{{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}
                                 </div>
                                 <div class="supplier-meta">
                                     <span
-                                        class="years">{{ $isAdmin ? 'Admin' : $product->seller->years . 'years' }}</span>
-                                    <span class="country">{{ $isAdmin ? 'DealRocket' : $product->seller->country }}</span>
+                                        class="years">{{ $isAdmin == 1 ? 'Admin' : $product->seller->years . ' years' }}</span>
+                                    <span class="country">{{ $isAdmin == 1 ? 'DealRocket' : $product->seller->country }}</span>
                                 </div>
                                 <div class="response-data">
                                     <div class="response-rate"><span class="label">Response Rate:</span> <span
@@ -190,8 +185,10 @@
 
                 </div>
 
+
+                @include('web-views.partials._order-now')
                 <!-- New Products Section -->
-                <div class="related-products" style="margin: 2rem 2rem !important;">
+                {{-- <div class="related-products" style="margin: 2rem 2rem !important;">
                     <div class="new-products-container">
                         <div class="new-products-banner">
                             <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/03db452520cbb4fc62a10fc86e2e2c09fb43fa2f"
@@ -244,186 +241,237 @@
 
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Product Description Section -->
                 <div class="product-description">
                     <div class="product-div">
                         <div class="description-tabs">
-                            <div class="tab active">Product Description</div>
-                            <div class="tab">Company Info.</div>
+                            <div class="tab active" data-toggleid="productDescription">Product Description</div>
+                            <div class="tab" data-toggleid="companyInfo">Company Info.</div>
                         </div>
-
-                        <div class="description-subtabs">
-                            <div class="subtab active">Product Information</div>
-                            <div class="subtab">Shipping Information</div>
-                            <div class="subtab">Main Export Markets</div>
-                            <div class="subtab">Payment Details</div>
-                        </div>
-
-                        <div class="product-info">
-                            <div class="info-table">
-                                <div class="info-row">
-                                    <div class="info-label">Model Number</div>
-                                    <div class="info-value">{{ $product->model_number }}</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Brand Name</div>
-                                    <div class="info-value">{{ $product->brand }}</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Origin</div>
-                                    <div class="info-value">{{ $product->origin }}</div>
-                                </div>
-                                <div class="info-row">
-                                    <div class="info-label">Small Orders</div>
-                                    <div class="info-value">
-                                        {{ $product->small_orders == 1 ? 'Accepted' : 'Not Accepted' }}</div>
-                                </div>
+                        <div class="tabdata" id="productDescription">
+                            <div class="description-subtabs">
+                                <div class="subtab active" data-toggleid="productInfo">Product Information</div>
+                                <div class="subtab" data-toggleid="shippingInfo">Shipping Information</div>
+                                <div class="subtab" data-toggleid="mainExportMarket">Main Export Markets</div>
+                                <div class="subtab" data-toggleid="paymentDetails">Payment Details</div>
                             </div>
 
-                            <h3 class="section-title">Key Specifications/ Special Features:</h3>
-                            <h2 class="display-title">Product Display</h2>
+                            <div class="subtabdata" id="productInfo">
+                                <div class="product-info">
+                                    <div class="info-table">
+                                        <div class="info-row">
+                                            <div class="info-label">Model Number</div>
+                                            <div class="info-value">{{ $product->model_number }}</div>
+                                        </div>
+                                        <div class="info-row">
+                                            <div class="info-label">Brand Name</div>
+                                            <div class="info-value">{{ $product->brand->name }}</div>
+                                        </div>
+                                        <div class="info-row">
+                                            <div class="info-label">Origin</div>
+                                            <div class="info-value">{{ $product->origin }}</div>
+                                        </div>
+                                        <div class="info-row">
+                                            <div class="info-label">Small Orders</div>
+                                            <div class="info-value">
+                                                {{ $product->small_orders == 1 ? 'Accepted' : 'Not Accepted' }}</div>
+                                        </div>
+                                    </div>
 
-                            <div class="product-display-images">
-                                @foreach ($productArray as $key => $value)
-                                    <img src="{{ '/storage/product/' . $value['image_name'] }}" alt="Thumbnail 2"
-                                        class="display-image">
-                                @endforeach
-                            </div>
+                                    <h3 class="section-title">Key Specifications/ Special Features:</h3>
+                                    <h2 class="display-title">Product Display</h2>
 
-                            <div class="specs-tables">
-                                @php
-                                    $additionalDetailsArray = json_decode($product->additional_details, true);
-                                @endphp
-                                @foreach ($additionalDetailsArray as $item)
-                                    <table class="specs-table">
+                                    <div class="product-display-images">
+                                        <div class="swiper">
+                                            <div class="swiper-wrapper">
+                                                @foreach ($productArray as $value)
+                                                    <div class="swiper-slide">
+                                                        <img src="{{ asset('storage/product/' . $value['image_name']) }}">
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="specs-tables">
                                         @php
-                                            $subheads = $item['sub_heads'];
-                                            $countofsubheads = count($subheads);
+                                            $additionalDetailsArray = json_decode($product->additional_details, true);
                                         @endphp
-                                        @foreach ($subheads as $index => $subhead)
-                                            <tr>
-                                                @if ($index == 0)
-                                                    <th rowspan="{{ $countofsubheads }}">{{ $item['title'] }}</th>
-                                                @endif
-                                                <td class="spec-name">{{ $subhead['sub_head'] }}</td>
-                                                <td class="spec-detail">{{ $subhead['sub_head_data'] }}</td>
-                                            </tr>
+                                        @foreach ($additionalDetailsArray as $item)
+                                            <table class="specs-table">
+                                                @php
+                                                    $subheads = $item['sub_heads'];
+                                                    $countofsubheads = count($subheads);
+                                                @endphp
+                                                @foreach ($subheads as $index => $subhead)
+                                                    <tr>
+                                                        @if ($index == 0)
+                                                            <th rowspan="{{ $countofsubheads }}">{{ $item['title'] }}
+                                                            </th>
+                                                        @endif
+                                                        <td class="spec-name">{{ $subhead['sub_head'] }}</td>
+                                                        <td class="spec-detail">{{ $subhead['sub_head_data'] }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
                                         @endforeach
+                                    </div>
+                                    <button class="see-more-btn" onclick="showHiddenTables()">See more details</button>
+                                </div>
+
+                                <div class="contact-us-section">
+                                    <h2 class="contact-us-title">Contact Us</h2>
+                                    <div class="contact-text">
+                                        {{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }} <br>
+                                        {{ $isAdmin == 1 ? 'Admin Address' : $product->seller->shop->address }}
+                                    </div>
+                                </div>
+
+                                <div class="faq-section">
+                                    <h2 class="faq-title">Faq</h2>
+                                    <div class="faq-list">
+                                        {!! $product->faq !!}
+                                    </div>
+                                </div>
+
+                                <div class="why-choose-us-section">
+                                    <h2 class="why-choose-us-title">Why Choose Us?</h2>
+                                    <div class="why-choose-us-content">
+                                        {!! $product->why_choose_us !!}
+                                    </div>
+
+                                    <table class="company-table">
+                                        <tr>
+                                            <th class="company-label">Company</th>
+                                            <th class="company-value">
+                                                {{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="company-label">Contact</td>
+                                            <td class="company-value">
+                                                {{ $isAdmin == 1 ? getWebConfig(name: 'company_name') : $product->seller->f_name }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="company-label">tel/we-chat/what's-app</td>
+                                            <td class="company-value">
+                                                {{ $isAdmin == 1 ? getWebConfig(name: 'company_phone') : $product->seller->shop->contact }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="company-label">E-mail</td>
+                                            <td class="company-value">
+                                                {{ $isAdmin == 1 ? getWebConfig(name: 'company_email') : $product->seller->email }}
+                                            </td>
+                                        </tr>
                                     </table>
-                                @endforeach
+                                </div>
                             </div>
-                            <button class="see-more-btn" onclick="showHiddenTables()">See more details</button>
-                            <script>
-                                function showHiddenTables() {
-                                    // Show all hidden tables
-                                    const hiddenTables = document.querySelectorAll('.specs-table.hide');
-                                    hiddenTables.forEach(table => {
-                                        table.classList.remove('hide');
-                                    });
+                            <div class="subtabdata" id="shippingInfo" style="display: none;">
+                                <h2 class="section-title-large">Shipping Information</h2>
+                                <table class="shipping-table">
+                                    <tr>
+                                        <td class="shipping-label">FOB Port</td>
+                                        <td class="shipping-value">{{ $product->fob_port }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">Weight per Unit</td>
+                                        <td class="shipping-value">{{ $product->weight_per_unit }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">HTS Code</td>
+                                        <td class="shipping-value">{{ $product->hts_code }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">Export Carton<br>Dimensions L/W/H</td>
+                                        <td class="shipping-value">{{ $product->export_carton_dimensions }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">Logistics attributes</td>
+                                        <td class="shipping-value">{{ $product->logistics_attributes }}</td>
+                                    </tr>
+                                </table>
+                                <table class="shipping-table">
+                                    <tr>
+                                        <td class="shipping-label">Lead Time</td>
+                                        <td class="shipping-value">{{ $product->lead_time }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">Dimensions per Unit</td>
+                                        <td class="shipping-value">{{ $product->dimensions_per_unit }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">Units per Export Carton</td>
+                                        <td class="shipping-value">{{ $product->units_per_carton }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">Export Carton Weight</td>
+                                        <td class="shipping-value">{{ $product->carton_weight }}</td>
+                                    </tr>
+                                </table>
+                            </div>
 
-                                    // Hide the button after click
-                                    const btn = document.querySelector('.see-more-btn');
-                                    if (btn) {
-                                        btn.style.display = 'none';
-                                    }
-                                }
-                            </script>
+                            <div class="subtabdata" id="mainExportMarket" style="display: none;">
+                                <h2 class="section-title-large">Main Export Market</h2>
+                                {!! $product->export_markets !!}
+                            </div>
 
-                        </div>
-
-                        <div class="contact-us-section">
-                            <h2 class="contact-us-title">Contact Us</h2>
-                            <div class="contact-text">
-                                {{ $isAdmin ? 'Admin Shop' : $product->seller->shop->name }} <br>
-                                {{ $isAdmin ? 'Admin Address' : $product->seller->shop->address }}
+                            <div class="subtabdata" id="paymentDetails" style="display: none;">
+                                <h2 class="section-title-large">Shipping Information</h2>
+                                <table class="shipping-table">
+                                    <tr>
+                                        <td class="shipping-label">Payment Methods</td>
+                                        <td class="shipping-value">{{ $product->payment_methods }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">Currency Accepted</td>
+                                        <td class="shipping-value">{{ $product->currency_accepted }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">Payment Terms</td>
+                                        <td class="shipping-value">{{ $product->payment_terms }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">Invoicing</td>
+                                        <td class="shipping-value">{{ $product->invoicing }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="shipping-label">Refund Policy</td>
+                                        <td class="shipping-value">{!! $product->refund_policy !!}</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
-
-                        <div class="faq-section">
-                            <h2 class="faq-title">Faq</h2>
-                            <div class="faq-list">
-                                {!! $product->faq !!}
+                        <div class="product-description tabdata" id="companyInfo" style="display: none;">
+                            <div class="product-div">
+                                <div class="product-info">
+                                    <div class="supplier-name">
+                                        {{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}</div>
+                                    <div class="supplier-meta">
+                                        <span
+                                            class="years">{{ $isAdmin == 1 ? 'Admin' : $product->seller->years . 'years' }}</span>
+                                        <span
+                                            class="country">{{ $isAdmin == 1 ? 'DealRocket' : $product->seller->country }}</span>
+                                    </div>
+                                    <div class="response-data">
+                                        <div class="response-rate"><span class="label">Response Rate:</span> <span
+                                                class="value">High</span></div>
+                                        <div class="response-time"><span class="label">Avg Response Time:</span> <span
+                                                class="value">≤24 h</span></div>
+                                        <div class="business-type"><span class="label">Business Type:</span> <span
+                                                class="value">Manufacturer, Exporter, Trading Company</span></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="why-choose-us-section">
-                            <h2 class="why-choose-us-title">Why Choose Us?</h2>
-                            <div class="why-choose-us-content">
-                                {!! $product->why_choose_us !!}
-                            </div>
-
-                            <table class="company-table">
-                                <tr>
-                                    <th class="company-label">Company</th>
-                                    <th class="company-value">Wenzhou Intop electron co.,ltd</th>
-                                </tr>
-                                <tr>
-                                    <td class="company-label">Contact</td>
-                                    <td class="company-value">Benson T</td>
-                                </tr>
-                                <tr>
-                                    <td class="company-label">tel/we-chat/what's-app</td>
-                                    <td class="company-value">+86-15669282250</td>
-                                </tr>
-                                <tr>
-                                    <td class="company-label">E-mail</td>
-                                    <td class="company-value">benson@wimet.com</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <h2 class="section-title-large">Shipping Information</h2>
-                        <table class="shipping-table">
-                            <tr>
-                                <td class="shipping-label">FOB Port</td>
-                                <td class="shipping-value">FOB Port</td>
-                            </tr>
-                            <tr>
-                                <td class="shipping-label">Weight per Unit</td>
-                                <td class="shipping-value">141.0 Grams</td>
-                            </tr>
-                            <tr>
-                                <td class="shipping-label">HTS Code</td>
-                                <td class="shipping-value">8421.31.00 00</td>
-                            </tr>
-                            <tr>
-                                <td class="shipping-label">Export Carton<br>Dimensions L/W/H</td>
-                                <td class="shipping-value">20.0 x 20.0 x 20.0 Centimeters</td>
-                            </tr>
-                            <tr>
-                                <td class="shipping-label">Logistics attributes</td>
-                                <td class="shipping-value">Common</td>
-                            </tr>
-                        </table>
-                        <table class="shipping-table">
-                            <tr>
-                                <td class="shipping-label">Lead Time</td>
-                                <td class="shipping-value">5–15 days</td>
-                            </tr>
-                            <tr>
-                                <td class="shipping-label">Dimensions per Unit</td>
-                                <td class="shipping-value">10.0 x 10.0 x 10.0 Centimeters</td>
-                            </tr>
-                            <tr>
-                                <td class="shipping-label">Units per Export Carton</td>
-                                <td class="shipping-value">50.0</td>
-                            </tr>
-                            <tr>
-                                <td class="shipping-label">Units per Export Carton</td>
-                                <td class="shipping-value">50.0</td>
-                            </tr>
-                            <tr>
-                                <td class="shipping-label">Export Carton Weight</td>
-                                <td class="shipping-value">0.5 Kilograms</td>
-                            </tr>
-                        </table>
                     </div>
                     <div class="supplier-info card-2">
-                        <div class="supplier-name">Wenzhou Ivspeed Co.,Ltd</div>
+                        <div class="supplier-name">{{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}</div>
                         <div class="supplier-meta">
-                            <span class="years">14 years</span>
-                            <span class="country">China</span>
+                            <span class="years">{{ $isAdmin == 1 ? 'Admin' : $product->seller->years . ' years' }}</span>
+                            <span class="country">{{ $isAdmin == 1 ? 'DealRocket' : $product->seller->country }}</span>
                         </div>
                         <div class="response-data">
                             <div class="response-rate"><span class="label">Response Rate:</span> <span
@@ -438,33 +486,6 @@
                             <button class="btn-outline">Chat</button>
                         </div>
                     </div>
-
-                </div>
-                <div class="inquiry-box m-sm-5 m-3">
-                    <h5 class="">Send a direct inquiry to this supplier</h5>
-                    <form style="padding: 30px;">
-                        <div class="mb-3">
-                            <label for="company" class="form-label">To</label>
-                            <input type="text" class="form-control" id="company" value="Wenzhou Ivspeed Co.,Ltd"
-                                readonly>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">E-mail Address</label>
-                            <input type="email" class="form-control" id="email"
-                                placeholder="Please enter your business e-mail address">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" rows="5"
-                                placeholder="Enter product details such as color, size, materials and other specific requirements."></textarea>
-                        </div>
-                        <div style="text-align: end;">
-                            <button type="submit" class="btn btn-red">Send Inquiry Now</button>
-                        </div>
-
-                    </form>
                 </div>
                 <!-- Inquiry Form Section -->
 
@@ -485,6 +506,20 @@
                                         <label for="supplier" class="form-label">To</label>
                                         <div class="form-control-plaintext">Wenzhou Ivspeed Co.,Ltd</div>
                                     </div>
+                                    @php
+                                        $userdata = \App\Utils\ChatManager::getRoleDetail();
+                                        $userId = $userdata['user_id'] ?? null;
+                                        $role = $userdata['role'] ?? null;
+                                    @endphp
+                                    <!-- Hidden fields -->
+                                    <input type="hidden" id="sender_id" name="sender_id" value={{ $userId }}>
+                                    <input type="hidden" id="sender_type" name="sender_type" value={{ $role }}>
+                                    <input type="hidden" id="receiver_id" name="receiver_id"
+                                        value={{ $product->user_id }}>
+                                    <input type="hidden" id="receiver_type" name="receiver_type"
+                                        value={{ $product->added_by }}>
+                                    <input type="hidden" id="product_id" name="product_id" value={{ $product->id }}>
+                                    <input type="hidden" id="type" name="type" value="products">
                                     <div class="mb-3">
                                         <label for="email" class="form-label">E-mail Address</label>
                                         <input type="email" class="form-control" id="email"
@@ -494,7 +529,20 @@
                                         <label for="message" class="form-label">Message</label>
                                         <textarea class="form-control" id="message" rows="4" placeholder="Enter product details..." required></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-success">Send Inquiry Now</button>
+                                    @if (auth('customer')->check())
+                                        @if (strtolower(trim($membership['status'] ?? '')) == 'active')
+                                            <button type="button" onclick="triggerChat()"
+                                                class="btn-inquire-now btn btn-success">Send Inquiry Now</button>
+                                        @else
+                                            <a href="{{ route('membership') }}"
+                                                class="btn-inquire-now btn btn-success">Send Inquiry
+                                                Now</a>
+                                        @endif
+                                    @else
+                                        <button type="button" onclick="sendtologin()"
+                                            class="btn-inquire-now btn btn-success">Send
+                                            Inquiry Now</button>
+                                    @endif
                                 </form>
                             </div>
 
@@ -536,113 +584,43 @@
 @endsection
 
 @push('script')
-    <script src="{{ theme_asset(path: 'public/assets/front-end/js/product-details.js') }}"></script>
+    {{-- <script src="{{ theme_asset(path: 'public/assets/front-end/js/product-details.js') }}"></script> --}}
+    <script src="{{ theme_asset(path: 'public/js/product-detail.js') }}"></script>
     <script type="text/javascript" async="async"
         src="https://platform-api.sharethis.com/js/sharethis.js#property=5f55f75bde227f0012147049&product=sticky-share-buttons">
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle thumbnail clicks
-            const mainImage = document.getElementById('mainImage');
-            const thumbnails = document.querySelectorAll('.thumbnail');
+        function triggerChat() {
+            var _token = $('input[name="_token"]').val()
 
-            thumbnails.forEach(thumbnail => {
-                thumbnail.addEventListener('click', function() {
-                    mainImage.src = this.src;
-                });
+            var formData = {
+                sender_id: $('#sender_id').val(),
+                sender_type: $('#sender_type').val(),
+                receiver_id: $('#receiver_id').val(),
+                receiver_type: $('#receiver_type').val(),
+                product_id: $('#product_id').val(),
+                product_qty: $('#productQty').val(),
+                type: $('#type').val(),
+                email: $('#email').val(),
+                message: $('#message').val()
+            };
+
+            $.ajax({
+                url: "{{ route('sendmessage.other') }}",
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': _token,
+                },
+                success: function(response) {
+                    toastr.success('Inquiry sent successfully!', 'Success');
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                    toastr.error('Failed to send inquiry.', 'Error');
+                }
             });
-
-            // Handle tab switching
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // Remove active class from all tabs
-                    tabs.forEach(t => t.classList.remove('active'));
-                    // Add active class to clicked tab
-                    this.classList.add('active');
-                });
-            });
-
-            // Handle subtab switching
-            const subtabs = document.querySelectorAll('.subtab');
-            subtabs.forEach(subtab => {
-                subtab.addEventListener('click', function() {
-                    // Remove active class from all subtabs
-                    subtabs.forEach(t => t.classList.remove('active'));
-                    // Add active class to clicked subtab
-                    this.classList.add('active');
-                });
-            });
-
-            // Handle quantity input
-            const quantityInput = document.querySelector('.quantity-input');
-            if (quantityInput) {
-                quantityInput.addEventListener('click', function() {
-                    // Add quantity selection logic here
-                    console.log('Quantity input clicked');
-                });
-            }
-
-            // Handle Add to Cart
-            const addToCartBtn = document.querySelector('.btn-cart');
-            if (addToCartBtn) {
-                addToCartBtn.addEventListener('click', function() {
-                    // Add to cart logic here
-                    console.log('Add to cart clicked');
-                    alert('Product added to cart!');
-                });
-            }
-
-            // Handle Inquire Now
-            const inquireBtn = document.querySelector('.btn-inquire');
-            if (inquireBtn) {
-                inquireBtn.addEventListener('click', function() {
-                    // Scroll to inquiry form
-                    const inquiryForm = document.querySelector('.inquiry-form');
-                    inquiryForm.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            }
-
-            // Handle inquiry form submission
-            const inquiryForm = document.getElementById('inquiryForm');
-            if (inquiryForm) {
-                inquiryForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const email = document.getElementById('email').value;
-                    const message = document.getElementById('message').value;
-
-                    console.log('Inquiry submitted:', {
-                        email,
-                        message
-                    });
-
-                    // Reset form
-                    inquiryForm.reset();
-
-                    // Show success message
-                    alert('Your inquiry has been sent successfully!');
-                });
-            }
-
-            // Handle start order buttons
-            const startOrderBtns = document.querySelectorAll('.start-order-btn');
-            startOrderBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    console.log('Start order clicked');
-                    alert('Order process initiated!');
-                });
-            });
-
-            // Handle "Buy Sample" link click
-            const buySampleLink = document.querySelector('.buy-sample');
-            if (buySampleLink) {
-                buySampleLink.addEventListener('click', function() {
-                    console.log('Buy sample clicked');
-                    alert('Sample purchase process initiated!');
-                });
-            }
-        });
+        }
     </script>
 @endpush

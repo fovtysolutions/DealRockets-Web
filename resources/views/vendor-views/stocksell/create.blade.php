@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app-seller')
+@extends('layouts.back-end.app-partialseller')
 
 @section('title', translate('Stock_Create'))
 
@@ -20,9 +20,14 @@
                 <input type="text" name="name" id="name" class="form-control" placeholder="Enter name" required>
             </div>
             <div class="col">
-                <label for="description" class="form-label">Description</label>
-                <textarea id="description" name="description" class="form-control" placeholder="Enter description"
-                    rows="3" required></textarea>
+                <label for="product" class="form-label">Product</label>
+                <select id="product" name="product_id" class="form-control" required>
+                    <option selected value="">Select a product</option>
+                    <!-- Add dynamic product options here -->
+                    @foreach ($items as $key => $value)
+                        <option value="{{ $key }}">{{ $value }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <!-- Second Row -->
@@ -45,15 +50,9 @@
         <!-- Third Row -->
         <div class="row mb-3">
             <div class="col">
-                <label for="product" class="form-label">Product</label>
-                <select id="product" name="product_id" class="form-control" required>
-                    <option selected value="">Select a product</option>
-                    <!-- Add dynamic product options here -->
-                    @foreach ($items as $key => $value)
-                    <option value="{{ $key }}">{{ $value }}</option>
-                    @endforeach
-                </select>
-            </div>
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-control" placeholder="Enter description" rows="5"></textarea>
+            </div>            
         </div>
         <!-- Country and Industry -->
         <div class="row mb-3">
@@ -62,7 +61,7 @@
                 <select name="country" id="country" class="form-control">
                     <option value="value" selected>Select a Country</option>
                     @foreach($countries as $country)
-                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                        <option value="{{ $country->id }}">{{ $country->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -70,8 +69,8 @@
                 <label for="product" class="form-label">Industry</label>
                 <select name="industry" id="industry" class="form-control">
                     <option value="value" selected>Select a Industry</option>
-                    @foreach($categories as $country)
-                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                    @foreach($industry as $country)
+                        <option value="{{ $country->id }}">{{ $country->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -103,8 +102,72 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="compliance_status" class="form-label">Compliance Status</label>
+                <select name="compliance_status" id="compliance_status" class="form-control">
+                    <option value="pending" selected>Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="flagged">Flagged</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="unit" class="form-label">Unit</label>
+                <input type="text" name="unit" id="unit" class="form-control" placeholder="Enter Unit">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <label for="upper_limit" class="form-label">Upper Limit</label>
+                <input type="text" name="upper_limit" id="upper_limit" class="form-control" placeholder="Enter Upper Limit">
+            </div>
+            <div class="col">
+                <label for="lower_limit" class="form-label">Lower Limit</label>
+                <input type="text" name="lower_limit" id="lower_limit" class="form-control" placeholder="Enter Lower Limit">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <label for="city" class="form-label">City</label>
+                <input type="text" name="city" id="city" class="form-control" placeholder="Enter City">
+            </div>
+            <div class="col">
+                <label for="stock_type" class="form-label">Stock Type</label>
+                <select name="stock_type" id="stock_type" class="form-control">
+                    <option value="" selected>Select a Category</option>
+                    @foreach($categories as $country)
+                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <label for="product_type" class="form-label">Product Type</label>
+                <input type="text" name="product_type" id="product_type" class="form-control" placeholder="Enter Product Type">
+            </div>
+            <div class="col">
+                <label for="origin" class="form-label">Origin</label>
+                <input type="text" name="origin" id="origin" class="form-control" placeholder="Enter Origin">
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col">
+                <label for="badge" class="form-label">Badge</label>
+                <input type="text" name="badge" id="badge" class="form-control" placeholder="Enter Badge">
+            </div>
+            <div class="col">
+                <label for="refundable" class="form-label">Refundable</label>
+                <input type="text" name="refundable" id="refundable" class="form-control" placeholder="Is Refundable? (Yes/No)">
+            </div>
+        </div>
+        
         <!-- Submit Button -->
-        <div class="row">
+        <div class="row mb-3">
             <div class="col text-end">
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <button type="reset" class="btn btn-secondary">Reset</button>

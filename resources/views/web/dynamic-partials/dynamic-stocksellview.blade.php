@@ -292,7 +292,7 @@
           </button>
         </div>
         <div class="inquiry-body">
-          <form id="inquiryForm">
+          <form id="inquiryForm" method="POST" action="{{ route('sendmessage.other') }}" enctype="application/x-www-form-urlencoded">
             @csrf
             @php
               $userdata = \App\Utils\ChatManager::getRoleDetail();
@@ -327,7 +327,7 @@
                 <button href="{{ route('membership') }}" class="btn-inquire-now">Send Inquiry Now</button>
               @endif
             @else
-              <button href="#" onclick="sendtologin()" class="btn-inquire-now">Send Inquiry Now</button>
+              <button type="button" onclick="sendtologin()" class="btn-inquire-now">Send Inquiry Now</button>
             @endif
           </form>
         </div>

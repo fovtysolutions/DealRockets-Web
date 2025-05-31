@@ -201,18 +201,21 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                             <ul id="dropdownOptions">
                                                                 <li id="productssearch" data-value="products"
                                                                     data-route="{{ route('products') }}"
+                                                                    data-suggest="products" data-type="products"
                                                                     data-placeholder="Search for products..."
                                                                     class="custom-dealrock-text">
                                                                     Products
                                                                 </li>
                                                                 <li id="leadsbuy" data-value="buyleads"
                                                                     data-route="{{ route('buyer') }}"
+                                                                    data-suggest="buyer" data-type="buyer"
                                                                     data-placeholder="Search for buy leads..."
                                                                     class="custom-dealrock-text">
                                                                     Buy Leads
                                                                 </li>
                                                                 <li id="leadssell" data-value="sellleads"
                                                                     data-route="{{ route('seller') }}"
+                                                                    data-suggest="seller" data-type="seller"
                                                                     data-placeholder="Search for sell leads..."
                                                                     class="custom-dealrock-text">
                                                                     Sell offer
@@ -236,8 +239,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         @else
                                                             <input class="custom-dealrock-text" type="text"
                                                                 id="searchInput" name="searchInput" class="input"
+                                                                data-suggest="products"
                                                                 style="width: inherit;height: 100%;border: 0;outline: 0;"
-                                                                value="{{ request('name') }}"
+                                                                data-type="products" value="{{ request('name') }}"
                                                                 placeholder="{{ translate('Search for products') }}...">
                                                         @endif
 
@@ -249,6 +253,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                                 style="height: 16px; width: 16px;"><span
                                                                 class="ml-1" style="font-size: 18px;">Search<span>
                                                         </div>
+                                                        <ul id="suggestions" class="dropdown-menu suggestion-dropdown"
+                                                            style="display: none;"></ul>
                                                     </div>
                                                 </div>
                                                 </form>
@@ -370,6 +376,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                         <img class="chatting img-default" src="/final_images/chatting-1.png" />
                                         <img class="chatting img-hover" src="/final_images/chatting (2).png" />
                                         <div class="text-wrapper-10">Message</div>
+                                        @if (auth('customer')->check() && isset($unread))
+                                            <span class="unread-badge">{{ $unread }}</span>
+                                        @endif
                                     </a>
                                 </div>
                                 <div class="group-13">
@@ -403,212 +412,11 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
     <a href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a>
 </div>
 @push('script')
+    <script defer src="{{ theme_asset('public/js/header.js') }}"></script>
     <script defer>
         "use strict";
         $(".category-menu").find(".mega_menu").parents("li")
             .addClass("has-sub-item").find("> a")
             .append("<i class='czi-arrow-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}'></i>");
-    </script>
-    <script defer>
-        document.addEventListener("DOMContentLoaded", function() {
-            const dropdown = document.querySelector('.dropdown');
-            const defaultOption = document.querySelector('.default_option');
-            const dropdownList = document.querySelector('.dropdown ul');
-            const prosup = document.getElementById('prosup');
-
-            // Preselect the first option
-            defaultOption.textContent = dropdownList.querySelector('li').textContent;
-
-            dropdown.addEventListener('click', function() {
-                dropdownList.classList.toggle('active'); // Toggle dropdown visibility
-            });
-
-            // Close the dropdown if an option is selected or clicked
-            dropdownList.querySelectorAll('li').forEach(item => {
-                item.addEventListener('click', function() {
-                    defaultOption.textContent = this.textContent; // Update selected option
-                    prosup.action = item.dataset.route;
-                    dropdownList.classList.remove('active'); // Close dropdown
-                });
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!dropdown.contains(event.target)) {
-                    dropdownList.classList.remove('active'); // Close dropdown if clicked outside
-                }
-            });
-        });
-    </script>
-    <script defer>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdown = document.getElementById('productDropdown');
-            const defaultOption = dropdown.querySelector('.default_option');
-            const searchInput = document.getElementById('searchInput');
-
-            // Toggle dropdown visibility when the dropdown is clicked
-            dropdown.addEventListener('click', function() {
-                const ul = dropdown.querySelector('ul');
-                ul.style.display = ul.style.display === 'block' ? 'none' : 'block';
-            });
-
-            // Add click event listener to each dropdown item
-            dropdown.querySelectorAll('li').forEach(item => {
-                item.addEventListener('click', function() {
-                    // Update the default option text
-                    defaultOption.textContent = this.textContent;
-
-                    // Change the placeholder based on the selected option
-                    const placeholder = this.getAttribute('data-placeholder');
-                    searchInput.placeholder = placeholder;
-
-                    // Close the dropdown after selection
-                    dropdown.querySelector('ul').style.display = 'none';
-                });
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(event) {
-                // Check if the click is outside the dropdown
-                if (!dropdown.contains(event.target)) {
-                    dropdown.querySelector('ul').style.display = 'none'; // Hide dropdown
-                }
-            });
-        });
-    </script>
-    <script defer>
-        $('#togglenavbar').on('click', function(event) {
-            $('#navbarCollapse').show();
-        });
-        $('#navbarbutton').on('click', function(event) {
-            $('#navbarCollapse').hide();
-        });
-    </script>
-    <script defer>
-        $('#closebutton').on('click', function(event) {
-            $('#searchformclose').removeClass('active');
-        });
-    </script>
-    <script defer>
-        $(document).ready(function() {
-            $('#dropdownbar').on('mouseenter', function() {
-                $(this).css({
-                    'box-shadow': '0px 4px 15px rgba(0, 0, 0, 0.5)',
-                    'z-index': '1000'
-                });
-
-                $(this).find('.dropdownmenucat').css({
-                    'display': 'flex',
-                    'flex-wrap': 'wrap',
-                    'pointer-events': 'auto',
-                });
-            });
-
-            $('#dropdownbar').on('mouseleave', function() {
-                $(this).css({
-                    'background-color': '',
-                    'box-shadow': ''
-                });
-
-                $(this).find('.dropdownmenucat').css({
-                    'display': 'none',
-                    'pointer-events': 'none',
-                });
-            });
-        });
-    </script>
-    <script defer>
-        document.addEventListener('DOMContentLoaded', function() {
-            var dropdownbutton = document.getElementById('productssearch');
-            var dropdownbuttonu = document.getElementById('leadsbuy');
-            var dropdownbuttonm = document.getElementById('leadssell');
-            var changehere = document.getElementById('searchInput');
-
-            if (dropdownbutton && changehere) {
-                dropdownbutton.addEventListener('click', function() {
-                    changehere.name = 'searchInput';
-                });
-            }
-
-            if (dropdownbuttonu && changehere) {
-                dropdownbuttonu.addEventListener('click', function() {
-                    changehere.name = 'search_query';
-                });
-            }
-
-            if (dropdownbuttonm && changehere) {
-                dropdownbuttonm.addEventListener('click', function() {
-                    changehere.name = 'search_query';
-                });
-            }
-        });
-    </script>
-    <script defer>
-        document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('[data-menu]');
-            const currentPath = window.location.pathname;
-
-            links.forEach((link, index) => {
-                const menuPath = link.getAttribute('data-menu');
-                const hasHomeCheck = link.hasAttribute('data-home');
-
-                // If data-home is true, only evaluate the first link
-                if (hasHomeCheck && index !== 0) return;
-
-                // If data-home is not set, skip first link
-                if (!hasHomeCheck && index === 0) return;
-
-                let isMatch = false;
-
-                if (menuPath === "/") {
-                    // Exact match only for Home
-                    isMatch = (currentPath === "/");
-                } else {
-                    // Use prefix match for everything else
-                    isMatch = currentPath.startsWith(menuPath);
-                }
-
-                if (isMatch) {
-                    link.classList.add('active-menu');
-                } else {
-                    link.classList.remove('active-menu');
-                }
-            });
-        });
-    </script>
-    <script defer>
-        function toggleDropdown() {
-            document.getElementById("dropdownNav").classList.toggle("show");
-        }
-
-        window.addEventListener("click", function(e) {
-            const nav = document.getElementById("dropdownNav");
-            const menuBtn = document.querySelector(".hamburger");
-
-            if (!nav.contains(e.target) && !menuBtn.contains(e.target)) {
-                nav.classList.remove("show");
-            }
-        });
-
-        const toggleBtn = document.getElementById("languageToggleBtn");
-        const dropdown = document.getElementById("languageDropdown-class");
-
-        toggleBtn.addEventListener("click", function(e) {
-            if (e.target === toggleBtn) {
-                console.log("Button clicked directly ✅");
-            } else {
-                console.log("Button child clicked (e.g., span inside)");
-            }
-
-            dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-
-            e.stopPropagation();
-        });
-
-        document.addEventListener("click", function(event) {
-            if (!dropdown.contains(event.target) && event.target !== toggleBtn) {
-                dropdown.style.display = "none";
-            }
-        });
     </script>
 @endpush

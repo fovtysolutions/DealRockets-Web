@@ -113,7 +113,7 @@
                                 </button>
                             </div>
                             <div class="inquiry-body">
-                                <form id="inquiryForm">
+                                <form id="inquiryForm" method="POST" action="{{ route('sendmessage.other') }}" enctype="application/x-www-form-urlencoded">
                                     @csrf
                                     @php
                                         $flagImage = 0;
@@ -146,7 +146,7 @@
                                     <input type="hidden" id="receiver_type" name="receiver_type"
                                         value={{ $seller->role }}>
                                     <input type="hidden" id="type" name="type" value="sellleads">
-                                    <input type="hidden" id="buyer_id" name="buyer_id" value={{ $seller->id }}>
+                                    <input type="hidden" id="leads_id" name="leads_id" value={{ $seller->id }}>
 
                                     <!-- Visible fields -->
                                     <div class="form-group">
@@ -166,7 +166,7 @@
                                     </div>
                                     @if (auth('customer')->check())
                                         @if (strtolower(trim($membership['status'] ?? '')) == 'active')
-                                            <button type="button" onclick="triggerChat()"class="btn-inquire-now">Send Inquiry Now</button>
+                                            <button type="submit" class="btn-inquire-now">Send Inquiry Now</button>
                                         @else
                                             <a href="{{ route('membership') }}" class="btn-inquire-now">Send Inquiry
                                                 Now</a>

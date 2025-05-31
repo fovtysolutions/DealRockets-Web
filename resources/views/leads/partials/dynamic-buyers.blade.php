@@ -27,36 +27,32 @@
                             <span class="lead-tags-label">Tags:</span>
                             <span class="lead-tags-content">{{ $buyer->tags ?? 'N/A' }}</span>
                         </div>
-                        <div class="lead-details">
-                            <div class="detail-group">
-                                <div class="detail-row">
-                                    <span class="detail-label">Quantity Required:</span>
-                                    <span class="detail-value">{{ $buyer->quantity_required ?? 'N/A' }}
-                                        {{ $buyer->unit ?? 'N/A' }}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Refundable:</span>
-                                    <span class="detail-value">{{ $buyer->refund ?? 'N/A' }}</span>
-                                </div>
-                            </div>
-                            <div class="detail-group">
-                                <div class="detail-row">
-                                    <span class="detail-label">Term:</span>
-                                    <span class="detail-value">{{ $buyer->term ?? 'N/A' }}</span>
-                                </div>
-                                <div class="detail-row">
-                                    <span class="detail-label">Available Stock:</span>
-                                    <span class="detail-value">{{ $buyer->avl_stock ?? 'N/A' }}
-                                        {{ $buyer->avl_stock_unit ?? 'N/A' }}</span>
-                                </div>
-                            </div>
-                            <div class="detail-group">
-                                <div class="detail-row">
-                                    <span class="detail-label">Lead Time:</span>
-                                    <span class="detail-value">{{ $buyer->lead_time ?? 'N/A' }}</span>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="lead-details-table">
+                        <table class="detail-table">
+                            <tr>
+                                <td class="detail-label">Quantity Required</td>
+                                <td class="detail-value">{{ $buyer->quantity_required ?? 'N/A' }}
+                                        {{ $buyer->unit ?? 'N/A' }}</span></td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Refundable</td>
+                                <td class="detail-value">{{ $buyer->refund ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Term</td>
+                                <td class="detail-value">{{ $buyer->term ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Available Stock</td>
+                                <td class="detail-value">{{ $buyer->avl_stock ?? 'N/A' }}
+                                        {{ $buyer->avl_stock_unit ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Lead Time</td>
+                                <td class="detail-value">{{ $buyer->lead_time ?? 'N/A' }}</td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="divider"></div>
                     <div class="lead-actions">
@@ -98,7 +94,7 @@
                                 </button>
                             </div>
                             <div class="inquiry-body">
-                                <form id="inquiryForm">
+                                <form id="inquiryForm" method="POST" action="{{ route('sendmessage.other') }}" enctype="application/x-www-form-urlencoded">
                                     @csrf
                                     @php
                                         $flagImage = 0;
@@ -129,7 +125,7 @@
                                     <input type="hidden" id="receiver_type" name="receiver_type"
                                         value={{ $buyer->role }}>
                                     <input type="hidden" id="type" name="type" value="buyleads">
-                                    <input type="hidden" id="buyer_id" name="buyer_id"
+                                    <input type="hidden" id="leads_id" name="leads_id"
                                         value={{ $buyer->id }}>
 
                                     <!-- Visible fields -->
@@ -150,7 +146,7 @@
                                     </div>
                                     @if (auth('customer')->check())
                                         @if (strtolower(trim($membership['status'] ?? '')) == 'active')
-                                            <button type="button" onclick="triggerChat()" class="btn-inquire-now">Send Inquiry Now</button>
+                                            <button type="submit" class="btn-inquire-now">Send Inquiry Now</button>
                                         @else
                                             <a href="{{ route('membership') }}" class="btn-inquire-now">Send Inquiry
                                                 Now</a>

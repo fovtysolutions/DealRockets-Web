@@ -152,6 +152,10 @@ class LeadsController extends Controller
             $query->whereRaw('blacklist = ?', ['no']);
         });
 
+        if ($request->filled('specific_id')){
+            $query->where('id',$request->input('specific_id'));
+        }
+
         // Text search
         if ($request->filled('search_query')) {
             $query->where('name', 'LIKE', '%' . $request->input('search_query') . '%');
@@ -208,6 +212,10 @@ class LeadsController extends Controller
         $query->whereHas('countryRelation', function ($query) {
             $query->whereRaw('blacklist = ?', ['no']);
         });
+
+        if ($request->filled('specific_id')){
+            $query->where('id',$request->input('specific_id'));
+        }
 
         // Text search
         if ($request->filled('search_query')) {
@@ -651,6 +659,7 @@ class LeadsController extends Controller
         $vendorId = auth('seller')->id();
 
         $query->where('added_by', $vendorId);
+        $query->where('role','seller');
 
         // Apply filters based on the request
         $query->where('type', 'seller');

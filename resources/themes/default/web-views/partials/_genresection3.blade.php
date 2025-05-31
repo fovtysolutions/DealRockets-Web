@@ -20,7 +20,7 @@ $getcategoryid = optional(Category::where('name', $homepagesetting[3]['category_
     <div class="sourcenow-sec">
         <div class="sourcemaindiv d-flex">
             <!-- Left Banner Section -->
-            <div class="sourcefirstdiv bg-shimmer" data-bg='{{ isset($homepagesetting[0]['background_image']) ? asset('storage/' . $homepagesetting[0]['background_image']) : asset('/images/placeholderimage.webp') }}'>
+            <div class="sourcefirstdiv bg-shimmer" data-bg='{{ isset($homepagesetting[3]['background_image']) ? asset('storage/' . $homepagesetting[3]['background_image']) : asset('/images/placeholderimage.webp') }}'>
                 <div class="cnt-1">
                     <div class="text-overlay">
                         <h4 class="title fourthshow" style="color:{{$text_color}} !important; font-size: 20px;">

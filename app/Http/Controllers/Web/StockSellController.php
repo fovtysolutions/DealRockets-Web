@@ -197,7 +197,7 @@ class StockSellController extends Controller
             'company_address' => 'required',
             'company_icon' => 'nullable',
             'images' => "$nullable|array|max:10",  // Max 5 images allowed, nullable for update
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',  // Validate each image
+            'images.*' => 'image|max:2048',  // Validate each image
             'compliance_status' => 'nullable|in:pending,approved,flagged',
             'upper_limit' => 'nullable|string',
             'lower_limit' => 'nullable|string',

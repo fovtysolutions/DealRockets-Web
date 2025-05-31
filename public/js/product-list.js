@@ -104,6 +104,8 @@ document.addEventListener("DOMContentLoaded", function() {
     $(document).on("click", ".pagination a", function(e) {
         e.preventDefault();
 
+        const urlParams = new URLSearchParams(window.location.search);
+
         let filters = {
             search_query: document.getElementById("nameFilter").value, // Adjust to your input field ID
             country: Array.from(
@@ -111,7 +113,9 @@ document.addEventListener("DOMContentLoaded", function() {
             ).map(checkbox => checkbox.value), // For multiple checkboxes
             industry: Array.from(
                 document.querySelectorAll('input[name="industry[]"]:checked')
-            ).map(checkbox => checkbox.value) // For multiple checkboxes
+            ).map(checkbox => checkbox.value), // For multiple checkboxes
+            searchInput: urlParams.get('searchInput') || '',
+            category_id: urlParams.get('category_id') || '',
         };
 
         var page = $(this).data("page");

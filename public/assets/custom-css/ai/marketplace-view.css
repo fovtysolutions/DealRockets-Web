@@ -6,9 +6,10 @@
 
 /* Product View Section */
 .product-view-section .product-view {
-    padding: 2rem 2rem !important;
     background: white !important;
-    /* padding: 30px 80px 62px !important ; */
+    padding: 30px 0px 62px !important;
+    margin: 0px auto;
+    width: 96%;
     display: flex !important;
     justify-content: space-between !important;
 }
@@ -453,12 +454,14 @@
 
 /* Product Description Styles */
 .product-view-section .product-description {
-    padding: 2rem 3rem !important;
+    padding: 1rem 3rem !important;
     background: white !important;
     margin-top: 30px !important;
     /* padding: 30px 30px !important ; */
     overflow: hidden !important;
-    display: flex !important;
+    width: 96%;
+    margin: 0 auto;
+    display: flex;
     justify-content: space-between !important;
 }
 
@@ -546,6 +549,7 @@
     display: flex !important;
     gap: 20px !important;
     margin-top: 30px !important;
+    /* overflow-x: scroll; */
 }
 
 .product-view-section .display-image {
@@ -945,9 +949,9 @@
 }
 
 .product-view-section .product-grid {
-    width: 224px !important;
+    width: 224px;
     /* height: 176px !important ; */
-    gap: 13px !important;
+    gap: 13px;
 }
 
 .product-view-section .product-dual-item {
@@ -1027,18 +1031,17 @@
 }
 
 .product-view-section .faq-section {
-
-    margin-top: 22% !important;
+    /* margin-top: 22% !important; */
 }
 
 
 .product-view-section button.btn-inquire-now {
-    margin-left: 646px !important;
+    /* margin-left: 646px !important; */
 }
 
 .product-view-section .action-buttons .custom-inquiry-btn {
-    /* width: 139px !important ; */
-    /* height: 40px !important ; */
+    width: 139px !important;
+    height: 40px !important;
     background: linear-gradient(to right, #FE4E44, #9F0900) !important;
     border-radius: 50px !important;
     /* margin-left: 142px !important ;

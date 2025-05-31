@@ -12,14 +12,13 @@ use Illuminate\Support\Facades\Log;
 
 class CustomChatController extends Controller
 {
-    public function fetchChat($user_id,$user_type,$type){
+    public function fetchChat($user_id,$user_type,$type,$listing_id){
         $reciever_data = ChatManager::getRoleDetail();
         $sender_data = [
             'user_id' => $user_id,
             'role' => $user_type
         ];
-        $type_leads = $type;
-        $chats = ChatManager::getchats($sender_data,$reciever_data,$type_leads);
+        $chats = ChatManager::getchats($sender_data,$reciever_data,$type,$listing_id);
         return $chats;
     }
 

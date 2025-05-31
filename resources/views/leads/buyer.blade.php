@@ -119,39 +119,6 @@
 @push('script')
     <script src="{{ theme_asset('public/js/buyer.js') }}"></script>
     <script>
-        function triggerChat() {
-            var _token = $('input[name="_token"]').val()
-
-            var formData = {
-                sender_id: $('#sender_id').val(),
-                sender_type: $('#sender_type').val(),
-                receiver_id: $('#receiver_id').val(),
-                receiver_type: $('#receiver_type').val(),
-                type: $('#type').val(),
-                leads_id: $('#buyer_id').val(),
-                email: $('#email').val(),
-                message: $('#message').val()
-            };
-
-            $.ajax({
-                url: "{{ route('sendmessage.other') }}",
-                type: 'POST',
-                data: JSON.stringify(formData),
-                contentType: 'application/json',
-                headers: {
-                    'X-CSRF-TOKEN': _token,
-                },
-                success: function(response) {
-                    toastr.success('Inquiry sent successfully!', 'Success');
-                    window.location.reload();
-                },
-                error: function(xhr) {
-                    toastr.error('Failed to send inquiry.', 'Error');
-                }
-            });
-        }
-    </script>
-    <script>
         function loadFilteredData(filters, page = 1) {
             $("#dynamicLoader").css("display", "block");
 

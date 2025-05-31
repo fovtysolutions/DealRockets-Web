@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/back-end/css/google-fonts.css') }}">
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/back-end/vendor/icon-set/style.css') }}">
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/back-end/css/theme.minc619.css?v=1.0') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ dynamicAsset('public/css/lightbox.css') }}">
 
     {{-- RTL Support --}}
@@ -35,6 +36,11 @@
     {{-- Custom Styles --}}
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/back-end/css/style.css') }}">
     <link rel="stylesheet" href="{{ dynamicAsset('public/assets/back-end/css/custom.css') }}">
+
+    {{-- Jquery --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 
     {{-- Inline Styles --}}
     <style>
@@ -81,14 +87,14 @@
 
     <span class="please_fill_out_this_field" data-text="{{ translate('please_fill_out_this_field') }}"></span>
     <span id="onerror-chatting"
-        data-onerror-chatting="{{dynamicAsset(path: 'public/assets/back-end/img/image-place-holder.png')}}"></span>
+        data-onerror-chatting="{{ dynamicAsset(path: 'public/assets/back-end/img/image-place-holder.png') }}"></span>
     <span id="onerror-user"
-        data-onerror-user="{{dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg')}}"></span>
+        data-onerror-user="{{ dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg') }}"></span>
     <span id="get-root-path-for-toggle-modal-image"
-        data-path="{{dynamicAsset(path: 'public/assets/back-end/img/modal')}}"></span>
-    <span id="get-customer-list-route" data-action="{{route('vendor.customer.list')}}"></span>
-    <span id="get-search-product-route" data-action="{{route('vendor.products.search-product')}}"></span>
-    <span id="get-orders-list-route" data-action="{{route('vendor.orders.list', ['status' => 'all'])}}"></span>
+        data-path="{{ dynamicAsset(path: 'public/assets/back-end/img/modal') }}"></span>
+    <span id="get-customer-list-route" data-action="{{ route('vendor.customer.list') }}"></span>
+    <span id="get-search-product-route" data-action="{{ route('vendor.products.search-product') }}"></span>
+    <span id="get-orders-list-route" data-action="{{ route('vendor.orders.list', ['status' => 'all']) }}"></span>
     <span class="system-default-country-code" data-value="{{ getWebConfig(name: 'country_code') ?? 'us' }}"></span>
     <span id="message-select-word" data-text="{{ translate('select') }}"></span>
     <span id="message-yes-word" data-text="{{ translate('yes') }}"></span>
@@ -100,24 +106,26 @@
     <span id="message-are-you-sure-delete-this" data-text="{{ translate('are_you_sure_to_delete_this') }} ?"></span>
     <span id="message-you-will-not-be-able-to-revert-this"
         data-text="{{ translate('you_will_not_be_able_to_revert_this') }}"></span>
-    <span id="getChattingNewNotificationCheckRoute" data-route="{{ route('vendor.messages.new-notification') }}"></span>
+    <span id="getChattingNewNotificationCheckRoute"
+        data-route="{{ route('vendor.messages.new-notification') }}"></span>
 
-    <span id="get-stock-limit-status" data-action="{{route('vendor.products.stock-limit-status')}}"></span>
-    <span id="get-product-stock-limit-title" data-title="{{translate('warning')}}"></span>
+    <span id="get-stock-limit-status" data-action="{{ route('vendor.products.stock-limit-status') }}"></span>
+    <span id="get-product-stock-limit-title" data-title="{{ translate('warning') }}"></span>
     <span id="get-product-stock-limit-image"
         data-warning-image="{{ dynamicAsset(path: 'public/assets/back-end/img/warning-2.png') }}"></span>
     <span id="get-product-stock-limit-message"
         data-message-for-multiple="{{ translate('there_isn’t_enough_quantity_on_stock') . ' . ' . translate('please_check_products_in_limited_stock') . '.' }}"
-        data-message-for-three-plus-product="{{translate('_more_products_have_low_stock') }}"
-        data-message-for-one-product="{{translate('this_product_is_low_on_stock')}}">
+        data-message-for-three-plus-product="{{ translate('_more_products_have_low_stock') }}"
+        data-message-for-one-product="{{ translate('this_product_is_low_on_stock') }}">
     </span>
-    <span id="get-product-stock-view" data-stock-limit-page="{{route('vendor.products.stock-limit-list')}}">
+    <span id="get-product-stock-view" data-stock-limit-page="{{ route('vendor.products.stock-limit-list') }}">
     </span>
 
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/vendor.min.js') }}"></script>
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/theme.min.js') }}"></script>
     <script
-        src="{{ dynamicAsset(path: 'public/assets/back-end/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js') }}"></script>
+        src="{{ dynamicAsset(path: 'public/assets/back-end/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js') }}">
+    </script>
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/bootstrap.min.js') }}"></script>
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/sweet_alert.js') }}"></script>
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/toastr.js') }}"></script>
@@ -141,11 +149,11 @@
 
     <script>
         'use strict'
-        setInterval(function () {
+        setInterval(function() {
             $.get({
                 url: '{{ route('vendor.get-order-data') }}',
                 dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     let data = response.data;
                     if (data.new_order > 0) {
                         playAudio();
@@ -157,7 +165,7 @@
     </script>
 
     <script>
-        $('.notification-data-view').on('click', function () {
+        $('.notification-data-view').on('click', function() {
             let id = $(this).data('id');
             $.ajaxSetup({
                 headers: {
@@ -165,31 +173,32 @@
                 }
             });
             $.post({
-                url: "{{route('vendor.notification.index')}}",
+                url: "{{ route('vendor.notification.index') }}",
                 data: {
-                    _token: '{{csrf_token()}}',
+                    _token: '{{ csrf_token() }}',
                     id: id,
                 },
-                beforeSend: function () {
-                },
-                success: function (data) {
+                beforeSend: function() {},
+                success: function(data) {
                     $('.notification_data_new_badge' + id).fadeOut();
                     $('#NotificationModalContent').empty().html(data.view);
                     $('#NotificationModal').modal('show');
                     let notificationDataCount = $('.notification_data_new_count');
                     let notificationCount = parseInt(data.notification_count);
-                    notificationCount === 0 ? notificationDataCount.fadeOut() : notificationDataCount.html(notificationCount);
+                    notificationCount === 0 ? notificationDataCount.fadeOut() : notificationDataCount
+                        .html(notificationCount);
                 },
-                complete: function () {
-                },
+                complete: function() {},
             });
         })
         if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write(
-            '<script src="{{ dynamicAsset(path: 'public/assets/back-end') }}/vendor/babel-polyfill/polyfill.min.js"><\/script>');
+            '<script src="{{ dynamicAsset(path: 'public/assets/back-end') }}/vendor/babel-polyfill/polyfill.min.js"><\/script>'
+            );
     </script>
-    @if(env('APP_MODE') == 'demo')
+    @if (env('APP_MODE') == 'demo')
         <script>
             'use strict'
+
             function checkDemoResetTime() {
                 let currentMinute = new Date().getMinutes();
                 if (currentMinute > 55 && currentMinute <= 60) {

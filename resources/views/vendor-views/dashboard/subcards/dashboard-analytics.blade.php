@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app-seller')
+@extends('layouts.back-end.app-partialseller')
 @section('title', translate('dashboard'))
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">

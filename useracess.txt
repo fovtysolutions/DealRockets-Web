@@ -1,0 +1,21 @@
+Deal Rocket Passwords:
+
+Admin Panel:
+url: https://504.sofmatics.com/login/admin
+email: contact@fovtysolutions.com
+password: Omsairam@1234
+
+Vendor Panel:
+url: https://504.sofmatics.com/vendor/auth/login
+email: samplevendor1@gmail.com
+password: Samplevendor1@1234
+
+Customer Login:
+url: https://504.sofmatics.com/customer/auth/login
+email: testuser@gmail.com
+password: Testuser@1234
+
+Recrcuiter Login:
+url: https://504.sofmatics.com/customer/auth/login
+email: testrecruiter30@gmail.com
+password: Testrecruiter30@1234

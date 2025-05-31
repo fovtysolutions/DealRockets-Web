@@ -42,10 +42,10 @@
                 <div class="country-buttons">
                     @foreach ($categories as $key => $value)
                         <div class="main-category">
-                            <a class="country-button font-weight-bold" href="{{ route('products', ['industry' => $value]) }}">
+                            <a class="country-button font-weight-bold" href="/marketplace-categories/{{ $value['id'] }}">
                                 {{ $value['name'] }}
                             </a>
-                            @if ($value->childes->count() > 0)
+                            {{-- @if ($value->childes->count() > 0)
                                 <div class="sub-category-list">
                                     @foreach ($value->childes as $sub_category)
                                         <a class="sub-category-button font-weight-normal"
@@ -64,7 +64,7 @@
                                         @endif
                                     @endforeach
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                     @endforeach
                 </div>

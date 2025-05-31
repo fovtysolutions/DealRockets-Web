@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use App\Models\Admin;
 use App\Models\BusinessSetting;
 use App\Models\Chatting;
 use Illuminate\Support\Carbon;
@@ -216,6 +217,34 @@ class ChatManager
         return $result;
     }
 
+    public static function getUserDataChat($userId, $userRole)
+    {
+        if ($userRole == 'customer') {
+            $userdata = User::find($userId);
+            $userdata = [
+                'name' => $userdata['name'],
+            ];
+            return $userdata;
+        } else if ($userRole == 'seller') {
+            $userdata = Seller::find($userId);
+            $userdata = [
+                'name' => $userdata['f_name'] . ' ' . $userdata['l_name'],
+            ];
+            return $userdata;
+        } else if ($userRole == 'admin') {
+            $userdata = Admin::find($userId);
+            $userdata = [
+                'name' => $userdata['name'],
+            ];
+            return $userdata;
+        } else {
+            $userdata = [
+                'name' => 'N/A',
+            ];
+            return $userdata;
+        }
+    }
+
     // Detect authenticated user role and ID
     public static function getRoleDetail()
     {
@@ -243,9 +272,13 @@ class ChatManager
     // Get buyer and seller leads respecting limits from business settings
     public static function Leads()
     {
+        $targetCount = 30;
+
+        // Limits from settings
         $buyerLimit = self::getBusinessSettingLimit('buyer', 10);
         $sellerLimit = self::getBusinessSettingLimit('seller', 10);
 
+        // Fetch initial leads
         $buyerLeads = Leads::select('id', 'posted_date', 'name', 'country')
             ->where('type', 'buyer')
             ->limit($buyerLimit)
@@ -263,10 +296,32 @@ class ChatManager
             ->where('active', 1)
             ->get();
 
+        $finalBuyerLeads = self::repeatCollectionToCount($buyerLeads, $targetCount);
+        $mergedSellers = $sellerLeadsAdmin->merge($sellerLeadsSeller);
+        $finalSellerLeads = self::repeatCollectionToCount($mergedSellers, $targetCount);
+
         return [
-            'buyer' => $buyerLeads,
-            'seller' => $sellerLeadsAdmin->merge($sellerLeadsSeller),
+            'buyer' => $finalBuyerLeads,
+            'seller' => $finalSellerLeads,
         ];
+    }
+
+    private static function repeatCollectionToCount($collection, $targetCount)
+    {
+        $result = collect();
+        $original = $collection->values(); // reset keys
+        $index = 0;
+
+        if ($original->isEmpty()) {
+            return $result; // return empty if no data to repeat
+        }
+
+        while ($result->count() < $targetCount) {
+            $result->push($original[$index % $original->count()]);
+            $index++;
+        }
+
+        return $result;
     }
 
     // Get top suppliers limited by business setting
@@ -600,37 +655,73 @@ class ChatManager
      * @param string $type
      * @return \Illuminate\Support\Collection
      */
-    public static function getchats($sender_data, $receiver_data, $type)
+    public static function getchats($other_user_id, $other_user_type, $type, $listing_id)
     {
-        $chats = ChatsOther::where('type', $type)
-            ->where(function ($query) use ($sender_data, $receiver_data) {
-                $query->where([
-                    ['sender_type', $sender_data['role']],
-                    ['sender_id', $sender_data['user_id']],
-                    ['receiver_id', $receiver_data['user_id']],
-                    ['receiver_type', $receiver_data['role']],
-                ])->orWhere([
-                    ['sender_type', $receiver_data['role']],
-                    ['sender_id', $receiver_data['user_id']],
-                    ['receiver_id', $sender_data['user_id']],
-                    ['receiver_type', $sender_data['role']],
-                ]);
-            })
-            ->orderBy('sent_at', 'asc')
-            ->get();
+        $current_user = ChatManager::getRoleDetail();
 
-        return $chats->map(function ($chat) {
-            return [
-                "id" => $chat->id,
-                "sender_id" => $chat->sender_id,
-                "sender_type" => $chat->sender_type,
-                "receiver_id" => $chat->receiver_id,
-                "receiver_type" => $chat->receiver_type,
-                "message" => $chat->message,
-                "sent_at" => $chat->sent_at,
-                "is_read" => $chat->is_read,
+        $userId = $current_user['user_id'];
+        $userRole = $current_user['role'];
+
+        $query = ChatsOther::query()->where('type', $type);
+
+        switch ($type) {
+            case 'products':
+                $query->where('product_id', $listing_id);
+                break;
+            case 'stocksell':
+                $query->where('stocksell_id', $listing_id);
+                break;
+            case 'buyleads':
+            case 'sellleads':
+                $query->where('leads_id', $listing_id);
+                break;
+            default:
+                return [];
+        }
+
+        $data = $query->get();
+
+        $finalChat = [];
+        $idsToMarkAsRead = [];
+
+        if ($data->isEmpty()) {
+            return [];
+        }
+
+        // Get first message's sender as the 'reference sender'
+        $firstMessage = $data->first();
+        $referenceSenderId = $firstMessage->sender_id;
+        $referenceSenderType = $firstMessage->sender_type;
+
+        foreach ($data as $value) {
+            // Flag based on whether sender matches the first message's sender
+            $flag = ($value->sender_id == $referenceSenderId && $value->sender_type == $referenceSenderType)
+                ? 'other'
+                : 'self';
+
+            // Mark as read if the current user is the receiver
+            if ($userId == $value->receiver_id && $userRole == $value->receiver_type && !$value->is_read) {
+                $idsToMarkAsRead[] = $value->id;
+            }
+
+            $finalChat[] = [
+                'id' => $value->id,
+                'sender_id' => $value->sender_id,
+                'sender_type' => $value->sender_type,
+                'receiver_id' => $value->receiver_id,
+                'receiver_type' => $value->receiver_type,
+                'message' => $value->message,
+                'sent_at' => $value->sent_at,
+                'is_read' => $value->is_read,
+                'flag' => $flag,
             ];
-        });
+        }
+
+        if (!empty($idsToMarkAsRead)) {
+            ChatsOther::whereIn('id', $idsToMarkAsRead)->update(['is_read' => 1]);
+        }
+
+        return $finalChat;
     }
 
     /**

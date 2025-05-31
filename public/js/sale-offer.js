@@ -30,6 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to gather filter values and make the AJAX request
     function applyFilters(page = 1) {
+        const urlParams = new URLSearchParams(window.location.search);
+
         let filters = {
             search_query: document.getElementById("nameFilter").value, // Adjust to your input field ID
             country: Array.from(
@@ -38,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
             industry: Array.from(
                 document.querySelectorAll('input[name="industry[]"]:checked')
             ).map((checkbox) => checkbox.value), // For multiple checkboxes
+            specific_id: urlParams.get('specific_id') || '',
         };
 
         loadFilteredData(filters);
@@ -46,6 +49,8 @@ document.addEventListener("DOMContentLoaded", function () {
     $(document).on("click", ".pagination a", function (e) {
         e.preventDefault();
 
+        const urlParams = new URLSearchParams(window.location.search);
+
         let filters = {
             search_query: document.getElementById("nameFilter").value, // Adjust to your input field ID
             country: Array.from(
@@ -54,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
             industry: Array.from(
                 document.querySelectorAll('input[name="industry[]"]:checked')
             ).map((checkbox) => checkbox.value), // For multiple checkboxes
+            specific_id: urlParams.get('specific_id') || '',
         };
 
         var page = $(this).data("page");

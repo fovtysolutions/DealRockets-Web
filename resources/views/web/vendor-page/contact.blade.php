@@ -2,7 +2,7 @@
 
 
 @push('css_or_js')
-    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/vendor-web.css') }}" />
+    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/css/vendor-web.css') }}" />
 @endpush
 
 @section('content')

@@ -16,7 +16,7 @@
 @endphp
 <style>
     .smallview {
-        width: 48px;
+        width: 44px;
         transition: all 0.3s ease;
     }
 
@@ -45,17 +45,22 @@
         background-color: #E72528;
         padding-left: 5px;
     }
-    
+
     .nav-tabs .nav-item {
-        padding-left: 5px;
+        padding-left: 3px;
+        margin-top: 0px !important;
     }
 
     .nav-item.active small {
         color: white;
     }
 
+    .navbar-vertical-content .nav-link:hover i {
+        color: #FFFFFF;
+    }
+
     .smallview:hover .nav-item {
-        padding-left: 7px;
+        padding-left: 3px;
     }
 
     .nav-item-button-sidebar a {
@@ -64,6 +69,7 @@
 
     .nav-item-button-sidebar i {
         padding-right: 10px !important;
+        color: #4E5D52;
     }
 
     .nav-item-button-sidebar span {
@@ -91,6 +97,10 @@
     .smallview:hover .navbar-vertical-content {
         background: var(--sidebar);
         padding: 10px 15px;
+    }
+
+    .nav-item-button-sidebar.active i{
+        color: white;
     }
 
     @media (min-width: 1200px) {
@@ -185,7 +195,7 @@
                                 </li>
                             @endif
                             <li
-                                class="nav-item specialhidden  {{ Request::is('vendor/subcard/analytics') ? 'active' : '' }} {{ Request::is('vendor/transaction/order-list') ? 'scroll-here' : '' }}">
+                                class="nav-item specialhidden  {{ Request::is('vendor/subcard/analytics') ? 'active' : '' }}">
                                 <i class='bx  bx-report'></i>
                                 <small class="nav-subtitle">{{ translate('reports_&_analytics') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -193,7 +203,7 @@
                             <li
                                 class="navbar-vertical-aside-has-menu {{ Request::is('vendor/report/all-product') || Request::is('vendor/report/stock-product-report') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
-                                    href="{{ route('vendor.report.all-product') }}"
+                                    href="{{ route('vendor.subcard', ['slug' => 'analytics']) }}"
                                     title="{{ translate('product_report') }}">
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="position-relative text-capitalize">
@@ -205,19 +215,302 @@
                             <li
                                 class="navbar-vertical-aside-has-menu {{ Request::is('vendor/report/order-report') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
-                                    href="{{ route('vendor.report.order-report') }}"
+                                    href="{{ route('vendor.subcard', ['slug' => 'analytics']) }}"
                                     title="{{ translate('order_report') }}">
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('order_Report') }}
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item-button-sidebar {{ Request::is('vendor/subcard/vendor-inbox*') ? 'active' : '' }}">
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/vendor-inbox*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                    href="{{ route('vendor.dashboard.index') }}">
-                                    <i class='bx  bx-inbox'  ></i> 
+                                    href="{{ route('vendor.subcard', ['slug' => 'vendor-inbox']) }}">
+                                    <i class='bx  bx-inbox'></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Inbox') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item specialhidden  {{ Request::is('vendor/subcard/product-upload') ? 'active' : '' }}">
+                                <i class='bx  bx-turkey-meat'></i>
+                                <small class="nav-subtitle">{{ translate('Product Upload') }}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'product-upload']) }}"
+                                    title="{{ translate('Add Product') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        <span class="position-relative text-capitalize">
+                                            {{ translate('Add Product') }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'product-upload']) }}"
+                                    title="{{ translate('Bulk Import') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Bulk Import') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/profile*') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'profile']) }}">
+                                    <i class='bx  bx-user-square'></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Profile') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item specialhidden  {{ Request::is('vendor/subcard/upload-banner') ? 'active' : '' }}">
+                                <i class='bx  bx-square-dashed-half'></i>
+                                <small class="nav-subtitle">{{ translate('Upload Banner') }}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'upload-banner']) }}"
+                                    title="{{ translate('Marketplace') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        <span class="position-relative text-capitalize">
+                                            {{ translate('Marketplace') }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'upload-banner']) }}"
+                                    title="{{ translate('Buy Leads') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Buy Leads') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'upload-banner']) }}"
+                                    title="{{ translate('Sell Offer') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Sell Offer') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'upload-banner']) }}"
+                                    title="{{ translate('Tradeshows') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Tradeshows') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/membership') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'membership']) }}">
+                                    <i class='bx  bx-user-square'></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Membership') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/faq') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'faq']) }}">
+                                    <i class='bx  bx-message-bubble-question-mark'></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('FAQ') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/settings') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'settings']) }}">
+                                    <i class='bx  bx-cog'></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Settings') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item specialhidden  {{ Request::is('vendor/subcard/stock-sell') ? 'active' : '' }}">
+                                <i class='bx  bx-barn'></i>
+                                <small class="nav-subtitle">{{ translate('Stock Sell') }}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'stock-sell']) }}"
+                                    title="{{ translate('Manage Stock Sell') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        <span class="position-relative text-capitalize">
+                                            {{ translate('Manage Stock Sell') }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'stock-sell']) }}"
+                                    title="{{ translate('Add Stock Sell') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Add Stock Sell') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/buy-leads') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'buy-leads']) }}">
+                                    <i class='bx  bx-arrow-s-right'></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Buy Leads') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item specialhidden  {{ Request::is('vendor/subcard/sell-offer') ? 'active' : '' }}">
+                                <i class='bx  bx-arrow-s-left'></i>
+                                <small class="nav-subtitle">{{ translate('Sale Offer') }}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'sell-offer']) }}"
+                                    title="{{ translate('Manage Sale Offer') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        <span class="position-relative text-capitalize">
+                                            {{ translate('Manage Sale Offer') }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'sell-offer']) }}"
+                                    title="{{ translate('Add Sale Offer') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Add Sale Offer') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/deal-assist') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'deal-assist']) }}">
+                                    <i class='bx  bx-people-handshake'></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Deal Assist') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/trade-shows') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'trade-shows']) }}">
+                                    <i class='bx  bx-tent'></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Trade Shows') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/post-rfq') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'post-rfq']) }}">
+                                    <i class='bx  bx-mail-open'></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('RFQ') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/hire-employee') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'hire-employee']) }}">
+                                    <i class='bx  bx-community'  ></i> 
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Hire Employee') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item specialhidden  {{ Request::is('vendor/subcard/post-job') ? 'active' : '' }}">
+                                <i class='bx  bx-group'  ></i> 
+                                <small class="nav-subtitle">{{ translate('Post Job') }}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'post-job']) }}"
+                                    title="{{ translate('Manage Jobs') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        <span class="position-relative text-capitalize">
+                                            {{ translate('Manage Jobs') }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'post-job']) }}"
+                                    title="{{ translate('Add Jobs') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Add Jobs') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item specialhidden  {{ Request::is('vendor/subcard/marketplace') ? 'active' : '' }}">
+                                <i class='bx  bx-pencil-edit-circle'  ></i> 
+                                <small class="nav-subtitle">{{ translate('Marketplace') }}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'marketplace']) }}"
+                                    title="{{ translate('Manage Products') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        <span class="position-relative text-capitalize">
+                                            {{ translate('Manage Products') }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'marketplace']) }}"
+                                    title="{{ translate('Approved Products') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Approved Products') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'marketplace']) }}"
+                                    title="{{ translate('Denied Products') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('Approved Products') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                    href="{{ route('vendor.subcard', ['slug' => 'marketplace']) }}"
+                                    title="{{ translate('New Product Request') }}">
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{ translate('New Product Request') }}
                                     </span>
                                 </a>
                             </li>

@@ -295,7 +295,7 @@ aside .navbar-vertical-aside-has-menu .nav-sub .nav-link {
 }
 
 aside .navbar-nav>.nav-item:not(:first-child) {
-    margin-top: 15px !important;
+    margin-top: 15px;
     display: flex;
     align-items: center;
 }

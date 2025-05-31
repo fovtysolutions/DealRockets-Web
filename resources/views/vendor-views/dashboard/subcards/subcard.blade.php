@@ -7,7 +7,7 @@
 @endpush
 
 @section('content')
-    <span class="row pt-5 pl-5">Home / {{ $title }}</span>
+    <span class="row pt-5 pl-5"><a href="{{route('vendor.dashboard.index')}}" style="color: black; padding-right:3px;"> Home </a> / {{ $title }}</span>
 
     <div class="p-5">
         <ul class="nav nav-tabs" id="tabMenu" role="tablist">

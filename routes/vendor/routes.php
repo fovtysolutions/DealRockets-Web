@@ -61,6 +61,7 @@ use App\Http\Controllers\deal_assist\DealAssistController;
 use App\Http\Controllers\Leads\LeadsController;
 use App\Http\Controllers\Vendor\Supplier\SupplierController as VendorSupplier;
 use App\Http\Controllers\Vendor\VendorStockSellController;
+use App\Http\Controllers\Web\ChatOtherController;
 use App\Http\Controllers\Web\JobseekerController;
 
 Route::group(['middleware' => ['maintenance_mode']], function () {
@@ -150,6 +151,8 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
                 Route::match(['get', 'post', 'put', 'delete'], '/job-applications', [JobseekerController::class, 'vendorjob_applications'])->name('job-applications');
                 Route::match(['get', 'post', 'put', 'delete'], '/registered-candidates', [JobseekerController::class, 'registered_candidates'])->name('registered-candidates');
             });
+
+            Route::get('/get-chat-lists',[ChatOtherController::class, 'vendorChatbox'])->name('get-chat-lists');
 
             Route::group(['prefix' => 'dealassist','as'=>'dealassist.'], function(){
                 Route::get('index',[DealAssistController::class,'vendorindex'])->name('index');

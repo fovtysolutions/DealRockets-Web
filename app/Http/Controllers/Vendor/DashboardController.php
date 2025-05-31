@@ -483,9 +483,7 @@ class DashboardController extends BaseController
             case 'vendor-inbox':
                 $title = 'Inbox';
                 $cardData = [
-                    ['link' => route('vendor.leads.get-vendor-messages'), 'title' => 'Leads', 'value' => 'Yes'],
-                    ['link' => route('vendor.stock.get-messages'), 'title' => 'Stock Sale', 'value' => 'Yes'],
-                    ['link' => route('vendor.messages.index', ['type' => 'customer']), 'title' => 'Marketplace', 'value' => 'Yes'],
+                    ['link' => route('vendor.get-chat-lists'), 'title' => 'Inbox', 'value' => 'Yes'],
                 ];
                 break;
 

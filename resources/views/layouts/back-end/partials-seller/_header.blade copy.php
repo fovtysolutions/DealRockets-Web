@@ -9,11 +9,6 @@
     $shop_id = \App\Models\Shop::where('seller_id',auth('seller')->id())->first()->id;
 @endphp
 @php($direction = Session::get('direction'))
-<style>
-#header{
-    z-index: 10000;
-}
-</style>
 <div id="headerMain" class="d-none">
     <header id="header"
             class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered">

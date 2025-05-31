@@ -16,7 +16,7 @@
 @endphp
 <style>
     .smallview {
-        width: 44px;
+        width: 75px;
         transition: all 0.3s ease;
     }
 
@@ -47,7 +47,7 @@
     }
 
     .nav-tabs .nav-item {
-        padding-left: 3px;
+        padding-left: 16px;
         margin-top: 0px !important;
     }
 
@@ -60,16 +60,36 @@
     }
 
     .smallview:hover .nav-item {
-        padding-left: 3px;
+        padding-left: 4px;
+    }
+
+    .smallview:hover .nav-item-button-sidebar {
+        padding-left: 0;
+    }
+
+    .smallview:hover .nav-item i {
+        padding-right: 0;
+    }
+
+    .nav-item-button-sidebar {
+        padding-left: 11px;
+    }
+
+    .nav-item i {
+        padding-right: 16px;
+        padding-left: 7px;
+        font-size: 20px;
     }
 
     .nav-item-button-sidebar a {
-        padding-left: 0 !important;
+        padding-left: 3px !important;
     }
 
     .nav-item-button-sidebar i {
-        padding-right: 10px !important;
+        padding-right: 16px !important;
         color: #4E5D52;
+        padding-left: 5px;
+        font-size: 20px;
     }
 
     .nav-item-button-sidebar span {
@@ -79,8 +99,8 @@
     }
 
     .nav-item-button-sidebar.active i {
-        padding-left: 5px;
-        padding-right: 0px !important;
+        padding-left: 9px;
+        padding-right: 12px !important;
     }
 
     .nav-item-button-sidebar.active {
@@ -99,13 +119,13 @@
         padding: 10px 15px;
     }
 
-    .nav-item-button-sidebar.active i{
+    .nav-item-button-sidebar.active i {
         color: white;
     }
 
     @media (min-width: 1200px) {
         .navbar-vertical-aside-show-xl .main {
-            padding-left: 50px;
+            padding-left: 70px;
             transition: padding-left 0.3s ease;
         }
 
@@ -170,11 +190,10 @@
                     @endif
                     @if (\App\Utils\ChatManager::checkStatusSupplier() == 1)
                         <ul class="navbar-nav navbar-nav-lg nav-tabs">
-                            <li
-                                class="nav-item-button-sidebar {{ Request::is('vendor/dashboard*') ? 'active' : '' }}">
+                            <li class="nav-item-button-sidebar {{ Request::is('vendor/dashboard*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.dashboard.index') }}">
-                                    <i class='bx  bxs-dashboard'></i>
+                                    <i class="fa-solid fa-border-all"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('dashboard') }}
                                     </span>
@@ -196,7 +215,7 @@
                             @endif
                             <li
                                 class="nav-item specialhidden  {{ Request::is('vendor/subcard/analytics') ? 'active' : '' }}">
-                                <i class='bx  bx-report'></i>
+                                <i class="fa-solid fa-chart-line"></i>
                                 <small class="nav-subtitle">{{ translate('reports_&_analytics') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
@@ -226,7 +245,7 @@
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/vendor-inbox*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'vendor-inbox']) }}">
-                                    <i class='bx  bx-inbox'></i>
+                                    <i class="fa-solid fa-inbox"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Inbox') }}
                                     </span>
@@ -234,7 +253,7 @@
                             </li>
                             <li
                                 class="nav-item specialhidden  {{ Request::is('vendor/subcard/product-upload') ? 'active' : '' }}">
-                                <i class='bx  bx-turkey-meat'></i>
+                                <i class="fa-solid fa-box"></i>
                                 <small class="nav-subtitle">{{ translate('Product Upload') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
@@ -262,7 +281,7 @@
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/profile*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'profile']) }}">
-                                    <i class='bx  bx-user-square'></i>
+                                    <i class="fa-solid fa-user"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Profile') }}
                                     </span>
@@ -270,7 +289,7 @@
                             </li>
                             <li
                                 class="nav-item specialhidden  {{ Request::is('vendor/subcard/upload-banner') ? 'active' : '' }}">
-                                <i class='bx  bx-square-dashed-half'></i>
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
                                 <small class="nav-subtitle">{{ translate('Upload Banner') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
@@ -316,7 +335,7 @@
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/membership') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'membership']) }}">
-                                    <i class='bx  bx-user-square'></i>
+                                    <i class="fa-solid fa-user-plus"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Membership') }}
                                     </span>
@@ -326,7 +345,7 @@
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/faq') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'faq']) }}">
-                                    <i class='bx  bx-message-bubble-question-mark'></i>
+                                    <i class="fa-solid fa-question"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('FAQ') }}
                                     </span>
@@ -336,7 +355,7 @@
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/settings') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'settings']) }}">
-                                    <i class='bx  bx-cog'></i>
+                                    <i class="fa-solid fa-sliders"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Settings') }}
                                     </span>
@@ -344,7 +363,7 @@
                             </li>
                             <li
                                 class="nav-item specialhidden  {{ Request::is('vendor/subcard/stock-sell') ? 'active' : '' }}">
-                                <i class='bx  bx-barn'></i>
+                                <i class="fa-solid fa-cubes"></i>
                                 <small class="nav-subtitle">{{ translate('Stock Sell') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
@@ -372,7 +391,7 @@
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/buy-leads') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'buy-leads']) }}">
-                                    <i class='bx  bx-arrow-s-right'></i>
+                                    <i class="fa-solid fa-pencil"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Buy Leads') }}
                                     </span>
@@ -380,7 +399,7 @@
                             </li>
                             <li
                                 class="nav-item specialhidden  {{ Request::is('vendor/subcard/sell-offer') ? 'active' : '' }}">
-                                <i class='bx  bx-arrow-s-left'></i>
+                                <i class="fa-solid fa-leaf"></i>
                                 <small class="nav-subtitle">{{ translate('Sale Offer') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
@@ -408,7 +427,7 @@
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/deal-assist') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'deal-assist']) }}">
-                                    <i class='bx  bx-people-handshake'></i>
+                                    <i class="fa-solid fa-handshake"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Deal Assist') }}
                                     </span>
@@ -418,7 +437,7 @@
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/trade-shows') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'trade-shows']) }}">
-                                    <i class='bx  bx-tent'></i>
+                                    <i class="fa-solid fa-trademark"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Trade Shows') }}
                                     </span>
@@ -428,7 +447,7 @@
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/post-rfq') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'post-rfq']) }}">
-                                    <i class='bx  bx-mail-open'></i>
+                                    <i class="fa-solid fa-envelope-open-text"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('RFQ') }}
                                     </span>
@@ -438,7 +457,7 @@
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/hire-employee') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'hire-employee']) }}">
-                                    <i class='bx  bx-community'  ></i> 
+                                    <i class="fa-solid fa-shield-halved"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{ translate('Hire Employee') }}
                                     </span>
@@ -446,7 +465,7 @@
                             </li>
                             <li
                                 class="nav-item specialhidden  {{ Request::is('vendor/subcard/post-job') ? 'active' : '' }}">
-                                <i class='bx  bx-group'  ></i> 
+                                <i class="fa-solid fa-sitemap"></i>
                                 <small class="nav-subtitle">{{ translate('Post Job') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
@@ -472,7 +491,7 @@
                             </li>
                             <li
                                 class="nav-item specialhidden  {{ Request::is('vendor/subcard/marketplace') ? 'active' : '' }}">
-                                <i class='bx  bx-pencil-edit-circle'  ></i> 
+                                <i class="fa-solid fa-store"></i>
                                 <small class="nav-subtitle">{{ translate('Marketplace') }}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>

@@ -90,6 +90,7 @@ class ShopViewController extends Controller
     public function default_theme($request, $id): View|JsonResponse|Redirector|RedirectResponse
     {
         self::checkShopExistence($id);
+        $id = (int) $id;
         $productAddedBy = $id == 0 ? 'admin' : 'seller';
         $productUserID = $id == 0 ? $id : Shop::where('id', $id)->first()->seller_id;
         $shopAllProducts = ProductManager::getAllProductsData($request, $productUserID, $productAddedBy);

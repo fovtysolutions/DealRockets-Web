@@ -171,7 +171,7 @@
                     @if (\App\Utils\ChatManager::checkStatusSupplier() == 1)
                         <ul class="navbar-nav navbar-nav-lg nav-tabs">
                             <li
-                                class="navbar-vertical-aside-has-menu {{ Request::is('vendor/dashboard*') ? 'show' : '' }}">
+                                class="nav-item-button-sidebar {{ Request::is('vendor/dashboard*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{ route('vendor.dashboard.index') }}">
                                     <i class='bx  bxs-dashboard'></i>

@@ -6,6 +6,7 @@
     use App\Models\Shop;
     $shop= Shop::where(['seller_id'=>auth('seller')->id()])->first();
     $vendor= Seller::find(auth('seller')->id());
+    $shop_id = \App\Models\Shop::where('seller_id',auth('seller')->id())->first()->id;
 @endphp
 @php($direction = Session::get('direction'))
 <div id="headerMain" class="d-none">
@@ -22,7 +23,6 @@
                         <img class="navbar-brand-logo-mini"
                              src="{{getStorageImages(path: $shop->image_full_url,type:'backend-logo')}}"
                              alt="{{translate('logo')}}" height="40">
-
                     @else
                         <img class="navbar-brand-logo-mini"
                              src="{{dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg')}}"
@@ -92,7 +92,7 @@
                         <div class="hs-unfold">
                             <a title="{{translate('website_shop_view')}}"
                                class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
-                               href="{{route('shopView',['id'=>auth('seller')->id()])}}" target="_blank"
+                               href="{{route('shopView',['id'=>$shop_id])}}" target="_blank"
                                title="{{translate('Website View')}}" data-toggle="tooltip"
                                data-custom-class="header-icon-title">
                                 <svg width="20" height="21" viewBox="0 0 20 21" fill="none"

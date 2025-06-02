@@ -9487,4 +9487,5 @@ return [
 	"Approved Products" => "Approved Products",
 	"Denied Products" => "Denied Products",
 	"New Product Request" => "New Product Request",
+	"RFQ | Marketplace" => "RFQ | Marketplace",
 ];

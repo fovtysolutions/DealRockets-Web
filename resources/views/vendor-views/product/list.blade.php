@@ -219,15 +219,7 @@
                                                         <input type="checkbox"
                                                             class="switcher_input toggle-switch-message" name="status"
                                                             id="product-status{{ $product['id'] }}" value="1"
-                                                            {{ $product['status'] == 1 ? 'checked' : '' }}
-                                                            data-modal-id="toggle-status-modal"
-                                                            data-toggle-id="product-status{{ $product['id'] }}"
-                                                            data-on-image="product-status-on.png"
-                                                            data-off-image="product-status-off.png"
-                                                            data-on-title="{{ translate('Want_to_Turn_ON') . ' ' . $productName . ' ' . translate('status') }}"
-                                                            data-off-title="{{ translate('Want_to_Turn_OFF') . ' ' . $productName . ' ' . translate('status') }}"
-                                                            data-on-message="<p>{{ translate('if_enabled_this_product_will_be_available_on_the_website_and_customer_app') }}</p>"
-                                                            data-off-message="<p>{{ translate('if_disabled_this_product_will_be_hidden_from_the_website_and_customer_app') }}</p>">
+                                                            {{ $product['status'] == 1 ? 'checked' : '' }}>
                                                         <span class="switcher_control"></span>
                                                     </label>
                                                 </form>
@@ -258,7 +250,8 @@
                                                     <i class="tio-delete"></i>
                                                 </span>
                                                 <button class="btn btn-outline--primary btn-sm square-btn"
-                                                    title="Convert to Sale Offer" onclick="sendtoSellOfferCreate('{{ $product->name }}')">
+                                                    title="Convert to Sale Offer"
+                                                    onclick="sendtoSellOfferCreate('{{ $product->name }}')">
                                                     <i class="tio-refresh"></i>
                                                 </button>
                                             </div>
@@ -296,5 +289,28 @@
             const url = '{{ route('vendor.add-new-leads') }}' + '?product_name=' + productId;
             window.location.href = url;
         }
+        $(document).on('change', '.toggle-switch-message', function() {
+            const $checkbox = $(this);
+            const $form = $checkbox.closest('form');
+            const formData = $form.serialize();
+            const actionUrl = $form.attr('action');
+
+            $.ajax({
+                type: 'POST',
+                url: actionUrl,
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        // Show success toast
+                        toastr.success(response.message || 'Status updated successfully');
+                    } else {
+                        toastr.error(response.message || 'Something went wrong');
+                    }
+                },
+                error: function(xhr) {
+                    toastr.error('Server error: ' + xhr.status);
+                }
+            });
+        });
     </script>
 @endsection

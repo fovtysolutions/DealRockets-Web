@@ -18,21 +18,12 @@
     <header id="header"
             class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered">
         <div class="navbar-nav-wrap">
-            <div class="navbar-brand-wrapper d-none d-sm-block d-xl-none">
-                <a class="navbar-brand" href="{{route('vendor.dashboard.index')}}" aria-label="">
-                    @if (isset($shop))
-                        <img class="navbar-brand-logo"
-                             src="{{getStorageImages(path: $shop->image_full_url,type:'backend-logo')}}"
-                             alt="{{translate('logo')}}"
-                             height="40">
-                        <img class="navbar-brand-logo-mini"
-                             src="{{getStorageImages(path: $shop->image_full_url,type:'backend-logo')}}"
-                             alt="{{translate('logo')}}" height="40">
-                    @else
-                        <img class="navbar-brand-logo-mini"
-                             src="{{dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg')}}"
-                             alt="{{translate('logo')}}" height="40">
-                    @endif
+            <div class="navbar-brand-wrapper d-sm-block">
+                <a class="navbar-brand" href="{{ route('vendor.dashboard.index') }}" aria-label="{{ translate('logo') }}">
+                    <img class="navbar-brand-logo"
+                        src="{{ isset($shop) ? getStorageImages(path: $shop->image_full_url, type: 'backend-logo') : dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg') }}"
+                        alt="{{ translate('logo') }}"
+                        height="40">
                 </a>
             </div>
             <div class="navbar-nav-wrap-content-left">

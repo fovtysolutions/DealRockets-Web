@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Author;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\CompanyProfile;
 use App\Models\Coupon;
 use App\Models\FlashDeal;
 use App\Models\FlashDealProduct;
@@ -72,6 +74,10 @@ class ShopViewController extends Controller
             'bottom_banner_full_url' => $shopId == 0 ? getWebConfig(name: 'bottom_banner') : $shop->bottom_banner_full_url,
             'image_full_url' => $shopId == 0 ? $inhouseVacation['status'] : $shop->image_full_url,
             'minimum_order_amount' => $shopId == 0 ? getWebConfig(name: 'minimum_order_amount') : $shop->seller->minimum_order_amount,
+            'seller_details' => $shopId == 0 ? Admin::find(1) : Seller::find($shop?->seller_id),
+            'company_profiles' => $shopId == 0 ? CompanyProfile::find(0) : CompanyProfile::where('seller',$shop?->seller_id)->first(),
+            'company_certificates' => $shopId = 0 ? json_decode(CompanyProfile::find(0)->company_certificates,true) : json_decode(CompanyProfile::where('seller',$shop?->seller_id)->first()->company_certificates,true),
+            'images' => $shopId = 0 ? json_decode(CompanyProfile::find(0)->images,true) : json_decode(CompanyProfile::where('seller',$shop?->seller_id)->first()->images,true),
         ];
     }
 
@@ -100,7 +106,6 @@ class ShopViewController extends Controller
         $shopPublishingHouses = ProductManager::getPublishingHouseList(productIds: $shopAllProducts->pluck('id')->toArray(), vendorId: $productUserID);
         $digitalProductAuthors = ProductManager::getProductAuthorList(productIds: $shopAllProducts->pluck('id')->toArray(), vendorId: $productUserID);
         $shopInfoArray = self::getShopInfoArray(shopId: $id, shopProducts: $shopAllProducts, sellerType: $productAddedBy, sellerId: $productUserID);
-
         $products = $productListData->paginate(20)->appends($request->all());
 
         if ($request->ajax()) {

@@ -13,15 +13,18 @@
 #header{
     z-index: 10000;
 }
+.tooltip{
+    z-index: 10001;
+}
 </style>
 <div id="headerMain" class="d-none">
     <header id="header"
             class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered">
         <div class="navbar-nav-wrap">
             <div class="navbar-brand-wrapper d-sm-block">
-                <a class="navbar-brand" href="{{ route('vendor.dashboard.index') }}" aria-label="{{ translate('logo') }}">
+                <a class="navbar-brand" href="{{ route('admin.dashboard.index') }}" aria-label="{{ translate('logo') }}">
                     <img class="navbar-brand-logo"
-                        src="{{ isset($shop) ? getStorageImages(path: $shop->image_full_url, type: 'backend-logo') : dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg') }}"
+                        src="{{ isset($web_config) ? $web_config['web_logo']['path'] : dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg') }}"
                         alt="{{ translate('logo') }}"
                         height="40">
                 </a>

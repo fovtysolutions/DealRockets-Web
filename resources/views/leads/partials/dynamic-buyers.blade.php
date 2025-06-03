@@ -33,26 +33,26 @@
                             <table class="detail-table">
                                 <tr>
                                     <td class="detail-label">Quantity Required</td>
-                                    <td class="detail-value">{{ $buyer->quantity_required ?? 'N/A' }}
+                                    <td class="detail-value text-truncate">{{ $buyer->quantity_required ?? 'N/A' }}
                                         {{ $buyer->unit ?? 'N/A' }}</span></td>
                                 </tr>
                                 <tr>
-                                    <td class="detail-label">Lead Time</td>
-                                    <td class="detail-value">{{ $buyer->lead_time ?? 'N/A' }}</td>
+                                    <td class="detail-label">Available Stock</td>
+                                    <td class="detail-value text-truncate">{{ $buyer->avl_stock ?? 'N/A' }}
+                                        {{ $buyer->avl_stock_unit ?? 'N/A' }}</td>
                                 </tr>
                             </table>
                             <table class="detail-table">
                                 <tr>
-                                    <td class="detail-label">Term</td>
-                                    <td class="detail-value">{{ $buyer->term ?? 'N/A' }}</td>
+                                    <td class="detail-label">Lead Time</td>
+                                    <td class="detail-value text-truncate">{{ $buyer->lead_time ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="detail-label">Available Stock</td>
-                                    <td class="detail-value">{{ $buyer->avl_stock ?? 'N/A' }}
-                                        {{ $buyer->avl_stock_unit ?? 'N/A' }}</td>
+                                    <td class="detail-label">Term</td>
+                                    <td class="detail-value text-truncate">{{ $buyer->term ?? 'N/A' }}</td>
                                 </tr>
                             </table>
-                            <table class="detail-table" style="height: 39px;">
+                            <table class="detail-table">
                                 <tr>
                                     <td class="detail-label">Refundable</td>
                                     <td class="detail-value text-truncate">{{ $buyer->refund ?? 'N/A' }}</td>

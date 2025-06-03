@@ -343,14 +343,64 @@ class DashboardController extends BaseController
             case 'stock-sell':
                 $title = 'Stock Sell';
                 $cardData = [
-                    ['link' => route('admin.stock.index'), 'title' => 'Stock Sell List', 'value' => 'Yes'],
+                    ['link' => route('admin.stock.index'), 'title' => 'Stock Sale List', 'value' => 'Yes'],
                     ['link' => route('admin.stock.category.list'), 'title' => 'Manage Stock Category', 'value' => 'Yes'],
                     ['link' => route('admin.stock.category.create'), 'title' => 'Add Stock Category', 'value' => 'Yes'],
-                    ['link' => route('admin.brand.add-new'), 'title' => 'Add Brand', 'value' => 'Yes'],
-                    ['link' => route('admin.brand.list'), 'title' => 'Manage Brand', 'value' => 'Yes'],
-                    ['link' => route('admin.products.list', ['in-house']), 'title' => 'Products List', 'value' => 'Yes'],
-                    ['link' => route('admin.products.add'), 'title' => 'Products Add', 'value' => 'Yes'],
-                    ['link' => route('admin.products.bulk-import'), 'title' => 'Bulk Import Products', 'value' => 'Yes'],
+                    ['link' => route('admin.stock.create'), 'title' => 'Add Stock Sale', 'value' => 'Yes'],
+                ];
+                break;
+
+            
+            case 'tradeshow':
+                $title = 'Tradeshows';
+                $cardData = [
+                    ['link' => route('admin.tradeshow.list'), 'title' => 'Trade Show List', 'value' => 'Yes'],
+                    ['link' => route('admin.add-new-tradeshow'), 'title' => 'Manage Trade Show', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'vendor':
+                $title = 'Vendor';
+                $cardData = [
+                    ['link' => route('admin.vendors.vendor-list'), 'title' => 'Vendor List', 'value' => 'Yes'],
+                    ['link' => route('admin.vendors.add'), 'title' => 'Add Vendors', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'buyer':
+                $title = 'Buyer';
+                $cardData = [
+                    ['link' => route('admin.customer.list'), 'title' => 'Buyers', 'value' => 'Yes'],
+                ];
+                break;    
+
+            case 'consultant':
+                $title = 'Consultant';
+                $cardData = [
+                    ['link' => route('admin.customer.list'), 'title' => 'Consultant', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'industry-jobs':
+                $title = 'Consultant';
+                $cardData = [
+                    ['link' => route('admin.cv.list'), 'title' => 'Profile List', 'value' => 'Yes'],
+                    ['link' => route('admin.jobvacancy.list'), 'title' => 'Vacancy List', 'value' => 'Yes'],
+                    ['link' => route('admin.jobvacancy.create'), 'title' => 'Add Vacancy', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'graphics':
+                $title = 'Graphics';
+                $cardData = [
+                    ['link' => route('admin.business-settings.web-config.index'), 'title' => 'Business Settings', 'value' => 'Yes'],
+                ];
+                break;
+            
+            case 'deal-assist':
+                $title = 'Deal Assist';
+                $cardData = [
+                    ['link' => route('admin.business-settings.web-config.index'), 'title' => 'Business Settings', 'value' => 'Yes'],
                 ];
                 break;
 

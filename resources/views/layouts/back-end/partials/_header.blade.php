@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Session;
 #header{
     z-index: 10000;
 }
+.tooltip{
+    z-index: 10001;
+}
 </style>
 <div id="headerMain" class="d-none">
     <header id="header" class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container shadow">

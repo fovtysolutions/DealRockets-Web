@@ -797,7 +797,6 @@
   justify-content: space-between;
   display: flex;
   width: 100%;
-  padding: 0 20px;
 }
 
 .element-mobile .group-15 {
@@ -868,6 +867,7 @@
   /* left: 20px; */
   display: flex;
   align-content: center;
+  justify-content: space-between;
   /* padding-left: 20px;
     padding-right: 20px; */
   max-width: 1440px;

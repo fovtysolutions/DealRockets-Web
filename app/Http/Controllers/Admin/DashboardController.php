@@ -258,4 +258,156 @@ class DashboardController extends BaseController
     public function AnalyticsOptions(){
         return view('admin-views.system.subcards.AnalyticsOptions');
     }
+
+    // Sub Cards Functions
+    public function subCardData($slug)
+    {
+        $title = '';
+        $cardData = [];
+
+        switch ($slug) {
+            case 'profile':
+                $title = 'Profile Settings';
+                $cardData = [
+                    ['link' => route('vendor.profile.update', [auth('seller')->id()]), 'title' => 'Manage Profile', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'analytics':
+                $title = 'Analytics';
+                $cardData = [
+                    ['link' => route('vendor.report.all-product'), 'title' => 'Product', 'value' => 'Yes'],
+                    ['link' => route('vendor.otherDashboard'), 'title' => 'Other Analytics', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'deal-assist':
+                $title = 'Deal Assist';
+                $cardData = [
+                    ['link' => route('vendor.dealassist.index'), 'title' => 'Manage Deal Assist', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'upload-banner':
+                $title = 'Banners Setup';
+                $cardData = [
+                    ['link' => route('vendor.bannersetup', ['slug' => 'marketplace']), 'title' => 'Marketplace', 'value' => 'Yes'],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'buyleads']), 'title' => 'Buy Leads', 'value' => 'Yes'],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'selloffer']), 'title' => 'Sell Offer', 'value' => 'Yes'],
+                    ['link' => route('vendor.bannersetup', ['slug' => 'tradeshows']), 'title' => 'Tradeshows', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'vendor-inbox':
+                $title = 'Inbox';
+                $cardData = [
+                    ['link' => route('vendor.get-chat-lists'), 'title' => 'Inbox', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'product-upload':
+                $title = 'Product Upload';
+                $cardData = [
+                    ['link' => route('vendor.products.add'), 'title' => 'Upload Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.bulk-import'), 'title' => 'Bulk Import', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'stock-sell':
+                $title = 'Stock Sell';
+                $cardData = [
+                    ['link' => route('vendor.stock.index'), 'title' => 'Manage Stock Sales', 'value' => 'Yes'],
+                    ['link' => route('vendor.stock.create'), 'title' => 'Add Stock Sales', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'sell-offer':
+                $title = 'Sell Offer';
+                $cardData = [
+                    ['link' => route('vendor.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 'Yes'],
+                    ['link' => route('vendor.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'buy-leads':
+                return redirect()->route('buyer');
+                break;
+
+            case 'marketplace':
+                $title = 'Marketplace';
+                $cardData = [
+                    ['link' => route('vendor.products.list', ['type' => 'all']), 'title' => 'Manage Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'approved']), 'title' => 'Approved Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'denied']), 'title' => 'Denied Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'new-request']), 'title' => 'New Product Request', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'post-rfq':
+                $title = 'Post RFQ';
+                $cardData = [
+                    ['link' => route('quotationweb'), 'title' => 'Go to RFQ Page', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'post-job':
+                $title = 'Post a Job';
+                $cardData = [
+                    ['link' => route('vendor.jobvacancy.list'), 'title' => 'Manage Jobs', 'value' => 'Yes'],
+                    ['link' => route('vendor.jobvacancy.create'), 'title' => 'Add Job', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'hire-employee':
+                $title = 'Hire an Employee';
+                $cardData = [
+                    ['link' => route('vendor.jobvacancy.job-applications'), 'title' => 'Applications', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'trade-shows':
+                return redirect()->route('tradeshow');
+                break;
+
+            case 'clearing-forwarding':
+                $title = 'Clearing and Forwarding Services';
+                $cardData = [
+                    ['link' => '#', 'title' => 'Clearing Service', 'value' => 'No'],
+                    ['link' => '#', 'title' => 'Forwarding Service', 'value' => 'No'],
+                ];
+                break;
+
+            case 'settings':
+                $title = 'Settings';
+                $cardData = [
+                    ['link' => route('vendor.shop.index'), 'title' => 'Shop Settings', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'membership':
+                $title = 'Membership';
+                $cardData = [
+                    ['link' => route('membership-vendor'), 'title' => 'Membership', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'faq':
+                $title = 'FAQ';
+                $cardData = [
+                    ['link' => route('vendor.managefaq'), 'title' => 'Manage FAQ', 'value' => 'Yes'],
+                    ['link' => route('vendor.createfaq'), 'title' => 'Add FAQ', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'logout':
+                return redirect()->route('vendor.auth.logout');
+
+            default:
+                $title = 'Unknown';
+                $cardData = [['link' => '#', 'title' => 'No Data Found', 'value' => 0]];
+                break;
+        }
+
+        return view('admin-views.system..subcards.subcard', compact('title', 'cardData', 'slug'));
+    }
 }

@@ -14,182 +14,7 @@
     $shop = Shop::where(['seller_id' => auth('seller')->id()])->first();
     ChatManager::RedirectSupplierDetails();
 @endphp
-<style>
-    .smallview {
-        width: 75px;
-        transition: all 0.3s ease;
-    }
-
-    .smallview:hover {
-        width: 265px;
-    }
-
-    .navbar-vertical-aside-has-menu {
-        display: none;
-    }
-
-    .smallview:hover .navbar-vertical-aside-has-menu {
-        display: block;
-    }
-
-    .nav-tabs .nav-item.active {
-        color: white;
-        background-color: #E72528;
-        padding-left: 5px;
-    }
-
-    .nav-tabs .nav-item {
-        padding-left: 12px;
-        margin-top: 0px !important;
-    }
-
-    .nav-item.active small {
-        color: white;
-    }
-
-    .navbar-vertical-content::-webkit-scrollbar {
-        width: 1px;
-    }
-
-    .navbar-vertical-content .nav-link:hover i {
-        color: #FFFFFF;
-    }
-
-    .smallview:hover .nav-item {
-        padding-left: 4px;
-        flex-direction: column;
-    }
-
-    .smallview:hover .nav-item-button-sidebar {
-        padding-left: 0px;
-        margin-left: -3px;
-        width: 98%;
-        border-radius: 6px;
-    }
-
-    .smallview:hover .nav-item i {
-        padding-right: 0;
-    }
-
-    .smallview:hover .nav-item a {
-        padding-right: 0;
-        position: relative;
-        left: -7px;
-        padding: 0;
-    }
-
-    .smallview .nav-item a {
-        color: #4E5D52 !important;
-        position: relative;
-        width: 100%;
-        padding: 0 !important;
-    }
-
-    .smallview .nav-link:hover .nav-subtitle {
-        color: white;
-    }
-
-    .smallview .nav-item a:hover {
-        color: white !important;
-    }
-
-    .nav-item-button-sidebar {
-        padding-left: 11px;
-    }
-
-    .nav-item i {
-        padding-right: 16px;
-        padding-left: 7px;
-        font-size: 20px;
-    }
-
-    .nav-item-button-sidebar a {
-        padding-left: 3px !important;
-    }
-
-    .nav-item-button-sidebar i {
-        padding-right: 16px !important;
-        color: #4E5D52;
-        padding-left: 5px;
-        font-size: 20px;
-    }
-
-    .nav-item-button-sidebar span {
-        text-transform: uppercase !important;
-        font-size: 13px;
-        font-weight: 700;
-    }
-
-    .nav-item-button-sidebar.active i {
-        padding-left: 9px;
-        padding-right: 12px !important;
-    }
-
-    .nav-item-button-sidebar.active {
-        color: white;
-        background-color: #E72528;
-    }
-
-    .navbar-vertical-content {
-        background: var(--sidebar);
-        padding-left: 7px;
-        padding-right: 3px;
-    }
-
-    .smallview:hover .navbar-vertical-content {
-        background: var(--sidebar);
-        /* padding: 10px 15px; */
-    }
-
-    .nav-item-button-sidebar.active i {
-        color: white;
-    }
-
-    .centermagnifymain {
-        position: relative;
-        flex-wrap: unset;
-        display: inline-flex;
-    }
-
-    .centermagnifymain-icon {
-        justify-content: left;
-        align-content: center;
-        font-size: 20px;
-        padding-left: 20px;
-        padding-right: 25px;
-    }
-
-    .smallview:hover .centermagnifymain-icon {
-        justify-content: left;
-        align-content: center;
-        font-size: 20px;
-        padding-left: 8px;
-        padding-right: 11px;
-    }
-
-    .smallview .dropdown-content a {
-        font-size: 16px !important;
-    }
-
-    .smallview .dropdown-content a {
-        padding: 4px !important;
-    }
-
-    @media (min-width: 1200px) {
-        .navbar-vertical-aside-show-xl .main {
-            padding-left: 70px;
-            transition: padding-left 0.3s ease;
-        }
-
-        .navbar-vertical-aside-show-xl:hover .smallview:hover~.main {
-            padding-left: 265px;
-        }
-
-        .navbar-vertical-aside-show-xl .footer {
-            margin-left: 3.25rem;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{{ theme_asset('public/assets/custom-css/vendorpanel/sidebar.css') }}">
 <div id="sidebarMain" class="d-none">
     <aside style="text-align: {{ Session::get('direction') === 'rtl' ? 'right' : 'left' }};"
         class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered smallview">
@@ -248,10 +73,11 @@
                     @if (\App\Utils\ChatManager::checkStatusSupplier() == 1)
                         <ul class="navbar-nav navbar-nav-lg nav-tabs">
                             <li class="nav-item-button-sidebar {{ Request::is('vendor/dashboard*') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.dashboard.index') }}">
-                                    <i class="fa-solid fa-border-all"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-border-all sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('dashboard') }}
                                     </span>
                                 </a>
@@ -270,11 +96,13 @@
                                     </a>
                                 </li>
                             @endif
-                            <li class="nav-item navbar-vertical-aside-has-menu">
-                                <a href="javascript:void(0);" class="nav-link text-capitalize toggle-dropdown"
+                            <li class="nav-item-button-sidebar">
+                                <a href="javascript:void(0);"
+                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('reports_&_analytics') }}">
-                                    <i class="fa-solid fa-chart-line me-2"></i>
-                                    <span class="nav-subtitle">{{ translate('reports_&_analytics') }}</span>
+                                    <i class="fa-solid fa-chart-line me-2 sidebar-icon"></i>
+                                    <span
+                                        class="sidebar-text">{{ translate('Reports') }}</span>
                                     <i class="tio-chevron-down float-end"></i>
                                 </a>
 
@@ -300,19 +128,21 @@
 
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/vendor-inbox*') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'vendor-inbox']) }}">
-                                    <i class="fa-solid fa-inbox"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-inbox sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('Inbox') }}
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item navbar-vertical-aside-has-menu">
-                                <a href="javascript:void(0);" class="nav-link text-capitalize toggle-dropdown"
+                            <li class="nav-item-button-sidebar">
+                                <a href="javascript:void(0);"
+                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Product Upload') }}">
-                                    <i class="fa-solid fa-box me-2"></i>
-                                    <span class="nav-subtitle">{{ translate('Product Upload') }}</span>
+                                    <i class="fa-solid fa-box me-2 sidebar-icon"></i>
+                                    <span class="sidebar-text">{{ translate('Product Upload') }}</span>
                                     <i class="tio-chevron-down float-end transition-icon"></i>
                                 </a>
 
@@ -339,19 +169,21 @@
 
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/profile*') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'profile']) }}">
-                                    <i class="fa-solid fa-user"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-user sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('Profile') }}
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item navbar-vertical-aside-has-menu">
-                                <a href="javascript:void(0);" class="nav-link text-capitalize toggle-dropdown"
+                            <li class="nav-item-button-sidebar">
+                                <a href="javascript:void(0);"
+                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Upload Banner') }}">
-                                    <i class="fa-solid fa-upload me-2"></i>
-                                    <span class="nav-subtitle">{{ translate('Upload Banner') }}</span>
+                                    <i class="fa-solid fa-upload me-2 sidebar-icon"></i>
+                                    <span class="sidebar-text">{{ translate('Upload Banner') }}</span>
                                     <i class="tio-chevron-down float-end transition-icon"></i>
                                 </a>
 
@@ -391,39 +223,44 @@
 
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/membership') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'membership']) }}">
-                                    <i class="fa-solid fa-user-plus"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-user-plus sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('Membership') }}
                                     </span>
                                 </a>
                             </li>
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/faq') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'faq']) }}">
-                                    <i class="fa-solid fa-question"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-question sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('FAQ') }}
                                     </span>
                                 </a>
                             </li>
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/settings') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'settings']) }}">
-                                    <i class="fa-solid fa-sliders"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-sliders sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('Settings') }}
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item navbar-vertical-aside-has-menu">
-                                <a href="javascript:void(0);" class="nav-link text-capitalize toggle-dropdown"
+                            <li class="nav-item-button-sidebar">
+                                <a href="javascript:void(0);"
+                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Stock Sell') }}">
-                                    <i class="fa-solid fa-cubes me-2"></i>
-                                    <span class="nav-subtitle">{{ translate('Stock Sell') }}</span>
+                                    <i class="fa-solid fa-cubes me-2 sidebar-icon"></i>
+                                    <span
+                                        class="sidebar-text sidebar-text">{{ translate('Stock Sell') }}</span>
                                     <i class="tio-chevron-down float-end transition-icon"></i>
                                 </a>
 
@@ -448,19 +285,21 @@
                             </li>
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/buy-leads') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'buy-leads']) }}">
-                                    <i class="fa-solid fa-pencil"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-pencil sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('Buy Leads') }}
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item navbar-vertical-aside-has-menu">
-                                <a href="javascript:void(0);" class="nav-link text-capitalize toggle-dropdown"
+                            <li class="nav-item-button-sidebar">
+                                <a href="javascript:void(0);"
+                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Sale Offer') }}">
-                                    <i class="fa-solid fa-leaf me-2"></i>
-                                    <span class="nav-subtitle">{{ translate('Sale Offer') }}</span>
+                                    <i class="fa-solid fa-leaf me-2 sidebar-icon"></i>
+                                    <span class="sidebar-text">{{ translate('Sale Offer') }}</span>
                                     <i class="tio-chevron-down float-end transition-icon"></i>
                                 </a>
 
@@ -485,49 +324,54 @@
                             </li>
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/deal-assist') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'deal-assist']) }}">
-                                    <i class="fa-solid fa-handshake"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-handshake sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('Deal Assist') }}
                                     </span>
                                 </a>
                             </li>
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/trade-shows') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'trade-shows']) }}">
-                                    <i class="fa-solid fa-trademark"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-trademark sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('Trade Shows') }}
                                     </span>
                                 </a>
                             </li>
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/post-rfq') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'post-rfq']) }}">
-                                    <i class="fa-solid fa-envelope-open-text"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-envelope-open-text sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('RFQ') }}
                                     </span>
                                 </a>
                             </li>
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/hire-employee') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'hire-employee']) }}">
-                                    <i class="fa-solid fa-shield-halved"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                    <i class="fa-solid fa-shield-halved sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                         {{ translate('Hire Employee') }}
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item navbar-vertical-aside-has-menu">
-                                <a href="javascript:void(0);" class="nav-link text-capitalize toggle-dropdown"
+                            <li class="nav-item-button-sidebar">
+                                <a href="javascript:void(0);"
+                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Post Job') }}">
-                                    <i class="fa-solid fa-sitemap me-2"></i>
-                                    <span class="nav-subtitle">{{ translate('Post Job') }}</span>
+                                    <i class="fa-solid fa-sitemap me-2 sidebar-icon"></i>
+                                    <span class="sidebar-text">{{ translate('Post Job') }}</span>
                                     <i class="tio-chevron-down float-end transition-icon"></i>
                                 </a>
 
@@ -550,11 +394,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item navbar-vertical-aside-has-menu">
-                                <a href="javascript:void(0);" class="nav-link text-capitalize toggle-dropdown"
+                            <li class="nav-item-button-sidebar">
+                                <a href="javascript:void(0);"
+                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Marketplace') }}">
-                                    <i class="fa-solid fa-store me-2"></i>
-                                    <span class="nav-subtitle">{{ translate('Marketplace') }}</span>
+                                    <i class="fa-solid fa-store me-2 sidebar-icon"></i>
+                                    <span class="sidebar-text">{{ translate('Marketplace') }}</span>
                                     <i class="tio-chevron-down float-end transition-icon"></i>
                                 </a>
 

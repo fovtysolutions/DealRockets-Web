@@ -3,63 +3,73 @@
         @foreach ($items as $buyer)
             <article class="lead-card">
                 <div class="lead-card-inner">
-                    <div class="lead-info">
-                        <div class="lead-header">
-                            <h2 class="lead-title">{{ $buyer->name }}</h2>
-                            @php
-                                $countryDetails = \App\Utils\ChatManager::getCountryDetails($buyer->country);
-                            @endphp
-                            <div class="lead-location visibleonhigh">
+                    <div class="d-flex" style="flex-direction: column;width: 83%;">
+                        <div class="lead-info">
+                            <div class="lead-header">
+                                <h2 class="lead-title">{{ $buyer->name }}</h2>
+                                @php
+                                    $countryDetails = \App\Utils\ChatManager::getCountryDetails($buyer->country);
+                                @endphp
+                                <div class="lead-location visibleonhigh">
+                                    <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
+                                        class="flag-icon" alt="{{ $countryDetails['countryName'] }} flag" />
+                                    <span>{{ $buyer->city }}, {{ $countryDetails['countryName'] }}</span>
+                                </div>
+                            </div>
+                            <p class="lead-description">
+                                {!! $buyer->details !!}
+                            </p>
+                            <div class="lead-location visibleonlow">
                                 <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg" class="flag-icon"
                                     alt="{{ $countryDetails['countryName'] }} flag" />
                                 <span>{{ $buyer->city }}, {{ $countryDetails['countryName'] }}</span>
                             </div>
+                            <div class="lead-tags">
+                                <span class="lead-tags-label">Tags:</span>
+                                <span class="lead-tags-content">{{ $buyer->tags ?? 'N/A' }}</span>
+                            </div>
                         </div>
-                        <p class="lead-description">
-                            {!! $buyer->details !!}
-                        </p>
-                        <div class="lead-location visibleonlow">
-                            <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg" class="flag-icon"
-                                alt="{{ $countryDetails['countryName'] }} flag" />
-                            <span>{{ $buyer->city }}, {{ $countryDetails['countryName'] }}</span>
-                        </div>
-                        <div class="lead-tags">
-                            <span class="lead-tags-label">Tags:</span>
-                            <span class="lead-tags-content">{{ $buyer->tags ?? 'N/A' }}</span>
-                        </div>
-                    </div>
-                    <div class="lead-details-table">
-                        <table class="detail-table">
-                            <tr>
-                                <td class="detail-label">Quantity Required</td>
-                                <td class="detail-value">{{ $buyer->quantity_required ?? 'N/A' }}
+                        <div class="lead-details-table">
+                            <table class="detail-table">
+                                <tr>
+                                    <td class="detail-label">Quantity Required</td>
+                                    <td class="detail-value">{{ $buyer->quantity_required ?? 'N/A' }}
                                         {{ $buyer->unit ?? 'N/A' }}</span></td>
-                            </tr>
-                            <tr>
-                                <td class="detail-label">Refundable</td>
-                                <td class="detail-value">{{ $buyer->refund ?? 'N/A' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="detail-label">Term</td>
-                                <td class="detail-value">{{ $buyer->term ?? 'N/A' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="detail-label">Available Stock</td>
-                                <td class="detail-value">{{ $buyer->avl_stock ?? 'N/A' }}
+                                </tr>
+                                <tr>
+                                    <td class="detail-label">Lead Time</td>
+                                    <td class="detail-value">{{ $buyer->lead_time ?? 'N/A' }}</td>
+                                </tr>
+                            </table>
+                            <table class="detail-table">
+                                <tr>
+                                    <td class="detail-label">Term</td>
+                                    <td class="detail-value">{{ $buyer->term ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="detail-label">Available Stock</td>
+                                    <td class="detail-value">{{ $buyer->avl_stock ?? 'N/A' }}
                                         {{ $buyer->avl_stock_unit ?? 'N/A' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="detail-label">Lead Time</td>
-                                <td class="detail-value">{{ $buyer->lead_time ?? 'N/A' }}</td>
-                            </tr>
-                        </table>
+                                </tr>
+                            </table>
+                            <table class="detail-table" style="height: 39px;">
+                                <tr>
+                                    <td class="detail-label">Refundable</td>
+                                    <td class="detail-value text-truncate">{{ $buyer->refund ?? 'N/A' }}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                     <div class="divider"></div>
                     <div class="lead-actions">
                         @php
                             $user = auth('customer')->user();
                             if ($user) {
-                                $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($buyer->id, $user->id, 'buyleads');
+                                $isFavourite = \App\Utils\HelperUtil::checkIfFavourite(
+                                    $buyer->id,
+                                    $user->id,
+                                    'buyleads',
+                                );
                             } else {
                                 $isFavourite = false;
                             }
@@ -75,7 +85,8 @@
                                 src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
                                 style="margin-left: auto;">
                         @endif
-                        <button class="contact-btn" data-toggle="modal" data-target="#inquireButton{{ $buyer->id }}">Contact Buyer</button>
+                        <button class="contact-btn" data-toggle="modal"
+                            data-target="#inquireButton{{ $buyer->id }}">Contact Buyer</button>
                         <div class="lead-posted">Posted: {{ $buyer->created_at->diffForHumans() }}</div>
                     </div>
                 </div>
@@ -94,7 +105,8 @@
                                 </button>
                             </div>
                             <div class="inquiry-body">
-                                <form id="inquiryForm" method="POST" action="{{ route('sendmessage.other') }}" enctype="application/x-www-form-urlencoded">
+                                <form id="inquiryForm" method="POST" action="{{ route('sendmessage.other') }}"
+                                    enctype="application/x-www-form-urlencoded">
                                     @csrf
                                     @php
                                         $flagImage = 0;
@@ -102,8 +114,10 @@
                                             $seller = \App\Models\Seller::find($buyer->added_by);
                                             $shopName = $buyer->shop->name ?? 'N/A';
                                             $shopAddress = $buyer->shop->address ?? 'N/A';
-                                            $countryDetails = \App\Utils\ChatManager::getCountryDetails($buyer->country);
-                                            if($countryDetails){
+                                            $countryDetails = \App\Utils\ChatManager::getCountryDetails(
+                                                $buyer->country,
+                                            );
+                                            if ($countryDetails) {
                                                 $flagImage = 1;
                                             }
                                         } elseif ($buyer->role === 'admin') {
@@ -125,8 +139,7 @@
                                     <input type="hidden" id="receiver_type" name="receiver_type"
                                         value={{ $buyer->role }}>
                                     <input type="hidden" id="type" name="type" value="buyleads">
-                                    <input type="hidden" id="leads_id" name="leads_id"
-                                        value={{ $buyer->id }}>
+                                    <input type="hidden" id="leads_id" name="leads_id" value={{ $buyer->id }}>
 
                                     <!-- Visible fields -->
                                     <div class="form-group">

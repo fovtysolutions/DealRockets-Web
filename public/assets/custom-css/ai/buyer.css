@@ -197,7 +197,7 @@
 
 .buy-offer .lead-info {
     align-self: stretch;
-    width: 42%;
+    width: 100%;
     padding-right: 15px;
     /* max-width: 625px; */
 }
@@ -331,13 +331,15 @@
 }
 
 .buy-offer .lead-details-table{
-    width: 40%;
-    padding-left: 10px;
-    padding-right: 25px;
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    gap: 18px;
+    padding-right: 10px;
 }
 
 .buy-offer .detail-table tr {
-    height: 42px;
+    height: 38px;
 }
 
 .buy-offer .detail-label {

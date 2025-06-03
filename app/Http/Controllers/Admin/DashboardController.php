@@ -340,12 +340,12 @@ class DashboardController extends BaseController
                 ];
                 break;
 
-            case 'marketplace':
-                $title = 'Marketplace';
+            case 'stock-sell':
+                $title = 'Stock Sell';
                 $cardData = [
                     ['link' => route('admin.stock.index'), 'title' => 'Stock Sell List', 'value' => 'Yes'],
-                    ['link' => route('admin.stock.category.list'), 'title' => 'Sub Categories', 'value' => 'Yes'],
-                    ['link' => route('admin.sub-sub-category.view'), 'title' => 'Sub Sub Categories', 'value' => 'Yes'],
+                    ['link' => route('admin.stock.category.list'), 'title' => 'Manage Stock Category', 'value' => 'Yes'],
+                    ['link' => route('admin.stock.category.create'), 'title' => 'Add Stock Category', 'value' => 'Yes'],
                     ['link' => route('admin.brand.add-new'), 'title' => 'Add Brand', 'value' => 'Yes'],
                     ['link' => route('admin.brand.list'), 'title' => 'Manage Brand', 'value' => 'Yes'],
                     ['link' => route('admin.products.list', ['in-house']), 'title' => 'Products List', 'value' => 'Yes'],

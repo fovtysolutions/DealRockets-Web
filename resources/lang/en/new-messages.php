@@ -9501,4 +9501,7 @@ return [
 	"Grievence/Complaint" => "Grievence/Complaint",
 	"Home Page" => "Home Page",
 	"Grievence / Compliant" => "Grievence / Compliant",
+	"search_by_vendor_info" => "Search by vendor info",
+	"in_House_Orders" => "In House Orders",
+	"in_House_Products" => "In House Products",
 ];

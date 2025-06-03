@@ -2,17 +2,21 @@
 use Illuminate\Support\Facades\Session;
 @endphp
 @php($direction = Session::get('direction'))
+<style>
+#header{
+    z-index: 10000;
+}
+</style>
 <div id="headerMain" class="d-none">
     <header id="header" class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container shadow">
 
         <div class="navbar-nav-wrap">
-            <div class="navbar-brand-wrapper d-none d-sm-block d-xl-none">
-                <a class="navbar-brand" href="{{route('admin.dashboard.index')}}" aria-label="">
-                    <img class="navbar-brand-logo" src="{{ $web_config['web_logo']['path'] }}"
-                        alt="{{ translate('logo')}}">
-                    <img class="navbar-brand-logo-mini"
-                         src="{{ $web_config['mob_logo']['path'] }}"
-                         alt="{{ translate('logo') }}">
+            <div class="navbar-brand-wrapper d-sm-block">
+                <a class="navbar-brand" href="{{ route('admin.dashboard.index') }}" aria-label="{{ translate('logo') }}">
+                    <img class="navbar-brand-logo"
+                        src="{{ isset($web_config) ? $web_config['web_logo']['path'] : dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg') }}"
+                        alt="{{ translate('logo') }}"
+                        height="40">
                 </a>
             </div>
             <div class="navbar-nav-wrap-content-left">

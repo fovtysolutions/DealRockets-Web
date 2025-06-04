@@ -16,13 +16,72 @@
 .tooltip{
     z-index: 10001;
 }
+/* Existing */
+.nav-itemhome a {
+    position: relative;
+    width: fit-content;
+    margin-top: -1.00px;
+    font-family: "Roboto", Helvetica;
+    font-weight: 400;
+    color: #555555;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+}
+.nav-itemhome a:hover {
+    color: #FE4E44;
+}
+.listhome {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    list-style-type: none;
+}
+.hiddenabove1210 {
+    display: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* NEW: Responsive dropdown */
+@media (max-width: 1210px) {
+    .listhome {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+        z-index: 1000;
+    }
+
+    .listhome.show {
+        display: flex !important;
+    }
+
+    .hiddenabove1210 {
+        display: block;
+    }
+
+    .nav-itemhome a {
+        padding: 10px 20px;
+        color: #333;
+    }
+
+    .nav-itemhome a:hover {
+        background-color: #f5f5f5;
+    }
+}
 </style>
 <div id="headerMain" class="d-none">
     <header id="header"
             class="navbar navbar-expand-lg navbar-fixed navbar-height navbar-flush navbar-container navbar-bordered">
         <div class="navbar-nav-wrap">
             <div class="navbar-brand-wrapper d-sm-block">
-                <a class="navbar-brand" href="{{ route('admin.dashboard.index') }}" aria-label="{{ translate('logo') }}">
+                <a class="navbar-brand" href="{{ route('vendor.dashboard.index') }}" aria-label="{{ translate('logo') }}">
                     <img class="navbar-brand-logo"
                         src="{{ isset($web_config) ? $web_config['web_logo']['path'] : dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg') }}"
                         alt="{{ translate('logo') }}"
@@ -41,11 +100,25 @@
                     </form>
                 </div>
             </div>
-            <div class="navbar-nav-wrap-content-right"
-                 style="{{$direction === "rtl" ? 'margin-left:unset; margin-right: auto' : 'margin-right:unset; margin-left: auto'}}">
-                <ul class="navbar-nav align-items-center flex-row gap-xl-16px">
+            <div class="navbar-nav-wrap-content-right" style="{{$direction === "rtl" ? 'margin-left:unset; margin-right: auto' : 'margin-right:unset; margin-left: auto'}}">
+                <ul class="navbar-nav align-items-center flex-row gap-xl-16px" style="gap: 10px;">
+                    <div class="menu-wrapper">
+                        <div class="hiddenabove1210" id="menuToggle">
+                            <i class="fa-solid fa-bars"></i>
+                        </div>
 
-                    <li class="nav-item">
+                        <ul class="listhome" id="responsiveMenu">
+                            <li class="nav-itemhome"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="nav-itemhome"><a href="{{ route('stocksale') }}">Stock Sale</a></li>
+                            <li class="nav-itemhome"><a href="{{ route('buyer') }}">Buy Leads</a></li>
+                            <li class="nav-itemhome"><a href="{{ route('seller') }}">Sell Offer</a></li>
+                            <li class="nav-itemhome"><a href="{{ route('dealassist') }}">Deal Assist</a></li>
+                            <li class="nav-itemhome"><a href="{{ route('sendcv') }}">Industry Jobs</a></li>
+                            <li class="nav-itemhome"><a href="{{ route('tradeshow') }}">Trade Shows</a></li>
+                            <li class="nav-itemhome"><a href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a></li>
+                        </ul>
+                    </div>
+                    <li class="nav-item mr-0">
                         <div class="hs-unfold">
                             <div>
                                 @php( $local = session()->has('local')?session('local'):'en')
@@ -87,7 +160,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item mr-0">
                         <div class="hs-unfold">
                             <a title="{{translate('website_shop_view')}}"
                                class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
@@ -128,7 +201,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item mr-0">
                         <div class="hs-unfold">
                             <a
                                 class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle media align-items-center gap-3 navbar-dropdown-account-wrapper dropdown-toggle-left-arrow dropdown-toggle-empty"
@@ -166,7 +239,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item mr-0">
                         <div class="hs-unfold">
                             <a
                                 class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle media align-items-center gap-3 navbar-dropdown-account-wrapper dropdown-toggle-left-arrow dropdown-toggle-empty"
@@ -222,7 +295,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item mr-0">
                         <div class="hs-unfold">
                             <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
                                href="{{route('vendor.orders.list',['pending'])}}"
@@ -255,7 +328,7 @@
                         </div>
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item mr-0">
                         <div class="hs-unfold">
                             <a class="js-hs-unfold-invoker media align-items-center gap-3 navbar-dropdown-account-wrapper dropdown-toggle dropdown-toggle-left-arrow"
                                href="javascript:"

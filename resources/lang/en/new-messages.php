@@ -9504,4 +9504,5 @@ return [
 	"search_by_vendor_info" => "Search by vendor info",
 	"in_House_Orders" => "In House Orders",
 	"in_House_Products" => "In House Products",
+	"No tradeshows found" => "No tradeshows found",
 ];

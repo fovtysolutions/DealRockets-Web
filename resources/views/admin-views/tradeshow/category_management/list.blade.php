@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 
 @section('title', translate('Tradeshow_Category_list'))
 

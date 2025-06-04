@@ -1142,6 +1142,16 @@
   .element-mobile.element-tablet-wrapper {
     display: none !important;
   }
+
+  .group-17{
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .group-14 .contentgroup{
+    padding-left: 22px;
+    padding-right: 22px;
+  }
 }
 
 @media (max-width: 1439px) {

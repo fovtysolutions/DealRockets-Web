@@ -308,21 +308,21 @@ class DashboardController extends BaseController
                 ];
                 break;
 
-            case 'sell-offers':
+            case 'sell-offer':
                 $title = 'Sell Offers';
                 $cardData = [
-                    ['link' => route('admin.leads.list'), 'title' => 'Manage Lead', 'value' => 'Yes'],
-                    ['link' => route('admin.add-new-leads'), 'title' => 'Add Buy Lead', 'value' => 'Yes'],
-                    ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Lead', 'value' => 'Yes'],
+                    ['link' => route('admin.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 'Yes'],
+                    ['link' => route('admin.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 'Yes'],
+                    ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Sell Offer', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'buy-leads':
                 $title = 'Buy Leads';
                 $cardData = [
-                    ['link' => route('admin.leads.list'), 'title' => 'Manage Lead', 'value' => 'Yes'],
+                    ['link' => route('admin.leads.list'), 'title' => 'Manage Buy Leads', 'value' => 'Yes'],
                     ['link' => route('admin.add-new-leads'), 'title' => 'Add Buy Lead', 'value' => 'Yes'],
-                    ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Lead', 'value' => 'Yes'],
+                    ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Buy Lead', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -343,10 +343,10 @@ class DashboardController extends BaseController
             case 'stock-sell':
                 $title = 'Stock Sell';
                 $cardData = [
+                    ['link' => route('admin.stock.create'), 'title' => 'Add Stock Sale', 'value' => 'Yes'],
                     ['link' => route('admin.stock.index'), 'title' => 'Stock Sale List', 'value' => 'Yes'],
                     ['link' => route('admin.stock.category.list'), 'title' => 'Manage Stock Category', 'value' => 'Yes'],
                     ['link' => route('admin.stock.category.create'), 'title' => 'Add Stock Category', 'value' => 'Yes'],
-                    ['link' => route('admin.stock.create'), 'title' => 'Add Stock Sale', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -377,16 +377,19 @@ class DashboardController extends BaseController
             case 'consultant':
                 $title = 'Consultant';
                 $cardData = [
-                    ['link' => route('admin.customer.list'), 'title' => 'Consultant', 'value' => 'Yes'],
+                    ['link' => route('admin.jobvacancy.consultant-membership'), 'title' => 'Consultant Membership', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'industry-jobs':
                 $title = 'Consultant';
                 $cardData = [
-                    ['link' => route('admin.cv.list'), 'title' => 'Profile List', 'value' => 'Yes'],
+                    ['link' => route('admin.cv.list'), 'title' => 'CV List', 'value' => 'Yes'],
+                    ['link' => route('admin.jobvacancy.category.list'), 'title' => 'Vacancy Category', 'value' => 'Yes'],
                     ['link' => route('admin.jobvacancy.list'), 'title' => 'Vacancy List', 'value' => 'Yes'],
-                    ['link' => route('admin.jobvacancy.create'), 'title' => 'Add Vacancy', 'value' => 'Yes'],
+                    ['link' => route('admin.jobvacancy.create'), 'title' => 'Vacancy Create', 'value' => 'Yes'],
+                    ['link' => route('admin.jobvacancy.registered-candidates'), 'title' => 'Registered Candidates', 'value' => 'Yes'],
+                    ['link' => route('admin.jobvacancy.job-applications'), 'title' => 'Job Applications', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -394,13 +397,29 @@ class DashboardController extends BaseController
                 $title = 'Graphics';
                 $cardData = [
                     ['link' => route('admin.business-settings.web-config.index'), 'title' => 'Business Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.terms-condition'), 'title' => 'Business Pages', 'value' => 'Yes'],
+                    ['link' => route('admin.webtheme.index'), 'title' => 'Website Settings', 'value' => 'Yes'],
                 ];
                 break;
             
             case 'deal-assist':
                 $title = 'Deal Assist';
                 $cardData = [
-                    ['link' => route('admin.business-settings.web-config.index'), 'title' => 'Business Settings', 'value' => 'Yes'],
+                    ['link' => route('dealassist.index'), 'title' => 'Deal Assist', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'inbox':
+                $title = 'Inbox';
+                $cardData = [
+                    ['link' => route('admin.get-chat-lists'), 'title' => 'Inbox', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'membership':
+                $title = 'Membership';
+                $cardData = [
+                    ['link' => route('admin.membershiptier'), 'title' => 'Membership Settings', 'value' => 'Yes'],
                 ];
                 break;
 

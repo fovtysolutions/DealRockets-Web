@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Session;
 <style>
 #header{
     z-index: 10000;
+    margin-left: 0px;
 }
 .tooltip{
     z-index: 10001;

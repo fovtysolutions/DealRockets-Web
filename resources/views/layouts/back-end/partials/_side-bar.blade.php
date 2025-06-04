@@ -118,7 +118,7 @@
                                 href="{{ route('admin.dashboard.index') }}">
                                 <i class="fa-solid fa-border-all sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('dashboard') }}
                                 </span>
                             </a>
@@ -128,7 +128,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'analytics']) }}">
                                 <i class="fa-solid fa-chart-line me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Analytics') }}
                                 </span>
                             </a>
@@ -138,7 +138,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'product-approval']) }}">
                                 <i class="fa-regular fa-thumbs-up me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Product Approvals') }}
                                 </span>
                             </a>
@@ -148,7 +148,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'vendor-approval']) }}">
                                 <i class="fa-solid fa-person-circle-check me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Vendor Approvals') }}
                                 </span>
                             </a>
@@ -158,7 +158,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'leads']) }}">
                                 <i class="fa-solid fa-pencil me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Leads') }}
                                 </span>
                             </a>
@@ -168,7 +168,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'sell-offer']) }}">
                                 <i class="fa-solid fa-wand-magic me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Sell Offer') }}
                                 </span>
                             </a>
@@ -178,7 +178,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'buy-leads']) }}">
                                 <i class="fa-brands fa-buy-n-large me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Buy Leads') }}
                                 </span>
                             </a>
@@ -188,7 +188,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'marketplace']) }}">
                                 <i class="fa-solid fa-store me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Marketplace') }}
                                 </span>
                             </a>
@@ -198,7 +198,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'stock-sell']) }}">
                                 <i class="fa-solid fa-arrow-trend-up me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Stock Sell') }}
                                 </span>
                             </a>
@@ -208,7 +208,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'tradeshow']) }}">
                                 <i class="fa-brands fa-trade-federation me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Tradeshows') }}
                                 </span>
                             </a>
@@ -218,7 +218,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'vendor']) }}">
                                 <i class="fa-solid fa-tarp me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Vendor') }}
                                 </span>
                             </a>
@@ -228,7 +228,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'buyer']) }}">
                                 <i class="fa-regular fa-credit-card me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Buyer') }}
                                 </span>
                             </a>
@@ -238,7 +238,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'guest']) }}">
                                 <i class="i fa-regular fa-user me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Guest') }}
                                 </span>
                             </a>
@@ -248,7 +248,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'consultant']) }}">
                                 <i class="fa-solid fa-user-tie me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Consultant') }}
                                 </span>
                             </a>
@@ -258,7 +258,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'industry-jobs']) }}">
                                 <i class="fa-solid fa-briefcase me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Industry Jobs') }}
                                 </span>
                             </a>
@@ -268,7 +268,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'graphics']) }}">
                                 <i class="fa-brands fa-artstation me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Graphics') }}
                                 </span>
                             </a>
@@ -278,18 +278,29 @@
                                 href="{{ route('admin.subcard', ['slug' => 'deal-assist']) }}">
                                 <i class="fa-regular fa-handshake me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Deal Assist') }}
                                 </span>
                             </a>
                         </li>
+                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/inbox') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                href="{{ route('admin.subcard', ['slug' => 'inbox']) }}">
+                                <i class="fa-solid fa-inbox me-2 sidebar-icon"></i>
+                                <span
+                                    class="text-truncate sidebar-text">
+                                    {{ translate('Inbox') }}
+                                </span>
+                            </a>
+                        </li>
+                        
                         <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/membership') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                 href="{{ route('admin.subcard', ['slug' => 'membership']) }}">
-                                <i class="fa-solid fa-inbox me-2 sidebar-icon"></i>
+                                <i class="fa-solid fa-user-plus me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
-                                    {{ translate('Inbox') }}
+                                    class="text-truncate sidebar-text">
+                                    {{ translate('Membership') }}
                                 </span>
                             </a>
                         </li>
@@ -298,7 +309,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'home-page']) }}">
                                 <i class="fa-solid fa-house-user me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Home Page') }}
                                 </span>
                             </a>
@@ -308,7 +319,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'faq']) }}">
                                 <i class="fa-regular fa-circle-question me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('FAQ Settings') }}
                                 </span>
                             </a>
@@ -318,7 +329,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'footer']) }}">
                                 <i class="fa-solid fa-bars-progress me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Footer') }}
                                 </span>
                             </a>
@@ -328,7 +339,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'finance-account']) }}">
                                 <i class="fa-solid fa-coins me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Finance & Account') }}
                                 </span>
                             </a>
@@ -338,7 +349,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'dashboard-allotment']) }}">
                                 <i class="fa-solid fa-table-columns me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Dashboard Allotment') }}
                                 </span>
                             </a>
@@ -348,7 +359,7 @@
                                 href="{{ route('admin.subcard', ['slug' => 'grievence-compliant']) }}">
                                 <i class="fa-regular fa-face-angry me-2 sidebar-icon"></i>
                                 <span
-                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    class="text-truncate sidebar-text">
                                     {{ translate('Grievence / Compliant') }}
                                 </span>
                             </a>

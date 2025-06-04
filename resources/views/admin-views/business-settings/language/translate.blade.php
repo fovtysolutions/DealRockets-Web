@@ -1,7 +1,7 @@
 @php
     use Illuminate\Support\Facades\Session;
 @endphp
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 
 @section('title', translate('language_Translate'))
 

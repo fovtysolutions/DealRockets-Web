@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial-partial')
 
 @section('title',translate('customer_wallet_bonus_edit'))
 

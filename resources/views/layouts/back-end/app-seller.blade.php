@@ -164,6 +164,11 @@
     </script>
 
     <script>
+        $('#menuToggle').on('click', function() {
+            $('#responsiveMenu').toggleClass('show');
+        });
+    </script>
+    <script>
         $('.notification-data-view').on('click', function() {
             let id = $(this).data('id');
             $.ajaxSetup({
@@ -192,7 +197,7 @@
         })
         if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write(
             '<script src="{{ dynamicAsset(path: 'public/assets/back-end') }}/vendor/babel-polyfill/polyfill.min.js"><\/script>'
-            );
+        );
     </script>
     @if (env('APP_MODE') == 'demo')
         <script>

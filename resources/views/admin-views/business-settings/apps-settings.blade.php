@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 
 @section('title', translate('app_settings'))
 @push('css_or_js')

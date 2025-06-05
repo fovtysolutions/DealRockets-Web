@@ -157,6 +157,8 @@
 
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/custom.js') }}"></script>
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/app-script.js') }}"></script>
+    <script src="{{dynamicAsset(path: 'public/assets/back-end/js/apexcharts.js')}}"></script>
+    <script src="{{dynamicAsset(path: 'public/assets/back-end/js/admin/dashboard.js')}}"></script>
 
     {!! Toastr::message() !!}
 

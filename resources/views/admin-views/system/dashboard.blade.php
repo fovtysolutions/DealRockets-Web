@@ -33,30 +33,4 @@
             </div>
         </div>
     @endif
-
-    <span id="earning-statistics-url" data-url="{{ route('admin.dashboard.earning-statistics') }}"></span>
-    <span id="order-status-url" data-url="{{ route('admin.dashboard.order-status') }}"></span>
-    <span id="seller-text" data-text="{{ translate('vendor')}}"></span>
-    <span id="message-commission-text" data-text="{{ translate('commission')}}"></span>
-    <span id="in-house-text" data-text="{{ translate('In-house')}}"></span>
-    <span id="customer-text" data-text="{{ translate('customer')}}"></span>
-    <span id="store-text" data-text="{{ translate('store')}}"></span>
-    <span id="product-text" data-text="{{ translate('product')}}"></span>
-    <span id="order-text" data-text="{{ translate('order')}}"></span>
-    <span id="brand-text" data-text="{{ translate('brand')}}"></span>
-    <span id="business-text" data-text="{{ translate('business')}}"></span>
-    <span id="orders-text" data-text="{{ $data['order'] }}"></span>
-    <span id="user-overview-data"
-          data-customer="{{$data['getTotalCustomerCount']}}"
-          data-customer-title="{{ translate('customer') }}"
-          data-vendor="{{$data['getTotalVendorCount']}}"
-          data-vendor-title="{{ translate('vendor') }}"
-          data-delivery-man="{{$data['getTotalDeliveryManCount']}}"
-          data-delivery-man-title="{{ translate('delivery_man') }}"
-    ></span>
 @endsection
-
-@push('script')
-    <script src="{{dynamicAsset(path: 'public/assets/back-end/js/apexcharts.js')}}"></script>
-    <script src="{{dynamicAsset(path: 'public/assets/back-end/js/admin/dashboard.js')}}"></script>
-@endpush

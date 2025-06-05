@@ -211,6 +211,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     Route::get('subcard/{slug}',[DashboardController::class,'subCardData'])->name('subcard');
+    Route::get('other-analytics',[DashboardController::class,'OtherAnalytics'])->name('other-analytics');
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 

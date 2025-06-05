@@ -72,7 +72,7 @@
                     @endif
                     @if (\App\Utils\ChatManager::checkStatusSupplier() == 1)
                         <ul class="navbar-nav navbar-nav-lg nav-tabs">
-                            <li class="nav-item-button-sidebar {{ Request::is('vendor/dashboard*') ? 'active' : '' }}">
+                            <li class="nav-item-button-sidebar {{ Request::is('vendor/dashboard*') ? 'active' : '' }}"  style="border-top: 4px solid rgb(255 0 0) !important;">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.dashboard.index') }}">
                                     <i class="fa-solid fa-border-all sidebar-icon"></i>
@@ -82,50 +82,17 @@
                                     </span>
                                 </a>
                             </li>
-                            @php($seller = auth('seller')->user())
-                            @php($sellerId = $seller['id'])
-                            @php($sellerPOS = getWebConfig('seller_pos'))
-                            @if ($sellerPOS == 1 && $seller['pos_status'] == 1)
-                                <li
-                                    class="navbar-vertical-aside-has-menu {{ Request::is('vendor/pos*') ? 'active' : '' }}">
-                                    <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                        href="{{ route('vendor.pos.index') }}">
-                                        <i class="tio-shopping nav-icon"></i>
-                                        <span
-                                            class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('POS') }}</span>
-                                    </a>
-                                </li>
-                            @endif
-                            <li class="nav-item-button-sidebar">
-                                <a href="javascript:void(0);"
-                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
-                                    title="{{ translate('reports_&_analytics') }}">
-                                    <i class="fa-solid fa-chart-line me-2 sidebar-icon"></i>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/profile*') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'profile']) }}">
+                                    <i class="fa-solid fa-user sidebar-icon"></i>
                                     <span
-                                        class="sidebar-text">{{ translate('Reports') }}</span>
-                                    <i class="tio-chevron-down float-end"></i>
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                        {{ translate('Profile') }}
+                                    </span>
                                 </a>
-
-                                <ul class="nav-sub dropdown-content w-100" style="display: none; padding-left: 15px;">
-                                    <li
-                                        class="navbar-vertical-aside-has-menu {{ Request::is('vendor/report/all-product') || Request::is('vendor/report/stock-product-report') ? 'active' : '' }}">
-                                        <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
-                                            href="{{ route('vendor.subcard', ['slug' => 'analytics']) }}"
-                                            title="{{ translate('product_report') }}">
-                                            {{ translate('product_report') }}
-                                        </a>
-                                    </li>
-                                    <li
-                                        class="navbar-vertical-aside-has-menu {{ Request::is('vendor/report/order-report') ? 'active' : '' }}">
-                                        <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
-                                            href="{{ route('vendor.subcard', ['slug' => 'analytics']) }}"
-                                            title="{{ translate('order_report') }}">
-                                            {{ translate('order_report') }}
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
-
                             <li
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/vendor-inbox*') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
@@ -139,7 +106,7 @@
                             </li>
                             <li class="nav-item-button-sidebar">
                                 <a href="javascript:void(0);"
-                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
+                                    class="nav-link text-capitalize toggle-dropdown sidebar-link  {{ Request::is('vendor/subcard/product-upload') ? 'active' : '' }}"
                                     title="{{ translate('Product Upload') }}">
                                     <i class="fa-solid fa-box me-2 sidebar-icon"></i>
                                     <span class="sidebar-text">{{ translate('Product Upload') }}</span>
@@ -149,7 +116,7 @@
                                 <ul class="nav-sub dropdown-content w-100 transition-dropdown"
                                     style="display: none; padding-left: 15px;">
                                     <li
-                                        class="navbar-vertical-aside-has-menu {{ Request::is('vendor/subcard/product-upload') ? 'active' : '' }}">
+                                        class="navbar-vertical-aside-has-menu">
                                         <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
                                             href="{{ route('vendor.subcard', ['slug' => 'product-upload']) }}"
                                             title="{{ translate('Add Product') }}">
@@ -157,7 +124,7 @@
                                         </a>
                                     </li>
                                     <li
-                                        class="navbar-vertical-aside-has-menu {{ Request::is('vendor/subcard/product-upload') ? 'active' : '' }}">
+                                        class="navbar-vertical-aside-has-menu">
                                         <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
                                             href="{{ route('vendor.subcard', ['slug' => 'product-upload']) }}"
                                             title="{{ translate('Bulk Import') }}">
@@ -166,21 +133,9 @@
                                     </li>
                                 </ul>
                             </li>
-
-                            <li
-                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/profile*') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                    href="{{ route('vendor.subcard', ['slug' => 'profile']) }}">
-                                    <i class="fa-solid fa-user sidebar-icon"></i>
-                                    <span
-                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
-                                        {{ translate('Profile') }}
-                                    </span>
-                                </a>
-                            </li>
                             <li class="nav-item-button-sidebar">
                                 <a href="javascript:void(0);"
-                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
+                                    class="nav-link text-capitalize toggle-dropdown sidebar-link {{ Request::is('vendor/subcard/upload-banner') ? 'active' : '' }}"
                                     title="{{ translate('Upload Banner') }}">
                                     <i class="fa-solid fa-upload me-2 sidebar-icon"></i>
                                     <span class="sidebar-text">{{ translate('Upload Banner') }}</span>
@@ -190,7 +145,7 @@
                                 <ul class="nav-sub dropdown-content w-100 transition-dropdown"
                                     style="display: none; padding-left: 15px;">
                                     <li
-                                        class="navbar-vertical-aside-has-menu {{ Request::is('vendor/subcard/upload-banner') ? 'active' : '' }}">
+                                        class="navbar-vertical-aside-has-menu ">
                                         <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
                                             href="{{ route('vendor.subcard', ['slug' => 'upload-banner']) }}"
                                             title="{{ translate('Marketplace') }}">
@@ -220,41 +175,36 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="nav-item-button-sidebar {{ Request::is('vendor/subcard/analytics') ? 'active' : '' }}" style="border-bottom: 4px solid rgb(255 0 0) !important;">
+                                <a href="javascript:void(0);"
+                                    class="nav-link text-capitalize toggle-dropdown sidebar-link"
+                                    title="{{ translate('reports_&_analytics') }}">
+                                    <i class="fa-solid fa-chart-line me-2 sidebar-icon"></i>
+                                    <span
+                                        class="sidebar-text">{{ translate('Reports') }}</span>
+                                    <i class="tio-chevron-down float-end"></i>
+                                </a>
 
-                            <li
-                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/membership') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                    href="{{ route('vendor.subcard', ['slug' => 'membership']) }}">
-                                    <i class="fa-solid fa-user-plus sidebar-icon"></i>
-                                    <span
-                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
-                                        {{ translate('Membership') }}
-                                    </span>
-                                </a>
+                                <ul class="nav-sub dropdown-content w-100" style="display: none; padding-left: 15px;">
+                                    <li
+                                        class="navbar-vertical-aside-has-menu">
+                                        <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                            href="{{ route('vendor.subcard', ['slug' => 'analytics']) }}"
+                                            title="{{ translate('product_report') }}">
+                                            {{ translate('product_report') }}
+                                        </a>
+                                    </li>
+                                    <li
+                                        class="navbar-vertical-aside-has-menu">
+                                        <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
+                                            href="{{ route('vendor.subcard', ['slug' => 'analytics']) }}"
+                                            title="{{ translate('order_report') }}">
+                                            {{ translate('order_report') }}
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li
-                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/faq') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                    href="{{ route('vendor.subcard', ['slug' => 'faq']) }}">
-                                    <i class="fa-solid fa-question sidebar-icon"></i>
-                                    <span
-                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
-                                        {{ translate('FAQ') }}
-                                    </span>
-                                </a>
-                            </li>
-                            <li
-                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/settings') ? 'active' : '' }}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                    href="{{ route('vendor.subcard', ['slug' => 'settings']) }}">
-                                    <i class="fa-solid fa-sliders sidebar-icon"></i>
-                                    <span
-                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
-                                        {{ translate('Settings') }}
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item-button-sidebar">
+                            <li class="nav-item-button-sidebar {{ Request::is('vendor/subcard/stock-sell') ? 'active' : '' }}">
                                 <a href="javascript:void(0);"
                                     class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Stock Sell') }}">
@@ -267,7 +217,7 @@
                                 <ul class="nav-sub dropdown-content w-100 transition-dropdown"
                                     style="display: none; padding-left: 15px;">
                                     <li
-                                        class="navbar-vertical-aside-has-menu {{ Request::is('vendor/subcard/stock-sell') ? 'active' : '' }}">
+                                        class="navbar-vertical-aside-has-menu">
                                         <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
                                             href="{{ route('vendor.subcard', ['slug' => 'stock-sell']) }}"
                                             title="{{ translate('Manage Stock Sell') }}">
@@ -294,7 +244,7 @@
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item-button-sidebar">
+                            <li class="nav-item-button-sidebar {{ Request::is('vendor/subcard/sell-offer') ? 'active' : '' }}">
                                 <a href="javascript:void(0);"
                                     class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Sale Offer') }}">
@@ -306,7 +256,7 @@
                                 <ul class="nav-sub dropdown-content w-100 transition-dropdown"
                                     style="display: none; padding-left: 15px;">
                                     <li
-                                        class="navbar-vertical-aside-has-menu {{ Request::is('vendor/subcard/sell-offer') ? 'active' : '' }}">
+                                        class="navbar-vertical-aside-has-menu">
                                         <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
                                             href="{{ route('vendor.subcard', ['slug' => 'sell-offer']) }}"
                                             title="{{ translate('Manage Sale Offer') }}">
@@ -366,7 +316,7 @@
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item-button-sidebar">
+                            <li class="nav-item-button-sidebar {{ Request::is('vendor/subcard/post-job') ? 'active' : '' }}">
                                 <a href="javascript:void(0);"
                                     class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Post Job') }}">
@@ -378,7 +328,7 @@
                                 <ul class="nav-sub dropdown-content w-100 transition-dropdown"
                                     style="display: none; padding-left: 15px;">
                                     <li
-                                        class="navbar-vertical-aside-has-menu {{ Request::is('vendor/subcard/post-job') ? 'active' : '' }}">
+                                        class="navbar-vertical-aside-has-menu">
                                         <a class="js-navbar-vertical-aside-menu-link nav-link text-capitalize"
                                             href="{{ route('vendor.subcard', ['slug' => 'post-job']) }}"
                                             title="{{ translate('Manage Jobs') }}">
@@ -394,7 +344,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item-button-sidebar">
+                            <li class="nav-item-button-sidebar {{ Request::is('vendor/subcard/marketplace') ? 'active' : '' }}" style="border-bottom: 4px solid rgb(255 0 0) !important;">
                                 <a href="javascript:void(0);"
                                     class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Marketplace') }}">
@@ -405,28 +355,28 @@
 
                                 <ul class="nav-sub dropdown-content w-100 transition-dropdown"
                                     style="display: none; padding-left: 15px;">
-                                    <li class="{{ Request::is('vendor/subcard/marketplace') ? 'active' : '' }}">
+                                    <li class="navbar-vertical-aside-has-menu">
                                         <a class="nav-link text-capitalize"
                                             href="{{ route('vendor.subcard', ['slug' => 'marketplace']) }}"
                                             title="{{ translate('Manage Products') }}">
                                             {{ translate('Manage Products') }}
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="navbar-vertical-aside-has-menu">
                                         <a class="nav-link text-capitalize"
                                             href="{{ route('vendor.subcard', ['slug' => 'marketplace']) }}"
                                             title="{{ translate('Approved Products') }}">
                                             {{ translate('Approved Products') }}
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="navbar-vertical-aside-has-menu">
                                         <a class="nav-link text-capitalize"
                                             href="{{ route('vendor.subcard', ['slug' => 'marketplace']) }}"
                                             title="{{ translate('Denied Products') }}">
                                             {{ translate('Denied Products') }}
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="navbar-vertical-aside-has-menu">
                                         <a class="nav-link text-capitalize"
                                             href="{{ route('vendor.subcard', ['slug' => 'marketplace']) }}"
                                             title="{{ translate('New Product Request') }}">
@@ -434,6 +384,40 @@
                                         </a>
                                     </li>
                                 </ul>
+                            </li>
+
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/membership') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'membership']) }}">
+                                    <i class="fa-solid fa-user-plus sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                        {{ translate('Membership') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/faq') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'faq']) }}">
+                                    <i class="fa-solid fa-question sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                        {{ translate('FAQ') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li style="border-bottom: 4px solid rgb(255 0 0) !important;"
+                                class="nav-item-button-sidebar {{ Request::is('vendor/subcard/settings') ? 'active' : '' }}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                    href="{{ route('vendor.subcard', ['slug' => 'settings']) }}">
+                                    <i class="fa-solid fa-sliders sidebar-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                        {{ translate('Settings') }}
+                                    </span>
+                                </a>
                             </li>
                         </ul>
                     @endif

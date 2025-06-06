@@ -1,5 +1,5 @@
 @php use Illuminate\Support\Facades\Session; @endphp
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 @section('title', translate('payment_options'))
 @section('content')
     @php($direction = Session::get('direction') === "rtl" ? 'right' : 'left')

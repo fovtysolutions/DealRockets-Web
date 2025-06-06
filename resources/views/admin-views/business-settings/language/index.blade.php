@@ -3,7 +3,7 @@
     use Illuminate\Support\Facades\File;
     use Illuminate\Support\Facades\Session;
 @endphp
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 @section('title', translate('language'))
 @section('content')
     @php($direction = Session::get('direction') === "rtl" ? 'right' : 'left')

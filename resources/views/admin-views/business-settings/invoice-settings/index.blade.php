@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 @section('title', translate('invoice_Settings'))
 @section('content')
 <div class="content container-fluid">

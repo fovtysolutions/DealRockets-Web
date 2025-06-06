@@ -31,6 +31,7 @@ class Tradeshow extends Model
         'email',
         'phone',
         'timeline',
+        'clicks',
     ];
 
     protected $casts = [

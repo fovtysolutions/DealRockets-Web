@@ -133,6 +133,7 @@ class TradeshowController extends Controller
 
     public function detailsview(Request $request, $name, $id)
     {
+        Tradeshow::where('id', $id)->increment('clicks');
         $tradeshow = Tradeshow::findOrFail($id);
         $bannerslimit = json_decode(BusinessSetting::where('type', 'tradeshowbannerlimit')->first()->value, true)['tradeshowbannerlimit'];
         $banners = Tradeshow::limit($bannerslimit)->get();
@@ -186,7 +187,6 @@ class TradeshowController extends Controller
 
     public function dynamicData(Request $request)
     {
-
         // Start building the query for Tradeshow
         $query = Tradeshow::query();
 
@@ -244,7 +244,7 @@ class TradeshowController extends Controller
         $digitalProductAuthors = $this->authorRepo->getListWhere(dataLimit: 'all');
         $publishingHouseList = $this->publishingHouseRepo->getListWhere(dataLimit: 'all');
         $countries = CountrySetupController::getCountries();
-        $industries = TradeCategory::where('active', '1')->get();
+        $industries = Category::all();
 
         return view('admin-views.tradeshow.add-new', compact('categories', 'industries', 'countries', 'brands', 'brandSetting', 'digitalProductSetting', 'colors', 'attributes', 'languages', 'defaultLanguage', 'digitalProductFileTypes', 'digitalProductAuthors', 'publishingHouseList'));
     }

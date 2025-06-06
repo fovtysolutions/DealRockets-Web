@@ -197,7 +197,7 @@
 
 .buy-offer .lead-info {
     align-self: stretch;
-    width: 42%;
+    width: 100%;
     padding-right: 15px;
     /* max-width: 625px; */
 }
@@ -331,32 +331,30 @@
 }
 
 .buy-offer .lead-details-table{
-    width: 40%;
-    padding-left: 10px;
-    padding-right: 25px;
-}
-
-.buy-offer .detail-table tr {
-    height: 42px;
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    gap: 18px;
+    padding-right: 10px;
 }
 
 .buy-offer .detail-label {
     width: 50%;
-    font-weight: 400;
+    font-weight: 600;
     color: #0D0D0F;
     background-color: white;
     border-top: 1px solid #D5D5D5;
     border-bottom: 1px solid #D5D5D5;
     border-left: 1px solid #D5D5D5;
-    padding: 11px 0px;
-    text-align: center;
+    padding: 7px 4px;
+    text-align: left;
     text-wrap-mode: nowrap;
 }
 
 .buy-offer .detail-value {
-    font-weight: 600;
-    text-align: center;
-    padding: 11px;
+    font-weight: 400;
+    text-align: left;
+    padding: 7px;
     border: 1px solid #D5D5D5;
     width: calc(100% - 80px);
 }
@@ -411,7 +409,7 @@
     text-align: right;
     font-size: 0.75rem;
     font-weight: normal;
-    margin-top: 72px;
+    margin-top: 18px;
     margin-left: 0.75rem;
     margin-right: 0.75rem;
 }

@@ -141,6 +141,23 @@ class Product extends Model
         'payment_terms',
         'invoicing',
         'refund_policy',
+        'payment_methods',
+        'currency_accepted',
+        'payment_terms',
+        'invoicing',
+        'refund_policy',
+        'technical_specification',
+        'supply_capacity',
+        'supply_unit',
+        'local_currency',
+        'delivery_terms',
+        'delivery_mode',
+        'place_of_loading',
+        'port_of_loading',
+        'lead_time_unit',
+        'target_market',
+        'short_details',
+        'certificate',
     ];
 
     /**

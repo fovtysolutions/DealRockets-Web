@@ -44,7 +44,7 @@
 }
 
 .order-now .product-card {
-    flex: 1 1 calc(25% - 15px);
+    flex: 1 1 calc(16% - 15px);
     display: flex;
     flex-direction: column;
     border: none;
@@ -55,6 +55,7 @@
 .order-now .product-card img {
     width: 100%;
     height: 70%;
+    aspect-ratio: 1/1;
     object-fit: cover;
     border-radius: 5px 5px 0 0;
 }

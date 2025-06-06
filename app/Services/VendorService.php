@@ -116,6 +116,7 @@ class VendorService
             'email' => $request['email'],
             'membership' => $request['shop_membership'],
             'years' => $request['shop_years'],
+            'country' => $request['country'],
             'vendor_type' => $request['vendor_type'],
             'image' => $this->upload(dir: 'seller/', format: 'webp', image: $request->file('image')),
             'password' => bcrypt($request['password']),

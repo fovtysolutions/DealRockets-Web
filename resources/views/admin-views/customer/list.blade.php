@@ -1,5 +1,5 @@
 @php use Illuminate\Support\Str; @endphp
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 
 @section('title', translate('customer_List'))
 

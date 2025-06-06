@@ -271,6 +271,7 @@ function earningStatisticsApexChart(){
 
     let earnStatisticsData = $('#earn-statistics-data');
     const inHouseEarn = earnStatisticsData.data('inhouse-earn');
+    const membershipEarning = earnStatisticsData.data('membership-earn');
     const vendorEarn = earnStatisticsData.data('vendor-earn');
     const commissionEarn = earnStatisticsData.data('commission-earn');
     let label = earnStatisticsData.data('label');
@@ -290,6 +291,10 @@ function earningStatisticsApexChart(){
             {
                 name: earnStatisticsData.data('commission-text'),
                 data: Object.values(commissionEarn)
+            },
+            {
+                name: earnStatisticsData.data('membership-text'),
+                data: Object.values(membershipEarning)
             }
         ],
         chart: {

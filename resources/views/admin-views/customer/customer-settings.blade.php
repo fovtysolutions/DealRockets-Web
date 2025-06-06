@@ -1,5 +1,5 @@
 @php use App\Utils\Convert; @endphp
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 
 @section('title', translate('customer_settings'))
 

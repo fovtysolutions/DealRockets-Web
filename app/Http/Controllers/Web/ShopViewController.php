@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Author;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\CompanyProfile;
 use App\Models\Coupon;
 use App\Models\FlashDeal;
 use App\Models\FlashDealProduct;
@@ -72,6 +74,10 @@ class ShopViewController extends Controller
             'bottom_banner_full_url' => $shopId == 0 ? getWebConfig(name: 'bottom_banner') : $shop->bottom_banner_full_url,
             'image_full_url' => $shopId == 0 ? $inhouseVacation['status'] : $shop->image_full_url,
             'minimum_order_amount' => $shopId == 0 ? getWebConfig(name: 'minimum_order_amount') : $shop->seller->minimum_order_amount,
+            'seller_details' => $shopId == 0 ? Admin::find(1) : Seller::find($shop?->seller_id),
+            'company_profiles' => $shopId == 0 ? CompanyProfile::find(0) : CompanyProfile::where('seller',$shop?->seller_id)->first(),
+            'company_certificates' => $shopId = 0 ? json_decode(CompanyProfile::find(0)->company_certificates,true) : json_decode(CompanyProfile::where('seller',$shop?->seller_id)->first()->company_certificates,true),
+            'images' => $shopId = 0 ? json_decode(CompanyProfile::find(0)->images,true) : json_decode(CompanyProfile::where('seller',$shop?->seller_id)->first()->images,true),
         ];
     }
 
@@ -90,6 +96,7 @@ class ShopViewController extends Controller
     public function default_theme($request, $id): View|JsonResponse|Redirector|RedirectResponse
     {
         self::checkShopExistence($id);
+        $id = (int) $id;
         $productAddedBy = $id == 0 ? 'admin' : 'seller';
         $productUserID = $id == 0 ? $id : Shop::where('id', $id)->first()->seller_id;
         $shopAllProducts = ProductManager::getAllProductsData($request, $productUserID, $productAddedBy);
@@ -99,7 +106,6 @@ class ShopViewController extends Controller
         $shopPublishingHouses = ProductManager::getPublishingHouseList(productIds: $shopAllProducts->pluck('id')->toArray(), vendorId: $productUserID);
         $digitalProductAuthors = ProductManager::getProductAuthorList(productIds: $shopAllProducts->pluck('id')->toArray(), vendorId: $productUserID);
         $shopInfoArray = self::getShopInfoArray(shopId: $id, shopProducts: $shopAllProducts, sellerType: $productAddedBy, sellerId: $productUserID);
-
         $products = $productListData->paginate(20)->appends($request->all());
 
         if ($request->ajax()) {
@@ -112,8 +118,8 @@ class ShopViewController extends Controller
             'products' => $products,
             'categories' => $categories,
             'seller_id' => $id,
-            'activeBrands'=> $brands,
-            'shopInfoArray'=> $shopInfoArray,
+            'activeBrands' => $brands,
+            'shopInfoArray' => $shopInfoArray,
             'shopPublishingHouses' => $shopPublishingHouses,
             'digitalProductAuthors' => $digitalProductAuthors,
         ]);
@@ -223,8 +229,16 @@ class ShopViewController extends Controller
             ], 200);
         }
 
-        return view(VIEW_FILE_NAMES['shop_view_page'], compact('products',  'categories',
-            'products_for_review', 'featuredProductsList', 'brands', 'data', 'ratings', 'rattingStatusArray'))
+        return view(VIEW_FILE_NAMES['shop_view_page'], compact(
+            'products',
+            'categories',
+            'products_for_review',
+            'featuredProductsList',
+            'brands',
+            'data',
+            'ratings',
+            'rattingStatusArray'
+        ))
             ->with('seller_id', $id)
             ->with('total_review', $totalReviews)
             ->with('avg_rating', $averageRating)
@@ -391,9 +405,29 @@ class ShopViewController extends Controller
         $inHouseVacationStatus = $id == 0 ? $inhouse_vacation['status'] : false;
         $inhouse_temporary_close = $id == 0 ? $temporary_close['status'] : false;
 
-        return view(VIEW_FILE_NAMES['shop_view_page'], compact('products', 'shop', 'categories', 'current_date', 'seller_vacation_start_date', 'seller_vacation_status',
-            'seller_vacation_end_date', 'seller_temporary_close', 'inhouse_vacation_start_date', 'inhouse_vacation_end_date', 'inHouseVacationStatus', 'inhouse_temporary_close',
-            'products_for_review', 'featuredProductsList', 'brands', 'rattingStatusArray', 'reviews', 'allProductsColorList', 'paginate_count', 'shopPublishingHouses', 'digitalProductAuthors'))
+        return view(VIEW_FILE_NAMES['shop_view_page'], compact(
+            'products',
+            'shop',
+            'categories',
+            'current_date',
+            'seller_vacation_start_date',
+            'seller_vacation_status',
+            'seller_vacation_end_date',
+            'seller_temporary_close',
+            'inhouse_vacation_start_date',
+            'inhouse_vacation_end_date',
+            'inHouseVacationStatus',
+            'inhouse_temporary_close',
+            'products_for_review',
+            'featuredProductsList',
+            'brands',
+            'rattingStatusArray',
+            'reviews',
+            'allProductsColorList',
+            'paginate_count',
+            'shopPublishingHouses',
+            'digitalProductAuthors'
+        ))
             ->with('seller_id', $id)
             ->with('total_review', $totalReviews)
             ->with('avg_rating', $averageRating)
@@ -757,9 +791,30 @@ class ShopViewController extends Controller
                 ->get();
         }
 
-        return view(VIEW_FILE_NAMES['shop_view_page'], compact('products', 'shop', 'categories', 'current_date', 'seller_vacation_start_date', 'seller_vacation_status',
-            'seller_vacation_end_date', 'seller_temporary_close', 'inhouse_vacation_start_date', 'inhouse_vacation_end_date', 'inHouseVacationStatus', 'inhouse_temporary_close',
-            'products_for_review', 'featuredProductsList', 'brands', 'ratting_status', 'reviews', 'allProductsColorList', 'coupons', 'id', 'new_arrival', 'top_rated'))
+        return view(VIEW_FILE_NAMES['shop_view_page'], compact(
+            'products',
+            'shop',
+            'categories',
+            'current_date',
+            'seller_vacation_start_date',
+            'seller_vacation_status',
+            'seller_vacation_end_date',
+            'seller_temporary_close',
+            'inhouse_vacation_start_date',
+            'inhouse_vacation_end_date',
+            'inHouseVacationStatus',
+            'inhouse_temporary_close',
+            'products_for_review',
+            'featuredProductsList',
+            'brands',
+            'ratting_status',
+            'reviews',
+            'allProductsColorList',
+            'coupons',
+            'id',
+            'new_arrival',
+            'top_rated'
+        ))
             ->with('seller_id', $id)
             ->with('total_review', $total_review)
             ->with('avg_rating', $avg_rating)
@@ -805,5 +860,18 @@ class ShopViewController extends Controller
             session()->forget('coupon_seller_id');
             return response()->json($cart);
         }
+    }
+
+    public function vendorCompany()
+    {
+        return view('web.vendor-page.company');
+    }
+    public function vendorContact()
+    {
+        return view('web.vendor-page.contact');
+    }
+    public function vendorAbout()
+    {
+        return view('web.vendor-page.about');
     }
 }

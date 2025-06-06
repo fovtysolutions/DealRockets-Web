@@ -14,10 +14,10 @@ $(document).ready(function (){
                     playAudio();
                     setTimeout(function (){
                         chattingNewNotificationAlert.removeClass('active')
-                    }, 5000);
+                    }, 60000);
                 }
             },
         });
 
-    }, 15000);
+    }, 60000);
 })

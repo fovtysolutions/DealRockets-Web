@@ -418,5 +418,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
         $(".category-menu").find(".mega_menu").parents("li")
             .addClass("has-sub-item").find("> a")
             .append("<i class='czi-arrow-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}'></i>");
+
+        function toggleDropdown() {
+            document.getElementById("dropdownNav").classList.toggle("show");
+        }
     </script>
 @endpush

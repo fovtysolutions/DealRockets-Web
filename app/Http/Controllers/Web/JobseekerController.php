@@ -22,6 +22,7 @@ use Brian2694\Toastr\Toastr;
 use Illuminate\Support\Carbon;
 use App\Models\ShortlistCandidates;
 use App\Models\JobCategory;
+use App\Models\JobSearchLog;
 use App\Models\User;
 
 class JobseekerController extends Controller
@@ -127,6 +128,28 @@ class JobseekerController extends Controller
         ]);
     }
 
+    private function logJobSearch($userId, $role, $searchTerm)
+    {
+        // Normalize search term: lowercase & trimmed
+        $normalizedSearch = strtolower(trim($searchTerm));
+
+        $log = JobSearchLog::where('user_id', $userId)
+            ->where('role', $role)
+            ->where('search', $normalizedSearch)
+            ->first();
+
+        if ($log) {
+            $log->increment('count');
+        } else {
+            JobSearchLog::create([
+                'user_id' => $userId,
+                'role' => $role,
+                'search' => $normalizedSearch,
+                'count' => 1,
+            ]);
+        }
+    }
+
     public function webindex(Request $request)
     {
         // Get categories with counting and priority-wise sorting
@@ -135,6 +158,13 @@ class JobseekerController extends Controller
         // Get the category filter from the URL if present
         $categoryId = $request->get('categoryid');
         $vacancy = $request->get('vacancy');
+
+        if($vacancy){
+            $userdata = ChatManager::getRoleDetail();
+            $user_id = $userdata['user_id'];
+            $role = $userdata['role'];
+            $this->logJobSearch($user_id,$role,$vacancy);
+        }
 
         $jobseekerQuery = Vacancies::query();
 

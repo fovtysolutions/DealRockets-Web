@@ -136,9 +136,9 @@ a:hover {
     height: 30px !important;
 }
 
-.navbar-vertical-aside-mini-mode .navbar-brand {
+/* .navbar-vertical-aside-mini-mode .navbar-brand {
     display: none;
-}
+} */
 
 .navbar-vertical-content {
     background: var(--sidebar);
@@ -295,7 +295,7 @@ aside .navbar-vertical-aside-has-menu .nav-sub .nav-link {
 }
 
 aside .navbar-nav>.nav-item:not(:first-child) {
-    margin-top: 15px !important;
+    margin-top: 15px;
     display: flex;
     align-items: center;
 }
@@ -319,9 +319,9 @@ aside li .nav-link>span:not(:first-child) {
     width: 0px;
 }
 
-.navbar-vertical-aside-mini-mode .search--form-group {
+/* .navbar-vertical-aside-mini-mode .search--form-group {
     display: none;
-}
+} */
 
 .swal2-popup .swal2-styled.swal2-cancel {
     color: #fff !important;

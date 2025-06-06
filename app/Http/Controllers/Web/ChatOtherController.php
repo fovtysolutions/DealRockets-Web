@@ -127,6 +127,49 @@ class ChatOtherController extends Controller
 
     public static function getChatboxStatistics()
     {
+        $roledetail = ChatManager::getRoleDetail();
+        $role = $roledetail['role'];
+        $userId = $roledetail['user_id'];
+
+        if ($role == 'seller') {
+            // Count total messages
+            $totalMessages = ChatsOther::where('receiver_type', 'seller')->where('receiver_id', $userId)->count();
+
+            // Count unread messages
+            $unreadMessages = ChatsOther::where('receiver_type', 'seller')->where('receiver_id', $userId)->where('is_read', 0)->count();
+
+            $readMessages = ChatsOther::where('receiver_type', 'seller')->where('receiver_id', $userId)->where('is_read', 1)->count();
+
+            // Messages grouped by type
+            $messagesByType = ChatsOther::where('receiver_type', 'seller')->where('receiver_id', $userId)->select('type')
+                ->selectRaw('COUNT(*) as total')
+                ->groupBy('type')
+                ->get();
+
+            // Open vs Closed status
+            $statusStats = ChatsOther::where('receiver_type', 'seller')->where('receiver_id', $userId)->select('openstatus')
+                ->selectRaw('COUNT(*) as total')
+                ->groupBy('openstatus')
+                ->get();
+
+            // Messages by sender_type
+            $bySenderType = ChatsOther::where('receiver_type', 'seller')->where('receiver_id', $userId)->select('sender_type')
+                ->selectRaw('COUNT(*) as total')
+                ->groupBy('sender_type')
+                ->get();
+
+            $data = [
+                'total_messages'     => $totalMessages,
+                'read_messages'      => $readMessages,
+                'unread_messages'    => $unreadMessages,
+                'messages_by_type'   => $messagesByType,
+                'status_distribution' => $statusStats,
+                'by_sender_type'     => $bySenderType,
+            ];
+
+            return $data;
+        }
+
         // Count total messages
         $totalMessages = ChatsOther::count();
 
@@ -165,7 +208,7 @@ class ChatOtherController extends Controller
         return $data;
     }
 
-    public static function getInitialMessages($special = null,$search = null)
+    public static function getInitialMessages($special = null, $search = null)
     {
         $roledetail = ChatManager::getRoleDetail();
         $role = $roledetail['role'];
@@ -173,8 +216,8 @@ class ChatOtherController extends Controller
 
         $query = ChatsOther::query();
 
-        if ($search != null){
-            $query->where('message','LIKE','%'.$search.'%');
+        if ($search != null) {
+            $query->where('message', 'LIKE', '%' . $search . '%');
         }
 
         if ($special != null) {
@@ -226,12 +269,23 @@ class ChatOtherController extends Controller
     public function adminChatbox(Request $request)
     {
         $special = $request->input('special');
-        $search = $request->input('search',null);
-        
-        $data['intialMessages'] = self::getInitialMessages($special,$search);
+        $search = $request->input('search', null);
+
+        $data['intialMessages'] = self::getInitialMessages($special, $search);
         $data['count'] = count($data['intialMessages']);
         $data['chatboxStatics'] = self::getChatboxStatistics();
         return view('admin-views.betterchat.messages', $data);
+    }
+
+    public function vendorChatbox(Request $request)
+    {
+        $special = $request->input('special');
+        $search = $request->input('search', null);
+
+        $data['intialMessages'] = self::getInitialMessages($special, $search);
+        $data['count'] = count($data['intialMessages']);
+        $data['chatboxStatics'] = self::getChatboxStatistics();
+        return view('vendor-views.betterchat.messages', $data);
     }
 
     public function fetchChat($user_id, $user_type, $type, $listing_id)

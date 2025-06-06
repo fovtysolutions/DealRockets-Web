@@ -626,7 +626,7 @@ if (!$isGatewayPublished) {
 }
 
 Route::get('/clear-cache', function() {
-    $exitCode = Artisan::call('optimize:clear');
+    $exitCode = Artisan::call('cache:clear-all');
     return $exitCode;
 });
 

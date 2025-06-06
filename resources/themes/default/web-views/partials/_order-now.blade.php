@@ -19,7 +19,7 @@
         </div>
         <!-- Product Cards Grid -->
         <div class="product-grid showabove768">
-            @foreach($trending->take(4) as $product)
+            @foreach($trending->take(5) as $product)
             <!-- Product 1 -->
             <div class="product-card image-wrapper shimmer">
                 <img data-src="{{ $product->thumbnail !== 'imageurl' ? '/storage/product/thumbnail/' . $product->thumbnail : '/images/placeholderimage.webp' }}" class="card-img-top lazyload" alt="Product 1">

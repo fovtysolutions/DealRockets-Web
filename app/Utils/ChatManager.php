@@ -257,7 +257,7 @@ class ChatManager
             }
         }
 
-        return ['role' => 'web', 'user_id' => null];
+        return ['role' => 'guest', 'user_id' => null];
     }
 
     protected static $businessSettingsCache = [];

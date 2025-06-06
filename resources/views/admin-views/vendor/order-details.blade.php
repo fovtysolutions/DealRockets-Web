@@ -1,5 +1,5 @@
 @php use App\Utils\Helpers; @endphp
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 
 @section('title', translate('order_details'))
 

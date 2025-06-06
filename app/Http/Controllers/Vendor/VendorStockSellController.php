@@ -13,6 +13,7 @@ use App\Utils\ChatManager;
 use Exception;
 use App\Models\Country;
 use App\Models\StockCategory;
+use App\Services\ComplianceService;
 use Illuminate\Support\Facades\Log;
 
 class VendorStockSellController extends Controller
@@ -30,8 +31,8 @@ class VendorStockSellController extends Controller
             'company_name' => 'required',
             'company_address' => 'required',
             'company_icon' => 'nullable',
-            'images' => "$nullable|array|max:10",  // Max 5 images allowed, nullable for update
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',  // Validate each image
+            'images' => "$nullable|array|max:10",
+            'images.*' => 'image|max:2048',
             'compliance_status' => 'nullable|in:pending,approved,flagged',
             'upper_limit' => 'nullable|string',
             'lower_limit' => 'nullable|string',
@@ -42,8 +43,22 @@ class VendorStockSellController extends Controller
             'origin' => 'nullable|string',
             'badge' => 'nullable|string',
             'refundable' => 'nullable|string',
+            'sub_category_id' => 'nullable|string',
+            'hs_code' => 'nullable|string',
+            'rate' => 'nullable|integer',
+            'local_currency' => 'nullable|string',
+            'delivery_terms' => 'nullable|string',
+            'place_of_loading' => 'nullable|string',
+            'port_of_loading' => 'nullable|string',
+            'packing_type' => 'nullable|string',
+            'weight_per_unit' => 'nullable|string',
+            'dimensions_per_unit' => 'nullable|string',
+            'certificate' => 'nullable|image',
+            'dynamic_data' => 'nullable',
+            'dynamic_data_technical' => 'nullable',
         ]);
     }
+
     private function prepareStockSellData($request, $user_data = null)
     {
         if (!$user_data) {
@@ -72,6 +87,18 @@ class VendorStockSellController extends Controller
             'origin' => $request->origin,
             'badge' => $request->badge,
             'refundable' => $request->refundable,
+            'sub_category_id' => $request->sub_category_id,
+            'hs_code' => $request->hs_code,
+            'rate' => $request->rate,
+            'local_currency' => $request->local_currency,
+            'delivery_terms' => $request->delivery_terms,
+            'place_of_loading' => $request->place_of_loading,
+            'port_of_loading' => $request->port_of_loading,
+            'packing_type' => $request->packing_type,
+            'weight_per_unit' => $request->weight_per_unit,
+            'dimensions_per_unit' => $request->dimensions_per_unit,
+            'dynamic_data' => $request->dynamic_data,
+            'dynamic_data_technical' => $request->dynamic_data_technical,
         ];
     }
 
@@ -191,6 +218,18 @@ class VendorStockSellController extends Controller
             $validatedData['company_icon'] = $companyIconPath;
         }
 
+        if ($request->hasFile('certificate')) {
+            $certificate = $request->file('certificate');
+
+            $imageName = time() . '_' . $certificate->getClientOriginalName();
+
+            $certificate->move(public_path('stock_images'), $imageName);
+
+            $certificate = 'stock_images/certificates' . $imageName;
+
+            $validatedData['certificate'] = $certificate;
+        }
+
         // If images were uploaded, save their paths to the database
         if (!empty($imagePaths)) {
             $stockSell->update(['image' => json_encode($imagePaths)]);  // Store image paths as a JSON array
@@ -217,6 +256,8 @@ class VendorStockSellController extends Controller
         $name = ChatManager::getproductname($stocksell->product_id);
         $countries = CountrySetupController::getCountries();
         $categories = StockCategory::all();
+        $dynamicData = $stocksell->dynamic_data;
+        $dynamicDataTechnical = $stocksell->dynamic_data_technical;
         return view('vendor-views.stocksell.edit', compact('stocksell', 'items', 'name', 'countries', 'categories'));
     }
 
@@ -237,6 +278,10 @@ class VendorStockSellController extends Controller
 
             if ($imagePaths) {
                 $validatedData['image'] = json_encode($imagePaths);
+            }
+
+            if (!$request->has('sub_category_id')) {
+                $validatedData['sub_category_id'] = $stockSell->sub_category_id;
             }
 
             if ($request->hasFile('company_icon')) {
@@ -261,6 +306,35 @@ class VendorStockSellController extends Controller
                 $companyIconPath = 'stock_images/' . $imageName;
                 $validatedData['company_icon'] = $companyIconPath;  // Save the path for the new icon
             }
+
+            if ($request->hasFile('certificate')) {
+                // If the StockSell has an existing company_icon, delete the old one
+                if ($stockSell->certificate) {
+                    $oldIconPath = public_path('stock_images/' . $stockSell->certificate);
+
+                    // Check if the file exists and delete it
+                    if (file_exists($oldIconPath)) {
+                        unlink($oldIconPath);  // Delete the old company icon file
+                    }
+                }
+
+                // Store the new company icon in the public 'stock_images' directory
+                $certificate = $request->file('certificate');
+                $imageName = time() . '_' . $certificate->getClientOriginalName();
+
+                // Move the new company icon to the 'stock_images' folder
+                $certificate->move(public_path('stock_images/'), $imageName);
+
+                // Save the new icon's relative path in the database
+                $certificate = 'stock_images/' . $imageName;
+                $validatedData['certificate'] = $certificate;  // Save the path for the new icon
+            }
+
+            // Perform compliance check
+            $complianceStatus = ComplianceService::checkStockSaleCompliance($validatedData);
+
+            // Add compliance status to the validated data
+            $validatedData['compliance_status'] = $complianceStatus;
 
             // Update the StockSell record with the validated data
             $stockSell->update($validatedData);

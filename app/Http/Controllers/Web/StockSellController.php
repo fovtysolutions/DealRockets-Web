@@ -74,9 +74,6 @@ class StockSellController extends Controller
         // Add compliance status to the validated data
         $validatedData['compliance_status'] = $complianceStatus;
 
-        // Create the StockSell record
-        $stockSell = StockSell::create($validatedData);
-
         // Handle image uploads and save paths
         $imagePaths = $this->handleImages($request);
 
@@ -104,6 +101,9 @@ class StockSellController extends Controller
 
             $validatedData['certificate'] = $certificate;
         }
+
+        // Create the StockSell record
+        $stockSell = StockSell::create($validatedData);
 
         // If images were uploaded, save their paths to the database
         if (!empty($imagePaths)) {

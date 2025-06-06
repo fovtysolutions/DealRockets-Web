@@ -35,7 +35,7 @@
                                 <span class="input-required-icon">*</span>
                             </label>
                             <select class="js-select2-custom form-control action-get-request-onchange" name="category_id"
-                                data-url-prefix="{{ route('vendor.products.get-categories') . '?parent_id=' }}"
+                                data-url-prefix="{{ route('admin.products.get-categories') . '?parent_id=' }}"
                                 data-element-id="sub-category-select" data-element-type="select" required>
                                 <option value="{{ old('category_id') }}" selected disabled>
                                     {{ translate('select_category') }}</option>
@@ -53,7 +53,7 @@
                             <label for="name" class="title-color">{{ translate('sub_Category') }}</label>
                             <select class="js-select2-custom form-control action-get-request-onchange"
                                 name="sub_category_id" id="sub-category-select"
-                                data-url-prefix="{{ route('vendor.products.get-categories') . '?parent_id=' }}"
+                                data-url-prefix="{{ route('admin.products.get-categories') . '?parent_id=' }}"
                                 data-element-id="sub-sub-category-select" data-element-type="select">
                                 <option value="{{ null }}" selected disabled>
                                     {{ translate('select_Sub_Category') }}</option>
@@ -72,10 +72,24 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <label class="title-color" for="name">{{ translate('product_name') }}
-                        </label>
-                        <input type="text" name="name[]" id="name" class="form-control"
-                            placeholder="{{ translate('new_product') }}">
+                        @foreach ($languages as $lang)
+                            <div class="{{ $lang != $defaultLanguage ? 'd-none' : '' }} form-system-language-form"
+                                id="{{ $lang }}-form">
+                                <div class="form-group">
+                                    <label class="title-color" for="{{ $lang }}_name">{{ translate('product_name') }}
+                                        ({{ strtoupper($lang) }})
+                                        @if ($lang == $defaultLanguage)
+                                            <span class="input-required-icon">*</span>
+                                        @endif
+                                    </label>
+                                    <input type="text" {{ $lang == $defaultLanguage ? 'required' : '' }} name="name[]"
+                                        id="{{ $lang }}_name"
+                                        class="form-control {{ $lang == $defaultLanguage ? 'product-title-default-language' : '' }}"
+                                        placeholder="{{ translate('new_Product') }}">
+                                </div>
+                                <input type="hidden" name="lang[]" value="{{ $lang }}">
+                            </div>
+                        @endforeach
                     </div>
                     <div class="col-lg-4" style="padding-bottom: 15px;">
                         <label class="form-label">{{ translate('HT Code') }}</label>
@@ -387,8 +401,7 @@
                                         alt="">
                                 </span>
                             </div>
-                            <input type="number" min="0" step="0.01"
-                                placeholder="{{ translate('local_currency') }}" name="local_currency"
+                            <input type="texr" placeholder="{{ translate('local_currency') }}" name="local_currency"
                                 value="{{ old('local_currency') }}" class="form-control" required>
                         </div>
                     </div>
@@ -567,7 +580,7 @@
                         <div class="form-group pt-4">
                             <label class="title-color" for="description">{{ translate('Description') }}
                             </label>
-                            <textarea name="description[]" class="summernote">{{ old('description') }}</textarea>
+                            <textarea name="details[]" class="summernote">{{ old('details') }}</textarea>
                         </div>
                     </div>
                     <div class="col-12" style="padding-bottom: 15px;">
@@ -1287,7 +1300,7 @@
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/plugins/summernote/summernote.min.js') }}"></script>
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/admin/product-add-update.js') }}"></script>
     <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/admin/product-add-colors-img.js') }}"></script>
-    
+
     <script>
         let titleCount = 0;
 
@@ -1404,6 +1417,70 @@
             if (e.target.classList.contains('remove-sub-head')) {
                 e.target.closest('.sub-head-row').remove();
             }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#category_id').on('change', function() {
+                var parentId = $(this).val();
+                var urlPrefix = $('#sub-category-select').data('url-prefix');
+                var targetSelect = $('#sub-category-select');
+
+                if (parentId) {
+                    $.ajax({
+                        url: urlPrefix + parentId,
+                        type: 'GET',
+                        success: function(response) {
+                            // Insert HTML directly into the <select>
+                            if (response.select_tag) {
+                                targetSelect.html(response.select_tag);
+                            } else {
+                                console.warn('Missing select_tag in response.');
+                            }
+                        },
+                        error: function() {
+                            alert('Failed to load sub categories.');
+                        }
+                    });
+                } else {
+                    targetSelect.html('<option value="" disabled selected>Select Sub Category</option>');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.action-get-request-onchange').on('change', function() {
+                const parentId = $(this).val();
+                const urlPrefix = $(this).data('url-prefix');
+                const targetId = $(this).data('element-id');
+                const $target = $('#' + targetId);
+
+                if (parentId && urlPrefix && targetId) {
+                    $.ajax({
+                        url: urlPrefix + parentId,
+                        type: 'GET',
+                        success: function(response) {
+                            if (typeof response === 'object' && response.select_tag) {
+                                $target.html(response.select_tag);
+                            } else {
+                                console.warn('Unexpected response format:', response);
+                            }
+
+                            // Optional: clear next-level select
+                            const nextTargetId = $target.data('element-id');
+                            if (nextTargetId) {
+                                $('#' + nextTargetId).html(
+                                    '<option value="0" disabled selected>---Select---</option>'
+                                    );
+                            }
+                        },
+                        error: function() {
+                            alert('Failed to load sub-categories.');
+                        }
+                    });
+                }
+            });
         });
     </script>
 @endpush

@@ -199,8 +199,11 @@ class VendorStockSellController extends Controller
         // Prepare the validated data (excluding images)
         $validatedData = $this->prepareStockSellData($request, $user_data);
 
-        // Create the StockSell record
-        $stockSell = StockSell::create($validatedData);
+        // Perform compliance check
+        $complianceStatus = ComplianceService::checkStockSaleCompliance($validatedData);
+
+        // Add compliance status to the validated data
+        $validatedData['compliance_status'] = $complianceStatus;
 
         // Handle image uploads and save paths
         $imagePaths = $this->handleImages($request);
@@ -229,6 +232,12 @@ class VendorStockSellController extends Controller
 
             $validatedData['certificate'] = $certificate;
         }
+
+        $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data']);
+        $validatedData['dynamic_data_technical'] = json_encode($validatedData['dynamic_data_technical']);
+
+        // Create the StockSell record
+        $stockSell = StockSell::create($validatedData);
 
         // If images were uploaded, save their paths to the database
         if (!empty($imagePaths)) {

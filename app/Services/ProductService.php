@@ -466,9 +466,10 @@ class ProductService
             'delivery_mode' => $request['delivery_mode'] ?? null,
             'place_of_loading' => $request['place_of_loading'] ?? null,
             'port_of_loading' => $request['port_of_loading'] ?? null,
+            'packing_type' => $request['packing_type'] ?? null,
             'lead_time_unit' => $request['lead_time_unit'] ?? null,
-            'target_market' => $request['target_market'] ?? null,
-            'short_details' => $request['short_details'] ?? null,
+            'target_market' => isset($request['target_market']) ? json_encode($request['target_market']) : json_encode([]),
+            'short_details' => isset($request['short_details']) ? json_encode($request['short_details']) : json_encode([]),
             'certificate' => $request['certificate'] ?? null,
         ];
     }
@@ -574,9 +575,10 @@ class ProductService
             'place_of_loading' => $request['place_of_loading'] ?? null,
             'port_of_loading' => $request['port_of_loading'] ?? null,
             'lead_time_unit' => $request['lead_time_unit'] ?? null,
-            'target_market' => $request['target_market'] ?? null,
-            'short_details' => $request['short_details'] ?? null,
+            'target_market' => isset($request['target_market']) ? json_encode($request['target_market']) : json_encode([]),
+            'short_details' => isset($request['short_details']) ? json_encode($request['short_details']) : json_encode([]),
             'certificate' => $request['certificate'] ?? null,
+            'packing_type' => $request['packing_type'] ?? null,
         ];
 
         if ($request->file('image')) {

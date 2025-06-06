@@ -158,6 +158,7 @@ class Product extends Model
         'target_market',
         'short_details',
         'certificate',
+        'packing_type',
     ];
 
     /**

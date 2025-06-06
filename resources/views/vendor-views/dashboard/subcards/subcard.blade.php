@@ -7,8 +7,7 @@
 @endpush
 
 @section('content')
-    <span class="row pt-5 pl-5"><a href="{{ route('vendor.dashboard.index') }}" style="color: black; padding-right:3px;"> Home
-        </a> / {{ $title }}</span>
+    <span class="row pt-5 pl-5"><a href="{{route('vendor.dashboard.index')}}" style="color: black; padding-right:3px;"> Home </a> / {{ $title }}</span>
 
     <div class="p-5">
         <ul class="nav nav-tabs" id="tabMenu" role="tablist">
@@ -29,15 +28,13 @@
                 <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="tab-{{ $index }}"
                     role="tabpanel" aria-labelledby="tab-{{ $index }}-tab" style="height: 600px;">
                     @if (!empty($card['ajax_route']))
-                        <div class="ajax-content" data-loaded="false" data-url="{{ $card['ajax_route'] }}"
-                            style="height: 100%; overflow: auto;">
+                        <div class="ajax-content" data-loaded="false" style="height: 100%; overflow: auto;">
+                            {{-- AJAX content will be loaded here on demand --}}
                             <div class="text-center pt-5">Loading content will appear here...</div>
                         </div>
                     @else
-                        <div class="iframe-placeholder" data-loaded="false" data-src="{{ $card['link'] }}"
-                            style="width: 100%; height: 100%;">
-                            <div class="text-center pt-5">Loading iframe...</div>
-                        </div>
+                        <iframe src="{{ $card['link'] }}" style="width: 100%; height: 100%; border: none;"
+                            loading="lazy"></iframe>
                     @endif
                 </div>
             @endforeach
@@ -52,50 +49,42 @@
         document.addEventListener('DOMContentLoaded', function() {
             var tabMenu = document.getElementById('tabMenu');
 
-            tabMenu.querySelectorAll('button').forEach(function(btn) {
+            tabMenu.querySelectorAll('button[data-url]').forEach(function(btn) {
                 btn.addEventListener('shown.bs.tab', function(event) {
-                    var targetId = event.target.getAttribute('data-target');
+                    var url = event.target.getAttribute('data-url');
+                    var targetId = event.target.getAttribute('data-bs-target');
+                    if (!url || url.length === 0) return;
+
                     var tabPane = document.querySelector(targetId);
-
-                    // AJAX content handler
                     var ajaxContent = tabPane.querySelector('.ajax-content');
-                    if (ajaxContent && ajaxContent.getAttribute('data-loaded') === 'false') {
-                        var url = event.target.getAttribute('data-url');
-                        if (url && url.length > 0) {
-                            // Optional: show global loading indicator
-                            fetch(url)
-                                .then(response => {
-                                    if (!response.ok) throw new Error(
-                                        'Network response was not ok');
-                                    return response.text();
-                                })
-                                .then(html => {
-                                    ajaxContent.innerHTML = html;
-                                    ajaxContent.setAttribute('data-loaded', 'true');
-                                })
-                                .catch(error => {
-                                    ajaxContent.innerHTML =
-                                        `<div class="text-danger p-3">Failed to load content: ${error.message}</div>`;
-                                });
-                        }
-                    }
 
-                    // Iframe content handler
-                    var iframePlaceholder = tabPane.querySelector('.iframe-placeholder');
-                    if (iframePlaceholder && iframePlaceholder.getAttribute('data-loaded') ===
-                        'false') {
-                        var iframeSrc = iframePlaceholder.getAttribute('data-src');
-                        if (iframeSrc && iframeSrc.length > 0) {
-                            iframePlaceholder.innerHTML =
-                                `<iframe src="${iframeSrc}" style="width: 100%; height: 100%; border: none;" loading="lazy"></iframe>`;
-                            iframePlaceholder.setAttribute('data-loaded', 'true');
-                        }
+                    // Load only once
+                    if (ajaxContent && ajaxContent.getAttribute('data-loaded') === 'false') {
+                        loading.classList.remove('d--none');
+
+                        fetch(url)
+                            .then(response => {
+                                if (!response.ok) throw new Error(
+                                    'Network response was not ok');
+                                return response.text();
+                            })
+                            .then(html => {
+                                ajaxContent.innerHTML = html;
+                                ajaxContent.setAttribute('data-loaded', 'true');
+                            })
+                            .catch(error => {
+                                ajaxContent.innerHTML =
+                                    `<div class="text-danger p-3">Failed to load content: ${error.message}</div>`;
+                            })
+                            .finally(() => {
+                                loading.classList.add('d--none');
+                            });
                     }
                 });
             });
 
-            // Trigger first tab manually
-            var firstTabBtn = tabMenu.querySelector('button.nav-link.active');
+            // Optionally trigger load on first active tab if ajax_route present
+            var firstTabBtn = tabMenu.querySelector('button.nav-link.active[data-url]');
             if (firstTabBtn) {
                 firstTabBtn.dispatchEvent(new Event('shown.bs.tab'));
             }

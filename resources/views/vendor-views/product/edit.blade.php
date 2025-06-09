@@ -71,10 +71,24 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <label class="title-color" for="name">{{ translate('product_name') }}
-                        </label>
-                        <input type="text" name="name[]" id="name" class="form-control"
-                            value="{{ $product['name'] ?? '' }}" placeholder="{{ translate('new_product') }}">
+                        @foreach ($languages as $lang)
+                            <div class="{{ $lang != $defaultLanguage ? 'd-none' : '' }} form-system-language-form"
+                                id="{{ $lang }}-form">
+                                <div class="form-group">
+                                    <label class="title-color" for="{{ $lang }}_name">{{ translate('product_name') }}
+                                        ({{ strtoupper($lang) }})
+                                        @if ($lang == $defaultLanguage)
+                                            <span class="input-required-icon">*</span>
+                                        @endif
+                                    </label>
+                                    <input type="text" {{ $lang == $defaultLanguage ? 'required' : '' }} name="name[]"
+                                        id="{{ $lang }}_name" value="{{ $product['name'] }}"
+                                        class="form-control {{ $lang == $defaultLanguage ? 'product-title-default-language' : '' }}"
+                                        placeholder="{{ translate('new_Product') }}">
+                                </div>
+                                <input type="hidden" name="lang[]" value="{{ $lang }}">
+                            </div>
+                        @endforeach
                     </div>
                     <div class="col-lg-4" style="padding-bottom: 15px;">
                         <label class="form-label">{{ translate('HT Code') }}</label>
@@ -557,7 +571,7 @@
                             </div>
                             <input type="number" min="0" step="0.01"
                                 placeholder="{{ translate('unit_price') }}" name="unit_price"
-                                value="{{ old('unit_price') }}" value="{{ $product['unit_price'] ?? 0 }}"
+                                value="{{ $product['unit_price'] }}" value="{{ $product['unit_price'] ?? 0 }}"
                                 class="form-control" required>
                         </div>
                     </div>
@@ -574,9 +588,9 @@
                                         alt="">
                                 </span>
                             </div>
-                            <input type="number" min="0" step="0.01"
+                            <input type="text"
                                 placeholder="{{ translate('local_currency') }}" name="local_currency"
-                                value="{{ old('local_currency') }}" value="{{ $product['local_currency'] ?? 0 }}"
+                                value="{{ $product['local_currency'] }}"
                                 class="form-control" required>
                         </div>
                     </div>
@@ -721,12 +735,11 @@
                         <select class="js-example-basic-multiple form-control" name="target_market[]" multiple>
                             @foreach ($countries as $country)
                                 <option value="{{ $country['id'] }}"
-                                    {{ in_array($country['id'], old('target_market', $product->target_market ?? [])) ? 'selected' : '' }}>
+                                    {{ in_array($country['id'], old('target_market', json_decode($product['target_market'],true) ?? [])) ? 'selected' : '' }}>
                                     {{ $country['name'] }}
                                 </option>
                             @endforeach
                         </select>
-
                     </div>
 
                     @if ($brandSetting)
@@ -771,14 +784,14 @@
                         <div class="form-group pt-4">
                             <label class="title-color" for="description">{{ translate('Short Description') }}
                             </label>
-                            <textarea name="short_details[]" class="summernote">{{ old('short_details') }}</textarea>
+                            <textarea name="short_details[]" class="summernote">{!! $product['short_details'] !!}</textarea>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group pt-4">
                             <label class="title-color" for="description">{{ translate('Description') }}
                             </label>
-                            <textarea name="description[]" class="summernote">{{ old('description') }}</textarea>
+                            <textarea name="description[]" class="summernote">{!! $product['details'] !!}</textarea>
                         </div>
                     </div>
                     <div class="col-12" style="padding-bottom: 15px;">
@@ -796,11 +809,20 @@
                         <button type="button" class="btn btn-primary mt-2" id="add-title-group-technical">Add
                             Title</button>
                     </div>
+
                     <div class="col-md-4">
                         <label class="form-lable">Certificate</label>
-                        <input type="file" name="certificate" id="certificate">
+                        <input type="file" name="certificate" id="certificate"
+                            accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                        @if(!empty($product->certificate))
+                            <div>
+                                <img src="/{{$product->certificate}}" 
+                                    alt="Current Certificate" 
+                                    style="max-width: 100%; height: auto; border: 1px solid #ddd; margin-top: 8px;">
+                            </div>
+                        @endif
                     </div>
-                </div>
+                                </div>
             </div>
 
             <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
@@ -1226,6 +1248,27 @@
                                     <option value="exclude" {{ $product->tax_model == 'exclude' ? 'selected' : '' }}>
                                         {{ translate('exclude_with_product') }}</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="form-group">
+                                <div class="d-flex gap-2">
+                                    <label class="title-color" for="tax">
+                                        {{ translate('tax_amount') }}(%)
+                                        <span class="input-required-icon">*</span>
+                                    </label>
+
+                                    <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
+                                        title="{{ translate('set_the_Tax_Amount_in_percentage_here') }}">
+                                        <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
+                                            alt="">
+                                    </span>
+                                </div>
+
+                                <input type="number" min="0" step="0.01"
+                                    placeholder="{{ translate('ex: 5') }}" name="tax" id="tax"
+                                    value="{{ $product->tax ?? 0 }}" class="form-control">
+                                <input name="tax_type" value="percent" class="d-none">
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4 col-xl-3 physical_product_show" id="shipping_cost">
@@ -1917,56 +1960,123 @@
         updateProductQuantity();
     </script>
     <script>
-        $('#dynamic-data-box').on('click', '.add-sub-head', function() {
-            const titleIndex = $(this).data('title-index');
-            const $subHeadsContainer = $(`.sub-heads[data-title-index="${titleIndex}"]`);
-            const subIndex = $subHeadsContainer.find('.sub-head-row').length;
-            $subHeadsContainer.append(getSubHeadRowHtml(titleIndex, subIndex));
-        });
+        const existingDynamicData = {!! $dynamicData !!};
+        const existingDynamicDataTechnical = {!! $dynamicDataTechnical !!};
+    </script>
+    <script>
+        function renderExistingDynamicData(data, containerId, isTechnical = false) {
+            console.log('populating started');
+            if (!Array.isArray(data)) return;
 
-        function getSubHeadRowHtml(titleIndex, subIndex) {
-            return `
-                <div class="row mb-2 sub-head-row">
-                    <div class="col-md-5">
-                        <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head]" class="form-control" placeholder="Sub Head">
-                    </div>
-                    <div class="col-md-5">
-                        <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
-                    </div>
-                    <div class="col-md-2 align-content-center">
-                        <button type="button" class="btn btn-danger btn-sm remove-sub-head">Remove</button>
-                    </div>
-                </div>`;
+            const container = document.getElementById(containerId);
+
+            data.forEach((group, titleIndex) => {
+                const html = isTechnical ?
+                    getTitleGroupHtmlTechnical(titleIndex) :
+                    getTitleGroupHtml(titleIndex);
+
+                container.insertAdjacentHTML('beforeend', html);
+
+                const titleInput = container.querySelector(
+                    `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][title]"]`
+                    );
+                if (titleInput) {
+                    titleInput.value = group.title || '';
+                }
+
+                const subHeadsContainer = container.querySelector(`.sub-heads[data-title-index="${titleIndex}"]`);
+                subHeadsContainer.innerHTML = ''; // Clear default first sub-head
+
+                if (group.sub_heads && Array.isArray(group.sub_heads)) {
+                    group.sub_heads.forEach((sub, subIndex) => {
+                        const subHtml = isTechnical ?
+                            getSubHeadRowHtmlTechnical(titleIndex, subIndex) :
+                            getSubHeadRowHtml(titleIndex, subIndex);
+
+                        subHeadsContainer.insertAdjacentHTML('beforeend', subHtml);
+
+                        const subHeadInput = subHeadsContainer.querySelector(
+                            `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head]"]`
+                            );
+                        const subHeadDataInput = subHeadsContainer.querySelector(
+                            `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head_data]"]`
+                            );
+
+                        if (subHeadInput) subHeadInput.value = sub.sub_head || '';
+                        if (subHeadDataInput) subHeadDataInput.value = sub.sub_head_data || '';
+                    });
+                }
+
+                if (isTechnical) {
+                    titleCountTechnical++;
+                } else {
+                    titleCount++;
+                }
+            });
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderExistingDynamicData(existingDynamicData, 'dynamic-data-box', false);
+            renderExistingDynamicData(existingDynamicDataTechnical, 'dynamic-data-box-technical', true);
+        });
+    </script>
+    <script>
+        let titleCount = 0;
 
         function getTitleGroupHtml(titleIndex) {
             return `
-            <div class="title-group border rounded p-3 mb-3">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <input type="text" name="dynamic_data[${titleIndex}][title]" class="form-control w-75" placeholder="Title">
-                    <button type="button" class="btn btn-danger btn-sm remove-title-group">Remove</button>
-                </div>
-                <div class="sub-heads" data-title-index="${titleIndex}">
-                    ${getSubHeadRowHtml(titleIndex, 0)}
-                </div>
-                <button type="button" class="btn btn-secondary btn-sm mt-2 add-sub-head" data-title-index="${titleIndex}">Add Sub Head</button>
-            </div>`;
+        <div class="title-group border p-3 mb-3">
+            <div class="mb-2 d-flex justify-content-between align-items-center gap-3">
+                <input type="text" name="dynamic_data[${titleIndex}][title]" class="form-control me-2" placeholder="Title">
+                <button type="button" class="btn btn-danger btn-sm remove-title-group">Remove</button>
+            </div>
+            <div class="sub-heads" data-title-index="${titleIndex}">
+                ${getSubHeadRowHtml(titleIndex, 0)}
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm mt-2 add-sub-head" data-title-index="${titleIndex}">Add Sub Head</button>
+        </div>
+        `;
         }
 
-        $('#dynamic-data-box').on('click', '.remove-sub-head', function() {
-            $(this).closest('.sub-head-row').remove();
+        function getSubHeadRowHtml(titleIndex, subIndex) {
+            return `
+        <div class="row mb-2 sub-head-row">
+            <div class="col-md-5">
+                <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head]" class="form-control" placeholder="Sub Head">
+            </div>
+            <div class="col-md-5">
+                <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-danger btn-sm remove-sub-head">Remove</button>
+            </div>
+        </div>`;
+        }
+
+        document.getElementById('add-title-group').addEventListener('click', function() {
+            const container = document.getElementById('dynamic-data-box');
+            container.insertAdjacentHTML('beforeend', getTitleGroupHtml(titleCount));
+            titleCount++;
         });
 
-        $('#add-title-group').click(function() {
-            let titleIndexNew =
-                {{ isset($additionalDetails) && is_array($additionalDetails) ? count($additionalDetails) : 0 }};
-            $('#dynamic-data-box').append(getTitleGroupHtml(titleIndexNew));
-            titleIndexNew++;
-        });
+        document.addEventListener('click', function(e) {
+            // Remove entire title group
+            if (e.target.classList.contains('remove-title-group')) {
+                e.target.closest('.title-group').remove();
+            }
 
-        // Remove title group
-        $('#dynamic-data-box').on('click', '.remove-title-group', function() {
-            $(this).closest('.title-group').remove();
+            // Add sub head
+            if (e.target.classList.contains('add-sub-head')) {
+                const titleIndex = e.target.getAttribute('data-title-index');
+                const subHeadsContainer = e.target.previousElementSibling;
+                const subIndex = subHeadsContainer.querySelectorAll('.sub-head-row').length;
+                subHeadsContainer.insertAdjacentHTML('beforeend', getSubHeadRowHtml(titleIndex, subIndex));
+            }
+
+            // Remove individual sub head
+            if (e.target.classList.contains('remove-sub-head')) {
+                e.target.closest('.sub-head-row').remove();
+            }
         });
     </script>
     <script>
@@ -2016,8 +2126,7 @@
 
             // Add sub head
             if (e.target.classList.contains('add-sub-head')) {
-                if ()
-                    const titleIndex = e.target.getAttribute('data-title-index');
+                const titleIndex = e.target.getAttribute('data-title-index');
                 const subHeadsContainer = e.target.previousElementSibling;
                 const subIndex = subHeadsContainer.querySelectorAll('.sub-head-row').length;
                 subHeadsContainer.insertAdjacentHTML('beforeend', getSubHeadRowHtmlTechnical(titleIndex, subIndex));

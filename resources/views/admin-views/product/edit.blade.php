@@ -811,7 +811,15 @@
                     </div>
                     <div class="col-md-4">
                         <label class="form-lable">Certificate</label>
-                        <input type="file" name="certificate" id="certificate">
+                        <input type="file" name="certificate" id="certificate"
+                            accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                        @if(!empty($product->certificate))
+                            <div>
+                                <img src="/{{$product->certificate}}" 
+                                    alt="Current Certificate" 
+                                    style="max-width: 100%; height: auto; border: 1px solid #ddd; margin-top: 8px;">
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -1239,6 +1247,27 @@
                                     <option value="exclude" {{ $product->tax_model == 'exclude' ? 'selected' : '' }}>
                                         {{ translate('exclude_with_product') }}</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="form-group">
+                                <div class="d-flex gap-2">
+                                    <label class="title-color" for="tax">
+                                        {{ translate('Tax') }}
+                                        <span class="input-required-icon">*</span>
+                                    </label>
+
+                                    <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
+                                        title="{{ translate('set_the_Tax_Amount_in_percentage_here') }}">
+                                        <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
+                                            alt="">
+                                    </span>
+                                </div>
+
+                                <input type="number" min="0" step="0.01"
+                                    placeholder="{{ translate('ex: 5') }}" name="tax" id="tax"
+                                    value="{{ $product->tax ?? 0 }}" class="form-control">
+                                <input name="tax_type" value="percent" class="d-none">
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4 col-xl-3 physical_product_show" id="shipping_cost">
@@ -1925,6 +1954,67 @@
             }, 100)
         });
         updateProductQuantity();
+    </script>
+    <script>
+        const existingDynamicData = {!! $dynamicData !!};
+        const existingDynamicDataTechnical = {!! $dynamicDataTechnical !!};
+    </script>
+    <script>
+        function renderExistingDynamicData(data, containerId, isTechnical = false) {
+            console.log('populating started');
+            if (!Array.isArray(data)) return;
+
+            const container = document.getElementById(containerId);
+
+            data.forEach((group, titleIndex) => {
+                const html = isTechnical ?
+                    getTitleGroupHtmlTechnical(titleIndex) :
+                    getTitleGroupHtml(titleIndex);
+
+                container.insertAdjacentHTML('beforeend', html);
+
+                const titleInput = container.querySelector(
+                    `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][title]"]`
+                    );
+                if (titleInput) {
+                    titleInput.value = group.title || '';
+                }
+
+                const subHeadsContainer = container.querySelector(`.sub-heads[data-title-index="${titleIndex}"]`);
+                subHeadsContainer.innerHTML = ''; // Clear default first sub-head
+
+                if (group.sub_heads && Array.isArray(group.sub_heads)) {
+                    group.sub_heads.forEach((sub, subIndex) => {
+                        const subHtml = isTechnical ?
+                            getSubHeadRowHtmlTechnical(titleIndex, subIndex) :
+                            getSubHeadRowHtml(titleIndex, subIndex);
+
+                        subHeadsContainer.insertAdjacentHTML('beforeend', subHtml);
+
+                        const subHeadInput = subHeadsContainer.querySelector(
+                            `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head]"]`
+                            );
+                        const subHeadDataInput = subHeadsContainer.querySelector(
+                            `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head_data]"]`
+                            );
+
+                        if (subHeadInput) subHeadInput.value = sub.sub_head || '';
+                        if (subHeadDataInput) subHeadDataInput.value = sub.sub_head_data || '';
+                    });
+                }
+
+                if (isTechnical) {
+                    titleCountTechnical++;
+                } else {
+                    titleCount++;
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderExistingDynamicData(existingDynamicData, 'dynamic-data-box', false);
+            renderExistingDynamicData(existingDynamicDataTechnical, 'dynamic-data-box-technical', true);
+        });
     </script>
     <script>
         let titleCount = 0;

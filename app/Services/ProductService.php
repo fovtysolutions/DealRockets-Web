@@ -15,7 +15,9 @@ class ProductService
 {
     use FileManagerTrait;
 
-    public function __construct(private readonly Color $color) {}
+    public function __construct(private readonly Color $color)
+    {
+    }
 
     public function getProcessedImages(object $request): array
     {
@@ -384,6 +386,17 @@ class ProductService
         $digitalFileOptions = $this->getDigitalVariationOptions(request: $request);
         $digitalFileCombinations = $this->getDigitalVariationCombinations(arrays: $digitalFileOptions);
 
+        if ($request->file('certificate')) {
+            $certificate = $request->file('certificate');
+            $certificateName = uniqid() . '.' . $certificate->getClientOriginalExtension();
+
+            // Move to public path
+            $certificate->move(public_path('product/certificate/'), $certificateName);
+
+            // Save relative path (to be used with asset() later)
+            $dataArray['certificate'] = 'product/certificate/' . $certificateName;
+        }
+
         return [
             'added_by' => $addedBy,
             'user_id' => $addedBy == 'admin' ? auth('admin')->id() : auth('seller')->id(),
@@ -400,7 +413,7 @@ class ProductService
             'digital_file_ready' => $digitalFile,
             'digital_file_ready_storage_type' => $digitalFile ? $storage : null,
             'product_type' => $request['product_type'],
-            'details' => $request['description'][array_search('en', $request['lang'])],
+            'details' => $request['details'][array_search('en', $request['lang'])],
             'colors' => $this->getColorsObject(request: $request),
             'choice_options' => $request['product_type'] == 'physical' ? json_encode($this->getChoiceOptions(request: $request)) : json_encode([]),
             'variation' => $request['product_type'] == 'physical' ? json_encode($variations) : json_encode([]),
@@ -470,7 +483,7 @@ class ProductService
             'lead_time_unit' => $request['lead_time_unit'] ?? null,
             'target_market' => isset($request['target_market']) ? json_encode($request['target_market']) : json_encode([]),
             'short_details' => isset($request['short_details']) ? json_encode($request['short_details']) : json_encode([]),
-            'certificate' => $request['certificate'] ?? null,
+            'certificate' => $dataArray['certificate'],
         ];
     }
 
@@ -576,10 +589,21 @@ class ProductService
             'port_of_loading' => $request['port_of_loading'] ?? null,
             'lead_time_unit' => $request['lead_time_unit'] ?? null,
             'target_market' => isset($request['target_market']) ? json_encode($request['target_market']) : json_encode([]),
-            'short_details' => isset($request['short_details']) ? json_encode($request['short_details']) : json_encode([]),
+            'short_details' => $request['short_details'] ?? '',
             'certificate' => $request['certificate'] ?? null,
             'packing_type' => $request['packing_type'] ?? null,
         ];
+
+        if ($request->file('certificate')) {
+            $certificate = $request->file('certificate');
+            $certificateName = uniqid() . '.' . $certificate->getClientOriginalExtension();
+
+            // Move to public path
+            $certificate->move(public_path('product/certificate/'), $certificateName);
+
+            // Save relative path (to be used with asset() later)
+            $dataArray['certificate'] = 'product/certificate/' . $certificateName;
+        }
 
         if ($request->file('image')) {
             $dataArray += [

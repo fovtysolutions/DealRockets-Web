@@ -7,6 +7,17 @@
 @endpush
 
 @section('content')
+    <style>
+        .nav-tabs .nav-link{
+            padding: 10px;
+            text-wrap-mode: nowrap;
+        }
+        .nav-tabs{
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            overflow-y: clip;
+        }
+    </style>
     <span class="row pt-5 pl-5"><a href="{{route('vendor.dashboard.index')}}" style="color: black; padding-right:3px;"> Home </a> / {{ $title }}</span>
 
     <div class="p-5">

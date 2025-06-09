@@ -127,7 +127,7 @@
                         <!-- Remember me and Forgot password -->
                         @include("web-views.customer-views.auth.partials._remember-me", ['forgotPassword' => true])
 
-                        <div class="manual-login-items" style="padding-bottom: 12px;">
+                        <div class="manual-login-items" style="padding-bottom: 25px;">
                             <!-- Sign Up button -->
                             <button type="submit" class="submit-btn">Sign Up</button>
                         </div>

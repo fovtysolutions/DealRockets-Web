@@ -5,256 +5,188 @@
 @push('css_or_js')
     <link rel="stylesheet"
         href="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/css/intlTelInput.css') }}">
+    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/customerregister.css') }}">
 @endpush
 
 @section('content')
-<div class="container py-4 __inline-7 text-align-direction">
-    <div class="login-card">
-        <div class="mx-auto __max-w-760">
-            <h2 class="text-center h4 mb-4 font-bold text-capitalize fs-18-mobile">{{ translate('sign_up')}}</h2>
-            <form class="needs-validation_" id="customer-register-form" action="{{ route('customer.auth.sign-up')}}"
+    <div class="customerregister mainpagesection" style="margin-top: 22px; background-color: unset;">
+        <div class="container">
+            <!-- Left Section - Red Background with Content -->
+            <div class="left-section">
+                <!-- Decorative elements -->
+                <div class="decorative-circle"></div>
+                <div class="decorative-line"></div>
+
+                <div class="content">
+                    <div class="hero-content">
+                        <h1 style="font-size: 44px; color: white;">Join the Deal Rocket Community!</h1>
+                        <p>Experience smarter shopping with exclusive deals and top-rated discounts. Sign up today and start
+                            saving instantly!</p>
+                    </div>
+
+                    <!-- Testimonial Section -->
+                    <div class="testimonial">
+                        <!-- Star Rating -->
+                        <div class="star-rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                        </div>
+
+                        <!-- Testimonial Text -->
+                        <blockquote>
+                            "Deal Rocket makes shopping so much easier! I found the best discounts in seconds. Highly
+                            recommend!"
+                        </blockquote>
+
+                        <!-- Author -->
+                        <div class="author">
+                            <div class="author-avatar">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                            </div>
+                            <div class="author-info">
+                                <div class="author-name">David B.</div>
+                                <div class="author-title">Digital Marketer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section - Sign Up Form -->
+            <div class="right-section">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h2>Welcome to Deal Rocket!</h2>
+                        <p>Sign in to unlock exclusive deals, shop smarter, and save big on your favorite products!</p>
+                    </div>
+
+                    <form class="form" id="customer-register-form" action="{{ route('customer.auth.sign-up')}}"
                 method="post">
                 @csrf
-                <input id="selectedItem" name="role" value="" type="hidden" />
-                <div class="d-flex justify-content-center align-items-center m-2">
-                    <div class="d-flex gap-3">
-                        <button class="btn" style="background-color: #3b82f6; color: white;" id="jobseeker"
-                            onclick="assignrole('jobseeker')">Job Seeker</button>
-                        <button class="btn" style="background-color: #e5e7eb; color: black;" id="findtalent"
-                            onclick="assignrole('findtalent')">Find Talent</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
+                        <!-- Role Switch -->
                         <div class="form-group">
-                            <label class="form-label font-semibold">
-                                {{ translate('first_name') }}
-                                <span class="input-required-icon">*</span>
-                            </label>
-                            <input class="form-control text-align-direction" value="{{ old('f_name') }}" type="text"
-                                name="f_name" placeholder="{{ translate('Ex') }}: {{ translate('Jhone') }}"
-                                pattern="^[A-Za-z]{1,50}$"
-                                title="First name must contain only letters and be up to 50 characters long." required>
-                            <div class="invalid-feedback">{{ translate('please_enter_your_first_name') }}!</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="form-label font-semibold">
-                                {{ translate('last_name') }}
-                                <span class="input-required-icon">*</span>
-                            </label>
-                            <input class="form-control text-align-direction" type="text" value="{{ old('l_name') }}"
-                                name="l_name" placeholder="{{ translate('Ex') }}: {{ translate('Doe') }}"
-                                pattern="^[A-Za-z]{1,50}$"
-                                title="Last name must contain only letters and be up to 50 characters long." required>
-                            <div class="invalid-feedback">{{ translate('please_enter_your_last_name') }}!</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="form-label font-semibold">
-                                {{ translate('email_address') }}
-                                <span class="input-required-icon">*</span>
-                            </label>
-                            <input class="form-control text-align-direction" type="email" value="{{ old('email') }}"
-                                name="email" placeholder="{{ translate('enter_email_address') }}" autocomplete="off"
-                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-                                title="Enter a valid email address (e.g., example@domain.com)." required>
-                            <div class="invalid-feedback">{{ translate('please_enter_valid_email_address') }}!</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="form-label font-semibold">
-                                {{ translate('phone_number') }}
-                                <span class="input-required-icon">*</span>
-                            </label>
-                            <input class="form-control text-align-direction phone-input-with-country-picker" type="tel"
-                                value="{{ old('phone') }}" name="phone"
-                                placeholder="{{ translate('enter_phone_number') }}" pattern="^\+?[1-9]\d{1,14}$"
-                                title="Enter a valid phone number, e.g., +1234567890." required>
-                            <div class="invalid-feedback">{{ translate('please_enter_valid_phone_number') }}!</div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="form-label font-semibold">
-                                {{ translate('password') }}
-                                <span class="input-required-icon">*</span>
-                                <small class="text-danger mx-1 password-error"></small>
-                            </label>
-                            <div class="password-toggle rtl">
-                                <input class="form-control text-align-direction" name="password" type="password"
-                                    id="si-passworduno" placeholder="{{ translate('minimum_8_characters_long') }}"
-                                    pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
-                                    title="Password must have at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character."
-                                    required>
-                                <label class="password-toggle-btn">
-                                    <input class="custom-control-input" type="checkbox" id="show_passworduno"><i
-                                        class="tio-hidden password-toggle-indicator"></i>
-                                    <span class="sr-only">{{ translate('show_password') }}</span>
-                                </label>
+                            <label>Sign up as</label>
+                            <div class="role-buttons">
+                                <button type="button" class="role-button" data-role="buyer">Buyer</button>
+                                <button type="button" class="role-button" data-role="supplier">Supplier</button>
+                                <button type="button" class="role-button" data-role="consultant">Consultant</button>
                             </div>
+                            <input type="hidden" name="signInAs" id="signInAs">
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="form-label font-semibold">
-                                {{ translate('confirm_password') }}
-                                <span class="input-required-icon">*</span>
-                            </label>
-                            <div class="password-toggle rtl">
-                                <input class="form-control text-align-direction" name="con_password" type="password"
-                                    placeholder="{{ translate('minimum_8_characters_long') }}" id="si-passworddos"
-                                    required>
-                                <label class="password-toggle-btn">
-                                    <input class="custom-control-input text-align-direction" type="checkbox"
-                                        id="show_passworddos">
-                                    <i class="tio-hidden password-toggle-indicator"></i>
-                                    <span class="sr-only">{{ translate('show_password') }}</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 mb-4">
-                        <div class="form-group">
-                            <label class="form-label font-semibold">
-                                {{ translate('Country') }}
-                                <span class="input-required-icon">*</span>
-                                <small class="text-danger mx-1 password-error"></small>
-                            </label>
-                        </div>
-                        @php
-                            $countries = \App\Models\Country::where('blacklist', 'no')->get();
-                        @endphp
-                        <div>
-                            <select class="form-control text-align-direction" name="country" id="country"
-                                required>
-                                <option value="" disabled selected>{{ translate('select_country') }}</option>
-                                @foreach ($countries as $country)
-                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback">{{ translate('please_select_your_country') }}!</div>
-                        </div>
-                    </div>
 
-                    {{-- <div class="col-sm-6" id="cvfield">
-                        <div class="form-group">
-                            <label class="form-label font-semibold">
-                                {{ translate('CV') }}
-                            </label>
-                            <div class="password-toggle rtl">
-                                <input class="form-control text-align-direction" name="cv" type="file" required>
-                            </div>
-                        </div>
-                    </div>
-                    --}}
-                    @if ($web_config['ref_earning_status'])
-                        <div class="col-sm-12">
+                        <!-- Name -->
+                        <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label font-semibold">{{ translate('refer_code') }} <small
-                                        class="text-muted">({{ translate('optional') }})</small></label>
-                                <input type="text" id="referral_code" class="form-control" name="referral_code"
-                                    placeholder="{{ translate('use_referral_code') }}">
+                                <label for="f_name">First Name</label>
+                                <input type="text" id="f_name" name="f_name" placeholder="Enter first name">
+                            </div>
+                            <div class="form-group">
+                                <label for="l_name">Last Name</label>
+                                <input type="text" id="l_name" name="l_name" placeholder="Enter last name">
                             </div>
                         </div>
-                    @endif
 
-                </div>
-                <div class="col-12">
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <div class="rtl">
-                                <label class="custom-control custom-checkbox m-0 d-flex">
-                                    <input type="checkbox" class="custom-control-input" name="remember"
-                                        id="inputChecked">
-                                    <span class="custom-control-label">
-                                        <span>{{ translate('i_agree_to_Your') }}</span> <a
-                                            class="font-size-sm text-primary text-force-underline" target="_blank"
-                                            href="{{ route('terms') }}">{{ translate('terms_and_condition') }}</a>
-                                    </span>
-                                </label>
+                        <!-- Email & Phone -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="text" id="phone" name="phone" placeholder="Enter your phone number">
                             </div>
                         </div>
-                        <div class="col-sm-6">
+
+                        <!-- Password & Confirm -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" placeholder="Enter password">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password">Confirm Password</label>
+                                <input type="password" id="confirm_password" name="confirm_password"
+                                    placeholder="Confirm password">
+                            </div>
+                        </div>
+
+                        <!-- Country -->
+                        <div class="form-row">
+                            <div class="form-group">
                             @php
-                                $recaptcha = getWebConfig(name: 'recaptcha');
+                                $countries = \App\Models\Country::where('blacklist', 'no')->get();
                             @endphp
-                            @if(isset($recaptcha) && $recaptcha['status'] == 1)
-                                <div id="recaptcha_element" class="w-100" data-type="image"></div>
-                                <div class="row">
-                                    <div class="col-6 pr-2">
-                                        <input type="text" class="form-control border __h-40"
-                                            name="default_recaptcha_value_customer_regi" value=""
-                                            id="customer-register-recaptcha-input"
-                                            placeholder="{{ translate('enter_captcha_value') }}" autocomplete="off">
-                                    </div>
-                                    <div class="col-6 input-icons mb-2 w-100 rounded bg-white">
-                                        <a href="javascript:"
-                                            class="d-flex align-items-center align-items-center get-regi-recaptcha-verify get-session-recaptcha-auto-fill"
-                                            data-link="{{ URL('/customer/auth/code/captcha') }}"
-                                            data-session="{{ 'default_recaptcha_id_customer_regi' }}"
-                                            data-input="#customer-register-recaptcha-input">
-                                            <img alt=""
-                                                src="{{ URL('/customer/auth/code/captcha/1?captcha_session_id=default_recaptcha_id_customer_regi') }}"
-                                                class="input-field rounded __h-40" id="default_recaptcha_id">
-                                            <i class="tio-refresh icon cursor-pointer p-2"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            @endif
+                                <label for="country">Country</label>
+                                <select class="form-control text-align-direction" name="country" id="country"
+                                required>
+                                <option value="" selected>Select a Option</option>
+                                    @foreach ($countries as $country)
+                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="preference">Preference</label>
+                                <select class="form-control text-align-direction" name="role" id="selectedItem"
+                                required>
+                                    <option value="" selected>Select a Option</option>
+                                    <option value="jobseeker">Job Seeker</option>
+                                    <option value="findtalent">Talent Finder</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="web-direction">
-                    <div class="mx-auto mt-4 __max-w-356">
-                        <button class="w-100 btn btn--primary" id="sign-up" type="submit" disabled>
-                            {{ translate('sign_up') }}
-                        </button>
-                    </div>
-                    @if($web_config['social_login_text'])
-                        <div class="text-center m-3 text-black-50">
-                            <small>{{ translate('or_continue_with') }}</small>
+                        <!-- Remember Me / Forgot -->
+                        <div class="form-row" style="justify-content: space-between;">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="rememberMe" name="rememberMe">
+                                <label for="rememberMe">Remember me</label>
+                            </div>
+                            <button type="button" class="forgot-password">Forgot password?</button>
                         </div>
-                    @endif
-                    <div class="d-flex justify-content-center my-3 gap-2">
-                        @foreach (getWebConfig(name: 'social_login') as $socialLoginService)
-                            @if (isset($socialLoginService) && $socialLoginService['status'])
-                                <div>
-                                    <a class="d-block"
-                                        href="{{ route('customer.auth.service-login', $socialLoginService['login_medium']) }}">
-                                        <img src="{{theme_asset(path: 'public/assets/front-end/img/icons/' . $socialLoginService['login_medium'] . '.png') }}"
-                                            alt="">
-                                    </a>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                    <div class="text-black-50 mt-3 text-center">
-                        <small>
-                            {{  translate('Already_have_account ') }}?
-                            <a class="text-primary text-underline" href="{{ route('customer.auth.login') }}">
-                                {{ translate('sign_in') }}
-                            </a>
-                        </small>
-                    </div>
 
+                        <!-- Submit -->
+                        <button type="submit" class="submit-btn">Sign Up</button>
+
+                        <!-- Already have account -->
+                        <div class="signup-link">
+                            Already have an account?
+                            <a type="button" href="{{ route('customer.auth.login') }}" class="link-btn">Login</a>
+                        </div>
+                    </form>
                 </div>
-
-            </form>
+            </div>
         </div>
     </div>
-</div>
 @endsection
 
 @push('script')
-    @if(isset($recaptcha) && $recaptcha['status'] == 1)
+    @if (isset($recaptcha) && $recaptcha['status'] == 1)
         <script type="text/javascript">
             "use strict";
-            var onloadCallback = function () {
+            var onloadCallback = function() {
                 grecaptcha.render('recaptcha_element', {
                     'sitekey': '{{ getWebConfig(name: 'recaptcha')['site_key'] }}'
                 });
@@ -267,56 +199,63 @@
             var roleassigner = document.getElementById('selectedItem');
             roleassigner.value = role;
         }
-        $(document).ready(function () {
+        $(document).ready(function() {
             assignrole('jobseeker');
             // When either button is clicked
-            $('#jobseeker, #findtalent').on('click', function () {
+            $('#jobseeker, #findtalent').on('click', function() {
 
                 // Reset both buttons' styles to the default
-                $('#jobseeker').css({ 'background-color': '#e5e7eb', 'color': 'black' });
-                $('#findtalent').css({ 'background-color': '#e5e7eb', 'color': 'black' });
+                $('#jobseeker').css({
+                    'background-color': '#e5e7eb',
+                    'color': 'black'
+                });
+                $('#findtalent').css({
+                    'background-color': '#e5e7eb',
+                    'color': 'black'
+                });
 
                 // Highlight the clicked button
-                $(this).css({ 'background-color': '#3b82f6', 'color': 'white' });
+                $(this).css({
+                    'background-color': '#3b82f6',
+                    'color': 'white'
+                });
             });
         });
     </script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Toggle CV Field
-            $('#jobseeker').on('click', function () {
+            $('#jobseeker').on('click', function() {
                 $('#cvfield').css('display', 'block');
             });
-            $('#findtalent').on('click', function () {
+            $('#findtalent').on('click', function() {
                 $('#cvfield').css('display', 'none');
             });
         });
     </script>
     <script>
-        $(document).ready(function () {
-            $('#show_passworduno').on('click', function () {
+        $(document).ready(function() {
+            $('#show_passworduno').on('click', function() {
                 var password_field = $('#si-passworduno');
                 var password_type = password_field.attr('type');
 
                 if (password_type == 'password') {
                     $('#si-passworduno').attr('type', 'text');
-                }
-                else {
+                } else {
                     $('#si-passworduno').attr('type', 'password');
                 }
             });
         });
     </script>
     <script>
-        $(document).ready(function () {
-            $('#show_passworddos').on('click', function () {
+        $(document).ready(function() {
+            $('#show_passworddos').on('click', function() {
                 var password_field = $('#si-passworddos');
                 var password_type = password_field.attr('type');
 
                 if (password_type == 'password') {
                     $('#si-passworddos').attr('type', 'text');
-                }
-                else {
+                } else {
                     $('#si-passworddos').attr('type', 'password');
                 }
             });
@@ -324,4 +263,16 @@
     </script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
+    <script>
+        const roleButtons = document.querySelectorAll('.role-button');
+        const roleInput = document.getElementById('signInAs');
+
+        roleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                roleButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                roleInput.value = button.getAttribute('data-role');
+            });
+        });
+    </script>
 @endpush

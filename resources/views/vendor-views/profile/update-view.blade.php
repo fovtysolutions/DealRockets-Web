@@ -24,8 +24,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-3">
+        <div class="row" style="display: flex; flex-direction: column;">
+            <div class="col-lg-12">
                 <div class="navbar-vertical navbar-expand-lg mb-3 mb-lg-5">
                     <button type="button" class="navbar-toggler btn btn-block btn-white mb-3"
                         aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarVerticalNavMenu"
@@ -42,21 +42,21 @@
                     </button>
 
                     <div id="navbarVerticalNavMenu" class="collapse navbar-collapse">
-                        <ul id="navbarSettings"
+                        <ul id="navbarSettings" style="display: flex; flex-direction: row;"
                             class="js-sticky-block js-scrollspy navbar-nav navbar-nav-lg nav-tabs card card-navbar-nav p-3">
-                            <li class="nav-item">
+                            <li class="nav-item" style="width: 33%;">
                                 <a class="nav-link active d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
                                     id="general-section">
                                     <i class="tio-user-outlined nav-icon"></i>{{ translate('basic_Information') }}
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
+                            <li class="nav-item" style="width: 33%;">
+                                <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="#password-div"
                                     id="password-section">
                                     <i class="tio-lock-outlined nav-icon"></i> {{ translate('password') }}
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" style="width: 33%;">
                                 <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="#details-div"
                                     id="details-section">
                                     <i class="tio-info-outined nav-icon"></i> {{ translate('details') }}
@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-9">
+            <div class="col-lg-12">
                 <form action="{{ route('vendor.profile.update', [$vendor->id]) }}" method="post"
                     enctype="multipart/form-data" id="update-profile-form">
                     @csrf

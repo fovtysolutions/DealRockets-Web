@@ -72,7 +72,7 @@
                     @endif
                     @if (\App\Utils\ChatManager::checkStatusSupplier() == 1)
                         <ul class="navbar-nav navbar-nav-lg nav-tabs">
-                            <li class="nav-item-button-sidebar {{ Request::is('vendor/dashboard*') ? 'active' : '' }}"  style="border-top: 4px solid rgb(255 0 0) !important;">
+                            <li class="nav-item-button-sidebar {{ Request::is('vendor/dashboard*') ? 'active' : '' }}"  style="border-top: 2px solid rgb(195 195 195) !important;">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.dashboard.index') }}">
                                     <i class="fa-solid fa-border-all sidebar-icon"></i>
@@ -175,7 +175,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item-button-sidebar {{ Request::is('vendor/subcard/analytics') ? 'active' : '' }}" style="border-bottom: 4px solid rgb(255 0 0) !important;">
+                            <li class="nav-item-button-sidebar {{ Request::is('vendor/subcard/analytics') ? 'active' : '' }}" style="border-bottom: 2px solid rgb(195 195 195) !important;">
                                 <a href="javascript:void(0);"
                                     class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('reports_&_analytics') }}">
@@ -344,7 +344,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item-button-sidebar {{ Request::is('vendor/subcard/marketplace') ? 'active' : '' }}" style="border-bottom: 4px solid rgb(255 0 0) !important;">
+                            <li class="nav-item-button-sidebar {{ Request::is('vendor/subcard/marketplace') ? 'active' : '' }}" style="border-bottom: 2px solid rgb(195 195 195) !important;">
                                 <a href="javascript:void(0);"
                                     class="nav-link text-capitalize toggle-dropdown sidebar-link"
                                     title="{{ translate('Marketplace') }}">
@@ -408,7 +408,7 @@
                                     </span>
                                 </a>
                             </li>
-                            <li style="border-bottom: 4px solid rgb(255 0 0) !important;"
+                            <li style="border-bottom: 2px solid rgb(195 195 195) !important;"
                                 class="nav-item-button-sidebar {{ Request::is('vendor/subcard/settings') ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                     href="{{ route('vendor.subcard', ['slug' => 'settings']) }}">

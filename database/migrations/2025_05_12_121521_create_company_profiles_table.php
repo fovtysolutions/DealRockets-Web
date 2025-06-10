@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('total_capitalization')->nullable();
             $table->year('year_established')->nullable();
             $table->string('total_employees')->nullable();
-            $table->json('company_certificates')->nullable();
-            $table->json('product_certificates')->nullable();
+            $table->string('company_certificates')->nullable();
+            $table->string('product_certificates')->nullable();
             $table->string('business_type')->nullable();
 
             // Trading Capabilities

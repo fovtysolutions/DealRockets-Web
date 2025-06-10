@@ -166,6 +166,10 @@
                     <div class="product-list" id="productList" style="display: none;">
                         @include('web-views.products.partials.dynamic-product-list')
                     </div>
+
+                    <div id="paginationControls">
+                        {{ $products->links('custom-paginator.custom') }}
+                    </div>
                 </div>
             </div>
         </main>

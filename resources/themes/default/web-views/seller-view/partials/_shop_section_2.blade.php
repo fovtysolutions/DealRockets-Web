@@ -144,6 +144,10 @@
                 <div class="product-list" id="productList" style="display: none;">
                     @include('web-views.products.partials.dynamic-product-list')
                 </div>
+
+                <div id="paginationControls">
+                    {{ $products->links('custom-paginator.custom') }}
+                </div>
             </div>
         </div>
     </main>
@@ -183,6 +187,7 @@
         </aside>
     </div>
 </section>
+<input type="hidden" value="{{ route('product-dynamic',['productAddedBy'=> $seller]) }}" id="urlroute">
 <script src="{{ theme_asset(path: 'public/js/product-list.js') }}"></script>
 
 <script>
@@ -225,9 +230,10 @@
         $("#dynamicLoader").css("display", "block");
 
         filters.page = page;
+        var url = document.getElementById('urlroute').value;
 
         $.ajax({
-            url: "{{ route('product-dynamic') }}",
+            url: url,
             method: "GET",
             data: filters,
             success: function(response) {

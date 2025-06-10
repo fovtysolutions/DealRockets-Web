@@ -77,7 +77,7 @@ class ShopViewController extends Controller
             'minimum_order_amount' => $shopId == 0 ? getWebConfig(name: 'minimum_order_amount') : $shop->seller->minimum_order_amount,
             'seller_details' => $shopId == 0 ? Admin::find(1) : Seller::find($shop?->seller_id),
             'company_profiles' => $shopId == 0 ? CompanyProfile::find(0) : CompanyProfile::where('seller',$shop?->seller_id)->first(),
-            'company_certificates' => $shopId = 0 ? json_decode(CompanyProfile::find(0)->company_certificates,true) : json_decode(CompanyProfile::where('seller',$shop?->seller_id)->first()->company_certificates,true),
+            'certificates' => $shopId = 0 ? json_decode(CompanyProfile::find(0)->certificates,true) : json_decode(CompanyProfile::where('seller',$shop?->seller_id)->first()->certificates,true),
             'images' => $shopId = 0 ? json_decode(CompanyProfile::find(0)->images,true) : json_decode(CompanyProfile::where('seller',$shop?->seller_id)->first()->images,true),
         ];
     }
@@ -125,7 +125,7 @@ class ShopViewController extends Controller
         $shopPublishingHouses = ProductManager::getPublishingHouseList(productIds: $shopAllProducts->pluck('id')->toArray(), vendorId: $productUserID);
         $digitalProductAuthors = ProductManager::getProductAuthorList(productIds: $shopAllProducts->pluck('id')->toArray(), vendorId: $productUserID);
         $shopInfoArray = self::getShopInfoArray(shopId: $id, shopProducts: $shopAllProducts, sellerType: $productAddedBy, sellerId: $productUserID);
-        
+        $seller_id = Shop::where('id', $id)->first()->seller_id;
         $data = self::getProductListRequestData(request: $request);
         if ($request['data_from'] == 'category' && $request['category_id']) {
             $category = Category::find((int)$request['category_id']);
@@ -152,7 +152,7 @@ class ShopViewController extends Controller
         }
 
 
-        $productListData = ProductManager::getProductListData(request: $request);
+        $productListData = ProductManager::getProductListData(request: $request,productAddedBy: $seller_id);
         $products = $productListData->paginate(20)->appends($request->all());
 
         $productsCountries = Product::select('origin')->distinct()->pluck('origin');
@@ -167,6 +167,7 @@ class ShopViewController extends Controller
             'countries' => $countries,
             'categories' => $categories,
             'seller_id' => $id,
+            'seller' => $seller_id,
             'activeBrands' => $brands,
             'shopInfoArray' => $shopInfoArray,
             'shopPublishingHouses' => $shopPublishingHouses,

@@ -36,7 +36,7 @@
         $decimalPointSettings = getWebConfig(name: 'decimal_point_settings');
     @endphp
 
-    <div class="main-container vender-company">
+    <div class="main-container vender-company" style="margin-bottom: 20px;">
         <!-- Header -->
         <header class="header">
             <div class="header-left">
@@ -106,10 +106,10 @@
             @include('web-views.seller-view.partials._shop_section_2')
         </div>
         <div class="section-3 d-none">
-
+            @include('web-views.seller-view.partials._shop_section_3')
         </div>
         <div class="section-4 d-none">
-
+            @include('web-views.seller-view.partials._shop_section_4')
         </div>
     </div>
 
@@ -200,5 +200,32 @@
         function sendtologin() {
             window.location.href = '/customer/auth/login';
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.navbar .nav-item');
+            const sections = document.querySelectorAll('[class^="section-"]');
+
+            navItems.forEach((item, index) => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Remove active class from all nav items
+                    navItems.forEach(nav => nav.classList.remove('nav-active'));
+
+                    // Add active class to clicked item
+                    this.classList.add('nav-active');
+
+                    // Hide all sections
+                    sections.forEach(section => section.classList.add('d-none'));
+
+                    // Show corresponding section (section-1, section-2, etc.)
+                    const targetSection = document.querySelector(`.section-${index + 1}`);
+                    if (targetSection) {
+                        targetSection.classList.remove('d-none');
+                    }
+                });
+            });
+        });
     </script>
 @endpush

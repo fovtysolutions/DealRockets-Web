@@ -38,7 +38,7 @@
                 </div>
             </div>
             <h3 class="product-title">{{ $item->name }}</h3>
-            <div class="product-price">${{ $item->unit_price }}</div>
+            <div class="product-price">${{ number_format($item->unit_price,2,'.',',') }}</div>
             <div class="product-moq">MOQ: {{ $item->minimum_order_qty }} {{ $item->unit }}</div>
             @php
                 if ($item->added_by == 'seller') {

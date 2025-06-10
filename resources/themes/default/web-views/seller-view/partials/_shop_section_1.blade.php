@@ -39,17 +39,15 @@
                 Inquire Now
             </button>
             <div class="certificates">
-                @foreach ($shopInfoArray['company_certificates'] as $item)
+                @foreach ($shopInfoArray['certificates'] as $item)
                     <img src="/storage/{{ $item }}" alt="Cert" />
                 @endforeach
             </div>
         </div>
     </div>
     <div class="gallery">
-        @foreach ($shopInfoArray['company_certificates'] as $item)
-            <div>
-                <img src="/storage/{{ $item }}" class="side-image" />
-            </div>
+        @foreach ($shopInfoArray['images'] as $item)
+            <img src="/storage/{{ $item }}" class="side-image" />
         @endforeach
     </div>
 </section>
@@ -103,7 +101,7 @@
                         </span>
                     </div>
                     <h3 class="top-product-title">{{ $item->name }}</h3>
-                    <div class="top-product-price">US$ {{ $item->unit_price }} / {{ $item->unit }}</div>
+                    <div class="top-product-price">US$ {{ number_format($item->unit_price,2,'.',',') }} / {{ $item->unit }}</div>
                     <div class="top-product-moq">{{ $item->minimum_order_qty }} {{ $item->unit }} (MOQ)
                     </div>
                     @php

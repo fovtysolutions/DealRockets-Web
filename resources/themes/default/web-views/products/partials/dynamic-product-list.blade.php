@@ -40,7 +40,7 @@
                 </div>
             </div>
             <h3 class="product-title product-title1">{{ $item->name }}</h3>
-            <div class="product-price product-price1" style="font-size:12px !important">${{ $item->unit_price }}</div>
+            <div class="product-price product-price1" style="font-size:12px !important">${{ number_format($item->unit_price,2,'.',',') }}</div>
             <div class="product-moq product-moq1">MOQ: {{ $item->minimum_order_qty }} {{ $item->unit }}</div>
             @php
                 if ($item->added_by == 'seller') {

@@ -65,33 +65,13 @@
     </div>
     <div class="col-md-6">
         <label class="form-label">{{ translate('Company Certificates') }}</label>
-        <input type="file" class="form-control" name="company_certificates[]" multiple>
-        @if (!empty($cp->company_certificates) && isset($cp))
-            @php
-                $imagesArray = json_decode($cp->company_certificates, true);
-            @endphp
-            <div class="mt-3 mb-2">
-                @foreach ($imagesArray as $item)
-                    <img src="{{ theme_asset('storage/' . $item) }}" alt="image"
-                        style="height: 150px; width: 150px;">
-                @endforeach
-            </div>
-        @endif
+        <input type="text" class="form-control" name="company_certificates"
+            value="{{ $cp->company_certificates ?? '' }}">
     </div>
     <div class="col-md-6">
         <label class="form-label">{{ translate('Product Certificates') }}</label>
-        <input type="file" class="form-control" name="product_certificates[]" multiple>
-        @if (!empty($cp->product_certificates) && isset($cp))
-            @php
-                $imagesArray = json_decode($cp->product_certificates, true);
-            @endphp
-            <div class="mt-3 mb-2">
-                @foreach ($imagesArray as $item)
-                    <img src="{{ theme_asset('storage/' . $item) }}" alt="image"
-                        style="height: 150px; width: 150px;">
-                @endforeach
-            </div>
-        @endif
+        <input type="text" class="form-control" name="product_certificates"
+            value="{{ $cp->product_certificates ?? '' }}">
     </div>
     <div class="col-12">
         <label class="form-label">{{ translate('Business Type') }}</label>

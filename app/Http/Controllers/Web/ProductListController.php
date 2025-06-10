@@ -152,7 +152,7 @@ class ProductListController extends Controller
         ]);
     }
 
-    public function dynamicProduct(Request $request)
+    public function dynamicProduct(Request $request,$productAddedBy = null)
     {
         $query = Product::query();
 
@@ -160,6 +160,11 @@ class ProductListController extends Controller
 
         // Always fetch only active products
         $query->where('status', 1);
+
+        if ($request->filled('productAddedBy')) {
+            $query->where('added_by', 'seller');
+            $query->where('user_id', $request->input('productAddedBy')); // Use your actual column name here
+        }
 
         // Filter by searchInput (e.g. top search bar)
         if ($request->filled('searchInput')) {

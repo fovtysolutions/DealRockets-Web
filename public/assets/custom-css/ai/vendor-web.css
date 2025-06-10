@@ -764,6 +764,7 @@ body {
 
 .vender-company .product-card {
   /* width: 19%; */
+  position: relative;
   font-size: 14px;
   box-shadow: none;
 }
@@ -891,8 +892,25 @@ body {
 
 .vender-company .product-image {
   width: 100%;
-
+  aspect-ratio: 1/1;
   object-fit: cover;
+}
+
+.vender-company .dimond-img{
+    aspect-ratio: 1 / 1;
+    width: 25px;
+}
+
+.vender-company .heart-img{
+    aspect-ratio: 1 / 1;
+    width: 25px;
+    position: absolute;
+    right: 12px;
+    padding: 6px;
+    top: 11px;
+    z-index: 100;
+    background: white;
+    border-radius: 100px;
 }
 
 .vender-company .product-info {

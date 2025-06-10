@@ -185,64 +185,17 @@
     <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('signUpForm');
-            const signInAsSelect = document.getElementById('signInAs');
-            const fullNameInput = document.getElementById('fullName');
-            const passwordInput = document.getElementById('password');
-            const rememberMeCheckbox = document.getElementById('rememberMe');
-
-            // Form data object to store current values
-            const formData = {
-                signInAs: '',
-                fullName: '',
-                password: '',
-                rememberMe: false
-            };
-
-            // Handle form input changes
-            function handleInputChange(field, value) {
-                formData[field] = value;
-                console.log('Form data updated:', formData);
+        var form = $('#customer-login-form');
+        $('#signInAs').on('change',function () {
+            if (this.value == 'buyer'){
+                form.attr('action',"{{ route('customer.auth.login') }}");
+            } else if (this.value == 'supplier'){
+                form.attr('action',"{{ route('vendor.auth.login') }}");
+            } else if (this.value == 'consultant') {
+                form.attr('action',"{{ route('customer.auth.login') }}");
+            } else {
+                form.attr('action','#');
             }
-
-            // Add event listeners
-            signInAsSelect.addEventListener('change', function() {
-                handleInputChange('signInAs', this.value);
-            });
-
-            fullNameInput.addEventListener('input', function() {
-                handleInputChange('fullName', this.value);
-            });
-
-            passwordInput.addEventListener('input', function() {
-                handleInputChange('password', this.value);
-            });
-
-            rememberMeCheckbox.addEventListener('change', function() {
-                handleInputChange('rememberMe', this.checked);
-            });
-
-            // Handle form submission
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                console.log('Form submitted:', formData);
-
-                // You can add your form submission logic here
-                alert('Form submitted! Check the console for form data.');
-            });
-
-            // Handle forgot password click
-            const forgotPasswordBtn = document.querySelector('.forgot-password');
-            forgotPasswordBtn.addEventListener('click', function() {
-                alert('Forgot password functionality would be implemented here.');
-            });
-
-            // Handle sign up link click
-            const signUpLinkBtn = document.querySelector('.link-btn');
-            signUpLinkBtn.addEventListener('click', function() {
-                alert('Sign up page would be opened here.');
-            });
         });
     </script>
 @endpush

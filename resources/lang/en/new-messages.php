@@ -9485,4 +9485,7 @@ return [
 	"Other Details" => "Other Details",
 	"Create FAQ" => "Create FAQ",
 	"Add New FAQ" => "Add New FAQ",
+	"Info Page" => "Info Page",
+	"The shop name field is required" => "The shop name field is required",
+	"The shop address field is required" => "The shop address field is required",
 ];

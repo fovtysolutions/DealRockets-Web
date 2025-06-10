@@ -1,0 +1,288 @@
+.progress-form-main .container {
+    /* max-width: 800px; */
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 0px 75px;
+}
+
+/* Progress Steps */
+.progress-form-main .progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px 20px;
+    background: #f8fafc;
+}
+
+.progress-form-main .step {
+    display: flex;
+    align-items: center;
+}
+
+.progress-form-main .step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    background: #e2e8f0;
+    color: #64748b;
+    transition: all 0.3s ease;
+}
+
+.progress-form-main .step.active .step-circle {
+    background: #ef4444;
+    color: white;
+}
+
+.progress-form-main .step-line {
+    width: 100%;
+    height: 2px;
+    background: #e2e8f0;
+    margin: 0 10px;
+}
+
+/* Form Header */
+.progress-form-main .form-header {
+    text-align: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.progress-form-main .form-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #ef4444;
+    margin-bottom: 8px;
+}
+
+.progress-form-main .form-header p {
+    color: #64748b;
+    font-size: 16px;
+}
+
+/* Form Styles */
+.progress-form-main .quotation-form {
+    padding: 40px;
+}
+
+.progress-form-main .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.progress-form-main .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.progress-form-main .form-group:not(.form-row .form-group) {
+    margin-bottom: 20px;
+}
+
+.progress-form-main label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #374151;
+    font-size: 14px;
+}
+
+.progress-form-main input,
+.progress-form-main select,
+.progress-form-main textarea {
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    background: white;
+}
+
+.progress-form-main input:focus,
+.progress-form-main select:focus,
+.progress-form-main textarea:focus {
+    outline: none;
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.progress-form-main input::placeholder,
+.progress-form-main textarea::placeholder {
+    color: #9ca3af;
+}
+
+.progress-form-main select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+.progress-form-main textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Form Actions */
+.progress-form-main .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.progress-form-main .next-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+.progress-form-main .next-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.progress-form-main .next-btn:active {
+    transform: translateY(0);
+}
+
+.progress-form-main .prev-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+.progress-form-main .prev-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.progress-form-main .prev-btn:active {
+    transform: translateY(0);
+}
+
+.progress-form-main .submit-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+.progress-form-main .submit-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.progress-form-main .submit-btn:active {
+    transform: translateY(0);
+}
+
+.progress-form-main .step-section{
+    padding-top: 20px;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .progress-form-main .container {
+        margin: 10px;
+        border-radius: 8px;
+    }
+
+    .progress-form-main .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .progress-form-main .quotation-form {
+        padding: 20px;
+    }
+
+    .progress-form-main .form-header {
+        padding: 20px;
+    }
+
+    .progress-form-main .form-header h1 {
+        font-size: 24px;
+    }
+
+    .progress-form-main .progress-container {
+        padding: 20px 10px 15px;
+    }
+
+    .progress-form-main .step-line {
+        width: 60px;
+        margin: 0 5px;
+    }
+
+    .progress-form-main .step-circle {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+}
+
+/* Form Validation Styles */
+.progress-form-main .form-group.error input,
+.progress-form-main .form-group.error select,
+.progress-form-main .form-group.error textarea {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.progress-form-main .error-message {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+}
+
+.progress-form-main .form-group.error .error-message {
+    display: block;
+}
+
+/* Loading State */
+.progress-form-main .next-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.progress-form-main .next-btn:disabled:hover {
+    background: #9ca3af;
+    transform: none;
+    box-shadow: none;
+}

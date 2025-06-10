@@ -1,198 +1,587 @@
-<div class="second-el d--none">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 mb-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="mb-4">{{translate('create_an_account')}}</h3>
-                        <div class="border p-3 p-xl-4 rounded">
-                            <h4 class="mb-3">{{translate('vendor_information')}}</h4>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group mb-4">
-                                        <label for="f_name">{{translate('first_name')}} <span
-                                                class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" name="f_name"
-                                            placeholder="{{translate('ex') . ': John'}}" required>
-                                    </div>
-                                    <div class="form-group mb-4">
-                                        <label for="l_name">{{translate('last_name')}} <span
-                                                class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" name="l_name"
-                                            placeholder="{{translate('ex') . ': Doe'}}" required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="d-flex flex-column gap-3 align-items-center">
-                                        <div class="upload-file">
-                                            <input type="file" class="upload-file__input" name="image" accept="image/*"
-                                                required>
-                                            <div class="upload-file__img">
-                                                <div class="temp-img-box">
-                                                    <div class="d-flex align-items-center flex-column gap-2">
-                                                        <i class="tio-upload fs-30"></i>
-                                                        <div class="fs-12 text-muted text-capitalize">
-                                                            {{translate('upload_file')}}</div>
-                                                    </div>
-                                                </div>
-                                                <img src="#" class="dark-support img-fit-contain border" alt="" hidden>
-                                            </div>
-                                        </div>
+@extends('layouts.front-end.app')
 
-                                        <div class="d-flex flex-column gap-1 upload-img-content text-center">
-                                            <h6 class="text-uppercase mb-1 fs-14">{{translate('vendor_image')}}</h6>
-                                            <div class="text-muted text-capitalize fs-12">
-                                                {{translate('image_ratio') . ' ' . '1:1'}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+@section('title', translate('Info Page'))
 
-                        <div class="border p-3 p-xl-4 rounded mt-4">
-                            <h4 class="mb-3 text-capitalize">{{translate('shop_information')}}</h4>
+@push('css_or_js')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ theme_asset('public/assets/custom-css/progress-form.css') }}">
+@endpush
 
-                            <div class="form-group mb-4">
-                                <label for="store_name" class="text-capitalize">{{translate('shop_Name')}} <span
-                                        class="text-danger">*</span></label>
-                                <input class="form-control" type="text" id="shop_name" name="shop_name"
-                                    placeholder="{{translate('Ex: XYZ store')}}" required>
-                            </div>
-                            <div class="form-group mb-4">
-                                <label for="store_address" class="text-capitalize">{{translate('shop_address')}} <span
-                                        class="text-danger">*</span></label>
-                                <textarea class="form-control" name="shop_address" id="shop_address" rows="4"
-                                    placeholder="{{translate('shop_address')}}" required></textarea>
-                            </div>
-                            @php 
-                                $countries = \App\Models\Country::where('blacklist', 'no')->get();
-                            @endphp
-                            <div class="form-group mb-4">
-                                <label for="country" class="text-capitalize">{{translate('country')}} <span
-                                        class="text-danger">*</span></label>
-                                <select class="form-control form-control-user" id="country" name="country"
-                                    data-placeholder="{{translate('select_country')}}" required>
-                                    <option value="">{{translate('select_country')}}</option>
-                                    @foreach ($countries as $country)
-                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group mb-4">
-                                <label for="shop_membership"
-                                    class="title-color d-flex gap-1 align-items-center">{{ translate('Membership') }}</label>
-                                <select class="form-control form-control-user" id="shop_membership"
-                                    name="shop_membership" required>
-                                    <option value="Free" selected>{{ translate('Free') }}</option>
-                                </select>
-                            </div>
-                            <div class="form-group mb-4">
-                                <label for="shop_years"
-                                    class="title-color d-flex gap-1 align-items-center">{{translate('Years in Business')}}</label>
-                                <input type="number" class="form-control form-control-user" id="shop_years"
-                                    name="shop_years" placeholder="{{translate('ex') . ':' . translate('2')}}"
-                                    value="{{old('shop_years')}}" required>
-                            </div>
-
-                            <div class="border p-3 p-xl-4 rounded mb-4">
-                                <div class="d-flex flex-column gap-3 align-items-center">
-                                    <div class="upload-file">
-                                        <input type="file" class="upload-file__input" name="logo" accept="image/*"
-                                            required>
-                                        <div class="upload-file__img">
-                                            <div class="temp-img-box">
-                                                <div class="d-flex align-items-center flex-column gap-2">
-                                                    <i class="tio-upload fs-30"></i>
-                                                    <div class="fs-12 text-muted text-capitalize">
-                                                        {{translate('upload_file')}}</div>
-                                                </div>
-                                            </div>
-                                            <img src="#" class="dark-support img-fit-contain border" alt="" hidden>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex flex-column gap-1 upload-img-content text-center">
-                                        <h6 class="text-uppercase mb-1 fs-14">{{translate('upload_logo')}}</h6>
-                                        <div class="text-muted text-capitalize fs-12">
-                                            {{translate('image_ratio') . ' ' . '1:1'}}</div>
-                                        <div class="text-muted text-capitalize fs-12">
-                                            {{translate('Image Size : Max 2 MB')}}</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="border p-3 p-xl-4 rounded">
-                                <div class="d-flex flex-column gap-3 align-items-center">
-                                    <div class="upload-file">
-                                        <input type="file" class="upload-file__input" name="banner" accept="image/*"
-                                            required>
-                                        <div class="upload-file__img style--two">
-                                            <div class="temp-img-box">
-                                                <div class="d-flex align-items-center flex-column gap-2">
-                                                    <i class="tio-upload fs-30"></i>
-                                                    <div class="fs-12 text-muted text-capitalize">
-                                                        {{translate('upload_file')}}</div>
-                                                </div>
-                                            </div>
-                                            <img src="#" class="dark-support img-fit-contain border" alt="" hidden>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex flex-column gap-1 upload-img-content text-center">
-                                        <h6 class="text-uppercase mb-1 fs-14">{{translate('upload_banner')}}</h6>
-                                        <div class="text-muted text-capitalize fs-12">
-                                            {{translate('image_ratio') . ' ' . '2:1'}}</div>
-                                        <div class="text-muted text-capitalize fs-12">
-                                            {{translate('Image Size : Max 2 MB')}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @php($recaptcha = getWebConfig(name: 'recaptcha'))
-                        @if(isset($recaptcha) && $recaptcha['status'] == 1)
-                            <div id="recaptcha-element-vendor-register" class="w-100 pt-2" data-type="image"></div>
-                            <div class="mt-2">
-                                <div class="row py-2">
-                                    <div class="col-6 pr-0">
-                                        <input type="text" class="form-control __h-40"
-                                            name="default_recaptcha_id_seller_regi"
-                                            id="default-recaptcha-id-vendor-register" value=""
-                                            placeholder="{{translate('enter_captcha_value')}}" autocomplete="off" required>
-                                    </div>
-                                    <div class="col-6 input-icons mb-2 w-100 rounded bg-white">
-                                        <span
-                                            class="d-flex align-items-center align-items-center get-vendor-regi-recaptcha-verify"
-                                            data-link="{{ route('vendor.auth.recaptcha', ['tmp' => ':dummy-id']) }}">
-                                            <img src="{{ route('vendor.auth.recaptcha', ['tmp' => 1]) . '?captcha_session_id=vendorRecaptchaSessionKey' }}"
-                                                alt="" class="rounded __h-40" id="default_recaptcha_id">
-                                            <i class="tio-refresh position-relative cursor-pointer p-2"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        @else
-                            {{-- Show Nothing --}}
-                        @endif
-                        <div class="d-flex justify-content-start mt-2">
-                            <label class="custom-checkbox align-items-center">
-                                <input type="checkbox" class="" id="terms-checkbox">
-                                <span class="form-check-label">{{ translate('i_agree_with_the') }} <a
-                                        href="{{route('terms')}}" target="_blank"
-                                        class="text-underline color-bs-primary-force">
-                                        {{ translate('terms_&_conditions') }}
-                                    </a>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="d-flex justify-content-end mb-2 gap-2">
-                            <button type="button" class="btn btn-secondary back-to-main-page"> {{translate('back')}}
-                            </button>
-                            <button type="button" class="btn btn--primary" id="vendor-apply-submit" disabled="disabled">
-                                {{translate('submit')}} </button>
-                        </div>
-                    </div>
+@section('content')
+    <div class="second-el progress-form-main">
+        <div class="container">
+            <!-- Progress Steps -->
+            <div class="progress-container">
+                <div class="step active">
+                    <div class="step-circle">1</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-circle">2</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-circle">3</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-circle">4</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-circle">5</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-circle">6</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-circle">7</div>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-circle">8</div>
                 </div>
             </div>
+
+            <!-- Form Header -->
+            <div class="form-header">
+                <h1>Vendor Registration</h1>
+                <p>Fill in the required details to get started</p>
+            </div>
+
+            <form id="quotation-form" class="quotation-form" action="{{ route('vendor.auth.registration.index') }}"
+                method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="step-section" data-step="1">
+                    <h4>Shop Information</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" value="{{ $email }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" name="phone" value="{{ $phone }}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="text" name="password" value="{{ $password }}" readonly>
+                            <input type="hidden" name="confirm_password" value="{{ $confirm_password}}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="vendor_type" value="{{ $vendor_type }}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" name="f_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="l_name" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Image</label>
+                            <div class="upload-file">
+                                <input type="file" class="upload-file__input" name="image" accept="image/*" required>
+                                <div class="upload-file__img">
+                                    <div class="temp-img-box">
+                                        <div class="d-flex align-items-center flex-column gap-2">
+                                            <i class="tio-upload fs-30"></i>
+                                            <div class="fs-12 text-muted text-capitalize">
+                                                {{ translate('upload_file') }}</div>
+                                        </div>
+                                    </div>
+                                    <img src="#" class="dark-support img-fit-contain border" alt="" hidden>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="store_name" class="text-capitalize">{{ translate('shop_Name') }} <span
+                                    class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="shop_name" name="shop_name"
+                                placeholder="{{ translate('Ex: XYZ store') }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="store_address" class="text-capitalize">{{ translate('shop_address') }} <span
+                                    class="text-danger">*</span></label>
+                            <textarea class="form-control" name="shop_address" id="shop_address" rows="4"
+                                placeholder="{{ translate('shop_address') }}" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group mb-4">
+                            <label for="shop_membership"
+                                class="title-color d-flex gap-1 align-items-center">{{ translate('Membership') }}</label>
+                            <select class="form-control form-control-user" id="shop_membership" name="shop_membership"
+                                required>
+                                <option value="Free" selected>{{ translate('Free') }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="shop_years"
+                                class="title-color d-flex gap-1 align-items-center">{{ translate('Years in Business') }}</label>
+                            <input type="number" class="form-control form-control-user" id="shop_years"
+                                name="shop_years" placeholder="{{ translate('ex') . ':' . translate('2') }}"
+                                value="{{ old('shop_years') }}" required>
+                        </div>
+                    </div>
+                    <div class="border p-3 p-xl-4 rounded mb-4">
+                        <div class="d-flex flex-column gap-3 align-items-center">
+                            <div class="upload-file">
+                                <input type="file" class="upload-file__input" name="logo" accept="image/*"
+                                    required>
+                                <div class="upload-file__img">
+                                    <div class="temp-img-box">
+                                        <div class="d-flex align-items-center flex-column gap-2">
+                                            <i class="tio-upload fs-30"></i>
+                                            <div class="fs-12 text-muted text-capitalize">
+                                                {{ translate('upload_file') }}</div>
+                                        </div>
+                                    </div>
+                                    <img src="#" class="dark-support img-fit-contain border" alt=""
+                                        hidden>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-column gap-1 upload-img-content text-center">
+                                <h6 class="text-uppercase mb-1 fs-14">{{ translate('upload_logo') }}</h6>
+                                <div class="text-muted text-capitalize fs-12">
+                                    {{ translate('image_ratio') . ' ' . '1:1' }}</div>
+                                <div class="text-muted text-capitalize fs-12">
+                                    {{ translate('Image Size : Max 2 MB') }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border p-3 p-xl-4 rounded">
+                        <div class="d-flex flex-column gap-3 align-items-center">
+                            <div class="upload-file">
+                                <input type="file" class="upload-file__input" name="banner" accept="image/*"
+                                    required>
+                                <div class="upload-file__img style--two">
+                                    <div class="temp-img-box">
+                                        <div class="d-flex align-items-center flex-column gap-2">
+                                            <i class="tio-upload fs-30"></i>
+                                            <div class="fs-12 text-muted text-capitalize">
+                                                {{ translate('upload_file') }}</div>
+                                        </div>
+                                    </div>
+                                    <img src="#" class="dark-support img-fit-contain border" alt=""
+                                        hidden>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-column gap-1 upload-img-content text-center">
+                                <h6 class="text-uppercase mb-1 fs-14">{{ translate('upload_banner') }}</h6>
+                                <div class="text-muted text-capitalize fs-12">
+                                    {{ translate('image_ratio') . ' ' . '2:1' }}</div>
+                                <div class="text-muted text-capitalize fs-12">
+                                    {{ translate('Image Size : Max 2 MB') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="next-btn" data-next="2">Next</button>
+                </div>
+                <!-- Step 1: Company Information -->
+                <div class="step-section d-none" data-step="2">
+                    <h4>Company Information</h4>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <input type="text" name="company_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Registered Business Name</label>
+                            <input type="text" name="registered_name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type of Business</label>
+                        <select name="business_type" required>
+                            <option value="">Select</option>
+                            <option value="manufacturer">Manufacturer</option>
+                            <option value="trader">Trader</option>
+                            <option value="exporter">Exporter</option>
+                            <option value="service">Service</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Year of Establishment</label>
+                            <input type="text" name="establishment_year" pattern="\d{4}" maxlength="4" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Business Registration Number</label>
+                            <input type="text" name="registration_number" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Country of Registration</label>
+                            <input type="text" name="registration_country" required>
+                        </div>
+                        <div class="form-group">
+                            <label>GST / VAT / TAX ID</label>
+                            <input type="text" name="tax_id" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tax Expiry Date</label>
+                            <input type="date" name="tax_expiry">
+                        </div>
+                        <div class="form-group">
+                            <label>Industry Category</label>
+                            <select name="industry" required>
+                                <option value="">Select Industry</option>
+                                <option value="agri">Agriculture</option>
+                                <option value="food">Food</option>
+                                <option value="fmcg">FMCG</option>
+                                <!-- Add more as needed -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Main Products / Services</label>
+                        <textarea name="main_products" placeholder="List comma-separated or use bullet points" required></textarea>
+                    </div>
+
+                    <button type="button" class="prev-btn" data-prev="1">Previous</button>
+                    <button type="button" class="next-btn" data-next="3">Next</button>
+                </div>
+
+                <!-- Step 2: Office & Contact Details -->
+                <div class="step-section d-none" data-step="3">
+                    <h4>Office & Contact Details</h4>
+
+                    <div class="form-group">
+                        <label>Head Office Address</label>
+                        <textarea name="office_address" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" name="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Country</label>
+                            <input type="text" name="country" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Postal / ZIP Code</label>
+                        <input type="text" name="zip_code" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Company Phone Number</label>
+                            <input type="tel" name="company_phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Company Email Address</label>
+                            <input type="email" name="company_email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Website URL</label>
+                        <input type="url" name="website_url">
+                    </div>
+
+                    <button type="button" class="prev-btn" data-prev="2">Back</button>
+                    <button type="button" class="next-btn" data-next="4">Next</button>
+                </div>
+
+                <!-- Step 3: Contact Person -->
+                <div class="step-section d-none" data-step="4">
+                    <h4>Contact Person</h4>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Contact Person Name</label>
+                            <input type="text" name="contact_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Designation</label>
+                            <input type="text" name="designation" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mobile Number (WhatsApp preferred)</label>
+                            <input type="tel" name="mobile_number" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email ID</label>
+                            <input type="email" name="contact_email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alternative Contact (Optional)</label>
+                        <input type="text" name="alt_contact">
+                    </div>
+
+                    <button type="button" class="prev-btn" data-prev="3">Back</button>
+                    <button type="button" class="next-btn" data-next="5">Next</button>
+                </div>
+
+                <!-- Step 4: Banking Details -->
+                <div class="step-section d-none" data-step="5">
+                    <h4>Banking Details</h4>
+
+                    <div class="form-group">
+                        <label>Bank Name</label>
+                        <input type="text" name="bank_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bank Account Name</label>
+                        <input type="text" name="bank_account_name" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Account Number / IBAN</label>
+                            <input type="text" name="iban" required>
+                        </div>
+                        <div class="form-group">
+                            <label>SWIFT / BIC Code</label>
+                            <input type="text" name="swift_code">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bank Address</label>
+                        <input type="text" name="bank_address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Currency Accepted</label>
+                        <input type="text" name="currency_accepted" placeholder="USD, AED, EUR" required>
+                    </div>
+
+                    <button type="button" class="prev-btn" data-prev="4">Back</button>
+                    <button type="button" class="next-btn" data-next="6">Next</button>
+                </div>
+
+
+                <!-- Step 5: Branches & Global Presence -->
+                <div class="step-section d-none" data-step="6">
+                    <h4>Branches & Global Presence</h4>
+
+                    <div class="form-group">
+                        <label>Local Branches</label>
+                        <textarea name="local_branches" placeholder="List with city, address, and contact"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Overseas Offices / Branches</label>
+                        <textarea name="overseas_offices" placeholder="Country and contact person details"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Export Countries</label>
+                        <input type="text" name="export_countries" placeholder="e.g., UAE, India, Germany">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Warehousing Locations (if any)</label>
+                        <input type="text" name="warehousing_locations" placeholder="Country and City">
+                    </div>
+
+                    <button type="button" class="prev-btn" data-prev="5">Back</button>
+                    <button type="button" class="next-btn" data-next="7">Next</button>
+                </div>
+                <!-- Step 6: Business Documentation -->
+                <div class="step-section d-none" data-step="7">
+                    <h4>Business Documentation</h4>
+
+                    <div class="form-group">
+                        <label>Business License / Registration (PDF, JPG)</label>
+                        <input type="file" name="business_license" accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tax Certificate (PDF)</label>
+                        <input type="file" name="tax_certificate" accept=".pdf" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Import/Export License (if any) (PDF)</label>
+                        <input type="file" name="import_export_license" accept=".pdf">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bank Account Proof / Cancelled Cheque</label>
+                        <input type="file" name="bank_proof" accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Top Authority ID (National ID / Passport - optional)</label>
+                        <input type="file" name="authority_id" accept=".pdf">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Name of the Person & Designation</label>
+                        <input type="text" name="person_name_designation" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Contact</label>
+                            <input type="text" name="person_contact" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email ID</label>
+                            <input type="email" name="person_email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Business Card (optional)</label>
+                        <input type="file" name="business_card" accept=".pdf,.jpg,.jpeg,.png">
+                    </div>
+
+                    <button type="button" class="prev-btn" data-prev="6">Back</button>
+                    <button type="button" class="next-btn" data-next="8">Next</button>
+                </div>
+                <!-- Step 7: Declarations -->
+                <div class="step-section d-none" data-step="8">
+                    <h4>Declarations</h4>
+
+                    <div class="form-group">
+                        <label><input type="checkbox" name="is_operational" required> Business is operational and
+                            active</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label><input type="checkbox" name="info_verified" required> The information provided is true and
+                            verified</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label><input type="checkbox" name="authorized_consent" required> I am an authorized
+                            representative of the company</label>
+                        <input type="text" name="authorized_name" placeholder="Name of Authorized Person" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Signature (Optional)</label>
+                        <input type="file" name="signature" accept=".jpg,.jpeg,.png,.pdf">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Company Profile Images (3 images only)</label>
+                        <input type="file" name="company_images[]" accept=".jpg,.jpeg,.png" multiple required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Factory/Warehouse Images (3 images only)</label>
+                        <input type="file" name="factory_images[]" accept=".jpg,.jpeg,.png" multiple>
+                    </div>
+
+                    <button type="button" class="prev-btn" data-prev="7">Back</button>
+                    <button type="button" onclick="submitRegistrationVendor()" class="submit-btn">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
-</div>
+@endsection
+@push('script')
+
+    @if ($web_config['recaptcha']['status'] == '1')
+        <script type="text/javascript">
+            "use strict";
+            var onloadCallback = function() {
+                let reg_id = grecaptcha.render('recaptcha-element-vendor-register', {
+                    'sitekey': '{{ $web_config['recaptcha']['site_key'] }}'
+                });
+                $('#recaptcha-element-vendor-register').attr('data-reg-id', reg_id);
+            };
+        </script>
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+    @endif
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const vendorTypeInput = document.getElementById('vendor_type');
+            const vendorButton = document.getElementById('vendor');
+            const supplierButton = document.getElementById('supplier');
+
+            function toggleActive(button, type) {
+                vendorTypeInput.value = type;
+
+                // Toggle classes
+                vendorButton.classList.remove('btn-active');
+                supplierButton.classList.remove('btn-active');
+
+                button.classList.add('btn-active');
+            }
+
+            vendorButton.addEventListener('click', function() {
+                toggleActive(this, 'vendor');
+            });
+
+            supplierButton.addEventListener('click', function() {
+                toggleActive(this, 'supplier');
+            });
+        });
+
+        function togglePasswordVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIndicator = passwordInput.nextElementSibling.querySelector('.password-toggle-indicator');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIndicator.classList.remove('tio-hidden');
+                toggleIndicator.classList.add('tio-visible'); // Replace with the "eye-open" icon class
+            } else {
+                passwordInput.type = 'password';
+                toggleIndicator.classList.remove('tio-visible');
+                toggleIndicator.classList.add('tio-hidden'); // Replace with the "eye-closed" icon class
+            }
+        }
+    </script>
+    <script>
+        $('#vendor-apply-submit').on('click', function() {
+            @if ($web_config['recaptcha']['status'] == '1')
+                var response = grecaptcha.getResponse($('#recaptcha-element-vendor-register').attr('data-reg-id'));
+                if (response.length === 0) {
+                    toastr.error("{{ translate('please_check_the_recaptcha') }}");
+                } else {
+                    submitRegistration();
+                }
+            @else
+                submitRegistration();
+            @endif
+        });
+    </script>
+    <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
+    <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
+    <script src="{{ theme_asset(path: 'public/assets/front-end/js/vendor-registration.js') }}"></script>
+    <script src="{{ theme_asset('public/js/progress-form.js') }}"></script>
+@endpush

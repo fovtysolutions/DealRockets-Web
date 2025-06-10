@@ -24,7 +24,7 @@
                     @endif
                 </div>
             </div>
-            <img src="{{ isset($item->thumbnail) ? 'storage/product/thumbnail/' . $item->thumbnail : '/images/placeholderimage.webp' }}" alt="Sample Product" class="product-image1">
+            <img src="{{ isset($item->thumbnail) ? '/storage/product/thumbnail/' . $item->thumbnail : '/images/placeholderimage.webp' }}" alt="Sample Product" class="product-image1">
         </div>
         <div class="product-info1 col-6">
             <div class="d-flex justify-content-between">

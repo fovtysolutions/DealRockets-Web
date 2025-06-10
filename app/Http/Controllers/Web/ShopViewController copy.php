@@ -8,7 +8,6 @@ use App\Models\Author;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\CompanyProfile;
-use App\Models\Country;
 use App\Models\Coupon;
 use App\Models\FlashDeal;
 use App\Models\FlashDealProduct;
@@ -94,25 +93,6 @@ class ShopViewController extends Controller
         };
     }
 
-    public static function getProductListRequestData($request): array
-    {
-        return [
-            'id' => $request['id'],
-            'name' => $request['name'],
-            'brand_id' => $request['brand_id'],
-            'category_id' => $request['category_id'],
-            'data_from' => $request['data_from'],
-            'sort_by' => $request['sort_by'],
-            'page_no' => $request['page'],
-            'min_price' => $request['min_price'],
-            'max_price' => $request['max_price'],
-            'product_type' => $request['product_type'],
-            'shop_id' => $request['shop_id'],
-            'author_id' => $request['author_id'],
-            'publishing_house_id' => $request['publishing_house_id'],
-        ];
-    }
-    
     public function default_theme($request, $id): View|JsonResponse|Redirector|RedirectResponse
     {
         self::checkShopExistence($id);
@@ -120,42 +100,21 @@ class ShopViewController extends Controller
         $productAddedBy = $id == 0 ? 'admin' : 'seller';
         $productUserID = $id == 0 ? $id : Shop::where('id', $id)->first()->seller_id;
         $shopAllProducts = ProductManager::getAllProductsData($request, $productUserID, $productAddedBy);
+        $productListData = ProductManager::getProductListData($request, $productUserID, $productAddedBy);
         $categories = self::getShopCategoriesList(products: $shopAllProducts);
         $brands = self::getShopBrandsList(products: $shopAllProducts, sellerType: $productAddedBy, sellerId: $productUserID);
         $shopPublishingHouses = ProductManager::getPublishingHouseList(productIds: $shopAllProducts->pluck('id')->toArray(), vendorId: $productUserID);
         $digitalProductAuthors = ProductManager::getProductAuthorList(productIds: $shopAllProducts->pluck('id')->toArray(), vendorId: $productUserID);
         $shopInfoArray = self::getShopInfoArray(shopId: $id, shopProducts: $shopAllProducts, sellerType: $productAddedBy, sellerId: $productUserID);
-        
-        $data = self::getProductListRequestData(request: $request);
-        if ($request['data_from'] == 'category' && $request['category_id']) {
-            $category = Category::find((int)$request['category_id']);
-
-            if ($category) {
-                $data['brand_name'] = $category->name;
-
-                // Load parent category name safely
-                $parentCategory = Category::find((int) $category->parent_id);
-                $data['cate_name'] = $parentCategory ? $parentCategory->name : null;
-            } else {
-                $data['brand_name'] = null;
-                $data['cate_name'] = null;
-            }
-        }
-        if ($request['data_from'] == 'brand') {
-            $brand_data = Brand::active()->find((int)$request['brand_id']);
-            if ($brand_data) {
-                $data['brand_name'] = $brand_data->name;
-            } else {
-                Toastr::warning(translate('not_found'));
-                return redirect('/');
-            }
-        }
-
-
-        $productListData = ProductManager::getProductListData(request: $request);
         $products = $productListData->paginate(20)->appends($request->all());
 
-        $productsCountries = Product::select('origin')->distinct()->pluck('origin');
+        if ($request->ajax()) {
+            return response()->json([
+                'view' => view(VIEW_FILE_NAMES['products__ajax_partials'], compact('products', 'categories'))->render(),
+            ], 200);
+        }
+
+
         $countries = Country::whereIn('id', $productsCountries)->get();
         if ($request['country']) {
             $products = Product::where('origin', $request['country'])->get();
@@ -164,7 +123,6 @@ class ShopViewController extends Controller
 
         return view(VIEW_FILE_NAMES['shop_view_page'], [
             'products' => $products,
-            'countries' => $countries,
             'categories' => $categories,
             'seller_id' => $id,
             'activeBrands' => $brands,

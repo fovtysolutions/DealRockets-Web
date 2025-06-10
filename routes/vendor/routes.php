@@ -106,6 +106,7 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
                     Route::get(Auth::VENDOR_REGISTRATION[URI], 'index')->name('index');
                     Route::post(Auth::VENDOR_REGISTRATION[URI], 'add')->name('add');
                 });
+                Route::post('rest-details-seller',[RegisterController::class,'restDetails'])->name('rest-details-seller');
             });
         });
         

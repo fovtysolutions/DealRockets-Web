@@ -23,7 +23,7 @@
                 @endif
             </div>
         </div>
-        <img src="{{ isset($item->thumbnail) ? 'storage/product/thumbnail/' . $item->thumbnail : '/images/placeholderimage.webp' }}" alt="Sample Product" class="product-image">
+        <img src="{{ isset($item->thumbnail) ? '/storage/product/thumbnail/' . $item->thumbnail : '/images/placeholderimage.webp' }}" alt="Sample Product" class="product-image">
         <div class="product-info">
             <div class="d-flex justify-content-between">
                 <p class="new">{{ $item->badge }}</p>

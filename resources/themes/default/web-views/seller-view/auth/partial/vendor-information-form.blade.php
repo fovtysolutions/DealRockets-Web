@@ -70,9 +70,14 @@
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="text" name="password" value="{{ $password }}" readonly>
-                            <input type="hidden" name="confirm_password" value="{{ $confirm_password}}" readonly>
+                            <input type="hidden" name="confirm_password" value="{{ $confirm_password }}" readonly>
                         </div>
                         <div class="form-group">
+                            <label for="shop_years"
+                                class="title-color d-flex gap-1 align-items-center">{{ translate('Years in Business') }}</label>
+                            <input type="number" class="form-control form-control-user" id="shop_years" name="shop_years"
+                                placeholder="{{ translate('ex') . ':' . translate('2') }}" value="{{ old('shop_years') }}"
+                                required>
                             <input type="hidden" name="vendor_type" value="{{ $vendor_type }}" readonly>
                         </div>
                     </div>
@@ -89,37 +94,23 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Image</label>
-                            <div class="upload-file">
-                                <input type="file" class="upload-file__input" name="image" accept="image/*" required>
-                                <div class="upload-file__img">
-                                    <div class="temp-img-box">
-                                        <div class="d-flex align-items-center flex-column gap-2">
-                                            <i class="tio-upload fs-30"></i>
-                                            <div class="fs-12 text-muted text-capitalize">
-                                                {{ translate('upload_file') }}</div>
-                                        </div>
-                                    </div>
-                                    <img src="#" class="dark-support img-fit-contain border" alt="" hidden>
-                                </div>
-                            </div>
+                            <input type="file" name="image" accept="image/*" required>
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="store_name" class="text-capitalize">{{ translate('shop_Name') }} <span
                                     class="text-danger">*</span></label>
                             <input class="form-control" type="text" id="shop_name" name="shop_name"
                                 placeholder="{{ translate('Ex: XYZ store') }}" required>
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="store_address" class="text-capitalize">{{ translate('shop_address') }} <span
                                     class="text-danger">*</span></label>
-                            <textarea class="form-control" name="shop_address" id="shop_address" rows="4"
+                            <textarea class="form-control" name="shop_address" id="shop_address" rows="1"
                                 placeholder="{{ translate('shop_address') }}" required></textarea>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group mb-4">
+                        <div class="form-group">
                             <label for="shop_membership"
                                 class="title-color d-flex gap-1 align-items-center">{{ translate('Membership') }}</label>
                             <select class="form-control form-control-user" id="shop_membership" name="shop_membership"
@@ -127,66 +118,37 @@
                                 <option value="Free" selected>{{ translate('Free') }}</option>
                             </select>
                         </div>
-                        <div class="form-group mb-4">
-                            <label for="shop_years"
-                                class="title-color d-flex gap-1 align-items-center">{{ translate('Years in Business') }}</label>
-                            <input type="number" class="form-control form-control-user" id="shop_years"
-                                name="shop_years" placeholder="{{ translate('ex') . ':' . translate('2') }}"
-                                value="{{ old('shop_years') }}" required>
-                        </div>
                     </div>
-                    <div class="border p-3 p-xl-4 rounded mb-4">
-                        <div class="d-flex flex-column gap-3 align-items-center">
-                            <div class="upload-file">
-                                <input type="file" class="upload-file__input" name="logo" accept="image/*"
-                                    required>
-                                <div class="upload-file__img">
-                                    <div class="temp-img-box">
-                                        <div class="d-flex align-items-center flex-column gap-2">
-                                            <i class="tio-upload fs-30"></i>
-                                            <div class="fs-12 text-muted text-capitalize">
-                                                {{ translate('upload_file') }}</div>
-                                        </div>
-                                    </div>
-                                    <img src="#" class="dark-support img-fit-contain border" alt=""
-                                        hidden>
+                    <div class="form-row">
+                        <div class="form-group border p-3 p-xl-4 rounded">
+                            <div class="d-flex flex-column gap-3 align-items-center">
+                                <div class="upload-file">
+                                    <input type="file" name="logo" accept="image/*" required>
+                                </div>
+
+                                <div class="d-flex flex-column gap-1 upload-img-content text-center">
+                                    <h6 class="text-uppercase mb-1 fs-14">{{ translate('upload_logo') }}</h6>
+                                    <div class="text-muted text-capitalize fs-12">
+                                        {{ translate('image_ratio') . ' ' . '1:1' }}</div>
+                                    <div class="text-muted text-capitalize fs-12">
+                                        {{ translate('Image Size : Max 2 MB') }}</div>
                                 </div>
                             </div>
-
-                            <div class="d-flex flex-column gap-1 upload-img-content text-center">
-                                <h6 class="text-uppercase mb-1 fs-14">{{ translate('upload_logo') }}</h6>
-                                <div class="text-muted text-capitalize fs-12">
-                                    {{ translate('image_ratio') . ' ' . '1:1' }}</div>
-                                <div class="text-muted text-capitalize fs-12">
-                                    {{ translate('Image Size : Max 2 MB') }}</div>
-                            </div>
                         </div>
-                    </div>
 
-                    <div class="border p-3 p-xl-4 rounded">
-                        <div class="d-flex flex-column gap-3 align-items-center">
-                            <div class="upload-file">
-                                <input type="file" class="upload-file__input" name="banner" accept="image/*"
-                                    required>
-                                <div class="upload-file__img style--two">
-                                    <div class="temp-img-box">
-                                        <div class="d-flex align-items-center flex-column gap-2">
-                                            <i class="tio-upload fs-30"></i>
-                                            <div class="fs-12 text-muted text-capitalize">
-                                                {{ translate('upload_file') }}</div>
-                                        </div>
-                                    </div>
-                                    <img src="#" class="dark-support img-fit-contain border" alt=""
-                                        hidden>
+                        <div class="form-group border p-3 p-xl-4 rounded">
+                            <div class="d-flex flex-column gap-3 align-items-center">
+                                <div class="upload-file">
+                                    <input type="file" name="banner" accept="image/*" required>
                                 </div>
-                            </div>
 
-                            <div class="d-flex flex-column gap-1 upload-img-content text-center">
-                                <h6 class="text-uppercase mb-1 fs-14">{{ translate('upload_banner') }}</h6>
-                                <div class="text-muted text-capitalize fs-12">
-                                    {{ translate('image_ratio') . ' ' . '2:1' }}</div>
-                                <div class="text-muted text-capitalize fs-12">
-                                    {{ translate('Image Size : Max 2 MB') }}</div>
+                                <div class="d-flex flex-column gap-1 upload-img-content text-center">
+                                    <h6 class="text-uppercase mb-1 fs-14">{{ translate('upload_banner') }}</h6>
+                                    <div class="text-muted text-capitalize fs-12">
+                                        {{ translate('image_ratio') . ' ' . '2:1' }}</div>
+                                    <div class="text-muted text-capitalize fs-12">
+                                        {{ translate('Image Size : Max 2 MB') }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -207,15 +169,21 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Type of Business</label>
-                        <select name="business_type" required>
-                            <option value="">Select</option>
-                            <option value="manufacturer">Manufacturer</option>
-                            <option value="trader">Trader</option>
-                            <option value="exporter">Exporter</option>
-                            <option value="service">Service</option>
-                        </select>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Type of Business</label>
+                            <select name="business_type" required>
+                                <option value="">Select</option>
+                                <option value="manufacturer">Manufacturer</option>
+                                <option value="trader">Trader</option>
+                                <option value="exporter">Exporter</option>
+                                <option value="service">Service</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Main Products / Services</label>
+                            <textarea name="main_products" placeholder="List comma-separated or use bullet points" rows="1" required></textarea>
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -257,11 +225,6 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Main Products / Services</label>
-                        <textarea name="main_products" placeholder="List comma-separated or use bullet points" required></textarea>
-                    </div>
-
                     <button type="button" class="prev-btn" data-prev="1">Previous</button>
                     <button type="button" class="next-btn" data-next="3">Next</button>
                 </div>
@@ -269,11 +232,6 @@
                 <!-- Step 2: Office & Contact Details -->
                 <div class="step-section d-none" data-step="3">
                     <h4>Office & Contact Details</h4>
-
-                    <div class="form-group">
-                        <label>Head Office Address</label>
-                        <textarea name="office_address" required></textarea>
-                    </div>
 
                     <div class="form-row">
                         <div class="form-group">
@@ -290,9 +248,16 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Postal / ZIP Code</label>
-                        <input type="text" name="zip_code" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Postal / ZIP Code</label>
+                            <input type="text" name="zip_code" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Website URL</label>
+                            <input type="url" name="website_url">
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -307,8 +272,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Website URL</label>
-                        <input type="url" name="website_url">
+                        <label>Head Office Address</label>
+                        <textarea name="office_address" required rows="1"></textarea>
                     </div>
 
                     <button type="button" class="prev-btn" data-prev="2">Back</button>
@@ -354,14 +319,16 @@
                 <div class="step-section d-none" data-step="5">
                     <h4>Banking Details</h4>
 
-                    <div class="form-group">
-                        <label>Bank Name</label>
-                        <input type="text" name="bank_name" required>
-                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <input type="text" name="bank_name" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Bank Account Name</label>
-                        <input type="text" name="bank_account_name" required>
+                        <div class="form-group">
+                            <label>Bank Account Name</label>
+                            <input type="text" name="bank_account_name" required>
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -375,14 +342,16 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Bank Address</label>
-                        <input type="text" name="bank_address" required>
-                    </div>
 
-                    <div class="form-group">
-                        <label>Currency Accepted</label>
-                        <input type="text" name="currency_accepted" placeholder="USD, AED, EUR" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Bank Address</label>
+                            <input type="text" name="bank_address" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Currency Accepted</label>
+                            <input type="text" name="currency_accepted" placeholder="USD, AED, EUR" required>
+                        </div>
                     </div>
 
                     <button type="button" class="prev-btn" data-prev="4">Back</button>
@@ -394,24 +363,28 @@
                 <div class="step-section d-none" data-step="6">
                     <h4>Branches & Global Presence</h4>
 
-                    <div class="form-group">
-                        <label>Local Branches</label>
-                        <textarea name="local_branches" placeholder="List with city, address, and contact"></textarea>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Local Branches</label>
+                            <textarea name="local_branches" placeholder="List with city, address, and contact" rows="1"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Overseas Offices / Branches</label>
+                            <textarea name="overseas_offices" placeholder="Country and contact person details" rows="1"></textarea>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Overseas Offices / Branches</label>
-                        <textarea name="overseas_offices" placeholder="Country and contact person details"></textarea>
-                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Export Countries</label>
+                            <input type="text" name="export_countries" placeholder="e.g., UAE, India, Germany">
+                        </div>
 
-                    <div class="form-group">
-                        <label>Export Countries</label>
-                        <input type="text" name="export_countries" placeholder="e.g., UAE, India, Germany">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Warehousing Locations (if any)</label>
-                        <input type="text" name="warehousing_locations" placeholder="Country and City">
+                        <div class="form-group">
+                            <label>Warehousing Locations (if any)</label>
+                            <input type="text" name="warehousing_locations" placeholder="Country and City">
+                        </div>
                     </div>
 
                     <button type="button" class="prev-btn" data-prev="5">Back</button>
@@ -421,34 +394,40 @@
                 <div class="step-section d-none" data-step="7">
                     <h4>Business Documentation</h4>
 
-                    <div class="form-group">
-                        <label>Business License / Registration (PDF, JPG)</label>
-                        <input type="file" name="business_license" accept=".pdf,.jpg,.jpeg,.png" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Business License / Registration (PDF, JPG)</label>
+                            <input type="file" name="business_license" accept=".pdf,.jpg,.jpeg,.png" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tax Certificate (PDF)</label>
+                            <input type="file" name="tax_certificate" accept=".pdf" required>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Tax Certificate (PDF)</label>
-                        <input type="file" name="tax_certificate" accept=".pdf" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Import/Export License (if any) (PDF)</label>
+                            <input type="file" name="import_export_license" accept=".pdf">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Bank Account Proof / Cancelled Cheque</label>
+                            <input type="file" name="bank_proof" accept=".pdf,.jpg,.jpeg,.png" required>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Import/Export License (if any) (PDF)</label>
-                        <input type="file" name="import_export_license" accept=".pdf">
-                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Top Authority ID (National ID / Passport - optional)</label>
+                            <input type="file" name="authority_id" accept=".pdf">
+                        </div>
 
-                    <div class="form-group">
-                        <label>Bank Account Proof / Cancelled Cheque</label>
-                        <input type="file" name="bank_proof" accept=".pdf,.jpg,.jpeg,.png" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Top Authority ID (National ID / Passport - optional)</label>
-                        <input type="file" name="authority_id" accept=".pdf">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Name of the Person & Designation</label>
-                        <input type="text" name="person_name_designation" required>
+                        <div class="form-group">
+                            <label>Name of the Person & Designation</label>
+                            <input type="text" name="person_name_designation" required>
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -474,37 +453,47 @@
                 <div class="step-section d-none" data-step="8">
                     <h4>Declarations</h4>
 
-                    <div class="form-group">
-                        <label><input type="checkbox" name="is_operational" required> Business is operational and
-                            active</label>
+                    <div class="form-row">
+                        <div class="checkbox-group">
+                            <input type="checkbox" name="is_operational" required>
+                            <label>Business is operational and
+                                active</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" name="info_verified" required>
+                            <label> The information provided is true
+                                and
+                                verified</label>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label><input type="checkbox" name="info_verified" required> The information provided is true and
-                            verified</label>
-                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="authorized_consent" required><label> I am an authorized
+                                    representative of the company</label>
+                            </div>
+                            <input type="text" name="authorized_name" placeholder="Name of Authorized Person"
+                                required>
+                        </div>
 
-                    <div class="form-group">
-                        <label><input type="checkbox" name="authorized_consent" required> I am an authorized
-                            representative of the company</label>
-                        <input type="text" name="authorized_name" placeholder="Name of Authorized Person" required>
+                        <div class="form-group">
+                            <label>Upload Signature (Optional)</label>
+                            <input type="file" name="signature" accept=".jpg,.jpeg,.png,.pdf">
+                        </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Company Profile Images (3 images only)</label>
+                            <input type="file" name="company_images[]" accept=".jpg,.jpeg,.png" multiple required>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Upload Signature (Optional)</label>
-                        <input type="file" name="signature" accept=".jpg,.jpeg,.png,.pdf">
+                        <div class="form-group">
+                            <label>Factory/Warehouse Images (3 images only)</label>
+                            <input type="file" name="factory_images[]" accept=".jpg,.jpeg,.png" multiple>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label>Company Profile Images (3 images only)</label>
-                        <input type="file" name="company_images[]" accept=".jpg,.jpeg,.png" multiple required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Factory/Warehouse Images (3 images only)</label>
-                        <input type="file" name="factory_images[]" accept=".jpg,.jpeg,.png" multiple>
-                    </div>
-
                     <button type="button" class="prev-btn" data-prev="7">Back</button>
                     <button type="button" onclick="submitRegistrationVendor()" class="submit-btn">Submit</button>
                 </div>

@@ -242,38 +242,39 @@
                             <label>State</label>
                             <input type="text" name="state" required>
                         </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Country</label>
                             <input type="text" name="country" required>
                         </div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="form-group">
                             <label>Postal / ZIP Code</label>
                             <input type="text" name="zip_code" required>
                         </div>
+                    </div>
 
+                    <div class="form-row">
                         <div class="form-group">
                             <label>Website URL</label>
                             <input type="url" name="website_url">
+                        </div>
+                        <div class="form-group">
+                            <label>Company Phone Number</label>
+                            <input type="tel" name="company_phone" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Company Phone Number</label>
-                            <input type="tel" name="company_phone" required>
+                            <label>Head Office Address</label>
+                            <textarea name="office_address" required rows="1"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Company Email Address</label>
                             <input type="email" name="company_email" required>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Head Office Address</label>
-                        <textarea name="office_address" required rows="1"></textarea>
                     </div>
 
                     <button type="button" class="prev-btn" data-prev="2">Back</button>
@@ -306,9 +307,11 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Alternative Contact (Optional)</label>
-                        <input type="text" name="alt_contact">
+                    <div class="form-row">
+                        <div class="form-single">
+                            <label>Alternative Contact (Optional)</label>
+                            <input type="text" name="alt_contact">
+                        </div>
                     </div>
 
                     <button type="button" class="prev-btn" data-prev="3">Back</button>
@@ -441,9 +444,11 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Upload Business Card (optional)</label>
-                        <input type="file" name="business_card" accept=".pdf,.jpg,.jpeg,.png">
+                    <div class="form-row">
+                        <div class="form-single">
+                            <label>Upload Business Card (optional)</label>
+                            <input type="file" name="business_card" accept=".pdf,.jpg,.jpeg,.png">
+                        </div>
                     </div>
 
                     <button type="button" class="prev-btn" data-prev="6">Back</button>

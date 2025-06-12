@@ -71,7 +71,7 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Images') }}</label>
-                <input type="file" class="form-control" name="images[]" multiple>
+                <input type="file" class="form-select" name="images[]" multiple>
                 {{-- @if (!empty($cp->images) && isset($cp))
                     @php $imagesArray = json_decode($cp->images, true); @endphp
                     <div class="mt-3 mb-2">
@@ -84,7 +84,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('Certificates') }}</label>
-                <input type="file" class="form-control" name="certificates[]" multiple>
+                <input type="file" class="form-select" name="certificates[]" multiple>
                 {{-- @if (!empty($cp->certificates) && isset($cp))
                     @php $imagesArray = json_decode($cp->certificates, true); @endphp
                     <div class="mt-3 mb-2">
@@ -186,7 +186,7 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group">
+            <div class="form-single">
                 <label class="form-label">{{ translate('Company Certificates') }}</label>
                 <input type="text" class="form-control" name="company_certificates"
                     value="{{ $cp->company_certificates ?? '' }}">
@@ -210,7 +210,7 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group">
+            <div class="form-single">
                 <label class="form-label">{{ translate('Delivery Terms') }}</label>
                 <input type="text" class="form-control" name="delivery_terms"
                     value="{{ $cp->delivery_terms ?? '' }}">
@@ -307,7 +307,7 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group">
+            <div class="form-single">
                 <label class="form-label">{{ translate('Product Development Time') }}</label>
                 <input type="text" class="form-control" name="product_dev_time"
                     value="{{ $cp->product_dev_time ?? '' }}">

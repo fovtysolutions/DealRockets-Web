@@ -285,7 +285,7 @@
                         </form>
                     </div>
                 </div>
-                <div id="details-div" class="card mb-3 mb-lg-5 d-none">
+                <div id="details-div" class="card mb-3 mb-lg-5 d-none" style="max-width: 1128px; margin: 0 auto;">
                     <div class="card-header">
                         <div class="d-flex align-items-center gap-3">
                             <div><img src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/user-1.svg') }}"

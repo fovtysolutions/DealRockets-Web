@@ -264,10 +264,11 @@ class VendorStockSellController extends Controller
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
         $name = ChatManager::getproductname($stocksell->product_id);
         $countries = CountrySetupController::getCountries();
+        $industry = CountrySetupController::getCountries();
         $categories = StockCategory::all();
         $dynamicData = $stocksell->dynamic_data;
         $dynamicDataTechnical = $stocksell->dynamic_data_technical;
-        return view('vendor-views.stocksell.edit', compact('stocksell', 'items', 'name', 'countries', 'categories'));
+        return view('vendor-views.stocksell.edit', compact('stocksell', 'items', 'name', 'industry', 'dynamicData', 'dynamicDataTechnical', 'countries', 'categories'));
     }
 
     public function update(Request $request, $id)

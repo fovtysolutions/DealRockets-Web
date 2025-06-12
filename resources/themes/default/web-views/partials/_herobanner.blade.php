@@ -158,7 +158,7 @@
     </div>
 </div>
 </section>
-<script defer>
+<script>
     function initiateCarousel() {
         $('#carouselExample').owlCarousel({
             items: 1,
@@ -167,7 +167,7 @@
             dots: true,
             margin: 30,
             autoplay: true,
-            autoplayTimeout: 5000,
+            // autoplayTimeout: 5000,
             // lazyLoad: true,
             smartSpeed: 800,
             autoHeight: false,
@@ -182,7 +182,7 @@
             dots: true,
             margin: 30,
             autoplay: true,
-            autoplayTimeout: 5000,
+            // autoplayTimeout: 5000,
             // lazyLoad: true,
             smartSpeed: 800,
             autoHeight: false,
@@ -197,12 +197,18 @@
             dots: true,
             margin: 30,
             autoplay: true,
-            autoplayTimeout: 5000,
+            // autoplayTimeout: 5000,
             // lazyLoad: true,
             smartSpeed: 800,
             autoHeight: false,
         });
     }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        initiateCarousel();
+        initiateCarousel1();
+        initiateCarousel2();
+    });
 </script>
 <script defer>
     document.addEventListener('DOMContentLoaded', function() {

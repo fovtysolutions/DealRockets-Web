@@ -23,14 +23,14 @@
 
 @php
     $gradients = [
-        'gradient-1',
-        'gradient-2',
-        'gradient-3',
+        // 'gradient-1',
+        // 'gradient-2',
+        // 'gradient-3',
         'gradient-4',
-        'gradient-5',
-        'gradient-6',
-        'gradient-7',
-        'gradient-8',
+        // 'gradient-5',
+        // 'gradient-6',
+        // 'gradient-7',
+        // 'gradient-8',
     ];
 @endphp
 

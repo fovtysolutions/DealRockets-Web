@@ -62,7 +62,7 @@
         integrity="sha512-Ysw1DcK1P+uYLqprEAzNQJP+J4hTx4t/3X2nbVwszao8wD+9afLjBQYjz7Uk4ADP+Er++mJoScI42ueGtQOzEA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     @stack('css_or_js')
     <!-- Social Meta -->
     <?php
@@ -343,8 +343,8 @@
     </div>
 
     {{-- Vendor Scripts --}}
-    <script defer src="{{ theme_asset('public/assets/front-end/vendor/jquery/dist/jquery-2.2.4.min.js') }}"></script>
-    <script defer src="{{ theme_asset('public/assets/front-end/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}">
+    <script src="{{ theme_asset('public/assets/front-end/vendor/jquery/dist/jquery-2.2.4.min.js') }}"></script>
+    <script src="{{ theme_asset('public/assets/front-end/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}">
     </script>
     <script defer
         src="{{ theme_asset('public/assets/front-end/vendor/bs-custom-file-input/dist/bs-custom-file-input.min.js') }}">
@@ -358,7 +358,7 @@
     <script defer src="{{ theme_asset('public/assets/front-end/vendor/lightgallery.js/dist/js/lightgallery.min.js') }}">
     </script>
     <script defer src="{{ theme_asset('public/assets/front-end/vendor/lg-video.js/dist/lg-video.min.js') }}"></script>
-    <script defer src="{{ theme_asset('public/assets/front-end/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ theme_asset('public/assets/front-end/js/owl.carousel.min.js') }}"></script>
 
     {{-- Custom Scripts --}}
     <script src="{{ theme_asset('public/assets/back-end/js/toastr.js') }}"></script>
@@ -367,7 +367,7 @@
     <script defer src="{{ theme_asset('public/assets/front-end/js/slick.js') }}"></script>
     <script defer src="{{ theme_asset('public/assets/front-end/js/sweet_alert.js') }}"></script>
     <script defer src="{{ theme_asset('public/assets/front-end/js/custom.js') }}"></script>
-    <script defer>
+    <script>
         const elements = document.querySelectorAll('.fade-in-on-scroll');
 
         const observer = new IntersectionObserver((entries, observer) => {

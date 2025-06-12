@@ -46,19 +46,19 @@
                             class="js-sticky-block js-scrollspy navbar-nav navbar-nav-lg nav-tabs card card-navbar-nav p-3">
                             <li class="nav-item" style="width: 33%;">
                                 <a class="nav-link active d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
-                                    id="general-section">
+                                    id="general-section" onclick="toggleSubTab('update-profile-form')">
                                     <i class="tio-user-outlined nav-icon"></i>{{ translate('basic_Information') }}
                                 </a>
                             </li>
                             <li class="nav-item" style="width: 33%;">
                                 <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="#password-div"
-                                    id="password-section">
+                                    id="password-section" onclick="toggleSubTab('password-div')">
                                     <i class="tio-lock-outlined nav-icon"></i> {{ translate('password') }}
                                 </a>
                             </li>
                             <li class="nav-item" style="width: 33%;">
                                 <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="#details-div"
-                                    id="details-section">
+                                    id="details-section" onclick="toggleSubTab('details-div')">
                                     <i class="tio-info-outined nav-icon"></i> {{ translate('details') }}
                                 </a>
                             </li>
@@ -195,7 +195,7 @@
                         </div>
                     </div>
                 </form>
-                <div id="password-div" class="card mb-3 mb-lg-5">
+                <div id="password-div" class="card mb-3 mb-lg-5 d-none">
                     <div class="card-header">
                         <div class="d-flex align-items-center gap-3">
                             <div><img src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/password-lock.svg') }}"
@@ -285,7 +285,7 @@
                         </form>
                     </div>
                 </div>
-                <div id="details-div" class="card mb-3 mb-lg-5">
+                <div id="details-div" class="card mb-3 mb-lg-5 d-none">
                     <div class="card-header">
                         <div class="d-flex align-items-center gap-3">
                             <div><img src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/user-1.svg') }}"
@@ -336,5 +336,30 @@
                 }
             });
         });
+    </script>
+    <script>
+        function toggleSubTab(togglethis) {
+            const firsttab = 'update-profile-form';
+            const secondtab = 'password-div';
+            const thirdtab = 'details-div';
+
+            if (togglethis === firsttab) {
+                $('#password-div').addClass('d-none');
+                $('#details-div').addClass('d-none');
+                $('#update-profile-form').removeClass('d-none');
+            }
+
+            if (togglethis === secondtab) {
+                $('#password-div').removeClass('d-none');
+                $('#details-div').addClass('d-none');
+                $('#update-profile-form').addClass('d-none');
+            }
+
+            if (togglethis === thirdtab) {
+                $('#password-div').addClass('d-none');
+                $('#details-div').removeClass('d-none');
+                $('#update-profile-form').addClass('d-none');
+            }
+        }
     </script>
 @endpush

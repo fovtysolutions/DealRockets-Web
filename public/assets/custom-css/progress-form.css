@@ -1,3 +1,8 @@
+.progress-form-main{
+    max-width: 875px;
+    margin: 10px auto;
+}
+
 .progress-form-main .container {
     max-width: 875px;
     margin: 30px auto;
@@ -121,7 +126,7 @@
     transition: all 0.2s ease;
     background: white;
     width: 100%;
-    flex:1;
+    flex: 1;
 }
 
 .progress-form-main input:focus,
@@ -228,7 +233,7 @@
     transform: translateY(0);
 }
 
-.progress-form-main .step-section{
+.progress-form-main .step-section {
     padding-top: 20px;
 }
 

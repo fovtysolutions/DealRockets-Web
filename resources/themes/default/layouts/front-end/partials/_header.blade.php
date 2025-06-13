@@ -405,7 +405,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
     <a href="{{ route('dealassist') }}">Deal Assist</a>
     <a href="{{ route('sendcv') }}">Industry Jobs</a>
     <a href="{{ route('tradeshow') }}">Trade Shows</a>
-    <a href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a>
+    <a href="{{ route('vendor.auth.registration.index') }}">Supplier Zone</a>
 </div>
 <div id="google_translate_element" style="display: none;position: absolute;top: 0;right: 0;z-index: 10000000;"></div>
 @push('script')

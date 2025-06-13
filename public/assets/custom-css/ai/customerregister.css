@@ -304,9 +304,9 @@
  }
 
  .customerregister .role-button.active {
-     background-color: #007bff;
+     background-color: #fa3030;
      color: white;
-     border-color: #007bff;
+     border-color: #fa3030;
  }
 
  .customerregister .form-row {

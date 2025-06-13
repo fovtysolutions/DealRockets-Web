@@ -21,7 +21,7 @@
             position: absolute;
             width: 455px;
             overflow: scroll;
-            height: 95px;
+            height: 200px;
             z-index: 1000;
         }
     </style>
@@ -64,7 +64,7 @@
                                         <div class="icon-input">
                                             <!-- <i class="bi bi-telephone"></i> -->
                                             <input type="tel" id="phone" name="phone" class="form-control"
-                                                placeholder="US +1 (555) 000-0000"
+                                                placeholder="Enter your country with + Country Code"
                                                 value="{{ $vendor_data['phone'] ?? null }}">
                                         </div>
                                     </div>

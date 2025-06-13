@@ -6,6 +6,28 @@
     <link rel="stylesheet"
         href="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/css/intlTelInput.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/customerlogin.css') }}">
+    <style>
+        .btn-group-toggle {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .role-btn {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            background-color: #f4f4f4;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .role-btn.active {
+            background-color: #fa3030;
+            color: white;
+            border-color: #fa3030;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -99,8 +121,7 @@
                         <p>Sign in to unlock exclusive deals, shop smarter, and save big on your favorite products!</p>
                     </div>
 
-                    <form action="{{ route('customer.auth.login') }}"
-                            method="post" id="customer-login-form">
+                    <form action="{{ route('customer.auth.login') }}" method="post" id="customer-login-form">
                         @csrf
 
                         <input type="hidden" name="login_type" class="auth-login-type-input" value="manual-login">
@@ -108,24 +129,22 @@
                         <!-- Sign in as dropdown -->
                         <div class="form-group">
                             <label for="signInAs">Sign in as</label>
-                            <div class="select-container">
-                                <select id="signInAs" name="signInAs">
-                                    <option value="">Select a Option</option>
-                                    <option value="buyer">Buyer</option>
-                                    <option value="supplier">Supplier</option>
-                                    <option value="consultant">Consultant</option>
-                                </select>
-                                <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <polyline points="6,9 12,15 18,9"></polyline>
-                                </svg>
+                            <div class="btn-group-toggle" id="signInAsToggle" role="group" aria-label="Sign in as">
+                                <button type="button" class="role-btn" data-value="buyer">Buyer</button>
+                                <button type="button" class="role-btn" data-value="supplier">Supplier</button>
+                                <button type="button" class="role-btn" data-value="consultant">Consultant</button>
                             </div>
+                            <input type="hidden" name="signInAs" id="signInAs" />
                         </div>
 
-                        @include("web-views.customer-views.auth.partials._email")
-                        @include("web-views.customer-views.auth.partials._password")
+
+                        @include('web-views.customer-views.auth.partials._email')
+                        @include('web-views.customer-views.auth.partials._password')
 
                         <!-- Remember me and Forgot password -->
-                        @include("web-views.customer-views.auth.partials._remember-me", ['forgotPassword' => true])
+                        @include('web-views.customer-views.auth.partials._remember-me', [
+                            'forgotPassword' => true,
+                        ])
 
                         <div class="manual-login-items" style="padding-bottom: 25px;">
                             <!-- Sign Up button -->
@@ -186,16 +205,30 @@
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
     <script>
         var form = $('#customer-login-form');
-        $('#signInAs').on('change',function () {
-            if (this.value == 'buyer'){
-                form.attr('action',"{{ route('customer.auth.login') }}");
-            } else if (this.value == 'supplier'){
-                form.attr('action',"{{ route('vendor.auth.login') }}");
+        $('#signInAs').on('change', function() {
+            if (this.value == 'buyer') {
+                form.attr('action', "{{ route('customer.auth.login') }}");
+            } else if (this.value == 'supplier') {
+                form.attr('action', "{{ route('vendor.auth.login') }}");
             } else if (this.value == 'consultant') {
-                form.attr('action',"{{ route('customer.auth.login') }}");
+                form.attr('action', "{{ route('customer.auth.login') }}");
             } else {
-                form.attr('action','#');
+                form.attr('action', '#');
             }
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.role-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all
+                document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+
+                // Add to the clicked one
+                this.classList.add('active');
+
+                // Update hidden input value
+                document.getElementById('signInAs').value = this.getAttribute('data-value');
+            });
         });
     </script>
 @endpush

@@ -75,19 +75,20 @@
         }
 
         .otp-input:focus {
-            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+            box-shadow: 0 0 0 2px #d14f4f;
             /* purple-500 ring */
-            border-color: rgba(139, 92, 246, 1);
+            border-color: #e76161;
         }
 
         /* Submit button */
         .otp-submit-btn {
             width: 100%;
-            background-color: #8b5cf6;
+            background-color: #e71f1f;
             /* purple-500 */
             color: white;
             padding: 0.5rem 0;
             border-radius: 0.5rem;
+            border-color:white;
             font-weight: 600;
             transition: background-color 0.2s ease;
         }
@@ -99,7 +100,7 @@
         }
 
         .otp-submit-btn:hover {
-            background-color: #7c3aed;
+            background-color: #e71f1f;
             /* purple-600 */
         }
 
@@ -111,11 +112,12 @@
         }
 
         .otp-resend a {
-            color: #8b5cf6;
+            color: #e52222;
             text-decoration: none;
         }
 
         .otp-resend a:hover {
+            color: #e52222;
             text-decoration: underline;
         }
     </style>

@@ -9493,4 +9493,5 @@ return [
 	"OTP Verification" => "OTP Verification",
 	"Check your OTP" => "Check your OTP",
 	"quarterly" => "Quarterly",
+	"select_sub_category" => "Select sub category",
 ];

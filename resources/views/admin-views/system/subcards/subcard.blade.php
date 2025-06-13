@@ -18,7 +18,7 @@
             overflow-y: clip;
         }
     </style>
-    <span class="row pt-5 pl-5"><a href="{{route('admin.dashboard.index')}}" style="color: black; padding-right:3px;"> Home </a> / {{ $title }}</span>
+    {{-- <span class="row pt-5 pl-5"><a href="{{route('admin.dashboard.index')}}" style="color: black; padding-right:3px;"> Home </a> / {{ $title }}</span> --}}
 
     <div class="p-2">
         <ul class="nav nav-tabs" id="tabMenu" role="tablist">

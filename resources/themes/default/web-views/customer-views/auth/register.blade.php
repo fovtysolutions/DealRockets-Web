@@ -81,9 +81,9 @@
                         <p>Sign in to unlock exclusive deals, shop smarter, and save big on your favorite products!</p>
                     </div>
 
-                    <form class="form" id="customer-register-form" action="{{ route('customer.auth.sign-up')}}"
-                method="post">
-                @csrf
+                    <form class="form" id="customer-register-form" action="{{ route('customer.auth.sign-up') }}"
+                        method="post">
+                        @csrf
                         <!-- Role Switch -->
                         <div class="form-group">
                             <label>Sign up as</label>
@@ -135,13 +135,12 @@
                         <!-- Country -->
                         <div class="form-row">
                             <div class="form-group">
-                            @php
-                                $countries = \App\Models\Country::where('blacklist', 'no')->get();
-                            @endphp
+                                @php
+                                    $countries = \App\Models\Country::where('blacklist', 'no')->get();
+                                @endphp
                                 <label for="country">Country</label>
-                                <select class="form-control text-align-direction" name="country" id="country"
-                                required>
-                                <option value="" selected>Select a Option</option>
+                                <select class="form-control text-align-direction" name="country" id="country" required>
+                                    <option value="" selected>Select a Option</option>
                                     @foreach ($countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->name }}</option>
                                     @endforeach
@@ -150,7 +149,7 @@
                             <div class="form-group">
                                 <label for="preference">Preference</label>
                                 <select class="form-control text-align-direction" name="role" id="selectedItem"
-                                required>
+                                    required>
                                     <option value="" selected>Select a Option</option>
                                     <option value="jobseeker">Job Seeker</option>
                                     <option value="findtalent">Talent Finder</option>

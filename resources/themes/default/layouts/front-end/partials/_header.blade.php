@@ -78,11 +78,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                 <div id="languageToggleBtn">
                                     <div class="frame-4">
                                         <div class="text-wrapper-5">
-                                            @foreach (json_decode($language['value'], true) as $data)
-                                                @if ($data['code'] == getDefaultLanguage())
-                                                    {{ $data['name'] }}
-                                                @endif
-                                            @endforeach
+                                            Translate
                                         </div>
                                         {{-- <img class="img" src="/img/arrow-down-sign-to-navigate-5.png" /> --}}
                                     </div>
@@ -91,7 +87,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                         <img class="language img-hover" src="/img/language (2).png" />
                                     </div>
                                 </div>
-                                <ul id="languageDropdown-class" class="language-dropdown"
+                                {{-- <ul id="languageDropdown-class" class="language-dropdown"
                                     style="font-size: 14px; color: black;">
                                     @foreach (json_decode($language['value'], true) as $key => $data)
                                         @if ($data['status'] == 1)
@@ -105,7 +101,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             </li>
                                         @endif
                                     @endforeach
-                                </ul>
+                                </ul> --}}
                             </div>
                             @if (!auth('customer')->check())
                                 <a href="{{ route('customer.auth.login') }}">
@@ -411,6 +407,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
     <a href="{{ route('tradeshow') }}">Trade Shows</a>
     <a href="{{ route('vendor.auth.registration.index') }}">Vendor Zone</a>
 </div>
+<div id="google_translate_element" style="display: none;position: absolute;top: 0;right: 0;z-index: 10000000;"></div>
 @push('script')
     <script defer src="{{ theme_asset('public/js/header.js') }}"></script>
     <script defer>
@@ -423,4 +420,19 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
             document.getElementById("dropdownNav").classList.toggle("show");
         }
     </script>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'hi,fr,es,de',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+
+        document.getElementById("languageToggleBtn").addEventListener("click", function() {
+            document.getElementById('google_translate_element').style.display = 'block';
+        });
+    </script>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 @endpush

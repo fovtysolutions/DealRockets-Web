@@ -9488,4 +9488,8 @@ return [
 	"Info Page" => "Info Page",
 	"The shop name field is required" => "The shop name field is required",
 	"The shop address field is required" => "The shop address field is required",
+	"Stock Sale | Marketplace" => "Stock Sale | Marketplace",
+	"Buyers | Marketplace" => "Buyers | Marketplace",
+	"OTP Verification" => "OTP Verification",
+	"Check your OTP" => "Check your OTP",
 ];

@@ -9,9 +9,23 @@
     <link rel="stylesheet"
         href="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/css/intlTelInput.css') }}">
     <link rel="stylesheet" href="{{ theme_asset('public/assets/custom-css/ai/vendor.css') }}" />
+    <!-- Add this in the <head> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.min.css" />
+    <style>
+        .vendor-box input[name=phone] {
+            padding-left: 52px;
+        }
+
+        .iti__country-list {
+            background: white;
+            position: absolute;
+            width: 455px;
+            overflow: scroll;
+            height: 95px;
+            z-index: 1000;
+        }
+    </style>
 @endpush
-
-
 @section('content')
     <div class="mainpagesection">
         <form id="seller-registration" action="{{ route('vendor.auth.registration.rest-details-seller') }}" method="POST"
@@ -33,7 +47,7 @@
  --}}
                                     <h4 class="mb-1">Create an Account</h4>
                                     <p class="text-muted mb-2">You can reach us anytime via <a
-                                            href="mailto:info@dealrocket.com">info@dealrocket.com</a></p>
+                                            href="mailto:info@dealrocket.com">info@dealrockets.com</a></p>
 
                                     <input name="vendor_type" id="vendor_type" value="vendor" type="hidden" />
                                     <div class="mb-2">
@@ -41,7 +55,7 @@
                                         <div class="icon-input">
                                             <!-- <i class="bi bi-envelope"></i> -->
                                             <input type="email" id="email" name="email" class="form-control"
-                                                placeholder="Your Email">
+                                                placeholder="Your Email" value="{{ $vendor_data['email'] ?? null }}">
                                         </div>
                                     </div>
 
@@ -49,8 +63,9 @@
                                         <label class="form-label">Phone number</label>
                                         <div class="icon-input">
                                             <!-- <i class="bi bi-telephone"></i> -->
-                                            <input type="tel" name="phone" class="form-control"
-                                                placeholder="US +1 (555) 000-0000">
+                                            <input type="tel" id="phone" name="phone" class="form-control"
+                                                placeholder="US +1 (555) 000-0000"
+                                                value="{{ $vendor_data['phone'] ?? null }}">
                                         </div>
                                     </div>
 
@@ -59,7 +74,8 @@
                                         <div class="icon-input">
                                             <!-- <i class="bi bi-lock"></i> -->
                                             <input name="password" type="password" id="password" class="form-control"
-                                                placeholder="Minimum 8 Character Long">
+                                                placeholder="Minimum 8 Character Long"
+                                                value="{{ $vendor_data['password'] ?? null }}">
                                         </div>
                                     </div>
 
@@ -68,17 +84,24 @@
                                         <div class="icon-input">
                                             <!-- <i class="bi bi-lock-fill"></i> -->
                                             <input name="confirm_password" type="password" id="confirm_password"
-                                                class="form-control" placeholder="Confirm Password">
+                                                class="form-control" placeholder="Confirm Password"
+                                                value="{{ $vendor_data['confirm_password'] ?? null }}">
                                         </div>
                                     </div>
 
-                                    <button class="btn btn-submit mb-2 proceed-to-next-btn text-capitalize"
-                                        type="submit">Get
-                                        started</button>
+                                    <div class="form-check mb-3">
+                                        <input type="checkbox" class="form-check-input" id="acceptTerms">
+                                        <label class="form-check-label" for="acceptTerms">
+                                            I agree to the <a href="{{ route('terms') }}" target="_blank">Terms and Conditions</a>
+                                        </label>
+                                    </div>
 
-                                    <p class=" text-muted">Create your own store. Already have store? <a
-                                            href="{{ route('vendor.auth.login') }}">Sign
-                                            In</a></p>
+                                    <button class="btn btn-submit mb-2 proceed-to-next-btn text-capitalize" type="submit"
+                                        disabled id="submitBtn">Get
+                                        started</button>
+                                    <h5 style="text-align: center;"> Or </h5>
+                                    <a class="btn btn-submit mb-2 proceed-to-next-btn text-capitalize"
+                                        href="{{ route('vendor.auth.login') }}">Login</a>
                                 </div>
                             </div>
                         </div>
@@ -142,6 +165,16 @@
     @endif
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const checkbox = document.getElementById('acceptTerms');
+            const submitBtn = document.getElementById('submitBtn');
+
+            checkbox.addEventListener('change', function() {
+                submitBtn.disabled = !this.checked;
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             const vendorTypeInput = document.getElementById('vendor_type');
             const vendorButton = document.getElementById('vendor');
             const supplierButton = document.getElementById('supplier');
@@ -192,6 +225,20 @@
             @else
                 submitRegistration();
             @endif
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+    <script>
+        const phoneInput = document.querySelector("#phone");
+        window.intlTelInput(phoneInput, {
+            initialCountry: "in",
+            geoIpLookup: function(callback) {
+                fetch("https://ipapi.co/json")
+                    .then(res => res.json())
+                    .then(data => callback(data.country_code))
+                    .catch(() => callback("us"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.min.js"
         });
     </script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>

@@ -77,7 +77,7 @@
             <div class="right-section">
                 <div class="form-container">
                     <div class="form-header">
-                        <h2>Welcome to Deal Rocket!</h2>
+                        <h2>Welcome to Deal Rockets!</h2>
                         <p>Sign in to unlock exclusive deals, shop smarter, and save big on your favorite products!</p>
                     </div>
 

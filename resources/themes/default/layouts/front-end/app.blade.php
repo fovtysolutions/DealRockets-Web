@@ -325,7 +325,7 @@
     @include('layouts.front-end.partials.modal._dynamic-modals')
 
     <div class="floating-btn-grp">
-        <div class="__floating-btn">
+        {{-- <div class="__floating-btn">
             @php($whatsapp = getWebConfig(name: 'whatsapp'))
             @if (isset($whatsapp['status']) && $whatsapp['status'] == 1)
                 <div class="wa-widget-send-button">
@@ -336,7 +336,7 @@
                     </a>
                 </div>
             @endif
-        </div>
+        </div> --}}
         <a class="btn-scroll-top btn--primary" href="#top" data-scroll>
             <i class="btn-scroll-top-icon czi-arrow-up"></i>
         </a>

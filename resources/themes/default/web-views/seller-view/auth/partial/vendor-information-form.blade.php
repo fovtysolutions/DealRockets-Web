@@ -5,6 +5,20 @@
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ theme_asset('public/assets/custom-css/progress-form.css') }}">
+    <style>
+        .save-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 120px;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -153,6 +167,7 @@
                         </div>
                     </div>
                     <button type="button" class="next-btn" data-next="2">Next</button>
+                    <button type="button" class="save-btn">Save</button>
                 </div>
                 <!-- Step 1: Company Information -->
                 <div class="step-section d-none" data-step="2">
@@ -161,11 +176,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Company Name</label>
-                            <input type="text" name="company_name" required>
+                            <input type="text" name="company_name" required value="{{ $vendorProfileData->company_name ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Registered Business Name</label>
-                            <input type="text" name="registered_name">
+                            <input type="text" name="registered_name" required value="{{ $vendorProfileData->registered_name ?? null }}">
                         </div>
                     </div>
 
@@ -174,52 +189,52 @@
                             <label>Type of Business</label>
                             <select name="business_type" required>
                                 <option value="">Select</option>
-                                <option value="manufacturer">Manufacturer</option>
-                                <option value="trader">Trader</option>
-                                <option value="exporter">Exporter</option>
-                                <option value="service">Service</option>
+                                <option value="manufacturer" {{ isset($vendorProfileData->business_type) ? ($vendorProfileData->business_type == 'manufacturer' ? 'selected' : '') : '' }}>Manufacturer</option>
+                                <option value="trader" {{ isset($vendorProfileData->business_type) ? ($vendorProfileData->business_type == 'trader' ? 'selected' : '') : '' }}>Trader</option>
+                                <option value="exporter" {{ isset($vendorProfileData->business_type) ? ($vendorProfileData->business_type == 'exporter' ? 'selected' : '') : '' }}>Exporter</option>
+                                <option value="service" {{ isset($vendorProfileData->business_type) ? ($vendorProfileData->business_type == 'service' ? 'selected' : '') : '' }}>Service</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Main Products / Services</label>
-                            <textarea name="main_products" placeholder="List comma-separated or use bullet points" rows="1" required></textarea>
+                            <textarea name="main_products" placeholder="List comma-separated or use bullet points" rows="1" required>{{ $vendorProfileData->main_products ?? null }}</textarea>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Year of Establishment</label>
-                            <input type="text" name="establishment_year" pattern="\d{4}" maxlength="4" required>
+                            <input type="text" name="establishment_year" required pattern="\d{4}" maxlength="4" value="{{ $vendorProfileData->establishment_year ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Business Registration Number</label>
-                            <input type="text" name="registration_number" required>
+                            <input type="text" name="registration_number" required value="{{ $vendorProfileData->registration_number ?? null}}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Country of Registration</label>
-                            <input type="text" name="registration_country" required>
+                            <input type="text" name="registration_country" required value="{{ $vendorProfileData->registration_country ?? null}}">
                         </div>
                         <div class="form-group">
                             <label>GST / VAT / TAX ID</label>
-                            <input type="text" name="tax_id" required>
+                            <input type="text" name="tax_id" required value="{{ $vendorProfileData->tax_id ?? null}}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Tax Expiry Date</label>
-                            <input type="date" name="tax_expiry">
+                            <input type="date" name="tax_expiry" required value="{{ $vendorProfileData->tax_expiry ?? null}}">
                         </div>
                         <div class="form-group">
                             <label>Industry Category</label>
                             <select name="industry" required>
                                 <option value="">Select Industry</option>
-                                <option value="agri">Agriculture</option>
-                                <option value="food">Food</option>
-                                <option value="fmcg">FMCG</option>
+                                <option value="agri"{{ isset($vendorProfileData->business_type) ? ($vendorProfileData->business_type == 'agri' ? 'selected' : '') : '' }}>Agriculture</option>
+                                <option value="food"{{ isset($vendorProfileData->business_type) ? ($vendorProfileData->business_type == 'food' ? 'selected' : '') : '' }}>Food</option>
+                                <option value="fmcg"{{ isset($vendorProfileData->business_type) ? ($vendorProfileData->business_type == 'fmcg' ? 'selected' : '') : '' }}>FMCG</option>
                                 <!-- Add more as needed -->
                             </select>
                         </div>
@@ -227,6 +242,7 @@
 
                     <button type="button" class="prev-btn" data-prev="1">Previous</button>
                     <button type="button" class="next-btn" data-next="3">Next</button>
+                    <button type="button" class="save-btn">Save</button>
                 </div>
 
                 <!-- Step 2: Office & Contact Details -->
@@ -236,49 +252,50 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>City</label>
-                            <input type="text" name="city" required>
+                            <input type="text" name="city" required value="{{ $vendorProfileData->city ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>State</label>
-                            <input type="text" name="state" required>
+                            <input type="text" name="state" required value="{{ $vendorProfileData->state ?? null }}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Country</label>
-                            <input type="text" name="country" required>
+                            <input type="text" name="country" required  value="{{ $vendorProfileData->country ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Postal / ZIP Code</label>
-                            <input type="text" name="zip_code" required>
+                            <input type="text" name="zip_code" required  value="{{ $vendorProfileData->zip_code ?? null }}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Website URL</label>
-                            <input type="url" name="website_url">
+                            <input type="url" name="website_url" required value="{{ $vendorProfileData->website_url ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Company Phone Number</label>
-                            <input type="tel" name="company_phone" required>
+                            <input type="tel" name="company_phone" required value="{{ $vendorProfileData->company_phone ?? null }}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Head Office Address</label>
-                            <textarea name="office_address" required rows="1"></textarea>
+                            <textarea name="office_address" required rows="1">{{ $vendorProfileData->office_address ?? null }}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Company Email Address</label>
-                            <input type="email" name="company_email" required>
+                            <input type="email" name="company_email" required value="{{ $vendorProfileData->company_email ?? null }}">
                         </div>
                     </div>
 
                     <button type="button" class="prev-btn" data-prev="2">Back</button>
                     <button type="button" class="next-btn" data-next="4">Next</button>
+                    <button type="button" class="save-btn">Save</button>
                 </div>
 
                 <!-- Step 3: Contact Person -->
@@ -288,34 +305,35 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Contact Person Name</label>
-                            <input type="text" name="contact_name" required>
+                            <input type="text" name="contact_name" required value="{{ $vendorProfileData->contact_name ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Designation</label>
-                            <input type="text" name="designation" required>
+                            <input type="text" name="designation" required value="{{ $vendorProfileData->designation ?? null }}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Mobile Number (WhatsApp preferred)</label>
-                            <input type="tel" name="mobile_number" required>
+                            <input type="tel" name="mobile_number" required value="{{ $vendorProfileData->mobile_number ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Email ID</label>
-                            <input type="email" name="contact_email" required>
+                            <input type="email" name="contact_email" required value="{{ $vendorProfileData->contact_email ?? null }}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-single">
                             <label>Alternative Contact (Optional)</label>
-                            <input type="text" name="alt_contact">
+                            <input type="text" name="alt_contact" required value="{{ $vendorProfileData->alt_contact ?? null }}">
                         </div>
                     </div>
 
                     <button type="button" class="prev-btn" data-prev="3">Back</button>
                     <button type="button" class="next-btn" data-next="5">Next</button>
+                    <button type="button" class="save-btn">Save</button>
                 </div>
 
                 <!-- Step 4: Banking Details -->
@@ -325,23 +343,23 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Bank Name</label>
-                            <input type="text" name="bank_name" required>
+                            <input type="text" name="bank_name" required  value="{{ $vendorProfileData->bank_name ?? null }}">
                         </div>
 
                         <div class="form-group">
                             <label>Bank Account Name</label>
-                            <input type="text" name="bank_account_name" required>
+                            <input type="text" name="bank_account_name" required  value="{{ $vendorProfileData->bank_account_name ?? null }}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Account Number / IBAN</label>
-                            <input type="text" name="iban" required>
+                            <input type="text" name="iban" required value="{{ $vendorProfileData->iban ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>SWIFT / BIC Code</label>
-                            <input type="text" name="swift_code">
+                            <input type="text" name="swift_code" value="{{ $vendorProfileData->swift_code ?? null }}">
                         </div>
                     </div>
 
@@ -349,16 +367,17 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Bank Address</label>
-                            <input type="text" name="bank_address" required>
+                            <input type="text" name="bank_address" required value="{{ $vendorProfileData->band_address ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Currency Accepted</label>
-                            <input type="text" name="currency_accepted" placeholder="USD, AED, EUR" required>
+                            <input type="text" name="currency_accepted" placeholder="USD, AED, EUR" required  value="{{ $vendorProfileData->currency_accepted ?? null }}">
                         </div>
                     </div>
 
                     <button type="button" class="prev-btn" data-prev="4">Back</button>
                     <button type="button" class="next-btn" data-next="6">Next</button>
+                    <button type="button" class="save-btn">Save</button>
                 </div>
 
 
@@ -369,29 +388,30 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Local Branches</label>
-                            <textarea name="local_branches" placeholder="List with city, address, and contact" rows="1"></textarea>
+                            <textarea name="local_branches" placeholder="List with city, address, and contact" rows="1">{{ $vendorProfileData->local_branches ?? null }}</textarea>
                         </div>
 
                         <div class="form-group">
                             <label>Overseas Offices / Branches</label>
-                            <textarea name="overseas_offices" placeholder="Country and contact person details" rows="1"></textarea>
+                            <textarea name="overseas_offices" placeholder="Country and contact person details" rows="1">{{ $vendorProfileData->overseas_offices ?? null }}</textarea>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Export Countries</label>
-                            <input type="text" name="export_countries" placeholder="e.g., UAE, India, Germany">
+                            <input type="text" name="export_countries" placeholder="e.g., UAE, India, Germany" value="{{ $vendorProfileData->export_countries ?? null }}">
                         </div>
 
                         <div class="form-group">
                             <label>Warehousing Locations (if any)</label>
-                            <input type="text" name="warehousing_locations" placeholder="Country and City">
+                            <input type="text" name="warehousing_locations" placeholder="Country and City" value="{{ $vendorProfileData->warehousing_locations ?? null }}">
                         </div>
                     </div>
 
                     <button type="button" class="prev-btn" data-prev="5">Back</button>
                     <button type="button" class="next-btn" data-next="7">Next</button>
+                    <button type="button" class="save-btn">Save</button>
                 </div>
                 <!-- Step 6: Business Documentation -->
                 <div class="step-section d-none" data-step="7">
@@ -429,18 +449,18 @@
 
                         <div class="form-group">
                             <label>Name of the Person & Designation</label>
-                            <input type="text" name="person_name_designation" required>
+                            <input type="text" name="person_name_designation" required value="{{ $vendorProfileData->person_name_designation ?? null }}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Contact</label>
-                            <input type="text" name="person_contact" required>
+                            <input type="text" name="person_contact" required value="{{ $vendorProfileData->person_contact ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Email ID</label>
-                            <input type="email" name="person_email" required>
+                            <input type="email" name="person_email" required value="{{ $vendorProfileData->person_email ?? null }}">
                         </div>
                     </div>
 
@@ -453,6 +473,7 @@
 
                     <button type="button" class="prev-btn" data-prev="6">Back</button>
                     <button type="button" class="next-btn" data-next="8">Next</button>
+                    <button type="button" class="save-btn">Save</button>
                 </div>
                 <!-- Step 7: Declarations -->
                 <div class="step-section d-none" data-step="8">
@@ -500,6 +521,7 @@
                         </div>
                     </div>
                     <button type="button" class="prev-btn" data-prev="7">Back</button>
+                    <button type="button" class="save-btn">Save</button>
                     <button type="button" onclick="submitRegistrationVendor()" class="submit-btn">Submit</button>
                 </div>
             </form>
@@ -520,6 +542,35 @@
         </script>
         <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
     @endif
+    <script>
+        $(document).on('click', '.save-btn', function(e) {
+            e.preventDefault();
+
+            let form = $('#quotation-form')[0];
+            let formData = new FormData(form);
+
+            $.ajax({
+                url: "{{ route('save-vendor-details',['sellerusers' => $sellerUsersId]) }}",
+                method: "POST",
+                data: formData,
+                processData: false, // Important for file upload
+                contentType: false, // Important for file upload
+                success: function(response) {
+                    toastr.success('Details saved successfully.');
+                },
+                error: function(xhr) {
+                    let errors = xhr.responseJSON?.errors;
+                    if (errors) {
+                        Object.values(errors).forEach(function(errorMessages) {
+                            toastr.error(errorMessages[0]); // Show first error per field
+                        });
+                    } else {
+                        toastr.error('Server error occurred.');
+                    }
+                }
+            });
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const vendorTypeInput = document.getElementById('vendor_type');

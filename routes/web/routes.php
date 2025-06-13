@@ -50,6 +50,7 @@ use App\Http\Controllers\Payment_Methods\PaystackController;
 use App\Http\Controllers\Leads\LeadsController;
 use App\Http\Controllers\Quotation\QuotatioController;
 use App\Http\Controllers\CV\CVController;
+use App\Http\Controllers\Vendor\Auth\RegisterController as AuthRegisterController;
 use App\Http\Controllers\Web\AgrotradexController;
 use App\Http\Controllers\Web\SupplierController;
 use App\Http\Controllers\Web\DealAssist;
@@ -195,10 +196,10 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     // Support Ticket
     Route::controller(UserProfileController::class)->group(function () {
         Route::group(['prefix' => 'support-ticket', 'as' => 'support-ticket.'], function () {
-            Route::get('{id}', 'single_ticket')->name('index');
-            Route::post('{id}', 'comment_submit')->name('comment');
-            Route::get('delete/{id}', 'support_ticket_delete')->name('delete');
-            Route::get('close/{id}', 'support_ticket_close')->name('close');
+            Route::get('{id}', 'single_ticket')->name('index')->middleware('customer');
+            Route::post('{id}', 'comment_submit')->name('comment')->middleware('customer');
+            Route::get('delete/{id}', 'support_ticket_delete')->name('delete')->middleware('customer');
+            Route::get('close/{id}', 'support_ticket_close')->name('close')->middleware('customer');
         });
     });
 
@@ -634,3 +635,6 @@ Route::resource('membership-tiers', MembershipTierController::class);
 Route::get('membership-vendor',[MembershipTierController::class,'vendorview'])->name('membership-vendor');
 Route::post('membership-payment',[PaymentController::class,'getCustomerPaymentRequestMembership'])->name('membership-payment');
 Route::Post('membership-payment-seller',[PaymentController::class,'getSellerPaymentRequestMembership'])->name('membership-payment-seller');
+Route::post('resend-otp-custom',[AuthRegisterController::class,'resendotp'])->name('resend-otp-custom');
+Route::post('verify-otp-custom',[AuthRegisterController::class,'verifyotpcustom'])->name('verify-otp-custom');
+Route::post('save-vendor-details/{sellerusers}',[AuthRegisterController::class, 'saveVendorExtraDetails'])->name('save-vendor-details');

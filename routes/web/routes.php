@@ -638,3 +638,4 @@ Route::Post('membership-payment-seller',[PaymentController::class,'getSellerPaym
 Route::post('resend-otp-custom',[AuthRegisterController::class,'resendotp'])->name('resend-otp-custom');
 Route::post('verify-otp-custom',[AuthRegisterController::class,'verifyotpcustom'])->name('verify-otp-custom');
 Route::post('save-vendor-details/{sellerusers}',[AuthRegisterController::class, 'saveVendorExtraDetails'])->name('save-vendor-details');
+Route::get('/products/search', [ProductListController::class, 'search'])->name('products.search');

@@ -1,28 +1,63 @@
-document.addEventListener("DOMContentLoaded", function () {
+function initializeMultiStepForm() {
     const steps = document.querySelectorAll(".step-section");
     const stepIndicators = document.querySelectorAll(".step");
 
     function showStep(step) {
         steps.forEach((s) => s.classList.add("d-none"));
-        document
-            .querySelector(`.step-section[data-step="${step}"]`)
-            .classList.remove("d-none");
+        const currentStep = document.querySelector(
+            `.step-section[data-step="${step}"]`
+        );
+        if (currentStep) {
+            currentStep.classList.remove("d-none");
+        }
 
         stepIndicators.forEach((ind, i) => {
-            // Step 1 = index 0, Step 2 = index 2, Step 3 = index 4, etc.
             const currentStepIndex = step - 1;
             ind.classList.toggle("active", i <= currentStepIndex);
         });
     }
 
+    function validateStepInputs(currentStepSection) {
+        const requiredInputs = currentStepSection.querySelectorAll(
+            "input[required], select[required], textarea[required]"
+        );
+        let allFilled = true;
+
+        requiredInputs.forEach((input) => {
+            if (!input.value.trim()) {
+                allFilled = false;
+                input.classList.add("input-error");
+            } else {
+                input.classList.remove("input-error");
+            }
+        });
+
+        return allFilled;
+    }
+
     document.querySelectorAll(".next-btn").forEach((btn) => {
-        btn.addEventListener("click", () => showStep(btn.dataset.next));
+        btn.addEventListener("click", () => {
+            const currentStepSection = btn.closest(".step-section");
+            if (validateStepInputs(currentStepSection)) {
+                showStep(btn.dataset.next);
+            } else {
+                toastr.info("Please fill in all required fields.");
+            }
+        });
     });
 
     document.querySelectorAll(".prev-btn").forEach((btn) => {
-        btn.addEventListener("click", () => showStep(btn.dataset.prev));
+        btn.addEventListener("click", () => {
+            showStep(btn.dataset.prev);
+        });
     });
-});
+
+    // Optionally show the first step on init
+    showStep(1);
+}
+
+// Call the function when DOM is ready
+document.addEventListener("DOMContentLoaded", initializeMultiStepForm);
 
 function submitRegistrationVendor() {
     const getFormId = "quotation-form";

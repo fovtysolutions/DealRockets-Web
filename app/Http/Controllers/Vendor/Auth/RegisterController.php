@@ -116,14 +116,14 @@ class RegisterController extends BaseController
             return redirect()->back()->withInput();
         }
 
-        $otp = rand(10000, 99999);
-        Mail::to($email)->send(new OTPVerify($otp));
-
         if (self::check_sellers_register_exists($email) == 1) {
             $sellerUsersId = session('sellersUser');
             $vendorProfileData = VendorExtraDetail::find($sellerUsersId);
             return view('web-views.seller-view.auth.partial.vendor-information-form', compact('vendorProfileData','sellerUsersId', 'vendor_type', 'email', 'phone', 'password', 'confirm_password'));
         }
+
+        $otp = rand(10000, 99999);
+        Mail::to($email)->send(new OTPVerify($otp));
 
         session(['otp' => $otp]);
         session([

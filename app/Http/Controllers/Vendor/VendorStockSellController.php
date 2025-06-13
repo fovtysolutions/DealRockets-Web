@@ -346,6 +346,9 @@ class VendorStockSellController extends Controller
             // Add compliance status to the validated data
             $validatedData['compliance_status'] = $complianceStatus;
 
+            $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data']);
+            $validatedData['dynamic_data_technical'] = json_encode($validatedData['dynamic_data_technical']);
+
             // Update the StockSell record with the validated data
             $stockSell->update($validatedData);
             toastr()->success('Record Updated Successfully');

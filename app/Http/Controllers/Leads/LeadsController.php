@@ -66,7 +66,45 @@ class LeadsController extends Controller
         private readonly DealOfTheDayRepositoryInterface $dealOfTheDayRepo,
         private readonly ReviewRepositoryInterface $reviewRepo,
         private readonly BannerRepositoryInterface $bannerRepo,
-    ) {
+    ) {}
+
+    private function validateLeadRequest(Request $request)
+    {
+        return $request->validate([
+            'type' => 'required|string',
+            'name' => 'required|string|max:255',
+            'country' => 'required|string',
+            'product_id' => 'required',
+            'company_name' => 'string|max:255',
+            'contact_number' => 'required|string|max:255',
+            'quantity_required' => 'required|string|max:255',
+            'buying_frequency' => 'required|string|max:255',
+            'details' => 'required|string|max:1000',
+            'industry' => 'required|string|max:255',
+            'term' => 'required|string|max:255',
+            'unit' => 'required|string|max:255',
+            'compliance_status' => 'required',
+            'city' => 'nullable|string|max:255',
+            'tags' => 'nullable|string|max:255',
+            'refund' => 'nullable|string|max:255',
+            'avl_stock' => 'nullable|string|max:255',
+            'avl_stock_unit' => 'nullable|string|max:255',
+            'lead_time' => 'nullable|string|max:255',
+            'brand' => 'nullable|string|max:255',
+            'payment_option' => 'nullable|string|max:255',
+            'offer_type' => 'nullable|string|max:255',
+            'size' => 'nullable|string|max:255',
+            'images' => 'nullable',
+            'sub_category_id' => 'required',
+            'hs_code' => 'required|string|max:255',
+            'rate' => 'required|string|max:255',
+            'delivery_terms' => 'required|string|max:255',
+            'delivery_mode' => 'required|string|max:255',
+            'place_of_loading' => 'required|string|max:255',
+            'port_of_loading' => 'required|string|max:255',
+            'packing_type' => 'required|string|max:255',
+            'dynamic_data' => 'required',
+        ]);
     }
 
     private function totalquotescountry($type, $country)
@@ -152,8 +190,8 @@ class LeadsController extends Controller
             $query->whereRaw('blacklist = ?', ['no']);
         });
 
-        if ($request->filled('specific_id')){
-            $query->where('id',$request->input('specific_id'));
+        if ($request->filled('specific_id')) {
+            $query->where('id', $request->input('specific_id'));
         }
 
         // Text search
@@ -213,8 +251,8 @@ class LeadsController extends Controller
             $query->whereRaw('blacklist = ?', ['no']);
         });
 
-        if ($request->filled('specific_id')){
-            $query->where('id',$request->input('specific_id'));
+        if ($request->filled('specific_id')) {
+            $query->where('id', $request->input('specific_id'));
         }
 
         // Text search
@@ -326,57 +364,20 @@ class LeadsController extends Controller
     {
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
         $brands = $this->brandRepo->getListWhere(dataLimit: 'all');
-        $brandSetting = getWebConfig(name: 'product_brand');
-        $digitalProductSetting = getWebConfig(name: 'digital_product');
-        $colors = $this->colorRepo->getList(orderBy: ['name' => 'desc'], dataLimit: 'all');
-        $attributes = $this->attributeRepo->getList(orderBy: ['name' => 'desc'], dataLimit: 'all');
-        $languages = getWebConfig(name: 'pnc_language') ?? null;
-        $defaultLanguage = $languages[0];
-        $languages = [
-            $languages[0]
-        ];
-        $digitalProductFileTypes = ['audio', 'video', 'document', 'software'];
-        $digitalProductAuthors = $this->authorRepo->getListWhere(dataLimit: 'all');
-        $publishingHouseList = $this->publishingHouseRepo->getListWhere(dataLimit: 'all');
         $countries = CountrySetupController::getCountries();
-        $industries = Category::where('parent_id', '0')->get();
+        $industry = Category::where('parent_id', '0')->get();
         $user_data = ChatManager::getRoleDetail();
         $user_id = $user_data['user_id'];
         $role = $user_data['role'];
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
-        return view('admin-views.leads.add-new', compact('items', 'categories', 'countries', 'brands', 'brandSetting', 'digitalProductSetting', 'colors', 'attributes', 'languages', 'defaultLanguage', 'digitalProductFileTypes', 'digitalProductAuthors', 'publishingHouseList', 'industries'));
+        return view('admin-views.leads.add-new', compact('items', 'categories', 'countries', 'brands', 'industry'));
     }
 
     public function store(Request $request)
     {
         try {
             // Validate the incoming request data
-            $validatedData = $request->validate([
-                'type' => 'required|string',
-                'name' => 'required|string|max:255',
-                'country' => 'required|string',
-                'product_id' => 'required',
-                'company_name' => 'string|max:255',
-                'contact_number' => 'required|string|max:255',
-                'quantity_required' => 'required|string|max:255',
-                'buying_frequency' => 'required|string|max:255',
-                'details' => 'required|string|max:1000', // Adjust max length if necessary
-                'industry' => 'required|string|max:255',
-                'term' => 'required|string|max:255',
-                'unit' => 'required|string|max:255',
-                'compliance_status' => 'required',
-                'city' => 'nullable|string|max:255',
-                'tags' => 'nullable|string|max:255',
-                'refund' => 'nullable|string|max:255',
-                'avl_stock' => 'nullable|string|max:255',
-                'avl_stock_unit' => 'nullable|string|max:255',
-                'lead_time' => 'nullable|string|max:255',
-                'brand' => 'nullable|string|max:255',
-                'payment_option' => 'nullable|string|max:255',
-                'offer_type' => 'nullable|string|max:255',
-                'size' => 'nullable|string|max:255',
-                'images' => 'required',
-            ]);
+            $validatedData = $this->validateLeadRequest($request);
 
             // Get user details
             $userdata = ChatManager::getRoleDetail();
@@ -405,6 +406,8 @@ class LeadsController extends Controller
 
             // Add compliance status to the validated data
             $validatedData['compliance_status'] = $complianceStatus;
+
+            $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data']);
 
             // Create a new lead record
             Leads::create($validatedData);
@@ -513,50 +516,22 @@ class LeadsController extends Controller
         $leads = Leads::findOrFail($id);
         $categories = Category::all();
         $countries = CountrySetupController::getCountries();
-        $languages = getWebConfig(name: 'pnc_language') ?? null;
-        $industries = Category::where('parent_id', '0')->get();
-        $defaultLanguage = $languages[0];
-        $languages = [
-            $languages[0]
-        ];
+        $industry = Category::where('parent_id', '0')->get();
         $user_data = ChatManager::getRoleDetail();
         $user_id = $user_data['user_id'];
         $role = $user_data['role'];
+        $brands = $this->brandRepo->getListWhere(dataLimit: 'all');
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
         $name = ChatManager::getproductname($leads->product_id);
-        return view('admin-views.leads.edit', compact('items', 'name', 'leads', 'countries', 'categories', 'languages', 'defaultLanguage', 'industries'));
+        $dynamicData = $leads->dynamic_data;
+        return view('admin-views.leads.edit', compact('dynamicData', 'items', 'name', 'leads', 'brands', 'countries', 'categories', 'industry'));
     }
 
     public function update(Request $request, $id)
     {
         try {
             // Validate the incoming request data
-            $validatedData = $request->validate([
-                'type' => 'required|string',
-                'name' => 'required|string|max:255',
-                'country' => 'required|string',
-                'product_id' => 'required',
-                'company_name' => 'required|string|max:255',
-                'contact_number' => 'required|string|max:255',
-                'quantity_required' => 'required|string|max:255',
-                'buying_frequency' => 'required|string|max:255',
-                'details' => 'required|string|max:255',
-                'industry' => 'required|string|max:255',
-                'term' => 'required|string|max:255',
-                'unit' => 'required|string|max:255',
-                'compliance_status' => 'required',
-                'city' => 'nullable|string|max:255',
-                'tags' => 'nullable|string|max:255',
-                'refund' => 'nullable|string|max:255',
-                'avl_stock' => 'nullable|string|max:255',
-                'avl_stock_unit' => 'nullable|string|max:255',
-                'lead_time' => 'nullable|string|max:255',
-                'brand' => 'nullable|string|max:255',
-                'payment_option' => 'nullable|string|max:255',
-                'offer_type' => 'nullable|string|max:255',
-                'size' => 'nullable|string|max:255',
-                'images' => 'nullable',
-            ]);
+            $validatedData = $this->validateLeadRequest($request);
 
             // Get the lead record
             $leads = Leads::findOrFail($id);
@@ -594,6 +569,8 @@ class LeadsController extends Controller
             // Update images list
             $validatedData['images'] = array_merge($keepImages, $newImages);
 
+            $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data']);
+
             // Update the lead record
             $leads->update($validatedData);
 
@@ -624,25 +601,13 @@ class LeadsController extends Controller
     {
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
         $brands = $this->brandRepo->getListWhere(dataLimit: 'all');
-        $brandSetting = getWebConfig(name: 'product_brand');
-        $digitalProductSetting = getWebConfig(name: 'digital_product');
-        $colors = $this->colorRepo->getList(orderBy: ['name' => 'desc'], dataLimit: 'all');
-        $attributes = $this->attributeRepo->getList(orderBy: ['name' => 'desc'], dataLimit: 'all');
-        $languages = getWebConfig(name: 'pnc_language') ?? null;
-        $defaultLanguage = $languages[0];
-        $languages = [
-            $languages[0]
-        ];
-        $digitalProductFileTypes = ['audio', 'video', 'document', 'software'];
-        $digitalProductAuthors = $this->authorRepo->getListWhere(dataLimit: 'all');
-        $publishingHouseList = $this->publishingHouseRepo->getListWhere(dataLimit: 'all');
         $countries = CountrySetupController::getCountries();
         $user_data = ChatManager::getRoleDetail();
         $user_id = $user_data['user_id'];
         $role = $user_data['role'];
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
-        $industries = Category::where('parent_id', '0')->get();
-        return view('vendor-views.leads.add-new', compact('industries', 'items', 'categories', 'countries', 'brands', 'brandSetting', 'digitalProductSetting', 'colors', 'attributes', 'languages', 'defaultLanguage', 'digitalProductFileTypes', 'digitalProductAuthors', 'publishingHouseList'));
+        $industry = Category::where('parent_id', '0')->get();
+        return view('vendor-views.leads.add-new', compact('industry', 'items', 'categories', 'countries', 'brands'));
     }
 
     public function vgetBulkImportView()
@@ -659,7 +624,7 @@ class LeadsController extends Controller
         $vendorId = auth('seller')->id();
 
         $query->where('added_by', $vendorId);
-        $query->where('role','seller');
+        $query->where('role', 'seller');
 
         // Apply filters based on the request
         $query->where('type', 'seller');
@@ -724,14 +689,16 @@ class LeadsController extends Controller
         $languages = [
             $languages[0]
         ];
+        $brands = $this->brandRepo->getListWhere(dataLimit: 'all');
         $user_data = ChatManager::getRoleDetail();
         $user_id = $user_data['user_id'];
         $role = $user_data['role'];
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
         $name = ChatManager::getproductname($leads->product_id);
         $countries = CountrySetupController::getCountries();
-        $industries = Category::where('parent_id', '0')->get();
-        return view('vendor-views.leads.edit', compact('industries', 'items', 'name', 'leads', 'countries', 'categories', 'languages', 'defaultLanguage'));
+        $industry = Category::where('parent_id', '0')->get();
+        $dynamicData = $leads->dynamic_data;
+        return view('vendor-views.leads.edit', compact('brands', 'dynamicData', 'industry', 'items', 'name', 'leads', 'countries', 'categories', 'languages', 'defaultLanguage'));
     }
 
     public function toggle($id)

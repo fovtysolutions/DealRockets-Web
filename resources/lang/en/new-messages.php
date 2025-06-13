@@ -9492,4 +9492,5 @@ return [
 	"Buyers | Marketplace" => "Buyers | Marketplace",
 	"OTP Verification" => "OTP Verification",
 	"Check your OTP" => "Check your OTP",
+	"quarterly" => "Quarterly",
 ];

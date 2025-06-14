@@ -424,11 +424,16 @@ class RegisterController extends BaseController
 
         // Create or update
         $existing = VendorExtraDetail::where('seller_id', $vendorid)->first();
-
+        $vendorUsers = VendorUsers::where('id',$sellerusers)->first();
+        
         if ($existing) {
             $existing->update($data);
+            $vendorUsers->is_complete = 1;
+            $vendorUsers->save();
             return $existing;
         } else {
+            $vendorUsers->is_complete = 1;
+            $vendorUsers->save();
             return VendorExtraDetail::create($data);
         }
     }

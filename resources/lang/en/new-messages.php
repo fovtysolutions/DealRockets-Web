@@ -9497,4 +9497,6 @@ return [
 	"Fill Details" => "Fill Details",
 	"Create an Account First" => "Create an Account First",
 	"Deal Assist | Marketplace" => "Deal Assist | Marketplace",
+	"Trade Shows | Marketplace" => "Trade Shows | Marketplace",
+	"RFQ | Marketplace" => "RFQ | Marketplace",
 ];

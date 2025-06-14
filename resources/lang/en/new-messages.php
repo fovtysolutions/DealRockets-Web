@@ -9494,4 +9494,7 @@ return [
 	"Check your OTP" => "Check your OTP",
 	"quarterly" => "Quarterly",
 	"select_sub_category" => "Select sub category",
+	"Fill Details" => "Fill Details",
+	"Create an Account First" => "Create an Account First",
+	"Deal Assist | Marketplace" => "Deal Assist | Marketplace",
 ];

@@ -8,6 +8,8 @@ use App\Enums\ViewPaths\Vendor\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Vendor\LoginRequest;
 use App\Models\BusinessSetting;
+use App\Models\VendorExtraDetail;
+use App\Models\VendorUsers;
 use App\Repositories\VendorWalletRepository;
 use App\Services\VendorService;
 use App\Traits\RecaptchaTrait;
@@ -29,8 +31,7 @@ class LoginController extends Controller
         private readonly VendorService             $vendorService,
         private readonly VendorWalletRepository    $vendorWalletRepo,
 
-    )
-    {
+    ) {
         $this->middleware('guest:seller', ['except' => ['logout']]);
     }
 
@@ -51,18 +52,27 @@ class LoginController extends Controller
         $recaptchaBuilder = $this->generateDefaultReCaptcha(4);
         $recaptcha = getWebConfig(name: 'recaptcha');
         Session::put(SessionKey::VENDOR_RECAPTCHA_KEY, $recaptchaBuilder->getPhrase());
-        $data = BusinessSetting::where('type','vendorsetting')->first();
-        $vendorsetting = $data ? json_decode($data->value,true) : [];
-        return view(Auth::VENDOR_LOGIN[VIEW], compact('recaptchaBuilder', 'recaptcha','vendorsetting'));
+        $data = BusinessSetting::where('type', 'vendorsetting')->first();
+        $vendorsetting = $data ? json_decode($data->value, true) : [];
+        return view(Auth::VENDOR_LOGIN[VIEW], compact('recaptchaBuilder', 'recaptcha', 'vendorsetting'));
     }
 
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request)
     {
-        $recaptcha = getWebConfig(name: 'recaptcha');
-        if(isset($recaptcha) && $recaptcha['status'] == 0){
-            // Do Nothing
+        // Check if form is filled or not
+        $email = $request['email'];
+        $password = $request['password'];
+        $vendorUsers = VendorUsers::where('email', $email)->where('password', $password)->first();
+        if(!isset($vendorUsers)){
+            return response()->json([
+                'success' => translate('Create an Account First') . '!',
+                'redirectRoute' => route('vendor.auth.registration.index'),
+            ]);
         }
-        else if (isset($recaptcha) && $recaptcha['status'] == 1) {
+        $recaptcha = getWebConfig(name: 'recaptcha');
+        if (isset($recaptcha) && $recaptcha['status'] == 0) {
+            // Do Nothing
+        } else if (isset($recaptcha) && $recaptcha['status'] == 1) {
             $request->validate([
                 'g-recaptcha-response' => [
                     function ($attribute, $value, $fail) {
@@ -79,36 +89,68 @@ class LoginController extends Controller
             ]);
         } else {
             if ($recaptcha['status'] != 1 && strtolower($request->vendorRecaptchaKey) != strtolower(Session(SessionKey::VENDOR_RECAPTCHA_KEY))) {
-                return response()->json(['error'=>translate('captcha_failed').'!']);
+                return response()->json(['error' => translate('captcha_failed') . '!']);
             }
         }
-        $vendor = $this->vendorRepo->getFirstWhere(['identity' => $request['email']]);
-        if (!$vendor){
-            return response()->json(['error'=>translate('credentials_doesnt_match').'!']);
-        }
-        $passwordCheck = Hash::check($request['password'],$vendor['password']);
-        if ($passwordCheck && $vendor['status'] !== 'approved') {
-            return response()->json(['status' => $vendor['status']]);
-        }
-        if ($this->vendorService->isLoginSuccessful($request->email, $request->password, $request->remember)) {
-            if ($this->vendorWalletRepo->getFirstWhere(params:['id'=>auth('seller')->id()]) === false) {
-                $this->vendorWalletRepo->add($this->vendorService->getInitialWalletData(vendorId:auth('seller')->id()));
+        if ($vendorUsers->is_complete != 0) {
+            $vendor = $this->vendorRepo->getFirstWhere(['identity' => $request['email']]);
+            if (!$vendor) {
+                return response()->json(['error' => translate('credentials_doesnt_match') . '!']);
             }
-            $routename = ChatManager::RedirectSupplierDetails();
-            Toastr::info(translate('welcome_to_your_dashboard').'.');
+            $passwordCheck = Hash::check($request['password'], $vendor['password']);
+            if ($passwordCheck && $vendor['status'] !== 'approved') {
+                return response()->json(['status' => $vendor['status']]);
+            }
+            if ($this->vendorService->isLoginSuccessful($request->email, $request->password, $request->remember)) {
+                if ($this->vendorWalletRepo->getFirstWhere(params: ['id' => auth('seller')->id()]) === false) {
+                    $this->vendorWalletRepo->add($this->vendorService->getInitialWalletData(vendorId: auth('seller')->id()));
+                }
+                $routename = ChatManager::RedirectSupplierDetails();
+                Toastr::info(translate('welcome_to_your_dashboard') . '.');
+                return response()->json([
+                    'success' => translate('login_successful') . '!',
+                    'redirectRoute' => route($routename['route']),
+                ]);
+            } else {
+                return response()->json(['error' => translate('credentials_doesnt_match') . '!']);
+            }
+        } else {
             return response()->json([
-                'success' =>translate('login_successful') . '!',
-                'redirectRoute'=>route($routename['route']),
+                'success' => translate('Fill Details') . '!',
+                'redirectRoute' => route('vendor.form',['id' => $vendorUsers->id]),
             ]);
-        }else{
-            return response()->json(['error'=>translate('credentials_doesnt_match').'!']);
         }
+    }
+
+    public function showVendorForm($id)
+    {
+        $vendorUsers = VendorUsers::findOrFail($id);
+
+        $vendorProfileData = VendorExtraDetail::where('seller_users',$vendorUsers->id)->first();
+        $sellerUsersId = $vendorUsers->id;
+        $email = $vendorUsers->email;
+        $vendor_type = $vendorUsers->vendor_type;
+        $phone = $vendorUsers->phone;
+        $password = $vendorUsers->password;
+        $confirm_password = $vendorUsers->password;
+
+        session(['sellersUser' => $vendorUsers->id]);
+
+        return view('web-views.seller-view.auth.partial.vendor-information-form', compact(
+            'vendorProfileData',
+            'sellerUsersId',
+            'vendor_type',
+            'email',
+            'phone',
+            'password',
+            'confirm_password'
+        ));
     }
 
     public function logout(): RedirectResponse
     {
         $this->vendorService->logout();
-        Toastr::success(translate('logged_out_successfully').'.');
+        Toastr::success(translate('logged_out_successfully') . '.');
         return redirect()->route('vendor.auth.login');
     }
 }

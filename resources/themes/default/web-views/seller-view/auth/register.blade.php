@@ -21,7 +21,7 @@
             position: absolute;
             width: 455px;
             overflow: scroll;
-            height: 200px;
+            height: 280px;
             z-index: 1000;
         }
     </style>
@@ -92,7 +92,8 @@
                                     <div class="form-check mb-3">
                                         <input type="checkbox" class="form-check-input" id="acceptTerms">
                                         <label class="form-check-label" for="acceptTerms">
-                                            I agree to the <a href="{{ route('terms') }}" target="_blank">Terms and Conditions</a>
+                                            I agree to the <a href="{{ route('terms') }}" target="_blank">Terms and
+                                                Conditions</a>
                                         </label>
                                     </div>
 

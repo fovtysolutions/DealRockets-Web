@@ -46,19 +46,19 @@
                             class="js-sticky-block js-scrollspy navbar-nav navbar-nav-lg nav-tabs card card-navbar-nav p-3">
                             <li class="nav-item" style="width: 33%;">
                                 <a class="nav-link active d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
-                                    id="general-section" onclick="toggleSubTab('update-profile-form')">
+                                    id="general-section" onclick="toggleSubTab('update-profile-form',this)">
                                     <i class="tio-user-outlined nav-icon"></i>{{ translate('basic_Information') }}
                                 </a>
                             </li>
                             <li class="nav-item" style="width: 33%;">
-                                <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="#password-div"
-                                    id="password-section" onclick="toggleSubTab('password-div')">
+                                <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
+                                    id="password-section" onclick="toggleSubTab('password-div',this)">
                                     <i class="tio-lock-outlined nav-icon"></i> {{ translate('password') }}
                                 </a>
                             </li>
                             <li class="nav-item" style="width: 33%;">
-                                <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="#details-div"
-                                    id="details-section" onclick="toggleSubTab('details-div')">
+                                <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
+                                    id="details-section" onclick="toggleSubTab('details-div',this)">
                                     <i class="tio-info-outined nav-icon"></i> {{ translate('details') }}
                                 </a>
                             </li>
@@ -338,28 +338,21 @@
         });
     </script>
     <script>
-        function toggleSubTab(togglethis) {
-            const firsttab = 'update-profile-form';
-            const secondtab = 'password-div';
-            const thirdtab = 'details-div';
+        function toggleSubTab(contentId, btn) {
+            const tabs = ['update-profile-form', 'password-div', 'details-div'];
 
-            if (togglethis === firsttab) {
-                $('#password-div').addClass('d-none');
-                $('#details-div').addClass('d-none');
-                $('#update-profile-form').removeClass('d-none');
-            }
+            // Toggle content sections
+            tabs.forEach(function(tabId) {
+                if (tabId === contentId) {
+                    $('#' + tabId).removeClass('d-none').addClass('active');
+                } else {
+                    $('#' + tabId).addClass('d-none').removeClass('active');
+                }
+            });
 
-            if (togglethis === secondtab) {
-                $('#password-div').removeClass('d-none');
-                $('#details-div').addClass('d-none');
-                $('#update-profile-form').addClass('d-none');
-            }
-
-            if (togglethis === thirdtab) {
-                $('#password-div').addClass('d-none');
-                $('#details-div').removeClass('d-none');
-                $('#update-profile-form').addClass('d-none');
-            }
+            // Toggle button active state
+            $('.nav-link').removeClass('active'); // assuming all buttons have .tab-btn class
+            $(btn).addClass('active');
         }
     </script>
 @endpush

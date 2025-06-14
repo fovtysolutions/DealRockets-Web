@@ -18,6 +18,7 @@
             border: 1px solid #ccc;
             background-color: #f4f4f4;
             cursor: pointer;
+            flex: 1;
             border-radius: 4px;
             transition: background-color 0.2s, border-color 0.2s;
         }

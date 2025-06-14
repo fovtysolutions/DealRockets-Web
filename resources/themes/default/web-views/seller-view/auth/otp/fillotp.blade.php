@@ -217,6 +217,7 @@
                     success: function(response) {
                         if (response.success) {
                             toastr.success('OTP resent to your email.');
+                            console.log(response.otp);
                         } else {
                             toastr.info(response.message || 'Failed to resend OTP');
                         }

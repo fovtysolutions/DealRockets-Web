@@ -18,22 +18,27 @@
         display: none;
         background: white;
         z-index: 1000;
-        width: 50%;
+        width: 50vw;
+        height: 400px;
         padding: 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-left: 1px solid #eee;
+        overflow: hidden;
     }
 
     .globle-deals .category-list {
         overflow: unset;
-    } 
+    }
 
     .category-item:hover>.mega_menu_new {
-        display: block;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
     }
 
     .mega_menu_inner_new {
         margin-bottom: 15px;
+        width: 120px;
     }
 </style>
 @if (empty($carouselimages))
@@ -59,7 +64,7 @@
                 <span style="color:rgb(236, 51, 51);">☰</span> TOP CATEGORIES
             </h5>
             <ul id="categoryList" class="category-list">
-                @foreach ($categories->take(16) as $key => $category)
+                @foreach ($categories->take(17) as $key => $category)
                     <li class="text-left category-item"> <!-- Added class here -->
                         <a href="{{ route('marketplace-categories', ['id' => $category['id']]) }}">
                             {{ $category->name }}
@@ -278,7 +283,7 @@
 
                 wrapper.style.maxHeight = 'none'; // reset to measure full
                 const fullHeight = wrapper.scrollHeight;
-                const refHeight = referenceBox.offsetHeight + scrollBoxHeight.offsetHeight;
+                const refHeight = referenceBox.offsetHeight + scrollBoxHeight.offsetHeight - 60;
 
                 const maxHeight = Math.min(fullHeight, refHeight);
                 wrapper.style.maxHeight = `${maxHeight}px`;

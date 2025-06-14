@@ -288,7 +288,7 @@ class RegisterController extends BaseController
             'is_operational' => $request->boolean('is_operational'),
             'is_info_verified' => $request->boolean('info_verified'),
             'has_authorized_consent' => $request->boolean('authorized_consent'),
-            'authorized_name' => $request->input('signature'),
+            'authorized_name' => $request->input('authorized_name'),
 
             'company_images' => json_encode($companyImages),
             'factory_images' => json_encode($factoryImages),
@@ -403,7 +403,7 @@ class RegisterController extends BaseController
             'is_operational' => $request->boolean('is_operational'),
             'is_info_verified' => $request->boolean('info_verified'),
             'has_authorized_consent' => $request->boolean('authorized_consent'),
-            'authorized_name' => $request->input('signature'),
+            'authorized_name' => $request->input('authorized_name'),
 
             'company_images' => json_encode($companyImages),
             'factory_images' => json_encode($factoryImages),
@@ -439,7 +439,7 @@ class RegisterController extends BaseController
         self::createVendorExtraDetail($request, $vendor['id']);
         $this->shopRepo->add($this->shopService->getAddShopDataForRegistration(request: $request, vendorId: $vendor['id']));
         $this->vendorWalletRepo->add($this->vendorService->getInitialWalletData(vendorId: $vendor['id']));
-
+        
         $n = 20;
         $chatid = bin2hex(random_bytes($n / 2));
         $membershipid = bin2hex(random_bytes($n / 2));

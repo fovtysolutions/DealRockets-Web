@@ -180,7 +180,7 @@
                         </div>
                         <div class="form-group">
                             <label>Registered Business Name</label>
-                            <input type="text" name="registered_name" required value="{{ $vendorProfileData->registered_name ?? null }}">
+                            <input type="text" name="registered_name" required value="{{ $vendorProfileData->registered_business_name ?? null }}">
                         </div>
                     </div>
 
@@ -197,14 +197,14 @@
                         </div>
                         <div class="form-group">
                             <label>Main Products / Services</label>
-                            <textarea name="main_products" placeholder="List comma-separated or use bullet points" rows="1" required>{{ $vendorProfileData->main_products ?? null }}</textarea>
+                            <textarea name="main_products" placeholder="List comma-separated or use bullet points" rows="1" required>{{ $vendorProfileData->main_products_services ?? null }}</textarea>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Year of Establishment</label>
-                            <input type="text" name="establishment_year" required pattern="\d{4}" maxlength="4" value="{{ $vendorProfileData->establishment_year ?? null }}">
+                            <input type="text" name="establishment_year" required pattern="\d{4}" maxlength="4" value="{{ $vendorProfileData->year_of_establishment ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Business Registration Number</label>
@@ -215,7 +215,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Country of Registration</label>
-                            <input type="text" name="registration_country" required value="{{ $vendorProfileData->registration_country ?? null}}">
+                            <input type="text" name="registration_country" required value="{{ $vendorProfileData->country_of_registration ?? null}}">
                         </div>
                         <div class="form-group">
                             <label>GST / VAT / TAX ID</label>
@@ -232,9 +232,9 @@
                             <label>Industry Category</label>
                             <select name="industry" required>
                                 <option value="">Select Industry</option>
-                                <option value="agri"{{ isset($vendorProfileData->business_type) ? ($vendorProfileData->business_type == 'agri' ? 'selected' : '') : '' }}>Agriculture</option>
-                                <option value="food"{{ isset($vendorProfileData->business_type) ? ($vendorProfileData->business_type == 'food' ? 'selected' : '') : '' }}>Food</option>
-                                <option value="fmcg"{{ isset($vendorProfileData->business_type) ? ($vendorProfileData->business_type == 'fmcg' ? 'selected' : '') : '' }}>FMCG</option>
+                                <option value="agri"{{ isset($vendorProfileData->industry_category) ? ($vendorProfileData->industry_category == 'agri' ? 'selected' : '') : '' }}>Agriculture</option>
+                                <option value="food"{{ isset($vendorProfileData->industry_category) ? ($vendorProfileData->industry_category == 'food' ? 'selected' : '') : '' }}>Food</option>
+                                <option value="fmcg"{{ isset($vendorProfileData->industry_category) ? ($vendorProfileData->industry_category == 'fmcg' ? 'selected' : '') : '' }}>FMCG</option>
                                 <!-- Add more as needed -->
                             </select>
                         </div>
@@ -267,14 +267,14 @@
                         </div>
                         <div class="form-group">
                             <label>Postal / ZIP Code</label>
-                            <input type="text" name="zip_code" required  value="{{ $vendorProfileData->zip_code ?? null }}">
+                            <input type="text" name="zip_code" required  value="{{ $vendorProfileData->postal_code ?? null }}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Website URL</label>
-                            <input type="url" name="website_url" required value="{{ $vendorProfileData->website_url ?? null }}">
+                            <input type="url" name="website_url" required value="{{ $vendorProfileData->website ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Company Phone Number</label>
@@ -285,7 +285,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Head Office Address</label>
-                            <textarea name="office_address" required rows="1">{{ $vendorProfileData->office_address ?? null }}</textarea>
+                            <textarea name="office_address" required rows="1">{{ $vendorProfileData->head_office_address ?? null }}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Company Email Address</label>
@@ -305,7 +305,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Contact Person Name</label>
-                            <input type="text" name="contact_name" required value="{{ $vendorProfileData->contact_name ?? null }}">
+                            <input type="text" name="contact_name" required value="{{ $vendorProfileData->contact_person_name ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Designation</label>
@@ -348,14 +348,14 @@
 
                         <div class="form-group">
                             <label>Bank Account Name</label>
-                            <input type="text" name="bank_account_name" required  value="{{ $vendorProfileData->bank_account_name ?? null }}">
+                            <input type="text" name="bank_account_name" required  value="{{ $vendorProfileData->account_name ?? null }}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Account Number / IBAN</label>
-                            <input type="text" name="iban" required value="{{ $vendorProfileData->iban ?? null }}">
+                            <input type="text" name="iban" required value="{{ $vendorProfileData->account_number ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>SWIFT / BIC Code</label>
@@ -367,11 +367,11 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Bank Address</label>
-                            <input type="text" name="bank_address" required value="{{ $vendorProfileData->band_address ?? null }}">
+                            <input type="text" name="bank_address" required value="{{ $vendorProfileData->bank_address ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Currency Accepted</label>
-                            <input type="text" name="currency_accepted" placeholder="USD, AED, EUR" required  value="{{ $vendorProfileData->currency_accepted ?? null }}">
+                            <input type="text" name="currency_accepted" placeholder="USD, AED, EUR" required  value="{{ $vendorProfileData->currency ?? null }}">
                         </div>
                     </div>
 
@@ -449,18 +449,18 @@
 
                         <div class="form-group">
                             <label>Name of the Person & Designation</label>
-                            <input type="text" name="person_name_designation" required value="{{ $vendorProfileData->person_name_designation ?? null }}">
+                            <input type="text" name="person_name_designation" required value="{{ $vendorProfileData->authority_name ?? null }}">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Contact</label>
-                            <input type="text" name="person_contact" required value="{{ $vendorProfileData->person_contact ?? null }}">
+                            <input type="text" name="person_contact" required value="{{ $vendorProfileData->authority_contact ?? null }}">
                         </div>
                         <div class="form-group">
                             <label>Email ID</label>
-                            <input type="email" name="person_email" required value="{{ $vendorProfileData->person_email ?? null }}">
+                            <input type="email" name="person_email" required value="{{ $vendorProfileData->authority_email ?? null }}">
                         </div>
                     </div>
 
@@ -500,7 +500,7 @@
                                 <input type="checkbox" name="authorized_consent" required><label> I am an authorized
                                     representative of the company</label>
                             </div>
-                            <input type="text" name="authorized_name" placeholder="Name of Authorized Person"
+                            <input type="text" name="authorized_name" placeholder="Name of Authorized Person" value="{{ $vendorProfileData->authorized_name ?? null }}"
                                 required>
                         </div>
 
@@ -529,19 +529,6 @@
     </div>
 @endsection
 @push('script')
-
-    @if ($web_config['recaptcha']['status'] == '1')
-        <script type="text/javascript">
-            "use strict";
-            var onloadCallback = function() {
-                let reg_id = grecaptcha.render('recaptcha-element-vendor-register', {
-                    'sitekey': '{{ $web_config['recaptcha']['site_key'] }}'
-                });
-                $('#recaptcha-element-vendor-register').attr('data-reg-id', reg_id);
-            };
-        </script>
-        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
-    @endif
     <script>
         $(document).on('click', '.save-btn', function(e) {
             e.preventDefault();
@@ -613,16 +600,7 @@
     </script>
     <script>
         $('#vendor-apply-submit').on('click', function() {
-            @if ($web_config['recaptcha']['status'] == '1')
-                var response = grecaptcha.getResponse($('#recaptcha-element-vendor-register').attr('data-reg-id'));
-                if (response.length === 0) {
-                    toastr.error("{{ translate('please_check_the_recaptcha') }}");
-                } else {
-                    submitRegistration();
-                }
-            @else
-                submitRegistration();
-            @endif
+            submitRegistration();
         });
     </script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>

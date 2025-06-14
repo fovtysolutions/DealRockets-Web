@@ -16,6 +16,11 @@
 .tooltip{
     z-index: 10001;
 }
+    .nav-itemhome {
+        border-right: 1px solid lightgrey;
+        padding-right: 6px;
+    }
+
 /* Existing */
 .nav-itemhome a {
     position: relative;
@@ -35,7 +40,7 @@
 .listhome {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 6px;
     list-style-type: none;
 }
 .hiddenabove1210 {
@@ -82,7 +87,7 @@
         <div class="navbar-nav-wrap">
             <div class="navbar-brand-wrapper d-sm-block">
                 <a class="navbar-brand" href="{{ route('vendor.dashboard.index') }}" aria-label="{{ translate('logo') }}">
-                    <img class="navbar-brand-logo"
+                    <img class=""
                         src="{{ isset($web_config) ? $web_config['web_logo']['path'] : dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg') }}"
                         alt="{{ translate('logo') }}"
                         height="40">

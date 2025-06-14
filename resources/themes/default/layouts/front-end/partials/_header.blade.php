@@ -48,7 +48,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                             </div>
                             <div class="frame-2 delthree">
                                 <a class="text-wrapper-3" href="{{ route('vendor.auth.registration.index') }}"
-                                    data-menu="/vendorzone">Vendor Zone</a>
+                                    data-menu="/vendorzone">Supplier Zone</a>
                             </div>
 
                         </div>
@@ -76,7 +76,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
 
                             <div class="group-4">
                                 <div id="languageToggleBtn">
-                                    <div class="frame-4">
+                                    <div class="frame-4" style="left:0;">
                                         <div class="text-wrapper-5">
                                             Translate
                                         </div>
@@ -420,11 +420,12 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
             document.getElementById("dropdownNav").classList.toggle("show");
         }
     </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
-                includedLanguages: 'hi,fr,es,de',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE
             }, 'google_translate_element');
         }
@@ -433,6 +434,4 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
             document.getElementById('google_translate_element').style.display = 'block';
         });
     </script>
-
-    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 @endpush

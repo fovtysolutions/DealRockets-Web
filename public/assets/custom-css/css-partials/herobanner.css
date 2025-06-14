@@ -509,6 +509,10 @@
     display: flex;
 }
 
+.globle-deals{
+    height: 666px;
+}
+
 .globle-deals .card {
     overflow: hidden;
 }

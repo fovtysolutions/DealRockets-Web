@@ -50,6 +50,7 @@ use App\Http\Controllers\Payment_Methods\PaystackController;
 use App\Http\Controllers\Leads\LeadsController;
 use App\Http\Controllers\Quotation\QuotatioController;
 use App\Http\Controllers\CV\CVController;
+use App\Http\Controllers\Vendor\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\Vendor\Auth\RegisterController as AuthRegisterController;
 use App\Http\Controllers\Web\AgrotradexController;
 use App\Http\Controllers\Web\SupplierController;
@@ -639,3 +640,4 @@ Route::post('resend-otp-custom',[AuthRegisterController::class,'resendotp'])->na
 Route::post('verify-otp-custom',[AuthRegisterController::class,'verifyotpcustom'])->name('verify-otp-custom');
 Route::post('save-vendor-details/{sellerusers}',[AuthRegisterController::class, 'saveVendorExtraDetails'])->name('save-vendor-details');
 Route::get('/products/search', [ProductListController::class, 'search'])->name('products.search');
+Route::get('form/{id}', [AuthLoginController::class, 'showVendorForm'])->name('vendor.form');

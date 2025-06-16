@@ -64,6 +64,7 @@ use App\Http\Controllers\Web\ErrorController;
 use App\Http\Controllers\Web\StocksalewebController;
 use App\Http\Controllers\Web\MembershipTierController;
 use App\Http\Controllers\Web\MarketplaceController;
+use App\Http\Controllers\Web\NewProductStoreController;
 use App\Http\Controllers\Web\StockSellController;
 
 /*
@@ -641,3 +642,13 @@ Route::post('verify-otp-custom',[AuthRegisterController::class,'verifyotpcustom'
 Route::post('save-vendor-details/{sellerusers}',[AuthRegisterController::class, 'saveVendorExtraDetails'])->name('save-vendor-details');
 Route::get('/products/search', [ProductListController::class, 'search'])->name('products.search');
 Route::get('form/{id}', [AuthLoginController::class, 'showVendorForm'])->name('vendor.form');
+
+// New Products Sumbit
+Route::prefix('products-new')->name('products_new.')->group(function () {
+    Route::get('/', [NewProductStoreController::class, 'index'])->name('index');
+    Route::get('/add', [NewProductStoreController::class, 'create'])->name('add'); // route('products_new.add')
+    Route::post('/store', [NewProductStoreController::class, 'store'])->name('store');
+    Route::get('/edit/{product}', [NewProductStoreController::class, 'edit'])->name('edit');
+    Route::put('/update/{product}', [NewProductStoreController::class, 'update'])->name('update');
+    Route::delete('/delete/{product}', [NewProductStoreController::class, 'destroy'])->name('delete');
+});

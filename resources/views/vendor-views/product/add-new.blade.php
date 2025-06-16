@@ -18,13 +18,13 @@
             </h2>
         </div>
 
-        <form class="product-form text-start" action="{{ route('vendor.products.add') }}" method="POST"
-            enctype="multipart/form-data" id="product_form">
+        <form class="product-form text-start" action="{{ route('products_new.store') }}" method="POST"
+            enctype="multipart/form-data" id="product_form_new">
             @csrf
             
             <div class="card">
                 <div class="card-body">
-                    @include('admin-views.product.partials._product_fields')
+                    @include('admin-views.product.partials._product_fields_new')
                 </div>
             </div>
         </form>
@@ -94,6 +94,14 @@
         </div>`;
         }
 
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('dynamic-data-box');
+            if (container && container.children.length === 0) {
+                container.insertAdjacentHTML('beforeend', getTitleGroupHtmlTechnical(titleCountTechnical));
+                titleCount++;
+            }
+        });
+
         document.getElementById('add-title-group').addEventListener('click', function() {
             const container = document.getElementById('dynamic-data-box');
             container.insertAdjacentHTML('beforeend', getTitleGroupHtml(titleCount));
@@ -152,6 +160,14 @@
             </div>
         </div>`;
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('dynamic-data-box-technical');
+            if (container && container.children.length === 0) {
+                container.insertAdjacentHTML('beforeend', getTitleGroupHtmlTechnical(titleCountTechnical));
+                titleCountTechnical++;
+            }
+        });
 
         document.getElementById('add-title-group-technical').addEventListener('click', function() {
             const container = document.getElementById('dynamic-data-box-technical');

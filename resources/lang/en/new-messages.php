@@ -9492,4 +9492,5 @@ return [
 	"Check your OTP" => "Check your OTP",
 	"quarterly" => "Quarterly",
 	"Fill Details" => "Fill Details",
+	"HS Code" => "HS Code",
 ];

@@ -2,7 +2,7 @@
     $vendorCards = [
         ['Dashboard', 'analytics', 'fas fa-chart-line'],
         ['Inbox', 'vendor-inbox', 'fas fa-inbox'],
-        ['Product Upload', 'product-upload', 'fas fa-upload'],
+        ['Go To Marketplace', 'marketplace', 'fas fa-store'],
         ['Profile', 'profile', 'fas fa-user'],
         ['Upload Banner', 'upload-banner', 'fas fa-bullhorn'],
         ['Membership', 'membership', 'fas fa-id-card'],
@@ -16,7 +16,6 @@
         ['Post RFQ', 'post-rfq', 'fas fa-paper-plane'],
         ['Hire an Employee', 'hire-employee', 'fas fa-user-tie'],
         ['Post a Job', 'post-job', 'fas fa-briefcase'],
-        ['Go To Marketplace', 'marketplace', 'fas fa-store'],
         ['Clearing & Forwarding Services', 'clearing-forwarding', 'fas fa-truck-moving'],
     ];
 @endphp
@@ -38,7 +37,7 @@
     $iconMap = [
         '/img/vendor_icons/dashboard.png',
         '/img/vendor_icons/inbox.png',
-        '/img/vendor_icons/new-product.png',
+        '/img/vendor_icons/marketplace.png',
         '/img/vendor_icons/profile.png',
         '/img/vendor_icons/ads.png',
         '/img/vendor_icons/privilege.png',
@@ -52,7 +51,6 @@
         '/img/vendor_icons/rfq.png',
         '/img/vendor_icons/candidate.png',
         '/img/vendor_icons/posting.png',
-        '/img/vendor_icons/marketplace.png',
         '/img/vendor_icons/customer-service.png',
     ];
 @endphp

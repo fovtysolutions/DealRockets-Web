@@ -492,6 +492,10 @@ class DashboardController extends BaseController
                 $cardData = [
                     ['link' => route('vendor.products.add'), 'title' => 'Upload Products', 'value' => 'Yes'],
                     ['link' => route('vendor.products.bulk-import'), 'title' => 'Bulk Import', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'all']), 'title' => 'Manage Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'approved']), 'title' => 'Approved Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'denied']), 'title' => 'Denied Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'new-request']), 'title' => 'New Product Request', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -522,6 +526,8 @@ class DashboardController extends BaseController
             case 'marketplace':
                 $title = 'Marketplace';
                 $cardData = [
+                    ['link' => route('vendor.products.add'), 'title' => 'Upload Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.bulk-import'), 'title' => 'Bulk Import', 'value' => 'Yes'],
                     ['link' => route('vendor.products.list', ['type' => 'all']), 'title' => 'Manage Products', 'value' => 'Yes'],
                     ['link' => route('vendor.products.list', ['type' => 'approved']), 'title' => 'Approved Products', 'value' => 'Yes'],
                     ['link' => route('vendor.products.list', ['type' => 'denied']), 'title' => 'Denied Products', 'value' => 'Yes'],

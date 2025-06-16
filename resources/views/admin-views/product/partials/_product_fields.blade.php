@@ -65,28 +65,45 @@
                     {{ translate('category') }}
                     <span class="input-required-icon">*</span>
                 </label>
-                <select class="js-select2-custom form-control action-get-request-onchange" name="category_id"
-                    data-url-prefix="{{ route('admin.products.get-categories') . '?parent_id=' }}"
-                    data-element-id="sub-category-select" data-element-type="select" required>
-                    <option value="{{ old('category_id') }}" selected disabled>
-                        {{ translate('select_category') }}
+                @if (auth('admin')->check())
+                    <select class="js-select2-custom form-control action-get-request-onchange" name="category_id"
+                        data-url-prefix="{{ route('admin.products.get-categories') . '?parent_id=' }}"
+                        data-element-id="sub-category-select" data-element-type="select" required>
+                    @else
+                        <select class="js-select2-custom form-control action-get-request-onchange" name="category_id"
+                            data-url-prefix="{{ route('vendor.products.get-categories') . '?parent_id=' }}"
+                            data-element-id="sub-category-select" data-element-type="select" required>
+                @endif
+                <option value="{{ old('category_id') }}" selected disabled>
+                    {{ translate('select_category') }}
+                </option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category['id'] }}"
+                        {{ $isEdit && $category['id'] == ($product['category_id'] ?? null) ? 'selected' : '' }}>
+                        {{ $category['name'] }}
                     </option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category['id'] }}" {{ $isEdit && $category['id'] == ($product['category_id'] ?? null) ? 'selected' : '' }}>
-                            {{ $category['name'] }}
-                        </option>
-                    @endforeach
+                @endforeach
                 </select>
             </div>
             <div class="form-group">
                 <label class="title-color">{{ translate('sub_Category') }}</label>
-                <select
-                    class="js-example-basic-multiple js-states js-example-responsive form-control action-get-request-onchange"
-                    name="sub_category_id" id="sub-category-select"
-                    data-id="{{ $isEdit ? $product['sub_category_id'] : '' }}"
-                    data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                    data-element-id="sub-sub-category-select" data-element-type="select">
-                </select>
+                @if (auth('admin')->check())
+                    <select
+                        class="js-example-basic-multiple js-states js-example-responsive form-control action-get-request-onchange"
+                        name="sub_category_id" id="sub-category-select"
+                        data-id="{{ $isEdit ? $product['sub_category_id'] : '' }}"
+                        data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
+                        data-element-id="sub-sub-category-select" data-element-type="select">
+                    </select>
+                @else
+                    <select
+                        class="js-example-basic-multiple js-states js-example-responsive form-control action-get-request-onchange"
+                        name="sub_category_id" id="sub-category-select"
+                        data-id="{{ $isEdit ? $product['sub_category_id'] : '' }}"
+                        data-url-prefix="{{ url('/vendor/products/get-categories?parent_id=') }}"
+                        data-element-id="sub-sub-category-select" data-element-type="select">
+                    </select>
+                @endif
             </div>
         </div>
         <div class="form-row">
@@ -112,13 +129,15 @@
                                     <div class="form-group">
                                         <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
                                             <div>
-                                                <label for="name" class="title-color text-capitalize font-weight-bold mb-0">
+                                                <label for="name"
+                                                    class="title-color text-capitalize font-weight-bold mb-0">
                                                     {{ translate('product_thumbnail') }}
                                                     <span class="input-required-icon">*</span>
                                                 </label>
                                                 <span
                                                     class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Product Image'] }}</span>
-                                                <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
+                                                <span class="input-label-secondary cursor-pointer"
+                                                    data-toggle="tooltip"
                                                     title="{{ translate('add_your_product’s_thumbnail_in') }} JPG, PNG or JPEG {{ translate('format_within') }} 2MB">
                                                     <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
                                                         alt="">
@@ -129,8 +148,8 @@
                                         <div>
                                             <div class="custom_upload_input">
                                                 <input type="file" name="image"
-                                                    class="custom-upload-input-file action-upload-color-image" id=""
-                                                    data-imgpreview="pre_img_viewer"
+                                                    class="custom-upload-input-file action-upload-color-image"
+                                                    id="" data-imgpreview="pre_img_viewer"
                                                     accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
 
                                                 <span
@@ -139,8 +158,8 @@
                                                 </span>
 
                                                 <div class="img_area_with_preview position-absolute z-index-2">
-                                                    <img id="pre_img_viewer" class="h-auto aspect-1 bg-white d-none" src=""
-                                                        alt="">
+                                                    <img id="pre_img_viewer" class="h-auto aspect-1 bg-white d-none"
+                                                        src="" alt="">
                                                 </div>
                                                 <div
                                                     class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
@@ -175,7 +194,8 @@
                                                     class="title-color text-capitalize font-weight-bold mb-0">{{ translate('colour_wise_product_image') }}</label>
                                                 <span
                                                     class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Product Image'] }}</span>
-                                                <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
+                                                <span class="input-label-secondary cursor-pointer"
+                                                    data-toggle="tooltip"
                                                     title="{{ translate('add_color-wise_product_images_here') }}.">
                                                     <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
                                                         alt="">
@@ -215,10 +235,11 @@
 
                                     <div class="row g-2" id="additional_Image_Section">
                                         <div class="col-sm-12 col-md-4">
-                                            <div class="custom_upload_input position-relative border-dashed-2 aspect-1">
+                                            <div
+                                                class="custom_upload_input position-relative border-dashed-2 aspect-1">
                                                 <input type="file" name="images[]"
-                                                    class="custom-upload-input-file action-add-more-image" data-index="1"
-                                                    data-imgpreview="additional_Image_1"
+                                                    class="custom-upload-input-file action-add-more-image"
+                                                    data-index="1" data-imgpreview="additional_Image_1"
                                                     accept=".jpg, .png, .webp, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
                                                     data-target-section="#additional_Image_Section">
 
@@ -227,8 +248,10 @@
                                                     <i class="tio-delete"></i>
                                                 </span>
 
-                                                <div class="img_area_with_preview position-absolute z-index-2 border-0">
-                                                    <img id="additional_Image_1" class="h-auto aspect-1 bg-white d-none "
+                                                <div
+                                                    class="img_area_with_preview position-absolute z-index-2 border-0">
+                                                    <img id="additional_Image_1"
+                                                        class="h-auto aspect-1 bg-white d-none "
                                                         src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/product-upload-icon.svg-dummy') }}"
                                                         alt="">
                                                 </div>
@@ -258,7 +281,8 @@
                                             <div>
                                                 <label for="name"
                                                     class="title-color text-capitalize font-weight-bold mb-0">{{ translate('Product_Preview_File') }}</label>
-                                                <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
+                                                <span class="input-label-secondary cursor-pointer"
+                                                    data-toggle="tooltip"
                                                     title="{{ translate('upload_a_suitable_file_for_a_short_product_preview.') }} {{ translate('this_preview_will_be_common_for_all_variations.') }}">
                                                     <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
                                                         alt="">
@@ -268,7 +292,8 @@
                                         <p class="text-muted">{{ translate('Upload_a_short_preview') }}.</p>
                                     </div>
                                     <div class="image-uploader">
-                                        <input type="file" name="preview_file" class="image-uploader__zip" id="input-file">
+                                        <input type="file" name="preview_file" class="image-uploader__zip"
+                                            id="input-file">
                                         <div class="image-uploader__zip-preview">
                                             <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/product-upload-icon.svg') }}"
                                                 class="mx-auto" width="50" alt="">
@@ -296,7 +321,8 @@
                                 <div class="card-body">
                                     <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
                                         <div>
-                                            <label for="name" class="title-color text-capitalize font-weight-bold mb-0">
+                                            <label for="name"
+                                                class="title-color text-capitalize font-weight-bold mb-0">
                                                 {{ translate('product_thumbnail') }}
                                                 <span class="input-required-icon">*</span>
                                             </label>
@@ -313,12 +339,13 @@
                                     <div>
                                         <div class="custom_upload_input">
                                             <input type="file" name="image"
-                                                class="custom-upload-input-file action-upload-color-image" id=""
-                                                data-imgpreview="pre_img_viewer"
+                                                class="custom-upload-input-file action-upload-color-image"
+                                                id="" data-imgpreview="pre_img_viewer"
                                                 accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
 
                                             @if ($product->thumbnail_full_url['path'])
-                                                <span class="delete_file_input btn btn-outline-danger btn-sm square-btn d-flex">
+                                                <span
+                                                    class="delete_file_input btn btn-outline-danger btn-sm square-btn d-flex">
                                                     <i class="tio-delete"></i>
                                                 </span>
                                             @else
@@ -329,12 +356,14 @@
                                             @endif
 
                                             <div class="img_area_with_preview position-absolute z-index-2">
-                                                <img id="pre_img_viewer" class="h-auto aspect-1 bg-white  " alt=""
+                                                <img id="pre_img_viewer" class="h-auto aspect-1 bg-white  "
+                                                    alt=""
                                                     src="{{ getStorageImages(path: $product->thumbnail_full_url, type: 'backend-product') }}">
                                             </div>
                                             <div
                                                 class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
-                                                <div class="d-flex flex-column justify-content-center align-items-center">
+                                                <div
+                                                    class="d-flex flex-column justify-content-center align-items-center">
                                                     <img alt=""
                                                         src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/product-upload-icon.svg') }}"
                                                         class="w-75">
@@ -409,10 +438,11 @@
                                             @if (count($product->colors) == 0)
                                                 @foreach ($product->images_full_url as $key => $photo)
                                                     @php
-                                                        $unique_id = rand(1111, 9999)
+                                                        $unique_id = rand(1111, 9999);
                                                     @endphp
 
-                                                    <div class="col-sm-12 col-md-4" id="addition-image-section-{{ $key }}">
+                                                    <div class="col-sm-12 col-md-4"
+                                                        id="addition-image-section-{{ $key }}">
                                                         <div
                                                             class="custom_upload_input custom-upload-input-file-area position-relative border-dashed-2 aspect-1">
                                                             @if (request('product-gallery'))
@@ -428,9 +458,10 @@
                                                                 </a>
                                                             @endif
 
-                                                            <div class="img_area_with_preview position-absolute z-index-2 border-0">
-                                                                <img id="additional_Image_{{ $unique_id }}" alt=""
-                                                                    class="h-auto aspect-1 bg-white  "
+                                                            <div
+                                                                class="img_area_with_preview position-absolute z-index-2 border-0">
+                                                                <img id="additional_Image_{{ $unique_id }}"
+                                                                    alt="" class="h-auto aspect-1 bg-white  "
                                                                     src="{{ getStorageImages(path: $photo, type: 'backend-product') }}">
                                                                 @if (request('product-gallery'))
                                                                     <input type="text" name="existing_images[]"
@@ -457,9 +488,10 @@
                                                     @foreach ($product->color_images_full_url as $photo)
                                                         @if ($photo['color'] == null)
                                                             @php
-                                                                $unique_id = rand(1111, 9999)
+                                                                $unique_id = rand(1111, 9999);
                                                             @endphp
-                                                            <div class="col-sm-12 col-md-4" id="addition-image-section-{{ $key }}">
+                                                            <div class="col-sm-12 col-md-4"
+                                                                id="addition-image-section-{{ $key }}">
                                                                 <div
                                                                     class="custom_upload_input custom-upload-input-file-area position-relative border-dashed-2 aspect-1">
                                                                     @if (request('product-gallery'))
@@ -475,13 +507,17 @@
                                                                         </a>
                                                                     @endif
 
-                                                                    <div class="img_area_with_preview position-absolute z-index-2 border-0">
-                                                                        <img id="additional_Image_{{ $unique_id }}" alt=""
+                                                                    <div
+                                                                        class="img_area_with_preview position-absolute z-index-2 border-0">
+                                                                        <img id="additional_Image_{{ $unique_id }}"
+                                                                            alt=""
                                                                             class="h-auto aspect-1 bg-white  "
                                                                             src="{{ getStorageImages(path: $photo['image_name'], type: 'backend-product') }}">
                                                                         @if (request('product-gallery'))
-                                                                            <input type="text" name="existing_images[]"
-                                                                                value="{{ $photo['image_name']['key'] }}" hidden>
+                                                                            <input type="text"
+                                                                                name="existing_images[]"
+                                                                                value="{{ $photo['image_name']['key'] }}"
+                                                                                hidden>
                                                                         @endif
                                                                     </div>
                                                                     <div
@@ -503,9 +539,10 @@
                                                 @else
                                                     @foreach ($product->images_full_url as $key => $photo)
                                                         @php
-                                                            $unique_id = rand(1111, 9999)
+                                                            $unique_id = rand(1111, 9999);
                                                         @endphp
-                                                        <div class="col-sm-12 col-md-4" id="addition-image-section-{{ $key }}">
+                                                        <div class="col-sm-12 col-md-4"
+                                                            id="addition-image-section-{{ $key }}">
                                                             <div
                                                                 class="custom_upload_input custom-upload-input-file-area position-relative border-dashed-2 aspect-1">
                                                                 @if (request('product-gallery'))
@@ -520,8 +557,10 @@
                                                                         <i class="tio-delete"></i>
                                                                     </a>
                                                                 @endif
-                                                                <div class="img_area_with_preview position-absolute z-index-2 border-0">
-                                                                    <img id="additional_Image_{{ $unique_id }}" alt=""
+                                                                <div
+                                                                    class="img_area_with_preview position-absolute z-index-2 border-0">
+                                                                    <img id="additional_Image_{{ $unique_id }}"
+                                                                        alt=""
                                                                         class="h-auto aspect-1 bg-white  "
                                                                         src="{{ getStorageImages(path: $photo, type: 'backend-product') }}">
                                                                     @if (request('product-gallery'))
@@ -546,7 +585,8 @@
                                                 @endif
                                             @endif
                                             <div class="col-sm-12 col-md-4">
-                                                <div class="custom_upload_input position-relative border-dashed-2 aspect-1">
+                                                <div
+                                                    class="custom_upload_input position-relative border-dashed-2 aspect-1">
                                                     <input type="file" name="images[]"
                                                         class="custom-upload-input-file action-add-more-image"
                                                         data-index="1" data-imgpreview="additional_Image_1"
@@ -558,9 +598,11 @@
                                                         <i class="tio-delete"></i>
                                                     </span>
 
-                                                    <div class="img_area_with_preview position-absolute z-index-2 border-0">
-                                                        <img id="additional_Image_1" class="h-auto aspect-1 bg-white d-none"
-                                                            alt="" src="">
+                                                    <div
+                                                        class="img_area_with_preview position-absolute z-index-2 border-0">
+                                                        <img id="additional_Image_1"
+                                                            class="h-auto aspect-1 bg-white d-none" alt=""
+                                                            src="">
                                                     </div>
                                                     <div
                                                         class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
@@ -591,7 +633,8 @@
                                             <div>
                                                 <label for="name"
                                                     class="title-color text-capitalize font-weight-bold mb-0">{{ translate('Product_Preview_File') }}</label>
-                                                <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
+                                                <span class="input-label-secondary cursor-pointer"
+                                                    data-toggle="tooltip"
                                                     title="{{ translate('upload_a_suitable_file_for_a_short_product_preview.') }} {{ translate('this_preview_will_be_common_for_all_variations.') }}">
                                                     <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
                                                         alt="">
@@ -601,7 +644,8 @@
                                         <p class="text-muted">{{ translate('Upload_a_short_preview') }}.</p>
                                     </div>
                                     <div class="image-uploader">
-                                        <input type="file" name="preview_file" class="image-uploader__zip" id="input-file">
+                                        <input type="file" name="preview_file" class="image-uploader__zip"
+                                            id="input-file">
                                         <div class="image-uploader__zip-preview">
                                             <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/product-upload-icon.svg') }}"
                                                 class="mx-auto" width="50" alt="">
@@ -631,7 +675,8 @@
                                                 <i class="tio-delete"></i>
                                             </span>
                                         @else
-                                            <span class="btn btn-outline-danger btn-sm square-btn collapse zip-remove-btn">
+                                            <span
+                                                class="btn btn-outline-danger btn-sm square-btn collapse zip-remove-btn">
                                                 <i class="tio-delete"></i>
                                             </span>
                                         @endif
@@ -645,7 +690,8 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" id="color_image" value="{{ json_encode($product->color_images_full_url) }}">
+                    <input type="hidden" id="color_image"
+                        value="{{ json_encode($product->color_images_full_url) }}">
                     <input type="hidden" id="images" value="{{ json_encode($product->images_full_url) }}">
                     <input type="hidden" id="product_id" name="product_id" value="{{ $product['id'] }}">
                     <input type="hidden" id="remove_url" value="{{ route('admin.products.delete-image') }}">
@@ -658,7 +704,8 @@
                     {{ translate('Origin') }}
                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
                         title="{{ translate('add_the_product_search_tag_for_this_product_that_customers_can_use_to_search_quickly') }}">
-                        <img width="16" src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
+                        <img width="16"
+                            src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
                             alt="">
                     </span>
                 </label>
@@ -666,7 +713,8 @@
                     data-role="origininput">
                     <option selected value="">Select a Country</option>
                     @foreach ($countries as $country)
-                        <option value="{{ $country->id }}" {{ isset($product['origin']) && $product['origin'] == $country->id ? 'selected' : '' }}>
+                        <option value="{{ $country->id }}"
+                            {{ isset($product['origin']) && $product['origin'] == $country->id ? 'selected' : '' }}>
                             {{ $country->name }}
                         </option>
                     @endforeach
@@ -678,9 +726,10 @@
                     <span class="input-required-icon">*</span>
                 </label>
 
-                <input type="number" min="1" value="1" step="1" placeholder="{{ translate('minimum_order_quantity') }}"
-                    name="minimum_order_qty" id="minimum_order_qty" class="form-control"
-                    value="{{ $product['minimum_order_qty'] ?? 0 }}" required>
+                <input type="number" min="1" value="1" step="1"
+                    placeholder="{{ translate('minimum_order_quantity') }}" name="minimum_order_qty"
+                    id="minimum_order_qty" class="form-control" value="{{ $product['minimum_order_qty'] ?? 0 }}"
+                    required>
             </div>
         </div>
         <div class="form-row">
@@ -688,7 +737,8 @@
                 <label class="title-color">{{ translate('unit') }}</label>
                 <select class="js-example-basic-multiple form-control" name="unit">
                     @foreach (units() as $unit)
-                        <option value="{{ $unit }}" {{ $isEdit ? ($product['unit'] == $unit ? 'selected' : '') : '' }}>
+                        <option value="{{ $unit }}"
+                            {{ $isEdit ? ($product['unit'] == $unit ? 'selected' : '') : '' }}>
                             {{ $unit }}
                         </option>
                     @endforeach
@@ -701,9 +751,9 @@
                     <span class="input-required-icon">*</span>
                 </label>
 
-                <input type="number" min="1" value="1" step="1" placeholder="{{ translate('supply_capacity') }}"
-                    name="supply_capacity" id="supply_capacity" class="form-control" required
-                    value="{{ $isEdit ? $product['supply_capacity'] : '' }}">
+                <input type="number" min="1" value="1" step="1"
+                    placeholder="{{ translate('supply_capacity') }}" name="supply_capacity" id="supply_capacity"
+                    class="form-control" required value="{{ $isEdit ? $product['supply_capacity'] : '' }}">
             </div>
         </div>
         <div class="form-row">
@@ -711,7 +761,8 @@
                 <label class="title-color">{{ translate('Supply Unit') }}</label>
                 <select class="js-example-basic-multiple form-control" name="supply_unit">
                     @foreach (units() as $unit)
-                        <option value="{{ $unit }}" {{ isset($product['supply_unit']) && $unit == $product['supply_unit'] ? 'selected' : '' }}>
+                        <option value="{{ $unit }}"
+                            {{ isset($product['supply_unit']) && $unit == $product['supply_unit'] ? 'selected' : '' }}>
                             {{ $unit }}
                         </option>
                     @endforeach
@@ -723,8 +774,9 @@
                     ({{ getCurrencySymbol(currencyCode: getCurrencyCode()) }})
                     <span class="input-required-icon">*</span>
                 </label>
-                <input type="number" min="0" step="0.01" placeholder="{{ translate('unit_price') }}" name="unit_price"
-                    value="{{ $isEdit ? $product['unit_price'] : 0 }}" class="form-control" required>
+                <input type="number" min="0" step="0.01" placeholder="{{ translate('unit_price') }}"
+                    name="unit_price" value="{{ $isEdit ? $product['unit_price'] : 0 }}" class="form-control"
+                    required>
             </div>
         </div>
         <div class="form-row">
@@ -734,14 +786,16 @@
                     {{ translate('Local Currency') }}
                 </label>
                 <input type="text" placeholder="{{ translate('local_currency') }}" name="local_currency"
-                    value="{{ $isEdit ? $product['local_currency'] : "" }}" class="form-control" required>
+                    value="{{ $isEdit ? $product['local_currency'] : '' }}" class="form-control" required>
             </div>
             <div class="form-group">
                 <label class="title-color">{{ translate('Delivery Terms') }}</label>
                 <select class="form-control" name="delivery_terms">
-                    <option value="CFR" {{ $isEdit ? ($product['delivery_terms'] == 'CFR' ? 'selected' : '') : '' }}>CFR
+                    <option value="CFR"
+                        {{ $isEdit ? ($product['delivery_terms'] == 'CFR' ? 'selected' : '') : '' }}>CFR
                     </option>
-                    <option value="FOB" {{ $isEdit ? ($product['delivery_terms'] == 'FOB' ? 'selected' : '') : '' }}>FOB
+                    <option value="FOB"
+                        {{ $isEdit ? ($product['delivery_terms'] == 'FOB' ? 'selected' : '') : '' }}>FOB
                     </option>
                 </select>
             </div>
@@ -750,11 +804,14 @@
             <div class="form-group">
                 <label class="title-color">{{ translate('Delivery Mode') }}</label>
                 <select class="form-control" name="delivery_mode">
-                    <option value="Air" {{ $isEdit ? ($product['delivery_mode'] == 'Air' ? 'selected' : '') : '' }}>Air
+                    <option value="Air"
+                        {{ $isEdit ? ($product['delivery_mode'] == 'Air' ? 'selected' : '') : '' }}>Air
                     </option>
-                    <option value="Sea" {{ $isEdit ? ($product['delivery_mode'] == 'Sea' ? 'selected' : '') : '' }}>Sea
+                    <option value="Sea"
+                        {{ $isEdit ? ($product['delivery_mode'] == 'Sea' ? 'selected' : '') : '' }}>Sea
                     </option>
-                    <option value="Rail_Road" {{ $isEdit ? ($product['delivery_mode'] == 'Rail_Road' ? 'selected' : '') : '' }}>
+                    <option value="Rail_Road"
+                        {{ $isEdit ? ($product['delivery_mode'] == 'Rail_Road' ? 'selected' : '') : '' }}>
                         Rail Road</option>
                 </select>
             </div>
@@ -768,15 +825,19 @@
             <div class="form-group">
                 <label class="form-label">{{ translate('Port of Loading') }}</label>
                 <select class="form-control" name="port_of_loading">
-                    <option value="Factory" {{ $isEdit ? ($product['port_of_loading'] == 'Factory' ? 'selected' : '') : '' }}>
+                    <option value="Factory"
+                        {{ $isEdit ? ($product['port_of_loading'] == 'Factory' ? 'selected' : '') : '' }}>
                         Factory
                     </option>
-                    <option value="Sea_Port" {{ $isEdit ? ($product['port_of_loading'] == 'Sea_Port' ? 'selected' : '') : ''}}>
+                    <option value="Sea_Port"
+                        {{ $isEdit ? ($product['port_of_loading'] == 'Sea_Port' ? 'selected' : '') : '' }}>
                         Sea
                         Port</option>
-                    <option value="ICD" {{ $isEdit ? ($product['port_of_loading'] == 'ICD' ? 'selected' : '') : '' }}>ICD
+                    <option value="ICD"
+                        {{ $isEdit ? ($product['port_of_loading'] == 'ICD' ? 'selected' : '') : '' }}>ICD
                     </option>
-                    <option value="Air_Port" {{ $isEdit ? ($product['port_of_loading'] == 'Air_Port' ? 'selected' : '') : '' }}>
+                    <option value="Air_Port"
+                        {{ $isEdit ? ($product['port_of_loading'] == 'Air_Port' ? 'selected' : '') : '' }}>
                         Air
                         Port</option>
                 </select>
@@ -791,10 +852,12 @@
             <div class="form-group">
                 <label class="form-label">{{ translate('Lead Time Unit') }}</label>
                 <select class="js-example-basic-multiple form-control" name="lead_time_unit">
-                    <option value="days" {{ $isEdit ? ($product['lead_time_unit'] == 'days' ? 'selected' : '') : '' }}>
+                    <option value="days"
+                        {{ $isEdit ? ($product['lead_time_unit'] == 'days' ? 'selected' : '') : '' }}>
                         Days
                     </option>
-                    <option value="months" {{ $isEdit ? ($product['lead_time_unit'] == 'month' ? 'selected' : '') : '' }}>
+                    <option value="months"
+                        {{ $isEdit ? ($product['lead_time_unit'] == 'month' ? 'selected' : '') : '' }}>
                         Month
                     </option>
                 </select>
@@ -818,7 +881,8 @@
                     @endphp
 
                     @foreach ($paymentTerms as $term)
-                        <option value="{{ $term }}" {{ $isEdit && ($product['payment_terms'] ?? null) === $term ? 'selected' : '' }}>
+                        <option value="{{ $term }}"
+                            {{ $isEdit && ($product['payment_terms'] ?? null) === $term ? 'selected' : '' }}>
                             {{ $term }}
                         </option>
                     @endforeach
@@ -845,7 +909,8 @@
                     @endphp
 
                     @foreach ($packingTypes as $type)
-                        <option value="{{ $type }}" {{ $isEdit && ($product['packing_type'] ?? null) === $type ? 'selected' : '' }}>
+                        <option value="{{ $type }}"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === $type ? 'selected' : '' }}>
                             {{ $type }}
                         </option>
                     @endforeach
@@ -854,23 +919,25 @@
             <div class="form-group">
                 <label class="form-label">{{ translate('Size') }}</label>
                 <input type="text" class="form-control" name="weight_per_unit"
-                    value="{{ $isEdit ? ($product['weight_per_unit'] ?? '') : '' }}" placeholder="e.g., 1.5kg">
+                    value="{{ $isEdit ? $product['weight_per_unit'] ?? '' : '' }}" placeholder="e.g., 1.5kg">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Internal Packing') }}</label>
                 <input type="text" class="form-control" name="dimensions_per_unit"
-                    value="{{ $isEdit ? ($product['dimensions_per_unit'] ?? '') : '' }}" placeholder="e.g., 10x5x2 cm">
+                    value="{{ $isEdit ? $product['dimensions_per_unit'] ?? '' : '' }}"
+                    placeholder="e.g., 10x5x2 cm">
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('Target Market') }}</label>
                 @php
-                    $selectedMarkets = $isEdit ? (json_decode($product['target_market'] ?? '[]', true) ?? []) : [];
+                    $selectedMarkets = $isEdit ? json_decode($product['target_market'] ?? '[]', true) ?? [] : [];
                 @endphp
                 <select class="js-example-basic-multiple form-control" name="target_market[]" multiple>
                     @foreach ($countries as $country)
-                        <option value="{{ $country['id'] }}" {{ in_array($country['id'], old('target_market', $selectedMarkets)) ? 'selected' : '' }}>
+                        <option value="{{ $country['id'] }}"
+                            {{ in_array($country['id'], old('target_market', $selectedMarkets)) ? 'selected' : '' }}>
                             {{ $country['name'] }}
                         </option>
                     @endforeach
@@ -887,7 +954,8 @@
                 <select class="js-select2-custom form-control" name="brand_id" required>
                     <option value="" selected disabled>{{ translate('select_Brand') }}</option>
                     @foreach ($brands as $brand)
-                        <option value="{{ $brand['id'] }}" {{ $isEdit && ($brand['id'] == ($product['brand_id'] ?? null)) ? 'selected' : '' }}>
+                        <option value="{{ $brand['id'] }}"
+                            {{ $isEdit && $brand['id'] == ($product['brand_id'] ?? null) ? 'selected' : '' }}>
                             {{ $brand['defaultName'] }}
                         </option>
                     @endforeach
@@ -901,14 +969,12 @@
             <div class="form-group">
                 <label class="title-color" for="description">{{ translate('Short Description') }}
                 </label>
-                <textarea name="short_details"
-                    class="summernote">{!! $isEdit ? ($product['short_details'] ?? '') : '' !!}</textarea>
+                <textarea name="short_details" class="summernote">{!! $isEdit ? $product['short_details'] ?? '' : '' !!}</textarea>
             </div>
             <div class="form-group">
                 <label class="title-color" for="description">{{ translate('Description') }}
                 </label>
-                <textarea name="description"
-                    class="summernote">{!! $isEdit ? ($product['details'] ?? '') : '' !!}</textarea>
+                <textarea name="description" class="summernote">{!! $isEdit ? $product['details'] ?? '' : '' !!}</textarea>
             </div>
         </div>
         <div class="form-row">
@@ -954,12 +1020,14 @@
                     <span class="input-required-icon">*</span>
                 </label>
                 <select name="product_type" id="product_type" class="form-control" required>
-                    <option value="physical" {{ $isEdit && ($product['product_type'] ?? '') === 'physical' ? 'selected' : '' }}>
+                    <option value="physical"
+                        {{ $isEdit && ($product['product_type'] ?? '') === 'physical' ? 'selected' : '' }}>
                         {{ translate('physical') }}
                     </option>
 
                     @if ($digitalProductSetting)
-                        <option value="digital" {{ $isEdit && ($product['product_type'] ?? '') === 'digital' ? 'selected' : '' }}>
+                        <option value="digital"
+                            {{ $isEdit && ($product['product_type'] ?? '') === 'digital' ? 'selected' : '' }}>
                             {{ translate('digital') }}
                         </option>
                     @endif
@@ -971,7 +1039,8 @@
                 </label>
                 <select class="multiple-select2 form-control" name="authors[]" multiple="multiple" id="mySelect">
                     @foreach ($digitalProductAuthors as $authors)
-                        <option value="{{ $authors['name'] }}" {{ in_array($authors['id'], $productAuthorIds) ? 'selected' : '' }}>
+                        <option value="{{ $authors['name'] }}"
+                            {{ in_array($authors['id'], $productAuthorIds) ? 'selected' : '' }}>
                             {{ $authors['name'] }}
                         </option>
                     @endforeach
@@ -983,7 +1052,8 @@
                 <label class="title-color">{{ translate('Publishing_House') }}</label>
                 <select class="multiple-select2 form-control" name="publishing_house[]" multiple="multiple">
                     @foreach ($publishingHouseList as $publishingHouse)
-                        <option value="{{ $publishingHouse['name'] }}" {{ in_array($publishingHouse['id'], $productPublishingHouseIds) ? 'selected' : '' }}>
+                        <option value="{{ $publishingHouse['name'] }}"
+                            {{ in_array($publishingHouse['id'], $productPublishingHouseIds) ? 'selected' : '' }}>
                             {{ $publishingHouse['name'] }}
                         </option>
                     @endforeach
@@ -992,14 +1062,16 @@
             <div class="form-group">
                 <label for="digital_product_type" class="title-color">{{ translate('delivery_type') }}</label>
                 <select name="digital_product_type" id="digital_product_type" class="form-control" required>
-                    <option value="" {{ !$isEdit || empty($product['digital_product_type']) ? 'selected' : '' }}
-                        disabled>
+                    <option value=""
+                        {{ !$isEdit || empty($product['digital_product_type']) ? 'selected' : '' }} disabled>
                         ---{{ translate('select') }}---
                     </option>
-                    <option value="ready_after_sell" {{ $isEdit && ($product['digital_product_type'] ?? '') === 'ready_after_sell' ? 'selected' : '' }}>
+                    <option value="ready_after_sell"
+                        {{ $isEdit && ($product['digital_product_type'] ?? '') === 'ready_after_sell' ? 'selected' : '' }}>
                         {{ translate('ready_After_Sell') }}
                     </option>
-                    <option value="ready_product" {{ $isEdit && ($product['digital_product_type'] ?? '') === 'ready_product' ? 'selected' : '' }}>
+                    <option value="ready_product"
+                        {{ $isEdit && ($product['digital_product_type'] ?? '') === 'ready_product' ? 'selected' : '' }}>
                         {{ translate('ready_Product') }}
                     </option>
                 </select>
@@ -1013,7 +1085,8 @@
                         <span class="input-required-icon">*</span>
                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
                             title="{{ translate('create_a_unique_product_code_by_clicking_on_the_Generate_Code_button') }}">
-                            <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}" alt="">
+                            <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
+                                alt="">
                         </span>
                     </span>
                     <span
@@ -1031,12 +1104,13 @@
                     {{ translate('Badge') }}
                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
                         title="{{ translate('add_the_product_search_tag_for_this_product_that_customers_can_use_to_search_quickly') }}">
-                        <img width="16" src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
+                        <img width="16"
+                            src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
                             alt="">
                     </span>
                 </label>
-                <input type="text" class="form-control" placeholder="{{ translate('Enter Badge') }}" name="badge"
-                    data-role="badgeinput" value="{{ $isEdit ? $product->badge : '' }}">
+                <input type="text" class="form-control" placeholder="{{ translate('Enter Badge') }}"
+                    name="badge" data-role="badgeinput" value="{{ $isEdit ? $product->badge : '' }}">
             </div>
         </div>
         <div class="form-row">
@@ -1045,7 +1119,8 @@
                     {{ translate('search_tags') }}
                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
                         title="{{ translate('add_the_product_search_tag_for_this_product_that_customers_can_use_to_search_quickly') }}">
-                        <img width="16" src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
+                        <img width="16"
+                            src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
                             alt="">
                     </span>
                 </label><input type="text" class="form-control" name="tags"
@@ -1060,13 +1135,13 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Customization') }}</label>
-                <input type="text" class="form-control" name="customization" placeholder="e.g., Logo, Color, Packaging"
-                    value="{{ $product->customization ?? '' }}">
+                <input type="text" class="form-control" name="customization"
+                    placeholder="e.g., Logo, Color, Packaging" value="{{ $product->customization ?? '' }}">
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('Style') }}</label>
-                <input type="text" class="form-control" name="style" placeholder="e.g., Modern, Classic, Industrial"
-                    value="{{ $product->style ?? ''}}">
+                <input type="text" class="form-control" name="style"
+                    placeholder="e.g., Modern, Classic, Industrial" value="{{ $product->style ?? '' }}">
             </div>
         </div>
         <div class="form-row">
@@ -1078,7 +1153,7 @@
             <div class="form-group">
                 <label class="form-label">{{ translate('Sample Price') }}</label>
                 <input type="text" class="form-control" name="sample_price" placeholder="e.g., $20"
-                    value="{{ $product->sample_price ?? ''}}">
+                    value="{{ $product->sample_price ?? '' }}">
             </div>
         </div>
         <div class="form-row">
@@ -1100,7 +1175,8 @@
                     <option value="1" {{ $isEdit && $product->small_orders == 1 ? 'selected' : '' }}>
                         {{ translate('Yes') }}
                     </option>
-                    <option value="0" {{ $isEdit && $product->small_orders == 0 ? 'selected' : '' }}>{{ translate('No') }}
+                    <option value="0" {{ $isEdit && $product->small_orders == 0 ? 'selected' : '' }}>
+                        {{ translate('No') }}
                     </option>
                 </select>
             </div>
@@ -1108,8 +1184,7 @@
         <div class="form-row">
             <div class="form-single">
                 <label class="form-label">{{ translate('FAQ') }}</label>
-                <textarea class="summernote" name="faq" rows="3"
-                    placeholder="Write common questions and answers..."> {{ $product->faq ?? ''}}</textarea>
+                <textarea class="summernote" name="faq" rows="3" placeholder="Write common questions and answers..."> {{ $product->faq ?? '' }}</textarea>
             </div>
         </div>
         <div class="form-row">
@@ -1126,20 +1201,20 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Export Carton Dimensions (L x W x H)') }}</label>
-                <input type="text" class="form-control" name="export_carton_dimensions" placeholder="e.g., 60x40x30 cm"
-                    value="{{ $product->export_carton_dimensions ?? ''}}">
+                <input type="text" class="form-control" name="export_carton_dimensions"
+                    placeholder="e.g., 60x40x30 cm" value="{{ $product->export_carton_dimensions ?? '' }}">
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('Logistics Attributes') }}</label>
                 <input type="text" class="form-control" name="logistics_attributes"
-                    placeholder="e.g., Stackable, Fragile" value="{{ $product->logistics_attributes ?? ''}}">
+                    placeholder="e.g., Stackable, Fragile" value="{{ $product->logistics_attributes ?? '' }}">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Units per Export Carton') }}</label>
                 <input type="text" class="form-control" name="units_per_carton" placeholder="e.g., 50"
-                    value="{{ $product->units_per_carton ?? ''}}">
+                    value="{{ $product->units_per_carton ?? '' }}">
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('Export Carton Weight') }}</label>
@@ -1172,21 +1247,21 @@
             <div class="form-group">
                 <label class="form-label">{{ translate('Currency Accepted') }}</label>
                 <input type="text" class="form-control" name="currency_accepted"
-                    value="{{ $product->currency_accepted ?? ''}}" placeholder="e.g., USD, EUR, GBP">
+                    value="{{ $product->currency_accepted ?? '' }}" placeholder="e.g., USD, EUR, GBP">
             </div>
         </div>
         <div class="form-row">
             <div class="form-single">
                 <label class="form-label">{{ translate('Invoicing Info') }}</label>
-                <input type="text" class="form-control" name="invoicing" value="{{ $product->invoicing ?? ''}}"
+                <input type="text" class="form-control" name="invoicing"
+                    value="{{ $product->invoicing ?? '' }}"
                     placeholder="e.g., Issued with shipment, PDF format via email">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Refund Policy') }}</label>
-                <textarea class="summernote" name="refund_policy" rows="3"
-                    placeholder="State refund conditions, if any...">{{ $product->refund_policy ?? '' }}</textarea>
+                <textarea class="summernote" name="refund_policy" rows="3" placeholder="State refund conditions, if any...">{{ $product->refund_policy ?? '' }}</textarea>
             </div>
         </div>
         <button type="button" class="prev-btn" data-prev="6">Prev</button>
@@ -1198,8 +1273,9 @@
                 <label class="title-color mb-0">{{ translate('purchase_price') }}
                     ({{ getCurrencySymbol(currencyCode: getCurrencyCode()) }})
                 </label>
-                <input type="number" min="0" step="0.01" placeholder="{{ translate('purchase_price') }}"
-                    name="purchase_price" class="form-control" value={{ usdToDefaultCurrency($product['purchase_price'] ?? 0) }} required>
+                <input type="number" min="0" step="0.01"
+                    placeholder="{{ translate('purchase_price') }}" name="purchase_price" class="form-control"
+                    value={{ usdToDefaultCurrency($product['purchase_price'] ?? 0) }} required>
             </div>
             <div class="form-group">
                 <label class="title-color mb-0" for="current_stock">
@@ -1207,7 +1283,7 @@
                     <span class="input-required-icon">*</span>
                 </label>
 
-                <input type="number" min="0" value={{ $product['current_stock'] ?? ''}} step="1"
+                <input type="number" min="0" value={{ $product['current_stock'] ?? '' }} step="1"
                     placeholder="{{ translate('quantity') }}" name="current_stock" id="current_stock"
                     class="form-control" required>
             </div>
@@ -1254,8 +1330,8 @@
                 <label class="title-color" for="tax">
                     {{ translate('Tax') }} (%) <span class="input-required-icon">*</span>
                 </label>
-                <input type="number" min="0" step="0.01" placeholder="{{ translate('ex: 5') }}" name="tax" id="tax"
-                    value="{{ $isEdit ? $product->tax : 0 }}" class="form-control">
+                <input type="number" min="0" step="0.01" placeholder="{{ translate('ex: 5') }}"
+                    name="tax" id="tax" value="{{ $isEdit ? $product->tax : 0 }}" class="form-control">
                 <input name="tax_type" value="percent" class="d-none">
             </div>
         </div>
@@ -1268,14 +1344,16 @@
                 </label>
                 <input type="number" min="0" step="1"
                     value="{{ $isEdit ? usdToDefaultCurrency($product->shipping_cost) : 0 }}"
-                    placeholder="{{ translate('shipping_cost') }}" name="shipping_cost" class="form-control" required>
+                    placeholder="{{ translate('shipping_cost') }}" name="shipping_cost" class="form-control"
+                    required>
             </div>
             <div class="form-group">
                 <label class="title-color text-capitalize"
                     for="shipping_cost">{{ translate('shipping_cost_multiply_with_quantity') }}</label>
                 <div>
                     <label class="switcher">
-                        <input class="switcher_input" type="checkbox" name="multiply_qty" {{ $isEdit && $product->multiply_qty == 1 ? 'checked' : '' }}>
+                        <input class="switcher_input" type="checkbox" name="multiply_qty"
+                            {{ $isEdit && $product->multiply_qty == 1 ? 'checked' : '' }}>
                         <span class="switcher_control"></span>
                     </label>
                 </div>
@@ -1335,7 +1413,8 @@
                             multiple id="digital-product-type-select">
                             @foreach ($digitalProductFileTypes as $FileType)
                                 @if (isset($product) && $product->digital_product_file_types)
-                                    <option value="{{ $FileType }}" {{ in_array($FileType, $product->digital_product_file_types) ? 'selected' : '' }}>
+                                    <option value="{{ $FileType }}"
+                                        {{ in_array($FileType, $product->digital_product_file_types) ? 'selected' : '' }}>
                                         {{ translate($FileType) }}
                                     </option>
                                 @else
@@ -1350,22 +1429,26 @@
                     @foreach ($product->digital_product_file_types as $digitalProductFileTypes)
                         <div class="col-sm-6 col-md-4 col-xxl-3 extension-choice-section">
                             <div class="form-group">
-                                <input type="hidden" name="extensions_type[]" value="{{ $digitalProductFileTypes }}">
+                                <input type="hidden" name="extensions_type[]"
+                                    value="{{ $digitalProductFileTypes }}">
                                 <label class="title-color">
                                     {{ $digitalProductFileTypes }}
                                 </label>
-                                <input type="text" name="extensions[]" value="{{ $digitalProductFileTypes }}" hidden>
+                                <input type="text" name="extensions[]" value="{{ $digitalProductFileTypes }}"
+                                    hidden>
                                 <div class="">
                                     @if ($product->digital_product_extensions && isset($product->digital_product_extensions[$digitalProductFileTypes]))
                                         <input type="text" class="form-control"
                                             name="extensions_options_{{ $digitalProductFileTypes }}[]"
-                                            placeholder="{{ translate('enter_choice_values') }}" data-role="tagsinput"
+                                            placeholder="{{ translate('enter_choice_values') }}"
+                                            data-role="tagsinput"
                                             value="@foreach ($product->digital_product_extensions[$digitalProductFileTypes] as $extensions){{ $extensions . ',' }} @endforeach"
                                             onchange="getUpdateDigitalVariationFunctionality()">
                                     @else
                                         <input type="text" class="form-control"
                                             name="extensions_options_{{ $digitalProductFileTypes }}[]"
-                                            placeholder="{{ translate('enter_choice_values') }}" data-role="tagsinput"
+                                            placeholder="{{ translate('enter_choice_values') }}"
+                                            data-role="tagsinput"
                                             onchange="getUpdateDigitalVariationFunctionality()">
                                     @endif
                                 </div>
@@ -1385,18 +1468,21 @@
                     {{ translate('select_colors') }} :
                 </label>
                 <label class="switcher">
-                    <input type="checkbox" class="switcher_input" id="product-color-switcher" name="colors_active" 
+                    <input type="checkbox" class="switcher_input" id="product-color-switcher"
+                        name="colors_active"
                         {{ isset($product['colors']) && count($product['colors']) > 0 ? 'checked' : '' }}>
                     <span class="switcher_control"></span>
                 </label>
 
-                <select class="js-example-basic-multiple js-states js-example-responsive form-control color-var-select"
-                    name="colors[]" multiple="multiple" id="colors-selector" {{ isset($product['colors']) && count($product['colors']) > 0 ? '' : 'disabled' }}>
+                <select
+                    class="js-example-basic-multiple js-states js-example-responsive form-control color-var-select"
+                    name="colors[]" multiple="multiple" id="colors-selector"
+                    {{ isset($product['colors']) && count($product['colors']) > 0 ? '' : 'disabled' }}>
                     @foreach ($colors as $key => $color)
-                    <option value="{{ $color->code }}"
-                        {{ isset($product['colors']) && in_array($color->code, $product['colors']) ? 'selected' : '' }}>
-                        {{ $color['name'] }}
-                    </option>
+                        <option value="{{ $color->code }}"
+                            {{ isset($product['colors']) && in_array($color->code, $product['colors']) ? 'selected' : '' }}>
+                            {{ $color['name'] }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -1410,9 +1496,10 @@
                     name="choice_attributes[]" id="choice_attributes" multiple="multiple">
                     @foreach ($attributes as $key => $attribute)
                         @php
-                            $selectedAttributes = !empty($product['attributes']) && $product['attributes'] != 'null'
-                                ? json_decode($product['attributes'], true)
-                                : [];
+                            $selectedAttributes =
+                                !empty($product['attributes']) && $product['attributes'] != 'null'
+                                    ? json_decode($product['attributes'], true)
+                                    : [];
                         @endphp
                         <option value="{{ $attribute['id'] }}"
                             {{ in_array($attribute->id, $selectedAttributes) ? 'selected' : '' }}>
@@ -1422,29 +1509,36 @@
                 </select>
             </div>
         </div>
-        @if($isEdit)
-        <div class="form-row">
-            <div class="form-single">
-                <div class="row customer_choice_options mt-2" id="customer_choice_options">
-                    @include('admin-views.product.partials._choices', ['choice_no' => json_decode($product['attributes']), 'choice_options' => json_decode($product['choice_options'], true),])
-                </div>
+        @if ($isEdit)
+            <div class="form-row">
+                <div class="form-single">
+                    <div class="row customer_choice_options mt-2" id="customer_choice_options">
+                        @include('admin-views.product.partials._choices', [
+                            'choice_no' => json_decode($product['attributes']),
+                            'choice_options' => json_decode($product['choice_options'], true),
+                        ])
+                    </div>
 
-                <div class="sku_combination table-responsive form-group mt-2" id="sku_combination">
-                    @include('admin-views.product.partials._edit_sku_combinations', ['combinations' => json_decode($product['variation'], true),])
+                    <div class="sku_combination table-responsive form-group mt-2" id="sku_combination">
+                        @include('admin-views.product.partials._edit_sku_combinations', [
+                            'combinations' => json_decode($product['variation'], true),
+                        ])
+                    </div>
                 </div>
             </div>
-        </div>
         @endif
         <div class="form-row">
             <div class="form-single">
                 <div class="mb-3" style="display: flex;flex-direction: column;/*! flex: unset; */">
-                    <label class="title-color mb-0" style="width:100%;">{{ translate('youtube_video_link') }}</label>
-                    <span class="text-info"> ( {{ translate('optional_please_provide_embed_link_not_direct_link') }}.
+                    <label class="title-color mb-0"
+                        style="width:100%;">{{ translate('youtube_video_link') }}</label>
+                    <span class="text-info"> (
+                        {{ translate('optional_please_provide_embed_link_not_direct_link') }}.
                         )</span>
                 </div>
                 <input type="text" value="{{ $product['video_url'] ?? '' }}" name="video_url"
-                    placeholder="{{ translate('ex') }} : https://www.youtube.com/embed/5R06LRdUCSE" class="form-control"
-                    required>
+                    placeholder="{{ translate('ex') }} : https://www.youtube.com/embed/5R06LRdUCSE"
+                    class="form-control" required>
             </div>
         </div>
         <button type="button" class="prev-btn" data-prev="10">Prev</button>
@@ -1457,100 +1551,103 @@
                     {{ translate('meta_Title') }}
                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top"
                         title="{{ translate('add_the_products_title_name_taglines_etc_here') . ' ' . translate('this_title_will_be_seen_on_Search_Engine_Results_Pages_and_while_sharing_the_products_link_on_social_platforms') . ' [ ' . translate('character_Limit') }} : 100 ]">
-                        <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}" alt="">
+                        <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
+                            alt="">
                     </span>
                 </label>
                 <input type="text" name="meta_title"
-                    value="{{ $product->seoInfo->title ?? $product->meta_title ?? '' }}"
-                    placeholder="" class="form-control">
+                    value="{{ $product->seoInfo->title ?? ($product->meta_title ?? '') }}" placeholder=""
+                    class="form-control">
             </div>
             <div class="form-group">
                 <label class="title-color">
                     {{ translate('meta_Description') }}
                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top"
                         title="{{ translate('write_a_short_description_of_this_shop_product') . ' ' . translate('this_description_will_be_seen_on_Search_Engine_Results_Pages_and_while_sharing_the_products_link_on_social_platforms') . ' [ ' . translate('character_Limit') }} : 100 ]">
-                        <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}" alt="">
+                        <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/info-circle.svg') }}"
+                            alt="">
                     </span>
                 </label>
-                <textarea rows="1" type="text" name="meta_description"
-                    class="form-control">{{ $product->seoInfo->description ?? $product->meta_description ?? '' }}</textarea>
+                <textarea rows="1" type="text" name="meta_description" class="form-control">{{ $product->seoInfo->description ?? ($product->meta_description ?? '') }}</textarea>
             </div>
         </div>
 
-            <div class="form-row">
-                    <div class="form-single">
-                        <label class="title-color" for="meta_Image">
-                            {{ translate('meta_Image') }}
-                        </label>
+        <div class="form-row">
+            <div class="form-single">
+                <label class="title-color" for="meta_Image">
+                    {{ translate('meta_Image') }}
+                </label>
 
-                        <div>
-                            <div class="custom_upload_input">
-                                <input type="file" name="meta_image"
-                                    class="custom-upload-input-file meta-img action-upload-color-image"
-                                    data-imgpreview="pre_meta_image_viewer"
-                                    accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                <div>
+                    <div class="custom_upload_input">
+                        <input type="file" name="meta_image"
+                            class="custom-upload-input-file meta-img action-upload-color-image"
+                            data-imgpreview="pre_meta_image_viewer"
+                            accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
 
-                                @php
-                                    $metaImagePath = $product->seoInfo->image_full_url['path']
-                                        ?? $product->meta_image_full_url['path']
-                                        ?? null;
-                                @endphp
+                        @php
+                            $metaImagePath =
+                                $product->seoInfo->image_full_url['path'] ??
+                                ($product->meta_image_full_url['path'] ?? null);
+                        @endphp
 
-                                <span class="delete_file_input btn btn-outline-danger btn-sm square-btn d-{{ $metaImagePath ? 'flex' : 'none' }}">
-                                    <i class="tio-delete"></i>
-                                </span>
+                        <span
+                            class="delete_file_input btn btn-outline-danger btn-sm square-btn d-{{ $metaImagePath ? 'flex' : 'none' }}">
+                            <i class="tio-delete"></i>
+                        </span>
 
-                                <div class="img_area_with_preview position-absolute z-index-2 d-flex">
-                                    <img id="pre_meta_image_viewer" class="h-auto aspect-1 bg-white" alt=""
-                                        src="{{ $metaImagePath ? getStorageImages(path: $product->seoInfo->image_full_url ?? $product->meta_image_full_url, type: 'backend-banner') : '' }}">
-                                </div>
-
-                                <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
-                                    <div class="d-flex flex-column justify-content-center align-items-center">
-                                        <img alt=""
-                                            src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/product-upload-icon.svg') }}"
-                                            class="w-75">
-                                        <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="img_area_with_preview position-absolute z-index-2 d-flex">
+                            <img id="pre_meta_image_viewer" class="h-auto aspect-1 bg-white" alt=""
+                                src="{{ $metaImagePath ? getStorageImages(path: $product->seoInfo->image_full_url ?? $product->meta_image_full_url, type: 'backend-banner') : '' }}">
                         </div>
 
-                        @if(auth('admin')->check())
-                            @if($isEdit)
-                                @include('admin-views.product.partials._seo-update-section')
-                            @else
-                                @include('admin-views.product.partials._seo-section')
-                            @endif
-                        @else
-                            @if($isEdit)
-                                @include('vendor-views.product.partials._seo-update-section')
-                            @else
-                                @include('vendor-views.product.partials._seo-section')
-                            @endif
-                        @endif
+                        <div
+                            class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
+                            <div class="d-flex flex-column justify-content-center align-items-center">
+                                <img alt=""
+                                    src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/product-upload-icon.svg') }}"
+                                    class="w-75">
+                                <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                @if($isEdit)
-                    <div class="form-row">
-                        <div class="form-single">
-                            <div class="d-flex justify-content-end mt-3">
-                                <button type="button" class="btn btn--primary px-5 product-add-requirements-check">
-                                    @if ($product->request_status == 2)
-                                        {{ translate('resubmit') }}
-                                    @else
-                                        {{ translate(request('product-gallery') ? 'submit' : 'update') }}
-                                    @endif
-                                </button>
-                            </div>
-                            @if (request('product-gallery'))
-                                <input hidden name="existing_thumbnail" value="{{ $product->thumbnail_full_url['key'] }}">
-                                <input hidden name="existing_meta_image"
-                                    value="{{ $product?->seoInfo?->image_full_url['key'] ?? $product->meta_image_full_url['key'] }}">
-                            @endif
-                        </div>
-                    </div>
+
+                @if (auth('admin')->check())
+                    @if ($isEdit)
+                        @include('admin-views.product.partials._seo-update-section')
+                    @else
+                        @include('admin-views.product.partials._seo-section')
+                    @endif
+                @else
+                    @if ($isEdit)
+                        @include('vendor-views.product.partials._seo-update-section')
+                    @else
+                        @include('vendor-views.product.partials._seo-section')
+                    @endif
                 @endif
+            </div>
+        </div>
+        @if ($isEdit)
+            <div class="form-row">
+                <div class="form-single">
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="button" class="btn btn--primary px-5 product-add-requirements-check">
+                            @if ($product->request_status == 2)
+                                {{ translate('resubmit') }}
+                            @else
+                                {{ translate(request('product-gallery') ? 'submit' : 'update') }}
+                            @endif
+                        </button>
+                    </div>
+                    @if (request('product-gallery'))
+                        <input hidden name="existing_thumbnail" value="{{ $product->thumbnail_full_url['key'] }}">
+                        <input hidden name="existing_meta_image"
+                            value="{{ $product?->seoInfo?->image_full_url['key'] ?? $product->meta_image_full_url['key'] }}">
+                    @endif
+                </div>
+            </div>
+        @endif
         <button type="button" class="prev-btn" data-prev="11">Prev</button>
         <button type="submit" class="next-btn">Submit</button>
     </div>

@@ -149,7 +149,7 @@
 
                         <div class="manual-login-items" style="padding-bottom: 25px;">
                             <!-- Sign Up button -->
-                            <button type="submit" class="submit-btn">Sign Up</button>
+                            <button type="submit" class="submit-btn" id="submit-hr">Sign In</button>
                         </div>
 
                         <!-- Sign up link -->
@@ -206,17 +206,55 @@
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
     <script>
         var form = $('#customer-login-form');
-        $('#signInAs').on('change', function() {
-            if (this.value == 'buyer') {
+
+        $('.role-btn').on('click', function() {
+            var role = $(this).data('value');
+
+            $('#signInAs').val(role); // set role in hidden input for form submission
+
+            if (role === 'buyer' || role === 'consultant') {
                 form.attr('action', "{{ route('customer.auth.login') }}");
-            } else if (this.value == 'supplier') {
+                $('#si-email').attr('name', 'user_identity');
+                $('#submit-hr').attr('type', 'submit');
+            } else if (role === 'supplier') {
                 form.attr('action', "{{ route('vendor.auth.login') }}");
-            } else if (this.value == 'consultant') {
-                form.attr('action', "{{ route('customer.auth.login') }}");
+                $('#si-email').attr('name', 'email');
+                // $('#submit-hr').attr('type', 'button'); 
             } else {
                 form.attr('action', '#');
             }
         });
+
+        // Handle AJAX submit for Supplier
+        // $('#submit-hr').on('click', function(e) {
+        //     var selectedRole = $('#signInAs').val();
+
+        //     if (selectedRole === 'supplier') {
+        //         e.preventDefault();
+
+        //         var url = form.attr('action');
+        //         var formData = form.serialize();
+
+        //         $.ajax({
+        //             url: url,
+        //             method: 'POST',
+        //             data: formData,
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        //             },
+        //             success: function(response) {
+        //                 if (response.success) {
+        //                     window.location.href = response.redirectResponse;
+        //                 } else {
+        //                     toastr.info(response.errors || 'Login failed.');
+        //                 }
+        //             },
+        //             error: function(xhr) {
+        //                 toastr.error("Login failed. Please check your credentials.");
+        //             }
+        //         });
+        //     }
+        // });
     </script>
     <script>
         document.querySelectorAll('.role-btn').forEach(button => {

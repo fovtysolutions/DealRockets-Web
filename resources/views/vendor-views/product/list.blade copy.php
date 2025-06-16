@@ -228,11 +228,11 @@
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
                                                 @if ($type != 'new-request')
-                                                    {{-- <a class="btn btn-outline-info btn-sm square-btn"
+                                                    <a class="btn btn-outline-info btn-sm square-btn"
                                                         title="{{ translate('barcode') }}"
                                                         href="{{ route('vendor.products.barcode', [$product['id']]) }}">
                                                         <i class="tio-barcode"></i>
-                                                    </a> --}}
+                                                    </a>
                                                     <a class="btn btn-outline-info btn-sm square-btn"
                                                         title="{{ translate('view') }}"
                                                         href="{{ route('vendor.products.view', [$product['id']]) }}">
@@ -249,11 +249,11 @@
                                                     data-id="product-{{ $product['id'] }}">
                                                     <i class="tio-delete"></i>
                                                 </span>
-                                                {{-- <button class="btn btn-outline--primary btn-sm square-btn"
+                                                <button class="btn btn-outline--primary btn-sm square-btn"
                                                     title="Convert to Sale Offer"
                                                     onclick="sendtoSellOfferCreate('{{ $product->name }}')">
                                                     <i class="tio-refresh"></i>
-                                                </button> --}}
+                                                </button>
                                             </div>
                                             <form action="{{ route('vendor.products.delete', [$product['id']]) }}"
                                                 method="post" id="product-{{ $product['id'] }}">

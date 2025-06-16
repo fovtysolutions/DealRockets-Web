@@ -19,7 +19,7 @@
         </div>
 
         <form class="product-form text-start"
-            action="{{ request('product-gallery') == 1 ? route('admin.products.add') : route('admin.products.update', $product->id) }}"
+            action="{{ request('product-gallery') == 1 ? route('products_new.store') : route('products.update', $product->id) }}"
             method="post" enctype="multipart/form-data" id="product_form">
             @csrf
             <div class="card">

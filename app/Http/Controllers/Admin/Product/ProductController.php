@@ -86,6 +86,7 @@ class ProductController extends BaseController
     public function getAddView(): View
     {
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
+        $categories = collect($categories)->toArray();
         $brands = $this->brandRepo->getListWhere(dataLimit: 'all');
         $countries = CountrySetupController::getCountries();
         $brandSetting = getWebConfig(name: 'product_brand');
@@ -227,7 +228,7 @@ class ProductController extends BaseController
 
         $this->productRepo->update(id: $id, data: $dataArray);
         $this->productRepo->addRelatedTags(request: $request, product: $product);
-        $this->translationRepo->update(request: $request, model: 'App\Models\Product', id: $id);
+        // $this->translationRepo->update(request: $request, model: 'App\Models\Product', id: $id);
 
         self::getDigitalProductUpdateProcess($request, $product);
 

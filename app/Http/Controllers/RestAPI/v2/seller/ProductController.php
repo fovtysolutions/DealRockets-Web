@@ -181,8 +181,8 @@ class ProductController extends Controller
         $product->user_id = $seller->id;
         $product->added_by = "seller";
 
-        $product->name = $request->name[array_search(Helpers::default_lang(), $request->lang)];
-        $product->slug = Str::slug($request->name[array_search(Helpers::default_lang(), $request->lang)], '-') . '-' . Str::random(6);
+        $product->name = $request->name;
+        $product->slug = Str::slug($request->name, '-') . '-' . Str::random(6);
 
         $category = [];
 
@@ -212,7 +212,7 @@ class ProductController extends Controller
         $product->digital_product_type  = $request->product_type == 'digital' ? $request->digital_product_type : null;
         $product->code                  = $request->code;
         $product->minimum_order_qty     = $request->minimum_order_qty;
-        $product->details               = $request->description[array_search(Helpers::default_lang(), $request->lang)];
+        $product->details               = $request->description;
 
         $product->images                = json_encode($request->images);
         $product->thumbnail             = $request->thumbnail;
@@ -419,8 +419,8 @@ class ProductController extends Controller
         $product->user_id = $seller->id;
         $product->added_by = "seller";
 
-        $product->name = $request->name[array_search(Helpers::default_lang(), $request->lang)];
-        $product->slug = Str::slug($request->name[array_search(Helpers::default_lang(), $request->lang)], '-') . '-' . Str::random(6);
+        $product->name = $request->name;
+        $product->slug = Str::slug($request->name, '-') . '-' . Str::random(6);
 
         $category = [];
 
@@ -450,7 +450,7 @@ class ProductController extends Controller
         $product->digital_product_type  = $request->product_type == 'digital' ? $request->digital_product_type : null;
         $product->code                  = $request->code;
         $product->minimum_order_qty     = $request->minimum_order_qty;
-        $product->details               = $request->description[array_search(Helpers::default_lang(), $request->lang)];
+        $product->details               = $request->description;
 
         $product->images                = json_encode($request->images);
         $product->thumbnail             = $request->thumbnail;

@@ -105,7 +105,7 @@ class ProductUpdateRequest extends FormRequest
                     );
                 }
 
-                if (is_null($this['name'][array_search('EN', $this['lang'])])) {
+                if (is_null($this['name'])) {
                     $validator->errors()->add(
                         'name', translate('name_field_is_required') . '!'
                     );

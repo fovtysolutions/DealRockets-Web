@@ -45,6 +45,29 @@
     width: 83%;
 }
 
+.progress-form-main .product-image-wrapper{
+    width: 100%;
+}
+
+.progress-form-main .product-image-wrapper label
+{
+    width: 100%;
+}
+
+.progress-form-main .js-example-basic-multiple{
+    height: 3rem;
+}
+
+.progress-form-main .custom_upload_input{
+    height: 100%;
+}
+
+.progress-form-main .product-image-wrapper .item-1 {
+  width: 100%;
+  max-width: 50%;
+  padding: 0;
+}
+
 /* Progress Steps */
 .progress-form-main .progress-container {
     display: flex;

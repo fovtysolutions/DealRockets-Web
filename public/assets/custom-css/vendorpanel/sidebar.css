@@ -22,18 +22,20 @@
     }
 
     .nav-tabs {
-        justify-content: space-between !important;
+        /* justify-content: space-between !important; */
     }
 
     .nav-tabs .nav-item {
         margin-top: 0px !important;
-        width: 100%;
+        width: max-content;
     }
 
     .nav-tabs .nav-link {
         padding: 10px;
         text-wrap-mode: nowrap;
         width: 100%;
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
     }
 
     .nav-item.active small {
@@ -111,6 +113,13 @@
 
     .smallview:hover .nav-item span {
         padding-left: 22px !important;
+    }
+
+    .nav-item .nav-link {
+        background: unset;
+        color: var(--c1);
+        font-weight: 700;
+        width: max-content;
     }
 
     .nav-item-button-sidebar.active i {

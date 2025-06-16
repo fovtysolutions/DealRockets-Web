@@ -14,11 +14,11 @@
         }
         .nav-tabs{
             flex-wrap: nowrap;
-            overflow-x: scroll;
+            overflow-x: clip;
             overflow-y: clip;
         }
     </style>
-    {{-- <span class="row pt-5 pl-5"><a href="{{route('vendor.dashboard.index')}}" style="color: black; padding-right:3px;"> Home </a> / {{ $title }}</span> --}}
+    <span class="row" style="font-size: 35px;padding-top: 20px;padding-left: 40px;">{{ $title }}</span>
 
     <div class="p-2">
         <ul class="nav nav-tabs" id="tabMenu" role="tablist">

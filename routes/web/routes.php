@@ -649,9 +649,11 @@ Route::prefix('products-new')->name('products_new.')->group(function () {
     Route::get('/', [NewProductStoreController::class, 'index'])->name('index');
     Route::get('/add', [NewProductStoreController::class, 'create'])->name('add'); // route('products_new.add')
     Route::post('/store', [NewProductStoreController::class, 'store'])->name('store');
+    Route::get('/view/{id}', [NewProductStoreController::class, 'view'])->name('view');
     Route::get('/edit/{product}', [NewProductStoreController::class, 'edit'])->name('edit');
     Route::put('/update/{product}', [NewProductStoreController::class, 'update'])->name('update');
-    Route::delete('/delete/{product}', [NewProductStoreController::class, 'destroy'])->name('delete');
+    Route::delete('/delete/{id}', [NewProductStoreController::class, 'destroy'])->name('delete');
+    Route::post('/status-update/{id}', [NewProductStoreController::class, 'update_status'])->name('status-update');
 });
 
 Route::get('register-form-vendor',[ProfileController::class,'getRegisterForm'])->name('register-form-vendor');

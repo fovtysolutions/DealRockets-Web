@@ -9498,4 +9498,7 @@ return [
 	"Shop Details" => "Shop Details",
 	"Register Form" => "Register Form",
 	"Buyers | Marketplace" => "Buyers | Marketplace",
+	"My Profile" => "My Profile",
+	"Product Details" => "Product Details",
+	"Toggle" => "Toggle",
 ];

@@ -160,110 +160,85 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive">
-                        <table id="datatable"
-                            class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table w-100 text-start">
-                            <thead class="thead-light thead-50 text-capitalize">
-                                <tr>
-                                    <th>{{ translate('SL') }}</th>
-                                    <th class="text-capitalize">{{ translate('product_name') }}</th>
-                                    <th class="text-center text-capitalize">{{ translate('product_type') }}</th>
-                                    <th class="text-center text-capitalize">{{ translate('unit_price') }}</th>
-                                    <th class="text-center text-capitalize">{{ translate('verify_status') }}</th>
-                                    @if ($type != 'new-request')
-                                        <th class="text-center text-capitalize">{{ translate('active_status') }}</th>
-                                    @endif
-                                    <th class="text-center">{{ translate('action') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($products as $key => $product)
-                                    <tr>
-                                        <th scope="row">{{ $products->firstItem() + $key }}</th>
-                                        <td>
-                                            <a href="{{ route('vendor.products.view', [$product['id']]) }}"
-                                                class="media align-items-center gap-2">
+                    <div class="box-view p-3">
+                        <div class="row g-3">
+                            @foreach ($products as $key => $product)
+                                <div class="col-6">
+                                    <div class="card shadow-sm p-3 h-100">
+                                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                                            {{-- Left Side: Product Details --}}
+                                            <div class="d-flex gap-3 align-items-center flex-grow-1">
                                                 <img src="{{ getStorageImages(path: $product->thumbnail_full_url, type: 'backend-product') }}"
-                                                    class="avatar border object-fit-cover" alt="">
-                                                <span class="media-body title-color hover-c1">
-                                                    {{ Str::limit($product['name'], 20) }}
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td class="text-center">
-                                            {{ translate($product['product_type']) }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ setCurrencySymbol(amount: usdToDefaultCurrency(amount: $product['unit_price']), currencyCode: getCurrencyCode()) }}
-                                        </td>
-                                        <td class="text-center">
-                                            @if ($product->request_status == 0)
-                                                <label class="badge badge-soft-warning">{{ translate('pending') }}</label>
-                                            @elseif($product->request_status == 1)
-                                                <label
-                                                    class="badge badge-soft-success">{{ translate('approved') }}</label>
-                                            @elseif($product->request_status == 2)
-                                                <label class="badge badge-soft-danger">{{ translate('denied') }}</label>
-                                            @endif
-                                        </td>
-                                        @if ($type != 'new-request')
-                                            <td class="text-center">
-                                                @php($productName = str_replace("'", '`', $product['name']))
-                                                <form action="{{ route('vendor.products.status-update') }}"
-                                                    method="post" data-from="product-status"
-                                                    id="product-status{{ $product['id'] }}-form"
-                                                    class="admin-product-status-form">
-                                                    @csrf
-                                                    <input type="hidden" name="id" value="{{ $product['id'] }}">
-                                                    <label class="switcher mx-auto">
-                                                        <input type="checkbox"
-                                                            class="switcher_input toggle-switch-message" name="status"
-                                                            id="product-status{{ $product['id'] }}" value="1"
-                                                            {{ $product['status'] == 1 ? 'checked' : '' }}>
-                                                        <span class="switcher_control"></span>
-                                                    </label>
-                                                </form>
-                                            </td>
-                                        @endif
-                                        <td>
-                                            <div class="d-flex justify-content-center gap-2">
-                                                @if ($type != 'new-request')
-                                                    {{-- <a class="btn btn-outline-info btn-sm square-btn"
-                                                        title="{{ translate('barcode') }}"
-                                                        href="{{ route('vendor.products.barcode', [$product['id']]) }}">
-                                                        <i class="tio-barcode"></i>
-                                                    </a> --}}
-                                                    <a class="btn btn-outline-info btn-sm square-btn"
-                                                        title="{{ translate('view') }}"
-                                                        href="{{ route('vendor.products.view', [$product['id']]) }}">
-                                                        <i class="tio-invisible"></i>
-                                                    </a>
-                                                @endif
-                                                <a class="btn btn-outline--primary btn-sm square-btn"
-                                                    title="{{ translate('edit') }}"
-                                                    href="{{ route('vendor.products.update', [$product['id']]) }}">
-                                                    <i class="tio-edit"></i>
-                                                </a>
-                                                <span class="btn btn-outline-danger btn-sm square-btn delete-data"
-                                                    title="{{ translate('delete') }}"
-                                                    data-id="product-{{ $product['id'] }}">
-                                                    <i class="tio-delete"></i>
-                                                </span>
-                                                {{-- <button class="btn btn-outline--primary btn-sm square-btn"
-                                                    title="Convert to Sale Offer"
-                                                    onclick="sendtoSellOfferCreate('{{ $product->name }}')">
-                                                    <i class="tio-refresh"></i>
-                                                </button> --}}
+                                                    class="rounded" alt=""
+                                                    style="width: 80px; height: 80px; object-fit: cover;">
+
+                                                <div class="text-start">
+                                                    <h5 class="mb-1">{{ Str::limit($product['name'], 30) }}</h5>
+                                                    <p class="mb-1 small">
+                                                        <strong>{{ translate('Category') }}:</strong>
+                                                        {{ \App\Models\Category::find($product['category_id'])->name ?? '-' }}
+                                                    </p>
+                                                    <p class="mb-1 small">
+                                                        <strong>{{ translate('Unit Price') }}:</strong>
+                                                        {{ setCurrencySymbol(amount: usdToDefaultCurrency($product['unit_price']), currencyCode: getCurrencyCode()) }}
+                                                    </p>
+                                                    <p class="mb-0 small">
+                                                        <strong>{{ translate('Status') }}:</strong>
+                                                        @if ($product->request_status == 0)
+                                                            <span
+                                                                class="badge bg-warning text-dark">{{ translate('pending') }}</span>
+                                                        @elseif($product->request_status == 1)
+                                                            <span
+                                                                class="badge bg-success">{{ translate('approved') }}</span>
+                                                        @elseif($product->request_status == 2)
+                                                            <span class="badge bg-danger">{{ translate('denied') }}</span>
+                                                        @endif
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <form action="{{ route('vendor.products.delete', [$product['id']]) }}"
-                                                method="post" id="product-{{ $product['id'] }}">
-                                                @csrf @method('delete')
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+
+                                            {{-- Right Side: Actions --}}
+                                            <div class="d-flex flex-column gap-2 align-items-end">
+                                                <div class="d-grid gap-2"
+                                                    style="grid-template-columns: repeat(2, 1fr); display: grid;">
+                                                    <a href="{{ route('products_new.view', ['id' => $product['id']]) }}"
+                                                        class="btn btn-outline-info btn-sm d-flex flex-column align-items-center gap-1">
+                                                        <i class="tio-invisible"></i>
+                                                        <span>{{ translate('View') }}</span>
+                                                    </a>
+                                                    <a href="{{ route('vendor.products.update', [$product['id']]) }}"
+                                                        class="btn btn-outline-primary btn-sm d-flex flex-column align-items-center gap-1">
+                                                        <i class="tio-edit"></i>
+                                                        <span>{{ translate('Edit') }}</span>
+                                                    </a>
+                                                    <a  href="{{ route('products_new.delete', [$product['id']]) }}"
+                                                        class="btn btn-outline-danger btn-sm d-flex flex-column align-items-center gap-1 delete-data"
+                                                        data-id="product-{{ $product['id'] }}">
+                                                        <i class="tio-delete"></i>
+                                                        <span>{{ translate('Delete') }}</span>
+                                                    </a>
+                                                    <form action="{{ route('products_new.status-update',['id' => $product['id']]) }}"
+                                                        method="post"
+                                                        class="m-0 d-flex flex-column align-items-center gap-1">
+                                                        @csrf
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $product['id'] }}">
+                                                        <label class="switcher">
+                                                            <input type="checkbox"
+                                                                class="switcher_input toggle-switch-message"
+                                                                name="status" value="1"
+                                                                {{ $product['status'] == 1 ? 'checked' : '' }}>
+                                                            <span class="switcher_control"></span>
+                                                        </label>
+                                                        <span>{{ translate('Toggle') }}</span>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
 
                     <div class="table-responsive mt-4">

@@ -59,13 +59,16 @@
     @foreach ($vendorCards as $index => [$title, $slug, $icon])
         @php
             $gradientClass = $gradients[array_rand($gradients)];
-            $icon = $iconMap[$index] ?? '/img/default.png';
+            // $icon = $iconMap[$index] ?? '/img/default.png';
         @endphp
         <div class="custom-col p-0">
             <a class="card {{ $gradientClass }} business-analytics p-3 d-flex flex-column justify-content-between position-relative h-100"
                 href="{{ route('vendor.subcard', ['slug' => $slug]) }}" style="min-height: 130px;">
-                <div style="align-self: self-end;">
+                {{-- <div style="align-self: self-end;">
                     <img src="{{ asset($icon) }}" alt="{{ $title }}" class="mb-2" style="width: 58px; height: 58px;">
+                </div> --}}
+                <div style="align-self: self-end;">
+                    <i class="{{ $icon }} mb-2" style="font-size: 32px; color: white;"></i>
                 </div>
                 <div>
                     <p class="mb-0 text-start" style="color: white; font-size: 18px;">{{ translate($title) }}</p>

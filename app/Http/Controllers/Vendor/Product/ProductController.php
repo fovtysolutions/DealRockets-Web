@@ -186,8 +186,8 @@ class ProductController extends BaseController
         $digitalProductFileTypes = ['audio', 'video', 'document', 'software'];
         $digitalProductAuthors = $this->authorRepo->getListWhere(dataLimit: 'all');
         $publishingHouseList = $this->publishingHouseRepo->getListWhere(dataLimit: 'all');
-        $dynamicData = $product->additional_details;
-        $dynamicDataTechnical = $product->technical_specification;
+        $dynamicData = $product->dynamic_data;
+        $dynamicDataTechnical = $product->dynamic_data_technical;
 
         return view(Product::UPDATE[VIEW], compact('product','countries', 'categories','dynamicData','dynamicDataTechnical', 'brands', 'brandSetting', 'digitalProductSetting', 'colors', 'attributes', 'languages', 'defaultLanguage', 'digitalProductFileTypes', 'digitalProductAuthors', 'publishingHouseList', 'productAuthorIds', 'productPublishingHouseIds'));
     }

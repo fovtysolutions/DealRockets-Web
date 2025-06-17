@@ -860,6 +860,15 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     padding-bottom: 0.5rem;
 }
 
+.gmail-ui .active-tab{
+    background: #ff000021;
+}
+
+.gmail-ui .tab-button{
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+}
+
 .gmail-ui .py-3 {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;

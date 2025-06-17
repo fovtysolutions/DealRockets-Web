@@ -27,7 +27,7 @@
     }
 
     .globle-deals .category-list {
-        overflow: unset;
+        overflow: hidden;
     }
 
     .category-item:hover>.mega_menu_new {
@@ -64,7 +64,7 @@
                 <span style="color:rgb(236, 51, 51);">☰</span> TOP CATEGORIES
             </h5>
             <ul id="categoryList" class="category-list">
-                @foreach ($categories->take(17) as $key => $category)
+                @foreach ($categories as $key => $category)
                     <li class="text-left category-item"> <!-- Added class here -->
                         <a href="{{ route('marketplace-categories', ['id' => $category['id']]) }}">
                             {{ $category->name }}

@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\NewProductStore;
 use App\Utils\ChatManager;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class NewProductStoreController extends Controller
 {
     public function store(Request $request)
-    {        
+    {
         $data = $this->validateProduct($request);
 
         $data['target_market'] = json_encode($data['target_market']);
@@ -39,7 +40,7 @@ class NewProductStoreController extends Controller
     public function update(Request $request, NewProductStore $product)
     {
         $data = $this->validateProduct($request);
-        
+
         $data['target_market'] = json_encode($data['target_market']);
         $data['dynamic_data'] = json_encode($data['dynamic_data']);
         $data['dynamic_data_technical'] = json_encode($data['dynamic_data_technical']);
@@ -121,5 +122,41 @@ class NewProductStoreController extends Controller
         }
 
         return json_encode($paths);
+    }
+
+    public function view($id)
+    {
+        $product = NewProductStore::find($id);
+
+        return view('vendor-views.product.product_view', compact('product'));
+    }
+
+    public function update_status($id)
+    {
+        try {
+            $product = NewProductStore::findOrFail($id);
+            if($product->status == 0){
+                $product->status = 1;
+            } else {
+                $product->status = 0;
+            }
+            $product->save();
+
+            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Status update failed.']);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $product = NewProductStore::findOrFail($id);
+            $product->delete();
+
+            return redirect()->route('vendor.products.list')->with('success', 'Product Deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete product.');
+        }
     }
 }

@@ -44,7 +44,7 @@
                             </table>
                             <table class="detail-table">
                                 <tr>
-                                    <td class="detail-label">Lead Time</td>
+                                    <td class="detail-label" style="width: 35%;">Lead Time</td>
                                     <td class="detail-value text-truncate">{{ $buyer->lead_time ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
@@ -54,8 +54,8 @@
                             </table>
                             <table class="detail-table">
                                 <tr>
-                                    <td class="detail-label">Refundable</td>
-                                    <td class="detail-value text-truncate">{{ $buyer->refund ?? 'N/A' }}</td>
+                                    <td class="detail-label" style="width: 32%;">Refundable</td>
+                                    <td class="detail-value text-truncate-2">{{ $buyer->refund ?? 'N/A' }}</td>
                                 </tr>
                             </table>
                         </div>

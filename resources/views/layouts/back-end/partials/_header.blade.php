@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Session;
         <div class="navbar-nav-wrap">
             <div class="navbar-brand-wrapper d-sm-block">
                 <a class="navbar-brand" href="{{ route('admin.dashboard.index') }}" aria-label="{{ translate('logo') }}">
-                    <img class="navbar-brand-logo"
+                    <img class=""
                         src="{{ isset($web_config) ? $web_config['web_logo']['path'] : dynamicAsset(path: 'public/assets/back-end/img/160x160/img1.jpg') }}"
                         alt="{{ translate('logo') }}"
                         height="40">

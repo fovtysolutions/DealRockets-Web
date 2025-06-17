@@ -48,6 +48,9 @@
             background-size: 7px;
             background-position: 96% center;
         }
+        body{
+            background-color: white;
+        }
     </style>
 
     {{-- Stack for additional CSS --}}
@@ -142,6 +145,18 @@
         </script>
     @endif
 
+    @if (session('success'))
+        <script>
+            toastr.success("{{ session('success') }}");
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            toastr.error("{{ session('error') }}");
+        </script>
+    @endif
+
     <script>
         'use strict'
         setInterval(function() {
@@ -188,7 +203,7 @@
         })
         if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write(
             '<script src="{{ dynamicAsset(path: 'public/assets/back-end') }}/vendor/babel-polyfill/polyfill.min.js"><\/script>'
-            );
+        );
     </script>
     @if (env('APP_MODE') == 'demo')
         <script>

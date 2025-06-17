@@ -309,8 +309,8 @@ class ProductController extends Controller
         $productArray = [
             'user_id' => $seller->id,
             'added_by' => "seller",
-            'name' => $requestName[array_search(Helpers::default_lang(), $requestLanguage)],
-            'slug' => Str::slug($requestName[array_search(Helpers::default_lang(), $requestLanguage)], '-') . '-' . Str::random(6),
+            'name' => $requestName,
+            'slug' => Str::slug($requestName, '-') . '-' . Str::random(6),
             'category_ids' => json_encode($category),
             'category_id' => $request['category_id'],
             'sub_category_id' => $request['sub_category_id'],
@@ -321,7 +321,7 @@ class ProductController extends Controller
             'digital_product_type' => $request['product_type'] == 'digital' ? $request['digital_product_type'] : null,
             'code' => $request['code'],
             'minimum_order_qty' => $request['minimum_order_qty'],
-            'details' => $requestDescription[array_search(Helpers::default_lang(), $requestLanguage)],
+            'details' => $requestDescription,
             'images' => json_encode($requestImages),
             'color_image' => json_encode($requestColorImages),
             'thumbnail' => $request['thumbnail'],
@@ -670,7 +670,7 @@ class ProductController extends Controller
         $product->user_id = $seller->id;
         $product->added_by = "seller";
 
-        $product->name = $requestName[array_search(Helpers::default_lang(), $requestLanguage)];
+        $product->name = $requestName;
 
         $category = [];
 
@@ -703,7 +703,7 @@ class ProductController extends Controller
         $product->digital_product_type = $request['product_type'] == 'digital' ? $request['digital_product_type'] : null;
         $product->code = $request->code;
         $product->minimum_order_qty = $request['minimum_order_qty'];
-        $product->details = $requestDescription[array_search(Helpers::default_lang(), $requestLanguage)];
+        $product->details = $requestDescription;
 
         $product->images = json_encode($requestImages);
         $product->color_image = json_encode($requestColorImages);

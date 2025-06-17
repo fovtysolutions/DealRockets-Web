@@ -9,6 +9,9 @@ use App\Http\Requests\Vendor\VendorBankInfoRequest;
 use App\Http\Requests\Vendor\VendorPasswordRequest;
 use App\Http\Requests\Vendor\VendorRequest;
 use App\Models\CompanyProfile;
+use App\Models\Seller;
+use App\Models\VendorExtraDetail;
+use App\Models\VendorUsers;
 use App\Repositories\VendorRepository;
 use App\Services\VendorService;
 use Brian2694\Toastr\Facades\Toastr;
@@ -50,6 +53,23 @@ class ProfileController extends BaseController
     {
         $vendor = $this->vendorRepo->getFirstWhere(['id'=>auth('seller')->id()]);
         return view(Profile::INDEX[VIEW],compact('vendor'));
+    }
+
+    public function getRegisterForm(){
+        // Get Register Form
+        $seller_id = (string) auth('seller')->user()->id;
+        $vendorProfileData = VendorExtraDetail::where('seller_id',$seller_id)->first();
+        $getCurrentSeller = Seller::where('id',auth('seller')->user()->id)->first();
+        $getSellerUser = VendorUsers::where('email',$getCurrentSeller->email)->first();
+        $sellerUsersId = $getSellerUser->id;
+
+        $email = $getSellerUser->email;
+        $phone = $getSellerUser->phone;
+        $password = $getSellerUser->password;
+        $confirm_password = $getSellerUser->password;
+        $vendor_type = $getSellerUser->vendor_type;
+
+        return view('vendor-views.profile.register-form',compact('sellerUsersId', 'vendorProfileData','email','phone','password','confirm_password','vendor_type'));
     }
 
     /**

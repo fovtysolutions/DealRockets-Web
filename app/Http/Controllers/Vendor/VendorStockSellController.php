@@ -199,8 +199,11 @@ class VendorStockSellController extends Controller
         // Prepare the validated data (excluding images)
         $validatedData = $this->prepareStockSellData($request, $user_data);
 
-        // Create the StockSell record
-        $stockSell = StockSell::create($validatedData);
+        // Perform compliance check
+        $complianceStatus = ComplianceService::checkStockSaleCompliance($validatedData);
+
+        // Add compliance status to the validated data
+        $validatedData['compliance_status'] = $complianceStatus;
 
         // Handle image uploads and save paths
         $imagePaths = $this->handleImages($request);
@@ -230,6 +233,12 @@ class VendorStockSellController extends Controller
             $validatedData['certificate'] = $certificate;
         }
 
+        $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data']);
+        $validatedData['dynamic_data_technical'] = json_encode($validatedData['dynamic_data_technical']);
+
+        // Create the StockSell record
+        $stockSell = StockSell::create($validatedData);
+
         // If images were uploaded, save their paths to the database
         if (!empty($imagePaths)) {
             $stockSell->update(['image' => json_encode($imagePaths)]);  // Store image paths as a JSON array
@@ -255,10 +264,11 @@ class VendorStockSellController extends Controller
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
         $name = ChatManager::getproductname($stocksell->product_id);
         $countries = CountrySetupController::getCountries();
+        $industry = CountrySetupController::getCountries();
         $categories = StockCategory::all();
         $dynamicData = $stocksell->dynamic_data;
         $dynamicDataTechnical = $stocksell->dynamic_data_technical;
-        return view('vendor-views.stocksell.edit', compact('stocksell', 'items', 'name', 'countries', 'categories'));
+        return view('vendor-views.stocksell.edit', compact('stocksell', 'items', 'name', 'industry', 'dynamicData', 'dynamicDataTechnical', 'countries', 'categories'));
     }
 
     public function update(Request $request, $id)
@@ -335,6 +345,9 @@ class VendorStockSellController extends Controller
 
             // Add compliance status to the validated data
             $validatedData['compliance_status'] = $complianceStatus;
+
+            $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data']);
+            $validatedData['dynamic_data_technical'] = json_encode($validatedData['dynamic_data_technical']);
 
             // Update the StockSell record with the validated data
             $stockSell->update($validatedData);

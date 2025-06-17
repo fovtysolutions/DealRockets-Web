@@ -1,5 +1,5 @@
 @php($rememberId = rand(111, 999))
-<div class="form-group d-flex flex-wrap justify-content-between mb-1">
+<div class="form-group d-flex flex-wrap justify-content-between mb-1" style="flex-direction: row;">
     <div class="rtl">
         <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" name="remember"

@@ -406,11 +406,12 @@ body {
 }
 
 .vender-company .gallery {
-  display: flex;
-  max-width: 600px;
-  gap: 8px;
-  align-content: flex-start;
-  margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 600px;
+    gap: 10px;
+    align-content: flex-start;
+    margin-top: 10px;
 }
 
 .vender-company .gallery img {
@@ -764,6 +765,7 @@ body {
 
 .vender-company .product-card {
   /* width: 19%; */
+  position: relative;
   font-size: 14px;
   box-shadow: none;
 }
@@ -891,8 +893,25 @@ body {
 
 .vender-company .product-image {
   width: 100%;
-
+  aspect-ratio: 1/1;
   object-fit: cover;
+}
+
+.vender-company .dimond-img{
+    aspect-ratio: 1 / 1;
+    width: 25px;
+}
+
+.vender-company .heart-img{
+    aspect-ratio: 1 / 1;
+    width: 25px;
+    position: absolute;
+    right: 12px;
+    padding: 6px;
+    top: 11px;
+    z-index: 100;
+    background: white;
+    border-radius: 100px;
 }
 
 .vender-company .product-info {
@@ -1948,7 +1967,7 @@ body {
 }
 
 .vender-about-us .side-image {
-  max-width: 271px;
+  /* max-width: 271px; */
   height: 100%;
 }
 
@@ -2073,6 +2092,13 @@ body {
 }
 
 .vender-about-us .company-sidebar li:hover {
+  border-left: 2px solid #FE4E44;
+
+  font-weight: 500;
+  color: #0D0D0F;
+}
+
+.vender-about-us .company-sidebar .active {
   border-left: 2px solid #FE4E44;
 
   font-weight: 500;

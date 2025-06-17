@@ -86,6 +86,7 @@ class ProductController extends BaseController
     public function getAddView(): View
     {
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
+        $categories = collect($categories)->toArray();
         $brands = $this->brandRepo->getListWhere(dataLimit: 'all');
         $countries = CountrySetupController::getCountries();
         $brandSetting = getWebConfig(name: 'product_brand');
@@ -210,8 +211,9 @@ class ProductController extends BaseController
         $digitalProductFileTypes = ['audio', 'video', 'document', 'software'];
         $digitalProductAuthors = $this->authorRepo->getListWhere(dataLimit: 'all');
         $publishingHouseList = $this->publishingHouseRepo->getListWhere(dataLimit: 'all');
-
-        return view(Product::UPDATE[VIEW], compact('product','countries', 'categories', 'brands', 'brandSetting', 'digitalProductSetting', 'colors', 'attributes', 'languages', 'defaultLanguage', 'digitalProductFileTypes', 'digitalProductAuthors', 'publishingHouseList', 'productAuthorIds', 'productPublishingHouseIds'));
+        $dynamicData = $product->additional_details;
+        $dynamicDataTechnical = $product->technical_specification;
+        return view(Product::UPDATE[VIEW], compact('product','countries', 'categories','dynamicData','dynamicDataTechnical', 'brands', 'brandSetting', 'digitalProductSetting', 'colors', 'attributes', 'languages', 'defaultLanguage', 'digitalProductFileTypes', 'digitalProductAuthors', 'publishingHouseList', 'productAuthorIds', 'productPublishingHouseIds'));
     }
 
     public function update(ProductUpdateRequest $request, ProductService $service, string|int $id): JsonResponse|RedirectResponse
@@ -226,7 +228,7 @@ class ProductController extends BaseController
 
         $this->productRepo->update(id: $id, data: $dataArray);
         $this->productRepo->addRelatedTags(request: $request, product: $product);
-        $this->translationRepo->update(request: $request, model: 'App\Models\Product', id: $id);
+        // $this->translationRepo->update(request: $request, model: 'App\Models\Product', id: $id);
 
         self::getDigitalProductUpdateProcess($request, $product);
 

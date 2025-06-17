@@ -37,7 +37,18 @@ class Leads extends Model
         'brand',
         'payment_option',
         'offer_type',
-        'size'
+        'size',
+        'sub_category_id',
+        'hs_code',
+        'rate',
+        'delivery_terms',
+        'delivery_mode',
+        'place_of_loading',
+        'port_of_loading',
+        'packing_type',
+        'size',
+        'brand',
+        'dynamic_data',
     ];
 
     public function countryRelation()

@@ -42,6 +42,8 @@ use Rap2hpoutre\FastExcel\FastExcel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use App\Models\Country;
+use App\Models\NewProductStore;
+use App\Utils\ChatManager;
 
 class ProductController extends BaseController
 {
@@ -99,13 +101,16 @@ class ProductController extends BaseController
             'request_status' => $type == 'new-request' ? 0 : ($type == 'approved' ? '1' : ($type == 'denied' ? '2' : 'all')),
         ];
         $searchValue = $request['searchValue'];
-        $products = $this->productRepo->getListWhere(
-            orderBy: ['id' => 'desc'],
-            searchValue: $searchValue,
-            filters: $filters,
-            relations: ['translations','seoInfo'],
-            dataLimit: getWebConfig(name: WebConfigKey::PAGINATION_LIMIT)
-        );
+        $user_detail = ChatManager::getRoleDetail();
+        $user_id = $user_detail['user_id'];
+        $products = NewProductStore::where('role','seller')->where('user_id',$user_id)->paginate(10);
+        // $products = $this->productRepo->getListWhere(
+        //     orderBy: ['id' => 'desc'],
+        //     searchValue: $searchValue,
+        //     filters: $filters,
+        //     relations: ['translations','seoInfo'],
+        //     dataLimit: getWebConfig(name: WebConfigKey::PAGINATION_LIMIT)
+        // );
         $brands = $this->brandRepo->getListWhere(filters: ['status' => 1], dataLimit: 'all');
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
         $subCategory = $this->categoryRepo->getFirstWhere(params: ['id' => $request['sub_category_id']]);
@@ -160,7 +165,8 @@ class ProductController extends BaseController
 
     public function getUpdateView(string|int $id): RedirectResponse|View
     {
-        $product = $this->productRepo->getFirstWhereWithoutGlobalScope(params: ['id' => $id, 'user_id' => auth('seller')->id(), 'added_by' => 'seller'], relations: ['translations', 'seoInfo', 'digitalProductAuthors', 'digitalProductPublishingHouse']);
+        // $product = $this->productRepo->getFirstWhereWithoutGlobalScope(params: ['id' => $id, 'user_id' => auth('seller')->id(), 'added_by' => 'seller'], relations: ['translations', 'seoInfo', 'digitalProductAuthors', 'digitalProductPublishingHouse']);
+        $product = NewProductStore::where('id',$id)->first();
         if (!$product) {
             Toastr::error(translate('invalid_product'));
             return redirect()->route('vendor.products.list', ['type' => 'all']);
@@ -180,8 +186,10 @@ class ProductController extends BaseController
         $digitalProductFileTypes = ['audio', 'video', 'document', 'software'];
         $digitalProductAuthors = $this->authorRepo->getListWhere(dataLimit: 'all');
         $publishingHouseList = $this->publishingHouseRepo->getListWhere(dataLimit: 'all');
+        $dynamicData = $product->dynamic_data;
+        $dynamicDataTechnical = $product->dynamic_data_technical;
 
-        return view(Product::UPDATE[VIEW], compact('product','countries', 'categories', 'brands', 'brandSetting', 'digitalProductSetting', 'colors', 'attributes', 'languages', 'defaultLanguage', 'digitalProductFileTypes', 'digitalProductAuthors', 'publishingHouseList', 'productAuthorIds', 'productPublishingHouseIds'));
+        return view(Product::UPDATE[VIEW], compact('product','countries', 'categories','dynamicData','dynamicDataTechnical', 'brands', 'brandSetting', 'digitalProductSetting', 'colors', 'attributes', 'languages', 'defaultLanguage', 'digitalProductFileTypes', 'digitalProductAuthors', 'publishingHouseList', 'productAuthorIds', 'productPublishingHouseIds'));
     }
 
     public function update(ProductUpdateRequest $request, ProductService $service, string|int $id): JsonResponse|RedirectResponse

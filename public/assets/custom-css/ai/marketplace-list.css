@@ -235,6 +235,7 @@ h3 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+    width: 100%;
 }
 
 .marketplace-list .product-card {
@@ -594,6 +595,7 @@ input[type='checkbox'] {
 
 .marketplace-list .main-content {
     width: 80%;
+    margin: 0;
 }
 
 .marketplace-list .product-diamond {

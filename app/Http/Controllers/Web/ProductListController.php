@@ -63,21 +63,33 @@ class ProductListController extends Controller
         ];
     }
 
-    public function getProductsOnSearch(Request $request){
+    public function getProductsOnSearch(Request $request)
+    {
         $search = $request->input('search');
         $type = $request->input('type');
 
-        if ($type == 'products'){
-            $data = Product::where('name','LIKE', '%'. $search .'%')->limit(10)->get();
-        } else if ($type == 'buyer'){
-            $data = Leads::where('type','buyer')->where('name','LIKE','%'. $search .'%')->limit(10)->get();
-        } else if ($type == 'seller'){
-            $data = Leads::where('type','seller')->where('name','LIKE','%'. $search .'%')->limit(10)->get();
+        if ($type == 'products') {
+            $data = Product::where('name', 'LIKE', '%' . $search . '%')->limit(10)->get();
+        } else if ($type == 'buyer') {
+            $data = Leads::where('type', 'buyer')->where('name', 'LIKE', '%' . $search . '%')->limit(10)->get();
+        } else if ($type == 'seller') {
+            $data = Leads::where('type', 'seller')->where('name', 'LIKE', '%' . $search . '%')->limit(10)->get();
         } else {
             $data = collect();
         }
 
         return $data;
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->q;
+        $products = Product::where('name', 'LIKE', "%$search%")
+            ->select('id', 'name')
+            ->limit(10)
+            ->get();
+
+        return response()->json($products);
     }
 
     public function products(Request $request)
@@ -152,7 +164,7 @@ class ProductListController extends Controller
         ]);
     }
 
-    public function dynamicProduct(Request $request)
+    public function dynamicProduct(Request $request, $productAddedBy = null)
     {
         $query = Product::query();
 
@@ -160,6 +172,11 @@ class ProductListController extends Controller
 
         // Always fetch only active products
         $query->where('status', 1);
+
+        if ($request->filled('productAddedBy')) {
+            $query->where('added_by', 'seller');
+            $query->where('user_id', $request->input('productAddedBy')); // Use your actual column name here
+        }
 
         // Filter by searchInput (e.g. top search bar)
         if ($request->filled('searchInput')) {

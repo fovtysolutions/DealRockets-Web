@@ -1,3 +1,46 @@
+<style>
+    .category-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
+
+    .category-item {
+        position: relative;
+    }
+
+    .mega_menu_new {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        /* Open to the right */
+        display: none;
+        background: white;
+        z-index: 1000;
+        width: 50vw;
+        height: 400px;
+        padding: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-left: 1px solid #eee;
+        overflow: hidden;
+    }
+
+    .globle-deals .category-list {
+        overflow: hidden;
+    }
+
+    .category-item:hover>.mega_menu_new {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .mega_menu_inner_new {
+        margin-bottom: 15px;
+        width: 120px;
+    }
+</style>
 @if (empty($carouselimages))
     <section class="mainpagesection fade-in"
         style="/* background-color: unset; */ margin-top: 22px; box-shadow: 0px 0px 1px 0px;">
@@ -22,22 +65,28 @@
             </h5>
             <ul id="categoryList" class="category-list">
                 @foreach ($categories as $key => $category)
-                    <li class="text-left">
-                        <a
-                            href="{{ route('marketplace-categories', ['id' => $category['id']]) }}">{{ $category->name }}</a>
+                    <li class="text-left category-item"> <!-- Added class here -->
+                        <a href="{{ route('marketplace-categories', ['id' => $category['id']]) }}">
+                            {{ $category->name }}
+                        </a>
+
                         @if ($category->childes->count() > 0)
                             <div class="mega_menu_new">
                                 @foreach ($category->childes as $sub_category)
                                     <div class="mega_menu_inner_new">
                                         <h6>
                                             <a
-                                                href="{{ route('products', ['category_id' => $sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">{{ $sub_category->name }}</a>
+                                                href="{{ route('products', ['category_id' => $sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">
+                                                {{ $sub_category->name }}
+                                            </a>
                                         </h6>
                                         @if ($sub_category->childes->count() > 0)
                                             @foreach ($sub_category->childes as $sub_sub_category)
                                                 <div>
                                                     <a
-                                                        href="{{ route('products', ['category_id' => $sub_sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">{{ $sub_sub_category->name }}</a>
+                                                        href="{{ route('products', ['category_id' => $sub_sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">
+                                                        {{ $sub_sub_category->name }}
+                                                    </a>
                                                 </div>
                                             @endforeach
                                         @endif
@@ -103,8 +152,8 @@
                 <div class="cardbottom">
                     <a href="{{ $firstbox['url'] ?? '#' }}" style="text-decoration: none;"
                         class="image-wrapper shimmer">
-                        <img data-src="{{ isset($firstbox['image']) ?  '/storage/' . $firstbox['image'] : '/images/placeholderimage.webp' }}" class="lazyload"
-                            alt="...">
+                        <img data-src="{{ isset($firstbox['image']) ? '/storage/' . $firstbox['image'] : '/images/placeholderimage.webp' }}"
+                            class="lazyload" alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
                             <h5 class="card-titlebottom">{{ $firstbox['title'] ?? 'Trade Shows' }}</h5>
                         </div>
@@ -113,8 +162,8 @@
                 <div class="cardbottom">
                     <a href="{{ $secondbox['url'] ?? '#' }}" style="text-decoration: none;"
                         class="image-wrapper shimmer">
-                        <img data-src="{{ isset($secondbox['image']) ?  '/storage/' . $secondbox['image'] : '/images/placeholderimage.webp' }}" class="lazyload"
-                            alt="...">
+                        <img data-src="{{ isset($secondbox['image']) ? '/storage/' . $secondbox['image'] : '/images/placeholderimage.webp' }}"
+                            class="lazyload" alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
                             <h5 class="card-titlebottom">{{ $secondbox['title'] ?? 'Trade Shows' }}</h5>
                         </div>
@@ -123,8 +172,8 @@
                 <div class="cardbottom">
                     <a href="{{ $thirdbox['url'] ?? '#' }}" style="text-decoration: none;"
                         class="image-wrapper shimmer">
-                        <img data-src="{{ isset($thirdbox['image']) ?  '/storage/' . $thirdbox['image'] : '/images/placeholderimage.webp' }}" class="lazyload"
-                            alt="...">
+                        <img data-src="{{ isset($thirdbox['image']) ? '/storage/' . $thirdbox['image'] : '/images/placeholderimage.webp' }}"
+                            class="lazyload" alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
                             <h5 class="card-titlebottom">{{ $thirdbox['title'] ?? 'Trade Shows' }}</h5>
                         </div>
@@ -133,8 +182,8 @@
                 <div class="cardbottom">
                     <a href="{{ $fourthbox['url'] ?? '#' }}" style="text-decoration: none;"
                         class="image-wrapper shimmer">
-                        <img data-src="{{ isset($fourthbox['image']) ?  '/storage/' . $fourthbox['image'] : '/images/placeholderimage.webp' }}" class="lazyload"
-                            alt="...">
+                        <img data-src="{{ isset($fourthbox['image']) ? '/storage/' . $fourthbox['image'] : '/images/placeholderimage.webp' }}"
+                            class="lazyload" alt="...">
                         <div class="card-bodybottom py-0" style="background-color: #E2E8F0;">
                             <h5 class="card-titlebottom">{{ $fourthbox['title'] ?? 'Trade Shows' }}</h5>
                         </div>
@@ -143,8 +192,8 @@
                 <div class="cardbottom">
                     <a href="{{ $fifthbox['url'] ?? '#' }}" style="text-decoration: none;"
                         class="image-wrapper shimmer">
-                        <img data-src="{{ isset($fifthbox['image']) ?  '/storage/' . $fifthbox['image'] : '/images/placeholderimage.webp' }}" class="lazyload"
-                            alt="...">
+                        <img data-src="{{ isset($fifthbox['image']) ? '/storage/' . $fifthbox['image'] : '/images/placeholderimage.webp' }}"
+                            class="lazyload" alt="...">
                         <div class="card-bodybottom" style="background-color: #E2E8F0;">
                             <h5 class="card-titlebottom py-0">{{ $fifthbox['title'] ?? 'Trade Shows' }}</h5>
                             <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
@@ -158,7 +207,7 @@
     </div>
 </div>
 </section>
-<script defer>
+<script>
     function initiateCarousel() {
         $('#carouselExample').owlCarousel({
             items: 1,
@@ -167,7 +216,7 @@
             dots: true,
             margin: 30,
             autoplay: true,
-            autoplayTimeout: 5000,
+            // autoplayTimeout: 5000,
             // lazyLoad: true,
             smartSpeed: 800,
             autoHeight: false,
@@ -182,7 +231,7 @@
             dots: true,
             margin: 30,
             autoplay: true,
-            autoplayTimeout: 5000,
+            // autoplayTimeout: 5000,
             // lazyLoad: true,
             smartSpeed: 800,
             autoHeight: false,
@@ -197,12 +246,18 @@
             dots: true,
             margin: 30,
             autoplay: true,
-            autoplayTimeout: 5000,
+            // autoplayTimeout: 5000,
             // lazyLoad: true,
             smartSpeed: 800,
             autoHeight: false,
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initiateCarousel();
+        initiateCarousel1();
+        initiateCarousel2();
+    });
 </script>
 <script defer>
     document.addEventListener('DOMContentLoaded', function() {

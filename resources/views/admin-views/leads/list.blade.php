@@ -169,7 +169,8 @@
                             <tbody>
                                 @foreach ($leads as $key => $lead)
                                     <tr>
-                                        <th scope="row">{{ ($leads->currentPage() - 1) * $leads->perPage() + $key + 1 }}
+                                        <th scope="row">
+                                            {{ ($leads->currentPage() - 1) * $leads->perPage() + $key + 1 }}
                                         </th>
                                         <td>
                                             <a href="{{ route('admin.products.view', ['addedBy' => $lead['added_by'] == 'seller' ? 'vendor' : 'in-house', 'id' => $lead['id']]) }}"
@@ -220,11 +221,11 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="mt-4">
+                            {{ $leads->links() }}
+                        </div>
                     </div>
 
-                    <div class="mt-4">
-                        {{ $leads->links() }}
-                    </div>
 
                     @if (count($leads) == 0)
                         @include('layouts.back-end._empty-state', [

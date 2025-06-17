@@ -117,7 +117,6 @@
                 <div class="row" id="ajax-products">
                     @include('web-views.products._ajax-products', ['products' => $products, 'decimal_point_settings' => $decimalPointSettings])
                 </div>
-                <!-- @include('web-views.products._ajax-products_bottom'); -->
             @else
                 <div class="d-flex justify-content-center align-items-center w-100 py-5 my-2">
                     <div>

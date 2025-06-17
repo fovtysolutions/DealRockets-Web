@@ -14,9 +14,7 @@ class StockSell extends Model
         'name', 'description', 'quantity', 'product_id', 'status', 'user_id',
         'role', 'created_at', 'updated_at', 'image', 'country','industry','company_name',
         'company_address','company_icon','compliance_status','upper_limit','lower_limit',
-        'unit','city','stock_type','product_type','origin','badge','refundable','sub_category_id',
-        'hs_code','rate','local_currency','delivery_terms','place_of_loading','port_of_loading','packing_type',
-        'weight_per_unit','dimensions_per_unit','dynamic_data','dynamic_data_technical','certificate'
+        'unit','city','stock_type','product_type','origin','badge','refundable'
     ];
 
     public function countryRelation()

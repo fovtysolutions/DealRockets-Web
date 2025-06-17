@@ -48,6 +48,9 @@
             background-size: 7px;
             background-position: 96% center;
         }
+        body{
+            background-color: white;
+        }
     </style>
 
     {{-- Stack for additional CSS --}}

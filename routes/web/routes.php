@@ -50,6 +50,9 @@ use App\Http\Controllers\Payment_Methods\PaystackController;
 use App\Http\Controllers\Leads\LeadsController;
 use App\Http\Controllers\Quotation\QuotatioController;
 use App\Http\Controllers\CV\CVController;
+use App\Http\Controllers\Vendor\Auth\LoginController as AuthLoginController;
+use App\Http\Controllers\Vendor\Auth\RegisterController as AuthRegisterController;
+use App\Http\Controllers\Vendor\ProfileController;
 use App\Http\Controllers\Web\AgrotradexController;
 use App\Http\Controllers\Web\SupplierController;
 use App\Http\Controllers\Web\DealAssist;
@@ -62,6 +65,7 @@ use App\Http\Controllers\Web\ErrorController;
 use App\Http\Controllers\Web\StocksalewebController;
 use App\Http\Controllers\Web\MembershipTierController;
 use App\Http\Controllers\Web\MarketplaceController;
+use App\Http\Controllers\Web\NewProductStoreController;
 use App\Http\Controllers\Web\StockSellController;
 
 /*
@@ -195,10 +199,10 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     // Support Ticket
     Route::controller(UserProfileController::class)->group(function () {
         Route::group(['prefix' => 'support-ticket', 'as' => 'support-ticket.'], function () {
-            Route::get('{id}', 'single_ticket')->name('index');
-            Route::post('{id}', 'comment_submit')->name('comment');
-            Route::get('delete/{id}', 'support_ticket_delete')->name('delete');
-            Route::get('close/{id}', 'support_ticket_close')->name('close');
+            Route::get('{id}', 'single_ticket')->name('index')->middleware('customer');
+            Route::post('{id}', 'comment_submit')->name('comment')->middleware('customer');
+            Route::get('delete/{id}', 'support_ticket_delete')->name('delete')->middleware('customer');
+            Route::get('close/{id}', 'support_ticket_close')->name('close')->middleware('customer');
         });
     });
 
@@ -634,3 +638,22 @@ Route::resource('membership-tiers', MembershipTierController::class);
 Route::get('membership-vendor',[MembershipTierController::class,'vendorview'])->name('membership-vendor');
 Route::post('membership-payment',[PaymentController::class,'getCustomerPaymentRequestMembership'])->name('membership-payment');
 Route::Post('membership-payment-seller',[PaymentController::class,'getSellerPaymentRequestMembership'])->name('membership-payment-seller');
+Route::post('resend-otp-custom',[AuthRegisterController::class,'resendotp'])->name('resend-otp-custom');
+Route::post('verify-otp-custom',[AuthRegisterController::class,'verifyotpcustom'])->name('verify-otp-custom');
+Route::post('save-vendor-details/{sellerusers}',[AuthRegisterController::class, 'saveVendorExtraDetails'])->name('save-vendor-details');
+Route::get('/products/search', [ProductListController::class, 'search'])->name('products.search');
+Route::get('form/{id}', [AuthLoginController::class, 'showVendorForm'])->name('vendor.form');
+
+// New Products Sumbit
+Route::prefix('products-new')->name('products_new.')->group(function () {
+    Route::get('/', [NewProductStoreController::class, 'index'])->name('index');
+    Route::get('/add', [NewProductStoreController::class, 'create'])->name('add'); // route('products_new.add')
+    Route::post('/store', [NewProductStoreController::class, 'store'])->name('store');
+    Route::get('/view/{id}', [NewProductStoreController::class, 'view'])->name('view');
+    Route::get('/edit/{product}', [NewProductStoreController::class, 'edit'])->name('edit');
+    Route::put('/update/{product}', [NewProductStoreController::class, 'update'])->name('update');
+    Route::delete('/delete/{id}', [NewProductStoreController::class, 'destroy'])->name('delete');
+    Route::post('/status-update/{id}', [NewProductStoreController::class, 'update_status'])->name('status-update');
+});
+
+Route::get('register-form-vendor',[ProfileController::class,'getRegisterForm'])->name('register-form-vendor');

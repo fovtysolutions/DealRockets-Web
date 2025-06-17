@@ -451,6 +451,7 @@ class DashboardController extends BaseController
             case 'profile':
                 $title = 'Profile Settings';
                 $cardData = [
+                    ['link' => route('register-form-vendor'), 'title' => 'Register Form', 'value' => 'Yes'],
                     ['link' => route('vendor.profile.update', [auth('seller')->id()]), 'title' => 'Manage Profile', 'value' => 'Yes'],
                 ];
                 break;
@@ -492,6 +493,10 @@ class DashboardController extends BaseController
                 $cardData = [
                     ['link' => route('vendor.products.add'), 'title' => 'Upload Products', 'value' => 'Yes'],
                     ['link' => route('vendor.products.bulk-import'), 'title' => 'Bulk Import', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'all']), 'title' => 'Manage Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'approved']), 'title' => 'Approved Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'denied']), 'title' => 'Denied Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.list', ['type' => 'new-request']), 'title' => 'New Product Request', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -522,6 +527,8 @@ class DashboardController extends BaseController
             case 'marketplace':
                 $title = 'Marketplace';
                 $cardData = [
+                    ['link' => route('vendor.products.add'), 'title' => 'Upload Products', 'value' => 'Yes'],
+                    ['link' => route('vendor.products.bulk-import'), 'title' => 'Bulk Import', 'value' => 'Yes'],
                     ['link' => route('vendor.products.list', ['type' => 'all']), 'title' => 'Manage Products', 'value' => 'Yes'],
                     ['link' => route('vendor.products.list', ['type' => 'approved']), 'title' => 'Approved Products', 'value' => 'Yes'],
                     ['link' => route('vendor.products.list', ['type' => 'denied']), 'title' => 'Denied Products', 'value' => 'Yes'],
@@ -530,10 +537,11 @@ class DashboardController extends BaseController
                 break;
 
             case 'post-rfq':
-                $title = 'Post RFQ';
-                $cardData = [
-                    ['link' => route('quotationweb'), 'title' => 'Go to RFQ Page', 'value' => 'Yes'],
-                ];
+                return redirect()->route('quotationweb');
+                // $title = 'Post RFQ';
+                // $cardData = [
+                //     ['link' => route('quotationweb'), 'title' => 'Go to RFQ Page', 'value' => 'Yes'],
+                // ];
                 break;
 
             case 'post-job':

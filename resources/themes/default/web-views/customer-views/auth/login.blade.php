@@ -4,7 +4,31 @@
 
 @push('css_or_js')
     <link rel="stylesheet"
-          href="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/css/intlTelInput.css') }}">
+        href="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/css/intlTelInput.css') }}">
+    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/customerlogin.css') }}">
+    <style>
+        .btn-group-toggle {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .role-btn {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            background-color: #f4f4f4;
+            cursor: pointer;
+            flex: 1;
+            border-radius: 4px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .role-btn.active {
+            background-color: #fa3030;
+            color: white;
+            border-color: #fa3030;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -13,7 +37,7 @@
     $customerManualLogin = $web_config['customer_login_options']['manual_login'] ?? 0;
     $customerOTPLogin = $web_config['customer_login_options']['otp_login'] ?? 0;
     $customerSocialLogin = $web_config['customer_login_options']['social_login'] ?? 0;
-
+    
     if (!$customerOTPLogin && $customerManualLogin && $customerSocialLogin) {
         $multiColumn = 1;
     } elseif ($customerOTPLogin && !$customerManualLogin && $customerSocialLogin) {
@@ -26,177 +50,114 @@
         $multiColumn = 0;
     }
     ?>
+    <div class="customerlogin mainpagesection" style="background-color: unset; margin-top: 22px;">
+        <div class="container">
+            <!-- Left Section - Red Background with Content -->
+            <div class="left-section">
+                <!-- Decorative elements -->
+                <div class="decorative-circle"></div>
+                <div class="decorative-line"></div>
 
-    <div class="container py-4 py-lg-5 my-4 text-align-direction">
-        <div class="row" style="justify-content:center;">
-            <div class="login-card">
-                <div class="d-flex align-items-center flex-column">
-                    <img src="{{ theme_asset(path: 'public/assets/front-end/img/icons/user-vector.svg') }}"
-                         alt="" class="w-70px">
-                    <h2 class="text-center font-bold text-capitalize fs-20 my-4 fs-18-mobile">
-                        {{ translate('Sign_In') }}
-                    </h2>
-                </div>
-                <div class="position-relative">
-                    <div class="row align-items-center g-4 {{ $multiColumn ? 'or-sign-in-with-row' : '' }}">
-                        @if($customerOTPLogin && !$customerManualLogin && !$customerSocialLogin)
-                            <div class="col-md-12">
-                                <form autocomplete="off"
-                                    action="{{ route('customer.auth.login') }}"
-                                    method="post"
-                                    data-recaptcha="skip"
-                                    class="customer-centralize-login-form"
-                                    data-firebase-auth="{{ $web_config['firebase_otp_verification_status'] ? 'active': 'deactivate' }}"
-                                >
-                                    @csrf
-                                    <input type="hidden" name="login_type" value="otp-login">
-                                    @include("web-views.customer-views.auth.partials._phone")
-
-                                    <button class="btn btn--primary btn-block btn-shadow font-semi-bold" type="submit">
-                                        {{ translate('Get_OTP') }}
-                                    </button>
-                                </form>
-                            </div>
-                        @elseif(!$customerOTPLogin && $customerManualLogin && !$customerSocialLogin)
-                            <div class="col-md-12">
-                                <form autocomplete="off"
-                                    class="customer-centralize-login-form mt-2"
-                                    action="{{ route('customer.auth.login') }}"
-                                    method="post" id="customer-login-form">
-                                    @csrf
-                                    <input type="hidden" name="login_type" value="manual-login">
-                                    @include("web-views.customer-views.auth.partials._email")
-                                    @include("web-views.customer-views.auth.partials._password")
-                                    @include("web-views.customer-views.auth.partials._remember-me", ['forgotPassword' => true])
-                                    @include("web-views.customer-views.auth.partials._recaptcha")
-                                    <button class="btn btn--primary btn-block btn-shadow font-semi-bold" type="submit">
-                                        {{ translate('sign_in') }}
-                                    </button>
-                                    @if(!$multiColumn)
-                                        @include("web-views.customer-views.auth.partials._sign-up-instruction")
-                                    @endif
-                                </form>
-                            </div>
-                        @elseif(!$customerOTPLogin && $customerManualLogin && $customerSocialLogin)
-                            <div class="col-md-6">
-                                <form autocomplete="off"
-                                    class="customer-centralize-login-form mt-2"
-                                    action="{{ route('customer.auth.login') }}"
-                                    method="post" id="customer-login-form">
-                                    @csrf
-                                    <input type="hidden" name="login_type" value="manual-login">
-                                    @include("web-views.customer-views.auth.partials._email")
-                                    @include("web-views.customer-views.auth.partials._password")
-                                    @include("web-views.customer-views.auth.partials._remember-me", ['forgotPassword' => true])
-                                    @include("web-views.customer-views.auth.partials._recaptcha")
-                                    <button class="btn btn--primary btn-block btn-shadow font-semi-bold" type="submit">
-                                        {{ translate('sign_in') }}
-                                    </button>
-                                    @if(!$multiColumn)
-                                        @include("web-views.customer-views.auth.partials._sign-up-instruction")
-                                    @endif
-
-                                </form>
-                            </div>
-                        @elseif($customerOTPLogin && !$customerManualLogin && $customerSocialLogin)
-                            <div class="col-md-6">
-                                <form autocomplete="off"
-                                    class="customer-centralize-login-form mt-2"
-                                    action="{{ route('customer.auth.login') }}"
-                                    method="post"
-                                    data-recaptcha="skip"
-                                    id="{{ $web_config['firebase_otp_verification_status'] ? 'customer-firebase-login-form': 'customer-login-form' }}"
-                                    data-firebase-auth="{{ $web_config['firebase_otp_verification_status'] ? 'active': 'deactivate' }}"
-                                >
-                                    @csrf
-                                    <input type="hidden" name="login_type" value="otp-login">
-                                    @include("web-views.customer-views.auth.partials._phone")
-                                    @include("web-views.customer-views.auth.partials._firebase-recaptcha-container")
-                                    <button class="btn btn--primary btn-block btn-shadow font-semi-bold" type="submit">
-                                        {{ translate('Get_OTP') }}
-                                    </button>
-                                </form>
-                            </div>
-                        @elseif($customerOTPLogin && $customerManualLogin)
-                            <div class="col-md-6">
-                                <div class="manual-login-container">
-                                    <form autocomplete="off"
-                                        class="customer-centralize-login-form mt-2"
-                                        action="{{ route('customer.auth.login') }}"
-                                        method="post" id="customer-login-form">
-                                        @csrf
-
-                                        <input type="hidden" name="login_type" class="auth-login-type-input" value="manual-login">
-
-                                        <div class="manual-login-items">
-                                            @include("web-views.customer-views.auth.partials._email")
-                                            @include("web-views.customer-views.auth.partials._password")
-                                            @include("web-views.customer-views.auth.partials._remember-me", ['forgotPassword' => true])
-                                        </div>
-
-                                        <div class="otp-login-items d-none">
-                                            @include("web-views.customer-views.auth.partials._phone")
-                                        </div>
-
-                                        @include("web-views.customer-views.auth.partials._recaptcha")
-
-                                        <div class="manual-login-items">
-                                            <button class="btn btn--primary btn-block btn-shadow font-semi-bold" type="submit">
-                                                {{ translate('sign_in') }}
-                                            </button>
-                                        </div>
-
-                                        <div class="otp-login-items d-none">
-                                            <button class="btn btn--primary btn-block btn-shadow font-semi-bold" type="submit">
-                                                {{ translate('Get_OTP') }}
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        @endif
-
-                        @if($multiColumn)
-                            <div class="or-sign-in-with"><span>{{translate('Or Sign in with')}}</span></div>
-                        @endif
-
-                        @if($multiColumn || $customerSocialLogin)
-                            <div class="{{ $multiColumn ? 'col-md-6' : 'col-12' }}">
-                                <div class="d-flex flex-column align-items-center my-3 gap-3">
-                                    @if($customerSocialLogin)
-                                        @foreach ($web_config['customer_social_login_options'] as $socialLoginServiceKey => $socialLoginService)
-                                            @if ($socialLoginService && $socialLoginServiceKey != 'apple')
-                                                <a class="social-media-login-btn"
-                                                href="{{ route('customer.auth.service-login', $socialLoginServiceKey) }}">
-                                                    <img alt=""
-                                                        src="{{theme_asset(path: 'public/assets/front-end/img/icons/'.$socialLoginServiceKey.'.png') }}">
-                                                    <span class="text">
-                                                        {{ translate($socialLoginServiceKey) }}
-                                                    </span>
-                                                </a>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                    @if($customerOTPLogin && $customerManualLogin)
-                                        <a class="social-media-login-btn otp-login-btn" href="javascript:">
-                                            <img alt=""
-                                                src="{{theme_asset(path: 'public/assets/front-end/img/icons/otp-login-icon.svg') }}">
-                                            <span class="text">{{ translate('OTP_Sign_in') }}</span>
-                                        </a>
-
-                                        <a class="social-media-login-btn manual-login-btn d-none" href="javascript:">
-                                            <img alt=""
-                                                src="{{theme_asset(path: 'public/assets/front-end/img/icons/otp-login-icon.svg') }}">
-                                            <span class="text">{{ translate('Manual_Login') }}</span>
-                                        </a>
-                                    @endif
-                                </div>
-                                @if($multiColumn)
-                                    @include("web-views.customer-views.auth.partials._sign-up-instruction")
-                                @endif
-                            </div>
-                        @endif
+                <div class="content">
+                    <div class="hero-content">
+                        <h1 style="font-size: 44px; color: white;">Join the Deal Rocket Community!</h1>
+                        <p>Experience smarter shopping with exclusive deals and top-rated discounts. Sign up today and start
+                            saving instantly!</p>
                     </div>
+
+                    <!-- Testimonial Section -->
+                    <div class="testimonial">
+                        <!-- Star Rating -->
+                        <div class="star-rating">
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                        </div>
+
+                        <!-- Testimonial Text -->
+                        <blockquote>
+                            "Deal Rocket makes shopping so much easier! I found the best discounts in seconds. Highly
+                            recommend!"
+                        </blockquote>
+
+                        <!-- Author -->
+                        <div class="author">
+                            <div class="author-avatar">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                            </div>
+                            <div class="author-info">
+                                <div class="author-name">David B.</div>
+                                <div class="author-title">Digital Marketer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section - Sign Up Form -->
+            <div class="right-section">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h2>Welcome to Deal Rocket!</h2>
+                        <p>Sign in to unlock exclusive deals, shop smarter, and save big on your favorite products!</p>
+                    </div>
+
+                    <form action="{{ route('customer.auth.login') }}" method="post" id="customer-login-form">
+                        @csrf
+
+                        <input type="hidden" name="login_type" class="auth-login-type-input" value="manual-login">
+
+                        <!-- Sign in as dropdown -->
+                        <div class="form-group">
+                            <label for="signInAs">Sign in as</label>
+                            <div class="btn-group-toggle" id="signInAsToggle" role="group" aria-label="Sign in as">
+                                <button type="button" class="role-btn" data-value="buyer">Buyer</button>
+                                <button type="button" class="role-btn" data-value="supplier">Supplier</button>
+                                <button type="button" class="role-btn" data-value="consultant">Consultant</button>
+                            </div>
+                            <input type="hidden" name="signInAs" id="signInAs" />
+                        </div>
+
+
+                        @include('web-views.customer-views.auth.partials._email')
+                        @include('web-views.customer-views.auth.partials._password')
+
+                        <!-- Remember me and Forgot password -->
+                        @include('web-views.customer-views.auth.partials._remember-me', [
+                            'forgotPassword' => true,
+                        ])
+
+                        <div class="manual-login-items" style="padding-bottom: 25px;">
+                            <!-- Sign Up button -->
+                            <button type="submit" class="submit-btn" id="submit-hr">Sign In</button>
+                        </div>
+
+                        <!-- Sign up link -->
+                        <div class="signup-link">
+                            Don't have an account?
+                            <a href="{{ route('customer.auth.sign-up') }}" type="button" class="link-btn">Sign Up</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -205,7 +166,7 @@
 
 @push('script')
     @php($recaptcha = getWebConfig(name: 'recaptcha'))
-    @if($web_config['firebase_otp_verification'] && $web_config['firebase_otp_verification']['status'])
+    @if ($web_config['firebase_otp_verification'] && $web_config['firebase_otp_verification']['status'])
         <script type="text/javascript">
             "use strict";
             // console.info('Firebase Auth Rendering...');
@@ -213,31 +174,29 @@
     @elseif(isset($recaptcha) && $recaptcha['status'] == 1)
         <script type="text/javascript">
             "use strict";
-            var onloadCallback = function () {
+            var onloadCallback = function() {
                 grecaptcha.render('recaptcha_element', {
                     'sitekey': '{{ getWebConfig(name: 'recaptcha')['site_key'] }}'
                 });
             };
         </script>
-        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
-                async defer></script>
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
     @endif
 
-    @if($web_config['firebase_otp_verification_status'])
+    @if ($web_config['firebase_otp_verification_status'])
         <script>
             $('.or-sign-in-with').css('width', $('.or-sign-in-with-row').height())
         </script>
     @endif
     <script>
-        $(document).ready(function () {
-            $('#show_password').on('click', function () {
+        $(document).ready(function() {
+            $('#show_password').on('click', function() {
                 var password_field = $('#si-password');
                 var password_type = password_field.attr('type');
 
                 if (password_type == 'password') {
                     $('#si-password').attr('type', 'text');
-                }
-                else {
+                } else {
                     $('#si-password').attr('type', 'password');
                 }
             });
@@ -245,4 +204,70 @@
     </script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
+    <script>
+        var form = $('#customer-login-form');
+
+        $('.role-btn').on('click', function() {
+            var role = $(this).data('value');
+
+            $('#signInAs').val(role); // set role in hidden input for form submission
+
+            if (role === 'buyer' || role === 'consultant') {
+                form.attr('action', "{{ route('customer.auth.login') }}");
+                $('#si-email').attr('name', 'user_identity');
+                $('#submit-hr').attr('type', 'submit');
+            } else if (role === 'supplier') {
+                form.attr('action', "{{ route('vendor.auth.login') }}");
+                $('#si-email').attr('name', 'email');
+                // $('#submit-hr').attr('type', 'button'); 
+            } else {
+                form.attr('action', '#');
+            }
+        });
+
+        // Handle AJAX submit for Supplier
+        // $('#submit-hr').on('click', function(e) {
+        //     var selectedRole = $('#signInAs').val();
+
+        //     if (selectedRole === 'supplier') {
+        //         e.preventDefault();
+
+        //         var url = form.attr('action');
+        //         var formData = form.serialize();
+
+        //         $.ajax({
+        //             url: url,
+        //             method: 'POST',
+        //             data: formData,
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        //             },
+        //             success: function(response) {
+        //                 if (response.success) {
+        //                     window.location.href = response.redirectResponse;
+        //                 } else {
+        //                     toastr.info(response.errors || 'Login failed.');
+        //                 }
+        //             },
+        //             error: function(xhr) {
+        //                 toastr.error("Login failed. Please check your credentials.");
+        //             }
+        //         });
+        //     }
+        // });
+    </script>
+    <script>
+        document.querySelectorAll('.role-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all
+                document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+
+                // Add to the clicked one
+                this.classList.add('active');
+
+                // Update hidden input value
+                document.getElementById('signInAs').value = this.getAttribute('data-value');
+            });
+        });
+    </script>
 @endpush

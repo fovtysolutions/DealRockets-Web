@@ -4,17 +4,32 @@
 @push('css_or_js')
     <link rel="stylesheet"
         href="{{ dynamicAsset(path: 'public/assets/back-end/plugins/intl-tel-input/css/intlTelInput.css') }}">
+    <link rel="stylesheet" href="{{ theme_asset('public/assets/custom-css/progress-form.css') }}">
+    <style>
+        .save-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 120px;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="content container-fluid">
         <div class="mb-3">
             <div class="row gy-2 align-items-center">
                 <div class="col-sm">
-                    <h2 class="h1 mb-0 d-flex align-items-center gap-2">
+                    {{-- <h2 class="h1 mb-0 d-flex align-items-center gap-2">
                         <img width="20" src="{{ dynamicAsset(path: 'public/assets/back-end/img/profile_setting.png') }}"
                             alt="">
                         {{ translate('Profile_Information') }}
-                    </h2>
+                    </h2> --}}
                 </div>
                 <div class="col-sm-auto">
                     {{-- <a class="btn btn--primary" href="{{ route('vendor.dashboard.index') }}">
@@ -24,8 +39,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-3">
+        <div class="row" style="display: flex; flex-direction: column;">
+            <div class="col-lg-12">
                 <div class="navbar-vertical navbar-expand-lg mb-3 mb-lg-5">
                     <button type="button" class="navbar-toggler btn btn-block btn-white mb-3"
                         aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarVerticalNavMenu"
@@ -42,24 +57,24 @@
                     </button>
 
                     <div id="navbarVerticalNavMenu" class="collapse navbar-collapse">
-                        <ul id="navbarSettings"
+                        <ul id="navbarSettings" style="display: flex; flex-direction: row;"
                             class="js-sticky-block js-scrollspy navbar-nav navbar-nav-lg nav-tabs card card-navbar-nav p-3">
-                            <li class="nav-item">
+                            <li class="nav-item" style="width: 33%;">
                                 <a class="nav-link active d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
-                                    id="general-section">
-                                    <i class="tio-user-outlined nav-icon"></i>{{ translate('basic_Information') }}
+                                    id="general-section" onclick="toggleSubTab('update-profile-form',this)">
+                                    <i class="tio-user-outlined nav-icon"></i>{{ translate('Login Information') }}
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" style="width: 33%;">
                                 <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
-                                    id="password-section">
-                                    <i class="tio-lock-outlined nav-icon"></i> {{ translate('password') }}
+                                    id="password-section" onclick="toggleSubTab('password-div',this)">
+                                    <i class="tio-lock-outlined nav-icon"></i> {{ translate('Change Password') }}
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="#details-div"
-                                    id="details-section">
-                                    <i class="tio-info-outined nav-icon"></i> {{ translate('details') }}
+                            <li class="nav-item" style="width: 33%;">
+                                <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
+                                    id="details-section" onclick="toggleSubTab('details-div',this)">
+                                    <i class="tio-info-outined nav-icon"></i> {{ translate('Shop Details') }}
                                 </a>
                             </li>
                         </ul>
@@ -67,7 +82,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-9">
+            <div class="col-lg-12">
                 <form action="{{ route('vendor.profile.update', [$vendor->id]) }}" method="post"
                     enctype="multipart/form-data" id="update-profile-form">
                     @csrf
@@ -91,7 +106,7 @@
                             <div class="d-flex align-items-center gap-3">
                                 <div><img src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/user-1.svg') }}"
                                         alt=""></div>
-                                <h4 class="card-title m-0 fs-16">{{ translate('basic_Information') }}</h4>
+                                <h4 class="card-title m-0 fs-16">{{ translate('Login Information') }}</h4>
                             </div>
                         </div>
                         <div class="card-body">
@@ -115,7 +130,8 @@
 
                                     <div class="mb-3">
                                         <div class="input-group input-group-sm-down-break">
-                                            <input type="text" class="form-control" name="f_name" id="firstNameLabel"
+                                            <input type="text" class="form-control" name="f_name"
+                                                id="firstNameLabel"
                                                 placeholder="{{ translate('ex') }}: {{ translate('ABC') }}"
                                                 aria-label=" {{ translate('ABC') }}" value="{{ $vendor->f_name }}">
                                         </div>
@@ -195,7 +211,7 @@
                         </div>
                     </div>
                 </form>
-                <div id="password-div" class="card mb-3 mb-lg-5">
+                <div id="password-div" class="card mb-3 mb-lg-5 d-none">
                     <div class="card-header">
                         <div class="d-flex align-items-center gap-3">
                             <div><img src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/password-lock.svg') }}"
@@ -285,21 +301,21 @@
                         </form>
                     </div>
                 </div>
-                <div id="details-div" class="card mb-3 mb-lg-5">
+                <div id="details-div" class="card mb-3 mb-lg-5 d-none" style="max-width: 1128px; margin: 0 auto;">
                     <div class="card-header">
                         <div class="d-flex align-items-center gap-3">
                             <div><img src="{{ dynamicAsset(path: 'public/assets/back-end/img/icons/user-1.svg') }}"
                                     alt=""></div>
-                            <h4 class="card-title m-0 fs-16">{{ translate('Company Details') }}</h4>
+                            <h4 class="card-title m-0 fs-16">{{ translate('Shop Details') }}</h4>
                         </div>
                     </div>
                     <div class="card-body">
                         <form id="company-profile" enctype="multipart/form-data">
                             @include('vendor-views.profile.partials.cp-formfields')
                             <input type="hidden" name="seller" id="seller" value={{ auth('seller')->user()->id }}>
-                            <div class="d-flex justify-content-end mt-3">
+                            {{-- <div class="d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn--primary">{{ translate('save_Changes') }}</button>
-                            </div>
+                            </div> --}}
                         </form>
                     </div>
                 </div>
@@ -337,4 +353,23 @@
             });
         });
     </script>
+    <script>
+        function toggleSubTab(contentId, btn) {
+            const tabs = ['update-profile-form', 'password-div', 'details-div'];
+
+            // Toggle content sections
+            tabs.forEach(function(tabId) {
+                if (tabId === contentId) {
+                    $('#' + tabId).removeClass('d-none').addClass('active');
+                } else {
+                    $('#' + tabId).addClass('d-none').removeClass('active');
+                }
+            });
+
+            // Toggle button active state
+            $('.nav-link').removeClass('active'); // assuming all buttons have .tab-btn class
+            $(btn).addClass('active');
+        }
+    </script>
+    <script src="{{ theme_asset('public/js/progress-form.js') }}"></script>
 @endpush

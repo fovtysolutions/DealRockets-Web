@@ -391,6 +391,7 @@ Set the default cursor for buttons.
 .gmail-ui button,
 [role="button"] {
     cursor: pointer;
+    flex:1;
 }
 
 /*
@@ -766,8 +767,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 }
 
 .gmail-ui .rounded-e-full {
-    border-start-end-radius: 9999px;
-    border-end-end-radius: 9999px;
+    border-radius: 9999px;
 }
 
 .gmail-ui .border-b {
@@ -780,7 +780,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 
 .gmail-ui .border-blue-600 {
     --tw-border-opacity: 1;
-    border-color: rgb(37 99 235 / var(--tw-border-opacity));
+    border-color: rgb(241 11 11);
 }
 
 .gmail-ui .border-gray-200 {
@@ -860,6 +860,15 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     padding-bottom: 0.5rem;
 }
 
+.gmail-ui .active-tab{
+    background: #ff000021;
+}
+
+.gmail-ui .tab-button{
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+}
+
 .gmail-ui .py-3 {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -934,7 +943,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 
 .gmail-ui .text-blue-600 {
     --tw-text-opacity: 1;
-    color: rgb(37 99 235 / var(--tw-text-opacity));
+    color: rgb(241 11 11);
 }
 
 .gmail-ui .text-gray-400 {

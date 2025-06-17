@@ -38,7 +38,7 @@
     </div>
 
     <div class="pagination-info">
-      <div class="pagination-total">{{ $paginator->total() }}</div>
+      {{-- <div class="pagination-total">{{ $paginator->total() }}</div> --}}
       {{-- Next Page Link --}}
       @if ($paginator->hasMorePages())
         <a href="{{ $paginator->nextPageUrl() }}" class="pagination-next" data-page="{{ $paginator->currentPage() + 1 }}">

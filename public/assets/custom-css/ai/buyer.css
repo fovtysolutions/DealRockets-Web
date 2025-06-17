@@ -339,11 +339,10 @@
 }
 
 .buy-offer .detail-label {
-    width: 50%;
+    width: 42%;
     font-weight: 600;
     color: #0D0D0F;
     background-color: white;
-    border-top: 1px solid #D5D5D5;
     border-bottom: 1px solid #D5D5D5;
     border-left: 1px solid #D5D5D5;
     padding: 7px 4px;
@@ -355,8 +354,19 @@
     font-weight: 400;
     text-align: left;
     padding: 7px;
-    border: 1px solid #D5D5D5;
+    border-bottom: 1px solid #D5D5D5;
+    border-right: 1px solid #D5D5D5;
+    border-left: 1px solid #D5D5D5;
     width: calc(100% - 80px);
+}
+
+.buy-offer .text-truncate-2 {
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 3em; /* Adjust if needed (line-height * 2) */
+    line-height: 1.5em;
 }
 
 .buy-offer .detail-table tr:first-child .detail-label,

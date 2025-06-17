@@ -23,7 +23,7 @@
                 @endif
             </div>
         </div>
-        <img src="{{ isset($item->thumbnail) ? 'storage/product/thumbnail/' . $item->thumbnail : '/images/placeholderimage.webp' }}" alt="Sample Product" class="product-image">
+        <img src="{{ isset($item->thumbnail) ? '/storage/product/thumbnail/' . $item->thumbnail : '/images/placeholderimage.webp' }}" alt="Sample Product" class="product-image">
         <div class="product-info">
             <div class="d-flex justify-content-between">
                 <p class="new">{{ $item->badge }}</p>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <h3 class="product-title">{{ $item->name }}</h3>
-            <div class="product-price">${{ $item->unit_price }}</div>
+            <div class="product-price">${{ number_format($item->unit_price,2,'.',',') }}</div>
             <div class="product-moq">MOQ: {{ $item->minimum_order_qty }} {{ $item->unit }}</div>
             @php
                 if ($item->added_by == 'seller') {

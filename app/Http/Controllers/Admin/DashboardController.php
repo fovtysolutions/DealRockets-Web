@@ -592,6 +592,7 @@ class DashboardController extends BaseController
                 $title = 'Vendor Approval';
                 $cardData = [
                     ['link' => route('admin.vendors.vendor-list'), 'title' => 'Vendor Approval', 'value' => 'Yes'],
+                    ['link' => route('admin.vendors.get-vendor-register-view'), 'title' => 'Vendor Register Forms', 'value' => 'Yes'],
                 ];
                 break;
 

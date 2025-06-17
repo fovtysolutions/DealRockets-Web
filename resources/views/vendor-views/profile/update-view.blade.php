@@ -21,24 +21,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="content container-fluid">
-        <div class="mb-3">
-            <div class="row gy-2 align-items-center">
-                <div class="col-sm">
-                    {{-- <h2 class="h1 mb-0 d-flex align-items-center gap-2">
-                        <img width="20" src="{{ dynamicAsset(path: 'public/assets/back-end/img/profile_setting.png') }}"
-                            alt="">
-                        {{ translate('Profile_Information') }}
-                    </h2> --}}
-                </div>
-                <div class="col-sm-auto">
-                    {{-- <a class="btn btn--primary" href="{{ route('vendor.dashboard.index') }}">
-                        <i class="tio-home mr-1"></i> {{ translate('dashboard') }}
-                    </a> --}}
-                </div>
-            </div>
-        </div>
-
+    <div class="content container-fluid p-2">
         <div class="row" style="display: flex; flex-direction: column;">
             <div class="col-lg-12">
                 <div class="navbar-vertical navbar-expand-lg mb-3 mb-lg-5">
@@ -60,19 +43,22 @@
                         <ul id="navbarSettings" style="display: flex; flex-direction: row;"
                             class="js-sticky-block js-scrollspy navbar-nav navbar-nav-lg nav-tabs card card-navbar-nav p-3">
                             <li class="nav-item" style="width: 33%;">
-                                <a class="nav-link active d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
+                                <a style="border-top-left-radius: 26px !important;border-top-right-radius: 26px !important;"
+                                    class="nav-link active d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
                                     id="general-section" onclick="toggleSubTab('update-profile-form',this)">
                                     <i class="tio-user-outlined nav-icon"></i>{{ translate('Login Information') }}
                                 </a>
                             </li>
                             <li class="nav-item" style="width: 33%;">
-                                <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
+                                <a style="border-top-left-radius: 26px !important;border-top-right-radius: 26px !important;"
+                                    class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
                                     id="password-section" onclick="toggleSubTab('password-div',this)">
                                     <i class="tio-lock-outlined nav-icon"></i> {{ translate('Change Password') }}
                                 </a>
                             </li>
                             <li class="nav-item" style="width: 33%;">
-                                <a class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
+                                <a style="border-top-left-radius: 26px !important;border-top-right-radius: 26px !important;"
+                                    class="nav-link d-flex align-items-center gap-2 m-0 py-3" href="javascript:"
                                     id="details-section" onclick="toggleSubTab('details-div',this)">
                                     <i class="tio-info-outined nav-icon"></i> {{ translate('Shop Details') }}
                                 </a>

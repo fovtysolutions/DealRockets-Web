@@ -440,6 +440,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     Route::group(['prefix' => 'vendors', 'as' => 'vendors.', 'middleware' => ['module:user_management']], function () {
+        Route::get('get-vendor-register-view',[VendorController::class,'getVendorRegisterView'])->name('get-vendor-register-view');
+        Route::get('get-vendor-register-details/{id}',[VendorController::class,'getVendorRegisterDetails'])->name('get-vendor-register-details');
         Route::controller(VendorController::class)->group(function () {
             Route::get(Vendor::LIST [URI], 'index')->name('vendor-list');
             Route::get(Vendor::ADD[URI], 'getAddView')->name('add');

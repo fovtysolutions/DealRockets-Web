@@ -23,6 +23,9 @@ use App\Exports\VendorWithdrawRequest;
 use App\Exports\VendorOrderListExport;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\VendorAddRequest;
+use App\Models\Seller;
+use App\Models\Shop;
+use App\Models\VendorExtraDetail;
 use App\Services\ShopService;
 use App\Services\VendorService;
 use App\Traits\CommonTrait;
@@ -577,5 +580,24 @@ class VendorController extends BaseController
 
     }
 
+    public function getVendorRegisterView()
+    {
+        $registerForms = VendorExtraDetail::all()->paginate(10);
+        return view('admin-views.vendor.register-form',compact('registerForms'));
+    }
 
+    public function getVendorRegisterDetails($id)
+    {
+        $registerForm = VendorExtraDetail::where('id',$id)->first();
+        if(isset($registerForm->seller_id)){
+            $isSeller = 1;
+            $seller = Seller::where('id',(int) $registerForm->seller_id)->first();
+            $shop = Shop::Where('seller_id',$seller->id)->first();
+        } else {
+            $isSeller = 0;
+            $seller = null;
+            $shop = null;
+        }
+        return view('admin-views.vendor.register-form-view',compact('registerForm','seller','shop','isSeller'));
+    }
 }

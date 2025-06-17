@@ -3,8 +3,8 @@
         $seller = \App\Models\Seller::where('id',auth('seller')->user()->id)->first();
         $shop = \App\Models\Shop::where('seller_id',$seller->id)->first();
     } else {
-        $seller = collect();
-        $shop = collect();
+        $seller = null;
+        $shop = null;
     }
 @endphp
 <div class="step-section" data-step="1">

@@ -52,6 +52,7 @@ use App\Http\Controllers\Quotation\QuotatioController;
 use App\Http\Controllers\CV\CVController;
 use App\Http\Controllers\Vendor\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\Vendor\Auth\RegisterController as AuthRegisterController;
+use App\Http\Controllers\Vendor\ProfileController;
 use App\Http\Controllers\Web\AgrotradexController;
 use App\Http\Controllers\Web\SupplierController;
 use App\Http\Controllers\Web\DealAssist;
@@ -652,3 +653,5 @@ Route::prefix('products-new')->name('products_new.')->group(function () {
     Route::put('/update/{product}', [NewProductStoreController::class, 'update'])->name('update');
     Route::delete('/delete/{product}', [NewProductStoreController::class, 'destroy'])->name('delete');
 });
+
+Route::get('register-form-vendor',[ProfileController::class,'getRegisterForm'])->name('register-form-vendor');

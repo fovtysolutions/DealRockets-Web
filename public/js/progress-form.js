@@ -3,6 +3,7 @@ function initializeMultiStepForm() {
     const stepIndicators = document.querySelectorAll(".step");
 
     function showStep(step) {
+        console.log('show step',step);
         steps.forEach((s) => s.classList.add("d-none"));
         const currentStep = document.querySelector(
             `.step-section[data-step="${step}"]`
@@ -52,7 +53,6 @@ function initializeMultiStepForm() {
         });
     });
 
-    // Optionally show the first step on init
     showStep(1);
 }
 

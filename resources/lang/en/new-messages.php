@@ -9493,4 +9493,9 @@ return [
 	"quarterly" => "Quarterly",
 	"Fill Details" => "Fill Details",
 	"HS Code" => "HS Code",
+	"Login Information" => "Login Information",
+	"Change Password" => "Change Password",
+	"Shop Details" => "Shop Details",
+	"Register Form" => "Register Form",
+	"Buyers | Marketplace" => "Buyers | Marketplace",
 ];

@@ -451,6 +451,7 @@ class DashboardController extends BaseController
             case 'profile':
                 $title = 'Profile Settings';
                 $cardData = [
+                    ['link' => route('register-form-vendor'), 'title' => 'Register Form', 'value' => 'Yes'],
                     ['link' => route('vendor.profile.update', [auth('seller')->id()]), 'title' => 'Manage Profile', 'value' => 'Yes'],
                 ];
                 break;
@@ -536,10 +537,11 @@ class DashboardController extends BaseController
                 break;
 
             case 'post-rfq':
-                $title = 'Post RFQ';
-                $cardData = [
-                    ['link' => route('quotationweb'), 'title' => 'Go to RFQ Page', 'value' => 'Yes'],
-                ];
+                return redirect()->route('quotationweb');
+                // $title = 'Post RFQ';
+                // $cardData = [
+                //     ['link' => route('quotationweb'), 'title' => 'Go to RFQ Page', 'value' => 'Yes'],
+                // ];
                 break;
 
             case 'post-job':

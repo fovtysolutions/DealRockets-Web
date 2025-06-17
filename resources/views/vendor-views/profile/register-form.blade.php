@@ -1,9 +1,9 @@
-@extends('layouts.front-end.app')
+@extends('layouts.back-end.app-partialseller')
 
-@section('title', translate('Info Page'))
-
+@section('title', translate('profile_Settings'))
 @push('css_or_js')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet"
+        href="{{ dynamicAsset(path: 'public/assets/back-end/plugins/intl-tel-input/css/intlTelInput.css') }}">
     <link rel="stylesheet" href="{{ theme_asset('public/assets/custom-css/progress-form.css') }}">
     <style>
         .save-btn {
@@ -20,10 +20,10 @@
         }
     </style>
 @endpush
-
 @section('content')
-    <div class="second-el progress-form-main">
-        <div class="container">
+    <div class="content container-fluid">
+        <div class="card-body progress-form-main">
+
             <!-- Progress Steps -->
             <div class="progress-container">
                 <div class="step active">
@@ -75,6 +75,33 @@
 @endsection
 @push('script')
     <script>
+        $(document).on('submit', '#quotation-form', function(e) {
+            e.preventDefault();
+
+            let form = $('#quotation-form')[0];
+            let formData = new FormData(form);
+
+            $.ajax({
+                url: "{{ route('save-vendor-details', ['sellerusers' => $sellerUsersId]) }}",
+                method: "POST",
+                data: formData,
+                processData: false, // Important for file upload
+                contentType: false, // Important for file upload
+                success: function(response) {
+                    toastr.success('Details saved successfully.');
+                },
+                error: function(xhr) {
+                    let errors = xhr.responseJSON?.errors;
+                    if (errors) {
+                        Object.values(errors).forEach(function(errorMessages) {
+                            toastr.error(errorMessages[0]); // Show first error per field
+                        });
+                    } else {
+                        toastr.error('Server error occurred.');
+                    }
+                }
+            });
+        });
         $(document).on('click', '.save-btn', function(e) {
             e.preventDefault();
 
@@ -82,7 +109,7 @@
             let formData = new FormData(form);
 
             $.ajax({
-                url: "{{ route('save-vendor-details',['sellerusers' => $sellerUsersId]) }}",
+                url: "{{ route('save-vendor-details', ['sellerusers' => $sellerUsersId]) }}",
                 method: "POST",
                 data: formData,
                 processData: false, // Important for file upload
@@ -103,53 +130,7 @@
             });
         });
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const vendorTypeInput = document.getElementById('vendor_type');
-            const vendorButton = document.getElementById('vendor');
-            const supplierButton = document.getElementById('supplier');
-
-            function toggleActive(button, type) {
-                vendorTypeInput.value = type;
-
-                // Toggle classes
-                vendorButton.classList.remove('btn-active');
-                supplierButton.classList.remove('btn-active');
-
-                button.classList.add('btn-active');
-            }
-
-            vendorButton.addEventListener('click', function() {
-                toggleActive(this, 'vendor');
-            });
-
-            supplierButton.addEventListener('click', function() {
-                toggleActive(this, 'supplier');
-            });
-        });
-
-        function togglePasswordVisibility(inputId) {
-            const passwordInput = document.getElementById(inputId);
-            const toggleIndicator = passwordInput.nextElementSibling.querySelector('.password-toggle-indicator');
-
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleIndicator.classList.remove('tio-hidden');
-                toggleIndicator.classList.add('tio-visible'); // Replace with the "eye-open" icon class
-            } else {
-                passwordInput.type = 'password';
-                toggleIndicator.classList.remove('tio-visible');
-                toggleIndicator.classList.add('tio-hidden'); // Replace with the "eye-closed" icon class
-            }
-        }
-    </script>
-    <script>
-        $('#vendor-apply-submit').on('click', function() {
-            submitRegistration();
-        });
-    </script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
-    <script src="{{ theme_asset(path: 'public/assets/front-end/js/vendor-registration.js') }}"></script>
+    <script src="{{ dynamicAsset(path: 'public/assets/back-end/plugins/intl-tel-input/js/intlTelInput.js') }}"></script>
+    <script src="{{ dynamicAsset(path: 'public/assets/back-end/js/country-picker-init.js') }}"></script>
     <script src="{{ theme_asset('public/js/progress-form.js') }}"></script>
 @endpush

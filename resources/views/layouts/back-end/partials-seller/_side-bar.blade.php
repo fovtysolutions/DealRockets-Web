@@ -16,7 +16,7 @@
 @endphp
 <link rel="stylesheet" href="{{ theme_asset('public/assets/custom-css/vendorpanel/sidebar.css') }}">
 <div id="sidebarMain" class="d-none">
-    <aside style="text-align: {{ Session::get('direction') === 'rtl' ? 'right' : 'left' }};"
+    <aside style="text-align: {{ Session::get('direction') === 'rtl' ? 'right' : 'left' }};" style="background: url('https://source.unsplash.com/1600x900/?city') no-repeat center/cover;"
         class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered smallview">
         <div class="navbar-vertical-container">
             <div class="navbar-vertical-footer-offset pb-0">
@@ -43,12 +43,12 @@
                             data-template="<div class=&quot;tooltip d-none d-sm-block&quot; role=&quot;tooltip&quot;><div class=&quot;arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>"></i>
                     </button> --}}
                 </div>
-                <div class="navbar-vertical-content">
+                <div class="navbar-vertical-content glass-effect">
                     <div class="sidebar--search-form pb-1 pt-1 centermagnifymain">
                         <i class="fa-solid fa-magnifying-glass centermagnifymain-icon"></i>
                         <div class="search--form-group">
                             <button type="button" class="btn"><i class="tio-search"></i></button>
-                            <input type="text" class="js-form-search form-control form--control"
+                            <input type="text" class="js-form-search form-control form--control" style="color: black !important;"
                                 id="search-bar-input" placeholder="{{ translate('search_menu') . '...' }}">
                         </div>
                     </div>

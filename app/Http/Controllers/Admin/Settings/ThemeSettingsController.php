@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BusinessSetting;
 use App\Models\MembershipTier;
 use App\Models\Quotation;
+use App\Models\Solution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -248,11 +249,16 @@ class ThemeSettingsController extends Controller
         $fourthbox = BusinessSetting::where('type', 'fourthbox')->first();
         $fifthbox = BusinessSetting::where('type', 'fifthbox')->first();
 
-        $firstbox = $firstbox ? json_decode($firstbox['value'], true) : [];;
-        $secondbox = $secondbox ? json_decode($secondbox['value'], true) : [];;
-        $thirdbox = $thirdbox ? json_decode($thirdbox['value'], true) : [];;
-        $fourthbox = $fourthbox ? json_decode($fourthbox['value'], true) : [];;
-        $fifthbox = $fifthbox ? json_decode($fifthbox['value'], true) : [];;
+        $firstbox = $firstbox ? json_decode($firstbox['value'], true) : [];
+        ;
+        $secondbox = $secondbox ? json_decode($secondbox['value'], true) : [];
+        ;
+        $thirdbox = $thirdbox ? json_decode($thirdbox['value'], true) : [];
+        ;
+        $fourthbox = $fourthbox ? json_decode($fourthbox['value'], true) : [];
+        ;
+        $fifthbox = $fifthbox ? json_decode($fifthbox['value'], true) : [];
+        ;
 
         // Return the view with the decoded data
         return view('admin-views.business-settings.theme-pages.banner-setting', compact('data', 'decodedbanner', 'firstbox', 'secondbox', 'thirdbox', 'fourthbox', 'fifthbox'));
@@ -812,15 +818,15 @@ class ThemeSettingsController extends Controller
     public function trendingproductsset()
     {
         $data = BusinessSetting::where('type', 'trendingproducts')->first();
-    
+
         $registerSetting = BusinessSetting::where('type', 'register_banner')->first();
         $quotationSetting = BusinessSetting::where('type', 'quotation')->first();
         $marketplaceSetting = BusinessSetting::where('type', 'marketplace')->first();
-    
+
         $registerbanner = $registerSetting ? json_decode($registerSetting->value, true) : [];
         $quotation = $quotationSetting ? json_decode($quotationSetting->value, true) : [];
         $marketplace = $marketplaceSetting ? json_decode($marketplaceSetting->value, true) : [];
-    
+
         return view('admin-views.business-settings.theme-pages.trendingproducts', compact('data', 'registerbanner', 'quotation', 'marketplace'));
     }
 
@@ -1135,11 +1141,11 @@ class ThemeSettingsController extends Controller
         $tradeshowlimit = BusinessSetting::where('type', 'tradeshowbannerlimit')->first();
         $carouselData = BusinessSetting::where('type', 'tradeshowrotatingbox')->first();
         $carouselarray = $carouselData ? json_decode($carouselData->value, true) : [];
-        $imagesData = BusinessSetting::where('type','tradeshowhomepage')->first();
-        $imagesArray = $imagesData ? json_decode($imagesData->value,true) : [];
+        $imagesData = BusinessSetting::where('type', 'tradeshowhomepage')->first();
+        $imagesArray = $imagesData ? json_decode($imagesData->value, true) : [];
         $bannerData = BusinessSetting::where('type', 'tradeshowbannerrotatingbox')->first();
         $bannerarray = $bannerData ? json_decode($bannerData->value, true) : [];
-        return view('admin-views.business-settings.theme-pages.tradeshow', compact('data', 'tradeshowlimit', 'carouselarray','imagesArray','bannerarray'));
+        return view('admin-views.business-settings.theme-pages.tradeshow', compact('data', 'tradeshowlimit', 'carouselarray', 'imagesArray', 'bannerarray'));
     }
 
     public function tradeshow(Request $request)
@@ -1170,14 +1176,14 @@ class ThemeSettingsController extends Controller
         $setting = BusinessSetting::where('type', 'tradeshowbannerrotatingbox')->first();
 
         $currentSettings = [];
-        
+
         if ($setting && $setting->value) {
             $decoded = json_decode($setting->value, true);
             if (is_array($decoded)) {
                 $currentSettings = $decoded;
             }
         }
-        
+
         // Use current values if no new file is uploaded
         $c1 = $request->hasFile('banner1') ? $request->file('banner1')->store('tradeshow', 'public') : (isset($currentSettings['tradeshowbannerrotatingbox']['banner1']) ? $currentSettings['tradeshowbannerrotatingbox']['banner1'] : null);
         $c2 = $request->hasFile('banner2') ? $request->file('banner2')->store('tradeshow', 'public') : (isset($currentSettings['tradeshowbannerrotatingbox']['banner2']) ? $currentSettings['tradeshowbannerrotatingbox']['banner2'] : null);
@@ -1282,83 +1288,83 @@ class ThemeSettingsController extends Controller
         $data = BusinessSetting::where('type', 'genresection1')->first();
         $homepagesetting = $data ? json_decode($data->value, true) : [];
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
-        return view('admin-views.business-settings.theme-pages.homepage-setting', compact('homepagesetting','categories'));
+        return view('admin-views.business-settings.theme-pages.homepage-setting', compact('homepagesetting', 'categories'));
     }
 
     public function saveGenreSectionSettings(Request $request)
-{
-    $request->validate([
-        'genres' => 'array',
-        'genres.*.background_image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10425',
-        'genres.*.category_title' => 'nullable|string|max:255',
-        'genres.*.button_text' => 'nullable|string|max:50',
-        'genres.*.products' => 'nullable|array|max:8', // Max 8 products per genre
-        'genres.*.products.*.name' => 'nullable|string|max:100',
-        'genres.*.products.*.image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10425',
-    ]);
+    {
+        $request->validate([
+            'genres' => 'array',
+            'genres.*.background_image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10425',
+            'genres.*.category_title' => 'nullable|string|max:255',
+            'genres.*.button_text' => 'nullable|string|max:50',
+            'genres.*.products' => 'nullable|array|max:8', // Max 8 products per genre
+            'genres.*.products.*.name' => 'nullable|string|max:100',
+            'genres.*.products.*.image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:10425',
+        ]);
 
-    $storage = config('filesystems.disks.default') ?? 'public';
-    $genresData = [];
+        $storage = config('filesystems.disks.default') ?? 'public';
+        $genresData = [];
 
-    foreach ($request->input('genres', []) as $index => $genre) {
-        // Get existing genre data
-        $existingGenreData = $this->getExistingGenreData($genre);
+        foreach ($request->input('genres', []) as $index => $genre) {
+            // Get existing genre data
+            $existingGenreData = $this->getExistingGenreData($genre);
 
-        // Handle background image (upload new or retain existing)
-        $backgroundImagePath = $this->storeOrReplaceFile($request, "genres.{$index}.background_image", 'uploads/homepage', $storage, $existingGenreData['background_image'] ?? null);
+            // Handle background image (upload new or retain existing)
+            $backgroundImagePath = $this->storeOrReplaceFile($request, "genres.{$index}.background_image", 'uploads/homepage', $storage, $existingGenreData['background_image'] ?? null);
 
-        // Process products
-        $products = [];
-        foreach ($genre['products'] ?? [] as $productIndex => $product) {
-            $existingProductData = $existingGenreData['products'][$productIndex] ?? null;
+            // Process products
+            $products = [];
+            foreach ($genre['products'] ?? [] as $productIndex => $product) {
+                $existingProductData = $existingGenreData['products'][$productIndex] ?? null;
 
-            // Handle product image (upload new or retain existing)
-            $productImagePath = $this->storeOrReplaceFile($request, "genres.{$index}.products.{$productIndex}.image", 'uploads/homepage', $storage, $existingProductData['image'] ?? null);
+                // Handle product image (upload new or retain existing)
+                $productImagePath = $this->storeOrReplaceFile($request, "genres.{$index}.products.{$productIndex}.image", 'uploads/homepage', $storage, $existingProductData['image'] ?? null);
 
-            $products[] = [
-                'name' => $product['name'],
-                'image' => $productImagePath,
+                $products[] = [
+                    'name' => $product['name'],
+                    'image' => $productImagePath,
+                ];
+            }
+
+            $genresData[] = [
+                'background_image' => $backgroundImagePath,
+                'category_title' => $genre['category_title'],
+                'button_text' => $genre['button_text'],
+                'products' => $products,
             ];
         }
 
-        $genresData[] = [
-            'background_image' => $backgroundImagePath,
-            'category_title' => $genre['category_title'],
-            'button_text' => $genre['button_text'],
-            'products' => $products,
-        ];
+        // Save or update genre settings
+        $this->saveOrUpdateGenreSettings($genresData);
+
+        return redirect()->back()->with('success', 'Genre settings updated successfully!');
     }
 
-    // Save or update genre settings
-    $this->saveOrUpdateGenreSettings($genresData);
+    private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storage, $existingFile = null)
+    {
+        if ($request->hasFile($fileKey)) {
+            $file = $request->file($fileKey);
+            $filePath = $file->store($folder, $storage);
 
-    return redirect()->back()->with('success', 'Genre settings updated successfully!');
-}
+            // Delete old file if it exists
+            if ($existingFile && Storage::disk($storage)->exists($existingFile)) {
+                Storage::disk($storage)->delete($existingFile);
+            }
 
-private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storage, $existingFile = null)
-{
-    if ($request->hasFile($fileKey)) {
-        $file = $request->file($fileKey);
-        $filePath = $file->store($folder, $storage);
-
-        // Delete old file if it exists
-        if ($existingFile && Storage::disk($storage)->exists($existingFile)) {
-            Storage::disk($storage)->delete($existingFile);
+            return $filePath;
         }
 
-        return $filePath;
+        // Keep existing file if no new one is uploaded
+        return $existingFile;
     }
-
-    // Keep existing file if no new one is uploaded
-    return $existingFile;
-}
 
     private function getExistingGenreData($genre)
     {
         // Decode the current settings from the database (if they exist)
         $setting = BusinessSetting::where('type', 'genresection1')->first();
         $existingData = $setting ? json_decode($setting->value, true) : [];
-        
+
         // Find the genre data from existing settings (if available)
         return collect($existingData)->firstWhere('category_title', $genre['category_title']);
     }
@@ -1366,7 +1372,7 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
     private function handleImageUpload(Request $request, $imageKey, $folder, $storage, $genre, $existingGenreData = null)
     {
         $imagePath = null;
-        
+
         // Check if the background image exists in the request
         if ($request->hasFile($imageKey)) {
             $image = $request->file($imageKey);
@@ -1375,7 +1381,7 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
             // Store the uploaded image
             $imagePath = $image->storeAs($folder, $image->getClientOriginalName(), $storage);
         }
-        
+
         // If no new image and 'keep_existing_image' flag is set, retain the existing image
         if (!$request->hasFile($imageKey) && $request->input("keep_{$imageKey}") && isset($existingGenreData['background_image'])) {
             $imagePath = $existingGenreData['background_image'];
@@ -1387,7 +1393,7 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
     private function saveOrUpdateGenreSettings($genresData)
     {
         $encodedData = json_encode($genresData);
-        
+
         // Update or create the genre section settings
         $setting = BusinessSetting::firstOrNew(['type' => 'genresection1']);
         $setting->value = $encodedData;
@@ -1399,24 +1405,24 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
         $request->validate([
             'banner' => 'required|image|mimes:jpg,jpeg,png,gif,webp',
         ]);
-    
+
         // Store the banner image in 'banners' inside public storage
         $bannerPath = $request->file('banner')->store('uploads/banners', 'public');
-    
+
         // Prepare data to store in the database
         $data = [
             'banner' => $bannerPath,
         ];
-    
+
         // Use updateOrCreate to either update or create the entry
         BusinessSetting::updateOrCreate(
             ['type' => 'register_banner'],
             ['value' => json_encode($data)]
         );
-    
+
         return redirect()->back()->with('success', 'Banner uploaded successfully');
     }
-    
+
     public function quotationbanner(Request $request)
     {
         // Validate the request
@@ -1428,7 +1434,7 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
             'subtext_color' => 'nullable|string',
             'banner_prev' => 'nullable|string',
         ]);
-    
+
         // Determine the banner path
         if ($request->has('banner_prev') && $request->banner_prev && !$request->hasFile('banner')) {
             $bannerPath = $request->banner_prev; // Use previous banner if no new one is uploaded
@@ -1437,7 +1443,7 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
         } else {
             $bannerPath = null; // No banner provided
         }
-    
+
         // Prepare data to store in the database
         $data = [
             'header' => $request->quotation_header,
@@ -1446,17 +1452,17 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
             'subtext_color' => $request->subtext_color,
             'banner' => $bannerPath,
         ];
-    
+
         // Use updateOrCreate to either update or create the entry
         BusinessSetting::updateOrCreate(
             ['type' => 'quotation'],
             ['value' => json_encode($data)]
         );
-    
+
         // Redirect back with success message
         return redirect()->back()->with('success', 'Quotation banner uploaded successfully');
     }
-        
+
     public function marketplacebanner(Request $request)
     {
         $request->validate([
@@ -1466,10 +1472,10 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
             'text_field_2' => 'nullable|string|max:255',
             'text_field_3' => 'nullable|string|max:255',
         ]);
-    
+
         // Store the background image in 'backgrounds' inside public storage
         $backgroundImagePath = $request->file('background_image')->store('uploads/backgrounds', 'public');
-    
+
         // Prepare data to store in the database
         $data = [
             'background_image' => $backgroundImagePath,
@@ -1478,13 +1484,13 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
             'text_field_2' => $request->input('text_field_2'),
             'text_field_3' => $request->input('text_field_3'),
         ];
-    
+
         // Use updateOrCreate to either update or create the entry
         BusinessSetting::updateOrCreate(
             ['type' => 'marketplace'],
             ['value' => json_encode($data)]
         );
-    
+
         return redirect()->back()->with('success', 'Marketplace settings updated successfully');
     }
 
@@ -1494,11 +1500,11 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
         $existingData = $setting ? json_decode($setting->value, true) : [];
         $settinge = BusinessSetting::where('type', 'quotation_enabled')->first();
         $existingDatae = $settinge ? json_decode($settinge->value, true) : [];
-        return view('admin-views.business-settings.theme-pages.homepage-sec',compact('existingData','existingDatae'));
+        return view('admin-views.business-settings.theme-pages.homepage-sec', compact('existingData', 'existingDatae'));
     }
-    
+
     public function updateHomepageSecondSettings(Request $request)
-    {       
+    {
         $request->validate([
             'image_1' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp',
             'image_2' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp',
@@ -1666,5 +1672,11 @@ private function storeOrReplaceFile(Request $request, $fileKey, $folder, $storag
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while updating settings: ' . $e->getMessage());
         }
+    }
+
+    public function solutions()
+    {
+        $solutions = Solution::with('categories')->get();
+        return view('admin-views.business-settings.theme-pages.solutions', compact('solutions'));
     }
 }

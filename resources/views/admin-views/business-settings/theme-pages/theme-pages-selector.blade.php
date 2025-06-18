@@ -36,5 +36,8 @@
         <li class="{{ Request::is('admin/webtheme/stocksale') ? 'active' : '' }}">
             <a href="{{ route('admin.webtheme.stocksale')}}">{{ translate('Stock Sale')}}</a>
         </li> 
+        <li class="{{ Request::is('admin/webtheme/solutions') ? 'active' : '' }}">
+            <a href="{{ route('admin.webtheme.solutions')}}">{{ translate('Solutions')}}</a>
+        </li> 
     </ul>
 </div>

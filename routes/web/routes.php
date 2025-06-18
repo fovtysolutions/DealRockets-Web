@@ -10,6 +10,7 @@ use App\Http\Controllers\Customer\Auth\RegisterController;
 use App\Http\Controllers\Customer\Auth\SocialAuthController;
 use App\Http\Controllers\Customer\PaymentController;
 use App\Http\Controllers\Customer\SystemController;
+use App\Http\Controllers\SolutionController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\ChattingController;
 use App\Http\Controllers\Web\CouponController;
@@ -657,3 +658,4 @@ Route::prefix('products-new')->name('products_new.')->group(function () {
 });
 
 Route::get('register-form-vendor',[ProfileController::class,'getRegisterForm'])->name('register-form-vendor');
+Route::post('/solutions/store', [SolutionController::class, 'store'])->name('solutions.store');

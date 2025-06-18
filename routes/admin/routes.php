@@ -1350,6 +1350,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         Route::post('updatehomepagesec',[ThemeSettingsController::class,'updateHomepageSecondSettings'])->name('updatehomepagesec');
         Route::post('updatetradeshowsec',[ThemeSettingsController::class,'updateTradeshowHomepage'])->name('tradeshowhomepage');
         Route::post('updatequotationsett',[ThemeSettingsController::class,'updateQuotation'])->name('updatequotation');
+        Route::get('solutions',[ThemeSettingsController::class,'solutions'])->name('solutions');
     });
 
     // Membership Tier Setup Page

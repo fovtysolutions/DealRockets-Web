@@ -303,7 +303,7 @@
                                     </div>
                                 @endif
                                 <button type="button"
-                                    class="btn btn-lg btn-block btn--primary submit-login-form">{{ translate('login') }}</button>
+                                    class="btn btn-lg btn-block btn--primary submit-login-form">{{ translate('Sign In') }}</button>
                             </form>
                         </div>
                         @if (env('APP_MODE') == 'demo')

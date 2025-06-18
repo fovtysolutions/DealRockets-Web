@@ -14,27 +14,26 @@
 }
 
 .progress-form-main .form-row .form-group:first-child {
-    border-right: 1px solid lightgrey;
-    padding-right: 10px;
+    /* border-right: 1px solid lightgrey; */
+    padding-right: 16px;
 }
 
 .progress-form-main .form-row .form-group:last-child {
-    border-right: 1px solid lightgrey;
-    padding-left: 10px;
+    /* border-right: 1px solid lightgrey; */
+    padding-left: 16px;
 }
 
 .progress-form-main .form-single {
     display: flex;
     flex: 1;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     margin-bottom: 10px;
-    gap: 10px;
     margin-top: 5px;
 }
 
-.progress-form-main .note-editor{
-    width: 88%;
+.progress-form-main .note-editor {
+    width: 100%;
 }
 
 .progress-form-main .form-single label {
@@ -42,7 +41,7 @@
 }
 
 .progress-form-main .form-single input {
-    width: 88%;
+    width: 100%;
 }
 
 .progress-form-main .form-select {
@@ -56,7 +55,7 @@
     width: max-content;
 }
 
-.progress-form-main .input-error{
+.progress-form-main .input-error {
     border-color: red;
 }
 
@@ -161,11 +160,10 @@
 .progress-form-main .form-group {
     display: flex;
     flex: 1;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     margin-bottom: 0;
-    padding-bottom: 10px;
-    gap: 10px;
+    padding-bottom: 20px;
 }
 
 .progress-form-main input[type="checkbox"] {
@@ -191,24 +189,25 @@
 }
 
 .progress-form-main label {
-    font-weight: 500;
-    margin-bottom: 8px;
-    color: #374151;
-    font-size: 14px;
-    width: 236px;
-    align-content: space-evenly;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 550;
+    margin-bottom: 6px;
+    color: rgba(67, 81, 95, 1) !important;
+    font-size: 16px;
+    width: 100%;
 }
 
 .progress-form-main input,
 .progress-form-main select,
 .progress-form-main textarea {
-    padding: 12px 16px;
     border: 1px solid #d1d5db;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 15px;
+    padding: 8px 8px 8px 15px;
     transition: all 0.2s ease;
     background: white;
     width: 100%;
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 }
 
 .progress-form-main input:focus,

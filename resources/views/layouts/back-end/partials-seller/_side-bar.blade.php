@@ -43,7 +43,7 @@
                             data-template="<div class=&quot;tooltip d-none d-sm-block&quot; role=&quot;tooltip&quot;><div class=&quot;arrow&quot;></div><div class=&quot;tooltip-inner&quot;></div></div>"></i>
                     </button> --}}
                 </div>
-                <div class="navbar-vertical-content glass-effect">
+                <div class="navbar-vertical-content">
                     <div class="sidebar--search-form pb-1 pt-1 centermagnifymain">
                         <i class="fa-solid fa-magnifying-glass centermagnifymain-icon"></i>
                         <div class="search--form-group">

@@ -75,7 +75,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                             </div>
 
                             <div class="group-4">
-                                <div id="languageToggleBtn" onclick="switchLanguage('hi')">
+                                <div id="languageToggleBtn">
                                     <div class="frame-4" style="left:0;">
                                         <div class="text-wrapper-5">
                                             Translate
@@ -271,73 +271,77 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                     </div>
                                 </a>
                                 <div class="group-10 position-relative">
-                                    <a href="{{ route('vendor.auth.login') }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a href="{{ route('vendor.auth.login') }}" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
                                         <img class="parcel img-default" src="/img/parcel-1.png" />
                                         <img class="parcel img-hover" src="/img/parcel (2).png" />
                                         <div class="text-wrapper-10">Supplier</div>
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
-                                        aria-labelledby="dropdownMenuButton" style="border-radius: 10px; min-width: 300px; padding: 20px;">
-                                        
+                                        aria-labelledby="dropdownMenuButton"
+                                        style="border-radius: 10px; min-width: 300px; padding: 20px;">
+
                                         <div class="detailsboxtop">
-                                            <h5 class="custom-dealrock-head mb-3 text-center">What You Get as a Supplier</h5>
+                                            <h5 class="custom-dealrock-head mb-3 text-center">Why Join as a Supplier
+                                            </h5>
                                             <ul class="feature-list list-unstyled">
                                                 <li class="d-flex mb-3">
                                                     <div class="leftclass pr-2">
-                                                        <i class="fa fa-box fa-lg text-primary"></i>
+                                                        <i class="fa fa-tachometer-alt fa-lg text-primary"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Product Management</strong><br>
-                                                        <span class="custom-dealrock-subtext">Add, update, and remove products with ease.</span>
+                                                        <strong class="custom-dealrock-subhead">Manage
+                                                            Dashboard</strong><br>
+                                                        <span class="custom-dealrock-subtext">Access all tools to
+                                                            control your products, leads, and offers.</span>
                                                     </div>
                                                 </li>
                                                 <li class="d-flex mb-3">
                                                     <div class="leftclass pr-2">
-                                                        <i class="fa fa-chart-bar fa-lg text-success"></i>
+                                                        <i class="fa fa-crown fa-lg text-warning"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Analytics & Insights</strong><br>
-                                                        <span class="custom-dealrock-subtext">Track sales, inventory, and performance.</span>
+                                                        <strong class="custom-dealrock-subhead">Flexible
+                                                            Memberships</strong><br>
+                                                        <span class="custom-dealrock-subtext">Choose a plan that fits
+                                                            your scale and goals.</span>
                                                     </div>
                                                 </li>
                                                 <li class="d-flex mb-3">
                                                     <div class="leftclass pr-2">
-                                                        <i class="fa fa-credit-card fa-lg text-warning"></i>
+                                                        <i class="fa fa-briefcase fa-lg text-success"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Secure Payments</strong><br>
-                                                        <span class="custom-dealrock-subtext">Manage payments and invoices securely.</span>
-                                                    </div>
-                                                </li>
-                                                <li class="d-flex mb-3">
-                                                    <div class="leftclass pr-2">
-                                                        <i class="fa fa-headset fa-lg text-info"></i>
-                                                    </div>
-                                                    <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Customer Support</strong><br>
-                                                        <span class="custom-dealrock-subtext">Access dedicated supplier support anytime.</span>
+                                                        <strong class="custom-dealrock-subhead">Verified Business
+                                                            Leads</strong><br>
+                                                        <span class="custom-dealrock-subtext">Engage with buyers
+                                                            actively looking for suppliers like you.</span>
                                                     </div>
                                                 </li>
                                             </ul>
 
                                             <div class="text-center mt-4">
-                                                <a href="{{ route('vendor.auth.login') }}" class="btn btn-primary btn-sm mb-2 w-100">Login</a>
-                                                <a href="{{ route('vendor.auth.registration.index') }}" class="btn btn-primary btn btn-sm w-100">Sign Up</a>
+                                                <a href="{{ route('vendor.auth.login') }}"
+                                                    class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
+                                                <a href="{{ route('vendor.auth.registration.index') }}"
+                                                    class="btn btn-primary btn-sm w-100">Sign Up</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="group-11 position-relative">
-                                    <a href="{{ route('customer.auth.login') }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a href="{{ route('customer.auth.login') }}" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
                                         <img class="customer img-default" src="/img/customer-1.png" />
                                         <img class="customer img-hover" src="/img/customer (2).png" />
                                         <div class="text-wrapper-10">Buyer</div>
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
-                                        aria-labelledby="dropdownMenuButton" style="border-radius: 10px; min-width: 300px; padding: 20px;">
-                                        
+                                        aria-labelledby="dropdownMenuButton"
+                                        style="border-radius: 10px; min-width: 300px; padding: 20px;">
+
                                         <div class="detailsboxtop">
                                             <h5 class="custom-dealrock-head mb-3 text-center">Register as a Buyer</h5>
                                             <ul class="feature-list list-unstyled">
@@ -346,8 +350,10 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-search fa-lg text-primary"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Product Discovery</strong><br>
-                                                        <span class="custom-dealrock-subtext">Browse thousands of products and categories.</span>
+                                                        <strong class="custom-dealrock-subhead">Product
+                                                            Discovery</strong><br>
+                                                        <span class="custom-dealrock-subtext">Browse thousands of
+                                                            products and categories.</span>
                                                     </div>
                                                 </li>
                                                 <li class="d-flex mb-3">
@@ -355,8 +361,10 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-heart fa-lg text-danger"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Wishlist & Save</strong><br>
-                                                        <span class="custom-dealrock-subtext">Shortlist your favorite products for later.</span>
+                                                        <strong class="custom-dealrock-subhead">Wishlist &
+                                                            Save</strong><br>
+                                                        <span class="custom-dealrock-subtext">Shortlist your favorite
+                                                            products for later.</span>
                                                     </div>
                                                 </li>
                                                 <li class="d-flex mb-3">
@@ -364,39 +372,48 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-paper-plane fa-lg text-success"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Send Inquiries</strong><br>
-                                                        <span class="custom-dealrock-subtext">Reach out to suppliers directly with your needs.</span>
+                                                        <strong class="custom-dealrock-subhead">Send
+                                                            Inquiries</strong><br>
+                                                        <span class="custom-dealrock-subtext">Reach out to suppliers
+                                                            directly with your needs.</span>
                                                     </div>
                                                 </li>
                                             </ul>
 
                                             <div class="text-center mt-4">
-                                                <a href="{{ route('customer.auth.login') }}" class="btn btn-primary btn-sm mb-2 w-100">Login</a>
-                                                <a href="{{ route('customer.auth.sign-up') }}" class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                <a href="{{ route('customer.auth.login') }}"
+                                                    class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
+                                                <a href="{{ route('customer.auth.sign-up') }}"
+                                                    class="btn btn-primary btn-sm w-100">Sign Up</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="group-11 position-relative" style="width: 23px;height: 100%;">
-                                    <a href="javascript:" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img class="user img-default" src="/img/user-1.png"  style="left: 2px;"/>
-                                        <img class="user img-hover" src="/img/user (2).png"  style="left: 2px;"/>
+                                    <a href="javascript:" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <img class="user img-default" src="/img/user-1.png" style="left: 2px;" />
+                                        <img class="user img-hover" src="/img/user (2).png" style="left: 2px;" />
                                         <div class="text-wrapper-10">Hire</div>
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
-                                        aria-labelledby="dropdownMenuButton" style="border-radius: 10px; min-width: 300px; padding: 20px;">
-                                        
+                                        aria-labelledby="dropdownMenuButton"
+                                        style="border-radius: 10px; min-width: 300px; padding: 20px;">
+
                                         <div class="detailsboxtop">
-                                            <h5 class="custom-dealrock-head mb-3 text-center">Hire Talented Professionals</h5>
+                                            <h5 class="custom-dealrock-head mb-3 text-center">Hire Talented
+                                                Professionals</h5>
                                             <ul class="feature-list list-unstyled">
                                                 <li class="d-flex mb-3">
                                                     <div class="leftclass pr-2">
                                                         <i class="fa fa-users fa-lg text-info"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Browse Talent</strong><br>
-                                                        <span class="custom-dealrock-subtext">Discover skilled freelancers and professionals.</span>
+                                                        <strong class="custom-dealrock-subhead">Browse
+                                                            Talent</strong><br>
+                                                        <span class="custom-dealrock-subtext">Discover skilled
+                                                            freelancers and professionals.</span>
                                                     </div>
                                                 </li>
                                                 <li class="d-flex mb-3">
@@ -405,7 +422,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                     </div>
                                                     <div class="rightclass">
                                                         <strong class="custom-dealrock-subhead">Post Jobs</strong><br>
-                                                        <span class="custom-dealrock-subtext">List your hiring needs to attract top candidates.</span>
+                                                        <span class="custom-dealrock-subtext">List your hiring needs to
+                                                            attract top candidates.</span>
                                                     </div>
                                                 </li>
                                                 <li class="d-flex mb-3">
@@ -413,15 +431,19 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-comments fa-lg text-success"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Connect & Hire</strong><br>
-                                                        <span class="custom-dealrock-subtext">Chat, evaluate, and make hiring decisions easily.</span>
+                                                        <strong class="custom-dealrock-subhead">Connect &
+                                                            Hire</strong><br>
+                                                        <span class="custom-dealrock-subtext">Chat, evaluate, and make
+                                                            hiring decisions easily.</span>
                                                     </div>
                                                 </li>
                                             </ul>
 
                                             <div class="text-center mt-4">
-                                                <a href="{{ route('customer.auth.login') }}" class="btn btn-primary btn-sm mb-2 w-100">Login</a>
-                                                <a href="{{ route('customer.auth.sign-up') }}" class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                <a href="{{ route('customer.auth.login') }}"
+                                                    class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
+                                                <a href="{{ route('customer.auth.sign-up') }}"
+                                                    class="btn btn-primary btn-sm w-100">Sign Up</a>
                                             </div>
                                         </div>
                                     </div>
@@ -466,7 +488,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
     <a href="{{ route('tradeshow') }}">Trade Shows</a>
     <a href="{{ route('vendor.auth.registration.index') }}">Supplier Zone</a>
 </div>
-<div id="google_translate_element" style="display: none;position: absolute;top: 0;right: 0;z-index: 10000000;"></div>
+<div id="google-translate-dropdown" style="display: none;position: absolute;top: 0;right: 0;z-index: 10000000;background: white;border: 1px solid black;padding: 15px;"></div>
 @push('script')
     <script defer src="{{ theme_asset('public/js/header.js') }}"></script>
     <script defer>
@@ -479,13 +501,19 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
             document.getElementById("dropdownNav").classList.toggle("show");
         }
     </script>
-    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="text/javascript">
-        function switchLanguage(langCode) {
-            document.documentElement.lang = langCode;
-
-            // Hacky trick to refresh & trigger translate bar
-            location.reload();
+        function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en'
+        }, 'google-translate-dropdown');
         }
+    </script>
+    <script>
+        document.getElementById('languageToggleBtn').addEventListener('click', function() {
+            const container = document.getElementById('google-translate-dropdown');
+            container.style.display = (container.style.display === 'none' || container.style.display === '') ?
+                'block' : 'none';
+        });
     </script>
 @endpush

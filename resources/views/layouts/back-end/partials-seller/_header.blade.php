@@ -50,7 +50,7 @@
 }
 
 /* NEW: Responsive dropdown */
-@media (max-width: 1210px) {
+@media (max-width: 1370px) {
     .listhome {
         display: none;
         flex-direction: column;

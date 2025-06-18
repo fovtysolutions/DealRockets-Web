@@ -11,7 +11,6 @@
 
 @section('content')
     <div class="container mt-5">
-        <h2 class="mb-4">Edit Stock for Sale</h2>
         <form action="{{ route('vendor.stock.update', ['id' => $stocksell->id]) }}" method="POST"
             enctype="multipart/form-data">
             @csrf

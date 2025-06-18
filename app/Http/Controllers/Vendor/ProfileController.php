@@ -72,6 +72,38 @@ class ProfileController extends BaseController
         return view('vendor-views.profile.register-form',compact('sellerUsersId', 'vendorProfileData','email','phone','password','confirm_password','vendor_type'));
     }
 
+    public function getVendorForm()
+    {
+        $id = auth('seller')->id();
+
+        $vendor = $this->vendorRepo->getFirstWhere(['id'=>auth('seller')->id()]);
+        $shopBanner = $this->shopRepo->getFirstWhere(['seller_id'=>auth('seller')->id()])->banner;
+        $cp = CompanyProfile::where('seller',auth('seller')->user()->id)->first();
+        
+        if($cp){
+            return view('vendor-views.profile.vendor-form',compact('vendor','shopBanner','cp'));
+        }else{
+            $cp = [];
+            return view('vendor-views.profile.vendor-form',compact('vendor','shopBanner','cp'));
+        }
+    }
+
+    public function getEditprofileForm()
+    {
+        $id = auth('seller')->id();
+
+        $vendor = $this->vendorRepo->getFirstWhere(['id'=>auth('seller')->id()]);
+        $shopBanner = $this->shopRepo->getFirstWhere(['seller_id'=>auth('seller')->id()])->banner;
+        $cp = CompanyProfile::where('seller',auth('seller')->user()->id)->first();
+        
+        if($cp){
+            return view('vendor-views.profile.editprofile-form',compact('vendor','shopBanner','cp'));
+        }else{
+            $cp = [];
+            return view('vendor-views.profile.editprofile-form',compact('vendor','shopBanner','cp'));
+        }
+    }
+
     /**
      * @param string|int $id
      * @return View|RedirectResponse

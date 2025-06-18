@@ -8,7 +8,6 @@
     }
 @endphp
 <div class="step-section" data-step="1">
-    <h4>Shop Information</h4>
     <div class="form-row">
         <div class="form-group">
             <label for="email">Email</label>
@@ -70,7 +69,7 @@
             </select>
         </div>
     </div>
-    <div class="form-row">
+    <div class="form-row" style="gap: 32px;padding-bottom: 20px;">
         <div class="form-group border p-3 p-xl-4 rounded">
             <div class="d-flex flex-column gap-3 align-items-center">
                 <div class="upload-file">
@@ -108,8 +107,6 @@
 </div>
 <!-- Step 1: Company Information -->
 <div class="step-section d-none" data-step="2">
-    <h4>Company Information</h4>
-
     <div class="form-row">
         <div class="form-group">
             <label>Company Name</label>
@@ -203,8 +200,6 @@
 
 <!-- Step 2: Office & Contact Details -->
 <div class="step-section d-none" data-step="3">
-    <h4>Office & Contact Details</h4>
-
     <div class="form-row">
         <div class="form-group">
             <label>City</label>
@@ -258,8 +253,6 @@
 
 <!-- Step 3: Contact Person -->
 <div class="step-section d-none" data-step="4">
-    <h4>Contact Person</h4>
-
     <div class="form-row">
         <div class="form-group">
             <label>Contact Person Name</label>
@@ -299,8 +292,6 @@
 
 <!-- Step 4: Banking Details -->
 <div class="step-section d-none" data-step="5">
-    <h4>Banking Details</h4>
-
     <div class="form-row">
         <div class="form-group">
             <label>Bank Name</label>
@@ -347,8 +338,6 @@
 
 <!-- Step 5: Branches & Global Presence -->
 <div class="step-section d-none" data-step="6">
-    <h4>Branches & Global Presence</h4>
-
     <div class="form-row">
         <div class="form-group">
             <label>Local Branches</label>
@@ -381,8 +370,6 @@
 </div>
 <!-- Step 6: Business Documentation -->
 <div class="step-section d-none" data-step="7">
-    <h4>Business Documentation</h4>
-
     <div class="form-row">
         <div class="form-group">
             <label>Business License / Registration (PDF, JPG)</label>
@@ -446,8 +433,6 @@
 </div>
 <!-- Step 7: Declarations -->
 <div class="step-section d-none" data-step="8">
-    <h4>Declarations</h4>
-
     <div class="form-row">
         <div class="checkbox-group">
             <input type="checkbox" name="is_operational" required>

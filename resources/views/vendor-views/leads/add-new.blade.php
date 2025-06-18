@@ -10,13 +10,6 @@
 
 @section('content')
     <div class="content container-fluid">
-        <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
-            <h2 class="h1 mb-0 d-flex gap-2">
-                <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
-                {{ translate('add_New_Leads') }}
-            </h2>
-        </div>
-
         <form class="product-form text-start" action="{{ route('vendor.store.leads') }}" method="POST"
             enctype="multipart/form-data" id="leadsForm">
             @csrf

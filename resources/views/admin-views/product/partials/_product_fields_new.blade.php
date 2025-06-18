@@ -34,7 +34,6 @@
         </p>
     </div>
     <div class="step-section" data-step="1">
-        <h4> Basic Information </h4>
         <div class="form-row">
             <div class="form-group">
                 <label for="name" class="title-color">
@@ -42,11 +41,11 @@
                     <span class="input-required-icon">*</span>
                 </label>
                 @if (auth('admin')->check())
-                    <select class="js-select2-custom form-control action-get-request-onchange" name="category_id"
+                    <select class="form-control action-get-request-onchange" name="category_id"
                         data-url-prefix="{{ route('admin.products.get-categories') . '?parent_id=' }}"
                         data-element-id="sub-category-select" data-element-type="select" required>
                     @else
-                        <select class="js-select2-custom form-control action-get-request-onchange" name="category_id"
+                        <select class="form-control action-get-request-onchange" name="category_id"
                             data-url-prefix="{{ route('vendor.products.get-categories') . '?parent_id=' }}"
                             data-element-id="sub-category-select" data-element-type="select" required>
                 @endif
@@ -65,7 +64,7 @@
                 <label class="title-color">{{ translate('sub_Category') }}</label>
                 @if (auth('admin')->check())
                     <select
-                        class="js-example-basic-multiple js-states js-example-responsive form-control action-get-request-onchange"
+                        class="form-control action-get-request-onchange"
                         name="sub_category_id" id="sub-category-select"
                         data-id="{{ $isEdit ? $product['sub_category_id'] : '' }}"
                         data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
@@ -73,7 +72,7 @@
                     </select>
                 @else
                     <select
-                        class="js-example-basic-multiple js-states js-example-responsive form-control action-get-request-onchange"
+                        class="form-control action-get-request-onchange"
                         name="sub_category_id" id="sub-category-select"
                         data-id="{{ $isEdit ? $product['sub_category_id'] : '' }}"
                         data-url-prefix="{{ url('/vendor/products/get-categories?parent_id=') }}"
@@ -139,7 +138,6 @@
         <button type="button" class="next-btn" data-next="2">Next</button>
     </div>
     <div class="step-section" data-step="2">
-        <h4>Media Section</h4>
         <div class="form-row">
             <div class="form-group">
                 <label for="thumbnail">Thumbnail</label>
@@ -194,10 +192,9 @@
         <button type="button" class="next-btn" data-next="3">Next</button>
     </div>
     <div class="step-section" data-step=3>
-        <h4> Order & Pricing Info </h4>
         <div class="form-row">
             <div class="form-group">
-                <label class="title-color mb-0" for="minimum_order_qty">
+                <label class="title-color " for="minimum_order_qty">
                     {{ translate('minimum_order_qty') }}
                     <span class="input-required-icon">*</span>
                 </label>
@@ -221,7 +218,7 @@
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label class="title-color mb-0">
+                <label class="title-color ">
                     {{ translate('unit_price') }}
                     ({{ getCurrencySymbol(currencyCode: getCurrencyCode()) }})
                     <span class="input-required-icon">*</span>
@@ -231,7 +228,7 @@
                     required>
             </div>
             <div class="form-group">
-                <label class="title-color mb-0" for="supply_capacity">
+                <label class="title-color " for="supply_capacity">
                     {{ translate('Supply Capacity') }}
                     <span class="input-required-icon">*</span>
                 </label>
@@ -244,7 +241,6 @@
         <button type="button" class="next-btn" data-next="4">Next</button>
     </div>
     <div class="step-section" data-step="4">
-        <h4> Delivery & Logistics </h4>
         <div class="form-row">
             <div class="form-group">
                 <label class="title-color">{{ translate('Delivery Terms') }}</label>
@@ -387,7 +383,6 @@
         <button type="button" class="next-btn" data-next="5">Next</button>
     </div>
     <div class="step-section" data-step="5">
-        <h4> Target Market & Details </h4>
         <div class="form-row">
             <div class="form-single">
                 <label class="form-label">{{ translate('Target Market') }}</label>
@@ -415,11 +410,10 @@
         <button type="button" class="next-btn" data-next="6">Next</button>
     </div>
     <div class="step-section" data-step="6">
-        <h4> Specifications </h4>
         <div class="form-row">
             <div class="form-single">
                 <label class="form-label">{{ translate('Standard Specification') }}</label>
-                <div class="d-flex" style="flex-direction: column; width: 85%;">
+                <div class="d-flex" style="flex-direction: column; width: 100%;">
                     <div id="dynamic-data-box">
                         {{-- Title Groups Go Here --}}
                     </div>
@@ -430,7 +424,7 @@
         <div class="form-row">
             <div class="form-single">
                 <label class="form-label">{{ translate('Technical Specification') }}</label>
-                <div class="d-flex" style="flex-direction: column; width: 85%;">
+                <div class="d-flex" style="flex-direction: column; width: 100%;">
                     <div id="dynamic-data-box-technical">
                         {{-- Title Groups Go Here --}}
                     </div>
@@ -452,7 +446,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label class="title-color mb-0">
+                <label class="title-color ">
                     {{ translate('Local Currency') }}
                 </label>
                 <input type="text" placeholder="{{ translate('local_currency') }}" name="local_currency"
@@ -460,6 +454,6 @@
             </div>
         </div>
         <button type="button" class="prev-btn" data-prev="5">Prev</button>
-        <button type="submit" class="next-btn">Submit</button>
+        <button type="submit" class="submit-btn">Submit</button>
     </div>
 </div>

@@ -658,4 +658,6 @@ Route::prefix('products-new')->name('products_new.')->group(function () {
 });
 
 Route::get('register-form-vendor',[ProfileController::class,'getRegisterForm'])->name('register-form-vendor');
+Route::get('vendor-form-vendor',[ProfileController::class,'getVendorForm'])->name('vendor-form-vendor');
+Route::get('editprofile-form-vendor',[ProfileController::class,'getEditprofileForm'])->name('editprofile-form-vendor');
 Route::post('/solutions/store', [SolutionController::class, 'store'])->name('solutions.store');

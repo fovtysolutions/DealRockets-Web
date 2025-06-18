@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ theme_asset('public/assets/custom-css/progress-form.css') }}">
     <style>
         .save-btn {
-            background: #ef4444;
+            background:rgb(29, 143, 250);
             color: white;
             border: none;
             padding: 12px 32px;
@@ -22,54 +22,56 @@
 @endpush
 @section('content')
     <div class="content container-fluid">
-        <div class="card-body progress-form-main">
+        <div class="card">
+            <div class="card-body progress-form-main">
 
-            <!-- Progress Steps -->
-            <div class="progress-container">
-                <div class="step active">
-                    <div class="step-circle">1</div>
+                <!-- Progress Steps -->
+                <div class="progress-container">
+                    <div class="step active">
+                        <div class="step-circle">1</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle">2</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle">3</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle">4</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle">5</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle">6</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle">7</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step">
+                        <div class="step-circle">8</div>
+                    </div>
                 </div>
-                <div class="step-line"></div>
-                <div class="step">
-                    <div class="step-circle">2</div>
+
+                <!-- Form Header -->
+                <div class="form-header">
+                    <h1>Vendor Registration</h1>
+                    <p>Fill in the required details to get started</p>
                 </div>
-                <div class="step-line"></div>
-                <div class="step">
-                    <div class="step-circle">3</div>
-                </div>
-                <div class="step-line"></div>
-                <div class="step">
-                    <div class="step-circle">4</div>
-                </div>
-                <div class="step-line"></div>
-                <div class="step">
-                    <div class="step-circle">5</div>
-                </div>
-                <div class="step-line"></div>
-                <div class="step">
-                    <div class="step-circle">6</div>
-                </div>
-                <div class="step-line"></div>
-                <div class="step">
-                    <div class="step-circle">7</div>
-                </div>
-                <div class="step-line"></div>
-                <div class="step">
-                    <div class="step-circle">8</div>
-                </div>
+
+                <form id="quotation-form" class="quotation-form" action="{{ route('vendor.auth.registration.index') }}"
+                    method="POST" enctype="multipart/form-data" style="padding: unset;">
+                    @csrf
+                    @include('web-views.seller-view.auth.partial._vendor_information_fields')
+                </form>
             </div>
-
-            <!-- Form Header -->
-            <div class="form-header">
-                <h1>Vendor Registration</h1>
-                <p>Fill in the required details to get started</p>
-            </div>
-
-            <form id="quotation-form" class="quotation-form" action="{{ route('vendor.auth.registration.index') }}"
-                method="POST" enctype="multipart/form-data">
-                @csrf
-                @include('web-views.seller-view.auth.partial._vendor_information_fields')
-            </form>
         </div>
     </div>
 @endsection

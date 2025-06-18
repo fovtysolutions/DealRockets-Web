@@ -13,7 +13,6 @@
         <p>Fill in the required details to create Stock Sale</p>
     </div>
     <div class="step-section" data-step="1">
-        <h4> Basic Information </h4>
         <div class="form-row">
             <div class="form-group">
                 <label for="product" class="form-label">Category</label>
@@ -26,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label for="name" class="title-color">{{ translate('sub_Category') }}</label>
-                <select class="js-select2-custom form-control action-get-request-onchange" name="sub_category_id"
+                <select class="form-control action-get-request-onchange" name="sub_category_id"
                     id="sub-category-select"
                     data-url-prefix="{{ route('vendor.products.get-categories') . '?parent_id=' }}"
                     data-element-id="sub-sub-category-select" data-element-type="select">
@@ -293,12 +292,6 @@
         </div>
 
         <button type="button" class="prev-btn" data-prev="1">Prev</button>
-    </div>
-    <!-- Submit Button -->
-    <div class="row mb-3">
-        <div class="col text-end">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-        </div>
+        <button type="submit" class="submit-btn">Submit</button>
     </div>
 </div>

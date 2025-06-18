@@ -11,13 +11,6 @@
 
 @section('content')
     <div class="content container-fluid">
-        <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
-            <h2 class="h1 mb-0 d-flex gap-2">
-                <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
-                {{ translate('add_New_Product') }}
-            </h2>
-        </div>
-
         <form class="product-form text-start" action="{{ route('products_new.store') }}" method="POST"
             enctype="multipart/form-data" id="product_form_new">
             @csrf
@@ -97,7 +90,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const container = document.getElementById('dynamic-data-box');
             if (container && container.children.length === 0) {
-                container.insertAdjacentHTML('beforeend', getTitleGroupHtmlTechnical(titleCountTechnical));
+                container.insertAdjacentHTML('beforeend', getTitleGroupHtml(titleCountTechnical));
                 titleCount++;
             }
         });

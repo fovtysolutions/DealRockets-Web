@@ -45,12 +45,12 @@
                 <label for="sub-category-select" class="form-label">{{ translate('sub_Category') }}</label>
                 @if(auth('admin')->check())
                     <select name="sub_category_id" id="sub-category-select"
-                    class="js-select2-custom form-control action-get-request-onchange"
+                    class="form-control action-get-request-onchange"
                     data-url-prefix="{{ route('admin.products.get-categories') . '?parent_id=' }}"
                     data-element-id="sub-sub-category-select" data-element-type="select" required>
                 @else
                     <select name="sub_category_id" id="sub-category-select"
-                    class="js-select2-custom form-control action-get-request-onchange"
+                    class="form-control action-get-request-onchange"
                     data-url-prefix="{{ route('vendor.products.get-categories') . '?parent_id=' }}"
                     data-element-id="sub-sub-category-select" data-element-type="select" required>
                 @endif
@@ -74,7 +74,7 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="product_id" class="form-label">Product Name</label>
-                <select name="product_id" id="product_id" class="form-select js-product-selector" required>
+                <select name="product_id" id="product_id" class="form-select" required>
                     @if ($isEdit && $leads->product)
                         <option value="{{ $leads->product->id }}" selected>{{ $leads->product->name }}</option>
                     @endif
@@ -277,7 +277,7 @@
                     {{ translate('buyer_or_seller') }}
                     <span class="input-required-icon">*</span>
                 </label>
-                <select class="js-select2-custom form-control" name="type">
+                <select class="form-control" name="type">
                     <option value="" disabled
                         {{ old('type', $isEdit ? $leads->type : '') == '' ? 'selected' : '' }}>
                         {{ translate('select_buyer_or_seller') }}
@@ -443,13 +443,7 @@
             </div>
         </div>
         <button type="button" class="prev-btn" data-prev="2">Prev</button>
-    </div>
-    <!-- Submit Button -->
-    <div class="row mb-3">
-        <div class="col text-end">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="reset" class="btn btn-secondary">Reset</button>
-        </div>
+        <button type="submit" class="submit-btn">Submit</button>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -604,7 +598,7 @@
 </script>
 <script>
     $(document).ready(function() {
-        $('.js-product-selector').select2({
+        $('#product_id').select2({
             tags: true,
             placeholder: 'Search or add product name',
             minimumInputLength: 2,

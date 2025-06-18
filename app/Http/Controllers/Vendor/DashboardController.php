@@ -452,7 +452,9 @@ class DashboardController extends BaseController
                 $title = 'Profile Settings';
                 $cardData = [
                     ['link' => route('register-form-vendor'), 'title' => 'Register Form', 'value' => 'Yes'],
-                    ['link' => route('vendor.profile.update', [auth('seller')->id()]), 'title' => 'Manage Profile', 'value' => 'Yes'],
+                    ['link' => route('vendor-form-vendor'), 'title' => 'Supplier Form', 'value' => 'Yes'],
+                    ['link' => route('editprofile-form-vendor'), 'title' => 'Edit Login', 'value' => 'Yes'],
+                    // ['link' => route('vendor.profile.update', [auth('seller')->id()]), 'title' => 'Manage Profile', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -503,16 +505,16 @@ class DashboardController extends BaseController
             case 'stock-sell':
                 $title = 'Stock Sell';
                 $cardData = [
-                    ['link' => route('vendor.stock.index'), 'title' => 'Manage Stock Sales', 'value' => 'Yes'],
                     ['link' => route('vendor.stock.create'), 'title' => 'Add Stock Sales', 'value' => 'Yes'],
+                    ['link' => route('vendor.stock.index'), 'title' => 'Manage Stock Sales', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'sell-offer':
                 $title = 'Sell Offer';
                 $cardData = [
-                    ['link' => route('vendor.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 'Yes'],
                     ['link' => route('vendor.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 'Yes'],
+                    ['link' => route('vendor.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -547,8 +549,9 @@ class DashboardController extends BaseController
             case 'post-job':
                 $title = 'Post a Job';
                 $cardData = [
-                    ['link' => route('vendor.jobvacancy.list'), 'title' => 'Manage Jobs', 'value' => 'Yes'],
                     ['link' => route('vendor.jobvacancy.create'), 'title' => 'Add Job', 'value' => 'Yes'],
+                    ['link' => route('vendor.jobvacancy.list'), 'title' => 'Manage Jobs', 'value' => 'Yes'],
+                    ['link' => route('vendor.jobvacancy.job-applications'), 'title' => 'Applications', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -594,8 +597,8 @@ class DashboardController extends BaseController
             case 'faq':
                 $title = 'FAQ';
                 $cardData = [
-                    ['link' => route('vendor.managefaq'), 'title' => 'Manage FAQ', 'value' => 'Yes'],
                     ['link' => route('vendor.createfaq'), 'title' => 'Add FAQ', 'value' => 'Yes'],
+                    ['link' => route('vendor.managefaq'), 'title' => 'Manage FAQ', 'value' => 'Yes'],
                 ];
                 break;
 

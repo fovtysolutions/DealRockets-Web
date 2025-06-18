@@ -1,22 +1,21 @@
 @php
     $vendorCards = [
-        ['Dashboard', 'analytics', 'fas fa-chart-line'],
+        ['Analytics', 'analytics', 'fas fa-chart-line'],
         ['Inbox', 'vendor-inbox', 'fas fa-inbox'],
-        ['Go To Marketplace', 'marketplace', 'fas fa-store'],
+        ['Marketplace', 'marketplace', 'fas fa-store'],
         ['Profile', 'profile', 'fas fa-user'],
-        ['Upload Banner', 'upload-banner', 'fas fa-bullhorn'],
+        ['Advertise', 'upload-banner', 'fas fa-bullhorn'],
         ['Membership', 'membership', 'fas fa-id-card'],
         ['FAQ', 'faq', 'fas fa-question-circle'],
-        ['Account Settings', 'settings', 'fas fa-cog'],
         ['Stock Sell', 'stock-sell', 'fas fa-box-open'],
-        ['Go To Buy Leads', 'buy-leads', 'fas fa-shopping-cart'],
+        ['Buy Leads', 'buy-leads', 'fas fa-shopping-cart'],
         ['Sell Offer', 'sell-offer', 'fas fa-tags'],
         ['Deal Assist', 'deal-assist', 'fas fa-handshake'],
-        ['Explore Trade Shows', 'trade-shows', 'fas fa-globe'],
+        ['Trade Show', 'trade-shows', 'fas fa-globe'],
         ['Post RFQ', 'post-rfq', 'fas fa-paper-plane'],
-        ['Hire an Employee', 'hire-employee', 'fas fa-user-tie'],
-        ['Post a Job', 'post-job', 'fas fa-briefcase'],
+        ['Industry Jobs', 'post-job', 'fas fa-briefcase'],
         ['Clearing & Forwarding Services', 'clearing-forwarding', 'fas fa-truck-moving'],
+        ['Account Settings', 'settings', 'fas fa-cog'],
     ];
 @endphp
 
@@ -40,7 +39,6 @@
         '/img/vendor_icons/marketplace.png',
         '/img/vendor_icons/profile.png',
         '/img/vendor_icons/ads.png',
-        '/img/vendor_icons/privilege.png',
         '/img/vendor_icons/faq.png',
         '/img/vendor_icons/fund.png',
         '/img/vendor_icons/stocksell.png',
@@ -49,9 +47,9 @@
         '/img/vendor_icons/deal.png',
         '/img/vendor_icons/tradeshow.png',
         '/img/vendor_icons/rfq.png',
-        '/img/vendor_icons/candidate.png',
         '/img/vendor_icons/posting.png',
         '/img/vendor_icons/customer-service.png',
+        '/img/vendor_icons/privilege.png',
     ];
 @endphp
 

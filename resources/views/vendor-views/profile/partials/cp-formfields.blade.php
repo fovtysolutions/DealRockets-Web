@@ -46,7 +46,6 @@
         <p>Fill in the required details to get started</p>
     </div>
     <div class="step-section" data-step="1">
-        <h4>Company Overview</h4>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Title') }}</label>
@@ -99,7 +98,6 @@
         <button type="button" class="next-btn" data-next="2">Next</button>
     </div>
     <div class="step-section d-none" data-step="2">
-        <h4>Business Details</h4>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Business Type') }}</label>
@@ -160,7 +158,6 @@
         <button type="button" class="next-btn" data-next="3">Next</button>
     </div>
     <div class="step-section d-none" data-step="3">
-        <h4>Products & Categories</h4>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Main Products') }}</label>
@@ -196,7 +193,6 @@
         <button type="button" class="next-btn" data-next="4">Next</button>
     </div>
     <div class="step-section d-none" data-step="4">
-        <h4> Export & Trade Info </h4>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Main Export Markets') }}</label>
@@ -220,7 +216,6 @@
         <button type="button" class="next-btn" data-next="5">Next</button>
     </div>
     <div class="step-section d-none" data-step="5">
-        <h4> Factory & Production </h4>
         <div class="form-row">
             {{-- Production Capacity --}}
             <div class="form-group">
@@ -249,7 +244,6 @@
         <button type="button" class="next-btn" data-next="6">Next</button>
     </div>
     <div class="step-section d-none" data-step="6">
-        <h4> Quality Control </h4>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('QC Staff Count') }}</label>
@@ -278,7 +272,6 @@
         <button type="button" class="next-btn" data-next="7">Next</button>
     </div>
     <div class="step-section d-none" data-step="7">
-        <h4> R&D & Customization </h4>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('R&D Staff Count') }}</label>
@@ -317,7 +310,6 @@
         <button type="button" class="next-btn" data-next="8">Next</button>
     </div>
     <div class="step-section d-none" data-step="8">
-        <h4> Contact Information </h4>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Address') }}</label>

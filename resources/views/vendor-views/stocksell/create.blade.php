@@ -11,7 +11,6 @@
 
 @section('content')
     <div class="container mt-5">
-        <h2 class="mb-4">Create Stock for Sale</h2>
         <form action="{{ route('vendor.stock.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card">
@@ -71,6 +70,14 @@
         </div>`;
         }
 
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('dynamic-data-box');
+            if (container && container.children.length === 0) {
+                container.insertAdjacentHTML('beforeend', getTitleGroupHtml(titleCount));
+                titleCount++;
+            }
+        });
+
         document.getElementById('add-title-group').addEventListener('click', function() {
             const container = document.getElementById('dynamic-data-box');
             container.insertAdjacentHTML('beforeend', getTitleGroupHtml(titleCount));
@@ -129,6 +136,14 @@
             </div>
         </div>`;
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('dynamic-data-box-technical');
+            if (container && container.children.length === 0) {
+                container.insertAdjacentHTML('beforeend', getTitleGroupHtmlTechnical(titleCountTechnical));
+                titleCountTechnical++;
+            }
+        });
 
         document.getElementById('add-title-group-technical').addEventListener('click', function() {
             const container = document.getElementById('dynamic-data-box-technical');

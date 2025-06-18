@@ -1,11 +1,14 @@
 .progress-form-main {
-    max-width: 1128px;
+    width: 1128px;
     margin: 10px auto;
+    padding: 30px;
+    border: 1px solid lightgrey;
 }
 
 .progress-form-main .container {
-    max-width: 1128px;
+    width: 1128px;
     margin: 30px auto;
+    padding: 15px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -37,7 +40,7 @@
 }
 
 .progress-form-main .form-single label {
-    width: 15%;
+    width: 100%;
 }
 
 .progress-form-main .form-single input {
@@ -73,7 +76,7 @@
 }
 
 .progress-form-main .js-example-basic-multiple {
-    height: 3rem;
+    /* height: 3rem; */
 }
 
 .progress-form-main .custom_upload_input {
@@ -176,6 +179,7 @@
     flex-direction: row;
     align-self: auto;
     gap: 10px;
+    padding-bottom: 20px;
     display: flex;
     flex: 1;
 }
@@ -197,9 +201,26 @@
     width: 100%;
 }
 
+.select2 {
+    padding: 0px !important;
+    border: unset !important;
+    border-radius: 7px !important;
+}
+
+.select2-container .select2-selection--single {
+    height: 44px;
+    border: 1px solid lightgray;
+    border-radius: 6px
+}
+
+.custom-select {
+    border: unset;
+}
+
 .progress-form-main input,
 .progress-form-main select,
-.progress-form-main textarea {
+.progress-form-main textarea,
+.progress-form-main .select2 {
     border: 1px solid #d1d5db;
     border-radius: 8px;
     font-size: 15px;
@@ -292,7 +313,7 @@
 }
 
 .progress-form-main .submit-btn {
-    background: #ef4444;
+    background: #30b221;
     color: white;
     border: none;
     padding: 12px 32px;
@@ -305,7 +326,7 @@
 }
 
 .progress-form-main .submit-btn:hover {
-    background: #dc2626;
+    background: #30b221;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
@@ -316,6 +337,8 @@
 
 .progress-form-main .step-section {
     padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 

@@ -9511,4 +9511,6 @@ return [
 	"Branches & Global Presence" => "Branches & Global Presence",
 	"Business Documentation" => "Business Documentation",
 	"Declarations" => "Declarations",
+	"Advertise" => "Advertise",
+	"Trade Show" => "Trade Show",
 ];

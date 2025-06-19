@@ -68,7 +68,7 @@
             <div class="title-group border p-3 mb-3">
                 <div class="mb-2 d-flex justify-content-between align-items-center gap-3">
                     <input type="text" name="dynamic_data[${titleIndex}][title]" class="form-control me-2" placeholder="Title">
-                    <button type="button" class="btn btn-danger btn-sm remove-title-group">Remove</button>
+                    <button type="button" class="btn btn-danger remove-title-group">Remove</button>
                 </div>
                 <div class="sub-heads" data-title-index="${titleIndex}">
                     ${getSubHeadRowHtml(titleIndex, 0)}
@@ -80,26 +80,26 @@
 
         function getSubHeadRowHtml(titleIndex, subIndex) {
             return `
-            <div class="row mb-2 sub-head-row">
-                <div class="col-md-5">
+            <div class="row mb-2 sub-head-row" style="width: 100%; display: flex; margin: 0 auto; gap: 13px;">
+                <div style="width: 44%;">
                     <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head]" class="form-control" placeholder="Sub Head">
                 </div>
-                <div class="col-md-5">
+                <div style="width: 45%;">
                     <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
                 </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-danger btn-sm remove-sub-head">Remove</button>
+                <div style="width: 8%;">
+                    <button type="button" class="btn btn-danger remove-sub-head">Remove</button>
                 </div>
             </div>`;
         }
 
-        document.getElementById('add-title-group').addEventListener('click', function () {
+        document.getElementById('add-title-group').addEventListener('click', function() {
             const container = document.getElementById('dynamic-data-box');
             container.insertAdjacentHTML('beforeend', getTitleGroupHtml(titleCount));
             titleCount++;
         });
 
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             // Remove entire title group
             if (e.target.classList.contains('remove-title-group')) {
                 e.target.closest('.title-group').remove();
@@ -127,7 +127,7 @@
             <div class="title-group border p-3 mb-3">
                 <div class="mb-2 d-flex justify-content-between align-items-center gap-3">
                     <input type="text" name="dynamic_data_technical[${titleIndex}][title]" class="form-control me-2" placeholder="Title">
-                    <button type="button" class="btn btn-danger btn-sm remove-title-group">Remove</button>
+                    <button type="button" class="btn btn-danger remove-title-group">Remove</button>
                 </div>
                 <div class="sub-heads" data-title-index="${titleIndex}">
                     ${getSubHeadRowHtmlTechnical(titleIndex, 0)}
@@ -139,26 +139,26 @@
 
         function getSubHeadRowHtmlTechnical(titleIndex, subIndex) {
             return `
-            <div class="row mb-2 sub-head-row">
-                <div class="col-md-5">
-                    <input type="text" name="dynamic_data_technical[${titleIndex}][sub_heads][${subIndex}][sub_head]" class="form-control" placeholder="Sub Head">
-                </div>
-                <div class="col-md-5">
-                    <input type="text" name="dynamic_data_technical[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
-                </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-danger btn-sm remove-sub-head">Remove</button>
-                </div>
-            </div>`;
-        }
+                <div class="row mb-2 sub-head-row" style="width: 100%; display: flex; margin: 0 auto; gap: 13px;">
+                    <div style="width: 44%;">
+                        <input type="text" name="dynamic_data_technical[${titleIndex}][sub_heads][${subIndex}][sub_head]" class="form-control" placeholder="Sub Head">
+                    </div>
+                    <div style="width: 45%;">
+                        <input type="text" name="dynamic_data_technical[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
+                    </div>
+                    <div style="width: 8%;">
+                        <button type="button" class="btn btn-danger remove-sub-head">Remove</button>
+                    </div>
+                </div>`;
+            }
 
-        document.getElementById('add-title-group-technical').addEventListener('click', function () {
+        document.getElementById('add-title-group-technical').addEventListener('click', function() {
             const container = document.getElementById('dynamic-data-box-technical');
             container.insertAdjacentHTML('beforeend', getTitleGroupHtmlTechnical(titleCountTechnical));
             titleCountTechnical++;
         });
 
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             // Remove entire title group
             if (e.target.classList.contains('remove-title-group')) {
                 e.target.closest('.title-group').remove();
@@ -179,8 +179,8 @@
         });
     </script>
     <script>
-        $(document).ready(function () {
-            $('#category_id').on('change', function () {
+        $(document).ready(function() {
+            $('#category_id').on('change', function() {
                 var parentId = $(this).val();
                 var urlPrefix = $('#sub-category-select').data('url-prefix');
                 var targetSelect = $('#sub-category-select');
@@ -189,7 +189,7 @@
                     $.ajax({
                         url: urlPrefix + parentId,
                         type: 'GET',
-                        success: function (response) {
+                        success: function(response) {
                             // Insert HTML directly into the <select>
                             if (response.select_tag) {
                                 targetSelect.html(response.select_tag);
@@ -197,7 +197,7 @@
                                 console.warn('Missing select_tag in response.');
                             }
                         },
-                        error: function () {
+                        error: function() {
                             alert('Failed to load sub categories.');
                         }
                     });
@@ -208,8 +208,8 @@
         });
     </script>
     <script>
-        $(document).ready(function () {
-            $('.action-get-request-onchange').on('change', function () {
+        $(document).ready(function() {
+            $('.action-get-request-onchange').on('change', function() {
                 const parentId = $(this).val();
                 const urlPrefix = $(this).data('url-prefix');
                 const targetId = $(this).data('element-id');
@@ -219,7 +219,7 @@
                     $.ajax({
                         url: urlPrefix + parentId,
                         type: 'GET',
-                        success: function (response) {
+                        success: function(response) {
                             if (typeof response === 'object' && response.select_tag) {
                                 $target.html(response.select_tag);
                             } else {
@@ -234,7 +234,7 @@
                                 );
                             }
                         },
-                        error: function () {
+                        error: function() {
                             alert('Failed to load sub-categories.');
                         }
                     });

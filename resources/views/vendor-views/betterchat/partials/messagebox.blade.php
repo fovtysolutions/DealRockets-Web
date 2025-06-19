@@ -38,7 +38,7 @@
                 'chatdata' => $chatData['products'] ?? [],
             ])
         </div>
-        <div id="chatbox" class="hidden h-100">
+        <div id="chatbox" class="hidden ">
             @include('vendor-views.betterchat.partials.messages')
         </div>
     </div>

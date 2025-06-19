@@ -42,5 +42,8 @@ class NewProductStore extends Model
         'user_id',
         'local_currency',
         'supply_unit',
+        'dimension_unit',
+        'master_packing',
+        'container',
     ];
 }

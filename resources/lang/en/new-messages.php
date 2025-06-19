@@ -9519,4 +9519,8 @@ return [
 	"Solutions Settings" => "Solutions Settings",
 	"Pick a Time" => "Pick a Time",
 	"Solutions | Marketplace" => "Solutions | Marketplace",
+	"Dimension Unit" => "Dimension Unit",
+	"Master Packing" => "Master Packing",
+	"Container Type" => "Container Type",
+	"Description of Product" => "Description of Product",
 ];

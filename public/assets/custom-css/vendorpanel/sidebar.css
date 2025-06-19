@@ -117,7 +117,7 @@
 
     .nav-item .nav-link {
         background: unset;
-        color: var(--c1);
+        color: grey;
         font-weight: 700;
         width: max-content;
     }

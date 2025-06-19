@@ -1327,8 +1327,8 @@
             <div class="col-md-5">
                 <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
             </div>
-            <div class="col-md-2">
-                <button type="button" class="btn btn-danger btn-sm remove-sub-head">Remove</button>
+            <div style="width: 8%;">
+                <button type="button" class="btn btn-danger remove-sub-head">Remove</button>
             </div>
         </div>`;
         }
@@ -1386,8 +1386,8 @@
             <div class="col-md-5">
                 <input type="text" name="dynamic_data_technical[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
             </div>
-            <div class="col-md-2">
-                <button type="button" class="btn btn-danger btn-sm remove-sub-head">Remove</button>
+            <div style="width: 8%;">
+                <button type="button" class="btn btn-danger remove-sub-head">Remove</button>
             </div>
         </div>`;
         }

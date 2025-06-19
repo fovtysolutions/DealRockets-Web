@@ -45,7 +45,7 @@
         <div class="title-group border p-3 mb-3">
             <div class="mb-2 d-flex justify-content-between align-items-center gap-3">
                 <input type="text" name="dynamic_data[${titleIndex}][title]" class="form-control me-2" placeholder="Title">
-                <button type="button" class="btn btn-danger btn-sm remove-title-group">Remove</button>
+                <button type="button" class="btn btn-danger remove-title-group">Remove</button>
             </div>
             <div class="sub-heads" data-title-index="${titleIndex}">
                 ${getSubHeadRowHtml(titleIndex, 0)}
@@ -57,17 +57,17 @@
 
         function getSubHeadRowHtml(titleIndex, subIndex) {
             return `
-        <div class="row mb-2 sub-head-row">
-            <div class="col-md-5">
-                <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head]" class="form-control" placeholder="Sub Head">
-            </div>
-            <div class="col-md-5">
-                <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
-            </div>
-            <div class="col-md-2">
-                <button type="button" class="btn btn-danger btn-sm remove-sub-head">Remove</button>
-            </div>
-        </div>`;
+            <div class="row mb-2 sub-head-row" style="width: 100%; display: flex; margin: 0 auto; gap: 13px;">
+                <div style="width: 44%;">
+                    <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head]" class="form-control" placeholder="Sub Head">
+                </div>
+                <div style="width: 45%;">
+                    <input type="text" name="dynamic_data[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
+                </div>
+                <div style="width: 8%;">
+                    <button type="button" class="btn btn-danger remove-sub-head">Remove</button>
+                </div>
+            </div>`;
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -112,7 +112,7 @@
         <div class="title-group border p-3 mb-3">
             <div class="mb-2 d-flex justify-content-between align-items-center gap-3">
                 <input type="text" name="dynamic_data_technical[${titleIndex}][title]" class="form-control me-2" placeholder="Title">
-                <button type="button" class="btn btn-danger btn-sm remove-title-group">Remove</button>
+                <button type="button" class="btn btn-danger remove-title-group">Remove</button>
             </div>
             <div class="sub-heads" data-title-index="${titleIndex}">
                 ${getSubHeadRowHtmlTechnical(titleIndex, 0)}
@@ -124,17 +124,17 @@
 
         function getSubHeadRowHtmlTechnical(titleIndex, subIndex) {
             return `
-        <div class="row mb-2 sub-head-row">
-            <div class="col-md-5">
-                <input type="text" name="dynamic_data_technical[${titleIndex}][sub_heads][${subIndex}][sub_head]" class="form-control" placeholder="Sub Head">
-            </div>
-            <div class="col-md-5">
-                <input type="text" name="dynamic_data_technical[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
-            </div>
-            <div class="col-md-2">
-                <button type="button" class="btn btn-danger btn-sm remove-sub-head">Remove</button>
-            </div>
-        </div>`;
+                <div class="row mb-2 sub-head-row" style="width: 100%; display: flex; margin: 0 auto; gap: 13px;">
+                    <div style="width: 44%;">
+                        <input type="text" name="dynamic_data_technical[${titleIndex}][sub_heads][${subIndex}][sub_head]" class="form-control" placeholder="Sub Head">
+                    </div>
+                    <div style="width: 45%;">
+                        <input type="text" name="dynamic_data_technical[${titleIndex}][sub_heads][${subIndex}][sub_head_data]" class="form-control" placeholder="Sub Head Data">
+                    </div>
+                    <div style="width: 8%;">
+                        <button type="button" class="btn btn-danger remove-sub-head">Remove</button>
+                    </div>
+                </div>`;
         }
 
         document.addEventListener('DOMContentLoaded', function () {

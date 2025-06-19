@@ -476,5 +476,9 @@
     </div>
     <button type="button" class="prev-btn" data-prev="7">Back</button>
     <button type="button" class="save-btn">Save</button>
-    <button type="button" onclick="submitRegistrationVendor()" class="submit-btn">Submit</button>
+    @if(auth('seller')->check())
+        <button type="button" class="submit-btn" disabled>Already Created Vendor Account</button>
+    @else
+        <button type="button" onclick="submitRegistrationVendor()" class="submit-btn">Submit</button>
+    @endif
 </div>

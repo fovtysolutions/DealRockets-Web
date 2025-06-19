@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Models\BusinessSetting;
+use App\Models\Category;
 use App\Models\MembershipTier;
 use App\Models\Quotation;
 use App\Models\Solution;
@@ -1676,7 +1677,8 @@ class ThemeSettingsController extends Controller
 
     public function solutions()
     {
+        $categories = Category::pluck('name','id');
         $solutions = Solution::with('categories')->get();
-        return view('admin-views.business-settings.theme-pages.solutions', compact('solutions'));
+        return view('admin-views.business-settings.theme-pages.solutions', compact('solutions','categories'));
     }
 }

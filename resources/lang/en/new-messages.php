@@ -9518,4 +9518,5 @@ return [
 	"Solutions" => "Solutions",
 	"Solutions Settings" => "Solutions Settings",
 	"Pick a Time" => "Pick a Time",
+	"Solutions | Marketplace" => "Solutions | Marketplace",
 ];

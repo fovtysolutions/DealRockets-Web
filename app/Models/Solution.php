@@ -15,6 +15,4 @@ class Solution extends Model
     {
         return $this->hasMany(SolutionCategory::class);
     }
-
-
 }

@@ -664,3 +664,7 @@ Route::post('/solutions/store', [SolutionController::class, 'store'])->name('sol
 Route::get('/solutions/edit/{id}', [SolutionController::class, 'edit'])->name('solutions.edit');
 Route::put('/solutions/update/{id}', [SolutionController::class, 'update'])->name('solutions.update');
 Route::post('/solutions/destroy', [SolutionController::class, 'destroy'])->name('solutions.destroy');
+Route::get('/solutions/web/{id}', [SolutionController::class, 'webindexpage'])->name('solutions.web');
+Route::get('/get-subcategories-by-categories/{id}', [SolutionController::class, 'getSubcategorybyCategory'])->name('get-subcategory-by-category');
+Route::get('/get-categories', [SolutionController::class, 'getCategory'])->name('get-category');
+Route::get('/get-all-category-names',[SolutionController::class, 'getallcategoryname'])->name('get-all-category-names');

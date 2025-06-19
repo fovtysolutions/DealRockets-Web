@@ -52,7 +52,7 @@
                                                     View
                                                 </button>
                                                 <!-- Edit Button -->
-                                                <a href="{{ route('solutions.edit',['id' => $solution->id]) }}"
+                                                <a href="{{ route('solutions.edit', ['id' => $solution->id]) }}"
                                                     class="btn btn-warning btn-sm">
                                                     Edit
                                                 </a>
@@ -156,8 +156,10 @@
                         {{-- Solution Image --}}
                         <div class="mb-4">
                             <label class="fw-bold">Solution Image:</label><br>
-                            <img id="view_solution_image" src="" alt="Solution Image"
-                                class="img-fluid rounded shadow" style="max-height: 200px;">
+                            <a id="view_solution_image_link" href="" target="_blank">
+                                <img id="view_solution_image" src="" alt="Solution Image"
+                                    class="img-fluid rounded shadow" style="max-height: 200px;">
+                            </a>
                         </div>
 
                         {{-- Categories --}}
@@ -186,9 +188,17 @@
         </div>
     </div>
     <script>
+        let categoryNameMap = @json($categories);
+        console.log(categoryNameMap);
+
+        function getCategoryNameById(id) {
+            return categoryNameMap[id] || 'Unknown';
+        }
+
         function showSolutionModal(solution) {
             // Fill name & image
             document.getElementById('view_solution_name').textContent = solution.name;
+            document.getElementById('view_solution_image_link').href = '/storage/' + solution.image;
             document.getElementById('view_solution_image').src = '/storage/' + solution.image;
 
             // Clear old categories
@@ -200,16 +210,16 @@
                     return `
                 <tr>
                     <td>${subIndex + 1}</td>
-                    <td>${sub.name ?? '-'}</td>
-                    <td>${sub.image ? `<img src="/storage/${sub.image}" alt="Sub" style="height:50px;">` : '-'}</td>
+                    <td>${getCategoryNameById(sub.name) ?? '-'}</td>
+                    <td>${sub.image ? `<a href="/storage/${sub.image}" target="_blank"><img src="/storage/${sub.image}" alt="Cat" style="height:50px;"></a>` : '-'}</td>
                 </tr>`;
                 }).join('') || '<tr><td colspan="3">No sub-categories</td></tr>';
 
                 const row = `
             <tr>
                 <td>${index + 1}</td>
-                <td>${category.name ?? '-'}</td>
-                <td>${category.image ? `<img src="/storage/${category.image}" alt="Cat" style="height:50px;">` : '-'}</td>
+                <td>${getCategoryNameById(category.name) ?? '-'}</td>
+                <td>${category.image ? `<a href="/storage/${category.image}" target="_blank"><img src="/storage/${category.image}" alt="Cat" style="height:50px;"></a>` : '-'}</td>
                 <td>
                     <table class="table table-sm table-bordered mb-0">
                         <thead>
@@ -236,37 +246,43 @@
 
         function addCategory() {
             const categoryRow = `
-    <tr id="category-row-${categoryIndex}">
-        <td>${categoryIndex + 1}</td>
-        <td>
-            <input type="text" name="categories[${categoryIndex}][name]" class="form-control" placeholder="Category Name" required>
-        </td>
-        <td>
-            <input type="file" name="categories[${categoryIndex}][image]" class="form-control" accept="image/*" required>
-        </td>
-        <td>
-            <table class="table table-sm table-bordered mb-0">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Sub-Category Name</th>
-                        <th>Sub-Category Image</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="sub-category-container-${categoryIndex}">
-                    <!-- JS will insert sub-categories -->
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-outline-primary mt-1" style="width: 100%;" onclick="addSubCategory(${categoryIndex})">+ Add Sub-Category</button>
-        </td>
-        <td>
-            <button type="button" class="btn btn-danger" onclick="removeCategory(${categoryIndex})">&times;</button>
-        </td>
-    </tr>`;
+        <tr id="category-row-${categoryIndex}">
+            <td>${categoryIndex + 1}</td>
+            <td>
+                <select name="categories[${categoryIndex}][id]" class="form-control category-select" data-index="${categoryIndex}" required>
+                    <option value="">-- Select Category --</option>
+                    <!-- Options will be populated dynamically or server-rendered -->
+                </select>
+            </td>
+            <td>
+                <input type="file" name="categories[${categoryIndex}][image]" class="form-control" accept="image/*" required>
+            </td>
+            <td>
+                <table class="table table-sm table-bordered mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Sub-Category Name</th>
+                            <th>Sub-Category Image</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sub-category-container-${categoryIndex}">
+                        <!-- AJAX will insert sub-categories -->
+                    </tbody>
+                </table>
+                <button type="button" class="btn btn-outline-primary mt-1" style="width: 100%;" onclick="addSubCategory(${categoryIndex})">+ Add Sub-Category</button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger" onclick="removeCategory(${categoryIndex})">&times;</button>
+            </td>
+        </tr>
+    `;
             document.getElementById('category-container').insertAdjacentHTML('beforeend', categoryRow);
+            loadCategoryOptions(categoryIndex); // dynamically populate the dropdown
             categoryIndex++;
         }
+
 
         function removeCategory(index) {
             const row = document.getElementById(`category-row-${index}`);
@@ -274,29 +290,64 @@
         }
 
         function addSubCategory(categoryIndex) {
-            const container = document.getElementById(`sub-category-container-${categoryIndex}`);
-            const subIndex = container.children.length;
+            const select = document.querySelector(`select[data-index="${categoryIndex}"]`);
+            const selectedCategoryId = select.value;
 
-            const subRow = `
-        <tr id="subcat-${categoryIndex}-${subIndex}">
-            <td>${subIndex + 1}</td>
-            <td>
-                <input type="text" name="categories[${categoryIndex}][sub_categories][${subIndex}][name]" class="form-control" placeholder="Sub-Category Name" required>
-            </td>
-            <td>
-                <input type="file" name="categories[${categoryIndex}][sub_categories][${subIndex}][image]" class="form-control" accept="image/*" required>
-            </td>
-            <td>
-                <button type="button" class="btn btn-danger" onclick="removeSubCategory(${categoryIndex}, ${subIndex})">&times;</button>
-            </td>
-        </tr>
-    `;
-            container.insertAdjacentHTML('beforeend', subRow);
+            if (!selectedCategoryId) {
+                alert("Please select a category first.");
+                return;
+            }
+
+            fetch(`/get-subcategories-by-categories/${selectedCategoryId}`)
+                .then(response => response.json())
+                .then(subcategories => {
+                    const container = document.getElementById(`sub-category-container-${categoryIndex}`);
+                    const subIndex = container.children.length;
+
+                    const options = subcategories.map(sub =>
+                        `<option value="${sub.id}">${sub.name}</option>`
+                    ).join('');
+
+                    const row = `
+                <tr id="subcat-${categoryIndex}-${subIndex}">
+                    <td>${subIndex + 1}</td>
+                    <td>
+                        <select name="categories[${categoryIndex}][sub_categories][${subIndex}][id]" class="form-control" required>
+                            <option value="">-- Select Sub-Category --</option>
+                            ${options}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="file" name="categories[${categoryIndex}][sub_categories][${subIndex}][image]" class="form-control" accept="image/*" required>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="removeSubCategory(${categoryIndex}, ${subIndex})">&times;</button>
+                    </td>
+                </tr>
+            `;
+
+                    container.insertAdjacentHTML('beforeend', row);
+                });
         }
+
 
         function removeSubCategory(categoryIndex, subIndex) {
             const row = document.getElementById(`subcat-${categoryIndex}-${subIndex}`);
             if (row) row.remove();
+        }
+
+        function loadCategoryOptions(index) {
+            fetch('/get-categories') // replace with your route
+                .then(response => response.json())
+                .then(data => {
+                    const select = document.querySelector(`select[data-index="${index}"]`);
+                    data.forEach(cat => {
+                        const option = document.createElement('option');
+                        option.value = cat.id;
+                        option.text = cat.name;
+                        select.appendChild(option);
+                    });
+                });
         }
     </script>
     <script>

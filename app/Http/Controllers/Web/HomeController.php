@@ -190,7 +190,7 @@ class HomeController extends Controller
         $customer_tiers = MembershipTier::orderBy('membership_order', 'asc')->where('membership_type', 'customer')->where('membership_active', 1)->get();
         $seller_tiers = MembershipTier::orderBy('membership_order', 'asc')->where('membership_type', 'seller')->where('membership_active', 1)->get();
         $tradeshows = HelperUtil::getLatestTradeshows();
-        $solutions = Solution::all()->inRandomOrder();
+        $solutions = Solution::all();
 
         return view(VIEW_FILE_NAMES['home'], compact(
             'solutions',

@@ -50,7 +50,7 @@
                         {{-- Categories Table --}}
                         <div class="table-responsive">
                             <table class="table table-bordered align-middle text-center">
-                                <thead class="bg-light">
+                                <thead class="bg-light" style="z-index: 10; background-color: white;">
                                     <tr>
                                         <th>#</th>
                                         <th>Category Name</th>
@@ -63,8 +63,15 @@
                                         <tr class="table-row-custom" id="category-row-{{ $i }}">
                                             <td>{{ $i + 1 }}</td>
                                             <td>
-                                                <input type="text" name="categories[{{ $i }}][name]"
-                                                    class="form-control" value="{{ $category->name }}">
+                                                <select name="categories[{{ $i }}][id]" class="form-control"
+                                                    data-index="{{ $i }}" required>
+                                                    <option value="">-- Select Category --</option>
+                                                    @foreach ($categoryList as $catId => $catName)
+                                                        <option value="{{ $catId }}"
+                                                            {{ $category->name == $catId ? 'selected' : '' }}>
+                                                            {{ $catName }}</option>
+                                                    @endforeach
+                                                </select>
                                             </td>
                                             <td>
                                                 <input type="file" name="categories[{{ $i }}][image]"
@@ -89,9 +96,17 @@
                                                             <tr id="subcat-{{ $i }}-{{ $j }}">
                                                                 <td>{{ $j + 1 }}</td>
                                                                 <td>
-                                                                    <input type="text"
-                                                                        name="categories[{{ $i }}][sub_categories][{{ $j }}][name]"
-                                                                        class="form-control" value="{{ $sub->name }}">
+                                                                    <select
+                                                                        name="categories[{{ $i }}][sub_categories][{{ $j }}][id]"
+                                                                        class="form-control" required>
+                                                                        <option value="">-- Select Sub-Category --
+                                                                        </option>
+                                                                        @foreach ($subCategoryList[$category->name] ?? [] as $subId => $subName)
+                                                                            <option value="{{ $subId }}"
+                                                                                {{ $sub->name == $subId ? 'selected' : '' }}>
+                                                                                {{ $subName }}</option>
+                                                                        @endforeach
+                                                                    </select>
                                                                 </td>
                                                                 <td>
                                                                     <input type="file"
@@ -140,38 +155,55 @@
         </div>
     </div>
     <script>
+        let categoryNameMap = @json($categoryList);
+        let subCategoryNameMap = @json($subCategoryList);
+
+        function getCategoryNameById(id) {
+            return categoryNameMap[id] || 'Unknown';
+        }
+
+        function getSubCategoryNameById(id) {
+            return subCategoryNameMap[id] || 'Unknown';
+        }
+    </script>
+    <script>
         let categoryIndex = 0;
 
         function addCategory() {
+            const categoryOptions = Object.entries(categoryNameMap)
+                .map(([id, name]) => `<option value="${id}">${name}</option>`)
+                .join('');
+
             const categoryRow = `
-    <tr class="table-row-custom" id="category-row-${categoryIndex}">
-        <td>${categoryIndex + 1}</td>
-        <td>
-            <input type="text" name="categories[${categoryIndex}][name]" class="form-control" placeholder="Category Name" required>
-        </td>
-        <td>
-            <input type="file" name="categories[${categoryIndex}][image]" class="form-control" accept="image/*" required>
-        </td>
-        <td>
-            <table class="table table-sm table-bordered mb-0">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Sub-Category Name</th>
-                        <th>Sub-Category Image</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="sub-category-container-${categoryIndex}">
-                    <!-- JS will insert sub-categories -->
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-outline-primary mt-1" style="width: 100%;" onclick="addSubCategory(${categoryIndex})">+ Add Sub-Category</button>
-        </td>
-        <td>
-            <button type="button" class="btn btn-danger" onclick="removeCategory(${categoryIndex})">&times;</button>
-        </td>
-    </tr>`;
+        <tr id="category-row-${categoryIndex}">
+            <td>${categoryIndex + 1}</td>
+            <td>
+                <select name="categories[${categoryIndex}][id]" class="form-control" data-index="${categoryIndex}" required>
+                    ${categoryOptions}
+                </select>
+            </td>
+            <td>
+                <input type="file" name="categories[${categoryIndex}][image]" class="form-control" accept="image/*" required>
+            </td>
+            <td>
+                <table class="table table-sm table-bordered mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Sub-Category Name</th>
+                            <th>Sub-Category Image</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sub-category-container-${categoryIndex}"></tbody>
+                </table>
+                <button type="button" class="btn btn-outline-primary mt-1" style="width: 100%;" onclick="addSubCategory(${categoryIndex})">+ Add Sub-Category</button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger" onclick="removeCategory(${categoryIndex})">&times;</button>
+            </td>
+        </tr>
+    `;
             document.getElementById('category-container').insertAdjacentHTML('beforeend', categoryRow);
             categoryIndex++;
         }
@@ -182,25 +214,46 @@
         }
 
         function addSubCategory(categoryIndex) {
-            const container = document.getElementById(`sub-category-container-${categoryIndex}`);
-            const subIndex = container.children.length;
+            const select = document.querySelector(`select[data-index="${categoryIndex}"]`);
+            const selectedCategoryId = select.value;
 
-            const subRow = `
-        <tr id="subcat-${categoryIndex}-${subIndex}">
-            <td>${subIndex + 1}</td>
-            <td>
-                <input type="text" name="categories[${categoryIndex}][sub_categories][${subIndex}][name]" class="form-control" placeholder="Sub-Category Name" required>
-            </td>
-            <td>
-                <input type="file" name="categories[${categoryIndex}][sub_categories][${subIndex}][image]" class="form-control" accept="image/*" required>
-            </td>
-            <td>
-                <button type="button" class="btn btn-danger" onclick="removeSubCategory(${categoryIndex}, ${subIndex})">&times;</button>
-            </td>
-        </tr>
-    `;
-            container.insertAdjacentHTML('beforeend', subRow);
+            if (!selectedCategoryId) {
+                alert("Please select a category first.");
+                return;
+            }
+
+            fetch(`/get-subcategories-by-categories/${selectedCategoryId}`)
+                .then(response => response.json())
+                .then(subcategories => {
+                    const container = document.getElementById(`sub-category-container-${categoryIndex}`);
+                    const subIndex = container.children.length;
+
+                    const options = subcategories.map(sub =>
+                        `<option value="${sub.id}">${sub.name}</option>`
+                    ).join('');
+
+                    const row = `
+                <tr id="subcat-${categoryIndex}-${subIndex}">
+                    <td>${subIndex + 1}</td>
+                    <td>
+                        <select name="categories[${categoryIndex}][sub_categories][${subIndex}][id]" class="form-control" required>
+                            <option value="">-- Select Sub-Category --</option>
+                            ${options}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="file" name="categories[${categoryIndex}][sub_categories][${subIndex}][image]" class="form-control" accept="image/*" required>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="removeSubCategory(${categoryIndex}, ${subIndex})">&times;</button>
+                    </td>
+                </tr>
+            `;
+
+                    container.insertAdjacentHTML('beforeend', row);
+                });
         }
+
 
         function removeSubCategory(categoryIndex, subIndex) {
             const row = document.getElementById(`subcat-${categoryIndex}-${subIndex}`);

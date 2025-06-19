@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Solution;
 use App\Models\SolutionCategory;
 use App\Models\SolutionSubCategory;
@@ -38,7 +39,7 @@ class SolutionController extends Controller
             $categoryImagePath = isset($categoryData['image']) ? $categoryData['image']->store('solution_categories', 'public') : null;
 
             $category = $solution->categories()->create([
-                'name' => $categoryData['name'],
+                'name' => $categoryData['id'],
                 'image' => $categoryImagePath,
             ]);
 
@@ -46,7 +47,7 @@ class SolutionController extends Controller
                 $subImagePath = isset($sub['image']) ? $sub['image']->store('solution_sub_categories', 'public') : null;
 
                 $category->subCategories()->create([
-                    'name' => $sub['name'],
+                    'name' => $sub['id'],
                     'image' => $subImagePath,
                 ]);
             }
@@ -57,12 +58,20 @@ class SolutionController extends Controller
 
     public function edit($id)
     {
-        $solution = Solution::where('id',$id)->first();
+        $solution = Solution::where('id', $id)->first();
         $solution->load('categories.subCategories');
-        return view('solutions.edit', compact('solution'));
+        $categoryList = Category::pluck('name', 'id'); // [id => name]
+        $subCategoryList = Category::where('parent_id', 0)
+            ->get()
+            ->mapWithKeys(function ($category) {
+                return [
+                    $category->id => $category->childes()->pluck('name', 'id'),
+                ];
+            });
+        return view('solutions.edit', compact('solution', 'categoryList', 'subCategoryList'));
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'solution_name' => 'required|string|max:255',
@@ -75,8 +84,8 @@ class SolutionController extends Controller
             'categories.*.sub_categories.*.name' => 'nullable|string|max:255',
             'categories.*.sub_categories.*.image' => 'nullable|image',
         ]);
-        
-        $solution = Solution::where('id',$id)->first();
+
+        $solution = Solution::where('id', $id)->first();
 
         if ($request->hasFile('solution_image')) {
             Storage::disk('public')->delete($solution->image);
@@ -97,24 +106,24 @@ class SolutionController extends Controller
 
         // Recreate fresh categories
         foreach ($request->input('categories', []) as $i => $catData) {
-            if (empty($catData['name']) && !$request->file("categories.$i.image")) continue;
+            if (empty($catData['id']) && !$request->file("categories.$i.image")) continue;
 
             $catImage = $request->file("categories.$i.image");
             $catImagePath = $catImage ? $catImage->store('solution_categories', 'public') : null;
 
             $category = $solution->categories()->create([
-                'name' => $catData['name'] ?? null,
+                'name' => $catData['id'] ?? null,
                 'image' => $catImagePath,
             ]);
 
             foreach ($catData['sub_categories'] ?? [] as $j => $sub) {
-                if (empty($sub['name']) && !$request->file("categories.$i.sub_categories.$j.image")) continue;
+                if (empty($sub['id']) && !$request->file("categories.$i.sub_categories.$j.image")) continue;
 
                 $subImage = $request->file("categories.$i.sub_categories.$j.image");
                 $subImagePath = $subImage ? $subImage->store('solution_sub_categories', 'public') : null;
 
                 $category->subCategories()->create([
-                    'name' => $sub['name'] ?? null,
+                    'name' => $sub['id'] ?? null,
                     'image' => $subImagePath,
                 ]);
             }
@@ -137,5 +146,28 @@ class SolutionController extends Controller
         $solution->delete();
 
         return redirect()->back()->with('success', 'Solution deleted.');
+    }
+
+    public function webindexpage($id)
+    {
+        $solution = Solution::find($id);
+        return view('web.solutions', compact('solution'));
+    }
+
+    public function getSubcategorybyCategory($id)
+    {
+        $categories = Category::where('parent_id', $id)->get(['id', 'name']);
+        return $categories;
+    }
+
+    public function getCategory()
+    {
+        $categories = Category::where('parent_id', 0)->get();
+        return $categories;
+    }
+
+    public function getallcategoryname()
+    {
+        return Category::pluck('name', 'id');
     }
 }

@@ -5,7 +5,6 @@ document.getElementById("uploadBox").addEventListener("click", function () {
   document.getElementById("imageInput").addEventListener("change", function (event) {
     const file = event.target.files[0];
     if (file) {
-      alert("Image selected: " + file.name);
       // You can add code here to preview or upload it via AJAX
     }
   });

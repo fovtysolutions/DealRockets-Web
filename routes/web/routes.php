@@ -661,3 +661,6 @@ Route::get('register-form-vendor',[ProfileController::class,'getRegisterForm'])-
 Route::get('vendor-form-vendor',[ProfileController::class,'getVendorForm'])->name('vendor-form-vendor');
 Route::get('editprofile-form-vendor',[ProfileController::class,'getEditprofileForm'])->name('editprofile-form-vendor');
 Route::post('/solutions/store', [SolutionController::class, 'store'])->name('solutions.store');
+Route::get('/solutions/edit/{id}', [SolutionController::class, 'edit'])->name('solutions.edit');
+Route::put('/solutions/update/{id}', [SolutionController::class, 'update'])->name('solutions.update');
+Route::post('/solutions/destroy', [SolutionController::class, 'destroy'])->name('solutions.destroy');

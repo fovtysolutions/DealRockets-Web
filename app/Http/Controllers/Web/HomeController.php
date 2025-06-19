@@ -22,6 +22,7 @@ use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Seller;
 use App\Models\Review;
+use App\Models\Solution;
 use App\Models\StockSell;
 use App\Models\User;
 use App\Utils\ProductManager;
@@ -189,8 +190,10 @@ class HomeController extends Controller
         $customer_tiers = MembershipTier::orderBy('membership_order', 'asc')->where('membership_type', 'customer')->where('membership_active', 1)->get();
         $seller_tiers = MembershipTier::orderBy('membership_order', 'asc')->where('membership_type', 'seller')->where('membership_active', 1)->get();
         $tradeshows = HelperUtil::getLatestTradeshows();
+        $solutions = Solution::all()->inRandomOrder();
 
         return view(VIEW_FILE_NAMES['home'], compact(
+            'solutions',
             'tradeshows',
             'tradeshowhomepage',
             'customer_tiers',

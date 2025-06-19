@@ -9513,4 +9513,9 @@ return [
 	"Declarations" => "Declarations",
 	"Advertise" => "Advertise",
 	"Trade Show" => "Trade Show",
+	"Sign In" => "Sign In",
+	"RFQ | Marketplace" => "RFQ | Marketplace",
+	"Solutions" => "Solutions",
+	"Solutions Settings" => "Solutions Settings",
+	"Pick a Time" => "Pick a Time",
 ];

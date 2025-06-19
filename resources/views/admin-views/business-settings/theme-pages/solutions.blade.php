@@ -41,14 +41,32 @@
                                             <td>{{ $solution->name }}</td>
                                             <td>
                                                 @if ($solution->image)
-                                                    <img src="{{ asset('storage/' . $solution->image) }}" alt="Solution Image"
-                                                        width="60">
+                                                    <img src="{{ asset('storage/' . $solution->image) }}"
+                                                        alt="Solution Image" width="60">
                                                 @endif
                                             </td>
                                             <td>{{ $solution->categories->count() }} Categories</td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-info">View</a>
-                                                <!-- Add edit/delete if needed -->
+                                                <button type="button" class="btn btn-info btn-sm"
+                                                    onclick='showSolutionModal(@json($solution->load('categories.subCategories')))'>
+                                                    View
+                                                </button>
+                                                <!-- Edit Button -->
+                                                <a href="{{ route('solutions.edit',['id' => $solution->id]) }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    Edit
+                                                </a>
+
+                                                <!-- Delete Button -->
+                                                <form action="{{ route('solutions.destroy', $solution->id) }}"
+                                                    method="POST" style="display: inline-block;"
+                                                    onsubmit="return confirm('Are you sure you want to delete this solution?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        Delete
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -70,8 +88,8 @@
                     <form action="{{ route('solutions.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-header">
-                            <h5 class="modal-title" id="createSolutionModalLabel">Add New Solution</h5><button type="button"
-                                class="btn btn-sm btn-danger" data-bs-dismiss="modal">
+                            <h5 class="modal-title" id="createSolutionModalLabel">Add New Solution</h5><button
+                                type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">
                                 &times;
                             </button>
                         </div>
@@ -92,7 +110,7 @@
                             {{-- Categories Table --}}
                             <div class="table-responsive">
                                 <table class="table table-bordered align-middle text-center">
-                                    <thead>
+                                    <thead style="background-color: white; z-index: 2;">
                                         <tr>
                                             <th>#</th>
                                             <th>Category Name</th>
@@ -100,50 +118,14 @@
                                             <th>Sub-Categories</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @for ($i = 0; $i < 10; $i++)
-                                            <tr>
-                                                <td>{{ $i + 1 }}</td>
-                                                <td>
-                                                    <input type="text" name="categories[{{ $i }}][name]" class="form-control"
-                                                        placeholder="Category Name">
-                                                </td>
-                                                <td>
-                                                    <input type="file" name="categories[{{ $i }}][image]" class="form-control"
-                                                        accept="image/*">
-                                                </td>
-                                                <td>
-                                                    <table class="table table-sm table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>#</th>
-                                                                <th>Sub-Category Name</th>
-                                                                <th>Sub-Category Image</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @for ($j = 0; $j < 5; $j++)
-                                                                <tr>
-                                                                    <td>{{ $j + 1 }}</td>
-                                                                    <td>
-                                                                        <input type="text"
-                                                                            name="categories[{{ $i }}][sub_categories][{{ $j }}][name]"
-                                                                            class="form-control" placeholder="Sub-Category Name">
-                                                                    </td>
-                                                                    <td>
-                                                                        <input type="file"
-                                                                            name="categories[{{ $i }}][sub_categories][{{ $j }}][image]"
-                                                                            class="form-control" accept="image/*">
-                                                                    </td>
-                                                                </tr>
-                                                            @endfor
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        @endfor
+                                    <tbody id="category-container">
+                                        <!-- JS will append category rows here -->
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="d-flex justify-content-end mb-3">
+                                <button type="button" class="btn btn-primary" onclick="addCategory()">+ Add
+                                    Category</button>
                             </div>
                         </div>
 
@@ -155,9 +137,170 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="viewSolutionModal" tabindex="-1" aria-labelledby="viewSolutionModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">View Solution</h5>
+                        <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+                        {{-- Solution Name --}}
+                        <div class="mb-3">
+                            <label class="fw-bold">Solution Name:</label>
+                            <p class="form-control-plaintext mb-0" id="view_solution_name"></p>
+                        </div>
+
+                        {{-- Solution Image --}}
+                        <div class="mb-4">
+                            <label class="fw-bold">Solution Image:</label><br>
+                            <img id="view_solution_image" src="" alt="Solution Image"
+                                class="img-fluid rounded shadow" style="max-height: 200px;">
+                        </div>
+
+                        {{-- Categories --}}
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle text-center">
+                                <thead class="bg-light" style="background-color: white; z-index: 2;">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Category Name</th>
+                                        <th>Category Image</th>
+                                        <th>Sub-Categories</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="view_category_container">
+                                    <!-- JS will inject category rows here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
-        $('#createSolutionForm').on('submit', function (e) {
+        function showSolutionModal(solution) {
+            // Fill name & image
+            document.getElementById('view_solution_name').textContent = solution.name;
+            document.getElementById('view_solution_image').src = '/storage/' + solution.image;
+
+            // Clear old categories
+            const container = document.getElementById('view_category_container');
+            container.innerHTML = '';
+
+            solution.categories.forEach((category, index) => {
+                const subRows = category.sub_categories?.map((sub, subIndex) => {
+                    return `
+                <tr>
+                    <td>${subIndex + 1}</td>
+                    <td>${sub.name ?? '-'}</td>
+                    <td>${sub.image ? `<img src="/storage/${sub.image}" alt="Sub" style="height:50px;">` : '-'}</td>
+                </tr>`;
+                }).join('') || '<tr><td colspan="3">No sub-categories</td></tr>';
+
+                const row = `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${category.name ?? '-'}</td>
+                <td>${category.image ? `<img src="/storage/${category.image}" alt="Cat" style="height:50px;">` : '-'}</td>
+                <td>
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Sub-Category Name</th>
+                                <th>Sub-Category Image</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${subRows}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>`;
+                container.insertAdjacentHTML('beforeend', row);
+            });
+
+            new bootstrap.Modal(document.getElementById('viewSolutionModal')).show();
+        }
+    </script>
+    <script>
+        let categoryIndex = 0;
+
+        function addCategory() {
+            const categoryRow = `
+    <tr id="category-row-${categoryIndex}">
+        <td>${categoryIndex + 1}</td>
+        <td>
+            <input type="text" name="categories[${categoryIndex}][name]" class="form-control" placeholder="Category Name" required>
+        </td>
+        <td>
+            <input type="file" name="categories[${categoryIndex}][image]" class="form-control" accept="image/*" required>
+        </td>
+        <td>
+            <table class="table table-sm table-bordered mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Sub-Category Name</th>
+                        <th>Sub-Category Image</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="sub-category-container-${categoryIndex}">
+                    <!-- JS will insert sub-categories -->
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-outline-primary mt-1" style="width: 100%;" onclick="addSubCategory(${categoryIndex})">+ Add Sub-Category</button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger" onclick="removeCategory(${categoryIndex})">&times;</button>
+        </td>
+    </tr>`;
+            document.getElementById('category-container').insertAdjacentHTML('beforeend', categoryRow);
+            categoryIndex++;
+        }
+
+        function removeCategory(index) {
+            const row = document.getElementById(`category-row-${index}`);
+            if (row) row.remove();
+        }
+
+        function addSubCategory(categoryIndex) {
+            const container = document.getElementById(`sub-category-container-${categoryIndex}`);
+            const subIndex = container.children.length;
+
+            const subRow = `
+        <tr id="subcat-${categoryIndex}-${subIndex}">
+            <td>${subIndex + 1}</td>
+            <td>
+                <input type="text" name="categories[${categoryIndex}][sub_categories][${subIndex}][name]" class="form-control" placeholder="Sub-Category Name" required>
+            </td>
+            <td>
+                <input type="file" name="categories[${categoryIndex}][sub_categories][${subIndex}][image]" class="form-control" accept="image/*" required>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger" onclick="removeSubCategory(${categoryIndex}, ${subIndex})">&times;</button>
+            </td>
+        </tr>
+    `;
+            container.insertAdjacentHTML('beforeend', subRow);
+        }
+
+        function removeSubCategory(categoryIndex, subIndex) {
+            const row = document.getElementById(`subcat-${categoryIndex}-${subIndex}`);
+            if (row) row.remove();
+        }
+    </script>
+    <script>
+        $('#createSolutionForm').on('submit', function(e) {
             e.preventDefault();
 
             let form = this;
@@ -169,12 +312,12 @@
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function (response) {
+                success: function(response) {
                     toastr.success(response.message);
                     $('#createSolutionModal').modal('hide');
                     form.reset();
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     if (xhr.responseJSON && xhr.responseJSON.errors) {
                         let errors = xhr.responseJSON.errors;
                         let msg = '';

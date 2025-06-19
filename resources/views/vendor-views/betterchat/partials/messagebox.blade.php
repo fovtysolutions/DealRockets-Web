@@ -14,24 +14,8 @@
     </div>
 </div>
 <div class="scrolable-width overflow-y-scroll overflow-x-hidden">
-    <div class="hidden md:flex h-12 text-sm font-medium leading-none text-gray-600 border-b border-gray-200">
-        <button data-tab="rfq"
-            class="tab-button active-tab flex h-full w-52 items-center px-4 gap-4 text-blue-600 border-b-[3px] border-blue-600">
-            <i class="fa-solid fa-inbox"></i>
-            <p>RFQ</p>
-        </button>
-        <button data-tab="sell" class="tab-button flex h-full w-52 items-center px-4 gap-4 hover:bg-gray-200">
-            <i class="fa-solid fa-receipt"></i>
-            <p>Sell Offer</p>
-        </button>
-        <button data-tab="stock" class="tab-button flex h-full w-52 items-center px-4 gap-4 hover:bg-gray-200">
-            <i class="fa-solid fa-receipt"></i>
-            <p>Stock Sale</p>
-        </button>
-        <button data-tab="market" class="tab-button flex h-full w-52 items-center px-4 gap-4 hover:bg-gray-200">
-            <i class="fa-solid fa-receipt"></i>
-            <p>Marketplace</p>
-        </button>
+    <div class="hidden md:flex h-12 text-sm font-medium leading-none text-gray-600 border-b border-gray-200" style="align-items:center;">
+        <h1 style="font-size: 20px; padding-left: 20px;">Messages</h1>
     </div>
     <div class="tab-content-wrapper flex flex-col h-full">
         <div id="tab-rfq" class="tab-content">
@@ -224,6 +208,18 @@
                 },
             });
         }
+
+        // When a tab button is clicked (your existing code)
+        $('.custom-tab-button').on('click', function() {
+            const tabId = $(this).data('tab');
+            
+            // Hide all tabs and chatbox
+            hideAllTabs();
+            hideChatbox();
+
+            // Show the clicked tab content
+            showTab(tabId);
+        });
 
         // When a tab button is clicked (your existing code)
         $('.tab-button').on('click', function() {

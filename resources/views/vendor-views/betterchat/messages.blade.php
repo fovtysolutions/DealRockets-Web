@@ -57,11 +57,30 @@
                                 </p>
                             </a>
                         </li>
-                        {{-- <li class="w-full"><a
-                                class="w-full flex leading-none hover:bg-gray-200 pl-6 py-2 gap-3 items-center rounded-e-full pr-2"
-                                href="#"><i class="fa-solid fa-angle-down"></i>
-                                <p class="flex w-full justify-between">More</p>
-                            </a></li> --}}
+                        <li class="w-full">
+                            <a data-tab="rfq" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
+                                <p class="flex w-full justify-between">RFQ - Buy Leads</p>
+                            </a>
+                        </li>
+                        <li class="w-full">
+                            <a data-tab="sell" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
+                                <p class="flex w-full justify-between">Sell Offer</p>
+                            </a>
+                        </li>
+                        <li class="w-full">
+                            <a data-tab="stock" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
+                                <p class="flex w-full justify-between">Stock Sale</p>
+                            </a>
+                        </li>
+                        <li class="w-full">
+                            <a data-tab="market" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
+                                <p class="flex w-full justify-between">Marketplace</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="bg-white h-full col-span-10 md:col-span-8 rounded-2xl mx-2 flex flex-col">

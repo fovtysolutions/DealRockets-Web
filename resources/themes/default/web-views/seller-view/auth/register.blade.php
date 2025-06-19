@@ -98,11 +98,10 @@
                                     </div>
 
                                     <button class="btn btn-submit mb-2 proceed-to-next-btn text-capitalize" type="submit"
-                                        disabled id="submitBtn">Get
-                                        started</button>
+                                        disabled id="submitBtn">Sign Up</button>
                                     <h5 style="text-align: center;"> Or </h5>
                                     <a class="btn btn-submit mb-2 proceed-to-next-btn text-capitalize"
-                                        href="{{ route('vendor.auth.login') }}">Login</a>
+                                        href="{{ route('vendor.auth.login') }}">Sign In</a>
                                 </div>
                             </div>
                         </div>

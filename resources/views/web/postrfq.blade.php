@@ -45,7 +45,8 @@
                                             <div class="innerrightcontainer">
                                                 <input class="contact-input counter-fields" name="purchase_quantity" type="number" placeholder="0"
                                                     style="max-width: 150px;" />
-                                                <select class="contact-input counter-fields" name="unit_unit" style="max-width: 120px;">
+                                                <select class="contact-input counter-fields" name="unit_unit" style="max-width: 150px;">
+                                                    <option value="">Select a Unit</option>
                                                     <option value="Pc">Piece(s)</option>
                                                     <option value="Kg">Kg(s)</option>
                                                 </select>
@@ -60,7 +61,8 @@
                                             <div class="innerrightcontainer">
                                                 <input class="contact-input counter-fields" name="target_unit_price" type="number" placeholder="0.00"
                                                     style="max-width: 150px;" />
-                                                <select class="contact-input counter-fields" name="target_unit_price_currency" style="max-width: 100px;">
+                                                <select class="contact-input counter-fields" name="target_unit_price_currency" style="max-width: 150px;">
+                                                    <option value="">Select a Currency</option>
                                                     <option value="usd">USD</option>
                                                     <option value="eur">EUR</option>
                                                 </select>
@@ -73,7 +75,8 @@
                                                 <label class="label-width">Trade Terms</label>
                                             </div>
                                             <div class="innerrightcontainer">
-                                                <select class="contact-input counter-fields" name="trade_terms" style="max-width: 200px;">
+                                                <select class="contact-input counter-fields" name="trade_terms" style="max-width: 300px;">
+                                                    <option value="">Select Trading Terms</option>
                                                     <option value="fob">FOB</option>
                                                     <option value="cif">CIF</option>
                                                 </select>
@@ -86,8 +89,9 @@
                                                 <label class="label-width">Max Budget</label>
                                             </div>
                                             <div class="innerrightcontainer">
-                                                <input class="contact-input counter-fields" name="max_budget" style="max-width: 200px;">
-                                                <select class="contact-input counter-fields" name="max_budget_currency" style="max-width: 100px;">
+                                                <input class="contact-input counter-fields" name="max_budget" style="max-width: 150px;">
+                                                <select class="contact-input counter-fields" name="max_budget_currency" style="max-width: 150px;">
+                                                    <option value="">Select Currency</option>
                                                     <option value="usd">USD</option>
                                                     <option value="eur">EUR</option>
                                                 </select>
@@ -114,24 +118,26 @@
                                 <!-- Details (Textarea) -->
                                 <div class="form-row">
                                     <label class="label-width">Details</label>
-                                    <textarea class="contact-input counter-fields" rows="4" name="details" placeholder="Describe product requirements..."></textarea>
+                                    <textarea class="contact-input counter-fields" rows="1" name="details" placeholder="Describe product requirements..."></textarea>
                                 </div>
                                 <hr>
-                                <div class="section-heading">Shipping and Payment</div>
+                                <div class="section-heading mt-3">Shipping and Payment</div>
                                 <div class="form-row">
                                     <label class="label-width">Contact Number</label>
-                                    <input class="contact-input counter-fields" type="text" placeholder="Contact Number" name="contact_number">
+                                    <input class="contact-input counter-fields" type="text" placeholder="Contact Number" name="contact_number" style="max-width: 200px;">
                                 </div>
                                 <div class="form-row">
                                     <label class="label-width">Shipping Method</label>
-                                    <select class="contact-input counter-fields" name="shipping_method" style="max-width: 147px;">
+                                    <select class="contact-input counter-fields" name="shipping_method" style="max-width: 200px;">
+                                        <option value="">Select Shipping Method</option>
                                         <option value="sea_freight">Sea freight</option>
                                     </select>
                                 </div>
                                 <div class="form-row">
                                     <label class="label-width">Destination Port</label>
-                                    <input class="contact-input counter-fields" type="text" name="destination_port" placeholder="" style="max-width: 200px;" />
-                                    <select class="contact-input counter-fields" name="destination_port_currency" style="max-width: 100px;">
+                                    <input class="contact-input counter-fields" type="text" name="destination_port" placeholder=""style="max-width: 200px;"/>
+                                    <select class="contact-input counter-fields" name="destination_port_currency" style="max-width: 150px;">
+                                        <option value="">Select Currency</option>
                                         <option value="usd">USD</option>
                                         <option value="eur">EUR</option>
                                     </select>
@@ -140,7 +146,7 @@
                                 <div class="form-row width-form-phone float-phone">
                                     <label class="label-width">Lead time</label>
                                     <span style="margin-left: 5px; font-weight: bold;">Spin in</span>
-                                    <input class="contact-input counter-fields" name="spin_time" type="text" placeholder="" style="max-width: 100px;" />
+                                    <input class="contact-input counter-fields" name="spin_time" type="text" placeholder="" style="max-width: 200px;" />
 
                                     <span style="margin-left: 5px; font-weight: bold; " class="hide-span">day(s) after
                                         supplier
@@ -148,12 +154,13 @@
                                 </div>
                                 <div class="form-row width-form-phone">
                                     <label class="label-width padding-phone">Payment Terms</label>
-                                    <select class="contact-input counter-fields" name="terms" style="max-width: 96px;">
+                                    <select class="contact-input counter-fields" name="terms" style="max-width: 200px;">
+                                        <option value="">Select Payment Terms</option>
                                         <option value="t/t">T/T</option>
                                         <option value="cif">CIF</option>
                                     </select>
                                 </div>
-                                <div class="form-row" style="margin-left: 25%;">
+                                <div class="form-row" style="justify-content: end;">
                                     <button type="submit" class="btn submit-rfq  px-4">Submit</button>
                                 </div>
                         </form>

@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class SolutionController extends Controller
 {
-
     public function store(Request $request)
     {
         $request->validate([
@@ -53,7 +52,90 @@ class SolutionController extends Controller
             }
         }
 
-        return redirect()->back()->with('success','Stored Success');
+        return redirect()->back()->with('success', 'Stored Success');
     }
 
+    public function edit($id)
+    {
+        $solution = Solution::where('id',$id)->first();
+        $solution->load('categories.subCategories');
+        return view('solutions.edit', compact('solution'));
+    }
+
+    public function update(Request $request,$id)
+    {
+        $request->validate([
+            'solution_name' => 'required|string|max:255',
+            'solution_image' => 'nullable|image',
+
+            'categories' => 'nullable|array|max:10',
+            'categories.*.name' => 'nullable|string|max:255',
+            'categories.*.image' => 'nullable|image',
+            'categories.*.sub_categories' => 'nullable|array|max:5',
+            'categories.*.sub_categories.*.name' => 'nullable|string|max:255',
+            'categories.*.sub_categories.*.image' => 'nullable|image',
+        ]);
+        
+        $solution = Solution::where('id',$id)->first();
+
+        if ($request->hasFile('solution_image')) {
+            Storage::disk('public')->delete($solution->image);
+            $solution->image = $request->file('solution_image')->store('solutions', 'public');
+        }
+
+        $solution->name = $request->solution_name;
+        $solution->save();
+
+        // Remove old categories & subs
+        foreach ($solution->categories as $cat) {
+            Storage::disk('public')->delete($cat->image);
+            foreach ($cat->subCategories as $sub) {
+                Storage::disk('public')->delete($sub->image);
+            }
+        }
+        $solution->categories()->delete();
+
+        // Recreate fresh categories
+        foreach ($request->input('categories', []) as $i => $catData) {
+            if (empty($catData['name']) && !$request->file("categories.$i.image")) continue;
+
+            $catImage = $request->file("categories.$i.image");
+            $catImagePath = $catImage ? $catImage->store('solution_categories', 'public') : null;
+
+            $category = $solution->categories()->create([
+                'name' => $catData['name'] ?? null,
+                'image' => $catImagePath,
+            ]);
+
+            foreach ($catData['sub_categories'] ?? [] as $j => $sub) {
+                if (empty($sub['name']) && !$request->file("categories.$i.sub_categories.$j.image")) continue;
+
+                $subImage = $request->file("categories.$i.sub_categories.$j.image");
+                $subImagePath = $subImage ? $subImage->store('solution_sub_categories', 'public') : null;
+
+                $category->subCategories()->create([
+                    'name' => $sub['name'] ?? null,
+                    'image' => $subImagePath,
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.webtheme.solutions')->with('success', 'Solution updated successfully.');
+    }
+
+    public function destroy(Solution $solution)
+    {
+        // Delete all images
+        Storage::disk('public')->delete($solution->image);
+        foreach ($solution->categories as $cat) {
+            Storage::disk('public')->delete($cat->image);
+            foreach ($cat->subCategories as $sub) {
+                Storage::disk('public')->delete($sub->image);
+            }
+        }
+
+        $solution->delete();
+
+        return redirect()->back()->with('success', 'Solution deleted.');
+    }
 }

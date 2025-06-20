@@ -74,10 +74,7 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
         // Sub Card Route
         Route::get('subcard/{slug}',[DashboardController::class,'subCardData'])->name('subcard');
 
-        // Create FAQ's
-        Route::get('managefaq',[DashboardController::class,'faq'])->name('managefaq');
-        Route::post('crudfaq',[DashboardController::class,'crudFAQ'])->name('crudfaq');
-        Route::get('createfaq',[DashboardController::class,'createFAQ'])->name('createfaq');
+        Route::get('see-faqs',[DashboardController::class,'seefaqs'])->name('seefaqs');
 
         // Company Profile
         Route::post('cp/store', [CompanyProfileController::class,'store'])->name('cp.store');

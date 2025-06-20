@@ -323,62 +323,6 @@ class DashboardController extends BaseController
         return view('vendor-views.dashboard.subcards.dashboard-analytics', compact('dashboardData', 'vendorEarning', 'commissionEarn', 'withdrawalMethods', 'dateType', 'label'));
     }
 
-    public function faq()
-    {
-        $seller = auth('seller')->user()->id;
-        if ($seller){
-            $faqs = faq::where('seller',$seller)->get();
-            return view('vendor-views.faq.manage', compact('faqs'));
-        } else {
-            return redirect()->back()->with('error','login Again');
-        }
-    }
-
-    public function crudFAQ(Request $request)
-    {
-        $action = $request->input('action');
-
-        switch ($action) {
-            case 'create':
-                $request->validate([
-                    'seller' => 'required|exists:sellers,id',
-                    'question' => 'required|string',
-                    'answer' => 'required|string',
-                ]);
-                $faq = FAQ::create($request->only('question', 'seller', 'answer'));
-                return response()->json(['message' => 'FAQ created', 'faq' => $faq]);
-
-            case 'read':
-                $faqs = FAQ::all();
-                return response()->json($faqs);
-
-            case 'update':
-                $request->validate([
-                    'id' => 'required|exists:faq,id',
-                    'seller' => 'required|exists:sellers,id',
-                    'question' => 'required|string',
-                    'answer' => 'required|string',
-                ]);
-                $faq = FAQ::find($request->id);
-                $faq->update($request->only('question', 'seller', 'answer'));
-                return response()->json(['message' => 'FAQ updated', 'faq' => $faq]);
-
-            case 'delete':
-                $request->validate([
-                    'id' => 'required|exists:faq,id',
-                ]);
-                FAQ::destroy($request->id);
-                return response()->json(['message' => 'FAQ deleted']);
-
-            default:
-                return response()->json(['error' => 'Invalid action'], 400);
-        }
-    }
-
-    public function createFAQ(){
-        return view('vendor-views.faq.create');
-    }
-
     public function bannerDataPage($slug)
     {
         $validSlugs = ['marketplace', 'buyleads', 'selloffer', 'tradeshows'];
@@ -439,6 +383,11 @@ class DashboardController extends BaseController
         $seller->save();
 
         return redirect()->back()->with('success', 'Images Added Successfully');
+    }
+
+    public function seefaqs(){
+        $faqs = faq::all();
+        return view('vendor-views.faq.seefaqs',compact('faqs'));
     }
 
     // Sub Cards Functions
@@ -597,8 +546,7 @@ class DashboardController extends BaseController
             case 'faq':
                 $title = 'FAQ';
                 $cardData = [
-                    ['link' => route('vendor.createfaq'), 'title' => 'Add FAQ', 'value' => 'Yes'],
-                    ['link' => route('vendor.managefaq'), 'title' => 'Manage FAQ', 'value' => 'Yes'],
+                    ['link' => route('vendor.seefaqs'), 'title' => 'FAQ', 'value' => 'Yes'],
                 ];
                 break;
 

@@ -23,7 +23,7 @@
                         <label class="title-color">Answer</label>
                         <input class="form-control" type="text" name="answer" id="answer">
                     </div>
-                    <input type="hidden" name="seller" id="seller" value={{ auth('seller')->user()->id }}>
+                    <input type="hidden" name="seller" id="seller" value={{ auth('admin')->user()->id }}>
                 </div>
                 <div class="row justify-content-end gap-3 mt-3 mx-1">
                     <button type="submit" class="btn btn--primary px-5">{{ translate('submit') }}</button>
@@ -46,7 +46,7 @@
         var seller = document.getElementById('seller').value;
 
         $.ajax({
-            url:'{{ route("vendor.crudfaq") }}',
+            url:'{{ route("admin.crudfaq") }}',
             method: 'POST',
             data: {
                 action: 'create',
@@ -57,7 +57,7 @@
             },
             success: function(){
                 toastr.success('FAQ Created Successfully');
-                window.location.href = '{{ route("vendor.managefaq") }}';
+                window.location.href = '{{ route("admin.managefaq") }}';
             },
             error: function(){
                 toastr.error('FAQ Fail');

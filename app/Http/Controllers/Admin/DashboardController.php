@@ -16,6 +16,7 @@ use App\Enums\ViewPaths\Admin\Dashboard;
 use App\Http\Controllers\BaseController;
 use App\Models\Country;
 use App\Models\DealAssist;
+use App\Models\faq;
 use App\Models\JobAppliers;
 use App\Models\Membership;
 use App\Models\Review;
@@ -480,6 +481,58 @@ class DashboardController extends BaseController
         return $this->groupCountByCountry('branches', 'country');
     }
 
+
+    public function faq()
+    {
+        $faqs = faq::all();
+        return view('admin-views.faq.manage', compact('faqs'));
+    }
+
+    public function crudFAQ(Request $request)
+    {
+        $action = $request->input('action');
+
+        switch ($action) {
+            case 'create':
+                $request->validate([
+                    'seller' => 'required|exists:admins,id',
+                    'question' => 'required|string',
+                    'answer' => 'required|string',
+                ]);
+                $faq = FAQ::create($request->only('question', 'seller', 'answer'));
+                return response()->json(['message' => 'FAQ created', 'faq' => $faq]);
+
+            case 'read':
+                $faqs = FAQ::all();
+                return response()->json($faqs);
+
+            case 'update':
+                $request->validate([
+                    'id' => 'required|exists:faq,id',
+                    'question' => 'required|string',
+                    'answer' => 'required|string',
+                ]);
+                $faq = FAQ::find($request->id);
+                $faq->update($request->only('question', 'answer'));
+                return response()->json(['message' => 'FAQ updated', 'faq' => $faq]);
+
+            case 'delete':
+                $request->validate([
+                    'id' => 'required|exists:faq,id',
+                ]);
+                FAQ::destroy($request->id);
+                return response()->json(['message' => 'FAQ deleted']);
+
+            default:
+                return response()->json(['error' => 'Invalid action'], 400);
+        }
+    }
+
+    public function createFAQ()
+    {
+        return view('admin-views.faq.create');
+    }
+
     public function OtherAnalytics()
     {
         $mostRatedProducts = $this->productRepo->getTopRatedList()->take(DASHBOARD_DATA_LIMIT);
@@ -605,7 +658,7 @@ class DashboardController extends BaseController
 
             case 'sell-offer':
                 $title = 'Sell Offers';
-                $cardData = [                    
+                $cardData = [
                     ['link' => route('admin.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 'Yes'],
                     ['link' => route('admin.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 'Yes'],
                     ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Sell Offer', 'value' => 'Yes'],
@@ -623,14 +676,15 @@ class DashboardController extends BaseController
 
             case 'marketplace':
                 $title = 'Marketplace';
-                $cardData = [                    
+                $cardData = [
                     ['link' => route('admin.products.add'), 'title' => 'Products Add', 'value' => 'Yes'],
                     ['link' => route('admin.products.list', ['in-house']), 'title' => 'Products List', 'value' => 'Yes'],
                     ['link' => route('admin.category.view'), 'title' => 'Categories', 'value' => 'Yes'],
                     ['link' => route('admin.sub-category.view'), 'title' => 'Sub Categories', 'value' => 'Yes'],
                     ['link' => route('admin.sub-sub-category.view'), 'title' => 'Sub Sub Categories', 'value' => 'Yes'],
                     ['link' => route('admin.brand.add-new'), 'title' => 'Add Brand', 'value' => 'Yes'],
-                    ['link' => route('admin.brand.list'), 'title' => 'Manage Brand', 'value' => 'Yes'],                    ['link' => route('admin.products.bulk-import'), 'title' => 'Bulk Import Products', 'value' => 'Yes'],
+                    ['link' => route('admin.brand.list'), 'title' => 'Manage Brand', 'value' => 'Yes'],
+                    ['link' => route('admin.products.bulk-import'), 'title' => 'Bulk Import Products', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -714,6 +768,14 @@ class DashboardController extends BaseController
                 $title = 'Membership';
                 $cardData = [
                     ['link' => route('admin.membershiptier'), 'title' => 'Membership Settings', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'faq':
+                $title = 'FAQ';
+                $cardData = [
+                    ['link' => route('admin.createfaq'), 'title' => 'Create FAQ', 'value' => 'Yes'],
+                    ['link' => route('admin.managefaq'), 'title' => 'Manage FAQs', 'value' => 'Yes'],
                 ];
                 break;
 

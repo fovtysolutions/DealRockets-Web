@@ -209,9 +209,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::get(Dashboard::ORDER_STATISTICS[URI], 'getOrderStatistics')->name('order-statistics');
         });
     });
+    
+    // Create FAQ's
+    Route::get('managefaq', [DashboardController::class, 'faq'])->name('managefaq');
+    Route::post('crudfaq', [DashboardController::class, 'crudFAQ'])->name('crudfaq');
+    Route::get('createfaq', [DashboardController::class, 'createFAQ'])->name('createfaq');
 
-    Route::get('subcard/{slug}',[DashboardController::class,'subCardData'])->name('subcard');
-    Route::get('other-analytics',[DashboardController::class,'OtherAnalytics'])->name('other-analytics');
+    Route::get('subcard/{slug}', [DashboardController::class, 'subCardData'])->name('subcard');
+    Route::get('other-analytics', [DashboardController::class, 'OtherAnalytics'])->name('other-analytics');
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -255,7 +260,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
     Route::group(['prefix' => 'products', 'as' => 'products.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(ProductController::class)->group(function () {
-            Route::get(Product::LIST [URI] . '/{type}', 'index')->name('list');
+            Route::get(Product::LIST[URI] . '/{type}', 'index')->name('list');
             Route::get(Product::ADD[URI], 'getAddView')->name('add');
             Route::post(Product::ADD[URI], 'add')->name('store');
             Route::get(Product::VIEW[URI] . '/{addedBy}/{id}', 'getView')->name('view');
@@ -289,15 +294,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
 
-    Route::get('/get-chat-lists',[ChatOtherController::class, 'adminChatbox'])->name('get-chat-lists');
+    Route::get('/get-chat-lists', [ChatOtherController::class, 'adminChatbox'])->name('get-chat-lists');
 
     Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(OrderController::class)->group(function () {
-            Route::get(Order::LIST [URI] . '/{status}', 'index')->name('list');
+            Route::get(Order::LIST[URI] . '/{status}', 'index')->name('list');
             Route::get(Order::EXPORT_EXCEL[URI] . '/{status}', 'exportList')->name('export-excel');
             Route::get(Order::GENERATE_INVOICE[URI] . '/{id}', 'generateInvoice')->name('generate-invoice')->withoutMiddleware(['module:listings_management']);
             Route::get(Order::VIEW[URI] . '/{id}', 'getView')->name('details');
-            Route::post(Order::UPDATE_ADDRESS[URI], 'updateAddress')->name('address-update');// update address from order details
+            Route::post(Order::UPDATE_ADDRESS[URI], 'updateAddress')->name('address-update'); // update address from order details
             Route::post(Order::UPDATE_DELIVERY_INFO[URI], 'updateDeliverInfo')->name('update-deliver-info');
             Route::get(Order::ADD_DELIVERY_MAN[URI] . '/{order_id}/{d_man_id}', 'addDeliveryMan')->name('add-delivery-man');
             Route::post(Order::UPDATE_AMOUNT_DATE[URI], 'updateAmountDate')->name('amount-date-update');
@@ -313,7 +318,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     // Attribute
     Route::group(['prefix' => 'attribute', 'as' => 'attribute.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(AttributeController::class)->group(function () {
-            Route::get(Attribute::LIST [URI], 'index')->name('view');
+            Route::get(Attribute::LIST[URI], 'index')->name('view');
             Route::post(Attribute::STORE[URI], 'add')->name('store');
             Route::get(Attribute::UPDATE[URI] . '/{id}', 'getUpdateView')->name('update');
             Route::post(Attribute::UPDATE[URI] . '/{id}', 'update');
@@ -324,7 +329,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     // Brand
     Route::group(['prefix' => 'brand', 'as' => 'brand.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(BrandController::class)->group(function () {
-            Route::get(Brand::LIST [URI], 'index')->name('list');
+            Route::get(Brand::LIST[URI], 'index')->name('list');
             Route::get(Brand::ADD[URI], 'getAddView')->name('add-new');
             Route::post(Brand::ADD[URI], 'add');
             Route::get(Brand::UPDATE[URI] . '/{id}', 'getUpdateView')->name('update');
@@ -338,7 +343,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     // Category
     Route::group(['prefix' => 'category', 'as' => 'category.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(CategoryController::class)->group(function () {
-            Route::get(Category::LIST [URI], 'index')->name('view');
+            Route::get(Category::LIST[URI], 'index')->name('view');
             Route::post(Category::ADD[URI], 'add')->name('store');
             Route::get(Category::UPDATE[URI], 'getUpdateView')->name('update');
             Route::post(Category::UPDATE[URI], 'update');
@@ -351,7 +356,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     // Sub Category
     Route::group(['prefix' => 'sub-category', 'as' => 'sub-category.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(SubCategoryController::class)->group(function () {
-            Route::get(SubCategory::LIST [URI], 'index')->name('view');
+            Route::get(SubCategory::LIST[URI], 'index')->name('view');
             Route::post(SubCategory::ADD[URI], 'add')->name('store');
             Route::get(SubCategory::UPDATE[URI] . '/{id}', 'getUpdateView')->name('update');
             Route::post(SubCategory::UPDATE[URI] . '/{id}', 'update');
@@ -363,7 +368,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     // Sub Sub Category
     Route::group(['prefix' => 'sub-sub-category', 'as' => 'sub-sub-category.', 'middleware' => ['module:listings_management']], function () {
         Route::controller(SubSubCategoryController::class)->group(function () {
-            Route::get(SubSubCategory::LIST [URI], 'index')->name('view');
+            Route::get(SubSubCategory::LIST[URI], 'index')->name('view');
             Route::post(SubSubCategory::ADD[URI], 'add')->name('store');
             Route::get(SubSubCategory::UPDATE[URI] . '/{id}', 'getUpdateView')->name('update');
             Route::post(SubSubCategory::UPDATE[URI] . '/{id}', 'update');
@@ -376,7 +381,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     // Banner
     Route::group(['prefix' => 'banner', 'as' => 'banner.', 'middleware' => ['module:settings']], function () {
         Route::controller(BannerController::class)->group(function () {
-            Route::get(Banner::LIST [URI], 'index')->name('list');
+            Route::get(Banner::LIST[URI], 'index')->name('list');
             Route::post(Banner::ADD[URI], 'add')->name('store');
             Route::post(Banner::DELETE[URI], 'delete')->name('delete');
             Route::post(Banner::STATUS[URI], 'updateStatus')->name('status');
@@ -388,7 +393,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     // Customer Routes, Customer wallet Routes, Customer Loyalty Routes
     Route::group(['prefix' => 'customer', 'as' => 'customer.', 'middleware' => ['module:user_management']], function () {
         Route::controller(CustomerController::class)->group(function () {
-            Route::get(Customer::LIST [URI], 'getListView')->name('list');
+            Route::get(Customer::LIST[URI], 'getListView')->name('list');
             Route::get(Customer::VIEW[URI] . '/{user_id}', 'getView')->name('view');
             Route::get(Customer::ORDER_LIST_EXPORT[URI] . '/{user_id}', 'exportOrderList')->name('order-list-export');
             Route::post(Customer::UPDATE[URI], 'updateStatus')->name('status-update');
@@ -421,7 +426,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
                 Route::get(Customer::LOYALTY_EXPORT[URI], 'exportList')->name('export');
             });
         });
-
     });
 
     Route::group(['prefix' => 'report', 'as' => 'report.', 'middleware' => ['module:analytics_reports']], function () {
@@ -440,10 +444,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     });
 
     Route::group(['prefix' => 'vendors', 'as' => 'vendors.', 'middleware' => ['module:user_management']], function () {
-        Route::get('get-vendor-register-view',[VendorController::class,'getVendorRegisterView'])->name('get-vendor-register-view');
-        Route::get('get-vendor-register-details/{id}',[VendorController::class,'getVendorRegisterDetails'])->name('get-vendor-register-details');
+        Route::get('get-vendor-register-view', [VendorController::class, 'getVendorRegisterView'])->name('get-vendor-register-view');
+        Route::get('get-vendor-register-details/{id}', [VendorController::class, 'getVendorRegisterDetails'])->name('get-vendor-register-details');
         Route::controller(VendorController::class)->group(function () {
-            Route::get(Vendor::LIST [URI], 'index')->name('vendor-list');
+            Route::get(Vendor::LIST[URI], 'index')->name('vendor-list');
             Route::get(Vendor::ADD[URI], 'getAddView')->name('add');
             Route::POST(Vendor::ADD[URI], 'add');
             Route::get(Vendor::ORDER_LIST[URI] . '/{vendor_id}', 'getOrderListView')->name('order-list');
@@ -465,7 +469,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
         Route::group(['prefix' => 'withdraw-method', 'as' => 'withdraw-method.'], function () {
             Route::controller(WithdrawalMethodController::class)->group(function () {
-                Route::get(WithdrawalMethod::LIST [URI], 'index')->name('list');
+                Route::get(WithdrawalMethod::LIST[URI], 'index')->name('list');
                 Route::get(WithdrawalMethod::ADD[URI], 'getAddView')->name('add');
                 Route::post(WithdrawalMethod::ADD[URI], 'add');
                 Route::delete(WithdrawalMethod::DELETE[URI] . '/{id}', 'delete')->name('delete');
@@ -479,7 +483,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     Route::group(['prefix' => 'employee', 'as' => 'employee.'], function () {
         Route::controller(EmployeeController::class)->group(function () {
-            Route::get(Employee::LIST [URI], 'index')->name('list');
+            Route::get(Employee::LIST[URI], 'index')->name('list');
             Route::get(Employee::ADD[URI], 'getAddView')->name('add-new');
             Route::post(Employee::ADD[URI], 'add')->name('add-new-post');
             Route::get(Employee::EXPORT[URI], 'exportList')->name('export');
@@ -500,7 +504,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::post(CustomRole::STATUS[URI], 'updateStatus')->name('employee-role-status');
             Route::post(CustomRole::DELETE[URI], 'delete')->name('delete');
             Route::get(CustomRole::EXPORT[URI], 'exportList')->name('export');
-            Route::get(CustomRole::VIEW[URI] . '/{id}','view')->name('view');
+            Route::get(CustomRole::VIEW[URI] . '/{id}', 'view')->name('view');
         });
     });
 
@@ -576,7 +580,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     // Reviews
     Route::group(['prefix' => 'reviews', 'as' => 'reviews.', 'middleware' => ['module:user_management']], function () {
         Route::controller(ReviewController::class)->group(function () {
-            Route::get(Review::LIST [URI], 'index')->name('list')->middleware('actch');
+            Route::get(Review::LIST[URI], 'index')->name('list')->middleware('actch');
             Route::get(Review::STATUS[URI], 'updateStatus')->name('status');
             Route::get(Review::EXPORT[URI], 'exportList')->name('export')->middleware('actch');
             Route::get(Review::SEARCH[URI], 'getCustomerList')->name('customer-list-search');
@@ -602,8 +606,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     Route::group(['prefix' => 'deal', 'as' => 'deal.', 'middleware' => ['module:settings']], function () {
         Route::controller(FlashDealController::class)->group(function () {
-            Route::get(FlashDeal::LIST [URI], 'index')->name('flash');
-            Route::post(FlashDeal::LIST [URI], 'add');
+            Route::get(FlashDeal::LIST[URI], 'index')->name('flash');
+            Route::post(FlashDeal::LIST[URI], 'add');
             Route::get(FlashDeal::UPDATE[URI] . '/{id}', 'getUpdateView')->name('update');
             Route::post(FlashDeal::UPDATE[URI] . '/{id}', 'update')->name('update-data');
             Route::post(FlashDeal::STATUS[URI], 'updateStatus')->name('status-update');
@@ -614,8 +618,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
 
         Route::controller(DealOfTheDayController::class)->group(function () {
-            Route::get(DealOfTheDay::LIST [URI], 'index')->name('day');
-            Route::post(DealOfTheDay::LIST [URI], 'add');
+            Route::get(DealOfTheDay::LIST[URI], 'index')->name('day');
+            Route::post(DealOfTheDay::LIST[URI], 'add');
             Route::post(DealOfTheDay::STATUS[URI], 'updateStatus')->name('day-status-update');
             Route::get(DealOfTheDay::UPDATE[URI] . '/{id}', 'getUpdateView')->name('day-update');
             Route::post(DealOfTheDay::UPDATE[URI] . '/{id}', 'update');
@@ -623,7 +627,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
 
         Route::controller(FeaturedDealController::class)->group(function () {
-            Route::get(FeatureDeal::LIST [URI], 'index')->name('feature');
+            Route::get(FeatureDeal::LIST[URI], 'index')->name('feature');
             Route::get(FeatureDeal::UPDATE[URI] . '/{id}', 'getUpdateView')->name('edit');
             Route::post(FeatureDeal::UPDATE[URI], 'update')->name('featured-update');
             Route::post(FeatureDeal::STATUS[URI], 'updateStatus')->name('feature-status');
@@ -661,7 +665,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     Route::group(['prefix' => 'support-ticket', 'as' => 'support-ticket.', 'middleware' => ['module:settings']], function () {
         Route::controller(SupportTicketController::class)->group(function () {
-            Route::get(SupportTicket::LIST [URI], 'index')->name('view');
+            Route::get(SupportTicket::LIST[URI], 'index')->name('view');
             Route::post(SupportTicket::STATUS[URI], 'updateStatus')->name('status');
             Route::get(SupportTicket::VIEW[URI] . '/{id}', 'getView')->name('singleTicket');
             Route::post(SupportTicket::VIEW[URI] . '/{id}', 'reply')->name('replay');
@@ -679,7 +683,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     Route::group(['prefix' => 'contact', 'as' => 'contact.', 'middleware' => ['module:settings']], function () {
         Route::controller(ContactController::class)->group(function () {
-            Route::get(Contact::LIST [URI], 'index')->name('list');
+            Route::get(Contact::LIST[URI], 'index')->name('list');
             Route::get(Contact::VIEW[URI] . '/{id}', 'getView')->name('view');
             Route::post(Contact::FILTER[URI], 'getListByFilter')->name('filter');
             Route::post(Contact::DELETE[URI], 'delete')->name('delete');
@@ -691,7 +695,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     Route::group(['prefix' => 'delivery-man', 'as' => 'delivery-man.', 'middleware' => ['module:user_management']], function () {
         Route::controller(DeliveryManController::class)->group(function () {
-            Route::get(DeliveryMan::LIST [URI], 'index')->name('list');
+            Route::get(DeliveryMan::LIST[URI], 'index')->name('list');
             Route::get(DeliveryMan::ADD[URI], 'getAddView')->name('add');
             Route::post(DeliveryMan::ADD[URI], 'add');
             Route::post(DeliveryMan::STATUS[URI], 'updateStatus')->name('status-update');
@@ -709,13 +713,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
 
         Route::controller(DeliveryManCashCollectController::class)->group(function () {
-            Route::get(DeliveryManCash::LIST [URI] . '/{id}', 'index')->name('collect-cash');
+            Route::get(DeliveryManCash::LIST[URI] . '/{id}', 'index')->name('collect-cash');
             Route::post(DeliveryManCash::ADD[URI] . '/{id}', 'getCashReceive')->name('cash-receive');
         });
 
         Route::controller(DeliverymanWithdrawController::class)->group(function () {
-            Route::get(DeliverymanWithdraw::LIST [URI], 'index')->name('withdraw-list');
-            Route::post(DeliveryManWithdraw::LIST [URI], 'getFiltered');
+            Route::get(DeliverymanWithdraw::LIST[URI], 'index')->name('withdraw-list');
+            Route::post(DeliveryManWithdraw::LIST[URI], 'getFiltered');
             Route::get(DeliverymanWithdraw::EXPORT_LIST[URI], 'exportList')->name('withdraw-list-export');
             Route::get(DeliverymanWithdraw::VIEW[URI] . '/{withdraw_id}', 'getView')->name('withdraw-view');
             Route::post(DeliverymanWithdraw::UPDATE[URI] . '/{id}', 'updateStatus')->name('withdraw-update-status');
@@ -723,7 +727,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
         Route::group(['prefix' => 'emergency-contact', 'as' => 'emergency-contact.'], function () {
             Route::controller(EmergencyContactController::class)->group(function () {
-                Route::get(EmergencyContact::LIST [URI], 'index')->name('index');
+                Route::get(EmergencyContact::LIST[URI], 'index')->name('index');
                 Route::post(EmergencyContact::ADD[URI], 'add')->name('add');
                 Route::get(EmergencyContact::UPDATE[URI] . '/{id}', 'getUpdateView')->name('update');
                 Route::post(EmergencyContact::UPDATE[URI] . '/{id}', 'update');
@@ -731,12 +735,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
                 Route::delete(EmergencyContact::DELETE[URI], 'delete')->name('destroy');
             });
         });
-
     });
 
     Route::group(['prefix' => 'most-demanded', 'as' => 'most-demanded.', 'middleware' => ['module:settings']], function () {
         Route::controller(MostDemandedController::class)->group(function () {
-            Route::get(MostDemanded::LIST [URI], 'index')->name('index');
+            Route::get(MostDemanded::LIST[URI], 'index')->name('index');
             Route::post(MostDemanded::ADD[URI], 'add')->name('store');
             Route::get(MostDemanded::UPDATE[URI] . '/{id}', 'getUpdateView')->name('edit');
             Route::post(MostDemanded::UPDATE[URI] . '/{id}', 'update')->name('update');
@@ -747,7 +750,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.'], function () {
         Route::controller(AllPagesBannerController::class)->group(function () {
-            Route::get(AllPagesBanner::LIST [URI], 'index')->name('all-pages-banner');
+            Route::get(AllPagesBanner::LIST[URI], 'index')->name('all-pages-banner');
             Route::post(AllPagesBanner::ADD[URI], 'add')->name('all-pages-banner-store');
             Route::get(AllPagesBanner::UPDATE[URI] . '/{id}', 'getUpdateView')->name('all-pages-banner-edit');
             Route::post(AllPagesBanner::UPDATE[URI], 'update')->name('all-pages-banner-update');
@@ -772,7 +775,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
                     Route::post(SystemSetup::LOGIN_URL_SETUP[URI], 'updateLoginSetupView');
                 });
             });
-
         });
     });
 
@@ -806,7 +808,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
             Route::controller(SocialMediaSettingsController::class)->group(function () {
                 Route::get(SocialMedia::VIEW[URI], 'index')->name('social-media');
-                Route::get(SocialMedia::LIST [URI], 'getList')->name('fetch');
+                Route::get(SocialMedia::LIST[URI], 'getList')->name('fetch');
                 Route::post(SocialMedia::ADD[URI], 'add')->name('social-media-store');
                 Route::post(SocialMedia::GET_UPDATE[URI], 'getUpdate')->name('social-media-edit');
                 Route::post(SocialMedia::UPDATE[URI], 'update')->name('social-media-update');
@@ -846,7 +848,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
         Route::group(['prefix' => 'language', 'as' => 'language.', 'middleware' => ['module:settings']], function () {
             Route::controller(LanguageController::class)->group(function () {
-                Route::get(Language::LIST [URI], 'index')->name('index');
+                Route::get(Language::LIST[URI], 'index')->name('index');
                 Route::post(Language::ADD[URI], 'add')->name('add-new');
                 Route::post(Language::STATUS[URI], 'updateStatus')->name('update-status');
                 Route::get(Language::DEFAULT_STATUS[URI], 'updateDefaultStatus')->name('update-default-status');
@@ -875,7 +877,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
                 Route::get(BusinessSettings::APP_SETTINGS[URI], 'getAppSettingsView')->name('app-settings');
                 Route::post(BusinessSettings::APP_SETTINGS[URI], 'updateAppSettings');
-
             });
 
             Route::controller(EnvironmentSettingsController::class)->group(function () {
@@ -899,7 +900,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
                     Route::post(ThemeSetup::NOTIFY_VENDOR[URI], 'notifyAllTheVendors')->name('notify-all-the-vendors');
                 });
             });
-
         });
 
         Route::group(['prefix' => 'vendor-registration-settings', 'as' => 'vendor-registration-settings.', 'middleware' => ['module:settings']], function () {
@@ -990,7 +990,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
         Route::group(['prefix' => 'payment-method', 'as' => 'payment-method.', 'middleware' => ['module:settings']], function () {
             Route::controller(PaymentMethodController::class)->group(function () {
-                Route::get(PaymentMethod::LIST [URI], 'index')->name('index')->middleware('actch');
+                Route::get(PaymentMethod::LIST[URI], 'index')->name('index')->middleware('actch');
                 Route::get(PaymentMethod::PAYMENT_OPTION[URI], 'getPaymentOptionView')->name('payment-option');
                 Route::post(PaymentMethod::PAYMENT_OPTION[URI], 'updatePaymentOption');
                 Route::put(PaymentMethod::UPDATE_CONFIG[URI], 'UpdatePaymentConfig')->name('addon-payment-set');
@@ -1027,7 +1027,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
                 Route::get(EmailTemplate::VIEW[URI] . '/{type}' . '/{tab}', 'getView')->name('view');
                 Route::post(EmailTemplate::UPDATE[URI] . '/{type}' . '/{tab}', 'update')->name('update');
                 Route::post(EmailTemplate::UPDATE_STATUS[URI] . '/{type}' . '/{tab}', 'updateStatus')->name('update-status');
-
             });
         });
 
@@ -1048,13 +1047,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     Route::group(['prefix' => 'currency', 'as' => 'currency.', 'middleware' => ['module:settings']], function () {
         Route::controller(CurrencyController::class)->group(function () {
-            Route::get(Currency::LIST [URI], 'index')->name('view')->middleware('actch');
+            Route::get(Currency::LIST[URI], 'index')->name('view')->middleware('actch');
             Route::post(Currency::ADD[URI], 'add')->name('store');
             Route::get(Currency::UPDATE[URI] . '/{id}', 'getUpdateView')->name('update');
             Route::post(Currency::UPDATE[URI] . '/{id}', 'update');
             Route::post(Currency::DELETE[URI], 'delete')->name('delete');
             Route::post(Currency::STATUS[URI], 'status')->name('status');
-            Route::post(Currency::DEFAULT [URI], 'updateSystemCurrency')->name('system-currency-update');
+            Route::post(Currency::DEFAULT[URI], 'updateSystemCurrency')->name('system-currency-update');
         });
     });
 
@@ -1166,7 +1165,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     Route::group(['prefix' => 'helpTopic', 'as' => 'helpTopic.', 'middleware' => ['module:settings']], function () {
         Route::controller(HelpTopicController::class)->group(function () {
-            Route::get(HelpTopic::LIST [URI], 'index')->name('list');
+            Route::get(HelpTopic::LIST[URI], 'index')->name('list');
             Route::post(HelpTopic::ADD[URI], 'add')->name('add-new');
             Route::get(HelpTopic::STATUS[URI] . '/{id}', 'updateStatus')->name('status');
             Route::get(HelpTopic::UPDATE[URI] . '/{id}', 'getUpdateResponse')->name('update');
@@ -1178,7 +1177,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::group(['prefix' => 'refund-section', 'as' => 'refund-section.', 'middleware' => ['module:listings_management']], function () {
         Route::group(['prefix' => 'refund', 'as' => 'refund.'], function () {
             Route::controller(RefundController::class)->group(function () {
-                Route::get(RefundRequest::LIST [URI] . '/{status}', 'index')->name('list');
+                Route::get(RefundRequest::LIST[URI] . '/{status}', 'index')->name('list');
                 Route::get(RefundRequest::EXPORT[URI] . '/{status}', 'exportList')->name('export');
                 Route::get(RefundRequest::DETAILS[URI] . '/{id}', 'getDetailsView')->name('details');
                 Route::post(RefundRequest::UPDATE_STATUS[URI], 'updateRefundStatus')->name('refund-status-update');
@@ -1191,7 +1190,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::post('suppliers/store', [SupplierController::class, 'store'])->name('suppliers.store');
     Route::get(Supplier::BULK[URI], [SupplierController::class, 'getBulkImportView'])->name('suppliers.bulk');
     Route::post('suppliers/bulk', [SupplierController::class, 'importBulkSupplier'])->name('suppliers.bulk.import');
-    Route::get(Supplier::LIST [URI], [SupplierController::class, 'list'])->name('suppliers.list');
+    Route::get(Supplier::LIST[URI], [SupplierController::class, 'list'])->name('suppliers.list');
     Route::get(Supplier::VIEW[URI] . '/{id}', [SupplierController::class, 'view'])->name('suppliers.view');
     Route::get(Supplier::EDIT[URI] . '/{id}', [SupplierController::class, 'edit'])->name('suppliers.edit');
     Route::post('suppliers/update' . '/{id}', [SupplierController::class, 'update'])->name('suppliers.update');
@@ -1202,19 +1201,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::post('leads/add-new', [LeadsController::class, 'store'])->name('store.leads');
     Route::get(Leads::BULK[URI], [LeadsController::class, 'getBulkImportView'])->name('bulk-import-leads');
     Route::post('leads/bulk', [LeadsController::class, 'importBulkLeads'])->name('leads.bulk.import');
-    Route::get(Leads::LIST [URI], [LeadsController::class, 'list'])->name('leads.list');
+    Route::get(Leads::LIST[URI], [LeadsController::class, 'list'])->name('leads.list');
     Route::get(Leads::VIEW[URI] . '/{id}', [LeadsController::class, 'view'])->name('leads.view');
     Route::get(Leads::EDIT[URI] . '/{id}', [LeadsController::class, 'edit'])->name('leads.edit');
     Route::post('leads/update' . '/{id}', [LeadsController::class, 'update'])->name('leads.update');
     Route::delete('leads/delete' . '/{id}', [LeadsController::class, 'delete'])->name('leads.delete');
-    Route::get('leads/get-messages',[LeadsController::class,'getMessages'])->name('leads.get-messages');
+    Route::get('leads/get-messages', [LeadsController::class, 'getMessages'])->name('leads.get-messages');
 
     // Admin Tradeshow
     Route::get(Tradeshow::ADD[URI], [TradeshowController::class, 'add_new'])->name('add-new-tradeshow');
     Route::post('tradeshow/add-new', [TradeshowController::class, 'store'])->name('store.tradeshow');
     Route::get(Tradeshow::BULK[URI], [TradeshowController::class, 'getBulkImportView'])->name('bulk-import-tradeshow');
     Route::post('tradeshow/bulk', [TradeshowController::class, 'importTradeshow'])->name('tradeshow.bulk.import');
-    Route::get(Tradeshow::LIST [URI], [TradeshowController::class, 'list'])->name('tradeshow.list');
+    Route::get(Tradeshow::LIST[URI], [TradeshowController::class, 'list'])->name('tradeshow.list');
     Route::get(Tradeshow::VIEW[URI] . '/{id}', [TradeshowController::class, 'view'])->name('tradeshow.view');
     Route::get(Tradeshow::EDIT[URI] . '/{id}', [TradeshowController::class, 'edit'])->name('tradeshow.edit');
     Route::post('tradeshow/update' . '/{id}', [TradeshowController::class, 'update'])->name('tradeshow.update');
@@ -1233,7 +1232,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     // Admin Quotation
     Route::get(Quotation::BULK[URI], [QuotatioController::class, 'getBulkImportView'])->name('bulk-import-quotation');
     Route::post('quotation/bulk', [QuotatioController::class, 'importBulkquotation'])->name('quotation.bulk.import');
-    Route::get(Quotation::LIST [URI], [QuotatioController::class, 'list'])->name('quotation.list');
+    Route::get(Quotation::LIST[URI], [QuotatioController::class, 'list'])->name('quotation.list');
     Route::get(Quotation::VIEW[URI] . '/{id}', [QuotatioController::class, 'view'])->name('quotation.view');
     Route::get(Quotation::EDIT[URI] . '/{id}', [QuotatioController::class, 'edit'])->name('quotation.edit');
     Route::post('quotation/update' . '/{id}', [QuotatioController::class, 'update'])->name('quotation.update');
@@ -1242,7 +1241,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     // Admin CV
     Route::get(CV::BULK[URI], [CVController::class, 'getBulkImportView'])->name('bulk-import-cv');
     Route::post('cv/bulk', [CVController::class, 'importBulkcv'])->name('cv.bulk.import');
-    Route::get(CV::LIST [URI], [CVController::class, 'list'])->name('cv.list');
+    Route::get(CV::LIST[URI], [CVController::class, 'list'])->name('cv.list');
     Route::get(CV::VIEW[URI] . '/{id}', [CVController::class, 'view'])->name('cv.view');
     Route::get(CV::EDIT[URI] . '/{id}', [CVController::class, 'edit'])->name('cv.edit');
     Route::post('cv/update' . '/{id}', [CVController::class, 'update'])->name('cv.update');
@@ -1250,27 +1249,27 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
 
     // Admin Stock Sell
     Route::prefix('stock')->name('stock.')->group(function () {
-        Route::get('index',[StockSellController::class,'index'])->name('index');
-        Route::get('create',[StockSellController::class,'create'])->name('create');
-        Route::get('edit/{id}',[StockSellController::class,'edit'])->name('edit');
-        Route::get('show/{id}',[StockSellController::class,'show'])->name('show');
-        Route::post('store',[StockSellController::class,'store'])->name('store');
-        Route::post('update/{id}',[StockSellController::class,'update'])->name('update');
-        Route::delete('destroy/{id}',[StockSellController::class,'destroy'])->name('destroy');
-        Route::get('messages',[StockSellController::class,'messages'])->name('get-messages');
+        Route::get('index', [StockSellController::class, 'index'])->name('index');
+        Route::get('create', [StockSellController::class, 'create'])->name('create');
+        Route::get('edit/{id}', [StockSellController::class, 'edit'])->name('edit');
+        Route::get('show/{id}', [StockSellController::class, 'show'])->name('show');
+        Route::post('store', [StockSellController::class, 'store'])->name('store');
+        Route::post('update/{id}', [StockSellController::class, 'update'])->name('update');
+        Route::delete('destroy/{id}', [StockSellController::class, 'destroy'])->name('destroy');
+        Route::get('messages', [StockSellController::class, 'messages'])->name('get-messages');
         // Category Management
         Route::prefix('category')->name('category.')->group(function () {
             // Display list of job categories
             Route::get('list', [StockSellController::class, 'catindex'])->name('list');
-            
+
             // Create new job category
             Route::get('create', [StockSellController::class, 'catcreate'])->name('create');
             Route::post('store', [StockSellController::class, 'catstore'])->name('store');
-            
+
             // Edit job category
             Route::get('edit/{jobCategory}', [StockSellController::class, 'catupdate'])->name('edit');
             Route::post('update/{jobCategory}', [StockSellController::class, 'catupdate'])->name('update');
-            
+
             // Delete job category
             Route::delete('delete/{jobCategory}', [StockSellController::class, 'catdestroy'])->name('destroy');
         });
@@ -1290,15 +1289,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         Route::prefix('category')->name('category.')->group(function () {
             // Display list of job categories
             Route::get('list', [JobseekerController::class, 'catindex'])->name('list');
-            
+
             // Create new job category
             Route::get('create', [JobseekerController::class, 'catcreate'])->name('create');
             Route::post('store', [JobseekerController::class, 'catstore'])->name('store');
-            
+
             // Edit job category
             Route::get('edit/{jobCategory}', [JobseekerController::class, 'catupdate'])->name('edit');
             Route::post('update/{jobCategory}', [JobseekerController::class, 'catupdate'])->name('update');
-            
+
             // Delete job category
             Route::delete('delete/{jobCategory}', [JobseekerController::class, 'catdestroy'])->name('destroy');
         });
@@ -1306,61 +1305,61 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         Route::match(['get', 'post', 'put', 'delete'], '/job-applications', [JobseekerController::class, 'job_applications'])->name('job-applications');
         Route::match(['get', 'post', 'put', 'delete'], '/registered-candidates', [JobseekerController::class, 'registered_candidates'])->name('registered-candidates');
     });
-    
-    Route::prefix('webtheme')->name('webtheme.')->group(function() {
-        Route::get('index',[ThemeSettingsController::class,'webtheme'])->name('index');
-        Route::post('memsetting',[ThemeSettingsController::class,'websettingmem'])->name('memsetting');
-        Route::post('memsettingseller',[ThemeSettingsController::class,'websettingmemseller'])->name('memsettingseller');
-        Route::get('bannersetting',[ThemeSettingsController::class,'bannertheme'])->name('bannersetting');
-        Route::post('bannertradesetting',[ThemeSettingsController::class,'bannertradesetting'])->name('bannertradeform');
-        Route::post('bannersettingform',[ThemeSettingsController::class,'bannersetting'])->name('bannersettingform');
-        Route::get('trendingproducts',[ThemeSettingsController::class,'trendingproductsset'])->name('trendingproducts');
-        Route::post('trendingproductsform',[ThemeSettingsController::class,'trendingproducts'])->name('trendingproductsform');
-        Route::get('topsupplier',[ThemeSettingsController::class,'topsupplierset'])->name('topsupplier');
-        Route::post('topsupplierform',[ThemeSettingsController::class,'topsupplier'])->name('topsupplierform');
-        Route::get('buyer',[ThemeSettingsController::class,'buyerset'])->name('buyer');
-        Route::post('buyerform',[ThemeSettingsController::class,'buyer'])->name('buyerform');
-        Route::get('seller',[ThemeSettingsController::class,'sellerset'])->name('seller');
-        Route::post('sellerform',[ThemeSettingsController::class,'seller'])->name('sellerform');
-        Route::get('tradeshow',[ThemeSettingsController::class,'tradeshowset'])->name('tradeshow');
-        Route::post('tradeshowform',[ThemeSettingsController::class,'tradeshow'])->name('tradeshowform');
-        Route::post('tradeshowlimit',[ThemeSettingsController::class,'tradeshowlimit'])->name('tradeshowlimit');
-        Route::post('firstbox',[ThemeSettingsController::class,'firstbox'])->name('firstbox');
-        Route::post('secondbox',[ThemeSettingsController::class,'secondbox'])->name('secondbox');
-        Route::post('thirdbox',[ThemeSettingsController::class,'thirdbox'])->name('thirdbox');
-        Route::post('fourthbox',[ThemeSettingsController::class,'fourthbox'])->name('fourthbox');
-        Route::post('fifthbox',[ThemeSettingsController::class,'fifthbox'])->name('fifthbox');
-        Route::get('backsettings',[ThemeSettingsController::class,'backsettings'])->name('backsettings');
-        Route::post('backsettingform',[ThemeSettingsController::class,'backsettingform'])->name('backgroundimages');
-        Route::post('buyerbanner',[ThemeSettingsController::class,'buyerbanner'])->name('buyerbanner');
-        Route::post('sellerbanner',[ThemeSettingsController::class,'sellerbanner'])->name('sellerbanner');
-        Route::get('stocksale',[ThemeSettingsController::class,'stocksaleset'])->name('stocksale');
-        Route::post('stocksaleform',[ThemeSettingsController::class,'stocksale'])->name('stocksaleform');
-        Route::post('stocksalebanner',[ThemeSettingsController::class,'stocksalebanner'])->name('stocksalebanner');
-        Route::post('tradeshowrotatingbox',[ThemeSettingsController::class,'tradeshowrotatingbox'])->name('tradeshowrotatingbox');
-        Route::post('tradeshowbannerrotatingbox',[ThemeSettingsController::class,'tradeshowbannerrotatingbox'])->name('tradeshowbannerrotatingbox');
-        Route::get('vendorsetting',[ThemeSettingsController::class,'vendorsetting'])->name('vendorsetting');
-        Route::post('vendorsettingform',[ThemeSettingsController::class,'vendorsettingform'])->name('vendorsettingform');
-        Route::get('homepagesetting',[ThemeSettingsController::class,'homepagesetting'])->name('homepagesetting');
-        Route::post('genresection',[ThemeSettingsController::class,'saveGenreSectionSettings'])->name('genresectionsetting');
-        Route::post('registerforfree',[ThemeSettingsController::class,'registerbannerform'])->name('registerforfree');
-        Route::post('quotationbanner',[ThemeSettingsController::class,'quotationbanner'])->name('quotationbanner');
-        Route::post('marketplacebanner',[ThemeSettingsController::class,'marketplacebanner'])->name('marketplacebanner');
-        Route::get('homepagesecsetting',[ThemeSettingsController::class,'homepagesecsetting'])->name('homepagesecsetting');
-        Route::post('updatehomepagesec',[ThemeSettingsController::class,'updateHomepageSecondSettings'])->name('updatehomepagesec');
-        Route::post('updatetradeshowsec',[ThemeSettingsController::class,'updateTradeshowHomepage'])->name('tradeshowhomepage');
-        Route::post('updatequotationsett',[ThemeSettingsController::class,'updateQuotation'])->name('updatequotation');
-        Route::get('solutions',[ThemeSettingsController::class,'solutions'])->name('solutions');
+
+    Route::prefix('webtheme')->name('webtheme.')->group(function () {
+        Route::get('index', [ThemeSettingsController::class, 'webtheme'])->name('index');
+        Route::post('memsetting', [ThemeSettingsController::class, 'websettingmem'])->name('memsetting');
+        Route::post('memsettingseller', [ThemeSettingsController::class, 'websettingmemseller'])->name('memsettingseller');
+        Route::get('bannersetting', [ThemeSettingsController::class, 'bannertheme'])->name('bannersetting');
+        Route::post('bannertradesetting', [ThemeSettingsController::class, 'bannertradesetting'])->name('bannertradeform');
+        Route::post('bannersettingform', [ThemeSettingsController::class, 'bannersetting'])->name('bannersettingform');
+        Route::get('trendingproducts', [ThemeSettingsController::class, 'trendingproductsset'])->name('trendingproducts');
+        Route::post('trendingproductsform', [ThemeSettingsController::class, 'trendingproducts'])->name('trendingproductsform');
+        Route::get('topsupplier', [ThemeSettingsController::class, 'topsupplierset'])->name('topsupplier');
+        Route::post('topsupplierform', [ThemeSettingsController::class, 'topsupplier'])->name('topsupplierform');
+        Route::get('buyer', [ThemeSettingsController::class, 'buyerset'])->name('buyer');
+        Route::post('buyerform', [ThemeSettingsController::class, 'buyer'])->name('buyerform');
+        Route::get('seller', [ThemeSettingsController::class, 'sellerset'])->name('seller');
+        Route::post('sellerform', [ThemeSettingsController::class, 'seller'])->name('sellerform');
+        Route::get('tradeshow', [ThemeSettingsController::class, 'tradeshowset'])->name('tradeshow');
+        Route::post('tradeshowform', [ThemeSettingsController::class, 'tradeshow'])->name('tradeshowform');
+        Route::post('tradeshowlimit', [ThemeSettingsController::class, 'tradeshowlimit'])->name('tradeshowlimit');
+        Route::post('firstbox', [ThemeSettingsController::class, 'firstbox'])->name('firstbox');
+        Route::post('secondbox', [ThemeSettingsController::class, 'secondbox'])->name('secondbox');
+        Route::post('thirdbox', [ThemeSettingsController::class, 'thirdbox'])->name('thirdbox');
+        Route::post('fourthbox', [ThemeSettingsController::class, 'fourthbox'])->name('fourthbox');
+        Route::post('fifthbox', [ThemeSettingsController::class, 'fifthbox'])->name('fifthbox');
+        Route::get('backsettings', [ThemeSettingsController::class, 'backsettings'])->name('backsettings');
+        Route::post('backsettingform', [ThemeSettingsController::class, 'backsettingform'])->name('backgroundimages');
+        Route::post('buyerbanner', [ThemeSettingsController::class, 'buyerbanner'])->name('buyerbanner');
+        Route::post('sellerbanner', [ThemeSettingsController::class, 'sellerbanner'])->name('sellerbanner');
+        Route::get('stocksale', [ThemeSettingsController::class, 'stocksaleset'])->name('stocksale');
+        Route::post('stocksaleform', [ThemeSettingsController::class, 'stocksale'])->name('stocksaleform');
+        Route::post('stocksalebanner', [ThemeSettingsController::class, 'stocksalebanner'])->name('stocksalebanner');
+        Route::post('tradeshowrotatingbox', [ThemeSettingsController::class, 'tradeshowrotatingbox'])->name('tradeshowrotatingbox');
+        Route::post('tradeshowbannerrotatingbox', [ThemeSettingsController::class, 'tradeshowbannerrotatingbox'])->name('tradeshowbannerrotatingbox');
+        Route::get('vendorsetting', [ThemeSettingsController::class, 'vendorsetting'])->name('vendorsetting');
+        Route::post('vendorsettingform', [ThemeSettingsController::class, 'vendorsettingform'])->name('vendorsettingform');
+        Route::get('homepagesetting', [ThemeSettingsController::class, 'homepagesetting'])->name('homepagesetting');
+        Route::post('genresection', [ThemeSettingsController::class, 'saveGenreSectionSettings'])->name('genresectionsetting');
+        Route::post('registerforfree', [ThemeSettingsController::class, 'registerbannerform'])->name('registerforfree');
+        Route::post('quotationbanner', [ThemeSettingsController::class, 'quotationbanner'])->name('quotationbanner');
+        Route::post('marketplacebanner', [ThemeSettingsController::class, 'marketplacebanner'])->name('marketplacebanner');
+        Route::get('homepagesecsetting', [ThemeSettingsController::class, 'homepagesecsetting'])->name('homepagesecsetting');
+        Route::post('updatehomepagesec', [ThemeSettingsController::class, 'updateHomepageSecondSettings'])->name('updatehomepagesec');
+        Route::post('updatetradeshowsec', [ThemeSettingsController::class, 'updateTradeshowHomepage'])->name('tradeshowhomepage');
+        Route::post('updatequotationsett', [ThemeSettingsController::class, 'updateQuotation'])->name('updatequotation');
+        Route::get('solutions', [ThemeSettingsController::class, 'solutions'])->name('solutions');
     });
 
     // Membership Tier Setup Page
-    Route::get('membershiptier',[MembershipTierController::class,'adminview'])->name('membershiptier');
-    Route::get('membershipplan',[MembershipTierController::class,'adminplancreate'])->name('membershipplancrete');
+    Route::get('membershiptier', [MembershipTierController::class, 'adminview'])->name('membershiptier');
+    Route::get('membershipplan', [MembershipTierController::class, 'adminplancreate'])->name('membershipplancrete');
 });
 
-Route::group(['prefix' => 'dealassist','as'=>'dealassist.'], function(){
-    Route::get('index',[DealAssistController::class,'index'])->name('index');
-    Route::post('store',[DealAssistController::class,'store'])->name('store');
-    Route::post('update',[DealAssistController::class,'update'])->name('update');
+Route::group(['prefix' => 'dealassist', 'as' => 'dealassist.'], function () {
+    Route::get('index', [DealAssistController::class, 'index'])->name('index');
+    Route::post('store', [DealAssistController::class, 'store'])->name('store');
+    Route::post('update', [DealAssistController::class, 'update'])->name('update');
     Route::delete('delete/{id}', [DealAssistController::class, 'destroy'])->name('destroy');
 });

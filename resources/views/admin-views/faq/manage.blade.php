@@ -106,7 +106,7 @@
         $('#editfaqform').on('submit', function(e) {
             e.preventDefault();
             $.ajax({
-                url: '{{ route('vendor.crudfaq') }}',
+                url: '{{ route('admin.crudfaq') }}',
                 method: 'POST',
                 data: {
                     action: 'update',
@@ -133,7 +133,7 @@
             let id = $(this).data('id');
 
             $.ajax({
-                url: '{{ route('vendor.crudfaq') }}',
+                url: '{{ route('admin.crudfaq') }}',
                 method: 'POST',
                 data: {
                     action: 'delete',

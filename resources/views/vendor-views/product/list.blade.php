@@ -211,12 +211,19 @@
                                                         <i class="tio-edit"></i>
                                                         <span>{{ translate('Edit') }}</span>
                                                     </a>
-                                                    <a  href="{{ route('products_new.delete', [$product['id']]) }}"
-                                                        class="btn btn-outline-danger btn-sm d-flex flex-column align-items-center gap-1 delete-data"
-                                                        data-id="product-{{ $product['id'] }}">
-                                                        <i class="tio-delete"></i>
-                                                        <span>{{ translate('Delete') }}</span>
-                                                    </a>
+                                                    <form action="{{ route('products_new.delete', [$product['id']]) }}"
+                                                        method="post"
+                                                        class="m-0 d-flex flex-column align-items-center gap-1">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $product['id'] }}">
+                                                        <button type="submit"
+                                                            class="btn btn-outline-danger btn-sm d-flex flex-column align-items-center gap-1 delete-data">
+                                                            <i class="tio-delete"></i>
+                                                            <span>{{ translate('Delete') }}</span>
+                                                        </button>
+                                                    </form>
                                                     <form action="{{ route('products_new.status-update',['id' => $product['id']]) }}"
                                                         method="post"
                                                         class="m-0 d-flex flex-column align-items-center gap-1">

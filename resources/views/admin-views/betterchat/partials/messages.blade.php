@@ -1,7 +1,7 @@
-<div class="chatbox h-100">
-    <div class="modal-dialog h-100">
-        <div class="modal-content h-100" style="display: flex;">
-            <div class="msg-head" style="height: 50%;">
+<div class="chatbox ">
+    <div class="modal-dialog ">
+        <div class="modal-content " style="display: flex;">
+            <div class="msg-head">
                 <div class="row">
                     <div class="col-10">
                         <div class="d-flex align-items-center">
@@ -30,7 +30,7 @@
                     <span id="listing_created"> </span>
                 </div>
             </div>
-            <div class="modal-body" style="height: 50%;">
+            <div class="modal-body">
                 <div class="msg-body">
                     <ul id="chat-messages">
                         <h5>Select a Chat</h5>

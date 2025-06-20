@@ -5,29 +5,31 @@
 @push('css_or_js')
     <link href="{{ dynamicAsset('public/assets/custom-css/gmail-ui/style.css') }}" rel="stylesheet">
     <link href="{{ dynamicAsset('public/assets/custom-css/admin-panel/chatbox.css') }}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 @endpush
 
 @section('content')
     <div class="gmail-ui" style="padding-bottom: 30px;">
 
         <body class="h-screen flex flex-col md:pb-2 bg-[#f6f9ff] relative">
-            <nav class="w-full py-2 flex px-4 text-gray-600 justify-between">
-                <div class="flex items-center w-[70%] justify-between gap-3">
-                    <div
-                        class=" hidden group md:flex h-full items-center rounded-full p-1 bg-[#e5f1ff] gap-2 w-[80%] max-w-2xl hover:drop-shadow-md hover:bg-white">
-                        <button class="grid place-content-center rounded-full hover:bg-gray-200 p-2"><i
-                                class="fa-solid fa-magnifying-glass"></i></button>
-                        <input class="h-full focus:outline-none bg-[#e5f1ff] py-2 w-full group-hover:bg-white"
-                            type="text" name="search" id="search" placeholder="Search mail">
-                    </div>
-                </div>
-            </nav>
             <div class="h-full w-full  grid grid-cols-10">
-                <div class="self-start sticky top-0 col-span-2 h-full mr-2 hidden md:block">
+                <div class="self-start sticky top-0 col-span-2 h-full hidden md:block" style="border-right: 1px solid lightgrey;">
 
                     <ul class="w-full text-sm my-3">
+                        <li class="w-full" style="padding-bottom: 10px;">
+                            <div class="items-center w-[100%] justify-between gap-3">
+                                <div
+                                    class=" hidden group md:flex h-full items-center rounded-full p-1 bg-[#e5f1ff] gap-2 w-[100%] max-w-2xl hover:drop-shadow-md hover:bg-white">
+                                    <button class="grid place-content-center rounded-full hover:bg-gray-200 p-2"><i
+                                            class="fa-solid fa-magnifying-glass"></i></button>
+                                    <input class="h-full focus:outline-none bg-[#e5f1ff] py-2 w-full group-hover:bg-white"
+                                        type="text" name="search" id="search" placeholder="Search mail" style="margin-right: 10px;">
+                                </div>
+                            </div>
+                        </li>
                         <li class="w-full">
-                            <a class="{{ request('special') === 'all' ? 'bg-blue-200 font-semibold' : 'hover:bg-gray-200' }} w-full flex leading-none pl-6 py-2 gap-3 items-center rounded-e-full pr-2"
+                            <a class="{{ request('special') === 'all' ? 'bg-blue-200 font-semibold' : 'hover:bg-gray-200' }} w-full flex leading-none pl-3 py-2 gap-3 items-center rounded-e-full pr-3"
                                 href="{{ route('admin.get-chat-lists', ['special' => 'all']) }}">
                                 <i class="fa-solid fa-inbox"></i>
                                 <p class="flex w-full justify-between">All
@@ -37,7 +39,7 @@
                         </li>
 
                         <li class="w-full">
-                            <a class="{{ request('special') === 'read' ? 'bg-blue-200 font-semibold' : 'hover:bg-gray-200' }} w-full flex leading-none pl-6 py-2 gap-3 items-center rounded-e-full pr-2"
+                            <a class="{{ request('special') === 'read' ? 'bg-blue-200 font-semibold' : 'hover:bg-gray-200' }} w-full flex leading-none pl-3 py-2 gap-3 items-center rounded-e-full pr-3"
                                 href="{{ route('admin.get-chat-lists', ['special' => 'read']) }}">
                                 <i class="fa-regular fa-star"></i>
                                 <p class="flex w-full justify-between">Read
@@ -47,7 +49,7 @@
                         </li>
 
                         <li class="w-full">
-                            <a class="{{ request('special') === 'unread' ? 'bg-blue-200 font-semibold' : 'hover:bg-gray-200' }} w-full flex leading-none pl-6 py-2 gap-3 items-center rounded-e-full pr-2"
+                            <a class="{{ request('special') === 'unread' ? 'bg-blue-200 font-semibold' : 'hover:bg-gray-200' }} w-full flex leading-none pl-3 py-2 gap-3 items-center rounded-e-full pr-3"
                                 href="{{ route('admin.get-chat-lists', ['special' => 'unread']) }}">
                                 <i class="fa-regular fa-clock"></i>
                                 <p class="flex w-full justify-between">Unread
@@ -55,14 +57,33 @@
                                 </p>
                             </a>
                         </li>
-                        {{-- <li class="w-full"><a
-                                class="w-full flex leading-none hover:bg-gray-200 pl-6 py-2 gap-3 items-center rounded-e-full pr-2"
-                                href="#"><i class="fa-solid fa-angle-down"></i>
-                                <p class="flex w-full justify-between">More</p>
-                            </a></li> --}}
+                        <li class="w-full">
+                            <a data-tab="rfq" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
+                                <p class="flex w-full justify-between">RFQ - Buy Leads</p>
+                            </a>
+                        </li>
+                        <li class="w-full">
+                            <a data-tab="sell" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
+                                <p class="flex w-full justify-between">Sell Offer</p>
+                            </a>
+                        </li>
+                        <li class="w-full">
+                            <a data-tab="stock" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
+                                <p class="flex w-full justify-between">Stock Sale</p>
+                            </a>
+                        </li>
+                        <li class="w-full">
+                            <a data-tab="market" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
+                                <p class="flex w-full justify-between">Marketplace</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="bg-white h-full col-span-10 md:col-span-8 rounded-2xl mx-2 flex flex-col">
+                <div class="bg-white h-full col-span-10 md:col-span-8 rounded-2xl mr-2 flex flex-col">
                     <div id="messagebox">
                         @include('admin-views.betterchat.partials.messagebox', [
                             'chatData' => $intialMessages,

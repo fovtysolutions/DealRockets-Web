@@ -137,6 +137,16 @@
         background-color: #E72528 !important;
     }
 
+    .nav-item-button-sidebar.show{
+        color: white !important;
+        background-color: #E72528 !important;
+    }
+
+    .nav-item-button-sidebar.show i{
+        color: white !important;
+        background-color: #E72528 !important;
+    }
+
     .navbar-vertical-content {
         background: var(--sidebar) !important;
         padding-left: 7px !important;

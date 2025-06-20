@@ -9523,4 +9523,5 @@ return [
 	"Master Packing" => "Master Packing",
 	"Container Type" => "Container Type",
 	"Description of Product" => "Description of Product",
+	"Clearing & Forwarding" => "Clearing & Forwarding",
 ];

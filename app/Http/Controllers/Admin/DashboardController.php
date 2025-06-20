@@ -603,18 +603,11 @@ class DashboardController extends BaseController
                 ];
                 break;
 
-            case 'leads':
-                $title = 'Leads';
-                $cardData = [
-                    ['link' => route('admin.leads.list'), 'title' => 'Manage Leads', 'value' => 'Yes'],
-                ];
-                break;
-
             case 'sell-offer':
                 $title = 'Sell Offers';
-                $cardData = [
-                    ['link' => route('admin.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 'Yes'],
+                $cardData = [                    
                     ['link' => route('admin.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 'Yes'],
+                    ['link' => route('admin.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 'Yes'],
                     ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Sell Offer', 'value' => 'Yes'],
                 ];
                 break;
@@ -622,23 +615,22 @@ class DashboardController extends BaseController
             case 'buy-leads':
                 $title = 'Buy Leads';
                 $cardData = [
-                    ['link' => route('admin.leads.list'), 'title' => 'Manage Buy Leads', 'value' => 'Yes'],
                     ['link' => route('admin.add-new-leads'), 'title' => 'Add Buy Lead', 'value' => 'Yes'],
+                    ['link' => route('admin.leads.list'), 'title' => 'Manage Buy Leads', 'value' => 'Yes'],
                     ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Buy Lead', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'marketplace':
                 $title = 'Marketplace';
-                $cardData = [
+                $cardData = [                    
+                    ['link' => route('admin.products.add'), 'title' => 'Products Add', 'value' => 'Yes'],
+                    ['link' => route('admin.products.list', ['in-house']), 'title' => 'Products List', 'value' => 'Yes'],
                     ['link' => route('admin.category.view'), 'title' => 'Categories', 'value' => 'Yes'],
                     ['link' => route('admin.sub-category.view'), 'title' => 'Sub Categories', 'value' => 'Yes'],
                     ['link' => route('admin.sub-sub-category.view'), 'title' => 'Sub Sub Categories', 'value' => 'Yes'],
                     ['link' => route('admin.brand.add-new'), 'title' => 'Add Brand', 'value' => 'Yes'],
-                    ['link' => route('admin.brand.list'), 'title' => 'Manage Brand', 'value' => 'Yes'],
-                    ['link' => route('admin.products.list', ['in-house']), 'title' => 'Products List', 'value' => 'Yes'],
-                    ['link' => route('admin.products.add'), 'title' => 'Products Add', 'value' => 'Yes'],
-                    ['link' => route('admin.products.bulk-import'), 'title' => 'Bulk Import Products', 'value' => 'Yes'],
+                    ['link' => route('admin.brand.list'), 'title' => 'Manage Brand', 'value' => 'Yes'],                    ['link' => route('admin.products.bulk-import'), 'title' => 'Bulk Import Products', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -647,8 +639,8 @@ class DashboardController extends BaseController
                 $cardData = [
                     ['link' => route('admin.stock.create'), 'title' => 'Add Stock Sale', 'value' => 'Yes'],
                     ['link' => route('admin.stock.index'), 'title' => 'Stock Sale List', 'value' => 'Yes'],
-                    ['link' => route('admin.stock.category.list'), 'title' => 'Manage Stock Category', 'value' => 'Yes'],
                     ['link' => route('admin.stock.category.create'), 'title' => 'Add Stock Category', 'value' => 'Yes'],
+                    ['link' => route('admin.stock.category.list'), 'title' => 'Manage Stock Category', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -656,16 +648,16 @@ class DashboardController extends BaseController
             case 'tradeshow':
                 $title = 'Tradeshows';
                 $cardData = [
-                    ['link' => route('admin.tradeshow.list'), 'title' => 'Trade Show List', 'value' => 'Yes'],
                     ['link' => route('admin.add-new-tradeshow'), 'title' => 'Manage Trade Show', 'value' => 'Yes'],
+                    ['link' => route('admin.tradeshow.list'), 'title' => 'Trade Show List', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'vendor':
                 $title = 'Vendor';
                 $cardData = [
-                    ['link' => route('admin.vendors.vendor-list'), 'title' => 'Vendor List', 'value' => 'Yes'],
                     ['link' => route('admin.vendors.add'), 'title' => 'Add Vendors', 'value' => 'Yes'],
+                    ['link' => route('admin.vendors.vendor-list'), 'title' => 'Vendor List', 'value' => 'Yes'],
                 ];
                 break;
 

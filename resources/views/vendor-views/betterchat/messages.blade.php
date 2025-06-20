@@ -14,11 +14,11 @@
 
         <body class="h-screen flex flex-col md:pb-2 bg-[#f6f9ff] relative">
             <div class="h-full w-full  grid grid-cols-10">
-                <div class="self-start sticky top-0 col-span-2 h-full mr-2 hidden md:block">
+                <div class="self-start sticky top-0 col-span-2 h-full hidden md:block" style="border-right: 1px solid lightgrey;">
 
                     <ul class="w-full text-sm my-3">
                         <li class="w-full" style="padding-bottom: 10px;">
-                            <div class="flex items-center w-[100%] justify-between gap-3">
+                            <div class="items-center w-[100%] justify-between gap-3">
                                 <div
                                     class=" hidden group md:flex h-full items-center rounded-full p-1 bg-[#e5f1ff] gap-2 w-[100%] max-w-2xl hover:drop-shadow-md hover:bg-white">
                                     <button class="grid place-content-center rounded-full hover:bg-gray-200 p-2"><i
@@ -83,7 +83,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="bg-white h-full col-span-10 md:col-span-8 rounded-2xl mx-2 flex flex-col">
+                <div class="bg-white h-full col-span-10 md:col-span-8 rounded-2xl mr-2 flex flex-col">
                     <div id="messagebox">
                         @include('vendor-views.betterchat.partials.messagebox', [
                             'chatData' => $intialMessages,

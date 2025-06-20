@@ -134,6 +134,13 @@ class NewProductStoreController extends Controller
         return view('vendor-views.product.product_view', compact('product'));
     }
 
+    public function view_admin($id)
+    {
+        $product = NewProductStore::find($id);
+
+        return view('admin-views.product.product_view', compact('product'));
+    }
+
     public function update_status($id)
     {
         try {
@@ -157,7 +164,7 @@ class NewProductStoreController extends Controller
             $product = NewProductStore::findOrFail($id);
             $product->delete();
 
-            return redirect()->route('vendor.products.list')->with('success', 'Product Deleted successfully.');
+            return redirect()->back()->with('success', 'Product Deleted successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to delete product.');
         }

@@ -22,8 +22,6 @@
             action="{{ request('product-gallery') == 1 ? route('products_new.store') : route('products_new.update', $product->id) }}"
             method="post" enctype="multipart/form-data" id="product_form">
             @csrf
-
-            
             <div class="card">
                 <div class="card-body">
                     @include('admin-views.product.partials._product_fields_new')

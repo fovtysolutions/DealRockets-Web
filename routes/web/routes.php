@@ -651,6 +651,7 @@ Route::prefix('products-new')->name('products_new.')->group(function () {
     Route::get('/add', [NewProductStoreController::class, 'create'])->name('add'); // route('products_new.add')
     Route::post('/store', [NewProductStoreController::class, 'store'])->name('store');
     Route::get('/view/{id}', [NewProductStoreController::class, 'view'])->name('view');
+    Route::get('/view-admin/{id}', [NewProductStoreController::class, 'view_admin'])->name('view-admin');
     Route::get('/edit/{product}', [NewProductStoreController::class, 'edit'])->name('edit');
     Route::put('/update/{product}', [NewProductStoreController::class, 'update'])->name('update');
     Route::delete('/delete/{id}', [NewProductStoreController::class, 'destroy'])->name('delete');

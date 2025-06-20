@@ -8,7 +8,7 @@
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
                 <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
-                @if($type == 'in_house')
+                @if ($type == 'in_house')
                     {{ translate('in_House_Product_List') }}
                 @elseif($type == 'seller')
                     {{ translate('vendor_Product_List') }}
@@ -32,7 +32,8 @@
                                     <select name="seller_id" class="form-control text-capitalize">
                                         <option value="" selected>{{ translate('all_store') }}</option>
                                         @foreach ($sellers as $seller)
-                                            <option value="{{ $seller->id}}"{{request('seller_id')==$seller->id ? 'selected' :''}}>
+                                            <option
+                                                value="{{ $seller->id }}"{{ request('seller_id') == $seller->id ? 'selected' : '' }}>
                                                 {{ $seller->shop->name }}
                                             </option>
                                         @endforeach
@@ -46,7 +47,9 @@
                                 <select name="brand_id" class="js-select2-custom form-control text-capitalize">
                                     <option value="" selected>{{ translate('all_brand') }}</option>
                                     @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id}}" {{request('brand_id')==$brand->id ? 'selected' :''}}>{{ $brand->default_name }}</option>
+                                        <option value="{{ $brand->id }}"
+                                            {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
+                                            {{ $brand->default_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -55,15 +58,15 @@
                         <div class="col-sm-6 col-lg-4 col-xl-3">
                             <div class="form-group">
                                 <label for="name" class="title-color">{{ translate('category') }}</label>
-                                <select class="js-select2-custom form-control action-get-request-onchange" name="category_id"
-                                        data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                                        data-element-id="sub-category-select"
-                                        data-element-type="select">
-                                    <option value="{{ old('category_id') }}" selected
-                                            disabled>{{ translate('select_category') }}</option>
+                                <select class="js-select2-custom form-control action-get-request-onchange"
+                                    name="category_id"
+                                    data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
+                                    data-element-id="sub-category-select" data-element-type="select">
+                                    <option value="{{ old('category_id') }}" selected disabled>
+                                        {{ translate('select_category') }}</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category['id'] }}"
-                                                {{ request('category_id') == $category['id'] ? 'selected' : '' }}>
+                                            {{ request('category_id') == $category['id'] ? 'selected' : '' }}>
                                             {{ $category['defaultName'] }}
                                         </option>
                                     @endforeach
@@ -73,13 +76,15 @@
                         <div class="col-sm-6 col-lg-4 col-xl-3">
                             <div class="form-group">
                                 <label for="name" class="title-color">{{ translate('sub_Category') }}</label>
-                                <select class="js-select2-custom form-control action-get-request-onchange" name="sub_category_id"
-                                        id="sub-category-select"
-                                        data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                                        data-element-id="sub-sub-category-select"
-                                        data-element-type="select">
-                                    <option value="{{request('sub_category_id') != null ? request('sub_category_id') : null}}"
-                                            selected {{request('sub_category_id') != null ? '' : 'disabled'}}>{{request('sub_category_id') != null ? $subCategory['defaultName']: translate('select_Sub_Category') }}</option>
+                                <select class="js-select2-custom form-control action-get-request-onchange"
+                                    name="sub_category_id" id="sub-category-select"
+                                    data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
+                                    data-element-id="sub-sub-category-select" data-element-type="select">
+                                    <option
+                                        value="{{ request('sub_category_id') != null ? request('sub_category_id') : null }}"
+                                        selected {{ request('sub_category_id') != null ? '' : 'disabled' }}>
+                                        {{ request('sub_category_id') != null ? $subCategory['defaultName'] : translate('select_Sub_Category') }}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -87,16 +92,19 @@
                             <div class="form-group">
                                 <label for="name" class="title-color">{{ translate('sub_Sub_Category') }}</label>
                                 <select class="js-select2-custom form-control" name="sub_sub_category_id"
-                                        id="sub-sub-category-select">
-                                    <option value="{{request('sub_sub_category_id') != null ? request('sub_sub_category_id') : null}}"
-                                            selected {{request('sub_sub_category_id') != null ? '' : 'disabled'}}>{{request('sub_sub_category_id') != null ? $subSubCategory['defaultName'] : translate('select_Sub_Sub_Category') }}</option>
+                                    id="sub-sub-category-select">
+                                    <option
+                                        value="{{ request('sub_sub_category_id') != null ? request('sub_sub_category_id') : null }}"
+                                        selected {{ request('sub_sub_category_id') != null ? '' : 'disabled' }}>
+                                        {{ request('sub_sub_category_id') != null ? $subSubCategory['defaultName'] : translate('select_Sub_Sub_Category') }}
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="d-flex gap-3 justify-content-end">
-                                <a href="{{ route('admin.products.list',['type'=>request('type')]) }}"
-                                   class="btn btn-secondary px-5">
+                                <a href="{{ route('admin.products.list', ['type' => request('type')]) }}"
+                                    class="btn btn-secondary px-5">
                                     {{ translate('reset') }}
                                 </a>
                                 <button type="submit" class="btn btn--primary px-5 action-get-element-type">
@@ -123,11 +131,9 @@
                                                 <i class="tio-search"></i>
                                             </div>
                                         </div>
-                                        <input id="datatableSearch_" type="search" name="searchValue"
-                                               class="form-control"
-                                               placeholder="{{ translate('search_by_Product_Name') }}"
-                                               aria-label="Search orders"
-                                               value="{{ request('searchValue') }}">
+                                        <input id="datatableSearch_" type="search" name="searchValue" class="form-control"
+                                            placeholder="{{ translate('search_by_Product_Name') }}"
+                                            aria-label="Search orders" value="{{ request('searchValue') }}">
                                         <input type="hidden" value="{{ request('status') }}" name="status">
                                         <button type="submit" class="btn btn--primary">{{ translate('search') }}</button>
                                     </div>
@@ -144,20 +150,21 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a class="dropdown-item"
-                                               href="{{ route('admin.products.export-excel',['type'=>request('type')]) }}?brand_id={{request('brand_id') }}&searchValue={{ request('searchValue') }}&category_id={{request('category_id') }}&sub_category_id={{request('sub_category_id') }}&sub_sub_category_id={{request('sub_sub_category_id') }}&seller_id={{request('seller_id') }}&status={{request('status') }}">
-                                                <img width="14" src="{{ dynamicAsset(path: 'public/assets/back-end/img/excel.png') }}"
-                                                     alt="">
+                                                href="{{ route('vendor.products.export-excel', ['type' => $type, 'brand_id' => request('brand_id'), 'category_id' => request('category_id'), 'sub_category_id' => request('sub_category_id'), 'sub_sub_category_id' => request('sub_sub_category_id'), 'searchValue' => request('searchValue')]) }}">
+                                                <img width="14"
+                                                    src="{{ dynamicAsset(path: 'public/assets/back-end/img/excel.png') }}"
+                                                    alt="">
                                                 {{ translate('excel') }}
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
-                                @if($type == 'in_house')
-                                    <a href="{{ route('admin.products.stock-limit-list',['in_house']) }}"
-                                       class="btn btn-info">
+                                @if ($type != 'new-request')
+                                    <a href="{{ route('vendor.products.stock-limit-list') }}" class="btn btn-info">
+                                        <i class="tio-add-circle"></i>
                                         <span class="text">{{ translate('limited_Stocks') }}</span>
                                     </a>
-                                    <a href="{{ route('admin.products.add') }}" class="btn btn--primary">
+                                    <a href="{{ route('vendor.products.add') }}" class="btn btn--primary">
                                         <i class="tio-add"></i>
                                         <span class="text">{{ translate('add_new_product') }}</span>
                                     </a>
@@ -166,118 +173,93 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive">
-                        <table id="datatable"
-                               class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table w-100 text-start">
-                            <thead class="thead-light thead-50 text-capitalize">
-                            <tr>
-                                <th>{{ translate('SL') }}</th>
-                                <th>{{ translate('product Name') }}</th>
-                                <th class="text-center">{{ translate('product Type') }}</th>
-                                <th class="text-center">{{ translate('unit_price') }}</th>
-                                <th class="text-center">{{ translate('show_as_featured') }}</th>
-                                <th class="text-center">{{ translate('active_status') }}</th>
-                                <th class="text-center">{{ translate('action') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($products as $key=>$product)
-                                <tr>
-                                    <th scope="row">{{ $products->firstItem()+$key}}</th>
-                                    <td>
-                                        <a href="{{ route('admin.products.view',['addedBy'=>($product['added_by']=='seller'?'vendor' : 'in-house'),'id'=>$product['id']]) }}"
-                                           class="media align-items-center gap-2">
-                                            <img src="{{ getStorageImages(path: $product->thumbnail_full_url, type: 'backend-product') }}"
-                                                 class="avatar border" alt="">
-                                            <span class="media-body title-color hover-c1">
-                                            {{ Str::limit($product['name'], 20) }}
-                                        </span>
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-                                        {{ translate(str_replace('_',' ',$product['product_type'])) }}
-                                    </td>
-                                    <td class="text-center">
-                                        {{setCurrencySymbol(amount: usdToDefaultCurrency(amount: $product['unit_price']), currencyCode: getCurrencyCode()) }}
-                                    </td>
-                                    <td class="text-center">
+                    <div class="box-view p-3">
+                        <div class="row g-3">
+                            @foreach ($products as $key => $product)
+                                <div class="col-6">
+                                    <div class="card shadow-sm p-3 h-100">
+                                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                                            {{-- Left Side: Product Details --}}
+                                            <div class="d-flex gap-3 align-items-center flex-grow-1">
+                                                <img src="{{ getStorageImages(path: $product->thumbnail_full_url, type: 'backend-product') }}"
+                                                    class="rounded" alt=""
+                                                    style="width: 80px; height: 80px; object-fit: cover;">
 
-                                        @php($productName = str_replace("'",'`',$product['name']))
-                                        <form action="{{ route('admin.products.featured-status') }}" method="post"
-                                              id="product-featured{{ $product['id']}}-form">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{ $product['id']}}">
-                                            <label class="switcher mx-auto">
-                                                <input type="checkbox" class="switcher_input toggle-switch-message"
-                                                       name="status"
-                                                       id="product-featured{{ $product['id'] }}" value="1"
-                                                       {{ $product['featured'] == 1 ? 'checked' : '' }}
-                                                       data-modal-id="toggle-status-modal"
-                                                       data-toggle-id="product-featured{{ $product['id'] }}"
-                                                       data-on-image="product-status-on.png"
-                                                       data-off-image="product-status-off.png"
-                                                       data-on-title="{{ translate('Want_to_Add').' '.$productName.' '.translate('to_the_featured_section') }}"
-                                                       data-off-title="{{ translate('Want_to_Remove').' '.$productName.' '.translate('to_the_featured_section') }}"
-                                                       data-on-message="<p>{{ translate('if_enabled_this_product_will_be_shown_in_the_featured_product_on_the_website_and_customer_app') }}</p>"
-                                                       data-off-message="<p>{{ translate('if_disabled_this_product_will_be_removed_from_the_featured_product_section_of_the_website_and_customer_app') }}</p>">
-                                                <span class="switcher_control"></span>
-                                            </label>
-                                        </form>
+                                                <div class="text-start">
+                                                    <h5 class="mb-1">{{ Str::limit($product['name'], 30) }}</h5>
+                                                    <p class="mb-1 small">
+                                                        <strong>{{ translate('Category') }}:</strong>
+                                                        {{ \App\Models\Category::find($product['category_id'])->name ?? '-' }}
+                                                    </p>
+                                                    <p class="mb-1 small">
+                                                        <strong>{{ translate('Unit Price') }}:</strong>
+                                                        {{ setCurrencySymbol(amount: usdToDefaultCurrency($product['unit_price']), currencyCode: getCurrencyCode()) }}
+                                                    </p>
+                                                    <p class="mb-0 small">
+                                                        <strong>{{ translate('Status') }}:</strong>
+                                                        @if ($product->request_status == 0)
+                                                            <span
+                                                                class="badge bg-warning text-dark">{{ translate('pending') }}</span>
+                                                        @elseif($product->request_status == 1)
+                                                            <span
+                                                                class="badge bg-success">{{ translate('approved') }}</span>
+                                                        @elseif($product->request_status == 2)
+                                                            <span class="badge bg-danger">{{ translate('denied') }}</span>
+                                                        @endif
+                                                    </p>
+                                                </div>
+                                            </div>
 
-                                    </td>
-                                    <td class="text-center">
-                                        <form action="{{ route('admin.products.status-update') }}" method="post" data-from="product-status"
-                                              id="product-status{{ $product['id']}}-form" class="admin-product-status-form">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{ $product['id']}}">
-                                            <label class="switcher mx-auto">
-                                                <input type="checkbox" class="switcher_input toggle-switch-message"
-                                                       name="status"
-                                                       id="product-status{{ $product['id'] }}" value="1"
-                                                       {{ $product['status'] == 1 ? 'checked' : '' }}
-                                                       data-modal-id="toggle-status-modal"
-                                                       data-toggle-id="product-status{{ $product['id'] }}"
-                                                       data-on-image="product-status-on.png"
-                                                       data-off-image="product-status-off.png"
-                                                       data-on-title="{{ translate('Want_to_Turn_ON').' '.$productName.' '.translate('status') }}"
-                                                       data-off-title="{{ translate('Want_to_Turn_OFF').' '.$productName.' '.translate('status') }}"
-                                                       data-on-message="<p>{{ translate('if_enabled_this_product_will_be_available_on_the_website_and_customer_app') }}</p>"
-                                                       data-off-message="<p>{{ translate('if_disabled_this_product_will_be_hidden_from_the_website_and_customer_app') }}</p>">
-                                                <span class="switcher_control"></span>
-                                            </label>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a class="btn btn-outline-info btn-sm square-btn"
-                                               title="{{ translate('barcode') }}"
-                                               href="{{ route('admin.products.barcode', [$product['id']]) }}">
-                                                <i class="tio-barcode"></i>
-                                            </a>
-                                            <a class="btn btn-outline-info btn-sm square-btn" title="View"
-                                               href="{{ route('admin.products.view',['addedBy'=>($product['added_by']=='seller'?'vendor' : 'in-house'),'id'=>$product['id']]) }}">
-                                                <i class="tio-invisible"></i>
-                                            </a>
-                                            <a class="btn btn-outline--primary btn-sm square-btn"
-                                               title="{{ translate('edit') }}"
-                                               href="{{ route('admin.products.update',[$product['id']]) }}">
-                                                <i class="tio-edit"></i>
-                                            </a>
-                                            <span class="btn btn-outline-danger btn-sm square-btn delete-data"
-                                               title="{{ translate('delete') }}"
-                                               data-id="product-{{ $product['id']}}">
-                                                <i class="tio-delete"></i>
-                                            </span>
+                                            {{-- Right Side: Actions --}}
+                                            <div class="d-flex flex-column gap-2 align-items-end">
+                                                <div class="d-grid gap-2"
+                                                    style="grid-template-columns: repeat(2, 1fr); display: grid;">
+                                                    <a href="{{ route('products_new.view-admin', ['id' => $product['id']]) }}"
+                                                        class="btn btn-outline-info btn-sm d-flex flex-column align-items-center gap-1">
+                                                        <i class="tio-invisible"></i>
+                                                        <span>{{ translate('View') }}</span>
+                                                    </a>
+                                                    <a href="{{ route('admin.products.update', [$product['id']]) }}"
+                                                        class="btn btn-outline-primary btn-sm d-flex flex-column align-items-center gap-1">
+                                                        <i class="tio-edit"></i>
+                                                        <span>{{ translate('Edit') }}</span>
+                                                    </a>
+                                                    <form action="{{ route('products_new.delete', [$product['id']]) }}"
+                                                        method="post"
+                                                        class="m-0 d-flex flex-column align-items-center gap-1">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $product['id'] }}">
+                                                        <button type="submit"
+                                                            class="btn btn-outline-danger btn-sm d-flex flex-column align-items-center gap-1 delete-data">
+                                                            <i class="tio-delete"></i>
+                                                            <span>{{ translate('Delete') }}</span>
+                                                        </button>
+                                                    </form>
+                                                    <form
+                                                        action="{{ route('products_new.status-update', ['id' => $product['id']]) }}"
+                                                        method="post"
+                                                        class="m-0 d-flex flex-column align-items-center gap-1">
+                                                        @csrf
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $product['id'] }}">
+                                                        <label class="switcher">
+                                                            <input type="checkbox"
+                                                                class="switcher_input toggle-switch-message"
+                                                                name="status" value="1" onchange="togglestatus(this)"
+                                                                {{ $product['status'] == 1 ? 'checked' : '' }}>
+                                                            <span class="switcher_control"></span>
+                                                        </label>
+                                                        <span>{{ translate('Toggle') }}</span>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <form action="{{ route('admin.products.delete',[$product['id']]) }}"
-                                              method="post" id="product-{{ $product['id']}}">
-                                            @csrf @method('delete')
-                                        </form>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </div>
                             @endforeach
-                            </tbody>
-                        </table>
+                        </div>
                     </div>
 
                     <div class="table-responsive mt-4">
@@ -286,12 +268,42 @@
                         </div>
                     </div>
 
-                    @if(count($products)==0)
-                        @include('layouts.back-end._empty-state',['text'=>'no_product_found'],['image'=>'default'])
+                    @if (count($products) == 0)
+                        @include(
+                            'layouts.back-end._empty-state',
+                            ['text' => 'no_product_found'],
+                            ['image' => 'default']
+                        )
                     @endif
                 </div>
             </div>
         </div>
     </div>
     <span id="message-select-word" data-text="{{ translate('select') }}"></span>
+    <script>
+        function togglestatus(el) {
+            console.log('switched');
+            const $checkbox = $(el);
+            const $form = $checkbox.closest('form');
+            const formData = $form.serialize();
+            const actionUrl = $form.attr('action');
+
+            $.ajax({
+                type: 'POST',
+                url: actionUrl,
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        // Show success toast
+                        toastr.success(response.message || 'Status updated successfully');
+                    } else {
+                        toastr.error(response.message || 'Something went wrong');
+                    }
+                },
+                error: function(xhr) {
+                    toastr.error('Server error: ' + xhr.status);
+                }
+            });
+        }
+    </script>
 @endsection

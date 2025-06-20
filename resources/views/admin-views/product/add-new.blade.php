@@ -23,7 +23,7 @@
             @csrf
             <div class="card">
                 <div class="card-body">
-                    @include('admin-views.product.partials._product_fields')
+                    @include('admin-views.product.partials._product_fields_new')
                 </div>
             </div>
         </form>

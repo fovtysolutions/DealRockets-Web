@@ -191,7 +191,7 @@ h3 {
 }
 
 .marketplace-list .start-rating {
-    font-size: 17px !important;
+    font-size: 22px !important;
 }
 
 .marketplace-list .new {
@@ -213,7 +213,7 @@ h3 {
     height: 30px;
     position: absolute;
     top: 50%;
-    right: 5px;
+    left: 5px;
     transform: translateY(25%);
     border: 1px solid rgba(213, 213, 213, 1);
     border-radius: 50%;
@@ -259,29 +259,30 @@ h3 {
 }
 
 .marketplace-list .product-title {
-    font-size: 15px !important;
+    font-size: 17px !important;
     color: #515050 !important;
     margin-bottom: 10px;
-    white-space: nowrap;
+    align-content: center;
+    /* white-space: nowrap; */
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .marketplace-list .product-price {
-    font-size: 17px;
+    font-size: 24px;
     color: #FE4E44;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
 .marketplace-list .product-moq {
-    font-size: 15px;
+    font-size: 18px;
     color: #0D0D0F;
     margin-bottom: 5px;
 }
 
 .marketplace-list .product-seller {
-    font-size: 13px;
+    font-size: 16px;
     color: #515050;
     margin-bottom: 5px;
 }
@@ -305,9 +306,9 @@ h3 {
 
 .marketplace-list .start-order-btn {
     /* width: 100%; */
-    padding: 5px 20px;
+    padding: 7px 30px;
     border: 1px solid #7D7D7D;
-    border-radius: 16px;
+    border-radius: 6px;
     background: none;
     color: #0D0D0F;
     font-size: 13px;
@@ -526,7 +527,7 @@ input[type='checkbox'] {
 
 .marketplace-list .start-order-btn:hover {
     border: 1px solid #ffffff00;
-    border-radius: 16px;
+    /* border-radius: 16px; */
     background: linear-gradient(90deg,#FE4E44,#9F0900);
     color: white;
 }
@@ -599,7 +600,7 @@ input[type='checkbox'] {
 }
 
 .marketplace-list .product-diamond {
-    display: none;
+    width: 25px;
 }
 
 .marketplace-list .hide-header {

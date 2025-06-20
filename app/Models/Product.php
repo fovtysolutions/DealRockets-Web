@@ -159,6 +159,14 @@ class Product extends Model
         'short_details',
         'certificate',
         'packing_type',
+        'extra_images',
+        'dynamic_data',
+        'dynamic_data_technical',
+        'certificates',
+        'dimension_unit',
+        'master_packing',
+        'container',
+        'brand',
     ];
 
     /**

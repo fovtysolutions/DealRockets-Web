@@ -50,7 +50,6 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                 <a class="text-wrapper-3" href="{{ route('vendor.auth.registration.index') }}"
                                     data-menu="/vendorzone">Supplier Zone</a>
                             </div>
-
                         </div>
                         <div class="frame-6 delnine">
                             <a href="{{ route('webinfo') }}">

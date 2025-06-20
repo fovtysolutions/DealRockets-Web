@@ -30,6 +30,7 @@ use App\Http\Requests\Admin\ProductDenyRequest;
 use App\Http\Requests\ProductAddRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Models\NewProductStore;
+use App\Models\Product as ModelsProduct;
 use App\Repositories\DigitalProductPublishingHouseRepository;
 use App\Services\ProductService;
 use App\Traits\FileManagerTrait;
@@ -180,7 +181,7 @@ class ProductController extends BaseController
             'sub_sub_category_id' => $request['sub_sub_category_id'],
         ];
 
-        $products = NewProductStore::all()->paginate(10);
+        $products = ModelsProduct::all()->paginate(10);
         $sellers = $this->sellerRepo->getByStatusExcept(status: 'pending', relations: ['shop'], paginateBy: getWebConfig(name: WebConfigKey::PAGINATION_LIMIT));
         $brands = $this->brandRepo->getListWhere(filters: ['status' => 1], dataLimit: 'all');
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
@@ -192,7 +193,7 @@ class ProductController extends BaseController
 
     public function getUpdateView(string|int $id): View|RedirectResponse
     {
-        $product = NewProductStore::where('id',$id)->first();
+        $product = ModelsProduct::where('id',$id)->first();
         if (!$product) {
             Toastr::error(translate('invalid_product'));
             return redirect()->route('vendor.products.list', ['type' => 'all']);

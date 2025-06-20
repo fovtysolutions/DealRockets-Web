@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Country;
 use App\Models\Leads;
+use App\Models\NewProductStore;
 use App\Models\SearchHistUsers;
 
 class ProductListController extends Controller
@@ -133,7 +134,7 @@ class ProductListController extends Controller
                 return redirect('/');
             }
         }
-
+        
         $productListData = ProductManager::getProductListData(request: $request);
         $products = $productListData->paginate(20)->appends($data);
 

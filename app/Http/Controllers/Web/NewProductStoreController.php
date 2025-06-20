@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\NewProductStore;
+use App\Models\Product;
 use App\Utils\ChatManager;
 use Exception;
 use Illuminate\Http\Request;
@@ -26,18 +27,18 @@ class NewProductStoreController extends Controller
 
         $user_details = ChatManager::getRoleDetail();
 
-        $data['role'] = $user_details['role'];
+        $data['added_by'] = $user_details['role'];
         $data['user_id'] = $user_details['user_id'];
 
         Log::info($data);
 
-        $product = NewProductStore::create($data);
+        $product = Product::create($data);
 
         session()->flash('success', 'Product Added successfully!');
         return redirect()->back();
     }
 
-    public function update(Request $request, NewProductStore $product)
+    public function update(Request $request, Product $product)
     {
         $data = $this->validateProduct($request);
 
@@ -129,14 +130,14 @@ class NewProductStoreController extends Controller
 
     public function view($id)
     {
-        $product = NewProductStore::find($id);
+        $product = Product::find($id);
 
         return view('vendor-views.product.product_view', compact('product'));
     }
 
     public function view_admin($id)
     {
-        $product = NewProductStore::find($id);
+        $product = Product::find($id);
 
         return view('admin-views.product.product_view', compact('product'));
     }
@@ -144,7 +145,7 @@ class NewProductStoreController extends Controller
     public function update_status($id)
     {
         try {
-            $product = NewProductStore::findOrFail($id);
+            $product = Product::findOrFail($id);
             if($product->status == 0){
                 $product->status = 1;
             } else {
@@ -161,7 +162,7 @@ class NewProductStoreController extends Controller
     public function destroy($id)
     {
         try {
-            $product = NewProductStore::findOrFail($id);
+            $product = Product::findOrFail($id);
             $product->delete();
 
             return redirect()->back()->with('success', 'Product Deleted successfully.');

@@ -39,18 +39,12 @@
             // Do Nothing
         }
     }
-    
-    if ($product->added_by == 'admin') {
-        $isAdmin = 1;
-    } else {
-        $isAdmin = 0;
-    }
     ?>
     <div class="__inline-23">
         <div class="container mt-4 rtl text-align-direction">
             <div class="product-view-section" style="    background: #f7f7f7;">
                 <!-- Product View Section -->
-                <div class="product-view" style="margin-bottom: 20px;">
+                <div class="product-view" style="margin-bottom: 40px;">
 
                     <!-- Product Images Section -->
                     <div class="product-images">
@@ -81,79 +75,173 @@
                     <!-- Product Details Section -->
                     <div class="product-details">
                         <div class="price-details-box">
-                            <!-- Product Title -->
-                            <section class="product-heading">
-                                <h1 class="product-title">{{ $product->name ?? '' }}</h1>
-                            </section>
+                            <h1 class="product-title">{{ $product->name }}</h1>
 
-                            <!-- Price & MOQ -->
-                            <section class="pricing-section">
-                                <div class="price-box">
-                                    <div class="price-info">
-                                        <div class="price">
-                                            <span class="amount">US$ {{ $product->unit_price ?? ''}}</span>
-                                            <span class="unit">/ {{ $product->unit ?? ''}}</span>
-                                        </div>
-                                        <div class="min-order">
-                                            <span class="quantity">{{ $product->minimum_order_qty ?? ''}} {{ $product->unit ?? ''}}</span>
-                                            <span class="label">Minimum order</span>
-                                        </div>
+                            <div class="price-box">
+                                <div class="price-info">
+                                    <div class="price">
+                                        <span class="amount">US$ {{ $product->unit_price }}</span>
+                                        <span class="unit">/1 {{ $product->unit }}</span>
                                     </div>
-                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/ebe375fda3be1065358baf7296c9b484e546d2f7"
-                                        alt="Rating" class="rating-image">
-
-                                    <!-- Action Buttons -->
-                                    <section class="inquiry-section">
-                                        <h4 class="section-title">Quick Inquiry</h4>
-                                        <div class="action-buttons" data-toggle="modal" data-target="#exampleModal">
-                                            <input type="number" min="0" placeholder="Enter Qty" id="productQty"
-                                                class="quantity-input form-control" />
-                                            <button type="button" class="btn custom-inquiry-btn" data-toggle="modal"
-                                                data-target="#inquiryModal">
-                                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
-                                                    alt="Inquire" class="inquire-icon">
-                                                Inquire Now
-                                            </button>
-                                        </div>
-                                    </section>
+                                    <div class="min-order">
+                                        <span class="quantity">{{ $product->minimum_order_qty }} {{ $product->unit }}</span>
+                                        <span class="label">Minimum order</span>
+                                    </div>
                                 </div>
-                            </section>
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/ebe375fda3be1065358baf7296c9b484e546d2f7"
+                                    alt="Rating" class="rating-image">
+                            </div>
 
-                            <!-- Specification Section -->
-                            <section class="specification-section">
-                                <h4 class="section-title">Product Specifications</h4>
-                                <div class="product-specs">
-                                    <div class="spec-row"><span class="spec-label">Product Origin:</span><span
-                                            class="spec-value">{{ $product->origin ?? ''}}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Port of Loading:</span><span
-                                            class="spec-value">{{ $product->port_of_loading ?? ''}}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Delivery Mode:</span><span
-                                            class="spec-value">{{ $product->delivery_mode ?? ''}}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Payment Term:</span><span
-                                            class="spec-value">{{ $product->payment_terms ?? ''}}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Lead Time:</span><span
-                                            class="spec-value">{{ $product->lead_time ?? ''}} {{ $product->lead_time_unit ?? ''}}</span></div>
+                            <div class="product-specs">
+                                <div class="spec-row">
+                                    <span class="spec-label">Customization:</span>
+                                    <span class="spec-value">{{ $product->customization }}</span>
                                 </div>
-                            </section>
+                                <div class="spec-row">
+                                    <span class="spec-label">Style:</span>
+                                    <span class="spec-value">{{ $product->style }}</span>
+                                </div>
+                                <div class="spec-row">
+                                    <span class="spec-label">Usage:</span>
+                                    <span class="spec-value margin">{{ $product->usage }}</span>
+                                </div>
+                            </div>
 
-                            <!-- Packing Info -->
-                            <section class="packing-section">
-                                <h4 class="section-title">Packing Information</h4>
-                                <div class="product-specs">
-                                    <div class="spec-row"><span class="spec-label">Packing Material:</span><span
-                                            class="spec-value">{{ $product->container ?? ''}}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Packing Type:</span><span
-                                            class="spec-value">{{ $product->packing_type ?? ''}}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Master Packing:</span><span
-                                            class="spec-value">{{ $product->master_packing ?? ''}} per {{ $product->dimension_unit ?? ''}}</span></div>
+
+                            <div class="action-buttons" data-toggle="modal" data-target="#exampleModal">
+                                <input type="number" min="0" placeholder="Enter Qty" id="productQty"
+                                    class="quantity-input form-control"></input>
+                                <button type="button" class="btn custom-inquiry-btn" data-toggle="modal"
+                                    data-target="#inquiryModal">
+                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
+                                        alt="Inquire" class="inquire-icon">
+                                    Inquire Now
+                                </button>
+                            </div>
+
+                            <div class="product-costs">
+                                <div class="cost-item">
+                                    <div class="cost-label">Total Product Cost</div>
+                                    <div class="cost-value">US$ {{ $product->unit_price }} / {{ $product->unit }}</div>
                                 </div>
-                            </section>
+                                <div class="cost-item">
+                                    <div class="cost-label">Shipping Cost</div>
+                                    <div class="cost-value">{{ $product->shipping_cost }}</div>
+                                </div>
+                                <div class="cost-item">
+                                    <div class="cost-label">Total</div>
+                                    <div class="cost-value">{{ $product->unit_price + $product->shipping_cost }} /
+                                        {{ $product->unit }}</div>
+                                </div>
+                            </div>
+
+                            <div class="samples-info">
+                                Samples: {{ $product->sample_price }}/{{ $product->unit }} |
+                                {{ $product->sample_amount }} {{ $product->unit }} | <span class="buy-sample">Buy
+                                    Sample</span>
+                            </div>
+                        </div>
+                        <div class="supplier-info">
+                            @php
+                                if ($product->added_by == 'admin') {
+                                    $isAdmin = 1;
+                                } else {
+                                    $isAdmin = 0;
+                                }
+                            @endphp
+                            <div>
+                                <div class="supplier-name">{{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}
+                                </div>
+                                <div class="supplier-meta">
+                                    <span
+                                        class="years">{{ $isAdmin == 1 ? 'Admin' : $product->seller->years . ' years' }}</span>
+                                    <span class="country">{{ $isAdmin == 1 ? 'DealRocket' : $product->seller->country }}</span>
+                                </div>
+                                <div class="response-data">
+                                    <div class="response-rate"><span class="label">Response Rate:</span> <span
+                                            class="value">High</span></div>
+                                    <div class="response-time"><span class="label">Avg Response Time:</span> <span
+                                            class="value">≤24 h</span></div>
+
+                                </div>
+                            </div>
+                            <div class="subplier-btn"
+                                style="    display: flex
+                    ;
+                        flex-direction: column-reverse;
+                        justify-content: start; gap: 1rem;">
+                                <div class="business-type"><span class="label">Business Type:</span> <span
+                                        class="value">Manufacturer, Exporter, Trading Company</span></div>
+                                <div class="supplier-actions">
+                                    <button class="btn-outline">Follow</button>
+                                    <button class="btn-outline">Chat</button>
+                                </div>
+                            </div>
+
                         </div>
 
+
                     </div>
+
                 </div>
 
+
                 @include('web-views.partials._order-now')
+                <!-- New Products Section -->
+                {{-- <div class="related-products" style="margin: 2rem 2rem !important;">
+                    <div class="new-products-container">
+                        <div class="new-products-banner">
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/03db452520cbb4fc62a10fc86e2e2c09fb43fa2f"
+                                alt="New products background" class="banner-bg">
+                            <div class="banner-content">
+                                <div class="banner-title">New Products</div>
+                                <div class="view-more-container">
+                                    <div class="view-more">View More</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-grid">
+                            <div class="product-card">
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/cb7b1be753ae81f132745df01ab5fb7ec2cdf023"
+                                    alt="Wax Beads" class="product-img">
+                                <div class="product-title">Wholesale Hard Wax Beads 400g Painess Bikini leg Hair Removal
+                                    Bulk Depilatory Wax Beans</div>
+                                <div class="product-price">US$ 2.30 / Piece</div>
+                                <div class="product-moq">400 Piece (MOQ)</div>
+                                <button class="start-order-btn">Start order</button>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/cb7b1be753ae81f132745df01ab5fb7ec2cdf023"
+                                    alt="Wax Beads" class="product-img">
+                                <div class="product-title">Wholesale Hard Wax Beads 400g Painess Bikini leg Hair Removal
+                                    Bulk Depilatory Wax Beans</div>
+                                <div class="product-price">US$ 2.30 / Piece</div>
+                                <div class="product-moq">400 Piece (MOQ)</div>
+                                <button class="start-order-btn">Start order</button>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/cb7b1be753ae81f132745df01ab5fb7ec2cdf023"
+                                    alt="Wax Beads" class="product-img">
+                                <div class="product-title">Wholesale Hard Wax Beads 400g Painess Bikini leg Hair Removal
+                                    Bulk Depilatory Wax Beans</div>
+                                <div class="product-price">US$ 2.30 / Piece</div>
+                                <div class="product-moq">400 Piece (MOQ)</div>
+                                <button class="start-order-btn">Start order</button>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/cb7b1be753ae81f132745df01ab5fb7ec2cdf023"
+                                    alt="Wax Beads" class="product-img">
+                                <div class="product-title">Wholesale Hard Wax Beads 400g Painess Bikini leg Hair Removal
+                                    Bulk Depilatory Wax Beans</div>
+                                <div class="product-price">US$ 2.30 / Piece</div>
+                                <div class="product-moq">400 Piece (MOQ)</div>
+                                <button class="start-order-btn">Start order</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div> --}}
 
                 <!-- Product Description Section -->
                 <div class="product-description">
@@ -209,7 +297,7 @@
 
                                     <div class="specs-tables">
                                         @php
-                                            $additionalDetailsArray = json_decode($product->dynamic_data, true);
+                                            $additionalDetailsArray = json_decode($product->dynamic_data , true);
                                         @endphp
                                         @foreach ($additionalDetailsArray as $item)
                                             <table class="specs-table">

@@ -126,7 +126,7 @@
 
             <div style="justify-self: center;">
                 <a
-                    href="{{ auth('customer')->check() ? route('product', $item->slug) : route('customer.auth.login') }}">
+                    href="{{ route('product', $item->slug) }}">
                     <button class="start-order-btn">Start order</button>
                 </a>
             </div>

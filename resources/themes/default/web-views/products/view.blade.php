@@ -24,7 +24,7 @@
     <section class="mainpagesection marketplace-list" style="background-color: unset; margin-top:20px;">
         <main class="market-sub">
             <!-- Breadcrumb -->
-            <nav class="breadcrumb mb-4" aria-label="Breadcrumb">
+            <nav class="breadcrumb mb-2" aria-label="Breadcrumb">
                 <div class="d-flex">
                     <span>Home</span>
                     @if (!empty($data['cate_name']))

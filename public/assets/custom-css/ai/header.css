@@ -16,6 +16,24 @@
   width: 100%;
 }
 
+.element-mobile .nav-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #555;
+    transition: color 0.3s ease;
+    gap: 3px;
+}
+
+.element-mobile .nav-tile i{
+  font-size: 19px;
+}
+
+.element-mobile .nav-tile:hover {
+    color: #FE4E44;
+}
+
 .navbar-floating {
   position: absolute;
   top: 0;

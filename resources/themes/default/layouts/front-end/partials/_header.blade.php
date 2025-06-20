@@ -30,25 +30,42 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                             </div>
                         </div>
                         <div class="navbar-3">
-                            <a class="text-wrapper-3 deleight" href="{{ route('home') }}" data-menu="/"
-                                data-home='true'>Home</a>
-                            <a class="text-wrapper-3 delseven" href="{{ route('stocksale') }}"
-                                data-menu="/stock-sale">Stock Sale</a>
-                            <a class="text-wrapper-3 delsix" href="{{ route('buyer') }}" data-menu="/buy-leads">Buy
-                                Leads</a>
-                            <a class="text-wrapper-3 delfive" href="{{ route('seller') }}" data-menu="/sell-offer">Sell
-                                Offer</a>
-                            <a class="text-wrapper-3 delfour" href="{{ route('dealassist') }}"
-                                data-menu="/deal-assist">Deal Assist</a>
-                            <a class="text-wrapper-3 delone" href="{{ route('sendcv') }}"
-                                data-menu="/industry-jobs">Industry Jobs</a>
+                            <a class="nav-tile deleight" href="{{ route('home') }}" data-menu="/" data-home="true">
+                                <i class="fas fa-home nav-icon"></i>
+                                <span class="nav-label">Home</span>
+                            </a>
+                            <a class="nav-tile delseven" href="{{ route('stocksale') }}" data-menu="/stock-sale">
+                                <i class="fas fa-boxes nav-icon"></i>
+                                <span class="nav-label">Stock Sale</span>
+                            </a>
+                            <a class="nav-tile delsix" href="{{ route('buyer') }}" data-menu="/buy-leads">
+                                <i class="fas fa-shopping-cart nav-icon"></i>
+                                <span class="nav-label">Buy Leads</span>
+                            </a>
+                            <a class="nav-tile delfive" href="{{ route('seller') }}" data-menu="/sell-offer">
+                                <i class="fas fa-tags nav-icon"></i>
+                                <span class="nav-label">Sell Offer</span>
+                            </a>
+                            <a class="nav-tile delfour" href="{{ route('dealassist') }}" data-menu="/deal-assist">
+                                <i class="fas fa-handshake nav-icon"></i>
+                                <span class="nav-label">Deal Assist</span>
+                            </a>
+                            <a class="nav-tile delone" href="{{ route('sendcv') }}" data-menu="/industry-jobs">
+                                <i class="fas fa-briefcase nav-icon"></i>
+                                <span class="nav-label">Industry Jobs</span>
+                            </a>
                             <div class="frame-2 deltwo">
-                                <a class="text-wrapper-3" href="{{ route('tradeshow') }}" data-menu="/tradeshow">Trade
-                                    Shows</a>
+                                <a class="nav-tile" href="{{ route('tradeshow') }}" data-menu="/tradeshow">
+                                    <i class="fas fa-calendar-alt nav-icon"></i>
+                                    <span class="nav-label">Trade Shows</span>
+                                </a>
                             </div>
                             <div class="frame-2 delthree">
-                                <a class="text-wrapper-3" href="{{ route('vendor.auth.registration.index') }}"
-                                    data-menu="/vendorzone">Supplier Zone</a>
+                                <a class="nav-tile" href="{{ route('vendor.auth.registration.index') }}"
+                                    data-menu="/vendorzone">
+                                    <i class="fas fa-store nav-icon"></i>
+                                    <span class="nav-label">Supplier Zone</span>
+                                </a>
                             </div>
                         </div>
                         <div class="frame-6 delnine">
@@ -487,7 +504,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
     <a href="{{ route('tradeshow') }}">Trade Shows</a>
     <a href="{{ route('vendor.auth.registration.index') }}">Supplier Zone</a>
 </div>
-<div id="google-translate-dropdown" style="display: none;position: absolute;top: 0;right: 0;z-index: 10000000;background: white;border: 1px solid black;padding: 15px;"></div>
+<div id="google-translate-dropdown"
+    style="display: none;position: absolute;top: 0;right: 0;z-index: 10000000;background: white;border: 1px solid black;padding: 15px;">
+</div>
 @push('script')
     <script defer src="{{ theme_asset('public/js/header.js') }}"></script>
     <script defer>
@@ -500,12 +519,13 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
             document.getElementById("dropdownNav").classList.toggle("show");
         }
     </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
     <script type="text/javascript">
         function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'en'
-        }, 'google-translate-dropdown');
+            new google.translate.TranslateElement({
+                pageLanguage: 'en'
+            }, 'google-translate-dropdown');
         }
     </script>
     <script>

@@ -549,7 +549,7 @@
                     {{-- Blade fallback rendering (in case JS fails) --}}
                     @foreach ($countries as $country)
                         @if (in_array($country['id'], $selectedMarkets))
-                            <span class="badge badge-primary mr-1">{{ $country['name'] }}</span>
+                            <span class="badge badge-primary mr-1 mb-2">{{ $country['name'] }}</span>
                         @endif
                     @endforeach
                 </div>

@@ -9524,4 +9524,8 @@ return [
 	"Container Type" => "Container Type",
 	"Description of Product" => "Description of Product",
 	"Clearing & Forwarding" => "Clearing & Forwarding",
+	"Stock Sale | Marketplace" => "Stock Sale | Marketplace",
+	"Sellers | Marketplace" => "Sellers | Marketplace",
+	"Deal Assist | Marketplace" => "Deal Assist | Marketplace",
+	"Job Landing | Marketplace" => "Job Landing | Marketplace",
 ];

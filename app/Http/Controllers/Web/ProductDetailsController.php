@@ -10,10 +10,13 @@ use App\Contracts\Repositories\ReviewRepositoryInterface;
 use App\Contracts\Repositories\SellerRepositoryInterface;
 use App\Contracts\Repositories\TagRepositoryInterface;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\CompanyProfile;
 use App\Models\Product;
 use App\Models\ProductTag;
 use App\Models\Review;
 use App\Models\Seller;
+use App\Models\Shop;
 use App\Models\Tag;
 use App\Models\Wishlist;
 use App\Repositories\DealOfTheDayRepository;
@@ -43,9 +46,7 @@ class ProductDetailsController extends Controller
         private readonly TagRepositoryInterface            $tagRepo,
         private readonly SellerRepositoryInterface         $sellerRepo,
         private readonly ProductService                    $productService,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @param string $slug
@@ -61,6 +62,19 @@ class ProductDetailsController extends Controller
             'theme_fashion' => self::getThemeFashion(slug: $slug),
             'theme_all_purpose' => self::theme_all_purpose($slug),
         };
+    }
+
+    public function getShopInfoArray($shopId)
+    {
+        if ($shopId == 0) {
+            $shop = ['id' => 0, 'name' => getWebConfig(name: 'company_name')];
+        } else {
+            $shop = Shop::where('id', $shopId)->first();
+        }
+        return [
+            'id' => $shopId,
+            'company_profiles' => $shopId == -1 ? CompanyProfile::find(0) : CompanyProfile::where('seller', $shop?->seller_id)->first(),
+        ];
     }
 
     public function getDefaultTheme(string $slug): View|RedirectResponse
@@ -79,7 +93,8 @@ class ProductDetailsController extends Controller
                 orderBy: ['id' => 'desc'],
                 filters: ['product_id' => $product['id']],
                 relations: ['reply'],
-                dataLimit: 2, offset: 1
+                dataLimit: 2,
+                offset: 1
             );
 
             $rating = getRating(reviews: $product->reviews);
@@ -135,11 +150,40 @@ class ProductDetailsController extends Controller
             $inHouseTemporaryClose = $product['added_by'] == 'admin' ? $temporaryClose['status'] : false;
 
             $previewFileInfo = getFileInfoFromURL(url: $product?->preview_file_full_url['path']);
+            if($product->added_by == 'admin'){
+                $shop_id = -1;
+            } else {
+                $user_id = $product->user_id;
+                $shop_id = Shop::where('seller_id',$user_id)->first()->id;
+            }
+            $shopInfoArray = self::getShopInfoArray($shop_id);
 
-            return view(VIEW_FILE_NAMES['products_details'], compact('product', 'countWishlist', 'countOrder', 'relatedProducts',
-                'dealOfTheDay', 'currentDate', 'sellerVacationStartDate', 'sellerVacationEndDate', 'sellerTemporaryClose',
-                'inHouseVacationStartDate', 'inHouseVacationEndDate', 'inHouseVacationStatus', 'inHouseTemporaryClose', 'overallRating',
-                'wishlistStatus', 'productReviews', 'rating', 'totalReviews', 'productsForReview', 'moreProductFromSeller', 'decimalPointSettings', 'previewFileInfo', 'productAuthorsInfo', 'productPublishingHouseInfo'));
+            return view(VIEW_FILE_NAMES['products_details'], compact(
+                'product',
+                'countWishlist',
+                'countOrder',
+                'relatedProducts',
+                'dealOfTheDay',
+                'currentDate',
+                'sellerVacationStartDate',
+                'sellerVacationEndDate',
+                'sellerTemporaryClose',
+                'inHouseVacationStartDate',
+                'inHouseVacationEndDate',
+                'inHouseVacationStatus',
+                'inHouseTemporaryClose',
+                'overallRating',
+                'wishlistStatus',
+                'productReviews',
+                'rating',
+                'totalReviews',
+                'productsForReview',
+                'moreProductFromSeller',
+                'decimalPointSettings',
+                'previewFileInfo',
+                'productAuthorsInfo',
+                'productPublishingHouseInfo'
+            ));
         }
 
         Toastr::error(translate('not_found'));
@@ -210,7 +254,8 @@ class ProductDetailsController extends Controller
                 orderBy: ['id' => 'desc'],
                 filters: ['product_id' => $product['id']],
                 relations: ['reply'],
-                dataLimit: 2, offset: 1
+                dataLimit: 2,
+                offset: 1
             );
             $decimalPointSettings = getWebConfig('decimal_point_settings');
             $moreProductFromSeller = $this->productRepo->getWebListWithScope(
@@ -255,16 +300,39 @@ class ProductDetailsController extends Controller
             $positiveReview = $ratingCount != 0 ? ($vendorRattingStatusPositive * 100) / $ratingCount : 0;
             $previewFileInfo = getFileInfoFromURL(url: $product?->preview_file_full_url['path']);
 
-            return view(VIEW_FILE_NAMES['products_details'], compact('product', 'wishlistStatus', 'countWishlist',
-                'countOrder', 'relatedProducts', 'dealOfTheDay', 'currentDate', 'sellerVacationStartDate', 'sellerVacationEndDate',
-                'sellerTemporaryClose', 'inHouseVacationStartDate', 'inHouseVacationEndDate', 'inHouseVacationStatus', 'inHouseTemporaryClose',
-                'overallRating', 'decimalPointSettings', 'moreProductFromSeller', 'productsForReview', 'totalReviews', 'rating', 'productReviews',
-                'avgRating', 'compareList', 'positiveReview', 'previewFileInfo', 'productAuthorsInfo', 'productPublishingHouseInfo'));
+            return view(VIEW_FILE_NAMES['products_details'], compact(
+                'product',
+                'wishlistStatus',
+                'countWishlist',
+                'countOrder',
+                'relatedProducts',
+                'dealOfTheDay',
+                'currentDate',
+                'sellerVacationStartDate',
+                'sellerVacationEndDate',
+                'sellerTemporaryClose',
+                'inHouseVacationStartDate',
+                'inHouseVacationEndDate',
+                'inHouseVacationStatus',
+                'inHouseTemporaryClose',
+                'overallRating',
+                'decimalPointSettings',
+                'moreProductFromSeller',
+                'productsForReview',
+                'totalReviews',
+                'rating',
+                'productReviews',
+                'avgRating',
+                'compareList',
+                'positiveReview',
+                'previewFileInfo',
+                'productAuthorsInfo',
+                'productPublishingHouseInfo'
+            ));
         }
 
         Toastr::error(translate('not_found'));
         return back();
-
     }
 
     public function getThemeFashion($slug): View|RedirectResponse
@@ -322,7 +390,8 @@ class ProductDetailsController extends Controller
                 orderBy: ['id' => 'desc'],
                 filters: ['product_id' => $product['id']],
                 relations: ['reply'],
-                dataLimit: 2, offset: 1
+                dataLimit: 2,
+                offset: 1
             );
             $decimalPointSettings = getWebConfig('decimal_point_settings');
             $moreProductFromSeller = $this->productRepo->getWebListWithScope(
@@ -439,11 +508,40 @@ class ProductDetailsController extends Controller
 
             $previewFileInfo = getFileInfoFromURL(url: $product?->preview_file_full_url['path']);
 
-            return view(VIEW_FILE_NAMES['products_details'], compact('product', 'wishlistStatus', 'countWishlist',
-                'relatedProducts', 'currentDate', 'sellerVacationStartDate', 'sellerVacationEndDate', 'rattingStatus', 'productsLatest',
-                'sellerTemporaryClose', 'inHouseVacationStartDate', 'inHouseVacationEndDate', 'inHouseVacationStatus', 'inHouseTemporaryClose', 'positiveReview',
-                'overallRating', 'decimalPointSettings', 'moreProductFromSeller', 'productsForReview', 'productsCount', 'totalReviews', 'rating', 'productReviews',
-                'avgRating', 'topRatedShops', 'newSellers', 'deliveryInfo', 'productsTopRated', 'productsThisStoreTopRated', 'previewFileInfo', 'productAuthorsInfo', 'productPublishingHouseInfo'));
+            return view(VIEW_FILE_NAMES['products_details'], compact(
+                'product',
+                'wishlistStatus',
+                'countWishlist',
+                'relatedProducts',
+                'currentDate',
+                'sellerVacationStartDate',
+                'sellerVacationEndDate',
+                'rattingStatus',
+                'productsLatest',
+                'sellerTemporaryClose',
+                'inHouseVacationStartDate',
+                'inHouseVacationEndDate',
+                'inHouseVacationStatus',
+                'inHouseTemporaryClose',
+                'positiveReview',
+                'overallRating',
+                'decimalPointSettings',
+                'moreProductFromSeller',
+                'productsForReview',
+                'productsCount',
+                'totalReviews',
+                'rating',
+                'productReviews',
+                'avgRating',
+                'topRatedShops',
+                'newSellers',
+                'deliveryInfo',
+                'productsTopRated',
+                'productsThisStoreTopRated',
+                'previewFileInfo',
+                'productAuthorsInfo',
+                'productPublishingHouseInfo'
+            ));
         }
 
         Toastr::error(translate('not_found'));
@@ -590,11 +688,37 @@ class ProductDetailsController extends Controller
 
             $products_latest = Product::active()->with(['reviews', 'rating'])->latest()->take(12)->get();
 
-            return view(VIEW_FILE_NAMES['products_details'], compact('product', 'wishlist_status', 'countWishlist',
-                'relatedProducts', 'current_date', 'seller_vacation_start_date', 'seller_vacation_end_date', 'ratting_status', 'products_latest',
-                'seller_temporary_close', 'inhouse_vacation_start_date', 'inhouse_vacation_end_date', 'inHouseVacationStatus', 'inhouseTemporaryClose',
-                'overall_rating', 'decimal_point_settings', 'more_product_from_seller', 'products_for_review', 'total_reviews', 'rating', 'reviews_of_product',
-                'avg_rating', 'rating_percentage', 'more_seller', 'new_seller', 'delivery_info', 'products_top_rated', 'products_this_store_top_rated', 'more_product_from_seller_count'));
+            return view(VIEW_FILE_NAMES['products_details'], compact(
+                'product',
+                'wishlist_status',
+                'countWishlist',
+                'relatedProducts',
+                'current_date',
+                'seller_vacation_start_date',
+                'seller_vacation_end_date',
+                'ratting_status',
+                'products_latest',
+                'seller_temporary_close',
+                'inhouse_vacation_start_date',
+                'inhouse_vacation_end_date',
+                'inHouseVacationStatus',
+                'inhouseTemporaryClose',
+                'overall_rating',
+                'decimal_point_settings',
+                'more_product_from_seller',
+                'products_for_review',
+                'total_reviews',
+                'rating',
+                'reviews_of_product',
+                'avg_rating',
+                'rating_percentage',
+                'more_seller',
+                'new_seller',
+                'delivery_info',
+                'products_top_rated',
+                'products_this_store_top_rated',
+                'more_product_from_seller_count'
+            ));
         }
 
         Toastr::error(translate('not_found'));

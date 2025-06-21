@@ -23,7 +23,7 @@ return new class extends Migration
             $table->longText('target_market')->nullable();
             $table->string('short_details')->nullable();
             $table->string('certificate')->nullable();
-            $table->longText('technical_specification')->default([]);
+            $table->longText('technical_specification');
             $table->longText('additional_details')->nullable()->change();
         });
     }

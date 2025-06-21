@@ -46,11 +46,11 @@
         $isAdmin = 0;
     }
     ?>
-    <div class="__inline-23">
-        <div class="container mt-4 rtl text-align-direction">
-            <div class="product-view-section" style="    background: #f7f7f7;">
+    <div class="__inline-23 mainpagesection" style="background-color: unset; margin-top: 22px;">
+        <div>
+            <div class="product-view-section" style="background: #f7f7f7;">
                 <!-- Product View Section -->
-                <div class="product-view" style="margin-bottom: 20px;">
+                <div class="product-view">
 
                     <!-- Product Images Section -->
                     <div class="product-images">
@@ -91,11 +91,12 @@
                                 <div class="price-box">
                                     <div class="price-info">
                                         <div class="price">
-                                            <span class="amount">US$ {{ $product->unit_price ?? ''}}</span>
-                                            <span class="unit">/ {{ $product->unit ?? ''}}</span>
+                                            <span class="amount">US$ {{ $product->unit_price ?? '' }}</span>
+                                            <span class="unit">/ {{ $product->unit ?? '' }}</span>
                                         </div>
                                         <div class="min-order">
-                                            <span class="quantity">{{ $product->minimum_order_qty ?? ''}} {{ $product->unit ?? ''}}</span>
+                                            <span class="quantity">{{ $product->minimum_order_qty ?? '' }}
+                                                {{ $product->unit ?? '' }}</span>
                                             <span class="label">Minimum order</span>
                                         </div>
                                     </div>
@@ -123,21 +124,65 @@
                             <section class="specification-section">
                                 <h4 class="section-title">Product Specifications</h4>
                                 <div class="product-specs">
-                                    <div class="spec-row"><span class="spec-label">Product Origin:</span><span
-                                            class="spec-value">{{ $product->origin ?? ''}}</span></div>
+                                    @php
+                                        $countryDetails = \App\Utils\ChatManager::getCountryDetails($product->origin);
+                                    @endphp
+                                    <div class="spec-row">
+                                        <span class="spec-label">Product Origin:</span>
+                                        <span class="spec-value">
+                                            <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
+                                                class="flag-icon mr-2" alt="{{ $countryDetails['countryName'] }} flag"
+                                                style="width: 25px;" />
+                                            {{ $countryDetails['countryName'] ?? 'Invalid Country Name' }}
+                                        </span>
+                                    </div>
                                     <div class="spec-row"><span class="spec-label">Port of Loading:</span><span
-                                            class="spec-value">{{ $product->port_of_loading ?? ''}}</span></div>
+                                            class="spec-value">{{ $product->port_of_loading ?? '' }}</span></div>
                                     <div class="spec-row"><span class="spec-label">Delivery Mode:</span><span
-                                            class="spec-value">{{ $product->delivery_mode ?? ''}}</span></div>
+                                            class="spec-value">{{ $product->delivery_mode ?? '' }}</span></div>
                                     <div class="spec-row"><span class="spec-label">Payment Term:</span><span
-                                            class="spec-value">{{ $product->payment_terms ?? ''}}</span></div>
+                                            class="spec-value">{{ $product->payment_terms ?? '' }}</span></div>
                                     <div class="spec-row"><span class="spec-label">Lead Time:</span><span
-                                            class="spec-value">{{ $product->lead_time ?? ''}} {{ $product->lead_time_unit ?? ''}}</span></div>
+                                            class="spec-value">{{ $product->lead_time ?? '' }}
+                                            {{ $product->lead_time_unit ?? '' }}</span></div>
+                                </div>
+                            </section>
+
+                            <section class="specification-section">
+                                <h4 class="section-title">Additional Delivery Details</h4>
+                                <div class="product-specs">
+                                    <div class="spec-row">
+                                        <span class="spec-label">Supply Capacity:</span>
+                                        <span class="spec-value">{{ $product->supply_capacity ?? '-' }}
+                                            {{ $product->supply_unit ?? '' }}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span class="spec-label">Weight per Unit:</span>
+                                        <span class="spec-value">{{ $product->weight_per_unit ?? '-' }}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span class="spec-label">Dimensions per Unit:</span>
+                                        <span class="spec-value">{{ $product->dimensions_per_unit ?? '-' }}
+                                            {{ $product->dimension_unit ?? '' }}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span class="spec-label">Master Packing:</span>
+                                        <span class="spec-value">{{ $product->master_packing ?? '-' }} per
+                                            {{ $product->dimension_unit ?? '' }}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span class="spec-label">Container:</span>
+                                        <span class="spec-value">{{ $product->container ?? '-' }}</span>
+                                    </div>
+                                    <div class="spec-row">
+                                        <span class="spec-label">Brand:</span>
+                                        <span class="spec-value">{{ $product->brand ?? '-' }}</span>
+                                    </div>
                                 </div>
                             </section>
 
                             <!-- Packing Info -->
-                            <section class="packing-section">
+                            {{-- <section class="packing-section">
                                 <h4 class="section-title">Packing Information</h4>
                                 <div class="product-specs">
                                     <div class="spec-row"><span class="spec-label">Packing Material:</span><span
@@ -147,9 +192,66 @@
                                     <div class="spec-row"><span class="spec-label">Master Packing:</span><span
                                             class="spec-value">{{ $product->master_packing ?? ''}} per {{ $product->dimension_unit ?? ''}}</span></div>
                                 </div>
-                            </section>
+                            </section> --}}
                         </div>
 
+                    </div>
+                </div>
+
+                <div class="product-view" style="margin-bottom: 20px;">
+                    <div class="d-flex w-100 gap-3">
+                        <div class="spec-left">
+                            <h4 class="section-title">Technical Details</h4>
+                            <div class="specs-tables">
+                                @php
+                                    $additionalDetailsArray = json_decode($product->dynamic_data, true);
+                                @endphp
+                                @foreach ($additionalDetailsArray as $item)
+                                    <table class="specs-table">
+                                        @php
+                                            $subheads = $item['sub_heads'] ?? [];
+                                            $countofsubheads = count($subheads);
+                                        @endphp
+                                        @foreach ($subheads as $index => $subhead)
+                                            <tr>
+                                                @if ($index == 0)
+                                                    <th rowspan="{{ $countofsubheads }}">{{ $item['title'] }}
+                                                    </th>
+                                                @endif
+                                                <td class="spec-name">{{ $subhead['sub_head'] }}</td>
+                                                <td class="spec-detail">{{ $subhead['sub_head_data'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="spec-right">
+                            <h4 class="section-title">Additonal Details</h4>
+                            <div class="specs-tables">
+                                @php
+                                    $additionalDetailsArray1 = json_decode($product->dynamic_data_technical, true);
+                                @endphp
+                                @foreach ($additionalDetailsArray1 as $item)
+                                    <table class="specs-table">
+                                        @php
+                                            $subheads1 = $item['sub_heads'] ?? [];
+                                            $countofsubheads1 = count($subheads1);
+                                        @endphp
+                                        @foreach ($subheads1 as $index => $subhead)
+                                            <tr>
+                                                @if ($index == 0)
+                                                    <th rowspan="{{ $countofsubheads1 }}">{{ $item['title'] }}
+                                                    </th>
+                                                @endif
+                                                <td class="spec-name">{{ $subhead['sub_head'] }}</td>
+                                                <td class="spec-detail">{{ $subhead['sub_head_data'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -161,329 +263,286 @@
                         <div class="description-tabs">
                             <div class="tab active" data-toggleid="productDescription">Product Description</div>
                             <div class="tab" data-toggleid="companyInfo">Company Info.</div>
+                            <div class="tab" data-toggleid="productGallery">Product Gallery</div>
                         </div>
                         <div class="tabdata" id="productDescription">
-                            <div class="description-subtabs">
-                                <div class="subtab active" data-toggleid="productInfo">Product Information</div>
-                                <div class="subtab" data-toggleid="shippingInfo">Shipping Information</div>
-                                <div class="subtab" data-toggleid="mainExportMarket">Main Export Markets</div>
-                                <div class="subtab" data-toggleid="paymentDetails">Payment Details</div>
-                            </div>
+                            <div class="description-content p-4 space-y-4">
 
-                            <div class="subtabdata" id="productInfo">
-                                <div class="product-info">
-                                    <div class="info-table">
-                                        <div class="info-row">
-                                            <div class="info-label">Model Number</div>
-                                            <div class="info-value">{{ $product->model_number }}</div>
+                                {{-- Product Short Summary --}}
+                                @if (!empty($product->short_details))
+                                    <div class="description-section">
+                                        <h5 class="section-subtitle">Quick Overview</h5>
+                                        <p class="text-muted">{!! $product->short_details !!}</p>
+                                    </div>
+                                @endif
+
+                                {{-- Full Product Details --}}
+                                @if (!empty($product->details))
+                                    <div class="description-section">
+                                        <h5 class="section-subtitle">Product Description</h5>
+                                        <p>{!! $product->details !!}</p>
+                                    </div>
+                                @endif
+
+                                {{-- Certificate Files --}}
+                                @php
+                                    $images = json_decode($product->certificates, true); // or $product->certificates
+                                @endphp
+
+                                @if (!empty($images) && is_array($images))
+                                    <div class="product-image-gallery space-y-4">
+                                        <h4>Certificates</h4>
+                                        {{-- Main Preview Image --}}
+                                        <div class="image-gallery-preview">
+                                            <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
+                                                alt="Main Preview">
                                         </div>
-                                        <div class="info-row">
-                                            <div class="info-label">Brand Name</div>
-                                            <div class="info-value">{{ $product->brand ?? 'No Brand' }}</div>
-                                        </div>
-                                        <div class="info-row">
-                                            <div class="info-label">Origin</div>
-                                            <div class="info-value">{{ $product->origin }}</div>
-                                        </div>
-                                        <div class="info-row">
-                                            <div class="info-label">Small Orders</div>
-                                            <div class="info-value">
-                                                {{ $product->small_orders == 1 ? 'Accepted' : 'Not Accepted' }}</div>
+
+                                        {{-- Thumbnails --}}
+                                        <div class="thumbnail-row flex flex-wrap gap-2 justify-start d-flex">
+                                            @foreach ($images as $image)
+                                                <div class="thumb border rounded cursor-pointer overflow-hidden">
+                                                    <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail"
+                                                        style="height: 100px;"
+                                                        class="w-20 h-20 object-cover hover:opacity-75 transition"
+                                                        onclick="document.getElementById('mainPreview').src = this.src;">
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
+                                @endif
 
-                                    <h3 class="section-title">Key Specifications/ Special Features:</h3>
-                                    <h2 class="display-title">Product Display</h2>
-
-                                    <div class="product-display-images">
-                                        <div class="swiper">
-                                            <div class="swiper-wrapper">
-                                                @foreach ($productArray as $value)
-                                                    <div class="swiper-slide">
-                                                        <img src="{{ asset('storage/product/' . $value['image_name']) }}">
-                                                    </div>
-                                                @endforeach
+                                {{-- Key Business Information --}}
+                                <div class="description-section mt-3">
+                                    <h5 class="section-subtitle">Business Information</h5>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="spec-row">
+                                            <div class="spec-label">Place of Loading</div>
+                                            <div class="spec-value">{{ $product->place_of_loading ?? '-' }}</div>
+                                        </div>
+                                        <div class="spec-row">
+                                            <div class="spec-label">Delivery Terms</div>
+                                            <div class="spec-value">{{ $product->delivery_terms ?? '-' }}</div>
+                                        </div>
+                                        <div class="spec-row">
+                                            <div class="spec-label">Packing Type</div>
+                                            <div class="spec-value">{{ $product->packing_type ?? '-' }}</div>
+                                        </div>
+                                        <div class="spec-row">
+                                            <div class="spec-label">Local Currency</div>
+                                            <div class="spec-value">{{ $product->local_currency ?? '-' }}
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabdata" id="companyInfo" style="display: none;">
+                            <div class="product-div">
+                                <div class="vender-contact">
+                                    <div class="contact-section">
+                                        <div class="contact-left">
+                                            <h3>Contact Details</h3>
+                                            <p>
+                                                <strong>Address:</strong>
+                                                <span class="contact-text margin-l">
+                                                    {{ $shopInfoArray['company_profiles']->address ?? 'N/A' }}
+                                                </span>
+                                            </p>
+                                            <p>
+                                                <strong>Local Time:</strong>
+                                                <span class="contact-text">
+                                                    {{ $shopInfoArray['company_profiles']->local_time ?? 'N/A' }}
+                                                </span>
+                                            </p>
+                                            @if (auth()->check())
+                                                <div class="private-info-box">
+                                                    <p class="mb-0">
+                                                        <strong>Telephone:</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->telephone ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                    <p class="mb-0" style="justify-content: space-between;">
+                                                        <strong>Mobile Phone:</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->mobile ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        <strong>Fax:</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->fax ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            @else
+                                                <p>
+                                                    <button class="sign-in-btn">Sign In for Details</button>
+                                                </p>
+                                            @endif
+                                            <p>
+                                                <strong>Showroom:</strong>
+                                                <span class="contact-text">
+                                                    {{ $shopInfoArray['company_profiles']->showroom ?? 'N/A' }}
+                                                </span>
+                                            </p>
+                                            <p>
+                                                <strong>Website:</strong>
+                                                <span class="contact-text">
+                                                    @if (!empty($shopInfoArray['company_profiles']->website))
+                                                        <a href="{{ $shopInfoArray['company_profiles']->website }}"
+                                                            target="_blank">
+                                                            {{ $shopInfoArray['company_profiles']->website }}
+                                                        </a>
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="contact-right">
+                                            <h3>Contact Person</h3>
+                                            <div class="contact-person">
+                                                <div class="text-end">
+                                                    <p class="name">
+                                                        {{ $shopInfoArray['company_profiles']->contact_name ?? 'N/A' }}
+                                                    </p>
+                                                    <p class="position">
+                                                        {{ $shopInfoArray['company_profiles']->contact_dept ?? 'N/A' }}
+                                                    </p>
+                                                </div>
+                                                <div class="avatar-placeholder"></div>
+                                            </div>
+                                            <p>
+                                                <strong>Email:</strong>
+                                                @if (auth()->check())
+                                                    <span class="contact-text">
+                                                        {{ $shopInfoArray['company_profiles']->email ?? 'N/A' }}
+                                                    </span>
+                                                @else
+                                                    <button class="sign-in-btn">Sign In for Details</button>
+                                                @endif
+                                            </p>
+                                            <button class="contact-now-btn" data-bs-toggle="modal"
+                                                data-bs-target="#contactModal">
+                                                Contact Now
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabdata" id="productGallery" style="display: none;">
+                            @php
+                                $images = json_decode($product->extra_images, true); // or $product->certificates
+                            @endphp
 
-                                    <div class="specs-tables">
-                                        @php
-                                            $additionalDetailsArray = json_decode($product->dynamic_data, true);
-                                        @endphp
-                                        @foreach ($additionalDetailsArray as $item)
-                                            <table class="specs-table">
-                                                @php
-                                                    $subheads = $item['sub_heads'];
-                                                    $countofsubheads = count($subheads);
-                                                @endphp
-                                                @foreach ($subheads as $index => $subhead)
-                                                    <tr>
-                                                        @if ($index == 0)
-                                                            <th rowspan="{{ $countofsubheads }}">{{ $item['title'] }}
-                                                            </th>
-                                                        @endif
-                                                        <td class="spec-name">{{ $subhead['sub_head'] }}</td>
-                                                        <td class="spec-detail">{{ $subhead['sub_head_data'] }}</td>
-                                                    </tr>
-                                                @endforeach
-                                            </table>
+                            @if (!empty($images) && is_array($images))
+                                <div class="product-image-gallery space-y-4">
+                                    {{-- Main Preview Image --}}
+                                    <div class="image-gallery-preview">
+                                        <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
+                                            alt="Main Preview">
+                                    </div>
+
+                                    {{-- Thumbnails --}}
+                                    <div class="thumbnail-row flex flex-wrap gap-2 justify-start d-flex">
+                                        @foreach ($images as $image)
+                                            <div class="thumb border rounded cursor-pointer overflow-hidden">
+                                                <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail"
+                                                    style="height: 100px;"
+                                                    class="w-20 h-20 object-cover hover:opacity-75 transition"
+                                                    onclick="document.getElementById('mainPreview').src = this.src;">
+                                            </div>
                                         @endforeach
                                     </div>
-                                    <button class="see-more-btn" onclick="showHiddenTables()">See more details</button>
                                 </div>
+                            @endif
 
-                                <div class="contact-us-section">
-                                    <h2 class="contact-us-title">Contact Us</h2>
-                                    <div class="contact-text">
-                                        {{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }} <br>
-                                        {{ $isAdmin == 1 ? 'Admin Address' : $product->seller->shop->address }}
-                                    </div>
-                                </div>
-
-                                <div class="faq-section">
-                                    <h2 class="faq-title">Faq</h2>
-                                    <div class="faq-list">
-                                        {!! $product->faq !!}
-                                    </div>
-                                </div>
-
-                                <div class="why-choose-us-section">
-                                    <h2 class="why-choose-us-title">Why Choose Us?</h2>
-                                    <div class="why-choose-us-content">
-                                        {!! $product->why_choose_us !!}
-                                    </div>
-
-                                    <table class="company-table">
-                                        <tr>
-                                            <th class="company-label">Company</th>
-                                            <th class="company-value">
-                                                {{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}</th>
-                                        </tr>
-                                        <tr>
-                                            <td class="company-label">Contact</td>
-                                            <td class="company-value">
-                                                {{ $isAdmin == 1 ? getWebConfig(name: 'company_name') : $product->seller->f_name }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="company-label">tel/we-chat/what's-app</td>
-                                            <td class="company-value">
-                                                {{ $isAdmin == 1 ? getWebConfig(name: 'company_phone') : $product->seller->shop->contact }}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="company-label">E-mail</td>
-                                            <td class="company-value">
-                                                {{ $isAdmin == 1 ? getWebConfig(name: 'company_email') : $product->seller->email }}
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="subtabdata" id="shippingInfo" style="display: none;">
-                                <h2 class="section-title-large">Shipping Information</h2>
-                                <table class="shipping-table">
-                                    <tr>
-                                        <td class="shipping-label">FOB Port</td>
-                                        <td class="shipping-value">{{ $product->fob_port }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">Weight per Unit</td>
-                                        <td class="shipping-value">{{ $product->weight_per_unit }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">HTS Code</td>
-                                        <td class="shipping-value">{{ $product->hts_code }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">Export Carton<br>Dimensions L/W/H</td>
-                                        <td class="shipping-value">{{ $product->export_carton_dimensions }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">Logistics attributes</td>
-                                        <td class="shipping-value">{{ $product->logistics_attributes }}</td>
-                                    </tr>
-                                </table>
-                                <table class="shipping-table">
-                                    <tr>
-                                        <td class="shipping-label">Lead Time</td>
-                                        <td class="shipping-value">{{ $product->lead_time }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">Dimensions per Unit</td>
-                                        <td class="shipping-value">{{ $product->dimensions_per_unit }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">Units per Export Carton</td>
-                                        <td class="shipping-value">{{ $product->units_per_carton }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">Export Carton Weight</td>
-                                        <td class="shipping-value">{{ $product->carton_weight }}</td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                            <div class="subtabdata" id="mainExportMarket" style="display: none;">
-                                <h2 class="section-title-large">Main Export Market</h2>
-                                {!! $product->export_markets !!}
-                            </div>
-
-                            <div class="subtabdata" id="paymentDetails" style="display: none;">
-                                <h2 class="section-title-large">Shipping Information</h2>
-                                <table class="shipping-table">
-                                    <tr>
-                                        <td class="shipping-label">Payment Methods</td>
-                                        <td class="shipping-value">{{ $product->payment_methods }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">Currency Accepted</td>
-                                        <td class="shipping-value">{{ $product->currency_accepted }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">Payment Terms</td>
-                                        <td class="shipping-value">{{ $product->payment_terms }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">Invoicing</td>
-                                        <td class="shipping-value">{{ $product->invoicing }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shipping-label">Refund Policy</td>
-                                        <td class="shipping-value">{!! $product->refund_policy !!}</td>
-                                    </tr>
-                                </table>
-                            </div>
                         </div>
-                        <div class="product-description tabdata" id="companyInfo" style="display: none;">
-                            <div class="product-div">
-                                <div class="product-info">
-                                    <div class="supplier-name">
-                                        {{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}</div>
-                                    <div class="supplier-meta">
-                                        <span
-                                            class="years">{{ $isAdmin == 1 ? 'Admin' : $product->seller->years . 'years' }}</span>
-                                        <span
-                                            class="country">{{ $isAdmin == 1 ? 'DealRocket' : $product->seller->country }}</span>
-                                    </div>
-                                    <div class="response-data">
-                                        <div class="response-rate"><span class="label">Response Rate:</span> <span
-                                                class="value">High</span></div>
-                                        <div class="response-time"><span class="label">Avg Response Time:</span> <span
-                                                class="value">≤24 h</span></div>
-                                        <div class="business-type"><span class="label">Business Type:</span> <span
-                                                class="value">Manufacturer, Exporter, Trading Company</span></div>
-                                    </div>
+
+                    </div>
+
+                    <div class="modal fade rtl text-align-direction" id="show-modal-view" tabindex="-1" role="dialog"
+                        aria-labelledby="show-modal-image" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body flex justify-content-center">
+                                    <button class="btn btn-default __inline-33 dir-end-minus-7px" data-dismiss="modal">
+                                        <i class="fa fa-close"></i>
+                                    </button>
+                                    <img class="element-center" id="attachment-view" src="" alt="">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="supplier-info card-2">
-                        <div class="supplier-name">{{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}</div>
-                        <div class="supplier-meta">
-                            <span class="years">{{ $isAdmin == 1 ? 'Admin' : $product->seller->years . ' years' }}</span>
-                            <span class="country">{{ $isAdmin == 1 ? 'DealRocket' : $product->seller->country }}</span>
-                        </div>
-                        <div class="response-data">
-                            <div class="response-rate"><span class="label">Response Rate:</span> <span
-                                    class="value">High</span></div>
-                            <div class="response-time"><span class="label">Avg Response Time:</span> <span
-                                    class="value">≤24 h</span></div>
-                            <div class="business-type"><span class="label">Business Type:</span> <span
-                                    class="value">Manufacturer, Exporter, Trading Company</span></div>
-                        </div>
-                        <div class="supplier-actions">
-                            <button class="btn-outline">Follow</button>
-                            <button class="btn-outline">Chat</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- Inquiry Form Section -->
 
-                <div class="modal fade" id="inquiryModal" tabindex="-1" aria-labelledby="inquiryModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="inquiryModalLabel">Send a direct inquiry to this supplier</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <!-- Modal Body -->
-                            <div class="modal-body">
-                                <form id="inquiryForm">
-                                    <div class="mb-3">
-                                        <label for="supplier" class="form-label">To</label>
-                                        <div class="form-control-plaintext">Wenzhou Ivspeed Co.,Ltd</div>
-                                    </div>
-                                    @php
-                                        $userdata = \App\Utils\ChatManager::getRoleDetail();
-                                        $userId = $userdata['user_id'] ?? null;
-                                        $role = $userdata['role'] ?? null;
-                                    @endphp
-                                    <!-- Hidden fields -->
-                                    <input type="hidden" id="sender_id" name="sender_id" value={{ $userId }}>
-                                    <input type="hidden" id="sender_type" name="sender_type" value={{ $role }}>
-                                    <input type="hidden" id="receiver_id" name="receiver_id"
-                                        value={{ $product->user_id }}>
-                                    <input type="hidden" id="receiver_type" name="receiver_type"
-                                        value={{ $product->added_by }}>
-                                    <input type="hidden" id="product_id" name="product_id" value={{ $product->id }}>
-                                    <input type="hidden" id="type" name="type" value="products">
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">E-mail Address</label>
-                                        <input type="email" class="form-control" id="email"
-                                            placeholder="Please enter your business e-mail address" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="message" class="form-label">Message</label>
-                                        <textarea class="form-control" id="message" rows="4" placeholder="Enter product details..." required></textarea>
-                                    </div>
-                                    @if (auth('customer')->check())
-                                        @if (strtolower(trim($membership['status'] ?? '')) == 'active')
-                                            <button type="button" onclick="triggerChat()"
-                                                class="btn-inquire-now btn btn-success">Send Inquiry Now</button>
-                                        @else
-                                            <a href="{{ route('membership') }}"
-                                                class="btn-inquire-now btn btn-success">Send Inquiry
-                                                Now</a>
-                                        @endif
-                                    @else
-                                        <button type="button" onclick="sendtologin()"
-                                            class="btn-inquire-now btn btn-success">Send
-                                            Inquiry Now</button>
-                                    @endif
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="modal fade rtl text-align-direction" id="show-modal-view" tabindex="-1" role="dialog"
-            aria-labelledby="show-modal-image" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-body flex justify-content-center">
-                        <button class="btn btn-default __inline-33 dir-end-minus-7px" data-dismiss="modal">
-                            <i class="fa fa-close"></i>
-                        </button>
-                        <img class="element-center" id="attachment-view" src="" alt="">
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="modal fade" id="inquiryModal" tabindex="-1" aria-labelledby="inquiryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inquiryModalLabel">Send a direct inquiry to this
+                        supplier</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form id="inquiryForm">
+                        <div class="mb-3">
+                            <label for="supplier" class="form-label">To</label>
+                            <div class="form-control-plaintext">Wenzhou Ivspeed Co.,Ltd</div>
+                        </div>
+                        @php
+                            $userdata = \App\Utils\ChatManager::getRoleDetail();
+                            $userId = $userdata['user_id'] ?? null;
+                            $role = $userdata['role'] ?? null;
+                        @endphp
+                        <!-- Hidden fields -->
+                        <input type="hidden" id="sender_id" name="sender_id" value={{ $userId }}>
+                        <input type="hidden" id="sender_type" name="sender_type" value={{ $role }}>
+                        <input type="hidden" id="receiver_id" name="receiver_id" value={{ $product->user_id }}>
+                        <input type="hidden" id="receiver_type" name="receiver_type" value={{ $product->added_by }}>
+                        <input type="hidden" id="product_id" name="product_id" value={{ $product->id }}>
+                        <input type="hidden" id="type" name="type" value="products">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail Address</label>
+                            <input type="email" class="form-control" id="email"
+                                placeholder="Please enter your business e-mail address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="4" placeholder="Enter product details..." required></textarea>
+                        </div>
+                        @if (auth('customer')->check())
+                            @if (strtolower(trim($membership['status'] ?? '')) == 'active')
+                                <button type="button" onclick="triggerChat()"
+                                    class="btn-inquire-now btn btn-success">Send Inquiry
+                                    Now</button>
+                            @else
+                                <a href="{{ route('membership') }}" class="btn-inquire-now btn btn-success">Send Inquiry
+                                    Now</a>
+                            @endif
+                        @else
+                            <button type="button" onclick="sendtologin()" class="btn-inquire-now btn btn-success">Send
+                                Inquiry Now</button>
+                        @endif
+                    </form>
+                </div>
 
+            </div>
+        </div>
     </div>
 
     @if ($product?->preview_file_full_url['path'])
-        @include('web-views.partials._product-preview-modal', ['previewFileInfo' => $previewFileInfo])
+        @include('web-views.partials._product-preview-modal', [
+            'previewFileInfo' => $previewFileInfo,
+        ])
     @endif
 
     @include('layouts.front-end.partials.modal._chatting', [

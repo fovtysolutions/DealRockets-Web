@@ -31,39 +31,47 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                         </div>
                         <div class="navbar-3">
                             <a class="nav-tile deleight" href="{{ route('home') }}" data-menu="/" data-home="true">
-                                <i class="fas fa-home nav-icon"></i>
+                                {{-- <img class="badge img-default" src="/img/home.png" />
+                                <img class="badge img-hover" src="/img/home-hover.png" /> --}}
                                 <span class="nav-label">Home</span>
                             </a>
                             <a class="nav-tile delseven" href="{{ route('stocksale') }}" data-menu="/stock-sale">
-                                <i class="fas fa-boxes nav-icon"></i>
+                                {{-- <img class="badge img-default" src="/img/stock-sale.png" />
+                                <img class="badge img-hover" src="/img/stock-sale-hover.png" /> --}}
                                 <span class="nav-label">Stock Sale</span>
                             </a>
                             <a class="nav-tile delsix" href="{{ route('buyer') }}" data-menu="/buy-leads">
-                                <i class="fas fa-shopping-cart nav-icon"></i>
+                                {{-- <img class="badge img-default" src="/img/buy-leads.png" />
+                                <img class="badge img-hover" src="/img/buy-leads-hover.png" /> --}}
                                 <span class="nav-label">Buy Leads</span>
                             </a>
                             <a class="nav-tile delfive" href="{{ route('seller') }}" data-menu="/sell-offer">
-                                <i class="fas fa-tags nav-icon"></i>
+                                {{-- <img class="badge img-default" src="/img/sale-offer.png" />
+                                <img class="badge img-hover" src="/img/sale-offer-hover.png" /> --}}
                                 <span class="nav-label">Sell Offer</span>
                             </a>
                             <a class="nav-tile delfour" href="{{ route('dealassist') }}" data-menu="/deal-assist">
-                                <i class="fas fa-handshake nav-icon"></i>
+                                {{-- <img class="badge img-default" src="/img/deal-assist.png" />
+                                <img class="badge img-hover" src="/img/deal-assist-hover.png" /> --}}
                                 <span class="nav-label">Deal Assist</span>
                             </a>
                             <a class="nav-tile delone" href="{{ route('sendcv') }}" data-menu="/industry-jobs">
-                                <i class="fas fa-briefcase nav-icon"></i>
+                                {{-- <img class="badge img-default" src="/img/industry-jobs.png" />
+                                <img class="badge img-hover" src="/img/industry-jobs-hover.png" /> --}}
                                 <span class="nav-label">Industry Jobs</span>
                             </a>
                             <div class="frame-2 deltwo">
                                 <a class="nav-tile" href="{{ route('tradeshow') }}" data-menu="/tradeshow">
-                                    <i class="fas fa-calendar-alt nav-icon"></i>
+                                    {{-- <img class="badge img-default" src="/img/trade-shows.png" />
+                                    <img class="badge img-hover" src="/img/trade-shows-hover.png" /> --}}
                                     <span class="nav-label">Trade Shows</span>
                                 </a>
                             </div>
                             <div class="frame-2 delthree">
                                 <a class="nav-tile" href="{{ route('vendor.auth.registration.index') }}"
                                     data-menu="/vendorzone">
-                                    <i class="fas fa-store nav-icon"></i>
+                                    {{-- <img class="badge img-default" src="/img/supplier-zone.png" />
+                                    <img class="badge img-hover" src="/img/supplier-zone-hover.png" /> --}}
                                     <span class="nav-label">Supplier Zone</span>
                                 </a>
                             </div>
@@ -119,10 +127,11 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                     @endforeach
                                 </ul> --}}
                             </div>
-                            @if (!auth('customer')->check())
+                            @if (!auth('customer')->check() && !auth('seller')->check() && !auth('admin')->check())
+                                {{-- Guest User: Show Sign In/Join --}}
                                 {{-- <a href="{{ route('customer.auth.login') }}">
                                     <div class="group-5 group-user">
-                                        <div class="text-wrapper-6">Sign in/ Join</div>
+                                        <div class="text-wrapper-6">Sign in / Join</div>
                                         <img class="user img-default" src="/img/user-1.png" />
                                         <img class="user img-hover" src="/img/user (2).png" />
                                     </div>
@@ -132,27 +141,38 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                     <a class="navbar-tool navbaricons m-0" type="button" data-toggle="dropdown"
                                         aria-haspopup="true" aria-expanded="false">
                                         <div class="navbar-tool-icon-box bg-secondary">
-                                            <div class="navbar-tool-icon-box bg-secondary">
-                                                <img class="img-profile rounded-circle __inline-14" alt=""
-                                                    src="{{ getStorageImages(path: auth('customer')->user()->image_full_url, type: 'avatar') }}">
-                                            </div>
+                                            <img class="img-profile rounded-circle __inline-14" alt=""
+                                                src="{{ getStorageImages(path: auth()->user()->image_full_url ?? '', type: 'avatar') }}">
                                         </div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
                                         aria-labelledby="dropdownMenuButton" style="border-radius: 10px;">
-                                        <a class="dropdown-item custom-dealrock-text"
-                                            href="{{ route('account-oder') }}"> {{ translate('my_Order') }}
-                                        </a>
-                                        <a class="dropdown-item custom-dealrock-text"
-                                            href="{{ route('user-account') }}">
-                                            {{ translate('my_Profile') }}</a>
-                                        @if ($is_jobadder === true)
+
+                                        @if (auth('customer')->check())
                                             <a class="dropdown-item custom-dealrock-text"
-                                                href="{{ route('job-panel') }}">{{ translate('job_Panel') }}</a>
+                                                href="{{ route('account-oder') }}">{{ translate('my_Order') }}</a>
+                                            <a class="dropdown-item custom-dealrock-text"
+                                                href="{{ route('user-account') }}">{{ translate('my_Profile') }}</a>
+                                            @if ($is_jobadder === true)
+                                                <a class="dropdown-item custom-dealrock-text"
+                                                    href="{{ route('job-panel') }}">{{ translate('job_Panel') }}</a>
+                                            @endif
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item custom-dealrock-text"
+                                                href="{{ route('customer.auth.logout') }}">{{ translate('logout') }}</a>
+                                        @elseif (auth('seller')->check())
+                                            <a class="dropdown-item custom-dealrock-text"
+                                                href="{{ route('vendor.dashboard.index') }}">{{ translate('manage_Dashboard') }}</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item custom-dealrock-text"
+                                                href="{{ route('vendor.auth.logout') }}">{{ translate('logout') }}</a>
+                                        @elseif (auth('admin')->check())
+                                            <a class="dropdown-item custom-dealrock-text"
+                                                href="{{ route('admin.dashboard.index') }}">{{ translate('manage_Dashboard') }}</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item custom-dealrock-text"
+                                                href="{{ route('admin.auth.logout') }}">{{ translate('logout') }}</a>
                                         @endif
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item custom-dealrock-text"
-                                            href="{{ route('customer.auth.logout') }}">{{ translate('logout') }}</a>
                                     </div>
                                 </div>
                             @endif

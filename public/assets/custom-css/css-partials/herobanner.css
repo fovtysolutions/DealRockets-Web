@@ -17,6 +17,12 @@
     background-color: white;
 }
 
+@media(max-width: 1440px) {
+    .mainpagesection {
+        width: 96%;
+    }
+}
+
 .mainpagesection a{
     text-decoration: none;
 }
@@ -510,7 +516,7 @@
 }
 
 .globle-deals{
-    height: 666px;
+    /* height: 666px; */
 }
 
 .globle-deals .card {

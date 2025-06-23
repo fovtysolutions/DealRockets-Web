@@ -690,6 +690,30 @@
     }
 }
 
+.nav-tile .img-default {
+    display: block;
+}
+
+.nav-tile .img-hover{
+    display: none;
+}
+
+.nav-tile:hover .img-default {
+    display: none;
+}
+
+.nav-tile:hover .img-hover {
+    display: block;
+}
+
+.nav-tile.active-menu .img-default {
+    display: none;
+}
+
+.nav-tile.active-menu .img-hover {
+    display: block;
+}
+
 .Men {
     position: relative;
 }

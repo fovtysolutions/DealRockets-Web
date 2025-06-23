@@ -9529,4 +9529,5 @@ return [
 	"Deal Assist | Marketplace" => "Deal Assist | Marketplace",
 	"Job Landing | Marketplace" => "Job Landing | Marketplace",
 	"Trade Shows | Marketplace" => "Trade Shows | Marketplace",
+	"manage_Dashboard" => "Manage Dashboard",
 ];

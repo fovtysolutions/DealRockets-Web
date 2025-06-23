@@ -9530,4 +9530,6 @@ return [
 	"Job Landing | Marketplace" => "Job Landing | Marketplace",
 	"Trade Shows | Marketplace" => "Trade Shows | Marketplace",
 	"manage_Dashboard" => "Manage Dashboard",
+	"you_are_already_logged_in" => "You are already logged in",
+	"Create an Account First" => "Create an Account First",
 ];

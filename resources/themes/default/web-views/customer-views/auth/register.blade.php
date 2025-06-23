@@ -281,29 +281,36 @@
     <script>
         sellerForm = document.getElementById('register-form');
 
+        var formData = new FormData(sellerForm);
+
         sellerForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            // Get the form data
-            var formData = new FormData(sellerForm);
-
-            // Send the data using fetch
-            fetch(sellerForm.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: sellerForm.action,
+                data: formData,
+                beforeSend: function() {
+                    $("#loading").addClass("d-grid");
+                },
+                success: function(response) {
+                    if (response.errors) {
+                        for (let index = 0; index < response.errors.length; index++) {
+                            toastr.error(response.errors[index].message);
+                        }
+                    } else if (response.error) {
+                        toastr.error(response.error);
+                    } else if (response.status === 1) {
+                        toastr.success(response.message);
+                        window.location.href = response.redirect_url;
+                    } else if (response.redirect_url !== "") {
+                        window.location.href = response.redirect_url;
+                    }
+                },
+                error: function() {},
+                complete: function() {
+                    $("#loading").removeClass("d-grid");
                 }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = data.redirect_url; // Redirect on success
-                } else {
-                    alert(data.message); // Show error message
-                }
-            })
-            .catch(error => console.error('Error:', error));
+            });
         });
     </script>
 @endpush

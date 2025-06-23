@@ -16,14 +16,22 @@ class NewProductStoreController extends Controller
     {
         $data = $this->validateProduct($request);
 
-        $data['target_market'] = json_encode($data['target_market']);
-        $data['dynamic_data'] = json_encode($data['dynamic_data']);
-        $data['dynamic_data_technical'] = json_encode($data['dynamic_data_technical']);
+        $data['target_market'] = json_encode($data['target_market'] ?? []);
+        $data['dynamic_data'] = json_encode($data['dynamic_data'] ?? []);
+        $data['dynamic_data_technical'] = json_encode($data['dynamic_data_technical'] ?? []);
 
-        // Handle file uploads
-        $data['thumbnail'] = $this->uploadFile($request, 'thumbnail', 'products/thumbnails');
-        $data['certificates'] = $this->uploadMultiple($request, 'certificates', 'products/certificates');
-        $data['extra_images'] = $this->uploadMultiple($request, 'extra_images', 'products/extra_images');
+        // Handle file uploads (null-safe)
+        $data['thumbnail'] = $request->hasFile('thumbnail')
+            ? $this->uploadFile($request, 'thumbnail', 'products/thumbnails')
+            : null;
+
+        $data['certificates'] = $request->hasFile('certificates')
+            ? $this->uploadMultiple($request, 'certificates', 'products/certificates')
+            : null;
+
+        $data['extra_images'] = $request->hasFile('extra_images')
+            ? $this->uploadMultiple($request, 'extra_images', 'products/extra_images')
+            : null;
 
         $user_details = ChatManager::getRoleDetail();
 
@@ -42,9 +50,9 @@ class NewProductStoreController extends Controller
     {
         $data = $this->validateProduct($request);
 
-        $data['target_market'] = json_encode($data['target_market']);
-        $data['dynamic_data'] = json_encode($data['dynamic_data']);
-        $data['dynamic_data_technical'] = json_encode($data['dynamic_data_technical']);
+        $data['target_market'] = json_encode($data['target_market'] ?? []);
+        $data['dynamic_data'] = json_encode($data['dynamic_data'] ?? []);
+        $data['dynamic_data_technical'] = json_encode($data['dynamic_data_technical'] ?? []);
 
         // Handle file uploads if updated
         if ($request->hasFile('thumbnail')) {
@@ -146,7 +154,7 @@ class NewProductStoreController extends Controller
     {
         try {
             $product = Product::findOrFail($id);
-            if($product->status == 0){
+            if ($product->status == 0) {
                 $product->status = 1;
             } else {
                 $product->status = 0;

@@ -31,47 +31,47 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                         </div>
                         <div class="navbar-3">
                             <a class="nav-tile deleight" href="{{ route('home') }}" data-menu="/" data-home="true">
-                                {{-- <img class="badge img-default" src="/img/home.png" />
-                                <img class="badge img-hover" src="/img/home-hover.png" /> --}}
+                                <img class="badge img-default" src="/img/home.png" />
+                                <img class="badge img-hover" src="/img/home-hover.png" />
                                 <span class="nav-label">Home</span>
                             </a>
                             <a class="nav-tile delseven" href="{{ route('stocksale') }}" data-menu="/stock-sale">
-                                {{-- <img class="badge img-default" src="/img/stock-sale.png" />
-                                <img class="badge img-hover" src="/img/stock-sale-hover.png" /> --}}
+                                <img class="badge img-default" src="/img/stock-sale.png" />
+                                <img class="badge img-hover" src="/img/stock-sale-hover.png" />
                                 <span class="nav-label">Stock Sale</span>
                             </a>
                             <a class="nav-tile delsix" href="{{ route('buyer') }}" data-menu="/buy-leads">
-                                {{-- <img class="badge img-default" src="/img/buy-leads.png" />
-                                <img class="badge img-hover" src="/img/buy-leads-hover.png" /> --}}
+                                <img class="badge img-default" src="/img/buy-leads.png" />
+                                <img class="badge img-hover" src="/img/buy-leads-hover.png" />
                                 <span class="nav-label">Buy Leads</span>
                             </a>
                             <a class="nav-tile delfive" href="{{ route('seller') }}" data-menu="/sell-offer">
-                                {{-- <img class="badge img-default" src="/img/sale-offer.png" />
-                                <img class="badge img-hover" src="/img/sale-offer-hover.png" /> --}}
+                                <img class="badge img-default" src="/img/sale-offer.png" />
+                                <img class="badge img-hover" src="/img/sale-offer-hover.png" />
                                 <span class="nav-label">Sell Offer</span>
                             </a>
                             <a class="nav-tile delfour" href="{{ route('dealassist') }}" data-menu="/deal-assist">
-                                {{-- <img class="badge img-default" src="/img/deal-assist.png" />
-                                <img class="badge img-hover" src="/img/deal-assist-hover.png" /> --}}
+                                <img class="badge img-default" src="/img/deal-assist.png" />
+                                <img class="badge img-hover" src="/img/deal-assist-hover.png" />
                                 <span class="nav-label">Deal Assist</span>
                             </a>
                             <a class="nav-tile delone" href="{{ route('sendcv') }}" data-menu="/industry-jobs">
-                                {{-- <img class="badge img-default" src="/img/industry-jobs.png" />
-                                <img class="badge img-hover" src="/img/industry-jobs-hover.png" /> --}}
+                                <img class="badge img-default" src="/img/industry-jobs.png" />
+                                <img class="badge img-hover" src="/img/industry-jobs-hover.png" />
                                 <span class="nav-label">Industry Jobs</span>
                             </a>
                             <div class="frame-2 deltwo">
                                 <a class="nav-tile" href="{{ route('tradeshow') }}" data-menu="/tradeshow">
-                                    {{-- <img class="badge img-default" src="/img/trade-shows.png" />
-                                    <img class="badge img-hover" src="/img/trade-shows-hover.png" /> --}}
+                                    <img class="badge img-default" src="/img/trade-shows.png" />
+                                    <img class="badge img-hover" src="/img/trade-shows-hover.png" />
                                     <span class="nav-label">Trade Shows</span>
                                 </a>
                             </div>
                             <div class="frame-2 delthree">
                                 <a class="nav-tile" href="{{ route('vendor.auth.registration.index') }}"
                                     data-menu="/vendorzone">
-                                    {{-- <img class="badge img-default" src="/img/supplier-zone.png" />
-                                    <img class="badge img-hover" src="/img/supplier-zone-hover.png" /> --}}
+                                    <img class="badge img-default" src="/img/supplier-zone.png" />
+                                    <img class="badge img-hover" src="/img/supplier-zone-hover.png" />
                                     <span class="nav-label">Supplier Zone</span>
                                 </a>
                             </div>
@@ -171,7 +171,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                 href="{{ route('admin.dashboard.index') }}">{{ translate('manage_Dashboard') }}</a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item custom-dealrock-text"
-                                                href="{{ route('admin.auth.logout') }}">{{ translate('logout') }}</a>
+                                                href="{{ route('admin.logout') }}">{{ translate('logout') }}</a>
                                         @endif
                                     </div>
                                 </div>
@@ -358,10 +358,15 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             </ul>
 
                                             <div class="text-center mt-4">
-                                                <a href="{{ route('vendor.auth.login') }}"
-                                                    class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
-                                                <a href="{{ route('vendor.auth.registration.index') }}"
-                                                    class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                @if (auth('seller')->check())
+                                                    <a href="{{ route('vendor.dashboard.index') }}"
+                                                        class="btn btn-primary btn-sm mb-2 w-100">Dashboard</a>
+                                                @else
+                                                    <a href="{{ route('vendor.auth.login') }}"
+                                                        class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
+                                                    <a href="{{ route('vendor.auth.registration.index') }}"
+                                                        class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -417,10 +422,19 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             </ul>
 
                                             <div class="text-center mt-4">
-                                                <a href="{{ route('customer.auth.login') }}"
-                                                    class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
-                                                <a href="{{ route('customer.auth.sign-up') }}"
-                                                    class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                @if (auth('customer')->check())
+                                                    <a href="{{ route('account-oder') }}"
+                                                        class="btn btn-primary btn-sm mb-2 w-100">My Orders</a>
+                                                    <a href="{{ route('user-account') }}"
+                                                        class="btn btn-primary btn-sm w-100">My Profile</a>
+                                                    <a href="{{ route('customer.auth.logout') }}"
+                                                        class="btn btn-primary btn-sm w-100">Logout</a>
+                                                @else
+                                                    <a href="{{ route('customer.auth.login') }}"
+                                                        class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
+                                                    <a href="{{ route('customer.auth.sign-up') }}"
+                                                        class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -476,10 +490,19 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             </ul>
 
                                             <div class="text-center mt-4">
-                                                <a href="{{ route('customer.auth.login') }}"
-                                                    class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
-                                                <a href="{{ route('customer.auth.sign-up') }}"
-                                                    class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                @if (auth('customer')->check())
+                                                    <a href="{{ route('account-oder') }}"
+                                                        class="btn btn-primary btn-sm mb-2 w-100">My Orders</a>
+                                                    <a href="{{ route('user-account') }}"
+                                                        class="btn btn-primary btn-sm w-100">My Profile</a>
+                                                    <a href="{{ route('customer.auth.logout') }}"
+                                                        class="btn btn-primary btn-sm w-100">Logout</a>
+                                                @else
+                                                    <a href="{{ route('customer.auth.login') }}"
+                                                        class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
+                                                    <a href="{{ route('customer.auth.sign-up') }}"
+                                                        class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

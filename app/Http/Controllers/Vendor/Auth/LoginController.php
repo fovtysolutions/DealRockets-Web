@@ -66,7 +66,7 @@ class LoginController extends Controller
         if(!isset($vendorUsers)){
             return response()->json([
                 'success' => translate('Create an Account First') . '!',
-                'redirectRoute' => route('vendor.auth.registration.index'),
+                'redirectRoute' => route('vendor.auth.login'),
             ]);
         }
         if(isset($vendorUsers) && isset($password)){

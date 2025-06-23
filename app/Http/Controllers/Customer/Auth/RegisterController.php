@@ -48,10 +48,15 @@ class RegisterController extends Controller
         $this->middleware('guest:customer', ['except' => ['logout']]);
     }
 
-    public function getRegisterView(): View
+    public function getRegisterView()
     {
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         session()->put('keep_return_url', url()->previous());
+
+        if (auth('customer')->check() || auth('seller')->check() || auth('admin')->check()) {
+            return redirect()->route('home')->with('message', translate('you_are_already_logged_in'));
+        }
+
         return view('web-views.customer-views.auth.register',compact("categories"));
     }
 

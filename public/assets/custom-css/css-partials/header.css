@@ -1061,7 +1061,7 @@
 /* Hover effect on each list item */
 .feature-list li:hover {
     color: var(--web-hover);
-    cursor: pointer;
+    /* cursor: pointer; */
     transition: color 0.3s ease;
     background-color: rgba(251, 238, 229, 0.5);
     border-radius: 10px;

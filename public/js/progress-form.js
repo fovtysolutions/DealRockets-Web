@@ -39,11 +39,11 @@ function initializeMultiStepForm() {
     document.querySelectorAll(".next-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
             const currentStepSection = btn.closest(".step-section");
-            if (validateStepInputs(currentStepSection)) {
+            // if (validateStepInputs(currentStepSection)) {
                 showStep(btn.dataset.next);
-            } else {
-                toastr.info("Please fill in all required fields.");
-            }
+            // } else {
+            //     toastr.info("Please fill in all required fields.");
+            // }
         });
     });
 

@@ -33,6 +33,7 @@ class MembershipController extends Controller
         }
         $digital_payment = getWebConfig(name: 'digital_payment');
         $payment_gateways_list = payment_gateways();
+        // dd($memdata,$customer_tiers);
         return view('web.membership',compact('memdata','memdatar','customer_tiers','seller_tiers','digital_payment','payment_gateways_list'));
     }
 

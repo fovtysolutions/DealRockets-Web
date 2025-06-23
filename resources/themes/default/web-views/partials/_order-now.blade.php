@@ -22,7 +22,8 @@
             @foreach($trending->take(5) as $product)
             <!-- Product 1 -->
             <div class="product-card image-wrapper shimmer">
-                <img data-src="{{ $product->thumbnail !== 'imageurl' ? '/storage/product/thumbnail/' . $product->thumbnail : '/images/placeholderimage.webp' }}" class="card-img-top lazyload" alt="Product 1">
+                <img data-src="{{ $product->thumbnail !== 'imageurl' ? '/storage/product/thumbnail/' . $product->thumbnail : '/images/placeholderimage.webp' }}" class="card-img-top lazyload" alt="Product 1"
+                onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">
                 <div class="text-left">
                     <p class="small text-muted m-1">{{ $product->name }}</p>
                     <p class="fw-bold m-1">US$ {{ number_format($product->unit_price, 2) }} / {{ $product->unit }}</p>
@@ -36,7 +37,8 @@
             @foreach($trending->take(2) as $product)
             <!-- Product 1 -->
             <div class="card product-card image-wrapper shimmer">
-                <img data-src="{{ $product->thumbnail !== 'imageurl' ? '/storage/product/thumbnail/' . $product->thumbnail : '/images/placeholderimage.webp' }}" class="card-img-top lazyload" alt="Product 1">
+                <img data-src="{{ $product->thumbnail !== 'imageurl' ? '/storage/product/thumbnail/' . $product->thumbnail : '/images/placeholderimage.webp' }}" class="card-img-top lazyload" alt="Product 1" 
+                    onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">
                 <div class="card-body text-left">
                     <p class="small text-muted mb-1">{{ $product->name }}</p>
                     <p class="fw-bold mb-1">US$ {{ number_format($product->unit_price, 2) }} / {{ $product->unit }}</p>

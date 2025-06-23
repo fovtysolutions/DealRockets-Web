@@ -86,7 +86,7 @@ class RegisterController extends BaseController
         $email = $request->post('email');
         $phone = $request->post('phone');
         $password = $request->post('password');
-        $confirm_password = $request->post('confirm_password');
+        $confirm_password = $request->post('con_password');
 
         // Phone check
         if ($phone && Seller::where('phone', $phone)->exists()) {
@@ -132,7 +132,7 @@ class RegisterController extends BaseController
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'password' => $request->password,
-                'confirm_password' => $request->confirm_password,
+                'confirm_password' => $request->con_password,
             ]
         ]);
         return view('web-views.seller-view.auth.otp.fillotp', compact('otp', 'vendor_type', 'email', 'phone', 'password', 'confirm_password'));
@@ -198,9 +198,9 @@ class RegisterController extends BaseController
 
             self::make_sellers_register($vendor_data);
 
-            return redirect()->route('vendor.auth.registration.index');
+            return redirect()->route('vendor.auth.login')->with('success', 'OTP verified successfully. You can now complete your registration.');
         } else {
-            return redirect()->route('vendor.auth.registration.index')->with('error', 'Invalid OTP');
+            return redirect()->back()->with('error', 'Invalid OTP');
         }
     }
 

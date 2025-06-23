@@ -71,21 +71,27 @@
 
                                     <div class="mb-2">
                                         <label class="form-label">Password</label>
-                                        <div class="icon-input">
-                                            <!-- <i class="bi bi-lock"></i> -->
+                                        <div class="icon-input position-relative">
                                             <input name="password" type="password" id="password" class="form-control"
                                                 placeholder="Minimum 8 Character Long"
                                                 value="{{ $vendor_data['password'] ?? null }}">
+                                            <span class="toggle-password" toggle="#password"
+                                                style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+                                                👁️
+                                            </span>
                                         </div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">Confirm Password</label>
-                                        <div class="icon-input">
-                                            <!-- <i class="bi bi-lock-fill"></i> -->
-                                            <input name="confirm_password" type="password" id="confirm_password"
+                                        <div class="icon-input position-relative">
+                                            <input name="con_password" type="password" id="confirm_password"
                                                 class="form-control" placeholder="Confirm Password"
                                                 value="{{ $vendor_data['confirm_password'] ?? null }}">
+                                            <span class="toggle-password" toggle="#confirm_password"
+                                                style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+                                                👁️
+                                            </span>
                                         </div>
                                     </div>
 
@@ -244,4 +250,14 @@
     <script src="{{ theme_asset(path: 'public/assets/front-end/plugin/intl-tel-input/js/intlTelInput.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/country-picker-init.js') }}"></script>
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/vendor-registration.js') }}"></script>
+    <script>
+        document.querySelectorAll(".toggle-password").forEach(function(eyeIcon) {
+            eyeIcon.addEventListener("click", function() {
+                const input = document.querySelector(this.getAttribute("toggle"));
+                const isPassword = input.getAttribute("type") === "password";
+                input.setAttribute("type", isPassword ? "text" : "password");
+                this.textContent = isPassword ? "👁️‍🗨️" : "👁️";
+            });
+        });
+    </script>
 @endpush

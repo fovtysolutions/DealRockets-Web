@@ -81,18 +81,19 @@
                         <p>Sign in to unlock exclusive deals, shop smarter, and save big on your favorite products!</p>
                     </div>
 
-                    <form class="form" id="customer-register-form" action="{{ route('customer.auth.sign-up') }}"
+                    <form class="form" id="register-form" action="{{ route('customer.auth.sign-up') }}"
                         method="post">
                         @csrf
                         <!-- Role Switch -->
                         <div class="form-group">
                             <label>Sign up as</label>
                             <div class="role-buttons">
-                                <button type="button" class="role-button" data-role="buyer">Buyer</button>
-                                <button type="button" class="role-button" data-role="supplier">Supplier</button>
-                                <button type="button" class="role-button" data-role="consultant">Consultant</button>
+                                <button type="button" class="role-button" data-role="buyer" data-url="{{ route('customer.auth.sign-up') }}">Buyer</button>
+                                <button type="button" class="role-button" data-role="supplier" data-url="{{ route('vendor.auth.registration.rest-details-seller') }}">Supplier</button>
+                                <button type="button" class="role-button" data-role="consultant" data-url="{{ route('customer.auth.sign-up') }}">Consultant</button>
                             </div>
                             <input type="hidden" name="signInAs" id="signInAs">
+                            <input type="hidden" name="vendor_type" id="vendor_type" value="vendor">
                         </div>
 
                         <!-- Name -->
@@ -127,7 +128,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="confirm_password">Confirm Password</label>
-                                <input type="password" id="confirm_password" name="confirm_password"
+                                <input type="password" id="confirm_password" name="con_password"
                                     placeholder="Confirm password">
                             </div>
                         </div>
@@ -172,7 +173,7 @@
                         <!-- Already have account -->
                         <div class="signup-link">
                             Already have an account?
-                            <a type="button" href="{{ route('customer.auth.login') }}" class="link-btn">Login</a>
+                            <a type="button" href="{{ route('customer.auth.login') }}" class="link-btn">Sign In</a>
                         </div>
                     </form>
                 </div>
@@ -265,13 +266,44 @@
     <script>
         const roleButtons = document.querySelectorAll('.role-button');
         const roleInput = document.getElementById('signInAs');
+        const formAction = document.getElementById('register-form');
 
         roleButtons.forEach(button => {
             button.addEventListener('click', () => {
                 roleButtons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
                 roleInput.value = button.getAttribute('data-role');
+                formAction.action = button.getAttribute('data-url');
+                formAction.id = button.getAttribute('data-id');
             });
+        });
+    </script>
+    <script>
+        sellerForm = document.getElementById('register-form');
+
+        sellerForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the form data
+            var formData = new FormData(sellerForm);
+
+            // Send the data using fetch
+            fetch(sellerForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect_url; // Redirect on success
+                } else {
+                    alert(data.message); // Show error message
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     </script>
 @endpush

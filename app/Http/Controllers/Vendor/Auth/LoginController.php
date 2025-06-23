@@ -62,12 +62,20 @@ class LoginController extends Controller
         // Check if form is filled or not
         $email = $request['email'];
         $password = $request['password'];
-        $vendorUsers = VendorUsers::where('email', $email)->where('password', $password)->first();
+        $vendorUsers = VendorUsers::where('email', $email)->first();
         if(!isset($vendorUsers)){
             return response()->json([
                 'success' => translate('Create an Account First') . '!',
                 'redirectRoute' => route('vendor.auth.registration.index'),
             ]);
+        }
+        if(isset($vendorUsers) && isset($password)){
+            if($password != $vendorUsers->password){
+                return response()->json([
+                    'success' => translate('Fill Correct Credentials') . '!',
+                    'redirectRoute' => route('vendor.auth.login'),
+                ]);
+            }
         }
         $recaptcha = getWebConfig(name: 'recaptcha');
         if (isset($recaptcha) && $recaptcha['status'] == 0) {

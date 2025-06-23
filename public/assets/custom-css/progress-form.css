@@ -1,5 +1,6 @@
 .progress-form-main {
-    width: 1128px;
+    max-width: 1128px;
+    width: 96%;
     margin: 10px auto;
     padding: 30px;
     border: 1px solid lightgrey;
@@ -341,47 +342,6 @@
     padding-right: 20px;
 }
 
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .progress-form-main .container {
-        margin: 10px;
-        border-radius: 8px;
-    }
-
-    .progress-form-main .form-row {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .progress-form-main .quotation-form {
-        padding: 20px;
-    }
-
-    .progress-form-main .form-header {
-        padding: 20px;
-    }
-
-    .progress-form-main .form-header h1 {
-        font-size: 24px;
-    }
-
-    .progress-form-main .progress-container {
-        padding: 20px 10px 15px;
-    }
-
-    .progress-form-main .step-line {
-        width: 60px;
-        margin: 0 5px;
-    }
-
-    .progress-form-main .step-circle {
-        width: 28px;
-        height: 28px;
-        font-size: 12px;
-    }
-}
-
 /* Form Validation Styles */
 .progress-form-main .form-group.error input,
 .progress-form-main .form-group.error select,
@@ -412,4 +372,47 @@
     background: #9ca3af;
     transform: none;
     box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .progress-form-main .container {
+        margin: 10px;
+        border-radius: 8px;
+    }
+
+    .progress-form-main .form-row {
+        /* gap: 15px; */
+        flex-direction: column;
+    }
+
+    .progress-form-main .form-row .form-group:last-child {
+        padding-left: 0;
+    }
+
+    .progress-form-main .quotation-form {
+        padding: 20px;
+    }
+
+    .progress-form-main .form-header {
+        padding: 20px;
+    }
+
+    .progress-form-main .form-header h1 {
+        font-size: 24px;
+    }
+
+    .progress-form-main .progress-container {
+        padding: 20px 10px 15px;
+    }
+
+    .progress-form-main .step-line {
+        width: 60px;
+        margin: 0 5px;
+    }
+
+    .progress-form-main .step-circle {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
 }

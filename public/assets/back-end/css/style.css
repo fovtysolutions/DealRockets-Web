@@ -136,6 +136,18 @@ a:hover {
     height: 30px !important;
 }
 
+@media(max-width: 692px){
+    #header{
+        height: 110px;
+    }
+    #content{
+        padding-top: 7rem;
+    }
+    #contentother{
+        padding-top: 1rem;
+    }
+}
+
 /* .navbar-vertical-aside-mini-mode .navbar-brand {
     display: none;
 } */

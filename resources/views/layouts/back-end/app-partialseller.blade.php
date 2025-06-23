@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <main id="content" role="main" class="main pointer-event">
+    <main id="contentother" role="main" class="main pointer-event">
         @yield('content')
 
         @include('layouts.back-end.partials-seller._modals')

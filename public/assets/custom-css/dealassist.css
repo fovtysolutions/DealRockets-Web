@@ -53,25 +53,41 @@
     }
 
     .dealassist .content {
-      padding: var(--spacing-xl);
-      background-color: var(--text-lighter);
+      padding: 25px 15px 25px 15px;
       position: relative;
-      height: 115px;
-      border-radius: var(--spacing-l);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: box-shadow 0.3s ease, transform 0.3s ease;
-      text-align: center;
-      color: var(--background-dark);
-      font-weight: bold;
-      font-size: 1.25rem;
+      height: 100%;
       align-content: center;
     }
 
-    .dealassist .content:hover {
+    .dealassist .content-header {
+      text-align: left;
+      color: #000000;
+      font-size: 17px;
+      font-weight: 600;
+      z-index: 10;
+      position: relative;
+      display: flex;
+    }
+
+    .dealassist .content-desc {
+      text-align: left;
+      font-size: 17px;
+      color: #555;
+      padding-top: 10px;
+    }
+
+    .dealassist .timeline-title{
+      font-size: 20px;
+      font-weight: 600;
+      color: #000000;
+      margin-bottom: 10px;
+    }
+
+    /* .dealassist .content:hover {
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
       transform: scale(1.01);
       color: #e52222;
-    }
+    } */
 
     .dealassist .icon {
       font-size: 32px;

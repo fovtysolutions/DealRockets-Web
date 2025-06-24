@@ -35,6 +35,11 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                 <img class="badge img-hover" src="/img/home-hover.png" />
                                 <span class="nav-label">Home</span>
                             </a>
+                            <a class="nav-tile deleight" href="/products?searchInput=" data-menu="/" data-home="true">
+                                <img class="badge img-default" src="/img/shop.png" />
+                                <img class="badge img-hover" src="/img/shop-hover.png" />
+                                <span class="nav-label">Marketplace</span>
+                            </a>
                             <a class="nav-tile delseven" href="{{ route('stocksale') }}" data-menu="/stock-sale">
                                 <img class="badge img-default" src="/img/stocksale.png" />
                                 <img class="badge img-hover" src="/img/stocksale-hover.png" />

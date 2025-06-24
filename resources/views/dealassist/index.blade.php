@@ -18,7 +18,8 @@
                         businesses to seize opportunities and thrive in today’s competitive
                         landscape.</span>
                     <div class="frame">
-                        <span class="customized-marketing"><a href="#">Get customized marketing solutions!</a></span>
+                        <span class="customized-marketing"><a href="javascript:">Get customized marketing
+                                solutions!</a></span>
                     </div>
                 </div>
             </div>
@@ -42,189 +43,346 @@
                     <span class="for-seller" id="sellerClick">For Seller</span>
                 </div>
                 <div id="buyerTimeline" class="dealassist-tab buyer">
+                    <!-- Subheading and Tagline -->
+                    <div class="timeline-header">
+                        <h2 class="timeline-title">Start your Buying Journey</h2>
+                        <!-- Optional tagline -->
+                        <!-- <p class="timeline-tagline">End-to-end sourcing assistance from DealRockets — ensuring quality, reliability, and global reach.</p> -->
+                    </div>
+
                     <div class="timeline hide-line">
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Buyer requests the DR to find the supplier of his product in the international market
+                                    <div class="content-header">Request Initiation</div>
+                                    <div class="content-desc">
+                                        The buyer begins by sharing their product requirement with DealRockets. This
+                                        includes details like what they want to buy, quantity, preferred quality, and target
+                                        price. From this point, DealRockets takes over and starts working on the buyer’s
+                                        behalf.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    DR will provide the best quote from the top supplier
+                                    <div class="content-header">Supplier Sourcing</div>
+                                    <div class="content-desc">
+                                        DealRockets searches and contacts trusted suppliers around the world who can fulfill
+                                        the buyer’s needs. We compare prices, quality, reliability, and timelines, and
+                                        present the best options with transparent quotations.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Assist in the finalization of terms and condition
+                                    <div class="content-header">Terms Finalization</div>
+                                    <div class="content-desc">
+                                        Once a suitable supplier is chosen, DealRockets helps both parties agree on clear
+                                        terms — including pricing, delivery dates, payment methods, and responsibilities —
+                                        to avoid confusion later and ensure a smooth deal.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Assist and provide due diligence of both the parties and exchange with each other
+                                    <div class="content-header">Due Diligence</div>
+                                    <div class="content-desc">
+                                        To ensure safety and trust, DealRockets verifies the background and credibility of
+                                        both the buyer and supplier. This includes checking registration documents, previous
+                                        records, and confirming genuine contact details before proceeding.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Assist in the sampling process and take approval
+                                    <div class="content-header">Sampling Support</div>
+                                    <div class="content-desc">
+                                        If needed, DealRockets arranges product samples to be sent to the buyer for
+                                        checking. We coordinate with the supplier and ensure the sample meets the
+                                        expectations before the full order is approved.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Take care of the production lead time
+                                    <div class="content-header">Production Monitoring</div>
+                                    <div class="content-desc">
+                                        After order confirmation, we keep track of the production timeline to make sure
+                                        there are no delays. DealRockets regularly checks progress with the supplier and
+                                        keeps the buyer informed at each stage.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Provide full report about quality and dispatch by verified 3rd party
+                                    <div class="content-header">Quality Assurance</div>
+                                    <div class="content-desc">
+                                        Before dispatch, DealRockets arranges a third-party quality check to make sure the
+                                        goods match the agreed specifications. This builds trust and avoids surprises or
+                                        disputes after delivery.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Provide logistic support if buyer wants to import on FOB
+                                    <div class="content-header">Logistics Support</div>
+                                    <div class="content-desc">
+                                        DealRockets can help with shipping arrangements too. Whether it’s FOB (Free on
+                                        Board) or another method, we guide the buyer and work with logistics companies to
+                                        ensure smooth and cost-effective transport.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Assist in the documentation and operation process
+                                    <div class="content-header">Documentation & Operations</div>
+                                    <div class="content-desc">
+                                        We help prepare and manage all required documents — like invoices, contracts,
+                                        shipping papers, and compliance certificates — so that the shipment process is
+                                        legally correct and smooth at customs and banks.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Collect the balance payment and close the deal
+                                    <div class="content-header">Payment & Closure</div>
+                                    <div class="content-desc">
+                                        After final checks, DealRockets helps collect any remaining payment from the buyer
+                                        securely. Once payment is done, the deal is marked complete and both parties receive
+                                        a closure confirmation.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Successfully completion of the deal
+                                    <div class="content-header">Successful Completion</div>
+                                    <div class="content-desc">
+                                        The buyer successfully receives the product, all conditions are fulfilled, and the
+                                        transaction is completed. DealRockets ensures everything ends on a positive note
+                                        with full support even after the deal closes.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                     </div>
                 </div>
                 <div id="supplierTimeline" class="dealassist-tab supplier d-none">
+                    <!-- Optional Header -->
+                    <div class="timeline-header">
+                        <h2 class="timeline-title">Supplier Journey with DealRockets</h2>
+                        <!-- <p class="timeline-tagline">Helping suppliers grow globally through trusted buyer connections and full-service support.</p> -->
+                    </div>
+
                     <div class="timeline hide-line">
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Find buyer for desired products
+                                    <div class="content-header">Buyer Matching</div>
+                                    <div class="content-desc">
+                                        DealRockets helps suppliers find genuine buyers who are actively looking for their
+                                        products in the international market. We act as a bridge between verified demand and
+                                        your offerings.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Assist in the finalization of terms and condition
+                                    <div class="content-header">Terms Finalization</div>
+                                    <div class="content-desc">
+                                        Once a buyer is matched, DealRockets helps both sides finalize key terms such as
+                                        price, delivery time, payment conditions, and responsibilities — ensuring everything
+                                        is clearly understood and agreed upon.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Assist and provide due diligence of both the parties and exchange with each other
+                                    <div class="content-header">Due Diligence</div>
+                                    <div class="content-desc">
+                                        DealRockets verifies and shares trusted business profiles of both buyer and
+                                        supplier. This step builds trust and protects both parties from fraud or
+                                        miscommunication.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Assist in the sampling process and take approval
+                                    <div class="content-header">Sampling & Approval</div>
+                                    <div class="content-desc">
+                                        We help coordinate the sending of samples to the buyer. Once the buyer approves, the
+                                        supplier receives confirmation and can confidently proceed with production.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Take care of payment if advance
+                                    <div class="content-header">Advance Payment Assistance</div>
+                                    <div class="content-desc">
+                                        If advance payment is involved, DealRockets ensures that the process is smooth and
+                                        secure. We help confirm that the funds are received correctly before production
+                                        begins.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Take care of production lead time
+                                    <div class="content-header">Production Lead Time</div>
+                                    <div class="content-desc">
+                                        DealRockets helps track and manage the production schedule to ensure timely
+                                        delivery. We assist in keeping everything on track so deadlines are met.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Provides assistance in packing and dispatch at the time of loading at warehouse or port
+                                    <div class="content-header">Packing & Dispatch</div>
+                                    <div class="content-desc">
+                                        We support proper packing and safe dispatch at the warehouse or port. This includes
+                                        coordination during loading to make sure the goods are secure and properly
+                                        documented.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Provide logistic support for air and sea cargo
+                                    <div class="content-header">Logistics Support</div>
+                                    <div class="content-desc">
+                                        Whether by air or sea, DealRockets helps arrange transportation for the shipment. We
+                                        coordinate with freight partners to ensure smooth shipping and delivery.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Assist in the documentation and operation process
+                                    <div class="content-header">Documentation & Operations</div>
+                                    <div class="content-desc">
+                                        From invoices to shipping papers, DealRockets helps suppliers prepare and manage all
+                                        required documents. This reduces errors and avoids delays at customs or banks.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Take care of the balance payment direct TT or through bank
+                                    <div class="content-header">Balance Payment Assistance</div>
+                                    <div class="content-desc">
+                                        DealRockets supports the final payment process, whether it's done via direct bank
+                                        transfer (TT) or through a financial institution. We ensure funds are securely
+                                        received.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Make the deal successful for supplier
+                                    <div class="content-header">Successful Deal Closure</div>
+                                    <div class="content-desc">
+                                        Once everything is complete, DealRockets confirms the successful closure of the deal
+                                        — ensuring both parties are satisfied and all conditions are met.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Additionally, advertise the supplier’s product on the platform and in various countries
-                                    to
-                                    promote their products.
+                                    <div class="content-header">Product Promotion</div>
+                                    <div class="content-desc">
+                                        DealRockets promotes the supplier’s products across its platform and in various
+                                        countries through digital campaigns — helping expand global visibility and generate
+                                        more leads.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container left">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Supplier get the highest membership and preference on deal rocket platform to adv their
-                                    company and products.
+                                    <div class="content-header">Membership Preference</div>
+                                    <div class="content-desc">
+                                        Suppliers with higher membership levels get priority in deals, better visibility,
+                                        and exclusive tools to promote their brand and products on the DealRockets platform.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                         <div class="timeline-container right">
-                            <a href="#" class="content-link">
+                            <a href="javascript:" class="content-link">
                                 <div class="content">
-                                    Creates brand image in the global market
+                                    <div class="content-header">Global Brand Building</div>
+                                    <div class="content-desc">
+                                        By consistently participating in quality deals and showcasing products worldwide,
+                                        the supplier builds a strong and trustworthy global brand with the help of
+                                        DealRockets.
+                                    </div>
                                 </div>
                             </a>
                         </div>
+
                     </div>
                 </div>
             </div>

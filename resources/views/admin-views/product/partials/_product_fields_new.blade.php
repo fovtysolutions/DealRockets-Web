@@ -146,24 +146,37 @@
                     accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" multiple>
             </div>
         </div>
-        <div class="form-row">
-            @if ($isEdit && !empty($product->thumbnail))
-                <div class="d-flex gap-2 mt-2">
-                    <h4>Thumbnail</h4>
-                    <img src="/storage/{{ $product->thumbnail }}" alt="Thumbnail"
-                        style="max-height: 200px;max-width: 200px;aspect-ratio: 4/3;border:1px solid #ccc;border-radius:6px;">
-                </div>
-            @endif
-        </div>
-        <div class="form-row">
-            @if ($isEdit && !empty($product->extra_images))
+        @if ($isEdit && !empty($product->thumbnail))
+            <div class="form-row mb-3">
+                <h4>Thumbnail</h4>
+                <img src="/storage/{{ $product->thumbnail }}" alt="Thumbnail"
+                    style="max-height: 200px; max-width: 200px; aspect-ratio: 4/3; border:1px solid #ccc; border-radius:6px;">
+            </div>
+        @else
+            <div class="form-row mb-3">
+                <h4>Thumbnail</h4>
+                <p class="text-muted">No thumbnail uploaded.</p>
+            </div>
+        @endif
+        @php
+            if($isEdit){
+                $extraImages = json_decode($product->extra_images, true) ?? [];
+            } else {
+                $extraImages = [];
+            }
+        @endphp
+
+        <div class="form-row mb-3">
+            <h4>Additional Images</h4>
+            @if ($isEdit && is_array($extraImages) && count($extraImages))
                 <div class="d-flex flex-wrap gap-2 mt-2">
-                    <h4>Additional Images</h4>
-                    @foreach (json_decode($product->extra_images, true) as $image)
+                    @foreach ($extraImages as $image)
                         <img src="/storage/{{ $image }}" alt="Extra Image"
-                            style="max-height: 200px;max-width: 200px;aspect-ratio: 4/3;border:1px solid #ccc;border-radius:6px;">
+                            style="max-height: 200px; max-width: 200px; aspect-ratio: 4/3; border:1px solid #ccc; border-radius:6px;">
                     @endforeach
                 </div>
+            @else
+                <p class="text-muted">No additional images uploaded.</p>
             @endif
         </div>
         <div class="form-row">
@@ -177,10 +190,19 @@
             @if ($isEdit && !empty($product->certificates))
                 <div class="d-flex flex-wrap gap-2 mt-2">
                     <h4>Certificates</h4>
-                    @foreach (json_decode($product->certificates, true) as $cert)
-                        <img src="/storage/{{ $cert }}" alt="Certificate"
-                            style="max-height: 200px;max-width: 200px;aspect-ratio: 4/3;border:1px solid #ccc;border-radius:6px;">
-                    @endforeach
+                    @php
+                        $certificates = json_decode($product->certificates, true) ?? [];
+                    @endphp
+
+                    @if (!empty($certificates) && is_array($certificates))
+                        @foreach ($certificates as $cert)
+                            <img src="/storage/{{ $cert }}" alt="Certificate"
+                                style="max-height: 200px; max-width: 200px; aspect-ratio: 4/3; border:1px solid #ccc; border-radius:6px;"
+                                class="me-2 mb-2">
+                        @endforeach
+                    @else
+                        <p class="text-muted">No certificates available.</p>
+                    @endif
                 </div>
             @endif
         </div>
@@ -224,6 +246,16 @@
                     required>
             </div>
             <div class="form-group">
+                <label class="title-color ">
+                    {{ translate('Local Currency') }}
+                </label>
+                <input type="text" placeholder="{{ translate('Local Currency if Not US Dollar') }}"
+                    name="local_currency" value="{{ $isEdit ? $product['local_currency'] : '' }}"
+                    class="form-control">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
                 <label class="title-color " for="supply_capacity">
                     {{ translate('Supply Capacity') }}
                     <span class="input-required-icon">*</span>
@@ -231,6 +263,17 @@
                 <input type="number" min="1" value="1" step="1"
                     placeholder="{{ translate('supply_capacity') }}" name="supply_capacity" id="supply_capacity"
                     class="form-control" required value="{{ $isEdit ? $product['supply_capacity'] : '' }}">
+            </div>
+            <div class="form-group">
+                <label class="title-color">{{ translate('Supply Unit') }}</label>
+                <select class="js-example-basic-multiple form-control" name="supply_unit">
+                    @foreach (units() as $unit)
+                        <option value="{{ $unit }}"
+                            {{ isset($product['supply_unit']) && $unit == $product['supply_unit'] ? 'selected' : '' }}>
+                            {{ $unit }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <button type="button" class="prev-btn" data-prev="2">Prev</button>
@@ -240,9 +283,9 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="title-color">{{ translate('Delivery Terms') }}</label>
-                <select class="form-control" name="delivery_terms">
+                <select class="form-control" name="delivery_terms" id="delivery_terms">
                     @php
-                        $deliveryTerms = ['EXW', 'FCA', 'FAS', 'FOB', 'CFR', 'CIF', 'CPT', 'CIP', 'DAP', 'DPU', 'DDP'];
+                        $deliveryTerms = ['CFR', 'FOB', 'CIF', 'EXW', 'FCA', 'FAS', 'CPT', 'CIP', 'DAP', 'DPU', 'DDP'];
                     @endphp
                     @foreach ($deliveryTerms as $term)
                         <option value="{{ $term }}"
@@ -267,7 +310,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-row" id="hideforexw">
             <div class="form-group">
                 <label class="form-label">{{ translate('Place of Loading') }}</label>
                 <input type="text" class="form-control" name="place_of_loading"
@@ -291,13 +334,11 @@
             </div>
         </div>
         <div class="form-row">
-
             <div class="form-group">
                 <label class="form-label">{{ translate('Production Lead Time') }}</label>
                 <input type="text" class="form-control" name="lead_time"
                     value="{{ $isEdit ? $product['lead_time'] : '' }}" placeholder="e.g., 7-10 business days">
             </div>
-
             <div class="form-group">
                 <label class="form-label">{{ translate('Lead Time Unit') }}</label>
                 <select class="js-example-basic-multiple form-control" name="lead_time_unit">
@@ -313,7 +354,7 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group">
+            <div class="form-single">
                 <label class="form-label">{{ translate('Payment Terms') }}</label>
                 <select class="form-control" name="payment_terms">
                     <option value="">Select Payment Term</option>
@@ -339,109 +380,15 @@
                     @endforeach
                 </select>
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Internal Packing') }}</label>
                 <input type="text" class="form-control" name="dimensions_per_unit"
                     value="{{ $isEdit ? $product['dimensions_per_unit'] ?? '' : '' }}" placeholder="e.g., 10x5x2 cm">
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
-                <label class="form-label">{{ translate('Dimension Unit') }}</label><select class="form-control"
-                    name="dimension_unit">
-                    <option value="">Select Unit</option>
-                    @php
-                        $units = [
-                            'Piece (pc)',
-                            'Kilogram (kg)',
-                            'Gram (g)',
-                            'Tonne (t)',
-                            'Litre (l)',
-                            'Millilitre (ml)',
-                            'Meter (m)',
-                            'Centimeter (cm)',
-                            'Millimeter (mm)',
-                            'Square Meter (m²)',
-                            'Cubic Meter (m³)',
-                            'Dozen',
-                            'Pack',
-                            'Box',
-                            'Carton',
-                            'Roll',
-                            'Set',
-                            'Pair',
-                            'Bottle',
-                            'Bag',
-                        ];
-                    @endphp
-
-                    @foreach ($units as $unit)
-                        <option value="{{ $unit }}"
-                            {{ $isEdit && ($product['dimension_unit'] ?? null) === $unit ? 'selected' : '' }}>
-                            {{ $unit }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ translate('Master Packing') }}</label>
-                <input type="text" class="form-control" name="master_packing"
-                    value="{{ $isEdit ? $product['master_packing'] ?? '' : '' }}" placeholder="e.g., 5x1, 10x1">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label class="form-label">{{ translate('Container Type') }}</label>
-                <select class="form-control" name="container">
-                    <option value="">Select Container Type</option>
-                    <optgroup label="Standard Containers">
-                        <option value="20 ft Standard Container"
-                            {{ $isEdit && ($product['container'] ?? null) === '20 ft Standard Container' ? 'selected' : '' }}>
-                            20 ft Standard Container
-                        </option>
-                        <option value="40 ft Standard Container"
-                            {{ $isEdit && ($product['container'] ?? null) === '40 ft Standard Container' ? 'selected' : '' }}>
-                            40 ft Standard Container
-                        </option>
-                        <option value="40 ft High Cube Container"
-                            {{ $isEdit && ($product['container'] ?? null) === '40 ft High Cube Container' ? 'selected' : '' }}>
-                            40 ft High Cube Container
-                        </option>
-                    </optgroup>
-
-                    <optgroup label="Special Containers">
-                        <option value="Open Top Container"
-                            {{ $isEdit && ($product['container'] ?? null) === 'Open Top Container' ? 'selected' : '' }}>
-                            Open Top Container
-                        </option>
-                        <option value="Flat Rack Container"
-                            {{ $isEdit && ($product['container'] ?? null) === 'Flat Rack Container' ? 'selected' : '' }}>
-                            Flat Rack Container
-                        </option>
-                        <option value="Tank Container"
-                            {{ $isEdit && ($product['container'] ?? null) === 'Tank Container' ? 'selected' : '' }}>
-                            Tank Container
-                        </option>
-                        <option value="Refrigerated Container"
-                            {{ $isEdit && ($product['container'] ?? null) === 'Refrigerated Container' ? 'selected' : '' }}>
-                            Refrigerated Container
-                        </option>
-                    </optgroup>
-
-                    <optgroup label="Other Shipping Modes">
-                        <option value="Bulk Cargo"
-                            {{ $isEdit && ($product['container'] ?? null) === 'Bulk Cargo' ? 'selected' : '' }}>
-                            Bulk Cargo
-                        </option>
-                        <option value="LCL (Less than Container Load)"
-                            {{ $isEdit && ($product['container'] ?? null) === 'LCL (Less than Container Load)' ? 'selected' : '' }}>
-                            LCL (Less than Container Load)
-                        </option>
-                    </optgroup>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ translate('Packing Type') }}</label>
+                <label class="form-label">{{ translate('Internal Packing Type') }}</label>
                 <select class="form-control" name="packing_type">
                     <option value="">Select Packing Type</option>
 
@@ -517,7 +464,186 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-single">
+            <div class="form-group">
+                <label class="form-label">{{ translate('Master Packing') }}</label>
+                <input type="text" class="form-control" name="master_packing"
+                    value="{{ $isEdit ? $product['master_packing'] ?? '' : '' }}" placeholder="e.g., 5x1, 10x1">
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ translate('Master Packing Type') }}</label>
+                <select class="form-control" name="master_packing_type">
+                    <option value="">Select Packing Type</option>
+
+                    <optgroup label="Bags">
+                        <option value="PP Bag"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'PP Bag' ? 'selected' : '' }}>PP Bag
+                        </option>
+                        <option value="HDPE Bag"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'HDPE Bag' ? 'selected' : '' }}>HDPE
+                            Bag</option>
+                        <option value="Jumbo Bag"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Jumbo Bag' ? 'selected' : '' }}>
+                            Jumbo
+                            Bag</option>
+                        <option value="Woven Sack"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Woven Sack' ? 'selected' : '' }}>
+                            Woven Sack</option>
+                    </optgroup>
+
+                    <optgroup label="Boxes & Cartons">
+                        <option value="Carton"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Carton' ? 'selected' : '' }}>Carton
+                        </option>
+                        <option value="Corrugated Box"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Corrugated Box' ? 'selected' : '' }}>
+                            Corrugated Box</option>
+                        <option value="Paper Box"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Paper Box' ? 'selected' : '' }}>
+                            Paper
+                            Box</option>
+                    </optgroup>
+
+                    <optgroup label="Drums & Containers">
+                        <option value="Plastic Drum"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Plastic Drum' ? 'selected' : '' }}>
+                            Plastic Drum</option>
+                        <option value="Steel Drum"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Steel Drum' ? 'selected' : '' }}>
+                            Steel Drum</option>
+                        <option value="IBC Tank"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'IBC Tank' ? 'selected' : '' }}>IBC
+                            Tank</option>
+                        <option value="Plastic Container"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Plastic Container' ? 'selected' : '' }}>
+                            Plastic Container</option>
+                    </optgroup>
+
+                    <optgroup label="Crates & Pallets">
+                        <option value="Wooden Crate"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Wooden Crate' ? 'selected' : '' }}>
+                            Wooden Crate</option>
+                        <option value="Plastic Crate"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Plastic Crate' ? 'selected' : '' }}>
+                            Plastic Crate</option>
+                        <option value="Palletized"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Palletized' ? 'selected' : '' }}>
+                            Palletized</option>
+                    </optgroup>
+
+                    <optgroup label="Others">
+                        <option value="Bulk"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Bulk' ? 'selected' : '' }}>Bulk
+                        </option>
+                        <option value="Vacuum Pack"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Vacuum Pack' ? 'selected' : '' }}>
+                            Vacuum Pack</option>
+                        <option value="Shrink Wrap"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Shrink Wrap' ? 'selected' : '' }}>
+                            Shrink Wrap</option>
+                        <option value="Custom Packaging"
+                            {{ $isEdit && ($product['packing_type'] ?? null) === 'Custom Packaging' ? 'selected' : '' }}>
+                            Custom Packaging</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">{{ translate('Load Capacity per Lot') }}</label>
+                <input type="text" class="form-control" name="load_capacity_per_lot"
+                    value="{{ $isEdit ? $product['load_capacity_per_lot'] ?? '' : '' }}"
+                    placeholder="e.g., 1000 kg, 5000 pcs">
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ translate('Dimension Unit') }}</label><select class="form-control"
+                    name="dimension_unit">
+                    <option value="">Select Unit</option>
+                    @php
+                        $units = [
+                            'Piece (pc)',
+                            'Kilogram (kg)',
+                            'Gram (g)',
+                            'Tonne (t)',
+                            'Litre (l)',
+                            'Millilitre (ml)',
+                            'Meter (m)',
+                            'Centimeter (cm)',
+                            'Millimeter (mm)',
+                            'Square Meter (m²)',
+                            'Cubic Meter (m³)',
+                            'Dozen',
+                            'Pack',
+                            'Box',
+                            'Carton',
+                            'Roll',
+                            'Set',
+                            'Pair',
+                            'Bottle',
+                            'Bag',
+                        ];
+                    @endphp
+
+                    @foreach ($units as $unit)
+                        <option value="{{ $unit }}"
+                            {{ $isEdit && ($product['dimension_unit'] ?? null) === $unit ? 'selected' : '' }}>
+                            {{ $unit }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">{{ translate('Container Type') }}</label>
+                <select class="form-control" name="container">
+                    <option value="">Select Container Type</option>
+                    <optgroup label="Standard Containers">
+                        <option value="20 ft Standard Container"
+                            {{ $isEdit && ($product['container'] ?? null) === '20 ft Standard Container' ? 'selected' : '' }}>
+                            20 ft Standard Container
+                        </option>
+                        <option value="40 ft Standard Container"
+                            {{ $isEdit && ($product['container'] ?? null) === '40 ft Standard Container' ? 'selected' : '' }}>
+                            40 ft Standard Container
+                        </option>
+                        <option value="40 ft High Cube Container"
+                            {{ $isEdit && ($product['container'] ?? null) === '40 ft High Cube Container' ? 'selected' : '' }}>
+                            40 ft High Cube Container
+                        </option>
+                    </optgroup>
+
+                    <optgroup label="Special Containers">
+                        <option value="Open Top Container"
+                            {{ $isEdit && ($product['container'] ?? null) === 'Open Top Container' ? 'selected' : '' }}>
+                            Open Top Container
+                        </option>
+                        <option value="Flat Rack Container"
+                            {{ $isEdit && ($product['container'] ?? null) === 'Flat Rack Container' ? 'selected' : '' }}>
+                            Flat Rack Container
+                        </option>
+                        <option value="Tank Container"
+                            {{ $isEdit && ($product['container'] ?? null) === 'Tank Container' ? 'selected' : '' }}>
+                            Tank Container
+                        </option>
+                        <option value="Refrigerated Container"
+                            {{ $isEdit && ($product['container'] ?? null) === 'Refrigerated Container' ? 'selected' : '' }}>
+                            Refrigerated Container
+                        </option>
+                    </optgroup>
+
+                    <optgroup label="Other Shipping Modes">
+                        <option value="Bulk Cargo"
+                            {{ $isEdit && ($product['container'] ?? null) === 'Bulk Cargo' ? 'selected' : '' }}>
+                            Bulk Cargo
+                        </option>
+                        <option value="LCL (Less than Container Load)"
+                            {{ $isEdit && ($product['container'] ?? null) === 'LCL (Less than Container Load)' ? 'selected' : '' }}>
+                            LCL (Less than Container Load)
+                        </option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="form-group">
                 <label class="form-label">{{ translate('Size') }}</label>
                 <input type="text" class="form-control" name="weight_per_unit"
                     value="{{ $isEdit ? $product['weight_per_unit'] ?? '' : '' }}" placeholder="e.g., 1.5kg">
@@ -589,30 +715,12 @@
                 </div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label class="title-color">{{ translate('Supply Unit') }}</label>
-                <select class="js-example-basic-multiple form-control" name="supply_unit">
-                    @foreach (units() as $unit)
-                        <option value="{{ $unit }}"
-                            {{ isset($product['supply_unit']) && $unit == $product['supply_unit'] ? 'selected' : '' }}>
-                            {{ $unit }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="title-color ">
-                    {{ translate('Local Currency') }}
-                </label>
-                <input type="text" placeholder="{{ translate('local_currency') }}" name="local_currency"
-                    value="{{ $isEdit ? $product['local_currency'] : '' }}" class="form-control" required>
-            </div>
-        </div>
         <button type="button" class="prev-btn" data-prev="5">Prev</button>
         <button type="submit" class="submit-btn">Submit</button>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const select = document.getElementById('target-market-select');
@@ -630,5 +738,26 @@
 
         // On change
         select.addEventListener('change', updatePreview);
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#target-market-select').select2({
+            placeholder: "Select Target Markets",
+            allowClear: true,
+            width: '100%' // ensures it adapts nicely to Bootstrap form-control
+        });
+    });
+</script>
+<script>
+    $('#delivery_terms').on('change', function() {
+        const hidethiselement = $('#hideforexw');
+        const selectedValue = $(this).val();
+        if (selectedValue === 'EXW') {
+            $(this).val('EXW');
+            hidethiselement.hide();
+        } else {
+            hidethiselement.show();
+        }
     });
 </script>

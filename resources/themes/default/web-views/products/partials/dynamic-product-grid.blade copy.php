@@ -28,8 +28,8 @@
             <div class="d-flex justify-content-between">
                 <p class="new">{{ $item->badge }}</p>
                 <div class="rating">
-                    <span>
-                        <img src={{ theme_asset('public/img/Star123.png') }} alt="star" class="star-img" style="width: 17px;">
+                    <span style="font-size: 12px;">
+                        <i class="bi bi-star-fill start-rating text-warning"></i>
                         @php
                             $overallRating = getOverallRating($item->reviews);
                         @endphp
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <h3 class="product-title">{{ $item->name }}</h3>
-            <div class="product-price">${{ number_format($item->unit_price,2) }} / {{ $item->unit }}</div>
+            <div class="product-price">${{ number_format($item->unit_price,2,'.',',') }}</div>
             <div class="product-moq">MOQ: {{ $item->minimum_order_qty }} {{ $item->unit }}</div>
             @php
                 if ($item->added_by == 'seller') {
@@ -50,13 +50,17 @@
                     $shopAddress = 'Admin Address';
                 }
             @endphp
-            <div class="product-seller">{{ $shopName }}</div>
-            <div class="product-exhibition">Exhibited at 2 GS Shows</div>
-            {{-- <div class="product-diamond">
+            <div class="product-seller">Seller: {{ $shopName }}</div>
+            {{-- <div class="product-exhibition">Exhibition: {{ 'N/A' }}</div> --}}
+            <div class="product-diamond">
                 <img src="/img/Diamond.png" alt="diamond" class="dimond-img">
-            </div> --}}
+            </div>
             <div>
-                <a href="{{ route('product', $item->slug) }}">
+                @if(!auth('customer')->check())
+                    <a href="{{ route('customer.auth.login') }}">
+                @else
+                    <a href="{{ route('product', $item->slug) }}">
+                @endif
                     <button class="start-order-btn">Start order</button>
                 </a>
             </div>

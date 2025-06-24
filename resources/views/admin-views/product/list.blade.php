@@ -175,90 +175,102 @@
 
                     <div class="box-view p-3">
                         <div class="row g-3">
-                            @foreach ($products as $key => $product)
-                                <div class="col-6">
-                                    <div class="card shadow-sm p-3 h-100">
-                                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                                            {{-- Left Side: Product Details --}}
-                                            <div class="d-flex gap-3 align-items-center flex-grow-1">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Thumbnail</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Unit Price</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Published</th>
+                                        <th scope="col" class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($products as $index => $product)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>
                                                 <img src="{{ getStorageImages(path: $product->thumbnail_full_url, type: 'backend-product') }}"
-                                                    class="rounded" alt=""
-                                                    style="width: 80px; height: 80px; object-fit: cover;">
-
-                                                <div class="text-start">
-                                                    <h5 class="mb-1">{{ Str::limit($product['name'], 30) }}</h5>
-                                                    <p class="mb-1 small">
-                                                        <strong>{{ translate('Category') }}:</strong>
-                                                        {{ \App\Models\Category::find($product['category_id'])->name ?? '-' }}
-                                                    </p>
-                                                    <p class="mb-1 small">
-                                                        <strong>{{ translate('Unit Price') }}:</strong>
-                                                        {{ setCurrencySymbol(amount: usdToDefaultCurrency($product['unit_price']), currencyCode: getCurrencyCode()) }}
-                                                    </p>
-                                                    <p class="mb-0 small">
-                                                        <strong>{{ translate('Status') }}:</strong>
-                                                        @if ($product->request_status == 0)
-                                                            <span
-                                                                class="badge bg-warning text-dark">{{ translate('pending') }}</span>
-                                                        @elseif($product->request_status == 1)
-                                                            <span
-                                                                class="badge bg-success">{{ translate('approved') }}</span>
-                                                        @elseif($product->request_status == 2)
-                                                            <span class="badge bg-danger">{{ translate('denied') }}</span>
-                                                        @endif
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            {{-- Right Side: Actions --}}
-                                            <div class="d-flex flex-column gap-2 align-items-end">
-                                                <div class="d-grid gap-2"
-                                                    style="grid-template-columns: repeat(2, 1fr); display: grid;">
+                                                    alt="Thumbnail" style="width: 60px; height: 60px; object-fit: cover;"
+                                                    class="rounded">
+                                            </td>
+                                            <td>{{ Str::limit($product->name, 30) }}</td>
+                                            <td>{{ \App\Models\Category::find($product->category_id)->name ?? '-' }}</td>
+                                            <td>
+                                                {{ setCurrencySymbol(amount: usdToDefaultCurrency($product->unit_price), currencyCode: getCurrencyCode()) }}
+                                            </td>
+                                            <td>
+                                                @if ($product->status == 0)
+                                                    <span class="badge bg-warning text-dark">Pending</span>
+                                                @elseif($product->status == 1)
+                                                    <span class="badge bg-success">Approved</span>
+                                                @elseif($product->status == 2)
+                                                    <span class="badge bg-danger">Denied</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <form
+                                                    action="{{ route('products_new.publish_update', ['id' => $product['id']]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $product['id'] }}">
+                                                    <label class="switcher m-0">
+                                                        <input type="checkbox"
+                                                            class="switcher_input toggle-switch-message" name="status"
+                                                            value="1" onchange="togglestatus(this)"
+                                                            {{ $product['published'] == 1 ? 'checked' : '' }}>
+                                                        <span class="switcher_control"></span>
+                                                    </label>
+                                                </form>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="" role="group"
+                                                    style="display: flex;gap: 10px;align-items: anchor-center;">
                                                     <a href="{{ route('products_new.view-admin', ['id' => $product['id']]) }}"
-                                                        class="btn btn-outline-info btn-sm d-flex flex-column align-items-center gap-1">
-                                                        <i class="tio-invisible"></i>
-                                                        <span>{{ translate('View') }}</span>
-                                                    </a>
+                                                        class="btn btn-outline-info" title="View"><i
+                                                            class="tio-invisible"></i>View</a>
                                                     <a href="{{ route('admin.products.update', [$product['id']]) }}"
-                                                        class="btn btn-outline-primary btn-sm d-flex flex-column align-items-center gap-1">
-                                                        <i class="tio-edit"></i>
-                                                        <span>{{ translate('Edit') }}</span>
-                                                    </a>
+                                                        class="btn btn-outline-primary" title="Edit"><i
+                                                            class="tio-edit"></i>Edit</a>
                                                     <form action="{{ route('products_new.delete', [$product['id']]) }}"
-                                                        method="post"
-                                                        class="m-0 d-flex flex-column align-items-center gap-1">
+                                                        method="POST" onsubmit="return confirm('Are you sure?');"
+                                                        class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <input type="hidden" name="id"
                                                             value="{{ $product['id'] }}">
-                                                        <button type="submit"
-                                                            class="btn btn-outline-danger btn-sm d-flex flex-column align-items-center gap-1 delete-data">
+                                                        <button type="submit" class="btn btn-outline-danger"
+                                                            title="Delete">Delete
                                                             <i class="tio-delete"></i>
-                                                            <span>{{ translate('Delete') }}</span>
                                                         </button>
                                                     </form>
-                                                    <form
-                                                        action="{{ route('products_new.status-update', ['id' => $product['id']]) }}"
-                                                        method="post"
-                                                        class="m-0 d-flex flex-column align-items-center gap-1">
-                                                        @csrf
-                                                        <input type="hidden" name="id"
-                                                            value="{{ $product['id'] }}">
-                                                        <label class="switcher">
-                                                            <input type="checkbox"
-                                                                class="switcher_input toggle-switch-message"
-                                                                name="status" value="1" onchange="togglestatus(this)"
-                                                                {{ $product['status'] == 1 ? 'checked' : '' }}>
-                                                            <span class="switcher_control"></span>
-                                                        </label>
-                                                        <span>{{ translate('Toggle') }}</span>
-                                                    </form>
+                                                    @if (auth('admin')->check())
+                                                        <form
+                                                            action="{{ route('products_new.deny_status', ['id' => $product['id']]) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            <input type="hidden" name="id"
+                                                                value="{{ $product['id'] }}">
+                                                            <button type="button"
+                                                                class="btn {{ $product['status'] == 1 ? 'btn-outline-danger' : 'btn-outline-success' }}"
+                                                                title="{{ $product['status'] == 1 ? 'Revoke Approval' : 'Approve Product' }}"
+                                                                onclick="togglestatus(this)">
+                                                                <i
+                                                                    class="{{ $product['status'] == 1 ? 'tio-close-circle-outlined' : 'tio-checkmark-circle-outlined' }}"></i>
+                                                                {{ $product['status'] == 1 ? 'Revoke' : 'Approve' }}
+                                                            </button>
+                                                        </form>
+                                                    @endif
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
 

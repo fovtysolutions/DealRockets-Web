@@ -60,10 +60,10 @@
                             alt="Main product view" class="main-image">
                         <div class="thumbnail-container">
                             @php
-                                $productArray = json_decode($product->images, true);
+                                $productArray = json_decode($product->extra_images, true) ?? [];
                             @endphp
                             @foreach ($productArray as $key => $value)
-                                <img src="{{ '/storage/product/' . $value['image_name'] }}" alt="Thumbnail 2"
+                                <img src="{{ '/storage/' . $value }}" alt="Thumbnail 2"
                                     class="thumbnail">
                             @endforeach
                         </div>
@@ -91,7 +91,7 @@
                                 <div class="price-box">
                                     <div class="price-info">
                                         <div class="price">
-                                            <span class="amount">US$ {{ $product->unit_price ?? '' }}</span>
+                                            <span class="amount">US$ {{ number_format($product->unit_price,2) ?? '' }}</span>
                                             <span class="unit">/ {{ $product->unit ?? '' }}</span>
                                         </div>
                                         <div class="min-order">
@@ -200,62 +200,78 @@
 
                 <div class="product-view" style="margin-bottom: 20px;">
                     <div class="d-flex w-100 gap-3">
+
+                        {{-- Left Section: Technical Details --}}
                         <div class="spec-left">
                             <h4 class="section-title">Technical Details</h4>
                             <div class="specs-tables">
                                 @php
-                                    $additionalDetailsArray = json_decode($product->dynamic_data, true);
+                                    $additionalDetailsArray = json_decode($product->dynamic_data, true) ?? [];
                                 @endphp
-                                @foreach ($additionalDetailsArray as $item)
-                                    <table class="specs-table">
-                                        @php
-                                            $subheads = $item['sub_heads'] ?? [];
-                                            $countofsubheads = count($subheads);
-                                        @endphp
-                                        @foreach ($subheads as $index => $subhead)
-                                            <tr>
-                                                @if ($index == 0)
-                                                    <th rowspan="{{ $countofsubheads }}">{{ $item['title'] }}
-                                                    </th>
-                                                @endif
-                                                <td class="spec-name">{{ $subhead['sub_head'] }}</td>
-                                                <td class="spec-detail">{{ $subhead['sub_head_data'] }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </table>
-                                @endforeach
+
+                                @if (!empty($additionalDetailsArray) && is_array($additionalDetailsArray))
+                                    @foreach ($additionalDetailsArray as $item)
+                                        <table class="specs-table">
+                                            @php
+                                                $subheads = $item['sub_heads'] ?? [];
+                                                $countofsubheads = count($subheads);
+                                            @endphp
+                                            @foreach ($subheads as $index => $subhead)
+                                                <tr>
+                                                    @if ($index == 0 && isset($item['title']))
+                                                        <th rowspan="{{ $countofsubheads }}">{{ $item['title'] }}</th>
+                                                    @endif
+                                                    <td class="spec-name">{{ $subhead['sub_head'] ?? '-' }}</td>
+                                                    <td class="spec-detail">{{ $subhead['sub_head_data'] ?? '-' }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    @endforeach
+                                @else
+                                    <p class="text-muted">No technical details available.</p>
+                                @endif
                             </div>
                         </div>
+
+                        {{-- Right Section: Additional Details --}}
                         <div class="spec-right">
-                            <h4 class="section-title">Additonal Details</h4>
+                            <h4 class="section-title">Additional Details</h4>
                             <div class="specs-tables">
                                 @php
-                                    $additionalDetailsArray1 = json_decode($product->dynamic_data_technical, true);
+                                    $additionalDetailsArray1 = json_decode($product->dynamic_data_technical, true) ?? [];
                                 @endphp
-                                @foreach ($additionalDetailsArray1 as $item)
-                                    <table class="specs-table">
-                                        @php
-                                            $subheads1 = $item['sub_heads'] ?? [];
-                                            $countofsubheads1 = count($subheads1);
-                                        @endphp
-                                        @foreach ($subheads1 as $index => $subhead)
-                                            <tr>
-                                                @if ($index == 0)
-                                                    <th rowspan="{{ $countofsubheads1 }}">{{ $item['title'] }}
-                                                    </th>
-                                                @endif
-                                                <td class="spec-name">{{ $subhead['sub_head'] }}</td>
-                                                <td class="spec-detail">{{ $subhead['sub_head_data'] }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </table>
-                                @endforeach
+
+                                @if (!empty($additionalDetailsArray1) && is_array($additionalDetailsArray1))
+                                    @foreach ($additionalDetailsArray1 as $item)
+                                        <table class="specs-table">
+                                            @php
+                                                $subheads1 = $item['sub_heads'] ?? [];
+                                                $countofsubheads1 = count($subheads1);
+                                            @endphp
+                                            @foreach ($subheads1 as $index => $subhead)
+                                                <tr>
+                                                    @if ($index == 0 && isset($item['title']))
+                                                        <th rowspan="{{ $countofsubheads1 }}">{{ $item['title'] }}</th>
+                                                    @endif
+                                                    <td class="spec-name">{{ $subhead['sub_head'] ?? '-' }}</td>
+                                                    <td class="spec-detail">{{ $subhead['sub_head_data'] ?? '-' }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    @endforeach
+                                @else
+                                    <p class="text-muted">No additional details available.</p>
+                                @endif
                             </div>
                         </div>
+
                     </div>
                 </div>
 
-                @include('web-views.partials._order-now')
+
+                @include('web-views.partials._vendor_top_rated_products', [
+                    'topRatedProducts' => $productsTopRated,
+                ])
 
                 <!-- Product Description Section -->
                 <div class="product-description">

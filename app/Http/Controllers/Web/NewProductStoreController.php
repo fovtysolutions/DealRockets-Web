@@ -9,9 +9,15 @@ use App\Utils\ChatManager;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class NewProductStoreController extends Controller
 {
+    public function getSlug($name)
+    {
+        return Str::slug($name, '-') . '-' . Str::random(6);
+    }
+
     public function store(Request $request)
     {
         $data = $this->validateProduct($request);
@@ -19,6 +25,9 @@ class NewProductStoreController extends Controller
         $data['target_market'] = json_encode($data['target_market'] ?? []);
         $data['dynamic_data'] = json_encode($data['dynamic_data'] ?? []);
         $data['dynamic_data_technical'] = json_encode($data['dynamic_data_technical'] ?? []);
+        $data['slug'] = $this->getSlug($data['name']);
+        $data['published'] = 0;
+        $data['status'] = 0;
 
         // Handle file uploads (null-safe)
         $data['thumbnail'] = $request->hasFile('thumbnail')
@@ -53,6 +62,7 @@ class NewProductStoreController extends Controller
         $data['target_market'] = json_encode($data['target_market'] ?? []);
         $data['dynamic_data'] = json_encode($data['dynamic_data'] ?? []);
         $data['dynamic_data_technical'] = json_encode($data['dynamic_data_technical'] ?? []);
+        $data['slug'] = $this->getSlug($data['name']);
 
         // Handle file uploads if updated
         if ($request->hasFile('thumbnail')) {
@@ -80,6 +90,7 @@ class NewProductStoreController extends Controller
             'category_id' => 'required|integer',
             'sub_category_id' => 'nullable|integer',
             'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
             'hts_code' => 'nullable|string',
             'origin' => 'nullable|string',
             'minimum_order_qty' => 'nullable|numeric',
@@ -106,10 +117,14 @@ class NewProductStoreController extends Controller
             'dynamic_data' => 'nullable',
             'dynamic_data_technical' => 'nullable',
             'thumbnail' => 'nullable|image',
-            'extra_images.*' => 'nullable',
-            'certificates' => 'nullable',
+            'extra_images' => 'array|max:8',
+            'extra_images.*' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'certificates' => 'array|max:8',
+            'certificates.*' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
             'local_currency' => 'nullable',
             'supply_unit' => 'nullable',
+            'load_capacity_per_lot' => 'nullable',
+            'master_packing_type' => 'nullable',
         ]);
     }
 
@@ -164,6 +179,40 @@ class NewProductStoreController extends Controller
             return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Status update failed.']);
+        }
+    }
+
+    public function deny_status($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            if ($product->status == 1) {
+                $product->status = 2;
+            } else {
+                $product->status = 1;
+            }
+            $product->save();
+
+            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Status update failed.']);
+        }
+    }
+
+    public function publish_update($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            if ($product->published == 0) {
+                $product->published = 1;
+            } else {
+                $product->published = 0;
+            }
+            $product->save();
+
+            return response()->json(['success' => true, 'message' => 'Published successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Publishing failed.']);
         }
     }
 

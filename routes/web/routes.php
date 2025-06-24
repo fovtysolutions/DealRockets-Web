@@ -656,6 +656,8 @@ Route::prefix('products-new')->name('products_new.')->group(function () {
     Route::put('/update/{product}', [NewProductStoreController::class, 'update'])->name('update');
     Route::delete('/delete/{id}', [NewProductStoreController::class, 'destroy'])->name('delete');
     Route::post('/status-update/{id}', [NewProductStoreController::class, 'update_status'])->name('status-update');
+    Route::post('/publish-update/{id}', [NewProductStoreController::class, 'publish_update'])->name('publish_update');
+    Route::post('/deny_status/{id}', [NewProductStoreController::class, 'deny_status'])->name('deny_status');    
 });
 
 Route::get('register-form-vendor',[ProfileController::class,'getRegisterForm'])->name('register-form-vendor');

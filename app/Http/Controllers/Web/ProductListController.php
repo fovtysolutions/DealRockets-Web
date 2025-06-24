@@ -173,6 +173,7 @@ class ProductListController extends Controller
 
         // Always fetch only active products
         $query->where('status', 1);
+        $query->where('published', 1);
 
         if ($request->filled('productAddedBy')) {
             $query->where('added_by', 'seller');

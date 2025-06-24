@@ -107,36 +107,55 @@
 
                 container.insertAdjacentHTML('beforeend', html);
 
+                // Set title input, even if it's null
                 const titleInput = container.querySelector(
                     `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][title]"]`
-                    );
+                );
                 if (titleInput) {
                     titleInput.value = group.title || '';
                 }
 
-                const subHeadsContainer = container.querySelector(`.sub-heads[data-title-index="${titleIndex}"]`);
-                subHeadsContainer.innerHTML = ''; // Clear default first sub-head
+                const subHeadsContainer = container.querySelector(
+                    `.sub-heads[data-title-index="${titleIndex}"]`
+                );
 
-                if (group.sub_heads && Array.isArray(group.sub_heads)) {
-                    group.sub_heads.forEach((sub, subIndex) => {
+                if (subHeadsContainer) {
+                    subHeadsContainer.innerHTML = ''; // Clear default sub-head
+
+                    const subHeadsRaw = group.sub_heads || {};
+                    const subHeadsArray = Array.isArray(subHeadsRaw) ?
+                        subHeadsRaw :
+                        Object.values(subHeadsRaw);
+
+                    if (subHeadsArray.length > 0) {
+                        subHeadsArray.forEach((sub, subIndex) => {
+                            const subHtml = isTechnical ?
+                                getSubHeadRowHtmlTechnical(titleIndex, subIndex) :
+                                getSubHeadRowHtml(titleIndex, subIndex);
+
+                            subHeadsContainer.insertAdjacentHTML('beforeend', subHtml);
+
+                            const subHeadInput = subHeadsContainer.querySelector(
+                                `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head]"]`
+                            );
+                            const subHeadDataInput = subHeadsContainer.querySelector(
+                                `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head_data]"]`
+                            );
+
+                            if (subHeadInput) subHeadInput.value = sub.sub_head || '';
+                            if (subHeadDataInput) subHeadDataInput.value = sub.sub_head_data || '';
+                        });
+                    } else {
+                        // Insert one empty row if no subheads found
                         const subHtml = isTechnical ?
-                            getSubHeadRowHtmlTechnical(titleIndex, subIndex) :
-                            getSubHeadRowHtml(titleIndex, subIndex);
+                            getSubHeadRowHtmlTechnical(titleIndex, 0) :
+                            getSubHeadRowHtml(titleIndex, 0);
 
                         subHeadsContainer.insertAdjacentHTML('beforeend', subHtml);
-
-                        const subHeadInput = subHeadsContainer.querySelector(
-                            `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head]"]`
-                            );
-                        const subHeadDataInput = subHeadsContainer.querySelector(
-                            `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head_data]"]`
-                            );
-
-                        if (subHeadInput) subHeadInput.value = sub.sub_head || '';
-                        if (subHeadDataInput) subHeadDataInput.value = sub.sub_head_data || '';
-                    });
+                    }
                 }
 
+                // Increment counters
                 if (isTechnical) {
                     titleCountTechnical++;
                 } else {

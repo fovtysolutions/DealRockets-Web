@@ -181,7 +181,11 @@ class ProductController extends BaseController
             'sub_sub_category_id' => $request['sub_sub_category_id'],
         ];
 
-        $products = ModelsProduct::all()->paginate(10);
+        if(auth('admin')->check()){
+            $products = ModelsProduct::all()->paginate(10);
+        } else {
+            $products = ModelsProduct::where('status',$request['status'])->paginate(10);
+        }
         $sellers = $this->sellerRepo->getByStatusExcept(status: 'pending', relations: ['shop'], paginateBy: getWebConfig(name: WebConfigKey::PAGINATION_LIMIT));
         $brands = $this->brandRepo->getListWhere(filters: ['status' => 1], dataLimit: 'all');
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');

@@ -167,6 +167,8 @@ class Product extends Model
         'master_packing',
         'container',
         'brand',
+        'load_capacity_per_lot',
+        'master_packing_type',
     ];
 
     /**

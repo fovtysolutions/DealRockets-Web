@@ -79,10 +79,11 @@ class ProductDetailsController extends Controller
 
     public function getDefaultTheme(string $slug): View|RedirectResponse
     {
-        $product = $this->productRepo->getWebFirstWhereActive(
-            params: ['slug' => $slug, 'customer_id' => Auth::guard('customer')->user()->id ?? 0],
-            relations: ['seoInfo', 'digitalVariation', 'reviews', 'seller.shop', 'digitalProductAuthors.author', 'digitalProductPublishingHouse.publishingHouse']
-        );
+        // $product = $this->productRepo->getWebFirstWhereActive(
+        //     params: ['slug' => $slug, 'customer_id' => Auth::guard('customer')->user()->id ?? 0],
+        //     relations: ['seoInfo', 'digitalVariation', 'reviews', 'seller.shop', 'digitalProductAuthors.author', 'digitalProductPublishingHouse.publishingHouse']
+        // );
+        $product = Product::where('slug',$slug)->where('published',1)->where('status',1)->first();
         if ($product) {
             $productAuthorsInfo = $this->productService->getProductAuthorsInfo(product: $product);
             $productPublishingHouseInfo = $this->productService->getProductPublishingHouseInfo(product: $product);
@@ -158,10 +159,21 @@ class ProductDetailsController extends Controller
             }
             $shopInfoArray = self::getShopInfoArray($shop_id);
 
+            $productsTopRated = $this->productRepo->getWebListWithScope(
+                orderBy: ['reviews_count' => 'DESC'],
+                scope: 'active',
+                filters: ['category_id' => $product['category_id'], 'customer_id' => Auth::guard('customer')->user()->id ?? 0],
+                relations: ['wishList' => 'wishList', 'compareList' => 'compareList'],
+                withCount: ['reviews' => 'reviews'],
+                dataLimit: 12,
+                offset: 1
+            );
+
             return view(VIEW_FILE_NAMES['products_details'], compact(
                 'product',
                 'countWishlist',
                 'countOrder',
+                'productsTopRated',
                 'relatedProducts',
                 'dealOfTheDay',
                 'currentDate',

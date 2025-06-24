@@ -36,45 +36,45 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                 <span class="nav-label">Home</span>
                             </a>
                             <a class="nav-tile delseven" href="{{ route('stocksale') }}" data-menu="/stock-sale">
-                                <img class="badge img-default" src="/img/stock-sale.png" />
-                                <img class="badge img-hover" src="/img/stock-sale-hover.png" />
+                                <img class="badge img-default" src="/img/stocksale.png" />
+                                <img class="badge img-hover" src="/img/stocksale-hover.png" />
                                 <span class="nav-label">Stock Sale</span>
                             </a>
                             <a class="nav-tile delsix" href="{{ route('buyer') }}" data-menu="/buy-leads">
-                                <img class="badge img-default" src="/img/buy-leads.png" />
-                                <img class="badge img-hover" src="/img/buy-leads-hover.png" />
+                                <img class="badge img-default" src="/img/lead.png" />
+                                <img class="badge img-hover" src="/img/lead-hover.png" />
                                 <span class="nav-label">Buy Leads</span>
                             </a>
                             <a class="nav-tile delfive" href="{{ route('seller') }}" data-menu="/sell-offer">
-                                <img class="badge img-default" src="/img/sale-offer.png" />
-                                <img class="badge img-hover" src="/img/sale-offer-hover.png" />
+                                <img class="badge img-default" src="/img/saleoffer.png" />
+                                <img class="badge img-hover" src="/img/saleoffer-hover.png" />
                                 <span class="nav-label">Sell Offer</span>
                             </a>
                             <a class="nav-tile delfour" href="{{ route('dealassist') }}" data-menu="/deal-assist">
-                                <img class="badge img-default" src="/img/deal-assist.png" />
-                                <img class="badge img-hover" src="/img/deal-assist-hover.png" />
+                                <img class="badge img-default" src="/img/dealassist.png" />
+                                <img class="badge img-hover" src="/img/dealassist-hover.png" />
                                 <span class="nav-label">Deal Assist</span>
                             </a>
                             <a class="nav-tile delone" href="{{ route('sendcv') }}" data-menu="/industry-jobs">
-                                <img class="badge img-default" src="/img/industry-jobs.png" />
-                                <img class="badge img-hover" src="/img/industry-jobs-hover.png" />
+                                <img class="badge img-default" src="/img/industryjobs.png" />
+                                <img class="badge img-hover" src="/img/industryjobs-hover.png" />
                                 <span class="nav-label">Industry Jobs</span>
                             </a>
-                            <div class="frame-2 deltwo">
+                            {{-- <div class="frame-2 deltwo">
                                 <a class="nav-tile" href="{{ route('tradeshow') }}" data-menu="/tradeshow">
                                     <img class="badge img-default" src="/img/trade-shows.png" />
                                     <img class="badge img-hover" src="/img/trade-shows-hover.png" />
                                     <span class="nav-label">Trade Shows</span>
                                 </a>
-                            </div>
-                            <div class="frame-2 delthree">
+                            </div> --}}
+                            {{-- <div class="frame-2 delthree">
                                 <a class="nav-tile" href="{{ route('vendor.auth.registration.index') }}"
                                     data-menu="/vendorzone">
                                     <img class="badge img-default" src="/img/supplier-zone.png" />
                                     <img class="badge img-hover" src="/img/supplier-zone-hover.png" />
                                     <span class="nav-label">Supplier Zone</span>
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="frame-6 delnine">
                             <a href="{{ route('webinfo') }}">

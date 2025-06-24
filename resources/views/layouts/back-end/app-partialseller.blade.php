@@ -57,7 +57,7 @@
     @stack('css_or_js')
 </head>
 
-<body class="footer-offset">
+<body>
     @include('layouts.back-end.partials._front-settings')
     <div class="row">
         <div class="col-12 position-fixed z-9999 mt-10rem">

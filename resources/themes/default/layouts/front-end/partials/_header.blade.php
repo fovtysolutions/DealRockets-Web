@@ -31,38 +31,38 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                         </div>
                         <div class="navbar-3">
                             <a class="nav-tile deleight" href="{{ route('home') }}" data-menu="/" data-home="true">
-                                <img class="badge img-default" src="/img/home.png" />
-                                <img class="badge img-hover" src="/img/home-hover.png" />
+                                <img class="badge img-default" src="/img/home.svg" />
+                                <img class="badge img-hover" src="/img/home-hover.svg" />
                                 <span class="nav-label">Home</span>
                             </a>
-                            <a class="nav-tile deleight" href="/products?searchInput=" data-menu="/" data-home="true">
-                                <img class="badge img-default" src="/img/shop.png" />
-                                <img class="badge img-hover" src="/img/shop-hover.png" />
-                                <span class="nav-label">Marketplace</span>
-                            </a>
                             <a class="nav-tile delseven" href="{{ route('stocksale') }}" data-menu="/stock-sale">
-                                <img class="badge img-default" src="/img/stocksale.png" />
-                                <img class="badge img-hover" src="/img/stocksale-hover.png" />
+                                <img class="badge img-default" src="/img/stocksale.svg" />
+                                <img class="badge img-hover" src="/img/stocksale-hover.svg" />
                                 <span class="nav-label">Stock Sale</span>
                             </a>
                             <a class="nav-tile delsix" href="{{ route('buyer') }}" data-menu="/buy-leads">
-                                <img class="badge img-default" src="/img/lead.png" />
-                                <img class="badge img-hover" src="/img/lead-hover.png" />
+                                <img class="badge img-default" src="/img/lead.svg" />
+                                <img class="badge img-hover" src="/img/lead-hover.svg" />
                                 <span class="nav-label">Buy Leads</span>
                             </a>
+                            <a class="nav-tile deleight" href="/products?searchInput=" data-menu="/" data-home="true">
+                                <img class="badge img-default" src="/img/shop.svg" />
+                                <img class="badge img-hover" src="/img/shop.svg" />
+                                <span class="nav-label">Marketplace</span>
+                            </a>
                             <a class="nav-tile delfive" href="{{ route('seller') }}" data-menu="/sell-offer">
-                                <img class="badge img-default" src="/img/saleoffer.png" />
-                                <img class="badge img-hover" src="/img/saleoffer-hover.png" />
+                                <img class="badge img-default" src="/img/saleoffer.svg" />
+                                <img class="badge img-hover" src="/img/saleoffer-hover.svg" />
                                 <span class="nav-label">Sell Offer</span>
                             </a>
                             <a class="nav-tile delfour" href="{{ route('dealassist') }}" data-menu="/deal-assist">
-                                <img class="badge img-default" src="/img/dealassist.png" />
-                                <img class="badge img-hover" src="/img/dealassist-hover.png" />
+                                <img class="badge img-default" src="/img/dealassist.svg" />
+                                <img class="badge img-hover" src="/img/dealassist-hover.svg" />
                                 <span class="nav-label">Deal Assist</span>
                             </a>
                             <a class="nav-tile delone" href="{{ route('sendcv') }}" data-menu="/industry-jobs">
-                                <img class="badge img-default" src="/img/industryjobs.png" />
-                                <img class="badge img-hover" src="/img/industryjobs-hover.png" />
+                                <img class="badge img-default" src="/img/industryjobs.svg" />
+                                <img class="badge img-hover" src="/img/industryjobs-hover.svg" />
                                 <span class="nav-label">Industry Jobs</span>
                             </a>
                             {{-- <div class="frame-2 deltwo">

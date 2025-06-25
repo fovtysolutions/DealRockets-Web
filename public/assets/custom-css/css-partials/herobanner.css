@@ -209,7 +209,7 @@
 
 /* Style for the inner submenu items */
 .mega_menu_inner_new {
-    padding: 10px 0;
+    /* padding: 10px 0; */
 }
 
 .mega_menu_inner_new h6 {
@@ -702,7 +702,8 @@
   }
 
 .globle-deals .category-list{
-    overflow: hidden; transition: max-height 0.4s ease;
+    /* overflow: hidden;  */
+    transition: max-height 0.4s ease;
 }
   
 .globle-deals .fade-right {

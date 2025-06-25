@@ -41,8 +41,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                 <span class="nav-label">Stock Sale</span>
                             </a>
                             <a class="nav-tile delsix" href="{{ route('buyer') }}" data-menu="/buy-leads">
-                                <img class="badge img-default" src="/img/lead.svg" />
-                                <img class="badge img-hover" src="/img/lead-hover.svg" />
+                                <img class="badge img-default" src="/img/lead.svg" style="padding-left: 12px;" />
+                                <img class="badge img-hover" src="/img/lead-hover.svg" style="padding-left: 12px;" />
                                 <span class="nav-label">Buy Leads</span>
                             </a>
                             <a class="nav-tile deleight" href="/products?searchInput=" data-menu="/" data-home="true">

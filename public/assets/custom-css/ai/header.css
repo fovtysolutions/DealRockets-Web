@@ -26,13 +26,16 @@
     gap: 3px;
 }
 
+.element-mobile .nav-label {
+  font-size: 12.5px;
+}
+
 .element-mobile .nav-tile i{
   font-size: 19px;
 }
 
 .element-mobile .nav-tile:hover {
-    /* color: #FE4E44; */
-    color: black;
+    color: #FE4E44;
 }
 
 .navbar-floating {
@@ -207,16 +210,16 @@
 }
 
 .element-mobile .text-wrapper-2:hover {
-  color: black;
+  color: #FE4E44;
 }
 
 .element-mobile .active-menu {
   /* color: #FE4E44 !important; */
-  color: black !important;
+  color: #FE4E44 !important;
 }
 
 .element-mobile .text-wrapper-3:hover {
-  color: black;
+  color: #FE4E44;
 }
 
 .element-mobile .frame-2 {
@@ -554,7 +557,7 @@
 }
 
 .group-9:hover .text-wrapper-9 {
-  color: black;
+  color: #FE4E44;
 }
 
 /* Group 10 - Supplier */
@@ -567,7 +570,7 @@
 }
 
 .group-10:hover .text-wrapper-10 {
-  color: black;
+  color: #FE4E44;
 }
 
 /* Group 11 - Buyer */
@@ -580,7 +583,7 @@
 }
 
 .group-11:hover .text-wrapper-10 {
-  color: black;
+  color: #FE4E44;
 }
 
 /* Group 12 - Message */
@@ -593,7 +596,7 @@
 }
 
 .group-12:hover .text-wrapper-10 {
-  color: black;
+  color: #FE4E44;
 }
 
 /* Group 13 - Shortlist */
@@ -606,7 +609,7 @@
 }
 
 .group-13:hover .text-wrapper-11 {
-  color: black;
+  color: #FE4E44;
 }
 
 /* Our Features */
@@ -623,7 +626,7 @@
 }
 
 .group-features:hover .text-wrapper-4 {
-  color: black;
+  color: #FE4E44;
 }
 
 /* Help */
@@ -636,7 +639,7 @@
 }
 
 .group-3:hover .text-wrapper-5 {
-  color: black;
+  color: #FE4E44;
 }
 
 /* Language */
@@ -649,7 +652,7 @@
 }
 
 .group-4:hover .text-wrapper-5 {
-  color: black;
+  color: #FE4E44;
 }
 
 /* Sign in/Join */
@@ -662,7 +665,7 @@
 }
 
 .group-user:hover .text-wrapper-6 {
-  color: black;
+  color: #FE4E44;
 }
 
 

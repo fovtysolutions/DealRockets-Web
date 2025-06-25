@@ -26,19 +26,20 @@
         overflow: hidden;
     }
 
-    .globle-deals .category-list {
+    /* .globle-deals .category-list {
         overflow: hidden;
-    }
+    } */
 
     .category-item:hover>.mega_menu_new {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         flex-wrap: wrap;
-        gap: 20px;
+        gap: 10px;
     }
 
     .mega_menu_inner_new {
-        margin-bottom: 15px;
-        width: 120px;
+        /* margin-bottom: 15px; */
+        /* width: 120px; */
     }
 </style>
 @if (empty($carouselimages))
@@ -72,7 +73,7 @@
 
                         @if ($category->childes->count() > 0)
                             <div class="mega_menu_new">
-                                @foreach ($category->childes as $sub_category)
+                                @foreach ($category->childes->take(8) as $sub_category)
                                     <div class="mega_menu_inner_new">
                                         <h6>
                                             <a
@@ -97,7 +98,7 @@
                     </li>
                 @endforeach
             </ul>
-            <div>
+            <div style="padding-top: 5px;">
                 <a class="arrow-move-hover" href="{{ route('categories') }}" style="text-decoration: none;">
                     View All
                     <span class="arrow-icon">
@@ -332,75 +333,76 @@
         });
     });
 </script>
-<script defer>
-    document.addEventListener("DOMContentLoaded", function() {
-        if (window.innerWidth > 768) {
-            const wrapper = document.getElementById('categoryList');
-            const referenceBox = document.querySelector('.insideinsidebox');
-            const scrollBoxHeight = document.querySelector('.scroll-wrapper');
-
-            if (!wrapper || !referenceBox || !scrollBoxHeight) return;
-
-            const setMaxHeight = () => {
-                if (wrapper.classList.contains('expanded')) return;
-
-                wrapper.style.maxHeight = 'none'; // reset to measure full
-                const fullHeight = wrapper.scrollHeight;
-                const refHeight = referenceBox.offsetHeight + scrollBoxHeight.offsetHeight - 60;
-
-                const maxHeight = Math.min(fullHeight, refHeight);
-                wrapper.style.maxHeight = `${maxHeight}px`;
-            };
-
-            // Debounce to prevent excessive calls
-            let resizeTimeout;
-            const debouncedSetMaxHeight = () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(setMaxHeight, 100);
-            };
-
-            // Initial
-            setMaxHeight();
-
-            // On window resize
-            window.addEventListener('resize', () => {
-                debouncedSetMaxHeight();
-            });
-
-            // ResizeObserver for dynamic layout/element size changes
-            const resizeObserver = new ResizeObserver(() => {
-                debouncedSetMaxHeight();
-            });
-            resizeObserver.observe(referenceBox);
-            resizeObserver.observe(scrollBoxHeight);
-            resizeObserver.observe(wrapper);
-
-            // MutationObserver for DOM content changes
-            const mutationObserver = new MutationObserver(() => {
-                debouncedSetMaxHeight();
-            });
-            mutationObserver.observe(wrapper, {
-                childList: true,
-                subtree: true
-            });
-
-            // Final layout fallback on load (e.g., images, fonts)
-            window.addEventListener('load', () => setTimeout(() => {
-                setMaxHeight();
-            }, 300));
-        } else {
-            return;
-        }
+<script>
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            initCategoryLayout();
+        }, 100);
     });
+
+    function initCategoryLayout() {
+        const wrapper = document.getElementById('categoryList');
+        const referenceBox = document.querySelector('.insideinsidebox');
+        const scrollBoxHeight = document.querySelector('.scroll-wrapper');
+        const categoryItems = document.querySelectorAll('.category-item');
+
+        if (!wrapper || !referenceBox || !scrollBoxHeight || categoryItems.length === 0) return;
+
+        const ITEM_HEIGHT = 32.96;
+
+        function updateLayoutAndVisibility() {
+            if (wrapper.classList.contains('expanded')) return;
+
+            // Measure heights
+            const insideBoxHeight = referenceBox.offsetHeight;
+            const scrollBoxWrapperHeight = scrollBoxHeight.offsetHeight;
+
+            console.log("InsideBox height:", insideBoxHeight);
+            console.log("Scroll Wrapper height:", scrollBoxWrapperHeight);
+
+            const availableHeight = insideBoxHeight + scrollBoxWrapperHeight - 30;
+
+            // Calculate how many items fit
+            const maxVisible = Math.floor(availableHeight / ITEM_HEIGHT);
+
+            // Apply max-height to wrapper
+            wrapper.style.maxHeight = `${availableHeight}px`;
+
+            // Show/hide items
+            categoryItems.forEach((item, index) => {
+                if (index < maxVisible) {
+                    item.classList.remove('d-none');
+                } else {
+                    item.classList.add('d-none');
+                }
+            });
+        }
+
+        // Initial render
+        updateLayoutAndVisibility();
+
+        // On window resize
+        window.addEventListener('resize', debounce(updateLayoutAndVisibility, 100));
+
+        // Re-run every 5 seconds
+        setInterval(() => {
+            updateLayoutAndVisibility();
+        }, 5000);
+    }
+
+    function debounce(func, delay) {
+        let timeout;
+        return () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(func, delay);
+        };
+    }
 
     function scrollRight() {
         const container = document.querySelector('.scroll-container');
         if (!container) return;
 
-        const scrollAmount = container.offsetWidth * 0.8; // Scroll by 80% of visible width
-        container.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth'
-        });
+        const scrollAmount = container.offsetWidth * 0.8;
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
 </script>

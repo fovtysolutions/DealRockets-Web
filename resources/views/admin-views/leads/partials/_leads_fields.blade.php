@@ -52,7 +52,7 @@
                     <select name="sub_category_id" id="sub-category-select"
                     class="form-control action-get-request-onchange"
                     data-url-prefix="{{ route('vendor.products.get-categories') . '?parent_id=' }}"
-                    data-element-id="sub-sub-category-select" data-element-type="select" required>
+                    data-element-id="sub-sub-category-select" data-element-type="select">
                 @endif
                 <option value="" disabled
                     {{ old('sub_category_id', $isEdit ? $leads->sub_category_id : '') == '' ? 'selected' : '' }}>

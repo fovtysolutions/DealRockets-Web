@@ -96,7 +96,7 @@ use Illuminate\Support\Facades\Session;
                         <li class="nav-item">
                             <div class="hs-unfold">
                                 <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
-                                   href="{{route('admin.contact.list')}}" title="{{translate('message')}}" data-toggle="tooltip" data-custom-class="header-icon-title">
+                                   href="{{ route('admin.subcard', ['slug' => 'inbox']) }}" title="{{translate('message')}}" data-toggle="tooltip" data-custom-class="header-icon-title">
                                     <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g clip-path="url(#clip0_5926_1152)">
                                         <path d="M16.6666 2.16699H3.33329C2.41663 2.16699 1.67496 2.91699 1.67496 3.83366L1.66663 18.8337L4.99996 15.5003H16.6666C17.5833 15.5003 18.3333 14.7503 18.3333 13.8337V3.83366C18.3333 2.91699 17.5833 2.16699 16.6666 2.16699ZM4.99996 8.00033H15V9.66699H4.99996V8.00033ZM11.6666 12.167H4.99996V10.5003H11.6666V12.167ZM15 7.16699H4.99996V5.50033H15V7.16699Z" fill="#073B74"/>
@@ -117,7 +117,7 @@ use Illuminate\Support\Facades\Session;
                         </li>
                     @endif
 
-                    @if(\App\Utils\Helpers::module_permission_check('listings_management'))
+                    {{-- @if(\App\Utils\Helpers::module_permission_check('listings_management'))
                         <li class="nav-item">
                             <div class="hs-unfold">
                                 <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
@@ -138,7 +138,7 @@ use Illuminate\Support\Facades\Session;
                                 </a>
                             </div>
                         </li>
-                    @endif
+                    @endif --}}
 
                     <li class="nav-item">
                         <div class="hs-unfold">
@@ -230,7 +230,7 @@ use Illuminate\Support\Facades\Session;
                 @if(\App\Utils\Helpers::module_permission_check('settings'))
                     <div class="bg-white p-1 rounded mt-2">
                         <a class="p-2  title-color"
-                           href="{{route('admin.contact.list')}}">
+                           href="{{ route('admin.subcard', ['slug' => 'inbox']) }}">
                             <i class="tio-email"></i>
                             {{translate('message')}}
                             @php($message=\App\Models\Contact::where('seen',0)->count())
@@ -240,7 +240,7 @@ use Illuminate\Support\Facades\Session;
                         </a>
                     </div>
                 @endif
-                @if(\App\Utils\Helpers::module_permission_check('listings_management'))
+                {{-- @if(\App\Utils\Helpers::module_permission_check('listings_management'))
                     <div class="bg-white p-1 rounded mt-2">
                         <a class="p-2  title-color"
                            href="{{route('admin.orders.list',['status'=>'pending'])}}">
@@ -248,7 +248,7 @@ use Illuminate\Support\Facades\Session;
                             {{translate('order_list')}}
                         </a>
                     </div>
-                @endif
+                @endif --}}
             </div>
         </div>
     </header>

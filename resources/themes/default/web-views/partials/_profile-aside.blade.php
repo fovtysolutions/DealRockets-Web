@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="widget-title">
+            {{-- <div class="widget-title">
                 <a class="{{ Request::is('account-oder*') || Request::is('account-order-details*') || Request::is('track-order*') ? 'active-menu' : '' }}"
                     href="{{ route('account-oder') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
@@ -41,7 +41,7 @@
                         {{ translate('my_order') }}
                     </span>
                 </a>
-            </div>
+            </div> --}}
             <div class="widget-title">
                 <a href="{{ route('account-jobprof') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
@@ -89,7 +89,7 @@
             </div>
         </div>
 
-        <div>
+        {{-- <div>
             <div class="widget-title">
                 <a class="{{ Request::is('wishlists*') ? 'active-menu' : '' }}" href="{{ route('wishlists') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
@@ -111,7 +111,7 @@
                     <span class="aside-link">{{ translate('wish_list') }}</span>
                 </a>
             </div>
-        </div>
+        </div> --}}
 
         @if ($web_config['wallet_status'] == 1)
             <div>
@@ -186,7 +186,7 @@
             </div>
         </div>
 
-        <div>
+        {{-- <div>
             <div class="widget-title">
                 <a class="{{ Request::is('account-address*') ? 'active-menu' : '' }}"
                     href="{{ route('account-address') }}">
@@ -203,7 +203,7 @@
                     </span>
                 </a>
             </div>
-        </div>
+        </div> --}}
 
         <div>
             <div class="widget-title">
@@ -227,7 +227,7 @@
             </div>
         </div>
 
-        @if ($web_config['ref_earning_status'])
+        {{-- @if ($web_config['ref_earning_status'])
             <div>
                 <div class="widget-title">
                     <a class="{{ Request::is('refer-earn*') || Request::is('refer-earn*') ? 'active-menu' : '' }}"
@@ -246,9 +246,9 @@
                     </a>
                 </div>
             </div>
-        @endif
+        @endif --}}
 
-        <div>
+        {{-- <div>
             <div class="widget-title">
                 <a class="{{ Request::is('/user-coupons') || Request::is('user-coupons*') ? 'active-menu' : '' }}"
                     href="{{ route('user-coupons') }}">
@@ -263,9 +263,9 @@
                     <span class="aside-link">{{ translate('coupons') }}</span>
                 </a>
             </div>
-        </div>
+        </div> --}}
 
-        <div>
+        {{-- <div>
             <div class="widget-title">
                 <a class="" href="{{ route('track-order.index') }}">
                     <span>
@@ -285,7 +285,7 @@
                     <span class="aside-link">{{ translate('track_order') }}</span>
                 </a>
             </div>
-        </div>
+        </div> --}}
 
         <div class="d-lg-none">
             <div class="widget-title">

@@ -95,7 +95,7 @@ class LeadsController extends Controller
             'offer_type' => 'nullable|string|max:255',
             'size' => 'nullable|string|max:255',
             'images' => 'nullable',
-            'sub_category_id' => 'required',
+            'sub_category_id' => 'nullable',
             'hs_code' => 'required|string|max:255',
             'rate' => 'required|string|max:255',
             'delivery_terms' => 'required|string|max:255',

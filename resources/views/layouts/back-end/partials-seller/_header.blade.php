@@ -248,7 +248,7 @@
                         <div class="hs-unfold">
                             <a
                                 class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle media align-items-center gap-3 navbar-dropdown-account-wrapper dropdown-toggle-left-arrow dropdown-toggle-empty"
-                                href="javascript:"
+                                href="{{ route('vendor.subcard', ['slug' => 'vendor-inbox']) }}"
                                 data-hs-unfold-options='{
                                      "target": "#messageDropdown",
                                      "type": "css-animation"
@@ -274,7 +274,7 @@
                                     <span class="btn-status btn-sm-status btn-status-danger">{{ $message }}</span>
                                 @endif
                             </a>
-                            <div id="messageDropdown"
+                            {{-- <div id="messageDropdown"
                                  class="hs-unfold-content width--16rem dropdown-unfold dropdown-menu dropdown-menu-right navbar-dropdown-menu navbar-dropdown-account">
                                 <a class="dropdown-item position-relative"
                                    href="{{route('vendor.messages.index', ['type' => 'customer'])}}">
@@ -298,9 +298,9 @@
                                     @endif
                                 </a>
                             </div>
-                        </div>
+                        </div> --}}
                     </li>
-                    <li class="nav-item mr-0">
+                    {{-- <li class="nav-item mr-0">
                         <div class="hs-unfold">
                             <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
                                href="{{route('vendor.orders.list',['pending'])}}"
@@ -331,7 +331,7 @@
                                 @endif
                             </a>
                         </div>
-                    </li>
+                    </li> --}}
 
                     <li class="nav-item mr-0">
                         <div class="hs-unfold">

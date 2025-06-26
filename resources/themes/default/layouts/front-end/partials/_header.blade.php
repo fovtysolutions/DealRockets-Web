@@ -513,7 +513,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                     </div>
                                 </div>
                                 <div class="group-12">
-                                    <a href="{{ route('chat', ['type' => 'customer']) }}">
+                                    <a href="{{ route('chat', ['type' => 'vendor']) }}">
                                         <img class="chatting img-default" src="/img/chatting-1.png" />
                                         <img class="chatting img-hover" src="/img/chatting (2).png" />
                                         <div class="text-wrapper-10">Message</div>
@@ -523,6 +523,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                     </a>
                                 </div>
                                 <div class="group-13">
+                                    <div id="google-translate-dropdown"
+                                        style="display: none;position: absolute;top: -17px;right: 0;z-index: 10000000;background: white;border: 1px solid black;padding: 15px;">
+                                    </div>
                                     <a href="{{ route('gotoshortlist') }}">
                                         <img class="heart img-default" src="/img/heart-1.png" />
                                         <img class="heart img-hover" src="/img/heart (2).png" />
@@ -551,9 +554,6 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
     <a href="{{ route('sendcv') }}">Industry Jobs</a>
     <a href="{{ route('tradeshow') }}">Trade Shows</a>
     <a href="{{ route('vendor.auth.registration.index') }}">Supplier Zone</a>
-</div>
-<div id="google-translate-dropdown"
-    style="display: none;position: absolute;top: 0;right: 0;z-index: 10000000;background: white;border: 1px solid black;padding: 15px;">
 </div>
 @push('script')
     <script defer src="{{ theme_asset('public/js/header.js') }}"></script>

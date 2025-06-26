@@ -9542,4 +9542,12 @@ return [
 	"Toggle Deny" => "Toggle Deny",
 	"Toggle Show" => "Toggle Show",
 	"Toggle Approval" => "Toggle Approval",
+	"Favorites | Marketplace" => "Favorites | Marketplace",
+	"Job Profile | Marketplace" => "Job Profile | Marketplace",
+	"Job Applied | Marketplace" => "Job Applied | Marketplace",
+	"Job Seeker | Marketplace" => "Job Seeker | Marketplace",
+	"List_Job_Consultants" => "List Job Consultants",
+	"Consultants List" => "Consultants List",
+	"Registered Candidates List" => "Registered Candidates List",
+	"No tradeshows found" => "No tradeshows found",
 ];

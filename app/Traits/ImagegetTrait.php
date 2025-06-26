@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use App\Models\BusinessSetting;
 
-trait ImageGetTrait
+trait ImagegetTrait
 {
     public function getImagePaths()
     {

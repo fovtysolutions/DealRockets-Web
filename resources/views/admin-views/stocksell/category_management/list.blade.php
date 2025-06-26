@@ -15,7 +15,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">{{ translate('Job Categories List') }}</h3>
+                        <h3 class="card-title">{{ translate('Stock Categories List') }}</h3>
                         <a href="{{ route('admin.stock.category.create') }}" class="btn btn-primary btn-sm float-right">
                             {{ translate('Add Category') }}
                         </a>

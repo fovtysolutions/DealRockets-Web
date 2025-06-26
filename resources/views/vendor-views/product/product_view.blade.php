@@ -12,7 +12,7 @@
         </div>
 
         <div class="card card-top-bg-element">
-            <div class="card-body row gy-4">
+            <div class="card-body row" style="gap:15px 0px;">
                 {{-- Basic Info --}}
                 <x-preview-field label="Product ID" :value="$product->id ?? '-'" />
                 <x-preview-field label="Name" :value="$product->name ?? '-'" />

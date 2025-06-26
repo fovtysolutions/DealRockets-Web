@@ -651,7 +651,8 @@ class DashboardController extends BaseController
 
             case 'leads':
                 $title = 'Leads';
-                $cardData = [
+                $cardData = [                    
+                    ['link' => route('admin.add-new-leads'), 'title' => 'Add Lead', 'value' => 'Yes'],
                     ['link' => route('admin.leads.list'), 'title' => 'Manage Lead', 'value' => 'Yes'],
                 ];
                 break;
@@ -661,17 +662,12 @@ class DashboardController extends BaseController
                 $cardData = [
                     ['link' => route('admin.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 'Yes'],
                     ['link' => route('admin.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 'Yes'],
-                    ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Sell Offer', 'value' => 'Yes'],
+                    // ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Sell Offer', 'value' => 'Yes'],
                 ];
                 break;
 
             case 'buy-leads':
-                $title = 'Buy Leads';
-                $cardData = [
-                    ['link' => route('admin.add-new-leads'), 'title' => 'Add Buy Lead', 'value' => 'Yes'],
-                    ['link' => route('admin.leads.list'), 'title' => 'Manage Buy Leads', 'value' => 'Yes'],
-                    ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Buy Lead', 'value' => 'Yes'],
-                ];
+                return redirect()->route('buyer');
                 break;
 
             case 'marketplace':
@@ -684,7 +680,7 @@ class DashboardController extends BaseController
                     ['link' => route('admin.sub-sub-category.view'), 'title' => 'Sub Sub Categories', 'value' => 'Yes'],
                     ['link' => route('admin.brand.add-new'), 'title' => 'Add Brand', 'value' => 'Yes'],
                     ['link' => route('admin.brand.list'), 'title' => 'Manage Brand', 'value' => 'Yes'],
-                    ['link' => route('admin.products.bulk-import'), 'title' => 'Bulk Import Products', 'value' => 'Yes'],
+                    // ['link' => route('admin.products.bulk-import'), 'title' => 'Bulk Import Products', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -699,11 +695,11 @@ class DashboardController extends BaseController
                 break;
 
 
-            case 'tradeshow':
+            case 'tradeshows':
                 $title = 'Tradeshows';
                 $cardData = [
-                    ['link' => route('admin.add-new-tradeshow'), 'title' => 'Manage Trade Show', 'value' => 'Yes'],
-                    ['link' => route('admin.tradeshow.list'), 'title' => 'Trade Show List', 'value' => 'Yes'],
+                    ['link' => route('admin.add-new-tradeshow'), 'title' => 'Add Trade Show', 'value' => 'Yes'],
+                    ['link' => route('admin.tradeshow.list'), 'title' => 'Manage Trade Show', 'value' => 'Yes'],
                 ];
                 break;
 

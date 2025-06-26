@@ -31,10 +31,10 @@
                         </li>
                     @endforeach
                 </ul>
-                <a class="btn btn--primary btn-sm text-capitalize h-100"
+                {{-- <a class="btn btn--primary btn-sm text-capitalize h-100"
                     href="{{ route('admin.tradeshow.bulk.import') }}">
                     {{ translate('Import Bulk Tradeshow') }}
-                </a>
+                </a> --}}
             </div>
 
             <div class="card-body">

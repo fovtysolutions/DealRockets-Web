@@ -139,13 +139,13 @@
                                 @csrf
                                 <input type="hidden" name="id" value="{{$seller['id']}}">
                                 <input type="hidden" name="status" value="rejected">
-                                <button type="button" class="btn btn-danger px-5 form-alert" data-message="{{translate('want_to_reject_this_vendor').'?'}}" data-id="reject-form">{{translate('reject')}}</button>
+                                <button type="submit" class="btn btn-danger px-5 form-alert" data-message="{{translate('want_to_reject_this_vendor').'?'}}" data-id="reject-form">{{translate('reject')}}</button>
                             </form>
                             <form class="d-inline-block" action="{{route('admin.vendors.updateStatus')}}" id="approve-form" method="POST">
                                 @csrf
                                 <input type="hidden" name="id" value="{{$seller['id']}}">
                                 <input type="hidden" name="status" value="approved">
-                                <button type="button" class="btn btn-success px-5 form-alert" data-message="{{translate('want_to_approve_this_vendor').'?'}}" data-id="approve-form">{{translate('approve')}}</button>
+                                <button type="submit" class="btn btn-success px-5 form-alert" data-message="{{translate('want_to_approve_this_vendor').'?'}}" data-id="approve-form">{{translate('approve')}}</button>
                             </form>
                         </div>
                     @endif
@@ -155,7 +155,7 @@
                                 @csrf
                                 <input type="hidden" name="id" value="{{$seller['id']}}">
                                 <input type="hidden" name="status" value="suspended">
-                                <button type="button" class="btn btn-danger px-5 form-alert" data-message="{{translate('want_to_suspend_this_vendor').'?'}}" data-id="suspend-form">{{translate('suspend_this_vendor')}}</button>
+                                <button type="submit" class="btn btn-danger px-5 form-alert" data-message="{{translate('want_to_suspend_this_vendor').'?'}}" data-id="suspend-form">{{translate('suspend_this_vendor')}}</button>
                             </form>
                         </div>
                     @endif
@@ -165,7 +165,7 @@
                                 @csrf
                                 <input type="hidden" name="id" value="{{$seller['id']}}">
                                 <input type="hidden" name="status" value="approved">
-                                <button type="button" class="btn btn-success px-5 form-alert" data-message="{{translate('want_to_active_this_vendor').'?'}}" data-id="active-form">{{translate('active')}}</button>
+                                <button type="submit" class="btn btn-success px-5 form-alert" data-message="{{translate('want_to_active_this_vendor').'?'}}" data-id="active-form">{{translate('active')}}</button>
                             </form>
                         </div>
                     @endif

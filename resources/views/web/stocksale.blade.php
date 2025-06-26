@@ -276,6 +276,7 @@
                 }
             });
         };
+        loadStockSellData({{ $items->first()->id ?? 0 }});
     </script>
     <script>
         function makeFavourite(element) {

@@ -198,7 +198,7 @@
 .buy-offer .lead-info {
     align-self: stretch;
     width: 100%;
-    padding-right: 15px;
+    /* padding-right: 15px; */
     /* max-width: 625px; */
 }
 
@@ -315,10 +315,10 @@
 }
 
 .buy-offer .divider {
-    width: 1px;
+    width: 0.5px;
     height: 15rem;
     background-color: #D5D5D5;
-    border: 1px solid rgba(213, 213, 213, 1);
+    border: 1px solid rgb(236 236 236);
     flex-shrink: 0;
 }
 
@@ -335,11 +335,11 @@
     flex-direction: row;
     display: flex;
     gap: 18px;
-    padding-right: 10px;
+    /* padding-right: 10px; */
 }
 
 .buy-offer .detail-label {
-    width: 42%;
+    width: 49%;
     font-weight: 600;
     color: #0D0D0F;
     background-color: white;

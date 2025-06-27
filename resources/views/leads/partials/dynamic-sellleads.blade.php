@@ -93,10 +93,15 @@
                         $userId = $userdata['user_id'] ?? null;
                         $role = $userdata['role'] ?? null;
                     @endphp
-                    <button class="contact-btn" data-toggle="modal"
-                        data-target="#inquireButton{{ $seller->id }}">Contact Seller</button>
-                    <div class="seller-name">{{ $shopName }}</div>
-                    <div class="company-name">{{ $shopAddress }}</div>
+                    <div>
+                        <button class="contact-btn" data-toggle="modal"
+                            data-target="#inquireButton{{ $seller->id }}">Contact Seller</button>
+                        <div class="seller-name">{{ $shopName }}</div>
+                        <div class="company-name">{{ $shopAddress }}</div>
+                    </div>
+                    <div>
+                        {{-- Supporting Div --}}
+                    </div> 
                 </div>
             </div>
             <!-- Modal -->

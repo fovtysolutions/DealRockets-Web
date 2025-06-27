@@ -7,7 +7,7 @@
 }
 
 .progress-form-main .container {
-    width: 1128px;
+    max-width: 1128px;
     margin: 30px auto;
     padding: 15px;
     background: white;
@@ -225,6 +225,9 @@
     border: 1px solid #d1d5db;
     border-radius: 8px;
     font-size: 15px;
+    height: 41px;
+    padding-inline: 0px;
+    padding-block: 0px;
     padding: 8px 8px 8px 15px;
     transition: all 0.2s ease;
     background: white;

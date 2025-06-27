@@ -423,7 +423,7 @@ class RegisterController extends BaseController
         if ($authorized_signature_path) $data['authorized_signature_path'] = $authorized_signature_path;
 
         // Create or update
-        $existing = VendorExtraDetail::where('seller_id', $vendorid)->first();
+        $existing = VendorExtraDetail::where('seller_users', $sellerusers)->first();
         $vendorUsers = VendorUsers::where('id',$sellerusers)->first();
         
         if ($existing) {

@@ -3,7 +3,7 @@
         @foreach ($items as $buyer)
             <article class="lead-card">
                 <div class="lead-card-inner">
-                    <div class="d-flex" style="flex-direction: column;width: 83%;">
+                    <div class="d-flex" style="flex-direction: column;width: 75%;">
                         <div class="lead-info">
                             <div class="lead-header">
                                 <h2 class="lead-title">{{ $buyer->name }}</h2>

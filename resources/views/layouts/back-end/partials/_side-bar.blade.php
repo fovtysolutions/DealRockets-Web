@@ -205,7 +205,7 @@
                         </li>
                         <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/tradeshow') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'tradeshow']) }}">
+                                href="{{ route('admin.subcard', ['slug' => 'tradeshows']) }}">
                                 <i class="fa-brands fa-trade-federation me-2 sidebar-icon"></i>
                                 <span
                                     class="text-truncate sidebar-text">

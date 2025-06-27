@@ -1118,9 +1118,10 @@
     .humburger {
         display: block;
     }
-    .detailsboxtop {
+    
+    /* .detailsboxtop {
         padding: 20px;
-    }
+    } */
 
     .detailsboxtop h3 {
         font-size: 1.5em;

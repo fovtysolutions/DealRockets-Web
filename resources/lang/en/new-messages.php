@@ -9550,4 +9550,9 @@ return [
 	"Consultants List" => "Consultants List",
 	"Registered Candidates List" => "Registered Candidates List",
 	"No tradeshows found" => "No tradeshows found",
+	"Internal Packing Unit" => "Internal Packing Unit",
+	"Master Packing Unit" => "Master Packing Unit",
+	"Weight Per Unit Type" => "Weight Per Unit Type",
+	"Dimensions Per Unit" => "Dimensions Per Unit",
+	"Dimension Per Unit Type" => "Dimension Per Unit Type",
 ];

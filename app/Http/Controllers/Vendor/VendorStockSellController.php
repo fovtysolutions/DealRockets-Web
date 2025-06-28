@@ -37,7 +37,7 @@ class VendorStockSellController extends Controller
             'upper_limit' => 'nullable|string',
             'lower_limit' => 'nullable|string',
             'unit' => 'nullable|string',
-            'city' => 'nullable|string',
+            'city' => 'required|string',
             'stock_type' => 'nullable|string',
             'product_type' => 'nullable|string',
             'origin' => 'nullable|string',
@@ -46,13 +46,20 @@ class VendorStockSellController extends Controller
             'sub_category_id' => 'nullable|string',
             'hs_code' => 'nullable|string',
             'rate' => 'nullable|integer',
+            'rate_unit' => 'nullable|string',
             'local_currency' => 'nullable|string',
             'delivery_terms' => 'nullable|string',
             'place_of_loading' => 'nullable|string',
             'port_of_loading' => 'nullable|string',
             'packing_type' => 'nullable|string',
             'weight_per_unit' => 'nullable|string',
+            'weight_per_unit_type' => 'nullable|string',
             'dimensions_per_unit' => 'nullable|string',
+            'dimensions_per_unit_type' => 'nullable|string',
+            'dimension_per_unit' => 'nullable|string',
+            'dimension_per_unit_type' => 'nullable|string',
+            'master_packing' => 'nullable|string',
+            'master_packing_unit' => 'nullable|string',
             'certificate' => 'nullable|image',
             'dynamic_data' => 'nullable',
             'dynamic_data_technical' => 'nullable',
@@ -90,13 +97,20 @@ class VendorStockSellController extends Controller
             'sub_category_id' => $request->sub_category_id,
             'hs_code' => $request->hs_code,
             'rate' => $request->rate,
+            'rate_unit' => $request->rate_unit,
             'local_currency' => $request->local_currency,
             'delivery_terms' => $request->delivery_terms,
             'place_of_loading' => $request->place_of_loading,
             'port_of_loading' => $request->port_of_loading,
             'packing_type' => $request->packing_type,
             'weight_per_unit' => $request->weight_per_unit,
+            'weight_per_unit_type' => $request->weight_per_unit_type,
             'dimensions_per_unit' => $request->dimensions_per_unit,
+            'dimensions_per_unit_type' => $request->dimensions_per_unit_type,
+            'dimension_per_unit' => $request->dimension_per_unit,
+            'dimension_per_unit_type' => $request->dimension_per_unit_type,
+            'master_packing' => $request->master_packing,
+            'master_packing_unit' => $request->master_packing_unit,
             'dynamic_data' => $request->dynamic_data,
             'dynamic_data_technical' => $request->dynamic_data_technical,
         ];
@@ -264,7 +278,7 @@ class VendorStockSellController extends Controller
         $items = Product::where('user_id', $user_id)->where('added_by', $role)->get()->pluck('name', 'id');
         $name = ChatManager::getproductname($stocksell->product_id);
         $countries = CountrySetupController::getCountries();
-        $industry = CountrySetupController::getCountries();
+        $industry = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         $categories = StockCategory::all();
         $dynamicData = $stocksell->dynamic_data;
         $dynamicDataTechnical = $stocksell->dynamic_data_technical;
@@ -352,10 +366,11 @@ class VendorStockSellController extends Controller
             // Update the StockSell record with the validated data
             $stockSell->update($validatedData);
             toastr()->success('Record Updated Successfully');
+
             return redirect()->route('vendor.stock.index')->with('success', 'Record updated successfully.');
         } catch (Exception $e) {
             toastr()->error('Record Updation Failed');
-            Log::error("Error Updating Record", $e->getMessage());
+            Log::error("Error Updating Record", [$e->getMessage()]);
         }
     }
 

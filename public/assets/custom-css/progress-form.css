@@ -225,7 +225,7 @@
     border: 1px solid #d1d5db;
     border-radius: 8px;
     font-size: 15px;
-    height: 41px;
+    height: 42px;
     padding-inline: 0px;
     padding-block: 0px;
     padding: 8px 8px 8px 15px;
@@ -375,6 +375,26 @@
     background: #9ca3af;
     transform: none;
     box-shadow: none;
+}
+
+.progress-form-main .select2-container--default .select2-selection--single .select2-selection__placeholder
+{
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.progress-form-main .select2-container .select2-selection--single .select2-selection__rendered {
+    display: block;
+    padding-left: 0px;
+    padding-right: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.progress-form-main .custom-select{
+    height: 40px !important;
+    padding: 10px !important;
 }
 
 @media (max-width: 768px) {

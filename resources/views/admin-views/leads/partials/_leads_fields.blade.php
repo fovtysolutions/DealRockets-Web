@@ -16,17 +16,25 @@
         <div class="step">
             <div class="step-circle">3</div>
         </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-circle">4</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-circle">5</div>
+        </div>
     </div>
     <div class="form-header">
         <h1>{{ $isEdit ? 'Edit Lead' : 'Create Lead' }}</h1>
-        <p>{{ $isEdit ? 'Update the details of your Lead' : 'Fill in the required details to create Lead' }}
+        <p>
+            {{ $isEdit ? 'Update the details of your Lead' : 'Fill in the required details to create Lead' }}
         </p>
     </div>
     <div class="step-section" data-step="1">
-        <h4> Basic Information </h4>
         <div class="form-row">
             <div class="form-group">
-                <label for="industry" class="form-label">Category</label>
+                <label for="industry" class="form-label">Industry</label>
                 <select name="industry" id="industry" class="form-control" required>
                     <option value="" disabled
                         {{ old('industry', $isEdit ? $leads->industry : '') == '' ? 'selected' : '' }}>
@@ -40,37 +48,35 @@
                     @endforeach
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="sub-category-select" class="form-label">{{ translate('sub_Category') }}</label>
-                @if(auth('admin')->check())
+                @if (auth('admin')->check())
                     <select name="sub_category_id" id="sub-category-select"
-                    class="form-control action-get-request-onchange"
-                    data-url-prefix="{{ route('admin.products.get-categories') . '?parent_id=' }}"
-                    data-element-id="sub-sub-category-select" data-element-type="select" required>
-                @else
-                    <select name="sub_category_id" id="sub-category-select"
-                    class="form-control action-get-request-onchange"
-                    data-url-prefix="{{ route('vendor.products.get-categories') . '?parent_id=' }}"
-                    data-element-id="sub-sub-category-select" data-element-type="select">
+                        class="form-control action-get-request-onchange"
+                        data-url-prefix="{{ route('admin.products.get-categories') . '?parent_id=' }}"
+                        data-element-id="sub-sub-category-select" data-element-type="select" required>
+                    @else
+                        <select name="sub_category_id" id="sub-category-select"
+                            class="form-control action-get-request-onchange"
+                            data-url-prefix="{{ route('vendor.products.get-categories') . '?parent_id=' }}"
+                            data-element-id="sub-sub-category-select" data-element-type="select">
                 @endif
                 <option value="" disabled
                     {{ old('sub_category_id', $isEdit ? $leads->sub_category_id : '') == '' ? 'selected' : '' }}>
                     {{ translate('select_Sub_Category') }}
                 </option>
 
-                    @if ($isEdit && isset($subCategories))
-                        @foreach ($subCategories as $sub)
-                            <option value="{{ $sub->id }}"
-                                {{ old('sub_category_id', $leads->sub_category_id) == $sub->id ? 'selected' : '' }}>
-                                {{ $sub->name }}
-                            </option>
-                        @endforeach
-                    @endif
+                @if ($isEdit && isset($subCategories))
+                    @foreach ($subCategories as $sub)
+                        <option value="{{ $sub->id }}"
+                            {{ old('sub_category_id', $leads->sub_category_id) == $sub->id ? 'selected' : '' }}>
+                            {{ $sub->name }}
+                        </option>
+                    @endforeach
+                @endif
                 </select>
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group">
                 <label for="product_id" class="form-label">Product Name</label>
@@ -88,33 +94,107 @@
             </div>
         </div>
         <div class="form-row">
+            <div class="form-single">
+                <label for="description" class="form-label">Description</label>
+                <textarea required id="details" name="details" class="form-control" placeholder="Enter description" rows="1">{{ old('details', $isEdit ? $leads->details : '') }}</textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-single">
+                <label class="form-label">{{ translate('Standard Specification') }}</label>
+                <div id="dynamic-data-box">
+                    {{-- Title Groups Go Here --}}
+                </div>
+                <button type="button" class="btn btn-primary mt-2" id="add-title-group">Add
+                    Title</button>
+            </div>
+        </div>
+        <button type="button" class="next-btn" data-next="2">Next</button>
+    </div>
+    <div class="step-section d-none" data-step="2">
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">{{ translate('Packing Type') }}</label>
+                <select class="form-control" name="packing_type">
+                    <option value="">Select Packing Type</option>
+                    @php
+                        $packingTypes = [
+                            'PP Bag',
+                            'Carton',
+                            'Plastic Drum',
+                            'Steel Drum',
+                            'Wooden Crate',
+                            'Bulk',
+                            'IBC Tank',
+                            'Plastic Container',
+                            'Custom Packaging',
+                        ];
+                    @endphp
+                    @foreach ($packingTypes as $type)
+                        <option value="{{ $type }}"
+                            {{ old('packing_type', $isEdit ? $leads->packing_type : '') == $type ? 'selected' : '' }}>
+                            {{ $type }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ translate('Size') }}</label>
+                <input type="text" class="form-control" name="size" placeholder="e.g., 1.5kg"
+                    value="{{ old('size', $isEdit ? $leads->size : '') }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="brand" class="form-label">Brand</label>
+                <select name="brand" id="brand" class="form-control">
+                    <option value="" disabled
+                        {{ old('brand', $isEdit ? $leads->brand : '') == '' ? 'selected' : '' }}>
+                        Select a Brand
+                    </option>
+                    @foreach ($brands as $brand)
+                        <option value="{{ $brand->id }}"
+                            {{ old('brand', $isEdit ? $leads->brand : '') == $brand->id ? 'selected' : '' }}>
+                            {{ $brand->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tags">{{ translate('tags') }}</label>
+                <input type="text" name="tags" id="tags" class="form-control"
+                    placeholder="{{ translate('enter_tags') }}"
+                    value="{{ old('tags', $isEdit ? $leads->tags : '') }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="avl_stock">{{ translate('available_stock') }}</label>
+                <input type="text" name="avl_stock" id="avl_stock" class="form-control"
+                    placeholder="{{ translate('enter_available_stock') }}"
+                    value="{{ old('avl_stock', $isEdit ? $leads->avl_stock : '') }}">
+            </div>
+            <div class="form-group">
+                <label for="avl_stock_unit">{{ translate('available_stock_unit') }}</label>
+                <input type="text" name="avl_stock_unit" id="avl_stock_unit" class="form-control"
+                    placeholder="{{ translate('enter_available_stock_unit') }}"
+                    value="{{ old('avl_stock_unit', $isEdit ? $leads->avl_stock_unit : '') }}">
+            </div>
+        </div>
+        <div class="form-row">
             @if ($isEdit)
-                <div class="form-group">
+                <div class="form-single">
                     <label for="images" class="form-label">{{ translate('product_images') }}</label>
                     <input type="file" name="new_images[]" id="images" class="form-select" multiple
                         accept="image/*">
                 </div>
             @else
-                <div class="form-group">
+                <div class="form-single">
                     <label for="imagePicker">Choose Images</label>
-                    <input type="file" name="images[]" id="images" class="form-select" multiple accept="image/*">
+                    <input type="file" name="images[]" id="images" class="form-select" multiple
+                        accept="image/*">
                 </div>
             @endif
-            <div class="form-group">
-                <label for="country" class="form-label">Origin</label>
-                <select name="country" id="country" class="form-control">
-                    <option value="" disabled
-                        {{ old('country', $isEdit ? $leads->country : '') == '' ? 'selected' : '' }}>
-                        Select a Country
-                    </option>
-                    @foreach ($countries as $country)
-                        <option value="{{ $country->id }}"
-                            {{ old('country', $isEdit ? $leads->country : '') == $country->id ? 'selected' : '' }}>
-                            {{ $country->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
         </div>
         @if ($isEdit)
             <div class="form-row">
@@ -148,12 +228,33 @@
                 </div>
             </div>
         @endif
+        <button type="button" class="prev-btn" data-prev="1">Prev</button>
+        <button type="button" class="next-btn" data-next="3">Next</button>
+    </div>
+    <div class="step-section d-none" data-step="3">
         <div class="form-row">
+            <div class="form-group">
+                <label for="country" class="form-label">Origin</label>
+                <select name="country" id="country" class="form-control" required>
+                    <option value="" disabled
+                        {{ old('country', $isEdit ? $leads->country : '') == '' ? 'selected' : '' }}>
+                        Select a Country
+                    </option>
+                    @foreach ($countries as $country)
+                        <option value="{{ $country->id }}"
+                            {{ old('country', $isEdit ? $leads->country : '') == $country->id ? 'selected' : '' }}>
+                            {{ $country->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
             <div class="form-group">
                 <label for="rate" class="form-label">Rate</label>
                 <input type="number" name="rate" id="rate" class="form-control" placeholder="Enter Rate"
                     required value="{{ old('rate', $isEdit ? $leads->rate : '') }}">
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group">
                 <label class="title-color">{{ translate('Delivery Terms') }}</label>
                 <select class="form-control" name="delivery_terms">
@@ -165,8 +266,6 @@
                     @endforeach
                 </select>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <label class="title-color">{{ translate('Delivery Mode') }}</label>
                 <select class="form-control" name="delivery_mode">
@@ -178,15 +277,14 @@
                     @endforeach
                 </select>
             </div>
-
+        </div>  
+        <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Place of Loading') }}</label>
                 <input type="text" class="form-control" name="place_of_loading"
                     placeholder="e.g., Shanghai, Ningbo"
                     value="{{ old('place_of_loading', $isEdit ? $leads->place_of_loading : '') }}">
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Port of Loading') }}</label>
                 <select class="form-control" name="port_of_loading">
@@ -198,94 +296,28 @@
                     @endforeach
                 </select>
             </div>
-
-            <div class="form-group">
-                <label class="form-label">{{ translate('Packing Type') }}</label>
-                <select class="form-control" name="packing_type">
-                    <option value="">Select Packing Type</option>
-                    @php
-                        $packingTypes = [
-                            'PP Bag',
-                            'Carton',
-                            'Plastic Drum',
-                            'Steel Drum',
-                            'Wooden Crate',
-                            'Bulk',
-                            'IBC Tank',
-                            'Plastic Container',
-                            'Custom Packaging',
-                        ];
-                    @endphp
-                    @foreach ($packingTypes as $type)
-                        <option value="{{ $type }}"
-                            {{ old('packing_type', $isEdit ? $leads->packing_type : '') == $type ? 'selected' : '' }}>
-                            {{ $type }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
         </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label class="form-label">{{ translate('Size') }}</label>
-                <input type="text" class="form-control" name="size" placeholder="e.g., 1.5kg"
-                    value="{{ old('size', $isEdit ? $leads->size : '') }}">
-            </div>
-
-            <div class="form-group">
-                <label for="brand" class="form-label">Brand</label>
-                <select name="brand" id="brand" class="form-control">
-                    <option value="" disabled
-                        {{ old('brand', $isEdit ? $leads->brand : '') == '' ? 'selected' : '' }}>
-                        Select a Brand
-                    </option>
-                    @foreach ($brands as $brand)
-                        <option value="{{ $brand->id }}"
-                            {{ old('brand', $isEdit ? $leads->brand : '') == $brand->id ? 'selected' : '' }}>
-                            {{ $brand->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <button type="button" class="next-btn" data-next="2">Next</button>
+        <button type="button" class="prev-btn" data-prev="2">Prev</button>
+        <button type="button" class="next-btn" data-next="4">Next</button>
     </div>
-    <div class="step-section d-none" data-step="2">
-        <div class="form-row">
-            <div class="form-single">
-                <label for="description" class="form-label">Description</label>
-                <textarea id="details" name="details" class="form-control" placeholder="Enter description" rows="1">{{ old('details', $isEdit ? $leads->details : '') }}</textarea>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-single">
-                <label class="form-label">{{ translate('Standard Specification') }}</label>
-                <div id="dynamic-data-box">
-                    {{-- Title Groups Go Here --}}
-                </div>
-                <button type="button" class="btn btn-primary mt-2" id="add-title-group">Add
-                    Title</button>
-            </div>
-        </div>
-        <button type="button" class="prev-btn" data-prev="1">Prev</button>
-        <button type="button" class="next-btn" data-next="3">Next</button>
-    </div>
-    <div class="step-section d-none" data-step="3">
+    <div class="step-section d-none" data-step="4">
         <div class="form-row">
             <div class="form-group">
                 <label for="buyer_seller" class="title-color">
                     {{ translate('buyer_or_seller') }}
                     <span class="input-required-icon">*</span>
                 </label>
-                <select class="form-control" name="type">
+                <select class="form-control" name="type" required>
                     <option value="" disabled
                         {{ old('type', $isEdit ? $leads->type : '') == '' ? 'selected' : '' }}>
                         {{ translate('select_buyer_or_seller') }}
                     </option>
-                    <option value="buyer"
-                        {{ old('type', $isEdit ? $leads->type : '') == 'buyer' ? 'selected' : '' }}>
-                        {{ translate('buyer') }}
-                    </option>
+                    @if (auth('admin')->check())
+                        <option value="buyer"
+                            {{ old('type', $isEdit ? $leads->type : '') == 'buyer' ? 'selected' : '' }}>
+                            {{ translate('buyer') }}
+                        </option>
+                    @endif
                     <option value="seller"
                         {{ old('type', $isEdit ? $leads->type : '') == 'seller' ? 'selected' : '' }}>
                         {{ translate('seller') }}
@@ -300,7 +332,6 @@
                     value="{{ old('name', $isEdit ? $leads->name : '') }}">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group">
                 <label class="title-color" for="company_name">{{ translate('company_name') }}</label>
@@ -318,12 +349,49 @@
                     value="{{ old('contact_number', $isEdit ? $leads->contact_number : '') }}">
             </div>
         </div>
-
+        <div class="form-row">
+            <div class="form-group">
+                <label for="city">{{ translate('city') }}</label>
+                <input type="text" name="city" id="city" class="form-control"
+                    placeholder="{{ translate('enter_city') }}"
+                    value="{{ old('city', $isEdit ? $leads->city : '') }}">
+            </div>
+            <div class="form-group">
+                <label for="refund">{{ translate('refund_policy') }}</label>
+                <input type="text" name="refund" id="refund" class="form-control"
+                    placeholder="{{ translate('enter_refund_policy') }}"
+                    value="{{ old('refund', $isEdit ? $leads->refund : '') }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-single">
+                <label for="compliance_status" class="form-label">Compliance Status</label>
+                <select name="compliance_status" id="compliance_status" class="form-control">
+                    @php
+                        if (auth('admin')->check()) {
+                            $statusList = ['pending', 'approved', 'flagged'];
+                        } else {
+                            $statusList = ['pending'];
+                        }
+                    @endphp
+                    @foreach ($statusList as $status)
+                        <option value="{{ $status }}"
+                            {{ old('compliance_status', $isEdit ? $leads->compliance_status : 'pending') == $status ? 'selected' : '' }}>
+                            {{ ucfirst($status) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <button type="button" class="prev-btn" data-prev="3">Prev</button>
+        <button type="button" class="next-btn" data-next="5">Next</button>
+    </div>
+    <div class="step-section d-none" data-step="5">
         <div class="form-row">
             <div class="form-group">
                 <label class="title-color" for="quantity_required">{{ translate('quantity_required') }}</label>
                 <input type="number" name="quantity_required" id="quantity_required" class="form-control"
-                    placeholder="{{ translate('enter_quantity_required') }}"
+                    placeholder="{{ translate('enter_quantity_required') }}" required
                     value="{{ old('quantity_required', $isEdit ? $leads->quantity_required : '') }}">
             </div>
 
@@ -332,7 +400,7 @@
                     {{ translate('Unit') }} <span class="input-required-icon">*</span>
                 </label>
                 <input type="text" name="unit" id="unit" class="form-control"
-                    placeholder="{{ translate('Enter Unit') }}"
+                    placeholder="{{ translate('Enter Unit') }}" required
                     value="{{ old('unit', $isEdit ? $leads->unit : '') }}">
             </div>
         </div>
@@ -342,7 +410,7 @@
                     <span class="input-required-icon">*</span>
                 </label>
                 <input type="text" name="term" id="term" class="form-control"
-                    placeholder="{{ translate('Enter Term') }}"
+                    placeholder="{{ translate('Enter Term') }}" required
                     value="{{ old('term', $isEdit ? $leads->term : '') }}">
             </div>
 
@@ -350,7 +418,7 @@
                 <label class="title-color" for="buying_frequency">{{ translate('buying_frequency') }}
                     <span class="input-required-icon">*</span>
                 </label>
-                <select class="js-select2-custom form-control" name="buying_frequency">
+                <select class="js-select2-custom form-control" name="buying_frequency" required>
                     <option value="" disabled
                         {{ old('buying_frequency', $isEdit ? $leads->buying_frequency : '') == '' ? 'selected' : '' }}>
                         {{ translate('select_buying_frequency') }}
@@ -364,60 +432,6 @@
                 </select>
             </div>
         </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="compliance_status" class="form-label">Compliance Status</label>
-                <select name="compliance_status" id="compliance_status" class="form-control">
-                    @foreach (['pending', 'approved', 'flagged'] as $status)
-                        <option value="{{ $status }}"
-                            {{ old('compliance_status', $isEdit ? $leads->compliance_status : 'pending') == $status ? 'selected' : '' }}>
-                            {{ ucfirst($status) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="city">{{ translate('city') }}</label>
-                <input type="text" name="city" id="city" class="form-control"
-                    placeholder="{{ translate('enter_city') }}"
-                    value="{{ old('city', $isEdit ? $leads->city : '') }}">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="tags">{{ translate('tags') }}</label>
-                <input type="text" name="tags" id="tags" class="form-control"
-                    placeholder="{{ translate('enter_tags') }}"
-                    value="{{ old('tags', $isEdit ? $leads->tags : '') }}">
-            </div>
-
-            <div class="form-group">
-                <label for="refund">{{ translate('refund_policy') }}</label>
-                <input type="text" name="refund" id="refund" class="form-control"
-                    placeholder="{{ translate('enter_refund_policy') }}"
-                    value="{{ old('refund', $isEdit ? $leads->refund : '') }}">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="avl_stock">{{ translate('available_stock') }}</label>
-                <input type="text" name="avl_stock" id="avl_stock" class="form-control"
-                    placeholder="{{ translate('enter_available_stock') }}"
-                    value="{{ old('avl_stock', $isEdit ? $leads->avl_stock : '') }}">
-            </div>
-
-            <div class="form-group">
-                <label for="avl_stock_unit">{{ translate('available_stock_unit') }}</label>
-                <input type="text" name="avl_stock_unit" id="avl_stock_unit" class="form-control"
-                    placeholder="{{ translate('enter_available_stock_unit') }}"
-                    value="{{ old('avl_stock_unit', $isEdit ? $leads->avl_stock_unit : '') }}">
-            </div>
-        </div>
-
         <div class="form-row">
             <div class="form-group">
                 <label for="lead_time">{{ translate('lead_time') }}</label>
@@ -425,7 +439,6 @@
                     placeholder="{{ translate('enter_lead_time') }}"
                     value="{{ old('lead_time', $isEdit ? $leads->lead_time : '') }}">
             </div>
-
             <div class="form-group">
                 <label for="payment_option">{{ translate('payment_option') }}</label>
                 <input type="text" name="payment_option" id="payment_option" class="form-control"
@@ -433,7 +446,6 @@
                     value="{{ old('payment_option', $isEdit ? $leads->payment_option : '') }}">
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-single">
                 <label for="offer_type">{{ translate('offer_type') }}</label>
@@ -442,7 +454,7 @@
                     value="{{ old('offer_type', $isEdit ? $leads->offer_type : '') }}">
             </div>
         </div>
-        <button type="button" class="prev-btn" data-prev="2">Prev</button>
+        <button type="button" class="prev-btn" data-prev="4">Prev</button>
         <button type="submit" class="submit-btn">Submit</button>
     </div>
 </div>
@@ -540,6 +552,14 @@
             </div>
         </div>`;
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('dynamic-data-box');
+        if (container && container.children.length === 0) {
+            container.insertAdjacentHTML('beforeend', getTitleGroupHtml(titleCount));
+            titleCount++;
+        }
+    });
 
     document.getElementById('add-title-group').addEventListener('click', function() {
         const container = document.getElementById('dynamic-data-box');

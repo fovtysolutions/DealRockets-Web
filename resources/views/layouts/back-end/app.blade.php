@@ -55,6 +55,9 @@
                 padding: 0;
                 inset-inline: 0 !important;
             }
+            body{
+                background-color: white;
+            }
         </style>
     @endif
 

@@ -16,7 +16,7 @@
             @csrf
             <div class="card">
                 <div class="card-body">
-                    @include('vendor-views.stocksell.partials.edit_fields')
+                    @include('vendor-views.stocksell.partials.stocksell_fields')
                 </div>
             </div>
         </form>

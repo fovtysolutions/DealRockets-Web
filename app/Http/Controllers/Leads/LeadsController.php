@@ -98,12 +98,12 @@ class LeadsController extends Controller
             'sub_category_id' => 'nullable',
             'hs_code' => 'required|string|max:255',
             'rate' => 'required|string|max:255',
-            'delivery_terms' => 'required|string|max:255',
-            'delivery_mode' => 'required|string|max:255',
-            'place_of_loading' => 'required|string|max:255',
-            'port_of_loading' => 'required|string|max:255',
-            'packing_type' => 'required|string|max:255',
-            'dynamic_data' => 'required',
+            'delivery_terms' => 'nullable|string|max:255',
+            'delivery_mode' => 'nullable|string|max:255',
+            'place_of_loading' => 'nullable|string|max:255',
+            'port_of_loading' => 'nullable|string|max:255',
+            'packing_type' => 'nullable|string|max:255',
+            'dynamic_data' => 'nullable',
         ]);
     }
 

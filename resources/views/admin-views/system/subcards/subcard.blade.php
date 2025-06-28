@@ -37,7 +37,7 @@
         <div class="tab-content pt-4" id="tabContent" style="min-height: 600px;">
             @foreach ($cardData as $index => $card)
                 <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="tab-{{ $index }}"
-                    role="tabpanel" aria-labelledby="tab-{{ $index }}-tab" style="height: 600px;">
+                    role="tabpanel" aria-labelledby="tab-{{ $index }}-tab" style="height: 77vh;">
                     @if (!empty($card['ajax_route']))
                         <div class="ajax-content" data-loaded="false" style="height: 100%; overflow: auto;">
                             {{-- AJAX content will be loaded here on demand --}}

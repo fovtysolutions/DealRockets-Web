@@ -82,7 +82,7 @@
                 <label class="title-color" for="name">{{ translate('product_name') }}
                 </label>
                 <input type="text" name="name" id="name" value="{{ $isEdit ? $product['name'] : '' }}"
-                    class="form-control" placeholder="{{ translate('new_Product') }}">
+                    class="form-control" placeholder="{{ translate('new_Product') }}" required>
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('HS Code') }}</label>

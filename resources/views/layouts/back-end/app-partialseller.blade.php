@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ Session::get('direction') }}"
-    style="text-align: {{ Session::get('direction') === 'rtl' ? 'right' : 'left' }};">
+    style="text-align: {{ Session::get('direction') === 'rtl' ? 'right' : 'left' }}; padding-bottom: 75px;">
 
 <head>
     <meta charset="utf-8">
@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <main id="contentother" role="main" class="main pointer-event">
+    <main id="content" role="main" class="main pointer-event">
         @yield('content')
 
         @include('layouts.back-end.partials-seller._modals')

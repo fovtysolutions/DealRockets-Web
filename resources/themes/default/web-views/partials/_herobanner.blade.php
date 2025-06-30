@@ -47,8 +47,7 @@
     }
 
     .mega_menu_inner_new {
-        /* margin-bottom: 15px; */
-        /* width: 120px; */
+        min-height: 216px;
     }
 </style>
 @if (empty($carouselimages))

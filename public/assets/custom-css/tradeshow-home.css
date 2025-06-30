@@ -218,14 +218,14 @@
       background-color: white;
       padding-bottom: 20px;
       height: 100%;
-      max-height: 440px;
+      /* max-height: 440px; */
     }
 
     .tradeshow-home .card-image {
       aspect-ratio: 1.49;
       object-fit: cover;
       width: 100%;
-      height: 150px;
+      /* height: 150px; */
     }
 
     .tradeshow-home .card-content {
@@ -243,6 +243,7 @@
       overflow: hidden;
       font-size: 16px;
       font-weight: 600;
+      margin-bottom: 14px;
       align-self: stretch;
       height: 2rem;
       line-height: 1rem;
@@ -251,23 +252,26 @@
     .tradeshow-home .card-description {
       color: #515050;
       font-size: 12px;
+      -webkit-line-clamp: 3;
+      max-height: 2rem;
       align-self: stretch;
-      margin-top: 8px;
-      height: 2rem;
+      /* margin-top: 8px; */
+      /* height: 2rem; */
       line-height: 1rem;
+      overflow: hidden;
     }
 
     .tradeshow-home .card-details {
       display: flex;
-      justify-content: space-between;
+      /* justify-content: space-between; */
       gap: 13px;
       font-size: 14px;
-      margin-top: 24px;
+      margin-top: 25px;
     }
 
     .tradeshow-home .detail-label {
       color: #515050;
-      flex-grow: 1;
+      /* flex-grow: 1; */
     }
 
     .tradeshow-home .detail-value {
@@ -277,15 +281,16 @@
 
     .tradeshow-home .card-location {
       display: flex;
-      justify-content: space-between;
-      gap: 11px;
+      /* justify-content: space-between; */
+      gap: 13px;
       font-size: 14px;
       color: #515050;
-      margin-top: 18px;
+      margin-top: 7px;
+      align-items: center;
     }
 
     .tradeshow-home .location-label {
-      flex-grow: 1;
+      /* flex-grow: 1; */
       text-wrap: nowrap;
     }
 
@@ -331,8 +336,9 @@
       border: 0.964px solid #0D0D0F;
       color: #0D0D0F;
       font-size: 15px;
+      width: max-content;
       margin-top: 24px;
-      padding: 8px 15px 8px 16px;
+      padding: 8px 16px 8px 16px;
       border-radius: 57.843px;
       cursor: pointer;
       background-color: transparent;

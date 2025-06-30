@@ -30,7 +30,7 @@
 /* Text Overlay */
 .text-overlay {
     background: rgba(255, 255, 255, 0); /* Semi-transparent white background */
-    padding: 20px;
+    padding: 20px 5px 5px 5px;
     border-radius: 8px;
     text-align: center;
 }
@@ -38,6 +38,7 @@
 .text-overlay h4{
     color: black !important;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 /* Button Styling */

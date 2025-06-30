@@ -10,13 +10,45 @@
   }
   
   .tabs {
-    padding: 10px 20px 15px 20px; /* Increased padding */
+    /* padding: 10px 20px 15px 20px;  */
   }
   
   .tab-links {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #f0f0f0;
+  }
+
+  #tab-8 h5{
+    color: black;
+    text-align: left;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  #tab-8 h6{
+    color: black;
+    text-align: left;
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  #tab-8 .card-text{
+    color: #555;
+    text-align: justify;
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 0px;
+    margin-bottom: 16px;
+  }
+
+  #tab-8 .btn{
+    padding: 10px;
+    border-radius: 50px;
+    width: fit-content;
+    background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+    display: flex;
+    justify-self: start;
   }
   
   .tab-link {

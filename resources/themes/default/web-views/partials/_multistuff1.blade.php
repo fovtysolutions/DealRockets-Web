@@ -24,28 +24,41 @@
             'btn-text' => 'Find Opportunities',
             'link' => '#'
         ],
+        [
+            'image' => '/img/stock-sale-solution.png',
+            'title' => 'Solutions',
+            'subtitle' => 'Streamline Industrial Procurement',
+            'description' => 'Connect with raw material suppliers, surplus stock sellers, and qualified industrial talent to meet your production demands efficiently and fastest.',
+            'btn-text' => 'Optimize Manufacturing',
+            'link' => '#'
+        ]
     ];
 @endphp
 <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/multitab.css') }}" />
 <div class="mainpagesection" style="background: unset;">
     <div class="tabs-container" id="tabs1">
         <div class="tabs">
-            <div class="tab-linkssuno d-flex flex-row mb-3" style="justify-content: end; padding-bottom:30px;">
-                <div class="leadstitle2 active" data-tab="tab-4" style="outline: none;position: absolute;left: 44%;top: 27px;text-transform: uppercase;">
+            <div class="tab-linkssuno d-flex flex-row mb-1" style="justify-content: space-between; padding-bottom:30px;">
+                <div>
+                    {{-- No Content --}}
+                </div>
+                <div class="leadstitle2 active" data-tab="tab-4" style="text-transform:uppercase;">
                     Our Services</div>
-                <a href="#" class="top-movers-viewall" style="text-decoration: none;">View All <i style="color:#ED4553;" class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i></a>
+                <a href="#" class="top-movers-viewall" style="text-decoration: none; align-content: center;">View All <i style="color:#ED4553;" class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i></a>
             </div>
             <div class="tab-contentuno active" id="tab-8">
                 <div class="row">
                     @foreach ($services as $service)
-                        <div class="col-md-4 mt-4">
+                        <div class="col-md-3 mt-2">
                             <div class="card h-100 text-center" style="border-radius:0;">
-                                <img src="{{ asset($service['image']) }}" class="card-img-top mb-3" alt="{{ $service['title'] }}" style="object-fit: contain; border-radius:0;"
+                                <img src="{{ asset($service['image']) }}" class="card-img-top mb-3" alt="{{ $service['title'] }}" style="object-fit: contain; border-radius:0; max-height: 196px;"
                                     onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">
-                                <h5 class="card-title">{{ $service['title'] }}</h5>
-                                <h6 class="card-title">{{ $service['subtitle'] }}</h6>
-                                <p class="card-text">{{ $service['description'] }}</p>
-                                <a href="{{ $service['link'] }}" class="btn btn-primary mt-auto">{{ $service['btn-text'] }}</a>
+                                <div style="padding: 15px;">
+                                    <h5 class="card-title">{{ $service['title'] }}</h5>
+                                    <h6 class="card-title">{{ $service['subtitle'] }}</h6>
+                                    <p class="card-text">{{ $service['description'] }}</p>
+                                    <a href="{{ $service['link'] }}" class="btn btn-primary mt-auto">{{ $service['btn-text'] }}</a>
+                                </div>
                             </div>
                         </div>
                     @endforeach

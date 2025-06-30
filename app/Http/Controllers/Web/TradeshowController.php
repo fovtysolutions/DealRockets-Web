@@ -239,6 +239,9 @@ class TradeshowController extends Controller
         $colors = $this->colorRepo->getList(orderBy: ['name' => 'desc'], dataLimit: 'all');
         $attributes = $this->attributeRepo->getList(orderBy: ['name' => 'desc'], dataLimit: 'all');
         $languages = getWebConfig(name: 'pnc_language') ?? null;
+        $languages = [
+            $languages[0]
+        ];
         $defaultLanguage = $languages[0];
         $digitalProductFileTypes = ['audio', 'video', 'document', 'software'];
         $digitalProductAuthors = $this->authorRepo->getListWhere(dataLimit: 'all');

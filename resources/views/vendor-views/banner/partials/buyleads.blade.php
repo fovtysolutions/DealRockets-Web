@@ -1,8 +1,8 @@
-<div class="content container-fluid">
+<div>
     <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
         <h2 class="h1 mb-0 d-flex gap-2">
             <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
-            {{ translate('Add Banners') }}
+            {{ translate('Buy Leads Banners') }}
         </h2>
     </div>
 
@@ -13,30 +13,21 @@
             <div class="card-body">
                 <div class="row">
                     <input type="hidden" name="slug" value="{{ $slug }}">
-                    <div class="col-lg-12 mb-4">
-                        <label>Banner 1</label>
-                        <input type="file" name="banner_{{$slug}}1" accept="image/*"><br>
-                        @if(!empty($banner_images))
-                            <label>Preview</label>
-                            <img src="{{ theme_asset('/storage/' . $banner_images[0]['image_path']) }}" alt="banner_image1" style="height:300px; width: 100%;">
-                        @endif
-                    </div>
-                    <div class="col-lg-12 mb-4">
-                        <label>Banner 2</label>
-                        <input type="file" name="banner_{{$slug}}2" accept="image/*"><br>
-                        @if(!empty($banner_images))
-                            <label>Preview</label>
-                            <img src="{{ theme_asset('/storage/' . $banner_images[1]['image_path']) }}" alt="banner_image2" style="height:300px; width: 100%;">
-                        @endif
-                    </div>
-                    <div class="col-lg-12 mb-4">
-                        <label>Banner 3</label>
-                        <input type="file" name="banner_{{$slug}}3" accept="image/*"><br>
-                        @if(!empty($banner_images))
-                            <label>Preview</label>
-                            <img src="{{ theme_asset('/storage/' . $banner_images[2]['image_path']) }}" alt="banner_image3" style="height:300px; width: 100%;">
-                        @endif     
-                    </div>
+
+                    @for ($i = 1; $i <= 3; $i++)
+                        <div class="col-lg-12 mb-4">
+                            <label style="color: var(--title-color);font-size: 14px;font-weight: 700;">Banner {{ $i }}</label><br>
+                            <input type="file"  class="form-control" name="banner_{{ $slug }}{{ $i }}"
+                                accept="image/*"><br>
+
+                            @if (!empty($banner_images) && isset($banner_images[$i - 1]['image_path']))
+                                <label>Preview</label>
+                                <img src="{{ theme_asset('/storage/' . $banner_images[$i - 1]['image_path']) }}"
+                                    alt="banner_image{{ $i }}"
+                                    style="height:300px; width:100%; object-fit:contain;">
+                            @endif
+                        </div>
+                    @endfor
                 </div>
             </div>
         </div>

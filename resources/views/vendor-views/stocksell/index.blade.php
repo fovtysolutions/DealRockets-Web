@@ -4,46 +4,39 @@
 
 @section('content')
     <div class="content container-fluid">
-        <h2 class="mb-4">Stock List</h2>
+        {{-- <h2 class="mb-4">Stock List</h2> --}}
 
         <!-- Filter Bar -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <form action="{{ route('vendor.stock.index') }}" method="GET" class="row g-3">
-                    <!-- Search by Name -->
-                    <div class="col-md-4">
-                        <label for="searchName" class="form-label">Search by Name</label>
-                        <input type="text" id="searchName" class="form-control" name="name"
-                            placeholder="Enter product name">
+        <div>
+            <form action="{{ route('vendor.stock.index') }}" method="GET" class="row" id="form-filter">
+                <!-- Search by Name -->
+                <div class="col-md-4">
+                    <label for="searchName" class="form-label" style="color: var(--title-color);font-weight: 700;">Search by Name</label>
+                    <input type="text" id="searchName" class="form-control" name="name"
+                        placeholder="Enter product name" style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
+                </div>
+                <!-- Filter by Status -->
+                <div class="col-md-4">
+                    <label for="filterStatus" class="form-label" style="color: var(--title-color);font-weight: 700;">Filter by Status</label>
+                    <select id="filterStatus" class="form-control" name="status" style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
+                        <option selected value="">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <!-- Filter by Quantity -->
+                <div class="col-md-4">
+                    <label for="quantityRange" class="form-label" style="color: var(--title-color);font-weight: 700;">Filter by Quantity</label>
+                    <div class="input-group">
+                        <input type="number" name="minqty" id="minQuantity" class="form-control" placeholder="Min"
+                            min="0" style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
+                        <span class="input-group-text border-0">-</span>
+                        <input type="number" name="maxqty" id="maxQuantity" class="form-control" placeholder="Max"
+                            min="0" style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
                     </div>
-                    <!-- Filter by Status -->
-                    <div class="col-md-4">
-                        <label for="filterStatus" class="form-label">Filter by Status</label>
-                        <select id="filterStatus" class="form-control" name="status">
-                            <option selected value="">All Statuses</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
-                    <!-- Filter by Quantity -->
-                    <div class="col-md-4">
-                        <label for="quantityRange" class="form-label">Filter by Quantity</label>
-                        <div class="input-group">
-                            <input type="number" name="minqty" id="minQuantity" class="form-control" placeholder="Min"
-                                min="0">
-                            <span class="input-group-text">-</span>
-                            <input type="number" name="maxqty" id="maxQuantity" class="form-control" placeholder="Max"
-                                min="0">
-                        </div>
-                    </div>
-                    <!-- Action Buttons -->
-                    <div class="col-12 text-end">
-                        <button type="submit" class="btn btn-primary">Apply Filters</button>
-                        <button type="reset" class="btn btn-secondary">Reset Filters</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
 
         <!-- Stock List Table -->
@@ -86,25 +79,27 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">
-                                                <a href="{{ route('vendor.products.view', ['id' => "$value->product_id"]) }}">
+                                                <a
+                                                    href="{{ route('vendor.products.view', ['id' => "$value->product_id"]) }}">
                                                     <span>See Product</span>
                                                 </a>
                                             </td>
                                             <td>
                                                 <span class="d-flex gap-2">
-                                                    <a class="btn btn-outline-info btn-sm square-btn"
+                                                    <a class="btn btn-outline-info"
                                                         href="{{ route('vendor.stock.show', ['id' => $value->id]) }}">
-                                                        <i class="tio-invisible"></i>
+                                                        <i class="tio-invisible"></i> View
                                                     </a>
-                                                    <a class="btn btn-outline--primary btn-sm square-btn"
+                                                    <a class="btn btn-outline--primary"
                                                         href="{{ route('vendor.stock.edit', ['id' => $value->id]) }}">
-                                                        <i class="tio-edit"></i>
+                                                        <i class="tio-edit"></i> Edit
                                                     </a>
                                                     <form action="{{ route('vendor.stock.destroy', ['id' => $value->id]) }}"
                                                         method="post">
                                                         @csrf @method('delete')
                                                         <button
-                                                            class="btn btn-outline-danger btn-sm square-btn delete-data"><i class="tio-delete"></i></button>
+                                                            class="btn btn-outline-danger delete-data"><i
+                                                                class="tio-delete"></i> Delete</button>
                                                     </form>
                                                 </span>
                                             </td>
@@ -119,5 +114,22 @@
             </div>
         @endif
     </div>
+    <script>
+        $(document).ready(function() {
+            const $form = $('#form-filter');
 
+            // Submit when dropdown or number inputs change
+            $form.find('select, input[type="number"]').on('change', function() {
+                $form.submit();
+            });
+
+            // Submit on Enter key for the text input
+            $('#searchName').on('keypress', function(e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    $form.submit();
+                }
+            });
+        });
+    </script>
 @endsection

@@ -4,9 +4,9 @@
 
 @section('content')
     <div class="content container-fluid">
-        <h2 class="mb-4">Deal Assist List</h2>
+        {{-- <h2 class="mb-4">Deal Assist List</h2> --}}
 
-        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#createModal">Add Deal Assist</button>
+        <button class="btn btn--primary" data-toggle="modal" data-target="#createModal">Add Deal Assist</button>
         <div class="row mt-20">
             <div class="col-md-12">
                 <div class="card">
@@ -24,7 +24,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if ($dealAssists->empty())
+                                @if (!$dealAssists->empty())
                                     @foreach ($dealAssists as $deal)
                                         <tr>
                                             <td>{{ $deal->id }}</td>

@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="content container-fluid">
-        <h1>{{ ucfirst(str_replace('-', ' ', $slug)) }} Banner Setup</h1>
+        {{-- <h1>{{ ucfirst(str_replace('-', ' ', $slug)) }} Banner Setup</h1> --}}
 
         @if ($slug == 'marketplace')
             @include('vendor-views.banner.partials.marketplace')

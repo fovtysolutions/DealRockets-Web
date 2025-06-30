@@ -9555,4 +9555,8 @@ return [
 	"Weight Per Unit Type" => "Weight Per Unit Type",
 	"Dimensions Per Unit" => "Dimensions Per Unit",
 	"Dimension Per Unit Type" => "Dimension Per Unit Type",
+	"Sale Offer Banners" => "Sale Offer Banners",
+	"Tradeshow Banners" => "Tradeshow Banners",
+	"Marketplace Banners" => "Marketplace Banners",
+	"Buy Leads Banners" => "Buy Leads Banners",
 ];

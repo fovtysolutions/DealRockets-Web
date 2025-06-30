@@ -5,103 +5,75 @@
 
 @section('content')
     <div class="content container-fluid">
+        <div>
+            <form action="{{ url()->current() }}" method="GET" id="form-filter">
+                <input type="hidden" value="{{ request('status') }}" name="status">
+                <div class="row gx-2">
 
-        <div class="mb-3">
-            <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
-                <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
-                {{ translate($type == 'new-request' ? 'pending_for_approval_products' : ($type == 'approved' ? 'approved_products' : 'product_list')) }}
-                <span class="badge badge-soft-dark radius-50 fz-14 ml-1">
-                    {{ $products->total() }}
-                </span>
-            </h2>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <form action="{{ url()->current() }}" method="GET">
-                    <input type="hidden" value="{{ request('status') }}" name="status">
-                    <div class="row gx-2">
-                        <div class="col-12">
-                            <h4 class="mb-3">{{ translate('filter_Products') }}</h4>
-                        </div>
-
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label class="title-color" for="store">
-                                    {{ translate('brand') }}
-                                </label>
-                                <select name="brand_id" class="js-select2-custom form-control text-capitalize">
-                                    <option value="" selected>{{ translate('all_brand') }}</option>
-                                    @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id }}"
-                                            {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
-                                            {{ $brand->default_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label for="name" class="title-color">{{ translate('category') }}</label>
-                                <select class="js-select2-custom form-control action-get-request-onchange"
-                                    name="category_id"
-                                    data-url-prefix="{{ url('/vendor/products/get-categories?parent_id=') }}"
-                                    data-element-id="sub-category-select" data-element-type="select">
-                                    <option value="{{ old('category_id') }}" selected disabled>
-                                        {{ translate('select_category') }}</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category['id'] }}"
-                                            {{ request('category_id') == $category['id'] ? 'selected' : '' }}>
-                                            {{ $category['defaultName'] }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label for="name" class="title-color">{{ translate('sub_Category') }}</label>
-                                <select class="js-select2-custom form-control action-get-request-onchange"
-                                    name="sub_category_id" id="sub-category-select"
-                                    data-url-prefix="{{ url('/vendor/products/get-categories?parent_id=') }}"
-                                    data-element-id="sub-sub-category-select" data-element-type="select">
-                                    <option
-                                        value="{{ request('sub_category_id') != null ? request('sub_category_id') : null }}"
-                                        selected {{ request('sub_category_id') != null ? '' : 'disabled' }}>
-                                        {{ request('sub_category_id') != null ? $subCategory['defaultName'] : translate('select_Sub_Category') }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label for="name" class="title-color">{{ translate('sub_Sub_Category') }}</label>
-                                <select class="js-select2-custom form-control" name="sub_sub_category_id"
-                                    id="sub-sub-category-select">
-                                    <option
-                                        value="{{ request('sub_sub_category_id') != null ? request('sub_sub_category_id') : null }}"
-                                        selected {{ request('sub_sub_category_id') != null ? '' : 'disabled' }}>
-                                        {{ request('sub_sub_category_id') != null ? $subSubCategory['defaultName'] : translate('select_Sub_Sub_Category') }}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex gap-3 justify-content-end">
-                                <a href="{{ route('vendor.products.list', ['type' => request('type')]) }}"
-                                    class="btn btn-secondary px-5">
-                                    {{ translate('reset') }}
-                                </a>
-                                <button type="submit" class="btn btn--primary px-5 action-get-element-type">
-                                    {{ translate('show_data') }}
-                                </button>
-                            </div>
+                    <div class="col-sm-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <label class="title-color" for="store">
+                                {{ translate('brand') }}
+                            </label>
+                            <select name="brand_id" class="js-select2-custom form-control text-capitalize">
+                                <option value="" selected>{{ translate('all_brand') }}</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}"
+                                        {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
+                                        {{ $brand->default_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-                </form>
-            </div>
+
+                    <div class="col-sm-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <label for="name" class="title-color">{{ translate('category') }}</label>
+                            <select class="js-select2-custom form-control action-get-request-onchange" name="category_id"
+                                data-url-prefix="{{ url('/vendor/products/get-categories?parent_id=') }}"
+                                data-element-id="sub-category-select" data-element-type="select">
+                                <option value="{{ old('category_id') }}" selected disabled>
+                                    {{ translate('select_category') }}</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category['id'] }}"
+                                        {{ request('category_id') == $category['id'] ? 'selected' : '' }}>
+                                        {{ $category['defaultName'] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <label for="name" class="title-color">{{ translate('sub_Category') }}</label>
+                            <select class="js-select2-custom form-control action-get-request-onchange"
+                                name="sub_category_id" id="sub-category-select"
+                                data-url-prefix="{{ url('/vendor/products/get-categories?parent_id=') }}"
+                                data-element-id="sub-sub-category-select" data-element-type="select">
+                                <option
+                                    value="{{ request('sub_category_id') != null ? request('sub_category_id') : null }}"
+                                    selected {{ request('sub_category_id') != null ? '' : 'disabled' }}>
+                                    {{ request('sub_category_id') != null ? $subCategory['defaultName'] : translate('select_Sub_Category') }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <label for="name" class="title-color">{{ translate('sub_Sub_Category') }}</label>
+                            <select class="js-select2-custom form-control" name="sub_sub_category_id"
+                                id="sub-sub-category-select">
+                                <option
+                                    value="{{ request('sub_sub_category_id') != null ? request('sub_sub_category_id') : null }}"
+                                    selected {{ request('sub_sub_category_id') != null ? '' : 'disabled' }}>
+                                    {{ request('sub_sub_category_id') != null ? $subSubCategory['defaultName'] : translate('select_Sub_Sub_Category') }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
 
         <div class="row mt-20">
@@ -304,6 +276,13 @@
                 error: function(xhr) {
                     toastr.error('Server error: ' + xhr.status);
                 }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#form-filter select').on('change', function () {
+                $('#form-filter').submit();
             });
         });
     </script>

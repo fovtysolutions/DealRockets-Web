@@ -89,7 +89,16 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                     <div class="text-wrapper-4">Our Features</div>
                                 </div>
                             </a>
-
+                            <div class="group-12">
+                                <a href="{{ route('chat', ['type' => 'vendor']) }}">
+                                    <img class="chatting img-default" src="/img/chatting-1.png" />
+                                    <img class="chatting img-hover" src="/img/chatting (2).png" />
+                                    <div class="text-wrapper-10">Message</div>
+                                    @if (auth('customer')->check() && isset($unread))
+                                        <span class="unread-badge">{{ $unread }}</span>
+                                    @endif
+                                </a>
+                            </div>
                             <div class="group-3">
                                 <a href="{{ route('helpTopic') }}" target="_blank">
                                     <div class="frame-4">
@@ -511,16 +520,6 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="group-12">
-                                    <a href="{{ route('chat', ['type' => 'vendor']) }}">
-                                        <img class="chatting img-default" src="/img/chatting-1.png" />
-                                        <img class="chatting img-hover" src="/img/chatting (2).png" />
-                                        <div class="text-wrapper-10">Message</div>
-                                        @if (auth('customer')->check() && isset($unread))
-                                            <span class="unread-badge">{{ $unread }}</span>
-                                        @endif
-                                    </a>
                                 </div>
                                 <div class="group-13">
                                     <div id="google-translate-dropdown"

@@ -136,13 +136,13 @@
     <div class="step-section" data-step="2">
         <div class="form-row">
             <div class="form-group">
-                <label for="thumbnail">Thumbnail</label>
-                <input type="file" name="thumbnail" id="thumbnail"
+                <label for="thumbnail">Thumbnail</label> 
+                <input type="file" name="thumbnail" id="thumbnail" required
                     accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
             </div>
             <div class="form-group">
                 <label for="extra_images">Additional Images</label>
-                <input type="file" name="extra_images[]" id="extra_images"
+                <input type="file" name="extra_images[]" id="extra_images" required
                     accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" multiple>
             </div>
         </div>
@@ -182,7 +182,7 @@
         <div class="form-row">
             <div class="form-single">
                 <label class="form-lable">Certificate</label>
-                <input type="file" name="certificates[]" id="certificates"
+                <input type="file" name="certificates[]" id="certificates"  required
                     accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" multiple>
             </div>
         </div>
@@ -389,7 +389,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('Internal Packing Type') }}</label>
-                <select class="form-control" name="packing_type">
+                <select class="form-control" name="packing_type" required>
                     <option value="">Select Packing Type</option>
 
                     <optgroup label="Bags">
@@ -466,7 +466,7 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Master Packing') }}</label>
-                <input type="text" class="form-control" name="master_packing"
+                <input type="text" class="form-control" name="master_packing" required
                     value="{{ $isEdit ? $product['master_packing'] ?? '' : '' }}" placeholder="e.g., 5x1, 10x1">
             </div>
             <div class="form-group">
@@ -556,7 +556,7 @@
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('Dimension Unit') }}</label><select class="form-control"
-                    name="dimension_unit">
+                    name="dimension_unit" required>
                     <option value="">Select Unit</option>
                     @php
                         $units = [
@@ -595,7 +595,7 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Container Type') }}</label>
-                <select class="form-control" name="container">
+                <select class="form-control" name="container" required>
                     <option value="">Select Container Type</option>
                     <optgroup label="Standard Containers">
                         <option value="20 ft Standard Container"

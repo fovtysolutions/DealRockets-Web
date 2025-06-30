@@ -9559,4 +9559,5 @@ return [
 	"Tradeshow Banners" => "Tradeshow Banners",
 	"Marketplace Banners" => "Marketplace Banners",
 	"Buy Leads Banners" => "Buy Leads Banners",
+	"select_sub_category" => "Select sub category",
 ];

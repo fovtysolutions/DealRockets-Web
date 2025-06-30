@@ -836,7 +836,7 @@
 .element-mobile .navbar-3 {
   display: inline-flex;
   align-items: center;
-  gap: 16px;
+  gap: 28px;
   /* position: absolute; */
   top: 20px;
   left: 340px;
@@ -1098,7 +1098,7 @@
   display: inline-flex;
   height: 44px;
   align-items: center;
-  gap: 20px;
+  gap: 28px;
   position: initial;
   top: 0;
   left: 753px;

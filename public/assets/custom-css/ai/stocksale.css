@@ -58,7 +58,7 @@ body {
 
 .stock-sale .filter-section {
     width: 100%;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     background: white;
     padding: 15px;
 }

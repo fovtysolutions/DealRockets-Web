@@ -72,7 +72,7 @@ class Category extends Model
 
     public function childes(): HasMany
     {
-        return $this->hasMany(Category::class, 'parent_id')->orderBy('priority', 'asc');
+        return $this->hasMany(Category::class, 'parent_id')->orderBy('priority', 'desc');
     }
 
     public function product(): HasMany

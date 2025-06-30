@@ -252,7 +252,7 @@
 .element-mobile .our-features {
   display: flex;
   flex-direction: column;
-  width: 71.79px;
+  /* width: 71.79px; */
   align-items: center;
   justify-content: center;
   gap: 2.69px;
@@ -294,7 +294,7 @@
 
 .element-mobile .group-3 {
   position: relative;
-  width: 35.9px;
+  width: 41.9px;
   height: 35px;
 }
 
@@ -717,7 +717,7 @@
 
 .element-mobile .group-12 {
   position: relative;
-  width: 55.75px;
+  width: 51.75px;
   height: 44.62px;
   margin-top: -0.31px;
   margin-bottom: -0.31px;
@@ -836,7 +836,7 @@
 .element-mobile .navbar-3 {
   display: inline-flex;
   align-items: center;
-  gap: 16px;
+  gap: 28px;
   /* position: absolute; */
   top: 20px;
   left: 340px;
@@ -853,7 +853,7 @@
   display: inline-flex;
   height: 100%;
   align-items: center;
-  gap: 17.95px;
+  gap: 18.95px;
   /* position: absolute; */
   top: 10px;
   left: 1076px;
@@ -1098,7 +1098,7 @@
   display: inline-flex;
   height: 44px;
   align-items: center;
-  gap: 20px;
+  gap: 28px;
   position: initial;
   top: 0;
   left: 753px;

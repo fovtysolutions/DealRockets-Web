@@ -444,9 +444,9 @@
 }
 
 .navbaricons {
-    margin: 10px !important;
+    /* margin: 10px !important; */
     height: 100%;
-    width: calc(100% - 15%);
+    width: 42px;
     justify-content: center;
 }
 

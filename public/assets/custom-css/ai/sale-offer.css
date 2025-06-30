@@ -211,7 +211,7 @@
 
 .sale-offer-page .filter-section {
     width: 100%;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     background: white;
     padding: 15px;
 }
@@ -686,7 +686,7 @@
 
 @media (max-width: 1400px) {
     .sale-offer-page .contact-btn {
-        padding: 7px 10px !important;
+        padding: 12px 36px !important;
     }
 
     .sale-offer-page .product-title {

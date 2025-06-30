@@ -19,11 +19,20 @@
         background: white;
         z-index: 1000;
         width: 50vw;
-        height: 400px;
-        padding: 15px;
+        padding: 30px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-left: 1px solid #eee;
         overflow: hidden;
+    }
+
+    .mega_menu_new .sub-sub-category {
+        font-size: 12px;
+        color: rgba(81, 80, 80, 1) !important;
+    }
+
+    .mega_menu_new .view-all-sub-sub-category {
+        font-size: 12px;
+        color: rgba(254, 78, 68, 1) !important;
     }
 
     /* .globle-deals .category-list {
@@ -32,7 +41,7 @@
 
     .category-item:hover>.mega_menu_new {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         flex-wrap: wrap;
         gap: 10px;
     }
@@ -44,10 +53,10 @@
 </style>
 @if (empty($carouselimages))
     <section class="mainpagesection fade-in"
-        style="/* background-color: unset; */ margin-top: 22px; box-shadow: 0px 0px 1px 0px;">
+        style="/* background-color: unset; */ margin-top: 22px;">
     @else
         <section class="mainpagesection fade-in"
-            style="/* background-color: unset; */ margin-top: 320px; box-shadow: 0px 0px 1px 0px;">
+            style="/* background-color: unset; */ margin-top: 320px;">
 @endif
 <div class="globle-deals">
     <div class="box flex p-0">
@@ -73,7 +82,7 @@
 
                         @if ($category->childes->count() > 0)
                             <div class="mega_menu_new">
-                                @foreach ($category->childes->take(8) as $sub_category)
+                                @foreach ($category->childes->take(6) as $sub_category)
                                     <div class="mega_menu_inner_new">
                                         <h6>
                                             <a
@@ -82,14 +91,27 @@
                                             </a>
                                         </h6>
                                         @if ($sub_category->childes->count() > 0)
-                                            @foreach ($sub_category->childes as $sub_sub_category)
+                                            @foreach ($sub_category->childes->take(5) as $sub_sub_category)
                                                 <div>
-                                                    <a
+                                                    <a class="sub-sub-category"
                                                         href="{{ route('products', ['category_id' => $sub_sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">
                                                         {{ $sub_sub_category->name }}
                                                     </a>
                                                 </div>
                                             @endforeach
+                                            @if ($sub_category->childes->count() > 5)
+                                                <div>
+                                                    <a class="view-all-sub-sub-category"
+                                                        href="{{ route('products', ['category_id' => $sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">
+                                                        View All
+                                                    </a>
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div style="padding-top: 6px;">
+                                                <span class="sub-sub-category mt-4"
+                                                    style="color: rgba(81, 80, 80, 1);">No Data Avaliable</span>
+                                            </div>
                                         @endif
                                     </div>
                                 @endforeach
@@ -403,6 +425,9 @@
         if (!container) return;
 
         const scrollAmount = container.offsetWidth * 0.8;
-        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        container.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
     }
 </script>

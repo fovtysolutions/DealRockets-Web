@@ -83,28 +83,37 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                         </div>
                         <div class="frame-6 delnine">
                             <a href="{{ route('webinfo') }}">
-                                <div class="our-features group-features">
+                                <div class="nav-tile">
                                     <img class="badge img-default" src="/img/badge-1.png" />
                                     <img class="badge img-hover" src="/img/badge (2).png" />
-                                    <div class="text-wrapper-4">Our Features</div>
+                                    <div class="text-wrapper-4">Features</div>
                                 </div>
                             </a>
-
+                            <div class="group-12">
+                                <a href="{{ route('chat', ['type' => 'vendor']) }}" class="nav-tile">
+                                    <img class="badge img-default" src="/img/chatting-1.png" />
+                                    <img class="badge img-hover" src="/img/chatting (2).png" />
+                                    <div class="text-wrapper-10">Message</div>
+                                    @if (auth('customer')->check() && isset($unread))
+                                        <span class="unread-badge">{{ $unread }}</span>
+                                    @endif
+                                </a>
+                            </div>
                             <div class="group-3">
-                                <a href="{{ route('helpTopic') }}" target="_blank">
+                                <a href="{{ route('helpTopic') }}" target="_blank" class="nav-tile">
                                     <div class="frame-4">
                                         <div class="text-wrapper-5">Help</div>
                                         {{-- <img class="img" src="/img/arrow-down-sign-to-navigate-4.png" /> --}}
                                     </div>
                                     <div class="icon-hover group-help">
-                                        <img class="question img-default" src="/img/question-1.png" />
-                                        <img class="question img-hover" src="/img/help-web-button.png" />
+                                        <img class="badge img-default" src="/img/question-1.png" />
+                                        <img class="badge img-hover" src="/img/help-web-button.png" />
                                     </div>
                                 </a>
                             </div>
 
                             <div class="group-4">
-                                <div id="languageToggleBtn">
+                                <div id="languageToggleBtn" class="nav-tile">
                                     <div class="frame-4" style="left:0;">
                                         <div class="text-wrapper-5">
                                             Translate
@@ -112,8 +121,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                         {{-- <img class="img" src="/img/arrow-down-sign-to-navigate-5.png" /> --}}
                                     </div>
                                     <div class="icon-hover group-language">
-                                        <img class="language img-default" src="/img/language-1.png" />
-                                        <img class="language img-hover" src="/img/language (2).png" />
+                                        <img class="badge img-default" src="/img/language-1.png" />
+                                        <img class="badge img-hover" src="/img/language (2).png" />
                                     </div>
                                 </div>
                                 {{-- <ul id="languageDropdown-class" class="language-dropdown"
@@ -511,16 +520,6 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="group-12">
-                                    <a href="{{ route('chat', ['type' => 'vendor']) }}">
-                                        <img class="chatting img-default" src="/img/chatting-1.png" />
-                                        <img class="chatting img-hover" src="/img/chatting (2).png" />
-                                        <div class="text-wrapper-10">Message</div>
-                                        @if (auth('customer')->check() && isset($unread))
-                                            <span class="unread-badge">{{ $unread }}</span>
-                                        @endif
-                                    </a>
                                 </div>
                                 <div class="group-13">
                                     <div id="google-translate-dropdown"

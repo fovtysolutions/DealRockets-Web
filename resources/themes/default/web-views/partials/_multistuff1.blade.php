@@ -1,26 +1,55 @@
+@php
+    $services = [
+        [
+            'image' => '/img/deal-assist-solution.png',
+            'title' => 'Deal Assist',
+            'subtitle' => 'Simplify Your B2B Transactions',
+            'description' => 'Get expert assistance in negotiating and closing deals with verified suppliers and buyers. Ensure secure, transparent, and profitable business transactions.',
+            'btn-text' => 'Get Expert Help',
+            'link' => '#'
+        ],
+        [
+            'image' => '/img/stock-sale-solution.png',
+            'title' => 'Stock Sale',
+            'subtitle' => 'Bulk Stock, Best Prices',
+            'description' => 'Access exclusive bulk inventory at competitive prices. Find ready-to-ship stock from trusted suppliers and maximize your profit margins.',
+            'btn-text' => 'Browse Bulk Stock',
+            'link' => '#'
+        ],
+        [
+            'image' => '/img/industryjobs-solution.png',
+            'title' => 'Industry Jobs',
+            'subtitle' => 'Connecting Businesses with Skilled Talent',
+            'description' => 'Find experienced professionals for your industry or explore job opportunities that match your skills. Post, search, and hire with ease.',
+            'btn-text' => 'Find Opportunities',
+            'link' => '#'
+        ],
+    ];
+@endphp
 <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/multitab.css') }}" />
-<div class="mainpagesection shadow">
+<div class="mainpagesection" style="background: unset;">
     <div class="tabs-container" id="tabs1">
         <div class="tabs">
-            <div class="tab-links">
-                <button class="tab-link active" data-tab="tab-1" style="outline: none;"><i class="fas fa-info-circle"></i>
-                    Deal Assist</button>
-                <button class="tab-link" data-tab="tab-2" style="outline: none;"><i class="fas fa-list"></i>Stock
-                    Sell</button>
-                <button class="tab-link" data-tab="tab-3" style="outline: none;"><i class="fas fa-envelope"></i>
-                    Industry Jobs</button>
+            <div class="tab-linkssuno d-flex flex-row mb-3" style="justify-content: end; padding-bottom:30px;">
+                <div class="leadstitle2 active" data-tab="tab-4" style="outline: none;position: absolute;left: 44%;top: 27px;text-transform: uppercase;">
+                    Our Services</div>
+                <a href="#" class="top-movers-viewall" style="text-decoration: none;">View All <i style="color:#ED4553;" class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i></a>
             </div>
-
-            <div class="tab-content active" id="tab-1">
-                @include('web-views.partials._dealassist')
-            </div>
-
-            <div class="tab-content" id="tab-2">
-                @include('web-views.partials._stocksalesticker')
-            </div>
-
-            <div class="tab-content" id="tab-3">
-                @include('web-views.partials._sendcv')
+            <div class="tab-contentuno active" id="tab-8">
+                <div class="row">
+                    @foreach ($services as $service)
+                        <div class="col-md-4 mt-4">
+                            <div class="card h-100 text-center" style="border-radius:0;">
+                                <img src="{{ asset($service['image']) }}" class="card-img-top mb-3" alt="{{ $service['title'] }}" style="object-fit: contain; border-radius:0;"
+                                    onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">
+                                <h5 class="card-title">{{ $service['title'] }}</h5>
+                                <h6 class="card-title">{{ $service['subtitle'] }}</h6>
+                                <p class="card-text">{{ $service['description'] }}</p>
+                                <a href="{{ $service['link'] }}" class="btn btn-primary mt-auto">{{ $service['btn-text'] }}</a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

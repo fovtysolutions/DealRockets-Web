@@ -45,6 +45,7 @@
     @include('web-views.partials._leads')
     @include('web-views.partials._registerforfree')
     @include('web-views.partials._quotation')
+    @include('web-views.partials._multistuff1')
     @include('web-views.partials._multistuff')
     @include('web-views.partials._top-sellers')
     @include('web-views.partials._order-now')

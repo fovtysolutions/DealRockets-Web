@@ -26,7 +26,7 @@
             <!-- Breadcrumb -->
             <nav class="breadcrumb mb-2" aria-label="Breadcrumb">
                 <div class="d-flex">
-                    <span>Home</span>
+                    <span><a href="{{ route('home') }}">Home</a></span>
                     @if (!empty($data['cate_name']))
                         <span>/ {{ $data['cate_name'] }}</span>
                     @endif

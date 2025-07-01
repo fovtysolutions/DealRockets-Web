@@ -125,7 +125,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                         <img class="badge img-hover" src="/img/language (2).png" />
                                     </div>
                                 </div>
-                                {{-- <ul id="languageDropdown-class" class="language-dropdown"
+                                <ul id="languageDropdown-class" class="language-dropdown"
                                     style="font-size: 14px; color: black;">
                                     @foreach (json_decode($language['value'], true) as $key => $data)
                                         @if ($data['status'] == 1)
@@ -139,7 +139,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             </li>
                                         @endif
                                     @endforeach
-                                </ul> --}}
+                                </ul>
                             </div>
                             @if (!auth('customer')->check() && !auth('seller')->check() && !auth('admin')->check())
                                 {{-- Guest User: Show Sign In/Join --}}
@@ -565,21 +565,5 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
         function toggleDropdown() {
             document.getElementById("dropdownNav").classList.toggle("show");
         }
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
-    </script>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en'
-            }, 'google-translate-dropdown');
-        }
-    </script>
-    <script>
-        document.getElementById('languageToggleBtn').addEventListener('click', function() {
-            const container = document.getElementById('google-translate-dropdown');
-            container.style.display = (container.style.display === 'none' || container.style.display === '') ?
-                'block' : 'none';
-        });
     </script>
 @endpush

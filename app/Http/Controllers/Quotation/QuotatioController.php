@@ -39,8 +39,8 @@ class QuotatioController extends Controller
 
         // Get the user and role details
         $userdata = ChatManager::getRoleDetail();
-        $userId = $userdata['user_id'];
-        $role = $userdata['role'];
+        $userId = $userdata['user_id'] ?? '1';
+        $role = $userdata['role'] ?? 'admin';
 
                 
         $data = [

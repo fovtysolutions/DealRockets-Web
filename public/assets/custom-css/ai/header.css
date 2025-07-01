@@ -447,7 +447,7 @@
 }
 
 .element-mobile .dropdown-item:hover {
-  color: white !important;
+  color: white;
 }
 
 .element-mobile .rectangle {
@@ -1121,7 +1121,7 @@
 .language-dropdown {
   position: absolute;
   top: 42px;
-  left: -100%;
+  right: 0;
   /* hide by default */
   width: 150px;
   height: 100vh;
@@ -1153,8 +1153,8 @@
 }
 
 .language-dropdown a:hover {
-  background-color: #f5f5f5;
-  color: #FE4E44;
+  background-color: #f5f5f5 !important;
+  color: #FE4E44 !important; 
 }
 
 @media (max-width: 1440px) {

@@ -1443,4 +1443,18 @@ class ChatManager
     {
         return self::checkAccessByType('access_jobs');
     }
+
+    public static function checkifMember($added_by,$user_id)
+    {       
+        if ($added_by == 'admin'){
+            return 1;
+        } else {
+            $seller = Seller::find($user_id);
+            if($seller && $seller->membership != 'Free'){
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
 }

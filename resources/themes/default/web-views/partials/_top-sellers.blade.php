@@ -1,4 +1,4 @@
-    <div class="mainpagesection seller-card custom-dealrock-banner-small" style="background-color: var(--web-bg);">
+    <div class="mainpagesection seller-card" style="background-color: var(--web-bg);">
         <div class="card border-0 h-100">
             <div style="display:block; background-color: var(--web-bg);">
                 <div class="row d-flex justify-content-between" style="height: 40px;">
@@ -24,7 +24,7 @@
                     <div class="others-store-slider owl-theme owl-carousel">
 
                         @foreach ($topVendorsList as $vendorData)
-                            <a stlye="text-decoration: none;" href="{{route('shopView',['id'=> $vendorData['id']])}}" class="others-store-card text-capitalize">
+                            <a stlye="text-decoration: none;" href="{{route('shopView',['id'=> $vendorData['id']])}}" class="others-store-card text-capitalize" style="padding-bottom: 2px; box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25); margin-bottom: 10px; margin-top:5px;">
                                 <div class="overflow-hidden other-store-banner image-wrapper shimmer">
                                     <img class="w-100 h-100 object-cover lazyload" alt=""
                                          data-src="{{ getStorageImages(path: $vendorData->banner_full_url, type: 'shop-banner') }}">
@@ -48,12 +48,12 @@
                                     </div> --}}
                                     <div class="info pt-4">
                                         <div class="d-flex flex-column">
-                                            <h5 class="custom-dealrock-text d-flex flex-column" style="color: black; font-weight: 700;">{{ $vendorData->name }}</h5>
-                                            <span class="text-truncate" style="font-size:12px; color: #515050;">{{ $vendorData->subtitle }}<span>
+                                            <h5 class="custom-dealrock-text d-flex flex-column" style="color: black; font-weight: 700 !important;">{{ $vendorData->name }}</h5>
+                                            <span class="text-truncate" style="font-size:12px; color: #515050;">{{ isset($vendorData->subtitle) && $vendorData != '' ? $vendorData->subtitle : 'Shop' }}<span>
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <span class="fw-bold me-1 text-dark" style="font-size: 12px;
-                                                background: #d7d1d1;
+                                                background: rgba(229, 227, 227, 1);
                                                 padding: 4px;"><i class="tio-star text-star mx-1"></i>{{number_format($vendorData->average_rating,1)}}/5</span>
                                         </div>
                                     </div>

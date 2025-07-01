@@ -21,7 +21,7 @@
                             @csrf
                             <div class="form-row form-row-for-phone">
                                 <label class="label-width">Product Name</label>
-                                <input class="contact-input counter-fields" name="product_name" type="text" placeholder="Enter product name" />
+                                <input class="contact-input counter-fields" name="product_name" type="text" placeholder="Enter product name" value="{{ old('product_name') }}" />
                             </div>
 
 
@@ -30,7 +30,7 @@
                                 <select class="contact-input counter-fields" name="category">
                                     <option value="">Select a category</option>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" {{ old('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -47,8 +47,8 @@
                                                     style="max-width: 150px;" />
                                                 <select class="contact-input counter-fields" name="unit_unit" style="max-width: 150px;">
                                                     <option value="">Select a Unit</option>
-                                                    <option value="Pc">Piece(s)</option>
-                                                    <option value="Kg">Kg(s)</option>
+                                                    <option value="Pc" {{ old('unit_unit') == "Pc" ? 'selected' : '' }}>Piece(s)</option>
+                                                    <option value="Kg" {{ old('unit_unit') == "Kg" ? 'selected' : '' }}>Kg(s)</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -63,8 +63,8 @@
                                                     style="max-width: 150px;" />
                                                 <select class="contact-input counter-fields" name="target_unit_price_currency" style="max-width: 150px;">
                                                     <option value="">Select a Currency</option>
-                                                    <option value="usd">USD</option>
-                                                    <option value="eur">EUR</option>
+                                                    <option value="usd" {{ old('target_unit_price_currency') == "usd" ? 'selected' : '' }}>USD</option>
+                                                    <option value="eur" {{ old('target_unit_price_currency') == "eur" ? 'selected' : '' }}>EUR</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -77,8 +77,8 @@
                                             <div class="innerrightcontainer">
                                                 <select class="contact-input counter-fields" name="trade_terms" style="max-width: 300px;">
                                                     <option value="">Select Trading Terms</option>
-                                                    <option value="fob">FOB</option>
-                                                    <option value="cif">CIF</option>
+                                                    <option value="fob" {{ old('trade_terms') == "eur" ? 'selected' : '' }}>FOB</option>
+                                                    <option value="cif" {{ old('trade_terms') == "eur" ? 'selected' : '' }}>CIF</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -92,8 +92,8 @@
                                                 <input class="contact-input counter-fields" name="max_budget" style="max-width: 150px;">
                                                 <select class="contact-input counter-fields" name="max_budget_currency" style="max-width: 150px;">
                                                     <option value="">Select Currency</option>
-                                                    <option value="usd">USD</option>
-                                                    <option value="eur">EUR</option>
+                                                    <option value="usd" {{ old('max_budget_currency') == "eur" ? 'selected' : '' }}>USD</option>
+                                                    <option value="eur" {{ old('max_budget_currency') == "eur" ? 'selected' : '' }}>EUR</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -164,7 +164,6 @@
                                     <button type="submit" class="btn submit-rfq  px-4">Submit</button>
                                 </div>
                         </form>
-
                     </div>
                 </div>
 

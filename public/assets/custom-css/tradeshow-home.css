@@ -345,6 +345,10 @@
       text-align: center;
     }
 
+    .tradeshow-home .image-wrapper{
+      border-radius: 0px;
+    }
+
     .tradeshow-home .card-button:hover {
       text-decoration: none;
       background: linear-gradient(90deg,#FE4E44,#9F0900);

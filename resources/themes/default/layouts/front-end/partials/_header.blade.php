@@ -512,9 +512,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                     <a href="{{ route('customer.auth.logout') }}"
                                                         class="btn btn-primary btn-sm w-100">Logout</a>
                                                 @else
-                                                    <a href="{{ route('customer.auth.login') }}"
+                                                    <a href="{{ route('customer.auth.hire-sign-in') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
-                                                    <a href="{{ route('customer.auth.sign-up') }}"
+                                                    <a href="{{ route('customer.auth.hire-sign-up') }}"
                                                         class="btn btn-primary btn-sm w-100">Sign Up</a>
                                                 @endif
                                             </div>

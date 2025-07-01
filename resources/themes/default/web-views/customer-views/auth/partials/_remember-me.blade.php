@@ -4,11 +4,11 @@
         <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" name="remember"
                    id="remember{{ $rememberId }}" {{ old('remember') ? 'checked' : '' }}>
-            <label class="custom-control-label text-primary" for="remember{{ $rememberId }}">{{ translate('remember_me') }}</label>
+            <label class="custom-control-label" for="remember{{ $rememberId }}" style="color: rgba(81, 80, 80, 1); font-weight: 400; padding-top:4px;">{{ translate('remember_me') }}</label>
         </div>
     </div>
     @if(isset($forgotPassword) && $forgotPassword)
-        <a class="font-size-sm text-primary text-underline" href="{{route('customer.auth.recover-password')}}">
+        <a class="font-size-sm text-underline" style="color: rgba(37, 99, 235, 1); padding-top: 4px;" href="{{route('customer.auth.recover-password')}}">
             {{ translate('forgot_password') }}?
         </a>
     @endif

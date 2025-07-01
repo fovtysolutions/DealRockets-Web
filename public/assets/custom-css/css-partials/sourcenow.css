@@ -76,8 +76,8 @@
 .source-product-img {
     transition: all 0.3s ease;
     width: 60%;
-    aspect-ratio: 3/2;
-    object-fit: cover;
+    aspect-ratio: 3/3;
+    object-fit: contain;
     margin: 0 auto;
     /* border-radius: 10px; */
     margin-bottom: 20px;

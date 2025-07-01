@@ -26,10 +26,10 @@
         ],
         [
             'image' => '/img/stock-sale-solution.png',
-            'title' => 'Solutions',
-            'subtitle' => 'Streamline Industrial Procurement',
-            'description' => 'Connect with raw material suppliers, surplus stock sellers, and qualified industrial talent to meet your production demands efficiently and fastest.',
-            'btn-text' => 'Optimize Manufacturing',
+            'title' => 'Quick Solutions',
+            'subtitle' => 'Procurement for Key Sectors',
+            'description' => 'Get reliable procurement support for hypermarket, construction, and hospitality sectors. Source products easily from trusted suppliers in one place.',
+            'btn-text' => 'Start Sourcing Now',
             'link' => '#'
         ]
     ];
@@ -47,9 +47,9 @@
                 <a href="#" class="top-movers-viewall" style="text-decoration: none; align-content: center;">View All <i style="color:#ED4553;" class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i></a>
             </div>
             <div class="tab-contentuno active" id="tab-8">
-                <div class="row">
+                <div class="d-flex" style="gap: 20px;">
                     @foreach ($services as $service)
-                        <div class="col-md-3 mt-2">
+                        <div class="mt-2" style="width: 24%;">
                             <div class="card h-100 text-center" style="border-radius:0;">
                                 <img src="{{ asset($service['image']) }}" class="card-img-top mb-3" alt="{{ $service['title'] }}" style="object-fit: contain; border-radius:0; max-height: 196px;"
                                     onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">

@@ -459,6 +459,8 @@ Route::group(['namespace' => 'Customer', 'prefix' => 'customer', 'as' => 'custom
             Route::get('login/update-info', 'updateInfo')->name('login.update-info');
             Route::post('login/update-info', 'updateInfoSubmit');
             Route::post('login/resend-otp-code', 'resendOTPCode')->name('resend-otp-code');
+            Route::get('hire-sign-in', 'hire_sign_in')->name('hire-sign-in');
+            Route::get('hire-sign-up', 'hire_sign_up')->name('hire-sign-up');
         });
 
         Route::controller(LoginController::class)->group(function () {

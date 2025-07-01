@@ -52,7 +52,7 @@
                                                     <img class="lazyload" alt="{{ $category->name }}"
                                                         data-src="{{ getStorageImages(path: $category->icon_full_url, type: 'category') }}">
                                                 </div>
-                                                <p style="color:black; padding-top:22px; font-weight:600; font-size: 16px;" class="wrgewrgwr">{{ $category->name }}</p>
+                                                <p style="color:black; padding-top:22px; font-weight:400; font-size: 16px;" class="wrgewrgwr">{{ $category->name }}</p>
                                             </a>
                                         </div>
                                     @endif

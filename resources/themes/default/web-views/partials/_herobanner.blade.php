@@ -46,16 +46,28 @@
         gap: 10px;
     }
 
+    .globle-deals .mega_menu_new a:hover {
+        color: #FE4E44 !important;
+        background-color: unset !important;
+    }
+
+    .globle-deals .mega_menu_new a:hover::after {
+        content: unset !important;
+    }
+
+    .category-item:hover > a{
+        color: #FE4E44 !important;
+        background-color: #F6F6F6;
+    }
+
     .mega_menu_inner_new {
         min-height: 216px;
     }
 </style>
 @if (empty($carouselimages))
-    <section class="mainpagesection fade-in"
-        style="/* background-color: unset; */ margin-top: 22px;">
+    <section class="mainpagesection fade-in" style="/* background-color: unset; */ margin-top: 22px;">
     @else
-        <section class="mainpagesection fade-in"
-            style="/* background-color: unset; */ margin-top: 320px;">
+        <section class="mainpagesection fade-in" style="/* background-color: unset; */ margin-top: 320px;">
 @endif
 <div class="globle-deals">
     <div class="box flex p-0">
@@ -114,6 +126,12 @@
                                         @endif
                                     </div>
                                 @endforeach
+                                <div>
+                                    <a class="view-all-sub-sub-category"
+                                        href="{{ route('categories') }}">
+                                        More Categories
+                                    </a>
+                                </div>
                             </div>
                         @endif
                     </li>

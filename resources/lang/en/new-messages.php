@@ -9560,4 +9560,5 @@ return [
 	"Marketplace Banners" => "Marketplace Banners",
 	"Buy Leads Banners" => "Buy Leads Banners",
 	"select_sub_category" => "Select sub category",
+	"Please Provice a valid email" => "Please Provice a valid email",
 ];

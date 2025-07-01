@@ -53,16 +53,15 @@
     <div class="customerlogin mainpagesection" style="background-color: unset; margin-top: 22px;">
         <div class="d-flex flex-row">
             <!-- Left Section - Red Background with Content -->
-            <div class="left-section">
+            <div class="left-section" style="background: linear-gradient(180deg, #BF9E66 0%, #71572C 100%);">
                 <!-- Decorative elements -->
                 <div class="decorative-circle"></div>
                 <div class="decorative-line"></div>
 
                 <div class="content">
                     <div class="hero-content">
-                        <h1 style="font-size: 44px; color: white;">Join the Deal Rockets Community!</h1>
-                        <p>Experience smarter shopping with exclusive deals and top-rated discounts. Sign up today and start
-                            saving instantly!</p>
+                        <h1 style="font-size: 44px; color: white;">Join the Deal Rockets Hiring Network!</h1>
+                        <p>Post your industry-specific job openings and connect with skilled professionals faster. Streamline hiring and find the right talent today!</p>
                     </div>
 
                     <!-- Testimonial Section -->
@@ -93,8 +92,7 @@
 
                         <!-- Testimonial Text -->
                         <blockquote>
-                            "Deal Rockets makes shopping so much easier! I found the best discounts in seconds. Highly
-                            recommend!"
+                            “We posted our job and got the right candidate in just 3 days. A must-use for growing businesses!”
                         </blockquote>
 
                         <!-- Author -->
@@ -106,8 +104,8 @@
                                 </svg>
                             </div>
                             <div class="author-info">
-                                <div class="author-name">David B.</div>
-                                <div class="author-title">Digital Marketer</div>
+                                <div class="author-name">Priya S.</div>
+                                <div class="author-title">HR Manager</div>
                             </div>
                         </div>
                     </div>
@@ -118,7 +116,7 @@
             <div class="right-section">
                 <div class="form-container">
                     <div class="form-header">
-                        <h2>Welcome to Buyers Sign In!</h2>
+                        <h2>Welcome to Employers Portal!</h2>
                         <p>Sign in to unlock exclusive deals, shop smarter, and save big on your favorite products!</p>
                     </div>
 
@@ -149,13 +147,13 @@
 
                         <div class="manual-login-items" style="padding-bottom: 25px;">
                             <!-- Sign Up button -->
-                            <button type="submit" class="submit-btn" id="submit-hr">Sign In</button>
+                            <button type="submit" class="submit-btn" id="submit-hr" style="background: rgba(191, 158, 102, 1);">Sign In</button>
                         </div>
 
                         <!-- Sign up link -->
                         <div class="signup-link">
                             Don't have an account?
-                            <a href="{{ route('customer.auth.sign-up') }}" type="button" class="link-btn">Sign Up</a>
+                            <a href="{{ route('customer.auth.hire-sign-up') }}" type="button" class="link-btn" style="color: rgba(191, 158, 102, 1);">Sign Up</a>
                         </div>
                     </form>
                 </div>

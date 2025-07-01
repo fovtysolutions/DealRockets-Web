@@ -15,7 +15,7 @@ $quotationDescription = isset($quotationdata['description']) ? $quotationdata['d
 ?>
 <section class="mainpagesection custom-dealrock-banner-large" style="background-color: var(--web-bg);">
     <div class="rfq-section bg-shimmer"
-        data-bg="linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),url('/img/rfq-image-1.png')" data-bgtype='withlinear'>
+        data-bg="linear-gradient(to right, rgb(0 0 0 / 68%), rgb(0 0 0 / 0%)), url(/img/rfq-image-1.png)" data-bgtype='withlinear'>
         <div class="hiddenuntil768"> Request For Quotations (RFQ)</div>
         <div class="rfq-info">
             <h2>Request for Quotations (RFQ)</h2>

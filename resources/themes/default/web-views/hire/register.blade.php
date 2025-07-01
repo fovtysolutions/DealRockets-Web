@@ -12,16 +12,15 @@
     <div class="customerregister mainpagesection" style="margin-top: 22px; background-color: unset;">
         <div class="d-flex flex-row">
             <!-- Left Section - Red Background with Content -->
-            <div class="left-section">
+            <div class="left-section" style="background: linear-gradient(180deg, #BF9E66 0%, #71572C 100%);">
                 <!-- Decorative elements -->
                 <div class="decorative-circle"></div>
                 <div class="decorative-line"></div>
 
                 <div class="content">
                     <div class="hero-content">
-                        <h1 style="font-size: 44px; color: white;">Join the Deal Rockets Community!</h1>
-                        <p>Experience smarter shopping with exclusive deals and top-rated discounts. Sign up today and start
-                            saving instantly!</p>
+                        <h1 style="font-size: 44px; color: white;">Join the Deal Rockets Hiring Network!</h1>
+                        <p>Post your industry-specific job openings and connect with skilled professionals faster. Streamline hiring and find the right talent today!</p>
                     </div>
 
                     <!-- Testimonial Section -->
@@ -52,8 +51,7 @@
 
                         <!-- Testimonial Text -->
                         <blockquote>
-                            "Deal Rockets makes shopping so much easier! I found the best discounts in seconds. Highly
-                            recommend!"
+                            “We posted our job and got the right candidate in just 3 days. A must-use for growing businesses!”
                         </blockquote>
 
                         <!-- Author -->
@@ -65,8 +63,8 @@
                                 </svg>
                             </div>
                             <div class="author-info">
-                                <div class="author-name">David B.</div>
-                                <div class="author-title">Digital Marketer</div>
+                                <div class="author-name">Priya S.</div>
+                                <div class="author-title">HR Manager</div>
                             </div>
                         </div>
                     </div>
@@ -77,7 +75,7 @@
             <div class="right-section">
                 <div class="form-container">
                     <div class="form-header">
-                        <h2>Welcome to Buyers Sign Up!</h2>
+                        <h2>Welcome to Employers Portal!</h2>
                         <p>Sign in to unlock exclusive deals, shop smarter, and save big on your favorite products!</p>
                     </div>
 
@@ -152,7 +150,7 @@
                                 <select class="form-control text-align-direction d-none" name="role" id="selectedItem"
                                     required>
                                     <option value="">Select a Option</option>
-                                    <option value="jobseeker" selected>Job Seeker</option>
+                                    <option value="findtalent" selected>Talent Finder</option>
                                 </select>
                             </div>
                         </div>
@@ -167,12 +165,12 @@
                         </div>
 
                         <!-- Submit -->
-                        <button type="submit" class="submit-btn">Sign Up</button>
+                        <button type="submit" class="submit-btn" style="background: rgba(191, 158, 102, 1);">Sign Up</button>
 
                         <!-- Already have account -->
                         <div class="signup-link">
                             Already have an account?
-                            <a type="button" href="{{ route('customer.auth.login') }}" class="link-btn">Sign In</a>
+                            <a type="button" href="{{ route('customer.auth.hire-sign-in') }}" class="link-btn" style="color: rgba(191, 158, 102, 1);">Sign In</a>
                         </div>
                     </form>
                 </div>

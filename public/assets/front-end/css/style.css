@@ -6322,7 +6322,7 @@ a {
 }
 .others-store-card {
     border-radius: 2px;
-    border: 1px solid rgba(153, 199, 253, 0.6);
+    border: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
     background: #fff;
     display: block;
     transition: all ease-in 0.3s;
@@ -6345,7 +6345,7 @@ a {
     transition: all ease-in 0.3s;
 }
 .others-store-card .other-store-banner:hover img {
-    transform: scale(1.1);
+    transform: scale(1);
 }
 
 .others-store-card .other-store-logo:hover img {
@@ -6409,7 +6409,7 @@ a {
     margin: 0;
 }
 .others-store-card .name-area .info i {
-    font-size: 12px;
+    font-size: 17px;
 }
 .others-store-card .info small {
     font-size: 12px;
@@ -6427,7 +6427,7 @@ a {
 }
 .others-store-card .info-area .info-item {
     border-radius: 3px;
-    background: #f3f5f9;
+    background: rgba(229, 227, 227, 1);
     flex-grow: 1;
     padding: 4px 0.7142857143rem;
     display: flex;

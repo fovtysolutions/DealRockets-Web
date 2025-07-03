@@ -254,7 +254,7 @@ h3 {
     width: 100%;
     max-height: 240px;
     aspect-ratio: 2 / 2;
-    object-fit: fill;
+    object-fit: contain;
 }
 
 .marketplace-list .product-info {
@@ -319,7 +319,7 @@ h3 {
 
 .marketplace-list .start-order-btn {
     padding: 6px 22px;
-    border: unset;
+    border: unset !important;
     border-radius: 25px;
     background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);;
     color: white;

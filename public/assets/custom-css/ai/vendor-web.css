@@ -773,7 +773,7 @@ body {
 .vender-company .product-price {
   font-size: 16px;
   font-weight: 600;
-  margin-top: 16px;
+  /* margin-top: 16px; */
   color: #0D0D0F;
 }
 
@@ -829,7 +829,7 @@ body {
   padding: 8px 0;
   font-weight: 600;
   font-size: 16px;
-  margin-top: 21px;
+  /* margin-top: 21px; */
   cursor: pointer;
   display: flex;
   align-items: center;

@@ -58,27 +58,32 @@ class ShopViewController extends Controller
         }
 
         $getProductIDs = $shopProducts->pluck('id')->toArray();
+
+        $companyProfile = $shopId == 0
+            ? CompanyProfile::find(0)
+            : CompanyProfile::where('seller', $shop?->seller_id)->first();
+
         return [
             'id' => $shopId,
-            'name' => $shopId == 0 ? getWebConfig(name: 'company_name') : Shop::where('id', $shopId)->first()->name,
+            'name' => $shopId == 0 ? getWebConfig(name: 'company_name') : $shop?->name,
             'seller_id' => $shopId == 0 ? 0 : $shop?->seller_id,
             'average_rating' => Review::active()->where('status', 1)->whereIn('product_id', $getProductIDs)->avg('rating'),
             'total_review' => Review::active()->where('status', 1)->whereIn('product_id', $getProductIDs)->count(),
             'total_order' => $totalOrder,
             'current_date' => date('Y-m-d'),
-            'vacation_start_date' => $shopId == 0 ? $inhouseVacation['vacation_start_date'] : date('Y-m-d', strtotime($shop->vacation_start_date)),
-            'vacation_end_date' => $shopId == 0 ? $inhouseVacation['vacation_end_date'] : date('Y-m-d', strtotime($shop->vacation_end_date)),
-            'temporary_close' => $shopId == 0 ? $temporaryClose['status'] : $shop->temporary_close,
-            'vacation_status' => $shopId == 0 ? $inhouseVacation['status'] : $shop->vacation_status,
-            'banner_full_url' => $shopId == 0 ? $inhouseVacation['status'] : $shop->banner_full_url,
-            'bottom_banner' => $shopId == 0 ? getWebConfig(name: 'bottom_banner') : $shop->bottom_banner,
-            'bottom_banner_full_url' => $shopId == 0 ? getWebConfig(name: 'bottom_banner') : $shop->bottom_banner_full_url,
-            'image_full_url' => $shopId == 0 ? $inhouseVacation['status'] : $shop->image_full_url,
-            'minimum_order_amount' => $shopId == 0 ? getWebConfig(name: 'minimum_order_amount') : $shop->seller->minimum_order_amount,
+            'vacation_start_date' => $shopId == 0 ? $inhouseVacation['vacation_start_date'] : date('Y-m-d', strtotime($shop?->vacation_start_date)),
+            'vacation_end_date' => $shopId == 0 ? $inhouseVacation['vacation_end_date'] : date('Y-m-d', strtotime($shop?->vacation_end_date)),
+            'temporary_close' => $shopId == 0 ? $temporaryClose['status'] : $shop?->temporary_close,
+            'vacation_status' => $shopId == 0 ? $inhouseVacation['status'] : $shop?->vacation_status,
+            'banner_full_url' => $shopId == 0 ? $inhouseVacation['status'] : $shop?->banner_full_url,
+            'bottom_banner' => $shopId == 0 ? getWebConfig(name: 'bottom_banner') : $shop?->bottom_banner,
+            'bottom_banner_full_url' => $shopId == 0 ? getWebConfig(name: 'bottom_banner') : $shop?->bottom_banner_full_url,
+            'image_full_url' => $shopId == 0 ? $inhouseVacation['status'] : $shop?->image_full_url,
+            'minimum_order_amount' => $shopId == 0 ? getWebConfig(name: 'minimum_order_amount') : $shop?->seller?->minimum_order_amount,
             'seller_details' => $shopId == 0 ? Admin::find(1) : Seller::find($shop?->seller_id),
-            'company_profiles' => $shopId == 0 ? CompanyProfile::find(0) : CompanyProfile::where('seller',$shop?->seller_id)->first(),
-            'certificates' => $shopId = 0 ? json_decode(CompanyProfile::find(0)->certificates,true) : json_decode(CompanyProfile::where('seller',$shop?->seller_id)->first()->certificates,true),
-            'images' => $shopId = 0 ? json_decode(CompanyProfile::find(0)->images,true) : json_decode(CompanyProfile::where('seller',$shop?->seller_id)->first()->images,true),
+            'company_profiles' => $companyProfile,
+            'certificates' => json_decode($companyProfile?->certificates, true),
+            'images' => json_decode($companyProfile?->images, true),
         ];
     }
 
@@ -112,7 +117,7 @@ class ShopViewController extends Controller
             'publishing_house_id' => $request['publishing_house_id'],
         ];
     }
-    
+
     public function default_theme($request, $id): View|JsonResponse|Redirector|RedirectResponse
     {
         self::checkShopExistence($id);
@@ -120,7 +125,7 @@ class ShopViewController extends Controller
         $productAddedBy = $id == 0 ? 'admin' : 'seller';
         $productUserID = $id == 0 ? $id : Shop::where('id', $id)->first()->seller_id;
         $shopAllProducts = ProductManager::getAllProductsData($request, $productUserID, $productAddedBy);
-        $categories = self::getShopCategoriesList(products: $shopAllProducts);
+        $categories = Category::where('parent_id',0)->get();
         $brands = self::getShopBrandsList(products: $shopAllProducts, sellerType: $productAddedBy, sellerId: $productUserID);
         $shopPublishingHouses = ProductManager::getPublishingHouseList(productIds: $shopAllProducts->pluck('id')->toArray(), vendorId: $productUserID);
         $digitalProductAuthors = ProductManager::getProductAuthorList(productIds: $shopAllProducts->pluck('id')->toArray(), vendorId: $productUserID);
@@ -152,7 +157,7 @@ class ShopViewController extends Controller
         }
 
 
-        $productListData = ProductManager::getProductListData(request: $request,productAddedBy: $seller_id);
+        $productListData = ProductManager::getProductListData(request: $request, productAddedBy: $seller_id);
         $products = $productListData->paginate(20)->appends($request->all());
 
         $productsCountries = Product::select('origin')->distinct()->pluck('origin');

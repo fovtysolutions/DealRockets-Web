@@ -24,7 +24,7 @@
             </div>
         </div>
         <a href="{{ route('product', $item->slug) }}" style="width: 100%;">
-            <img src="{{ isset($item->thumbnail) ? '/storage/product/thumbnail/' . $item->thumbnail : '/images/placeholderimage.webp' }}"
+            <img src="{{ isset($item->thumbnail) ? '/storage/' . $item->thumbnail : '/images/placeholderimage.webp' }}"
                 alt="Sample Product" onerror="this.onerror=null; this.src='/images/placeholderimage.webp';"
                 class="product-image">
             <div class="product-info">
@@ -35,7 +35,7 @@
                 @else
                     {{-- Nothing Yet --}}
                 @endif
-                <h3 class="product-title">{!! $item->short_details !!}</h3>
+                <h3 class="product-title">{{ $item->short_details }}</h3>
                 <div class="product-price">${{ number_format($item->unit_price, 2) }} / {{ $item->unit }}</div>
                 <div class="product-moq">{{ $item->minimum_order_qty }} {{ $item->unit }} (MOQ)</div>
                 @php

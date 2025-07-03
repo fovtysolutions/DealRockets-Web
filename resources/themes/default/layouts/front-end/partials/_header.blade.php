@@ -544,8 +544,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
 <div class="dropdown-nav" id="dropdownNav">
     <a class="flexboxlogocross" href="{{ url('/') }}">
         <img class="logo-3" src="/img/logo-2.png" />
-        <button class="drawer-close" onclick="toggleDropdown()">✕</button>
     </a>
+    <button class="drawer-close" onclick="toggleDropdown()">✕</button>
     <a href="{{ route('stocksale') }}">Stock Sale</a>
     <a href="{{ route('buyer') }}">Buy Leads</a>
     <a href="{{ route('seller') }}">Sell Offer</a>

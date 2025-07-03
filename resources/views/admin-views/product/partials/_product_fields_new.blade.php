@@ -127,7 +127,7 @@
             <div class="form-single">
                 <label class="title-color" for="description">{{ translate('Short Description') }}
                 </label>
-                <textarea name="short_details" class="summernote">{!! $isEdit ? $product['short_details'] ?? '' : '' !!}</textarea>
+                <textarea name="short_details">{{ $isEdit ? $product['short_details'] ?? '' : '' }}</textarea>
             </div>
         </div>
 
@@ -137,13 +137,11 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="thumbnail">Thumbnail</label> 
-                <input type="file" name="thumbnail" id="thumbnail" required
-                    accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                <input type="file" name="thumbnail" id="thumbnail" {{ $isEdit ? '' : 'required' }}>
             </div>
             <div class="form-group">
                 <label for="extra_images">Additional Images</label>
-                <input type="file" name="extra_images[]" id="extra_images" required
-                    accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" multiple>
+                <input type="file" name="extra_images[]" id="extra_images" {{ $isEdit ? '' : 'required' }} multiple>
             </div>
         </div>
         @if ($isEdit && !empty($product->thumbnail))
@@ -182,8 +180,7 @@
         <div class="form-row">
             <div class="form-single">
                 <label class="form-lable">Certificate</label>
-                <input type="file" name="certificates[]" id="certificates"  required
-                    accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" multiple>
+                <input type="file" name="certificates[]" id="certificates"  {{ $isEdit ? '' : 'required' }} multiple>
             </div>
         </div>
         <div class="form-row" style="margin-bottom: 10px;">

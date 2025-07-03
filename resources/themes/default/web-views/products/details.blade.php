@@ -8,6 +8,27 @@
         'product' => $product,
     ])
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/ai/marketplace-view.css') }}" />
+    <style>
+        #sticky-supplier-info.stuck {
+            position: fixed;
+            right: 64px;
+            width: 211px !important;
+            top: 136px;
+            z-index: 999;
+            height: 245px !important;
+        }
+
+        @media (max-width: 999px) {
+            #sticky-supplier-info.stuck {
+                position: fixed;
+                right: 15px;
+                width: 211px !important;
+                top: 0px;
+                z-index: 999;
+                height: 245px !important;
+            }
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -71,7 +92,8 @@
                                 @elseif ($key === 3)
                                     <div class="more-thumbnail" onclick="openGallery({{ $key }})">
                                         <img src="{{ '/storage/' . $value }}" alt="Thumbnail {{ $key + 1 }}"
-                                            class="thumbnail" onclick="openGallery({{ $key }})">
+                                            class="thumbnail" onclick="openGallery({{ $key }})"
+                                            style="opacity: 0.2;">
                                         <span style="position: absolute; font-size: 22px;"> +{{ $totalImages - 3 }} </span>
                                     </div>
                                     @break
@@ -81,14 +103,14 @@
 
                     </div>
                     <!-- </div> -->
-                    <div class=" dots-container">
+                    {{-- <div class=" dots-container">
                         <div class="dot"></div>
                         <div class="dot"></div>
                         <div class="dot"></div>
                         <div class="dot"></div>
                         <div class="dot"></div>
 
-                    </div>
+                    </div> --}}
                     <!-- <div class="product-view" > -->
                     <!-- Product Details Section -->
                     <div class="product-details">
@@ -233,7 +255,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="supplier-info">
+                        <div class="supplier-info" id="sticky-supplier-info">
                             @php
                                 if ($product->added_by == 'admin') {
                                     $isAdmin = 1;
@@ -256,19 +278,18 @@
                                             class="value">High</span></div>
                                     <div class="response-time"><span class="label">Avg Response Time:</span> <span
                                             class="value">≤24 h</span></div>
-
                                 </div>
                             </div>
                             <div class="subplier-btn"
                                 style="display: flex;flex-direction: column-reverse;justify-content: start; gap: 1rem;">
                                 <div class="business-type"><span class="label">Business Type:</span> <span
-                                        class="value">{{ \App\Models\VendorExtraDetail::where('id',$product->user_id)->first()->business_type ?? "N/A" }}</span></div>
+                                        class="value">{{ \App\Models\VendorExtraDetail::where('id', $product->user_id)->first()->business_type ?? 'N/A' }}</span>
+                                </div>
                                 <div class="supplier-actions">
-                                    <button class="btn-outline">Follow</button>
-                                    <button class="btn-outline">Chat</button>
+                                    <a href="{{route('shopView',['id'=> $product->seller->shop->id ])}}" class="btn-outline">Shop</a>
+                                    {{-- <button class="btn-outline">Chat</button> --}}
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -280,7 +301,7 @@
                 <div class="product-description">
                     <div class="product-view d-flex" style="margin-bottom: 20px; flex-direction:column;">
                         <h4 style="color: black; font-size: 20px;">Product Description</h4>
-                        <div class="d-flex w-100 gap-3">
+                        <div class="d-flex w-100 gap-3 spec-section">
                             {{-- Left Section: Technical Details --}}
                             <div class="spec-left">
                                 <h4 class="section-title">Specification</h4>
@@ -527,5 +548,31 @@
         function closeGallery() {
             document.getElementById('imageGalleryModal').style.display = 'none';
         }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const supplierInfo = document.getElementById("sticky-supplier-info");
+            const stickyOffset = supplierInfo.offsetTop;
+
+            window.addEventListener("scroll", function() {
+                if (window.innerWidth > 1024) {
+                    if (window.pageYOffset > stickyOffset - 136) {
+                        supplierInfo.classList.add("stuck");
+                    } else {
+                        supplierInfo.classList.remove("stuck");
+                    }
+                } else {
+                    // Remove the class if resized below 1025px to clean up state
+                    supplierInfo.classList.remove("stuck");
+                }
+            });
+
+            // Optional: handle window resize to remove stuck class if window becomes smaller
+            window.addEventListener("resize", function() {
+                if (window.innerWidth <= 1024) {
+                    supplierInfo.classList.remove("stuck");
+                }
+            });
+        });
     </script>
 @endpush

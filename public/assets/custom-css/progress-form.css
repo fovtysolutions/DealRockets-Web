@@ -218,10 +218,22 @@
     border: unset;
 }
 
+.progress-form-main .select2 {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+    padding-inline: 0px;
+    padding-block: 0px;
+    padding: 8px 8px 8px 15px;
+    transition: all 0.2s ease;
+    background: white;
+    width: 100%;
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+
 .progress-form-main input,
 .progress-form-main select,
-.progress-form-main textarea,
-.progress-form-main .select2 {
+.progress-form-main textarea{
     border: 1px solid #d1d5db;
     border-radius: 8px;
     font-size: 15px;

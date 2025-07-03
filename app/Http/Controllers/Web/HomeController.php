@@ -176,7 +176,7 @@ class HomeController extends Controller
             'orders_count' => Order::where('seller_is', 'admin')->count(),
         ]);
 
-        $topVendorsList = ProductManager::getPriorityWiseTopVendorQuery($topVendorsList->prepend($inhouseShop));
+        // $topVendorsList = ProductManager::getPriorityWiseTopVendorQuery($topVendorsList->prepend($inhouseShop));
 
         $featuredProductsList = ProductManager::getPriorityWiseFeaturedProductsQuery(query: $this->product->active(), dataLimit: 12);
         $latest_products = $this->product->with(['reviews'])->active()->latest()->take(8)->get();

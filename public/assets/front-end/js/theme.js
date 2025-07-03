@@ -116,7 +116,7 @@ function _defineProperty(e, t, r) {
                     r = t.offsetHeight;
                 e.contains("navbar-floating") && e.contains("navbar-dark")
                     ? window.addEventListener("scroll", function (e) {
-                          500 < e.currentTarget.pageYOffset
+                          200 < e.currentTarget.pageYOffset
                               ? (t.classList.remove("navbar-dark"),
                                 t.classList.add("navbar-light", "navbar-stuck"))
                               : (t.classList.remove(
@@ -128,7 +128,7 @@ function _defineProperty(e, t, r) {
                     : e.contains("navbar-floating") &&
                       e.contains("navbar-light")
                     ? window.addEventListener("scroll", function (e) {
-                          500 < e.currentTarget.pageYOffset
+                          200 < e.currentTarget.pageYOffset
                               ? t.classList.add("navbar-stuck")
                               : t.classList.remove("navbar-stuck");
                       })

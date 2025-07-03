@@ -222,36 +222,39 @@
                     @endif
                 </div>
                 <div id="carouselExample2" class="owl-theme owl-carousel">
-                    <div class="item">
-                        <div class="card image-wrapper shimmer">
-                            <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                    @if (!$solutions->isEmpty())
+                        @foreach ($solutions->reverse() as $solution)
+                            <div class="item">
+                                <a href="{{ route('solutions.web', ['id' => $solution->id]) }}">
+                                    <div class="card image-wrapper shimmer">
+                                        <img class="lazyload" data-src="/storage/{{ $solution->image }}"
+                                            alt="Card Image">
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="item">
+                            <div class="card image-wrapper shimmer">
+                                <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="card image-wrapper shimmer">
-                            <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                        <div class="item">
+                            <div class="card image-wrapper shimmer">
+                                <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="card image-wrapper shimmer">
-                            <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                        <div class="item">
+                            <div class="card image-wrapper shimmer">
+                                <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="card image-wrapper shimmer">
-                            <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                        <div class="item">
+                            <div class="card image-wrapper shimmer">
+                                <img class="lazyload" data-src="img/side1.png" alt="Card Image">
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="card image-wrapper shimmer">
-                            <img class="lazyload" data-src="img/side1.png" alt="Card Image">
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="card image-wrapper shimmer">
-                            <img class="lazyload" data-src="img/side1.png" alt="Card Image">
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -355,7 +358,7 @@
             dots: true,
             margin: 30,
             autoplay: true,
-            autoplayTimeout: 5000,
+            autoplayTimeout: 10000,
             lazyLoad: false,
             smartSpeed: 800,
             autoHeight: false,

@@ -266,7 +266,7 @@
                 </select>
             </td>
             <td>
-                <input type="file" name="categories[${categoryIndex}][image]" class="form-control" accept="image/*" required>
+                <input type="file" name="categories[${categoryIndex}][image]" class="form-control" accept="image/*">
             </td>
             <td>
                 <table class="table table-sm table-bordered mb-0">
@@ -329,7 +329,7 @@
                         </select>
                     </td>
                     <td>
-                        <input type="file" name="categories[${categoryIndex}][sub_categories][${subIndex}][image]" class="form-control" accept="image/*" required>
+                        <input type="file" name="categories[${categoryIndex}][sub_categories][${subIndex}][image]" class="form-control" accept="image/*">
                     </td>
                     <td>
                         <button type="button" class="btn btn-danger" onclick="removeSubCategory(${categoryIndex}, ${subIndex})">&times;</button>

@@ -24,12 +24,14 @@
                     @endif
                 </div>
             </div>
-            <img src="{{ isset($item->thumbnail) ? '/storage/product/thumbnail/' . $item->thumbnail : '/images/placeholderimage.webp' }}" alt="Sample Product" class="product-image1">
+            <img src="{{ isset($item->thumbnail) ? '/storage/' . $item->thumbnail : '/images/placeholderimage.webp' }}" alt="Sample Product" class="product-image1">
         </div>
         <div class="product-info1 col-6">
             <div class="d-flex justify-content-between">
-                <p class="new">{{ $item->badge }}</p>
-                <div class="rating">
+                @if($item->badge)
+                    <p class="new">{{ $item->badge }}</p>
+                @endif
+                {{-- <div class="rating">
                     <span style="font-size: 12px;">
                         <i class="bi bi-star-fill start-rating text-warning"></i>
                         @php
@@ -37,9 +39,14 @@
                         @endphp
                         {{ $overallRating[0] }}/5
                     </span>
-                </div>
+                </div> --}}
             </div>
             <h3 class="product-title product-title1">{{ $item->name }}</h3>
+            <div class="product-subtitle">
+                <p>
+                    {{ $item->short_details }}
+                </p>
+            </div>
             <div class="product-price product-price1" style="font-size:12px !important">${{ number_format($item->unit_price,2,'.',',') }}</div>
             <div class="product-moq product-moq1">MOQ: {{ $item->minimum_order_qty }} {{ $item->unit }}</div>
             @php
@@ -56,9 +63,9 @@
             {{-- <div class="product-exhibition product-exhibition1">Exhibition: Tech Expo 2025</div> --}}
         </div>
         <div class="col-3">
-            <div class="product-diamond">
+            {{-- <div class="product-diamond">
                 <img src="/img/Diamond.png" alt="diamond" class="dimond-img">
-            </div>
+            </div> --}}
             <div>
                 @if (!auth('customer')->check())
                     <a href="{{ route('customer.auth.login') }}">

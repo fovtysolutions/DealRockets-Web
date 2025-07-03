@@ -286,94 +286,292 @@
                                         class="value">{{ \App\Models\VendorExtraDetail::where('id', $product->user_id)->first()->business_type ?? 'N/A' }}</span>
                                 </div>
                                 <div class="supplier-actions">
-                                    <a href="{{route('shopView',['id'=> $product->seller->shop->id ])}}" class="btn-outline">Shop</a>
+                                    <a href="{{ route('shopView', ['id' => $product->seller->shop->id]) }}"
+                                        class="btn-outline">Shop</a>
                                     {{-- <button class="btn-outline">Chat</button> --}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                @include('web-views.partials._vendor_top_rated_products', [
-                    'topRatedProducts' => $productsTopRated,
-                ])
 
                 <!-- Product Description Section -->
-                <div class="product-description">
-                    <div class="product-view d-flex" style="margin-bottom: 20px; flex-direction:column;">
-                        <h4 style="color: black; font-size: 20px;">Product Description</h4>
-                        <div class="d-flex w-100 gap-3 spec-section">
-                            {{-- Left Section: Technical Details --}}
-                            <div class="spec-left">
-                                <h4 class="section-title">Specification</h4>
-                                <div class="specs-tables">
-                                    @php
-                                        $additionalDetailsArray = json_decode($product->dynamic_data, true) ?? [];
-                                    @endphp
+                <div class="product-description" style="flex-direction: column;">
+                    <div class="d-flex w-100 gap-3 spec-section">
+                        {{-- Left Section: Technical Details --}}
+                        <div class="spec-left">
+                            <h4 class="section-title">Specification</h4>
+                            <div class="specs-tables">
+                                @php
+                                    $additionalDetailsArray = json_decode($product->dynamic_data, true) ?? [];
+                                @endphp
 
-                                    @if (!empty($additionalDetailsArray) && is_array($additionalDetailsArray))
-                                        @foreach ($additionalDetailsArray as $item)
-                                            <table class="specs-table">
-                                                @php
-                                                    $subheads = $item['sub_heads'] ?? [];
-                                                    $countofsubheads = count($subheads);
-                                                @endphp
-                                                @foreach ($subheads as $index => $subhead)
-                                                    <tr>
-                                                        @if ($index == 0 && isset($item['title']))
-                                                            <th rowspan="{{ $countofsubheads }}">{{ $item['title'] }}
-                                                            </th>
-                                                        @endif
-                                                        <td class="spec-name">{{ $subhead['sub_head'] ?? '-' }}</td>
-                                                        <td class="spec-detail">{{ $subhead['sub_head_data'] ?? '-' }}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </table>
-                                        @endforeach
-                                    @else
-                                        <p class="text-muted">No technical details available.</p>
-                                    @endif
-                                </div>
+                                @if (!empty($additionalDetailsArray) && is_array($additionalDetailsArray))
+                                    @foreach ($additionalDetailsArray as $item)
+                                        <table class="specs-table">
+                                            @php
+                                                $subheads = $item['sub_heads'] ?? [];
+                                                $countofsubheads = count($subheads);
+                                            @endphp
+                                            @foreach ($subheads as $index => $subhead)
+                                                <tr>
+                                                    @if ($index == 0 && isset($item['title']))
+                                                        <th rowspan="{{ $countofsubheads }}">
+                                                            {{ $item['title'] }}
+                                                        </th>
+                                                    @endif
+                                                    <td class="spec-name">
+                                                        {{ $subhead['sub_head'] ?? '-' }}</td>
+                                                    <td class="spec-detail">
+                                                        {{ $subhead['sub_head_data'] ?? '-' }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    @endforeach
+                                @else
+                                    <p class="text-muted">No technical details available.</p>
+                                @endif
                             </div>
+                        </div>
 
-                            {{-- Right Section: Additional Details --}}
-                            <div class="spec-right">
-                                <h4 class="section-title">Technical Specification</h4>
-                                <div class="specs-tables">
-                                    @php
-                                        $additionalDetailsArray1 =
-                                            json_decode($product->dynamic_data_technical, true) ?? [];
-                                    @endphp
+                        {{-- Right Section: Additional Details --}}
+                        <div class="spec-right">
+                            <h4 class="section-title">Technical Specification</h4>
+                            <div class="specs-tables">
+                                @php
+                                    $additionalDetailsArray1 =
+                                        json_decode($product->dynamic_data_technical, true) ?? [];
+                                @endphp
 
-                                    @if (!empty($additionalDetailsArray1) && is_array($additionalDetailsArray1))
-                                        @foreach ($additionalDetailsArray1 as $item)
-                                            <table class="specs-table">
-                                                @php
-                                                    $subheads1 = $item['sub_heads'] ?? [];
-                                                    $countofsubheads1 = count($subheads1);
-                                                @endphp
-                                                @foreach ($subheads1 as $index => $subhead)
-                                                    <tr>
-                                                        @if ($index == 0 && isset($item['title']))
-                                                            <th rowspan="{{ $countofsubheads1 }}">{{ $item['title'] }}
-                                                            </th>
-                                                        @endif
-                                                        <td class="spec-name">{{ $subhead['sub_head'] ?? '-' }}</td>
-                                                        <td class="spec-detail">{{ $subhead['sub_head_data'] ?? '-' }}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </table>
-                                        @endforeach
-                                    @else
-                                        <p class="text-muted">No additional details available.</p>
-                                    @endif
-                                </div>
+                                @if (!empty($additionalDetailsArray1) && is_array($additionalDetailsArray1))
+                                    @foreach ($additionalDetailsArray1 as $item)
+                                        <table class="specs-table">
+                                            @php
+                                                $subheads1 = $item['sub_heads'] ?? [];
+                                                $countofsubheads1 = count($subheads1);
+                                            @endphp
+                                            @foreach ($subheads1 as $index => $subhead)
+                                                <tr>
+                                                    @if ($index == 0 && isset($item['title']))
+                                                        <th rowspan="{{ $countofsubheads1 }}">
+                                                            {{ $item['title'] }}
+                                                        </th>
+                                                    @endif
+                                                    <td class="spec-name">
+                                                        {{ $subhead['sub_head'] ?? '-' }}</td>
+                                                    <td class="spec-detail">
+                                                        {{ $subhead['sub_head_data'] ?? '-' }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    @endforeach
+                                @else
+                                    <p class="text-muted">No additional details available.</p>
+                                @endif
                             </div>
-
                         </div>
                     </div>
+                    <div class="product-div">
+                        <div class="description-tabs">
+                            {{-- <div class="tab" data-toggleid="productDescription">Product Description</div> --}}
+                            <div class="tab active" data-toggleid="companyInfo">Company Profile</div>
+                            <div class="tab" data-toggleid="productGallery">Product Gallery</div>
+                        </div>
+                        <div class="tabdata" id="productDescription" style="display: none;">
+                            <div class="description-content p-4 space-y-4">
+                                <div class="description-section" style="padding-bottom: 20px;">
 
+                                </div>
+
+                                @if (!empty($product->short_details))
+                                    <div class="description-section">
+                                        <h5 class="section-subtitle">Quick Overview</h5>
+                                        <p class="text-muted">{!! $product->short_details !!}</p>
+                                    </div>
+                                @endif
+
+                                @if (!empty($product->details))
+                                    <div class="description-section">
+                                        <h5 class="section-subtitle">Product Description</h5>
+                                        <p>{!! $product->details !!}</p>
+                                    </div>
+                                @endif
+
+                                @php
+                                    $images = json_decode($product->certificates, true); // or $product->certificates
+                                @endphp
+
+                                @if (!empty($images) && is_array($images))
+                                    <div class="product-image-gallery space-y-4">
+                                        <h4 class="section-subtitle">Certificates</h4>
+                                        <div class="image-gallery-preview">
+                                            <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
+                                                alt="Main Preview">
+                                        </div>
+
+                                        <div class="thumbnail-row flex flex-wrap gap-2 justify-start d-flex">
+                                            @foreach ($images as $image)
+                                                <div class="thumb border rounded cursor-pointer overflow-hidden">
+                                                    <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail"
+                                                        style="height: 100px;"
+                                                        class="w-20 h-20 object-cover hover:opacity-75 transition"
+                                                        onclick="document.getElementById('mainPreview').src = this.src;">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <div class="description-section mt-3">
+                                    <h5 class="section-subtitle">Business Information</h5>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="spec-row">
+                                            <div class="spec-label">Place of Loading</div>
+                                            <div class="spec-value">{{ $product->place_of_loading ?? '-' }}</div>
+                                        </div>
+                                        <div class="spec-row">
+                                            <div class="spec-label">Delivery Terms</div>
+                                            <div class="spec-value">{{ $product->delivery_terms ?? '-' }}</div>
+                                        </div>
+                                        <div class="spec-row">
+                                            <div class="spec-label">Packing Type</div>
+                                            <div class="spec-value">{{ $product->packing_type ?? '-' }}</div>
+                                        </div>
+                                        <div class="spec-row">
+                                            <div class="spec-label">Local Currency</div>
+                                            <div class="spec-value">{{ $product->local_currency ?? '-' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabdata" id="companyInfo">
+                            <div class="product-div">
+                                <div class="vender-contact">
+                                    <div class="contact-section">
+                                        <div class="contact-left">
+                                            <h3>Contact Details</h3>
+                                            <p>
+                                                <strong>Address:</strong>
+                                                <span class="contact-text margin-l">
+                                                    {{ $shopInfoArray['company_profiles']->address ?? 'N/A' }}
+                                                </span>
+                                            </p>
+                                            <p>
+                                                <strong>Local Time:</strong>
+                                                <span class="contact-text">
+                                                    {{ $shopInfoArray['company_profiles']->local_time ?? 'N/A' }}
+                                                </span>
+                                            </p>
+                                            @if (auth()->check())
+                                                <div class="private-info-box">
+                                                    <p class="mb-0">
+                                                        <strong>Telephone:</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->telephone ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                    <p class="mb-0" style="justify-content: space-between;">
+                                                        <strong>Mobile Phone:</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->mobile ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                    <p class="mb-0">
+                                                        <strong>Fax:</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->fax ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            @else
+                                                <p>
+                                                    <button class="sign-in-btn">Sign In for Details</button>
+                                                </p>
+                                            @endif
+                                            <p>
+                                                <strong>Showroom:</strong>
+                                                <span class="contact-text">
+                                                    {{ $shopInfoArray['company_profiles']->showroom ?? 'N/A' }}
+                                                </span>
+                                            </p>
+                                            <p>
+                                                <strong>Website:</strong>
+                                                <span class="contact-text">
+                                                    @if (!empty($shopInfoArray['company_profiles']->website))
+                                                        <a href="{{ $shopInfoArray['company_profiles']->website }}"
+                                                            target="_blank">
+                                                            {{ $shopInfoArray['company_profiles']->website }}
+                                                        </a>
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="contact-right">
+                                            <h3>Contact Person</h3>
+                                            <div class="contact-person">
+                                                <div class="text-end">
+                                                    <p class="name">
+                                                        {{ $shopInfoArray['company_profiles']->contact_name ?? 'N/A' }}
+                                                    </p>
+                                                    <p class="position">
+                                                        {{ $shopInfoArray['company_profiles']->contact_dept ?? 'N/A' }}
+                                                    </p>
+                                                </div>
+                                                <div class="avatar-placeholder"></div>
+                                            </div>
+                                            <p>
+                                                <strong>Email:</strong>
+                                                @if (auth()->check())
+                                                    <span class="contact-text">
+                                                        {{ $shopInfoArray['company_profiles']->email ?? 'N/A' }}
+                                                    </span>
+                                                @else
+                                                    <button class="sign-in-btn">Sign In for Details</button>
+                                                @endif
+                                            </p>
+                                            <button class="contact-now-btn" data-bs-toggle="modal"
+                                                data-bs-target="#contactModal">
+                                                Contact Now
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tabdata" id="productGallery" style="display: none;">
+                            @php
+                                $images = json_decode($product->extra_images, true); // or $product->certificates
+                            @endphp
+
+                            @if (!empty($images) && is_array($images))
+                                <div class="product-image-gallery space-y-4">
+                                    {{-- Main Preview Image --}}
+                                    <div class="image-gallery-preview">
+                                        <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
+                                            alt="Main Preview">
+                                    </div>
+
+                                    {{-- Thumbnails --}}
+                                    <div class="thumbnail-row flex flex-wrap gap-2 justify-start d-flex">
+                                        @foreach ($images as $image)
+                                            <div class="thumb border rounded cursor-pointer overflow-hidden">
+                                                <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail"
+                                                    style="height: 100px;"
+                                                    class="w-20 h-20 object-cover hover:opacity-75 transition"
+                                                    onclick="document.getElementById('mainPreview').src = this.src;">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                     <div class="modal fade rtl text-align-direction" id="show-modal-view" tabindex="-1" role="dialog"
                         aria-labelledby="show-modal-image" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -389,6 +587,61 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    @include('web-views.partials._order-now')
+    <div style="max-width: 1440px; margin: 0 auto; padding-bottom: 60px;">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header" style="background-color:rgba(235, 235, 235, 1);">
+                <h5 class="modal-title" id="inquiryModalLabel">Send a direct inquiry to this
+                    supplier</h5>
+                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="inquiryForm">
+                    <div class="mb-3">
+                        <label for="supplier" class="form-label">To</label>
+                        <div class="form-control">{{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}
+                        </div>
+                    </div>
+                    @php
+                        $userdata = \App\Utils\ChatManager::getRoleDetail();
+                        $userId = $userdata['user_id'] ?? null;
+                        $role = $userdata['role'] ?? null;
+                    @endphp
+                    <!-- Hidden fields -->
+                    <input type="hidden" id="sender_id" name="sender_id" value={{ $userId }}>
+                    <input type="hidden" id="sender_type" name="sender_type" value={{ $role }}>
+                    <input type="hidden" id="receiver_id" name="receiver_id" value={{ $product->user_id }}>
+                    <input type="hidden" id="receiver_type" name="receiver_type" value={{ $product->added_by }}>
+                    <input type="hidden" id="product_id" name="product_id" value={{ $product->id }}>
+                    <input type="hidden" id="type" name="type" value="products">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail Address</label>
+                        <input type="email" class="form-control" id="email"
+                            placeholder="Please enter your business e-mail address" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" rows="4" placeholder="Enter product details..." required></textarea>
+                    </div>
+                    @if (auth('customer')->check())
+                        @if (strtolower(trim($membership['status'] ?? '')) == 'active')
+                            <button type="button" onclick="triggerChat()" class="btn-inquire-now btn">Send Inquiry
+                                Now</button>
+                        @else
+                            <a href="{{ route('membership') }}" class="btn-inquire-now btn">Send Inquiry
+                                Now</a>
+                        @endif
+                    @else
+                        <button type="button" onclick="sendtologin()" class="btn-inquire-now btn">Send
+                            Inquiry Now</button>
+                    @endif
+                </form>
+            </div>
+
         </div>
     </div>
     <div id="imageGalleryModal" class="gallery-modal" style="display: none;">
@@ -549,7 +802,7 @@
             document.getElementById('imageGalleryModal').style.display = 'none';
         }
     </script>
-    <script>
+    {{-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             const supplierInfo = document.getElementById("sticky-supplier-info");
             const stickyOffset = supplierInfo.offsetTop;
@@ -574,5 +827,5 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 @endpush

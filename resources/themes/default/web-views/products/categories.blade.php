@@ -86,7 +86,7 @@
                                 <div class="sub-category-list">
                                     @foreach ($value->childes as $sub_category)
                                         <a class="sub-category-button font-weight-normal"
-                                            href="{{ route('products', ['industry' => $sub_category['id']]) }}">
+                                            href="{{ route('products', ['category_id' => $sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">
                                             > {{ $sub_category['name'] }}
                                         </a>
                                         {{-- @if ($sub_category->childes->count() > 0)

@@ -152,6 +152,54 @@
                                 @endforeach
                             </div>
                         </div>
+
+                        <!-- Supplier Ranking -->
+                        <div class="filter-section togglebelow768">
+                            <div class="search-label">Supplier Ranking</div>
+                            @php
+                                $supplierRanks = [
+                                    'All Suppliers',
+                                    'Gold Verified Supplier',
+                                    'Premium Supplier',
+                                    'Verified Supplier',
+                                    'Non-Verified Supplier',
+                                ];
+                            @endphp
+
+                            @foreach ($supplierRanks as $rank)
+                                <div class="checkbox-item">
+                                    <label class="filter-checkbox supplier-rank-option filter-item">
+                                        <input type="checkbox" name="supplier_rank[]" value="{{ $rank }}"
+                                            {{ request()->has('supplier_rank') && in_array($rank, request('supplier_rank')) ? 'checked' : '' }} />
+                                        <div class="filter-label">{{ $rank }}</div>
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Business Type -->
+                        <div class="filter-section togglebelow768">
+                            <div class="search-label">Business Type</div>
+                            @php
+                                $businessTypes = [
+                                    'Manufacturer',
+                                    'Wholesaler',
+                                    'Trading Company',
+                                    'Distributor',
+                                    'Trader',
+                                ];
+                            @endphp
+
+                            @foreach ($businessTypes as $type)
+                                <div class="checkbox-item">
+                                    <label class="filter-checkbox filter-item">
+                                        <input type="checkbox" name="business_type[]" value="{{ $type }}"
+                                            {{ request()->has('business_type') && in_array($type, request('business_type')) ? 'checked' : '' }} />
+                                        <div class="filter-label">{{ $type }}</div>
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
                     </form>
                 </aside>
 
@@ -176,12 +224,12 @@
         <div id="filterModal" class="filter-modal d-none">
             <aside class="sidebar mobile-sidebar">
                 <!-- <div class="search-section">
-                                            <h3>Search by Name</h3>
-                                            <div class="search-input">
-                                                <input type="text" placeholder="Search">
-                                                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12f01963377e36ee54832fed9f9fa99ecc307862?placeholderIfAbsent=true" alt="Search">
-                                            </div>
-                                        </div> -->
+                                                    <h3>Search by Name</h3>
+                                                    <div class="search-input">
+                                                        <input type="text" placeholder="Search">
+                                                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12f01963377e36ee54832fed9f9fa99ecc307862?placeholderIfAbsent=true" alt="Search">
+                                                    </div>
+                                                </div> -->
 
                 <div class="filter-section">
                     <h3>Filter By Country</h3>

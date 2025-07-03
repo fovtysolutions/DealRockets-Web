@@ -1,29 +1,29 @@
 @foreach ($products as $item)
-    <a href="{{ route('product', $item->slug) }}">
-        <div class="product-card">
-            <div class="heart-image">
-                <div class="circle-container">
-                    @php
-                        $user = auth('customer')->user();
-                        if ($user) {
-                            $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($item->id, $user->id, 'product');
-                        } else {
-                            $isFavourite = false;
-                        }
-                    @endphp
-                    @if (auth('customer')->user())
-                        <img class="heart favourite-img" onclick="makeFavourite(this)" data-id="{{ $item->id }}"
-                            data-userid="{{ $user->id }}" data-type="product"
-                            data-role="{{ auth()->user()->role ?? 'customer' }}"
-                            src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
-                            width="20" alt="Featured icon" style="margin-left: auto;">
-                    @else
-                        <img class="heart favourite-img" onclick="sendtologin()"
-                            src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
-                            style="margin-left: auto;">
-                    @endif
-                </div>
+    <div class="product-card">
+        <div class="heart-image">
+            <div class="circle-container">
+                @php
+                    $user = auth('customer')->user();
+                    if ($user) {
+                        $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($item->id, $user->id, 'product');
+                    } else {
+                        $isFavourite = false;
+                    }
+                @endphp
+                @if (auth('customer')->user())
+                    <img class="heart favourite-img" onclick="makeFavourite(this)" data-id="{{ $item->id }}"
+                        data-userid="{{ $user->id }}" data-type="product"
+                        data-role="{{ auth()->user()->role ?? 'customer' }}"
+                        src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
+                        width="20" alt="Featured icon" style="margin-left: auto;">
+                @else
+                    <img class="heart favourite-img" onclick="sendtologin()"
+                        src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
+                        style="margin-left: auto;">
+                @endif
             </div>
+        </div>
+        <a href="{{ route('product', $item->slug) }}" style="width: 100%;">
             <img src="{{ isset($item->thumbnail) ? '/storage/product/thumbnail/' . $item->thumbnail : '/images/placeholderimage.webp' }}"
                 alt="Sample Product" onerror="this.onerror=null; this.src='/images/placeholderimage.webp';"
                 class="product-image">
@@ -73,6 +73,6 @@
                     <button class="start-order-btn">Explore</button>
                 </div>
             </div>
-        </div>
-    </a>
+        </a>
+    </div>
 @endforeach

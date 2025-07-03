@@ -13,10 +13,47 @@
     <meta property="twitter:url" content="{{ env('APP_URL') }}">
     <meta property="twitter:description"
         content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
+    <style>
+        .filter-header{
+            background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+            -webkit-background-clip: text;
+            width: max-content;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .filter-description{
+            font-size: 16px;
+            color:black;
+            margin-bottom: 30px;
+        }
+
+        .main-category a{
+            color: black;
+            font-size: 16px;
+        }
+
+        .main-category a:hover{
+            color: #fb2419;
+        }
+
+        .sub-category-button{
+            font-size: 12px !important;
+            color: rgba(81, 80, 80, 1) !important;
+        }
+
+        .sub-category-button:hover{
+            color: #fb2419 !important;
+            transform: scale(1) !important;
+        }
+
+        .sub-category-list{
+            padding-left:5px;
+        }
+    </style>
 @endpush
 
 @section('content')
-    <div class="container rtl __inline-52 text-align-direction">
+    <div class="mainpagesection">
 
         {{-- <div class="bg-primary-light rounded-10 my-4 p-3 p-sm-4"
             data-bg-img="{{ theme_asset(path: 'public/assets/front-end/img/media/bg.png') }}">
@@ -45,14 +82,14 @@
                             <a class="country-button font-weight-bold" href="/marketplace-categories/{{ $value['id'] }}">
                                 {{ $value['name'] }}
                             </a>
-                            {{-- @if ($value->childes->count() > 0)
+                            @if ($value->childes->count() > 0)
                                 <div class="sub-category-list">
                                     @foreach ($value->childes as $sub_category)
                                         <a class="sub-category-button font-weight-normal"
                                             href="{{ route('products', ['industry' => $sub_category['id']]) }}">
-                                            {{ $sub_category['name'] }}
+                                            > {{ $sub_category['name'] }}
                                         </a>
-                                        @if ($sub_category->childes->count() > 0)
+                                        {{-- @if ($sub_category->childes->count() > 0)
                                             <div class="sub-sub-category-list">
                                                 @foreach ($sub_category->childes as $sub_sub_category)
                                                     <a class="sub-sub-category-button font-weight-light"
@@ -61,10 +98,10 @@
                                                     </a>
                                                 @endforeach
                                             </div>
-                                        @endif
+                                        @endif --}}
                                     @endforeach
                                 </div>
-                            @endif --}}
+                            @endif
                         </div>
                     @endforeach
                 </div>

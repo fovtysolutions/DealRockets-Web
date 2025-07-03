@@ -8,19 +8,20 @@
 .solutions .category-card {
     background: white;
     border-radius: 0.5rem;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.2s;
+    /* border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); */
+    /* transition: box-shadow 0.2s; */
     overflow: hidden;
+    padding: 20px;
 }
 
-.solutions .category-card:hover {
+/* .solutions .category-card:hover {
     box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
-}
+} */
 
 .solutions .category-header {
-    padding: 1.5rem 1.5rem 1rem;
-    border-bottom: 1px solid #e5e7eb;
+    /* padding: 1.5rem 1.5rem 1rem; */
+    /* border-bottom: 1px solid #e5e7eb; */
 }
 
 .solutions .category-title {
@@ -37,7 +38,7 @@
 }
 
 .solutions .category-items {
-    padding: 1rem 1.5rem 1.5rem;
+    /* padding: 1rem 1.5rem 1.5rem; */
 }
 
 .solutions .category-item {
@@ -65,10 +66,11 @@
 }
 
 .solutions .card-title {
-    padding-left: 20px;
-    padding-top: 20px;
+    /* padding-left: 20px;
+    padding-top: 20px; */
     background: linear-gradient(to right, #a3bdff, #e9e9e9);
     border-radius: 0px;
+    height: 350px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
 
@@ -104,8 +106,8 @@
 }
 
 .solutions .page-title{
-    font-size: 2rem;
-    color: #eb3622;
+    font-size: 24px;
+    color: white;
 }
 
 .solutons .page-subtitle{

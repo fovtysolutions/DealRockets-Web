@@ -73,7 +73,7 @@
   .tab-link i {
     margin-right: 10px;
   }
-  
+
   .tab-link::after {
     content: '';
     position: absolute;
@@ -169,6 +169,26 @@
   
   .faq-list li strong {
     font-weight: 600;
+  }
+    
+  #tab-8 .insidecard{
+    width: 24%;
+  }
+
+  #tab-8 .insidestuff{
+    gap: 20px;
+  }
+  
+  @media (max-width: 768px){
+    #tab-8 .insidestuff {
+      display: flex;
+      gap: 0;
+      flex-direction: column;
+    }
+    
+    #tab-8 .insidecard{
+      width: 100%;
+    }
   }
   
   /* Responsive Design */

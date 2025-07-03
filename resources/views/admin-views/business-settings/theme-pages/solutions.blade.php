@@ -107,6 +107,17 @@
                                     accept="image/*" required>
                             </div>
 
+                            <div class="mb-4">
+                                <label for="solution_image">Solution Banner <span class="text-danger">*</span></label>
+                                <input type="file" name="solution_banner" id="solution_banner" class="form-control"
+                                    accept="image/*" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="solution_banner">Solution Banner Text <span class="text-danger">*</span></label>
+                                <textarea name="solution_banner_text" id="solution_banner_text" class="form-control" required></textarea>
+                            </div>
+
                             {{-- Categories Table --}}
                             <div class="table-responsive">
                                 <table class="table table-bordered align-middle text-center">

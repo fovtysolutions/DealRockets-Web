@@ -50,7 +50,7 @@
         <div>
             <div class="product-view-section" style="background: #f7f7f7;">
                 <!-- Product View Section -->
-                <div class="product-view">
+                <div class="product-view" style="margin-bottom: 20px;">
 
                     <!-- Product Images Section -->
                     <div class="product-images">
@@ -61,12 +61,24 @@
                         <div class="thumbnail-container">
                             @php
                                 $productArray = json_decode($product->extra_images, true) ?? [];
+                                $totalImages = count($productArray);
                             @endphp
+
                             @foreach ($productArray as $key => $value)
-                                <img src="{{ '/storage/' . $value }}" alt="Thumbnail 2"
-                                    class="thumbnail">
+                                @if ($key < 3)
+                                    <img src="{{ '/storage/' . $value }}" alt="Thumbnail {{ $key + 1 }}"
+                                        class="thumbnail" onclick="openGallery({{ $key }})">
+                                @elseif ($key === 3)
+                                    <div class="more-thumbnail" onclick="openGallery({{ $key }})">
+                                        <img src="{{ '/storage/' . $value }}" alt="Thumbnail {{ $key + 1 }}"
+                                            class="thumbnail" onclick="openGallery({{ $key }})">
+                                        <span style="position: absolute; font-size: 22px;"> +{{ $totalImages - 3 }} </span>
+                                    </div>
+                                    @break
+                                @endif
                             @endforeach
                         </div>
+
                     </div>
                     <!-- </div> -->
                     <div class=" dots-container">
@@ -84,14 +96,16 @@
                             <!-- Product Title -->
                             <section class="product-heading">
                                 <h1 class="product-title">{{ $product->name ?? '' }}</h1>
+                                <p class="product-subtitle">{!! $product->short_details ?? '' !!}</p>
                             </section>
 
                             <!-- Price & MOQ -->
-                            <section class="pricing-section">
+                            {{-- <section class="pricing-section">
                                 <div class="price-box">
                                     <div class="price-info">
                                         <div class="price">
-                                            <span class="amount">US$ {{ number_format($product->unit_price,2) ?? '' }}</span>
+                                            <span class="amount">US$
+                                                {{ number_format($product->unit_price, 2) ?? '' }}</span>
                                             <span class="unit">/ {{ $product->unit ?? '' }}</span>
                                         </div>
                                         <div class="min-order">
@@ -118,17 +132,21 @@
                                         </div>
                                     </section>
                                 </div>
-                            </section>
+                            </section> --}}
 
                             <!-- Specification Section -->
                             <section class="specification-section">
-                                <h4 class="section-title">Product Specifications</h4>
+                                {{-- <h4 class="section-title">Product Specifications</h4> --}}
                                 <div class="product-specs">
+                                    <div class="spec-row"><span class="spec-label">Rate</span><span class="spec-value">US$
+                                            {{ number_format($product->unit_price, 2) ?? '' }}/
+                                            {{ $product->unit ?? '' }}</span>
+                                    </div>
                                     @php
                                         $countryDetails = \App\Utils\ChatManager::getCountryDetails($product->origin);
                                     @endphp
                                     <div class="spec-row">
-                                        <span class="spec-label">Product Origin:</span>
+                                        <span class="spec-label">Product Origin</span>
                                         <span class="spec-value">
                                             <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
                                                 class="flag-icon mr-2" alt="{{ $countryDetails['countryName'] }} flag"
@@ -136,348 +154,203 @@
                                             {{ $countryDetails['countryName'] ?? 'Invalid Country Name' }}
                                         </span>
                                     </div>
-                                    <div class="spec-row"><span class="spec-label">Port of Loading:</span><span
+                                    <div class="spec-row"><span class="spec-label">Port of Loading</span><span
                                             class="spec-value">{{ $product->port_of_loading ?? '' }}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Delivery Mode:</span><span
+                                    <div class="spec-row"><span class="spec-label">MOQ</span><span
+                                            class="spec-value">{{ $product->minimum_order_qty ?? '' }}
+                                            {{ $product->unit ?? '' }}</span></div>
+                                    <div class="spec-row"><span class="spec-label">Delivery Mode</span><span
                                             class="spec-value">{{ $product->delivery_mode ?? '' }}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Payment Term:</span><span
-                                            class="spec-value">{{ $product->payment_terms ?? '' }}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Lead Time:</span><span
-                                            class="spec-value">{{ $product->lead_time ?? '' }}
-                                            {{ $product->lead_time_unit ?? '' }}</span></div>
+                                </div>
+                            </section>
+                            <section class="specification-section">
+                                <div class="product-specs">
+                                    <div class="spec-row"><span class="spec-label">Payment Term</span>
+                                        <span class="spec-value">{{ $product->payment_terms ?? '' }}
+                                        </span>
+                                    </div>
+                                    <div class="spec-row"><span class="spec-label">Lead Time</span>
+                                        <span class="spec-value">{{ $product->lead_time ?? '' }}
+                                            {{ $product->lead_time_unit ?? '' }}
+                                        </span>
+                                    </div>
                                 </div>
                             </section>
 
                             <section class="specification-section">
-                                <h4 class="section-title">Additional Delivery Details</h4>
+                                {{-- <h4 class="section-title">Additional Delivery Details</h4> --}}
                                 <div class="product-specs">
                                     <div class="spec-row">
-                                        <span class="spec-label">Supply Capacity:</span>
+                                        <span class="spec-label">Supply Capacity</span>
                                         <span class="spec-value">{{ $product->supply_capacity ?? '-' }}
                                             {{ $product->supply_unit ?? '' }}</span>
                                     </div>
                                     <div class="spec-row">
-                                        <span class="spec-label">Weight per Unit:</span>
+                                        <span class="spec-label">Weight per Unit</span>
                                         <span class="spec-value">{{ $product->weight_per_unit ?? '-' }}</span>
                                     </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Dimensions per Unit:</span>
+                                    {{-- <div class="spec-row">
+                                        <span class="spec-label">Dimensions per Unit</span>
                                         <span class="spec-value">{{ $product->dimensions_per_unit ?? '-' }}
                                             {{ $product->dimension_unit ?? '' }}</span>
-                                    </div>
+                                    </div> --}}
                                     <div class="spec-row">
-                                        <span class="spec-label">Master Packing:</span>
+                                        <span class="spec-label">Master Packing</span>
                                         <span class="spec-value">{{ $product->master_packing ?? '-' }} per
                                             {{ $product->dimension_unit ?? '' }}</span>
                                     </div>
                                     <div class="spec-row">
-                                        <span class="spec-label">Container:</span>
+                                        <span class="spec-label">Container</span>
                                         <span class="spec-value">{{ $product->container ?? '-' }}</span>
                                     </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Brand:</span>
+                                    {{-- <div class="spec-row">
+                                        <span class="spec-label">Brand</span>
                                         <span class="spec-value">{{ $product->brand ?? '-' }}</span>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </section>
 
                             <!-- Packing Info -->
-                            {{-- <section class="packing-section">
-                                <h4 class="section-title">Packing Information</h4>
+                            <section class="specification-section">
+                                {{-- <h4 class="section-title">Packing Information</h4> --}}
                                 <div class="product-specs">
                                     <div class="spec-row"><span class="spec-label">Packing Material:</span><span
-                                            class="spec-value">{{ $product->container ?? ''}}</span></div>
+                                            class="spec-value">{{ $product->container ?? '' }}</span></div>
                                     <div class="spec-row"><span class="spec-label">Packing Type:</span><span
-                                            class="spec-value">{{ $product->packing_type ?? ''}}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Master Packing:</span><span
-                                            class="spec-value">{{ $product->master_packing ?? ''}} per {{ $product->dimension_unit ?? ''}}</span></div>
+                                            class="spec-value">{{ $product->packing_type ?? '' }}</span></div>
+                                    {{-- <div class="spec-row"><span class="spec-label">Master Packing:</span><span
+                                            class="spec-value">{{ $product->master_packing ?? ''}} per {{ $product->dimension_unit ?? ''}}</span></div> --}}
                                 </div>
-                            </section> --}}
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="product-view" style="margin-bottom: 20px;">
-                    <div class="d-flex w-100 gap-3">
-
-                        {{-- Left Section: Technical Details --}}
-                        <div class="spec-left">
-                            <h4 class="section-title">Technical Details</h4>
-                            <div class="specs-tables">
-                                @php
-                                    $additionalDetailsArray = json_decode($product->dynamic_data, true) ?? [];
-                                @endphp
-
-                                @if (!empty($additionalDetailsArray) && is_array($additionalDetailsArray))
-                                    @foreach ($additionalDetailsArray as $item)
-                                        <table class="specs-table">
-                                            @php
-                                                $subheads = $item['sub_heads'] ?? [];
-                                                $countofsubheads = count($subheads);
-                                            @endphp
-                                            @foreach ($subheads as $index => $subhead)
-                                                <tr>
-                                                    @if ($index == 0 && isset($item['title']))
-                                                        <th rowspan="{{ $countofsubheads }}">{{ $item['title'] }}</th>
-                                                    @endif
-                                                    <td class="spec-name">{{ $subhead['sub_head'] ?? '-' }}</td>
-                                                    <td class="spec-detail">{{ $subhead['sub_head_data'] ?? '-' }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </table>
-                                    @endforeach
-                                @else
-                                    <p class="text-muted">No technical details available.</p>
-                                @endif
+                            </section>
+                            <div class="action-buttons" data-toggle="modal" data-target="#exampleModal">
+                                <input type="number" min="0" placeholder="Enter Qty" id="productQty"
+                                    class="quantity-input form-control"></input>
+                                <button type="button" class="btn custom-inquiry-btn" data-toggle="modal"
+                                    data-target="#inquiryModal">
+                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
+                                        alt="Inquire" class="inquire-icon">
+                                    Inquire Now
+                                </button>
                             </div>
                         </div>
+                        <div class="supplier-info">
+                            @php
+                                if ($product->added_by == 'admin') {
+                                    $isAdmin = 1;
+                                } else {
+                                    $isAdmin = 0;
+                                }
+                            @endphp
+                            <div>
+                                <div class="supplier-name">
+                                    {{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}
+                                </div>
+                                <div class="supplier-meta">
+                                    <span
+                                        class="years">{{ $isAdmin == 1 ? 'Admin' : $product->seller->years . ' years' }}</span>
+                                    <span
+                                        class="country">{{ $isAdmin == 1 ? 'DealRocket' : $product->seller->country }}</span>
+                                </div>
+                                <div class="response-data">
+                                    <div class="response-rate"><span class="label">Response Rate:</span> <span
+                                            class="value">High</span></div>
+                                    <div class="response-time"><span class="label">Avg Response Time:</span> <span
+                                            class="value">≤24 h</span></div>
 
-                        {{-- Right Section: Additional Details --}}
-                        <div class="spec-right">
-                            <h4 class="section-title">Additional Details</h4>
-                            <div class="specs-tables">
-                                @php
-                                    $additionalDetailsArray1 = json_decode($product->dynamic_data_technical, true) ?? [];
-                                @endphp
-
-                                @if (!empty($additionalDetailsArray1) && is_array($additionalDetailsArray1))
-                                    @foreach ($additionalDetailsArray1 as $item)
-                                        <table class="specs-table">
-                                            @php
-                                                $subheads1 = $item['sub_heads'] ?? [];
-                                                $countofsubheads1 = count($subheads1);
-                                            @endphp
-                                            @foreach ($subheads1 as $index => $subhead)
-                                                <tr>
-                                                    @if ($index == 0 && isset($item['title']))
-                                                        <th rowspan="{{ $countofsubheads1 }}">{{ $item['title'] }}</th>
-                                                    @endif
-                                                    <td class="spec-name">{{ $subhead['sub_head'] ?? '-' }}</td>
-                                                    <td class="spec-detail">{{ $subhead['sub_head_data'] ?? '-' }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </table>
-                                    @endforeach
-                                @else
-                                    <p class="text-muted">No additional details available.</p>
-                                @endif
+                                </div>
                             </div>
-                        </div>
+                            <div class="subplier-btn"
+                                style="display: flex;flex-direction: column-reverse;justify-content: start; gap: 1rem;">
+                                <div class="business-type"><span class="label">Business Type:</span> <span
+                                        class="value">{{ \App\Models\VendorExtraDetail::where('id',$product->user_id)->first()->business_type ?? "N/A" }}</span></div>
+                                <div class="supplier-actions">
+                                    <button class="btn-outline">Follow</button>
+                                    <button class="btn-outline">Chat</button>
+                                </div>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-
-
                 @include('web-views.partials._vendor_top_rated_products', [
                     'topRatedProducts' => $productsTopRated,
                 ])
 
                 <!-- Product Description Section -->
                 <div class="product-description">
-                    <div class="product-div">
-                        <div class="description-tabs">
-                            <div class="tab active" data-toggleid="productDescription">Product Description</div>
-                            <div class="tab" data-toggleid="companyInfo">Company Info.</div>
-                            <div class="tab" data-toggleid="productGallery">Product Gallery</div>
-                        </div>
-                        <div class="tabdata" id="productDescription">
-                            <div class="description-content p-4 space-y-4">
+                    <div class="product-view d-flex" style="margin-bottom: 20px; flex-direction:column;">
+                        <h4 style="color: black; font-size: 20px;">Product Description</h4>
+                        <div class="d-flex w-100 gap-3">
+                            {{-- Left Section: Technical Details --}}
+                            <div class="spec-left">
+                                <h4 class="section-title">Specification</h4>
+                                <div class="specs-tables">
+                                    @php
+                                        $additionalDetailsArray = json_decode($product->dynamic_data, true) ?? [];
+                                    @endphp
 
-                                {{-- Product Short Summary --}}
-                                @if (!empty($product->short_details))
-                                    <div class="description-section">
-                                        <h5 class="section-subtitle">Quick Overview</h5>
-                                        <p class="text-muted">{!! $product->short_details !!}</p>
-                                    </div>
-                                @endif
-
-                                {{-- Full Product Details --}}
-                                @if (!empty($product->details))
-                                    <div class="description-section">
-                                        <h5 class="section-subtitle">Product Description</h5>
-                                        <p>{!! $product->details !!}</p>
-                                    </div>
-                                @endif
-
-                                {{-- Certificate Files --}}
-                                @php
-                                    $images = json_decode($product->certificates, true); // or $product->certificates
-                                @endphp
-
-                                @if (!empty($images) && is_array($images))
-                                    <div class="product-image-gallery space-y-4">
-                                        <h4>Certificates</h4>
-                                        {{-- Main Preview Image --}}
-                                        <div class="image-gallery-preview">
-                                            <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
-                                                alt="Main Preview">
-                                        </div>
-
-                                        {{-- Thumbnails --}}
-                                        <div class="thumbnail-row flex flex-wrap gap-2 justify-start d-flex">
-                                            @foreach ($images as $image)
-                                                <div class="thumb border rounded cursor-pointer overflow-hidden">
-                                                    <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail"
-                                                        style="height: 100px;"
-                                                        class="w-20 h-20 object-cover hover:opacity-75 transition"
-                                                        onclick="document.getElementById('mainPreview').src = this.src;">
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
-
-                                {{-- Key Business Information --}}
-                                <div class="description-section mt-3">
-                                    <h5 class="section-subtitle">Business Information</h5>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="spec-row">
-                                            <div class="spec-label">Place of Loading</div>
-                                            <div class="spec-value">{{ $product->place_of_loading ?? '-' }}</div>
-                                        </div>
-                                        <div class="spec-row">
-                                            <div class="spec-label">Delivery Terms</div>
-                                            <div class="spec-value">{{ $product->delivery_terms ?? '-' }}</div>
-                                        </div>
-                                        <div class="spec-row">
-                                            <div class="spec-label">Packing Type</div>
-                                            <div class="spec-value">{{ $product->packing_type ?? '-' }}</div>
-                                        </div>
-                                        <div class="spec-row">
-                                            <div class="spec-label">Local Currency</div>
-                                            <div class="spec-value">{{ $product->local_currency ?? '-' }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tabdata" id="companyInfo" style="display: none;">
-                            <div class="product-div">
-                                <div class="vender-contact">
-                                    <div class="contact-section">
-                                        <div class="contact-left">
-                                            <h3>Contact Details</h3>
-                                            <p>
-                                                <strong>Address:</strong>
-                                                <span class="contact-text margin-l">
-                                                    {{ $shopInfoArray['company_profiles']->address ?? 'N/A' }}
-                                                </span>
-                                            </p>
-                                            <p>
-                                                <strong>Local Time:</strong>
-                                                <span class="contact-text">
-                                                    {{ $shopInfoArray['company_profiles']->local_time ?? 'N/A' }}
-                                                </span>
-                                            </p>
-                                            @if (auth()->check())
-                                                <div class="private-info-box">
-                                                    <p class="mb-0">
-                                                        <strong>Telephone:</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->telephone ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-                                                    <p class="mb-0" style="justify-content: space-between;">
-                                                        <strong>Mobile Phone:</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->mobile ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-                                                    <p class="mb-0">
-                                                        <strong>Fax:</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->fax ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            @else
-                                                <p>
-                                                    <button class="sign-in-btn">Sign In for Details</button>
-                                                </p>
-                                            @endif
-                                            <p>
-                                                <strong>Showroom:</strong>
-                                                <span class="contact-text">
-                                                    {{ $shopInfoArray['company_profiles']->showroom ?? 'N/A' }}
-                                                </span>
-                                            </p>
-                                            <p>
-                                                <strong>Website:</strong>
-                                                <span class="contact-text">
-                                                    @if (!empty($shopInfoArray['company_profiles']->website))
-                                                        <a href="{{ $shopInfoArray['company_profiles']->website }}"
-                                                            target="_blank">
-                                                            {{ $shopInfoArray['company_profiles']->website }}
-                                                        </a>
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </span>
-                                            </p>
-                                        </div>
-                                        <div class="contact-right">
-                                            <h3>Contact Person</h3>
-                                            <div class="contact-person">
-                                                <div class="text-end">
-                                                    <p class="name">
-                                                        {{ $shopInfoArray['company_profiles']->contact_name ?? 'N/A' }}
-                                                    </p>
-                                                    <p class="position">
-                                                        {{ $shopInfoArray['company_profiles']->contact_dept ?? 'N/A' }}
-                                                    </p>
-                                                </div>
-                                                <div class="avatar-placeholder"></div>
-                                            </div>
-                                            <p>
-                                                <strong>Email:</strong>
-                                                @if (auth()->check())
-                                                    <span class="contact-text">
-                                                        {{ $shopInfoArray['company_profiles']->email ?? 'N/A' }}
-                                                    </span>
-                                                @else
-                                                    <button class="sign-in-btn">Sign In for Details</button>
-                                                @endif
-                                            </p>
-                                            <button class="contact-now-btn" data-bs-toggle="modal"
-                                                data-bs-target="#contactModal">
-                                                Contact Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tabdata" id="productGallery" style="display: none;">
-                            @php
-                                $images = json_decode($product->extra_images, true); // or $product->certificates
-                            @endphp
-
-                            @if (!empty($images) && is_array($images))
-                                <div class="product-image-gallery space-y-4">
-                                    {{-- Main Preview Image --}}
-                                    <div class="image-gallery-preview">
-                                        <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
-                                            alt="Main Preview">
-                                    </div>
-
-                                    {{-- Thumbnails --}}
-                                    <div class="thumbnail-row flex flex-wrap gap-2 justify-start d-flex">
-                                        @foreach ($images as $image)
-                                            <div class="thumb border rounded cursor-pointer overflow-hidden">
-                                                <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail"
-                                                    style="height: 100px;"
-                                                    class="w-20 h-20 object-cover hover:opacity-75 transition"
-                                                    onclick="document.getElementById('mainPreview').src = this.src;">
-                                            </div>
+                                    @if (!empty($additionalDetailsArray) && is_array($additionalDetailsArray))
+                                        @foreach ($additionalDetailsArray as $item)
+                                            <table class="specs-table">
+                                                @php
+                                                    $subheads = $item['sub_heads'] ?? [];
+                                                    $countofsubheads = count($subheads);
+                                                @endphp
+                                                @foreach ($subheads as $index => $subhead)
+                                                    <tr>
+                                                        @if ($index == 0 && isset($item['title']))
+                                                            <th rowspan="{{ $countofsubheads }}">{{ $item['title'] }}
+                                                            </th>
+                                                        @endif
+                                                        <td class="spec-name">{{ $subhead['sub_head'] ?? '-' }}</td>
+                                                        <td class="spec-detail">{{ $subhead['sub_head_data'] ?? '-' }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
                                         @endforeach
-                                    </div>
+                                    @else
+                                        <p class="text-muted">No technical details available.</p>
+                                    @endif
                                 </div>
-                            @endif
+                            </div>
+
+                            {{-- Right Section: Additional Details --}}
+                            <div class="spec-right">
+                                <h4 class="section-title">Technical Specification</h4>
+                                <div class="specs-tables">
+                                    @php
+                                        $additionalDetailsArray1 =
+                                            json_decode($product->dynamic_data_technical, true) ?? [];
+                                    @endphp
+
+                                    @if (!empty($additionalDetailsArray1) && is_array($additionalDetailsArray1))
+                                        @foreach ($additionalDetailsArray1 as $item)
+                                            <table class="specs-table">
+                                                @php
+                                                    $subheads1 = $item['sub_heads'] ?? [];
+                                                    $countofsubheads1 = count($subheads1);
+                                                @endphp
+                                                @foreach ($subheads1 as $index => $subhead)
+                                                    <tr>
+                                                        @if ($index == 0 && isset($item['title']))
+                                                            <th rowspan="{{ $countofsubheads1 }}">{{ $item['title'] }}
+                                                            </th>
+                                                        @endif
+                                                        <td class="spec-name">{{ $subhead['sub_head'] ?? '-' }}</td>
+                                                        <td class="spec-detail">{{ $subhead['sub_head_data'] ?? '-' }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                        @endforeach
+                                    @else
+                                        <p class="text-muted">No additional details available.</p>
+                                    @endif
+                                </div>
+                            </div>
 
                         </div>
-
                     </div>
 
                     <div class="modal fade rtl text-align-direction" id="show-modal-view" tabindex="-1" role="dialog"
@@ -493,26 +366,40 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
+    <div id="imageGalleryModal" class="gallery-modal" style="display: none;">
+        <div class="gallery-overlay" onclick="closeGallery()"></div>
+        <div class="gallery-content">
+            <span class="close-btn" onclick="closeGallery()">×</span>
+
+            <!-- Main Large Image -->
+            <div class="main-image-container">
+                <img id="mainGalleryImage" src="" alt="Main View">
+            </div>
+
+            <!-- Thumbnails -->
+            <div class="gallery-thumbnails" id="galleryImages"></div>
+        </div>
+    </div>
     <div class="modal fade" id="inquiryModal" tabindex="-1" aria-labelledby="inquiryModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <!-- Modal Header -->
-                <div class="modal-header">
+                <div class="modal-header" style="background-color:rgba(235, 235, 235, 1);">
                     <h5 class="modal-title" id="inquiryModalLabel">Send a direct inquiry to this
                         supplier</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <form id="inquiryForm">
                         <div class="mb-3">
                             <label for="supplier" class="form-label">To</label>
-                            <div class="form-control-plaintext">Wenzhou Ivspeed Co.,Ltd</div>
+                            <div class="form-control">{{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}
+                            </div>
                         </div>
                         @php
                             $userdata = \App\Utils\ChatManager::getRoleDetail();
@@ -537,15 +424,14 @@
                         </div>
                         @if (auth('customer')->check())
                             @if (strtolower(trim($membership['status'] ?? '')) == 'active')
-                                <button type="button" onclick="triggerChat()"
-                                    class="btn-inquire-now btn btn-success">Send Inquiry
+                                <button type="button" onclick="triggerChat()" class="btn-inquire-now btn">Send Inquiry
                                     Now</button>
                             @else
-                                <a href="{{ route('membership') }}" class="btn-inquire-now btn btn-success">Send Inquiry
+                                <a href="{{ route('membership') }}" class="btn-inquire-now btn">Send Inquiry
                                     Now</a>
                             @endif
                         @else
-                            <button type="button" onclick="sendtologin()" class="btn-inquire-now btn btn-success">Send
+                            <button type="button" onclick="sendtologin()" class="btn-inquire-now btn">Send
                                 Inquiry Now</button>
                         @endif
                     </form>
@@ -608,6 +494,38 @@
                     toastr.error('Failed to send inquiry.', 'Error');
                 }
             });
+        }
+    </script>
+    <script>
+        const allImages = {!! json_encode($productArray) !!};
+
+        function openGallery(startIndex = 0) {
+            const gallery = document.getElementById('galleryImages');
+            const mainImage = document.getElementById('mainGalleryImage');
+
+            // Set the main image initially
+            mainImage.src = `/storage/${allImages[startIndex]}`;
+            mainImage.alt = `Image ${startIndex + 1}`;
+
+            // Clear and rebuild thumbnails
+            gallery.innerHTML = '';
+
+            allImages.forEach((src, i) => {
+                const thumb = document.createElement('img');
+                thumb.src = `/storage/${src}`;
+                thumb.alt = `Thumbnail ${i + 1}`;
+                thumb.onclick = () => {
+                    mainImage.src = `/storage/${src}`;
+                    mainImage.alt = `Image ${i + 1}`;
+                };
+                gallery.appendChild(thumb);
+            });
+
+            document.getElementById('imageGalleryModal').style.display = 'flex';
+        }
+
+        function closeGallery() {
+            document.getElementById('imageGalleryModal').style.display = 'none';
         }
     </script>
 @endpush

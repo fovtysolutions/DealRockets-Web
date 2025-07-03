@@ -46,6 +46,23 @@
                                 </div>
                             @endif
                         </div>
+                        
+                        <div class="mb-4">
+                            <label for="solution_banner">Solution Banner <span class="text-danger">*</span></label>
+                            <input type="file" name="solution_banner" id="solution_banner" class="form-control"
+                                accept="image/*">
+                            @if ($solution->banner)
+                                <div class="mt-2">
+                                    <a href="{{ asset('storage/' . $solution->banner) }}"
+                                        class="text-blue d-block w-100 text-start" target="_blank">View File</a>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="solution_banner">Solution Banner Text <span class="text-danger">*</span></label>
+                            <textarea name="solution_banner_text" id="solution_banner_text" class="form-control" required>{{ $solution->banner_text }}</textarea>
+                        </div>
 
                         {{-- Categories Table --}}
                         <div class="table-responsive">

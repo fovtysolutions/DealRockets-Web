@@ -122,6 +122,13 @@
         flex-direction: column;
         width: 100%;
         padding: 15px;
+        height:unset;
+    }
+
+    .order-now .card-body p:first{
+        height: 2rem;
+        line-height: 1rem;
+        overflow: hidden;
     }
 
     .order-now .left-banner{
@@ -145,5 +152,9 @@
 
     .order-now {
         background: none !important;
+    }
+
+    .order-now .product-card img{
+        height:unset;
     }
 }

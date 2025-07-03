@@ -19,8 +19,13 @@
     .tabsuno {
       background: unset;
     }
+    
     .tab-containeruno .tabsuno .leadstitle2{
       left: 14px !important;
+    }
+
+    .noboxshadow{
+      box-shadow: unset !important;
     }
   }
   

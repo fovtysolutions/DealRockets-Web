@@ -942,6 +942,7 @@
         display: block;
         background: none;
         width: 100%;
+        margin-bottom: 0;
     }
 
     .globle-deals .insidebox{

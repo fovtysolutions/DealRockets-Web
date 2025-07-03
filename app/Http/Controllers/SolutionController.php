@@ -16,6 +16,8 @@ class SolutionController extends Controller
         $request->validate([
             'solution_name' => 'required|string|max:255',
             'solution_image' => 'required|image',
+            'solution_banner' => 'required|image',
+            'solution_banner_text' => 'required',
 
             'categories' => 'nullable|array|max:10',
             'categories.*.name' => 'nullable',
@@ -30,9 +32,15 @@ class SolutionController extends Controller
             ? $request->file('solution_image')->store('solutions', 'public')
             : null;
 
+        $solutionBannerPath = $request->hasFile('solution_banner')
+            ? $request->file('solution_banner')->store('solutions','public')
+            : null;
+
         $solution = Solution::create([
             'name' => $request->solution_name,
             'image' => $solutionImagePath,
+            'banner' => $solutionBannerPath,
+            'banner_text' => $request->solution_banner_text
         ]);
 
         foreach ($request->categories as $categoryData) {
@@ -76,6 +84,8 @@ class SolutionController extends Controller
         $request->validate([
             'solution_name' => 'required|string|max:255',
             'solution_image' => 'nullable|image',
+            'solution_banner' => 'nullable|image',
+            'solution_banner_text' => 'required',
 
             'categories' => 'nullable|array|max:10',
             'categories.*.name' => 'nullable|string|max:255',
@@ -88,18 +98,32 @@ class SolutionController extends Controller
         $solution = Solution::where('id', $id)->first();
 
         if ($request->hasFile('solution_image')) {
-            Storage::disk('public')->delete($solution->image);
+            if($solution->image){
+                Storage::disk('public')->delete($solution->image);
+            }
             $solution->image = $request->file('solution_image')->store('solutions', 'public');
         }
 
+        if ($request->hasFile('solution_banner')) {
+            if($solution->banner){
+                Storage::disk('public')->delete($solution->banner);
+            }
+            $solution->banner = $request->file('solution_banner')->store('solutions', 'public');
+        }
+
         $solution->name = $request->solution_name;
+        $solution->banner_text = $request->solution_banner_text;
         $solution->save();
 
         // Remove old categories & subs
         foreach ($solution->categories as $cat) {
-            Storage::disk('public')->delete($cat->image);
+            if($cat->image){
+                Storage::disk('public')->delete($cat->image);
+            }
             foreach ($cat->subCategories as $sub) {
-                Storage::disk('public')->delete($sub->image);
+                if($sub->image){
+                    Storage::disk('public')->delete($sub->image);
+                }
             }
         }
         $solution->categories()->delete();

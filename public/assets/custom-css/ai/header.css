@@ -1122,9 +1122,9 @@
   position: absolute;
   top: 42px;
   right: 0;
-  /* hide by default */
   width: 150px;
-  height: 100vh;
+  height: 40vh;
+  overflow-y: scroll;
   background: #fff;
   box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
   transition: left 0.3s ease-in-out;

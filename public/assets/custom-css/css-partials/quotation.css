@@ -198,7 +198,7 @@
     }
 
     .rfq-section{
-      background-image:unset;
+      background-image: unset !important;
       flex-direction: column;
       padding: 0px;
     }

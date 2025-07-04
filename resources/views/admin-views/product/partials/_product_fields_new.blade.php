@@ -1,5 +1,43 @@
 @php
     $isEdit = isset($product);
+    $units = [
+        'Piece (pc)',
+        'Kilogram (kg)',
+        'Gram (g)',
+        'Tonne (t)',
+        'Litre (l)',
+        'Millilitre (ml)',
+        'Meter (m)',
+        'Centimeter (cm)',
+        'Millimeter (mm)',
+        'Square Meter (m²)',
+        'Cubic Meter (m³)',
+        'Dozen',
+        'Pack',
+        'Box',
+        'Carton',
+        'Roll',
+        'Set',
+        'Pair',
+        'Bottle',
+        'Bag',
+    ];
+    $paymentTerms = [
+        'L/C at Sight',
+        'L/C 30/60/90 Days',
+        'D/A (Documents Against Acceptance)',
+        'D/P (Documents Against Payment)',
+        'CAD (Cash Against Documents)',
+        'T/T (Telegraphic Transfer)',
+        'Advance Payment',
+        'Advance + Partial Payment',
+        'Advance 30%, Balance Before Shipment',
+        'Advance 30%, Balance Against BL Copy',
+        'Advance 50%, Balance on Delivery',
+        'Advance 100% before Production',
+        'Advance + L/C',
+        'Advance + T/T',
+    ];
 @endphp
 
 <div class="progress-form-main">
@@ -136,12 +174,13 @@
     <div class="step-section" data-step="2">
         <div class="form-row">
             <div class="form-group">
-                <label for="thumbnail">Thumbnail</label> 
+                <label for="thumbnail">Thumbnail</label>
                 <input type="file" name="thumbnail" id="thumbnail" {{ $isEdit ? '' : 'required' }}>
             </div>
             <div class="form-group">
                 <label for="extra_images">Additional Images</label>
-                <input type="file" name="extra_images[]" id="extra_images" {{ $isEdit ? '' : 'required' }} multiple>
+                <input type="file" name="extra_images[]" id="extra_images" {{ $isEdit ? '' : 'required' }}
+                    multiple>
             </div>
         </div>
         @if ($isEdit && !empty($product->thumbnail))
@@ -157,7 +196,7 @@
             </div>
         @endif
         @php
-            if($isEdit){
+            if ($isEdit) {
                 $extraImages = json_decode($product->extra_images, true) ?? [];
             } else {
                 $extraImages = [];
@@ -180,7 +219,8 @@
         <div class="form-row">
             <div class="form-single">
                 <label class="form-lable">Certificate</label>
-                <input type="file" name="certificates[]" id="certificates"  {{ $isEdit ? '' : 'required' }} multiple>
+                <input type="file" name="certificates[]" id="certificates" {{ $isEdit ? '' : 'required' }}
+                    multiple>
             </div>
         </div>
         <div class="form-row" style="margin-bottom: 10px;">
@@ -222,7 +262,7 @@
             <div class="form-group">
                 <label class="title-color">{{ translate('unit') }}</label>
                 <select class="js-example-basic-multiple form-control" name="unit">
-                    @foreach (units() as $unit)
+                    @foreach ($units as $unit)
                         <option value="{{ $unit }}"
                             {{ $isEdit ? ($product['unit'] == $unit ? 'selected' : '') : '' }}>
                             {{ $unit }}
@@ -264,7 +304,7 @@
             <div class="form-group">
                 <label class="title-color">{{ translate('Supply Unit') }}</label>
                 <select class="js-example-basic-multiple form-control" name="supply_unit">
-                    @foreach (units() as $unit)
+                    @foreach ($units as $unit)
                         <option value="{{ $unit }}"
                             {{ isset($product['supply_unit']) && $unit == $product['supply_unit'] ? 'selected' : '' }}>
                             {{ $unit }}
@@ -355,20 +395,6 @@
                 <label class="form-label">{{ translate('Payment Terms') }}</label>
                 <select class="form-control" name="payment_terms">
                     <option value="">Select Payment Term</option>
-                    @php
-                        $paymentTerms = [
-                            'L/C at Sight',
-                            'L/C 30/60/90 Days',
-                            'D/A (Documents Against Acceptance)',
-                            'D/P (Documents Against Payment)',
-                            'CAD (Cash Against Documents)',
-                            'T/T (Telegraphic Transfer)',
-                            'Advance Payment',
-                            'Net 30',
-                            'Net 60',
-                        ];
-                    @endphp
-
                     @foreach ($paymentTerms as $term)
                         <option value="{{ $term }}"
                             {{ $isEdit && ($product['payment_terms'] ?? null) === $term ? 'selected' : '' }}>
@@ -381,8 +407,26 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Internal Packing') }}</label>
-                <input type="text" class="form-control" name="dimensions_per_unit"
-                    value="{{ $isEdit ? $product['dimensions_per_unit'] ?? '' : '' }}" placeholder="e.g., 10x5x2 cm">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="dimensionsInput" placeholder="e.g., 10x5x2"
+                        value="{{ $isEdit ? ($product['dimensions_per_unit'] ? explode(' ', $product['dimensions_per_unit'])[0] : '') : '' }}">
+
+                    <select class="form-select form-select-sm" id="unitSelect" style="max-width: 115px;border-radius: 0px 8px 8px 0px;">
+                        @php
+                            $selectedUnit =
+                                $isEdit && isset($product['dimensions_per_unit'])
+                                    ? explode(' ', $product['dimensions_per_unit'])[1] ?? 'cm'
+                                    : 'cm';
+                        @endphp
+                        @foreach ($units as $unit)
+                            <option value="{{ $unit }}" {{ $selectedUnit == $unit ? 'selected' : '' }}>
+                                {{ $unit }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <input type="hidden" name="dimensions_per_unit" id="originalDimensions"
+                    value="{{ $isEdit ? $product['dimensions_per_unit'] ?? '' : '' }}">
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('Internal Packing Type') }}</label>
@@ -463,8 +507,27 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Master Packing') }}</label>
-                <input type="text" class="form-control" name="master_packing" required
-                    value="{{ $isEdit ? $product['master_packing'] ?? '' : '' }}" placeholder="e.g., 5x1, 10x1">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="masterPackingInput" placeholder="e.g., 5x1, 10x1"
+                        value="{{ $isEdit ? ($product['master_packing'] ? explode(' ', $product['master_packing'])[0] : '') : '' }}"
+                        required>
+
+                    <select class="form-select form-select-sm" id="masterUnitSelect" style="max-width: 115px;border-radius: 0px 8px 8px 0px;">
+                        @php
+                            $selectedMasterUnit =
+                                $isEdit && isset($product['master_packing'])
+                                    ? explode(' ', $product['master_packing'])[1] ?? 'pcs'
+                                    : 'pcs';
+                        @endphp
+                        @foreach ($units as $unit)
+                            <option value="{{ $unit }}"
+                                {{ $selectedMasterUnit == $unit ? 'selected' : '' }}>{{ $unit }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <input type="hidden" name="master_packing" id="masterPackingHidden"
+                    value="{{ $isEdit ? $product['master_packing'] ?? '' : '' }}">
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('Master Packing Type') }}</label>
@@ -555,31 +618,6 @@
                 <label class="form-label">{{ translate('Dimension Unit') }}</label><select class="form-control"
                     name="dimension_unit" required>
                     <option value="">Select Unit</option>
-                    @php
-                        $units = [
-                            'Piece (pc)',
-                            'Kilogram (kg)',
-                            'Gram (g)',
-                            'Tonne (t)',
-                            'Litre (l)',
-                            'Millilitre (ml)',
-                            'Meter (m)',
-                            'Centimeter (cm)',
-                            'Millimeter (mm)',
-                            'Square Meter (m²)',
-                            'Cubic Meter (m³)',
-                            'Dozen',
-                            'Pack',
-                            'Box',
-                            'Carton',
-                            'Roll',
-                            'Set',
-                            'Pair',
-                            'Bottle',
-                            'Bag',
-                        ];
-                    @endphp
-
                     @foreach ($units as $unit)
                         <option value="{{ $unit }}"
                             {{ $isEdit && ($product['dimension_unit'] ?? null) === $unit ? 'selected' : '' }}>
@@ -590,7 +628,7 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group">
+            <div class="form-single">
                 <label class="form-label">{{ translate('Container Type') }}</label>
                 <select class="form-control" name="container" required>
                     <option value="">Select Container Type</option>
@@ -640,11 +678,11 @@
                     </optgroup>
                 </select>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label class="form-label">{{ translate('Size') }}</label>
                 <input type="text" class="form-control" name="weight_per_unit"
                     value="{{ $isEdit ? $product['weight_per_unit'] ?? '' : '' }}" placeholder="e.g., 1.5kg">
-            </div>
+            </div> --}}
         </div>
         <button type="button" class="prev-btn" data-prev="3">Prev</button>
         <button type="button" class="next-btn" data-next="5">Next</button>
@@ -757,4 +795,38 @@
             hidethiselement.show();
         }
     });
+</script>
+<script>
+    const dimensionsInput = document.getElementById('dimensionsInput');
+    const unitSelect = document.getElementById('unitSelect');
+    const originalInput = document.getElementById('originalDimensions');
+
+    function updateOriginalValue() {
+        const dims = dimensionsInput.value.trim();
+        const unit = unitSelect.value;
+        originalInput.value = dims ? `${dims} ${unit}` : '';
+    }
+
+    dimensionsInput.addEventListener('input', updateOriginalValue);
+    unitSelect.addEventListener('change', updateOriginalValue);
+
+    // Optional: call it initially to sync values
+    updateOriginalValue();
+</script>
+<script>
+    const masterPackingInput = document.getElementById('masterPackingInput');
+    const masterUnitSelect = document.getElementById('masterUnitSelect');
+    const masterPackingHidden = document.getElementById('masterPackingHidden');
+
+    function updateMasterPackingValue() {
+        const value = masterPackingInput.value.trim();
+        const unit = masterUnitSelect.value;
+        masterPackingHidden.value = value ? `${value} ${unit}` : '';
+    }
+
+    masterPackingInput.addEventListener('input', updateMasterPackingValue);
+    masterUnitSelect.addEventListener('change', updateMasterPackingValue);
+
+    // Initialize on load
+    updateMasterPackingValue();
 </script>

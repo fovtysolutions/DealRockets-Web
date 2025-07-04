@@ -8,6 +8,7 @@
                         $isFavourite = $user
                             ? \App\Utils\HelperUtil::checkIfFavourite($item->id, $user->id, 'product')
                             : false;
+                        $vendorExtra = \App\Models\VendorExtraDetail::where('seller_id', $item->user_id)->first();
                     @endphp
 
                     @if ($user)
@@ -79,7 +80,10 @@
                     @endif
                 </div>
 
-                <div class="product-exhibition">{{ $shopName }}</div>
+                <div class="product-exhibition" style="display: flex; justify-content: space-between">
+                    <span>{{ $shopName }}</span>
+                    <span style="text-transform: capitalize;">{{ $vendorExtra->business_type }}</span>
+                </div>
                 <div>
                     <button class="start-order-btn">Explore</button>
                 </div>

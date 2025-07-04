@@ -36,7 +36,7 @@
         $decimalPointSettings = getWebConfig(name: 'decimal_point_settings');
     @endphp
 
-    <div class="main-container vender-company" style="margin-bottom: 20px;">
+    <div class="mainpagesection main-container vender-company">
         <!-- Header -->
         <header class="header">
             <div class="header-left">
@@ -68,12 +68,10 @@
                     </p>
                 </div>
             </div>
-            <div class="header-right">
+            {{-- <div class="header-right">
                 <input class="search-input" placeholder="Search for products..." />
                 <button class="search-btn">Search</button>
-                <!-- <button class="search-icon"><i class="fas fa-search"></i></button> -->
-
-            </div>
+            </div> --}}
             <div class="search-box">
                 <button class="btn-search" onclick="toggleSearch()"><i class="fas fa-search"></i></button>
                 <input type="text" class="input-search" placeholder="Type to Search...">
@@ -102,16 +100,18 @@
         <div class="section-1">
             @include('web-views.seller-view.partials._shop_section_1')
         </div>
-        <div class="section-2 d-none">
+        <div class="section-2 d-none" style="padding: 20px 39px 20px 39px;">
             @include('web-views.seller-view.partials._shop_section_2')
         </div>
         <div class="section-3 d-none">
             @include('web-views.seller-view.partials._shop_section_3')
         </div>
-        <div class="section-4 d-none">
+        <div class="section-4 d-none" style="padding-bottom: 35px;">
             @include('web-views.seller-view.partials._shop_section_4')
         </div>
     </div>
+
+    @include('web-views.partials._order-now')
 
     <!-- Modal -->
     <div class="modal fade vender-company" id="inquireModel" tabindex="-1" aria-labelledby="inquireModelLabel"

@@ -189,6 +189,7 @@ class ProductDetailsController extends Controller
                 'productReviews',
                 'rating',
                 'totalReviews',
+                'shopInfoArray',
                 'productsForReview',
                 'moreProductFromSeller',
                 'decimalPointSettings',

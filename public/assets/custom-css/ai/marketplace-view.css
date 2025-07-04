@@ -246,7 +246,6 @@
 
 .product-view-section .supplier-name {
     font-weight: 500 !important;
-    text-decoration: underline !important;
     color: #0D0D0F !important;
     font-size: 14px !important;
 }
@@ -264,11 +263,11 @@
 }
 
 .product-view-section .response-rate {
-    margin-bottom: 10px !important;
+    /* margin-bottom: 10px !important; */
 }
 
 .product-view-section .response-time {
-    margin-bottom: 10px !important;
+    /* margin-bottom: 10px !important; */
 }
 
 .product-view-section .response-time .value {
@@ -577,6 +576,35 @@
     width: 50% !important;
 }
 
+.product-view-section .heart-image {
+    width: 100%;
+    position: relative;
+    /* important so that the absolute positioning works */
+}
+
+.product-view-section .heart-image .circle-container {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(25%);
+    border: 1px solid rgba(213, 213, 213, 1);
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    z-index: 10;
+}
+
+.product-view-section .heart-image .circle-container img {
+    height: 20px;
+    width: 20px;
+    object-fit: contain;
+}
+
 /* Product Description Styles */
 .product-view-section .product-description {
     /* padding: 1rem 0rem !important; */
@@ -627,13 +655,14 @@
 }
 
 .vender-contact .contact-left {
-    max-width: 40%;
+    max-width: 50%;
 }
 
 .vender-contact .contact-left h3,
 .contact-right h3 {
     font-weight: 600;
     font-size: 20px;
+    color: black;
     margin-left: 0.6rem;
     margin-bottom: 1.5rem;
 }
@@ -642,6 +671,7 @@
     font-size: 14px;
     font-weight: 400;
     color: #515050;
+    width: 125px;
 }
 
 .vender-contact .contact-left p {
@@ -651,7 +681,7 @@
 
 .vender-contact .contact-right {
     border-left: 1px solid #ddd;
-    padding: 9px 67px;
+    padding: 9px 25px;
     max-width: 35%;
 }
 
@@ -720,7 +750,7 @@
     border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
-    width: 100%;
+    width: max-content;
 }
 
 .vender-contact .margin-l {
@@ -1106,8 +1136,9 @@
     line-height: 22px !important;
     color: #000000 !important;
     margin-left: 12px;
-    width: 39% !important;
-    height: 40% !important;
+    width: max-content;
+    height: fit-content;
+    margin-top: auto;
     background: linear-gradient(to bottom, #F1E5FF, #ffff) !important;
     /* margin-left: 462px !important ; */
     /* margin-top: -309px !important ; */
@@ -1370,6 +1401,11 @@
 .product-view-section .card-2 {
     width: 20% !important;
 }
+
+#sticky-supplier-info{
+    transition: top 0.3s ease, right 0.3s ease;
+}
+
 
 @media(max-width:1200px) {
     .product-view-section .margin {

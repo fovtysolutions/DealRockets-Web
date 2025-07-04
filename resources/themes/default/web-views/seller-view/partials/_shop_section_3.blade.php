@@ -24,7 +24,7 @@
                     </div>
                     <div class="company-image">
                         @if (!empty($shopInfoArray['images'][0]))
-                            <img src="/storage/{{ $shopInfoArray['images'][0] }}" alt="Company Interior" />
+                            <img src="/storage/{{ $shopInfoArray['images'][0] }}" alt="Company Interior"  onerror="this.onerror=null; this.src='/images/placeholderimage.webp';" />
                         @endif
                     </div>
                 </div>

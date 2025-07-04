@@ -467,7 +467,7 @@ input[type='checkbox'] {
 .stock-sale .detail-image {
     width: 100%;
     aspect-ratio: 1;
-    object-fit: contain;
+    object-fit: fill;
     border-radius: 0.25rem;
     margin-top: 1.25rem;
 }

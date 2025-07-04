@@ -200,13 +200,14 @@ h3 {
     padding: 4px 12px;
     align-self: self-end;
     font-weight: 500;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     font-size: 15px;
 }
 
 .marketplace-list .heart-image {
     width: 100%;
-    position: relative; /* important so that the absolute positioning works */
+    position: relative;
+    /* important so that the absolute positioning works */
 }
 
 .marketplace-list .heart-image .circle-container {
@@ -222,13 +223,13 @@ h3 {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5px; 
+    padding: 5px;
     z-index: 10;
 }
 
 .marketplace-list .heart-image .circle-container img {
     height: 20px;
-    width: 20px; 
+    width: 20px;
     object-fit: contain;
 }
 
@@ -255,6 +256,7 @@ h3 {
     max-height: 240px;
     aspect-ratio: 2 / 2;
     object-fit: fill;
+    transition: scale 0.3s ease;
 }
 
 .marketplace-list .product-info {
@@ -264,8 +266,8 @@ h3 {
     gap: 2px;
 }
 
-.marketplace-list .product-card:hover .product-image{
-    scale:1.01;
+.marketplace-list .product-card:hover .product-image {
+    scale: 1.05;
 }
 
 .marketplace-list .product-title {
@@ -315,13 +317,15 @@ h3 {
     padding: 4px 8px;
     /* border-radius: 4px; */
     /* margin-bottom: 10px; */
-    background-color: rgba(255, 243, 243, 1);}
+    background-color: rgba(255, 243, 243, 1);
+}
 
 .marketplace-list .start-order-btn {
     padding: 6px 22px;
     border: unset !important;
     border-radius: 25px;
-    background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);;
+    background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+    ;
     color: white;
     font-size: 13px;
     cursor: pointer;
@@ -423,7 +427,7 @@ input[type='checkbox'] {
     gap: 8px;
 }
 
-.marketplace-list .filter-section:first-child{
+.marketplace-list .filter-section:first-child {
     margin-top: 0;
 }
 
@@ -499,7 +503,7 @@ input[type='checkbox'] {
     height: 100%;
 }
 
-.marketplace-list .diamong-img{
+.marketplace-list .diamong-img {
     width: 15px;
 }
 
@@ -533,7 +537,7 @@ input[type='checkbox'] {
     width: 20px;
 }
 
-.marketplace-list .flag-icon{
+.marketplace-list .flag-icon {
     width: 20px;
 }
 
@@ -721,7 +725,7 @@ input[type='checkbox'] {
         width: 100%;
     }
 
-    .marketplace-list .togglebelow768{
+    .marketplace-list .togglebelow768 {
         display: none;
     }
 
@@ -733,35 +737,35 @@ input[type='checkbox'] {
         display: none;
     }
 
-    .marketplace-list .showbelow768 .filter-button{
+    .marketplace-list .showbelow768 .filter-button {
         width: fit-content;
         margin-left: auto;
         display: flex;
     }
 
-    .marketplace-list .showbelow768{
+    .marketplace-list .showbelow768 {
         display: flex;
         flex-direction: row;
     }
 
-    .marketplace-list .notshowbelow768{
+    .marketplace-list .notshowbelow768 {
         display: none;
     }
 
-    .marketplace-list .showbelow768 .search-section{
+    .marketplace-list .showbelow768 .search-section {
         width: 50%;
     }
 
-    .marketplace-list .showbelow768 .search-section .search-input-container{
+    .marketplace-list .showbelow768 .search-section .search-input-container {
         margin-top: 0px;
     }
 
-    .marketplace-list .showbelow768 .search-section .search-input-container .search-input-field{
+    .marketplace-list .showbelow768 .search-section .search-input-container .search-input-field {
         padding: 3px 25px;
         border-radius: 0px;
     }
 
-    .marketplace-list .showbelow768 .filter-button{
+    .marketplace-list .showbelow768 .filter-button {
         width: fit-content;
         margin-left: auto;
     }

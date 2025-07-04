@@ -14,40 +14,44 @@
     <meta property="twitter:description"
         content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
     <style>
-        .filter-header{
+        .filter-header {
             background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
             -webkit-background-clip: text;
             width: max-content;
             -webkit-text-fill-color: transparent;
         }
 
-        .filter-description{
+        .filter-description {
             font-size: 16px;
-            color:black;
+            color: black;
             margin-bottom: 30px;
         }
 
-        .main-category a{
+        .main-category .country-button {
             color: black;
             font-size: 16px;
+            border-bottom: 1px solid black;
+            padding-bottom: 14px;
+            width: 90%;
         }
 
-        .main-category a:hover{
+        .main-category a:hover {
             color: #fb2419;
         }
 
-        .sub-category-button{
-            font-size: 12px !important;
+        .sub-category-button {
+            font-size: 14px !important;
+            padding: 5px 10px 0px 0px;
             color: rgba(81, 80, 80, 1) !important;
         }
 
-        .sub-category-button:hover{
+        .sub-category-button:hover {
             color: #fb2419 !important;
             transform: scale(1) !important;
         }
 
-        .sub-category-list{
-            padding-left:5px;
+        .sub-category-list {
+            padding-left: 5px;
         }
     </style>
 @endpush
@@ -87,7 +91,7 @@
                                     @foreach ($value->childes as $sub_category)
                                         <a class="sub-category-button font-weight-normal"
                                             href="{{ route('products', ['category_id' => $sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">
-                                            > {{ $sub_category['name'] }}
+                                            {{ $sub_category['name'] }}
                                         </a>
                                         {{-- @if ($sub_category->childes->count() > 0)
                                             <div class="sub-sub-category-list">
@@ -100,6 +104,11 @@
                                             </div>
                                         @endif --}}
                                     @endforeach
+                                </div>
+                            @endif
+                            @if ($value->childes->count() == 0)
+                                <div class="sub-category-list">
+                                    <span class="sub-category-button font-weight-normal">No Sub Categories Added</span>
                                 </div>
                             @endif
                         </div>

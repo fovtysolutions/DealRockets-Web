@@ -11,21 +11,16 @@
     <style>
         #sticky-supplier-info.stuck {
             position: fixed;
-            right: 64px;
-            width: 211px !important;
             top: 136px;
+            width: 211px !important;
             z-index: 999;
             height: 245px !important;
+            /* right will be set dynamically */
         }
 
         @media (max-width: 999px) {
             #sticky-supplier-info.stuck {
-                position: fixed;
-                right: 15px;
-                width: 211px !important;
                 top: 0px;
-                z-index: 999;
-                height: 245px !important;
             }
         }
     </style>
@@ -72,10 +67,31 @@
             <div class="product-view-section" style="background: #f7f7f7;">
                 <!-- Product View Section -->
                 <div class="product-view" style="margin-bottom: 20px;">
-
                     <!-- Product Images Section -->
                     <div class="product-images">
 
+                        <div class="heart-image">
+                            <div class="circle-container">
+                                @php
+                                    $user = auth('customer')->user();
+                                    $isFavourite = $user
+                                        ? \App\Utils\HelperUtil::checkIfFavourite($item->id, $user->id, 'product')
+                                        : false;
+                                @endphp
+
+                                @if ($user)
+                                    <img class="heart favourite-img" onclick="makeFavourite(this)"
+                                        data-id="{{ $item->id }}" data-userid="{{ $user->id }}" data-type="product"
+                                        data-role="{{ $user->role ?? 'customer' }}"
+                                        src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
+                                        width="20" alt="Featured icon" style="margin-left: auto;">
+                                @else
+                                    <img class="heart favourite-img" onclick="sendtologin()"
+                                        src="{{ theme_asset('public/img/Heart (1).png') }}" width="20"
+                                        alt="Featured icon" style="margin-left: auto;">
+                                @endif
+                            </div>
+                        </div>
                         <img id="mainImage"
                             src="{{ isset($product->thumbnail) ? '/storage/' . $product->thumbnail : '/images/placeholderimage.webp' }}"
                             alt="Main product view" class="main-image">
@@ -100,17 +116,7 @@
                                 @endif
                             @endforeach
                         </div>
-
                     </div>
-                    <!-- </div> -->
-                    {{-- <div class=" dots-container">
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-
-                    </div> --}}
                     <!-- <div class="product-view" > -->
                     <!-- Product Details Section -->
                     <div class="product-details">
@@ -121,44 +127,8 @@
                                 <p class="product-subtitle">{!! $product->short_details ?? '' !!}</p>
                             </section>
 
-                            <!-- Price & MOQ -->
-                            {{-- <section class="pricing-section">
-                                <div class="price-box">
-                                    <div class="price-info">
-                                        <div class="price">
-                                            <span class="amount">US$
-                                                {{ number_format($product->unit_price, 2) ?? '' }}</span>
-                                            <span class="unit">/ {{ $product->unit ?? '' }}</span>
-                                        </div>
-                                        <div class="min-order">
-                                            <span class="quantity">{{ $product->minimum_order_qty ?? '' }}
-                                                {{ $product->unit ?? '' }}</span>
-                                            <span class="label">Minimum order</span>
-                                        </div>
-                                    </div>
-                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/ebe375fda3be1065358baf7296c9b484e546d2f7"
-                                        alt="Rating" class="rating-image">
-
-                                    <!-- Action Buttons -->
-                                    <section class="inquiry-section">
-                                        <h4 class="section-title">Quick Inquiry</h4>
-                                        <div class="action-buttons" data-toggle="modal" data-target="#exampleModal">
-                                            <input type="number" min="0" placeholder="Enter Qty" id="productQty"
-                                                class="quantity-input form-control" />
-                                            <button type="button" class="btn custom-inquiry-btn" data-toggle="modal"
-                                                data-target="#inquiryModal">
-                                                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
-                                                    alt="Inquire" class="inquire-icon">
-                                                Inquire Now
-                                            </button>
-                                        </div>
-                                    </section>
-                                </div>
-                            </section> --}}
-
                             <!-- Specification Section -->
                             <section class="specification-section">
-                                {{-- <h4 class="section-title">Product Specifications</h4> --}}
                                 <div class="product-specs">
                                     <div class="spec-row"><span class="spec-label">Rate</span><span class="spec-value">US$
                                             {{ number_format($product->unit_price, 2) ?? '' }}/
@@ -185,6 +155,7 @@
                                             class="spec-value">{{ $product->delivery_mode ?? '' }}</span></div>
                                 </div>
                             </section>
+
                             <section class="specification-section">
                                 <div class="product-specs">
                                     <div class="spec-row"><span class="spec-label">Payment Term</span>
@@ -198,97 +169,106 @@
                                     </div>
                                 </div>
                             </section>
+                            <div class="d-flex">
+                                <div style="flex-grow: 1;">
+                                    <section class="specification-section">
+                                        <div class="product-specs">
+                                            <div class="spec-row">
+                                                <span class="spec-label">Supply Capacity</span>
+                                                <span class="spec-value">{{ $product->supply_capacity ?? '-' }}
+                                                    {{ $product->supply_unit ?? '' }}</span>
+                                            </div>
+                                            <div class="spec-row">
+                                                <span class="spec-label">Weight per Unit</span>
+                                                <span class="spec-value">{{ $product->weight_per_unit ?? '-' }}</span>
+                                            </div>
+                                            <div class="spec-row">
+                                                <span class="spec-label">Master Packing</span>
+                                                <span class="spec-value">{{ $product->master_packing ?? '-' }} per
+                                                    {{ $product->dimension_unit ?? '' }}</span>
+                                            </div>
+                                            <div class="spec-row">
+                                                <span class="spec-label">Container</span>
+                                                <span class="spec-value">{{ $product->container ?? '-' }}</span>
+                                            </div>
+                                        </div>
+                                    </section>
 
-                            <section class="specification-section">
-                                {{-- <h4 class="section-title">Additional Delivery Details</h4> --}}
-                                <div class="product-specs">
-                                    <div class="spec-row">
-                                        <span class="spec-label">Supply Capacity</span>
-                                        <span class="spec-value">{{ $product->supply_capacity ?? '-' }}
-                                            {{ $product->supply_unit ?? '' }}</span>
+                                    <!-- Packing Info -->
+                                    <section class="specification-section">
+                                        {{-- <h4 class="section-title">Packing Information</h4> --}}
+                                        <div class="product-specs">
+                                            <div class="spec-row"><span class="spec-label">Packing Material:</span><span
+                                                    class="spec-value">{{ $product->container ?? '' }}</span></div>
+                                            <div class="spec-row"><span class="spec-label">Packing Type:</span><span
+                                                    class="spec-value">{{ $product->packing_type ?? '' }}</span></div>
+                                            {{-- <div class="spec-row"><span class="spec-label">Master Packing:</span><span
+                                                    class="spec-value">{{ $product->master_packing ?? ''}} per {{ $product->dimension_unit ?? ''}}</span></div> --}}
+                                        </div>
+                                    </section>
+                                    <div class="action-buttons" data-toggle="modal" data-target="#exampleModal">
+                                        <input type="number" min="0" placeholder="Enter Qty" id="productQty"
+                                            class="quantity-input form-control"></input>
+                                        <button type="button" class="btn custom-inquiry-btn" data-toggle="modal"
+                                            data-target="#inquiryModal">
+                                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
+                                                alt="Inquire" class="inquire-icon">
+                                            Inquire Now
+                                        </button>
                                     </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Weight per Unit</span>
-                                        <span class="spec-value">{{ $product->weight_per_unit ?? '-' }}</span>
-                                    </div>
-                                    {{-- <div class="spec-row">
-                                        <span class="spec-label">Dimensions per Unit</span>
-                                        <span class="spec-value">{{ $product->dimensions_per_unit ?? '-' }}
-                                            {{ $product->dimension_unit ?? '' }}</span>
-                                    </div> --}}
-                                    <div class="spec-row">
-                                        <span class="spec-label">Master Packing</span>
-                                        <span class="spec-value">{{ $product->master_packing ?? '-' }} per
-                                            {{ $product->dimension_unit ?? '' }}</span>
-                                    </div>
-                                    <div class="spec-row">
-                                        <span class="spec-label">Container</span>
-                                        <span class="spec-value">{{ $product->container ?? '-' }}</span>
-                                    </div>
-                                    {{-- <div class="spec-row">
-                                        <span class="spec-label">Brand</span>
-                                        <span class="spec-value">{{ $product->brand ?? '-' }}</span>
-                                    </div> --}}
                                 </div>
-                            </section>
+                                <div class="supplier-info" id="sticky-supplier-info">
+                                    @php
+                                        $isAdmin = $product->added_by === 'admin';
+                                        $vendorExtra = \App\Models\VendorExtraDetail::where(
+                                            'seller_id',
+                                            $product->user_id,
+                                        )->first();
+                                    @endphp
 
-                            <!-- Packing Info -->
-                            <section class="specification-section">
-                                {{-- <h4 class="section-title">Packing Information</h4> --}}
-                                <div class="product-specs">
-                                    <div class="spec-row"><span class="spec-label">Packing Material:</span><span
-                                            class="spec-value">{{ $product->container ?? '' }}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Packing Type:</span><span
-                                            class="spec-value">{{ $product->packing_type ?? '' }}</span></div>
-                                    {{-- <div class="spec-row"><span class="spec-label">Master Packing:</span><span
-                                            class="spec-value">{{ $product->master_packing ?? ''}} per {{ $product->dimension_unit ?? ''}}</span></div> --}}
-                                </div>
-                            </section>
-                            <div class="action-buttons" data-toggle="modal" data-target="#exampleModal">
-                                <input type="number" min="0" placeholder="Enter Qty" id="productQty"
-                                    class="quantity-input form-control"></input>
-                                <button type="button" class="btn custom-inquiry-btn" data-toggle="modal"
-                                    data-target="#inquiryModal">
-                                    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
-                                        alt="Inquire" class="inquire-icon">
-                                    Inquire Now
-                                </button>
-                            </div>
-                        </div>
-                        <div class="supplier-info" id="sticky-supplier-info">
-                            @php
-                                if ($product->added_by == 'admin') {
-                                    $isAdmin = 1;
-                                } else {
-                                    $isAdmin = 0;
-                                }
-                            @endphp
-                            <div>
-                                <div class="supplier-name">
-                                    {{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}
-                                </div>
-                                <div class="supplier-meta">
-                                    <span
-                                        class="years">{{ $isAdmin == 1 ? 'Admin' : $product->seller->years . ' years' }}</span>
-                                    <span
-                                        class="country">{{ $isAdmin == 1 ? 'DealRocket' : $product->seller->country }}</span>
-                                </div>
-                                <div class="response-data">
-                                    <div class="response-rate"><span class="label">Response Rate:</span> <span
-                                            class="value">High</span></div>
-                                    <div class="response-time"><span class="label">Avg Response Time:</span> <span
-                                            class="value">≤24 h</span></div>
-                                </div>
-                            </div>
-                            <div class="subplier-btn"
-                                style="display: flex;flex-direction: column-reverse;justify-content: start; gap: 1rem;">
-                                <div class="business-type"><span class="label">Business Type:</span> <span
-                                        class="value">{{ \App\Models\VendorExtraDetail::where('id', $product->user_id)->first()->business_type ?? 'N/A' }}</span>
-                                </div>
-                                <div class="supplier-actions">
-                                    <a href="{{ route('shopView', ['id' => $product->seller->shop->id]) }}"
-                                        class="btn-outline">Shop</a>
-                                    {{-- <button class="btn-outline">Chat</button> --}}
+                                    <div class="supplier-header">
+                                        <div class="supplier-name">
+                                            {{ $isAdmin ? 'Admin Shop' : $product->seller->shop->name ?? 'N/A' }}
+                                        </div>
+                                        <div class="contact-person">
+                                            {{ $vendorExtra->contact_person_name ?? 'N/A' }}
+                                        </div>
+                                    </div>
+
+                                    <div class="supplier-meta">
+                                        <span class="years">
+                                            Since {{ $isAdmin ? 'Admin' : $product->seller->years . ' years' }}
+                                            in {{ $vendorExtra->city ?? 'N/A' }},
+                                            {{ $isAdmin ? 'DealRockets' : $vendorExtra->country_of_registration ?? 'N/A' }}
+                                        </span>
+                                    </div>
+
+                                    <div class="response-data">
+                                        <div class="response-rate">
+                                            <span class="label">Response Rate:</span>
+                                            <span class="value">High</span>
+                                        </div>
+                                        <div class="response-time">
+                                            <span class="label">Avg Response Time:</span>
+                                            <span class="value">≤24 h</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="subplier-btn"
+                                        style="display: flex; flex-direction: column; justify-content: start;">
+                                        <div class="business-type">
+                                            <span class="label">Business Type:</span>
+                                            <span class="value">{{ $vendorExtra->business_type ?? 'N/A' }}</span>
+                                        </div>
+
+                                        <div class="supplier-actions">
+                                            @if (!$isAdmin && isset($product->seller->shop->id))
+                                                <a href="{{ route('shopView', ['id' => $product->seller->shop->id]) }}"
+                                                    class="btn-outline">Shop</a>
+                                            @endif
+                                            {{-- <button class="btn-outline">Chat</button> --}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -454,64 +434,106 @@
                                     <div class="contact-section">
                                         <div class="contact-left">
                                             <h3>Contact Details</h3>
-                                            <p>
-                                                <strong>Address:</strong>
-                                                <span class="contact-text margin-l">
-                                                    {{ $shopInfoArray['company_profiles']->address ?? 'N/A' }}
-                                                </span>
-                                            </p>
-                                            <p>
-                                                <strong>Local Time:</strong>
-                                                <span class="contact-text">
-                                                    {{ $shopInfoArray['company_profiles']->local_time ?? 'N/A' }}
-                                                </span>
-                                            </p>
-                                            @if (auth()->check())
-                                                <div class="private-info-box">
-                                                    <p class="mb-0">
-                                                        <strong>Telephone:</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->telephone ?? 'N/A' }}
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <p><strong>Address</strong>
+                                                        <span class="contact-text">
+                                                            {{ $shopInfoArray['company_profiles']->address ?? 'N/A' }}
                                                         </span>
                                                     </p>
-                                                    <p class="mb-0" style="justify-content: space-between;">
-                                                        <strong>Mobile Phone:</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->mobile ?? 'N/A' }}
+
+                                                    <p><strong>Local Time</strong>
+                                                        <span class="contact-text">
+                                                            {{ $shopInfoArray['company_profiles']->local_time ?? 'N/A' }}
                                                         </span>
                                                     </p>
-                                                    <p class="mb-0">
-                                                        <strong>Fax:</strong>
+
+                                                    <p><strong>Showroom</strong>
+                                                        <span class="contact-text">
+                                                            {{ $shopInfoArray['company_profiles']->showroom ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+
+                                                    <p><strong>Website</strong>
+                                                        <span class="contact-text">
+                                                            @if (!empty($shopInfoArray['company_profiles']->website))
+                                                                <a href="{{ $shopInfoArray['company_profiles']->website }}"
+                                                                    target="_blank">
+                                                                    {{ $shopInfoArray['company_profiles']->website }}
+                                                                </a>
+                                                            @else
+                                                                N/A
+                                                            @endif
+                                                        </span>
+                                                    </p>
+
+                                                    @if (auth()->check())
+                                                        <div class="private-info-box">
+                                                            <p><strong>Telephone</strong>
+                                                                <span class="contact-text margin-l">
+                                                                    {{ $shopInfoArray['company_profiles']->telephone ?? 'N/A' }}
+                                                                </span>
+                                                            </p>
+
+                                                            <p><strong>Mobile Phone</strong>
+                                                                <span class="contact-text margin-l">
+                                                                    {{ $shopInfoArray['company_profiles']->mobile ?? 'N/A' }}
+                                                                </span>
+                                                            </p>
+
+                                                            <p><strong>Fax</strong>
+                                                                <span class="contact-text margin-l">
+                                                                    {{ $shopInfoArray['company_profiles']->fax ?? 'N/A' }}
+                                                                </span>
+                                                            </p>
+
+                                                            <p><strong>Alternate Contact</strong>
+                                                                <span class="contact-text margin-l">
+                                                                    {{ $shopInfoArray['company_profiles']->alternate_contact ?? 'N/A' }}
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    @else
+                                                        <p><button class="sign-in-btn">Sign In to View Phone &
+                                                                Email</button>
+                                                        </p>
+                                                    @endif
+                                                </div>
+                                                <div>
+                                                    <p><strong>Factory Size</strong>
                                                         <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->fax ?? 'N/A' }}
+                                                            {{ $shopInfoArray['company_profiles']->factory_size ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                    <p><strong>Year Established</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->year_established ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                    <p><strong>Total Employees</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->total_employees ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                    <p><strong>Production Lines</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->production_lines ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                    <p><strong>Monthly Output</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->monthly_output ?? 'N/A' }}
+                                                        </span>
+                                                    </p>
+                                                    <p><strong>Total Annual Sales</strong>
+                                                        <span class="contact-text margin-l">
+                                                            {{ $shopInfoArray['company_profiles']->total_annual_sales ?? 'N/A' }}
                                                         </span>
                                                     </p>
                                                 </div>
-                                            @else
-                                                <p>
-                                                    <button class="sign-in-btn">Sign In for Details</button>
-                                                </p>
-                                            @endif
-                                            <p>
-                                                <strong>Showroom:</strong>
-                                                <span class="contact-text">
-                                                    {{ $shopInfoArray['company_profiles']->showroom ?? 'N/A' }}
-                                                </span>
-                                            </p>
-                                            <p>
-                                                <strong>Website:</strong>
-                                                <span class="contact-text">
-                                                    @if (!empty($shopInfoArray['company_profiles']->website))
-                                                        <a href="{{ $shopInfoArray['company_profiles']->website }}"
-                                                            target="_blank">
-                                                            {{ $shopInfoArray['company_profiles']->website }}
-                                                        </a>
-                                                    @else
-                                                        N/A
-                                                    @endif
-                                                </span>
-                                            </p>
+                                            </div>
                                         </div>
+
                                         <div class="contact-right">
                                             <h3>Contact Person</h3>
                                             <div class="contact-person">
@@ -525,18 +547,19 @@
                                                 </div>
                                                 <div class="avatar-placeholder"></div>
                                             </div>
-                                            <p>
-                                                <strong>Email:</strong>
+
+                                            <p><strong>Email:</strong>
                                                 @if (auth()->check())
                                                     <span class="contact-text">
                                                         {{ $shopInfoArray['company_profiles']->email ?? 'N/A' }}
                                                     </span>
                                                 @else
-                                                    <button class="sign-in-btn">Sign In for Details</button>
+                                                    <button class="sign-in-btn">Sign In for Email</button>
                                                 @endif
                                             </p>
-                                            <button class="contact-now-btn" data-bs-toggle="modal"
-                                                data-bs-target="#contactModal">
+
+                                            <button class="contact-now-btn" data-toggle="modal"
+                                                data-target="#inquiryModal">
                                                 Contact Now
                                             </button>
                                         </div>
@@ -600,7 +623,7 @@
             </div>
             <!-- Modal Body -->
             <div class="modal-body">
-                <form id="inquiryForm">
+                <form>
                     <div class="mb-3">
                         <label for="supplier" class="form-label">To</label>
                         <div class="form-control">{{ $isAdmin == 1 ? 'Admin Shop' : $product->seller->shop->name }}
@@ -802,30 +825,72 @@
             document.getElementById('imageGalleryModal').style.display = 'none';
         }
     </script>
-    {{-- <script>
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const supplierInfo = document.getElementById("sticky-supplier-info");
-            const stickyOffset = supplierInfo.offsetTop;
+            try {
+                const supplierInfo = document.getElementById("sticky-supplier-info");
 
-            window.addEventListener("scroll", function() {
-                if (window.innerWidth > 1024) {
-                    if (window.pageYOffset > stickyOffset - 136) {
-                        supplierInfo.classList.add("stuck");
+                if (!supplierInfo) {
+                    console.error("Element with ID 'sticky-supplier-info' not found.");
+                    return;
+                }
+
+                const stickyOffset = supplierInfo.offsetTop;
+
+                const updateStuckPosition = () => {
+                    const container = document.querySelector('.mainpagesection');
+                    if (!container) {
+                        console.warn("'.container' element not found.");
+                        return;
+                    }
+
+                    const containerRect = container.getBoundingClientRect();
+                    const rightOffset = window.innerWidth - containerRect.right + 15;
+
+                    if (supplierInfo.classList.contains('stuck')) {
+                        supplierInfo.style.right = `${rightOffset}px`;
+                        console.log("Updated supplierInfo right offset to", rightOffset);
+                    } else {
+                        supplierInfo.style.right = '';
+                        console.log("Removed supplierInfo right offset");
+                    }
+                };
+
+                window.addEventListener("scroll", function() {
+                    if (window.innerWidth > 1024) {
+                        if (window.pageYOffset > stickyOffset) {
+                            if (!supplierInfo.classList.contains("stuck")) {
+                                console.log("Applying stuck class to supplierInfo");
+                            }
+                            supplierInfo.classList.add("stuck");
+                            updateStuckPosition();
+                        } else {
+                            if (supplierInfo.classList.contains("stuck")) {
+                                console.log("Removing stuck class from supplierInfo");
+                            }
+                            supplierInfo.classList.remove("stuck");
+                            supplierInfo.style.right = '';
+                        }
                     } else {
                         supplierInfo.classList.remove("stuck");
+                        supplierInfo.style.right = '';
+                        console.log("Window width <= 1024, removing 'stuck' class");
                     }
-                } else {
-                    // Remove the class if resized below 1025px to clean up state
-                    supplierInfo.classList.remove("stuck");
-                }
-            });
+                });
 
-            // Optional: handle window resize to remove stuck class if window becomes smaller
-            window.addEventListener("resize", function() {
-                if (window.innerWidth <= 1024) {
-                    supplierInfo.classList.remove("stuck");
-                }
-            });
+                window.addEventListener("resize", function() {
+                    if (window.innerWidth <= 1024) {
+                        supplierInfo.classList.remove("stuck");
+                        supplierInfo.style.right = '';
+                        console.log("Window resized below 1024, removing 'stuck'");
+                    } else {
+                        console.log("Window resized above 1024, updating position");
+                        updateStuckPosition();
+                    }
+                });
+            } catch (error) {
+                console.error("Sticky Supplier Info Script Error:", error);
+            }
         });
-    </script> --}}
+    </script>
 @endpush

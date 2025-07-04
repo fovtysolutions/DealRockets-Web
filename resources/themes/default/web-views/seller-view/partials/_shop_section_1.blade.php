@@ -26,17 +26,17 @@
         </div>
 
         <div class="top-section-right">
-            <button class="inquire-btn" data-bs-toggle="modal" data-bs-target="#inquireModel">
+            {{-- <button class="inquire-btn" data-bs-toggle="modal" data-bs-target="#inquireModel">
                 <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/9881a67e7313be73b75bd5f735007e08ab4512c3?placeholderIfAbsent=true"
                     alt="Email icon" width="18" />
                 Inquire Now
-            </button>
+            </button> --}}
 
             <div class="certificates">
                 @if (!empty($shopInfoArray['certificates']) && is_array($shopInfoArray['certificates']))
                     @foreach ($shopInfoArray['certificates'] as $item)
                         @if (!empty($item))
-                            <img src="/storage/{{ $item }}" alt="Cert" />
+                            <img src="/storage/{{ $item }}" alt="Cert" onerror="this.onerror=null; this.src='/images/placeholderimage.webp';" />
                         @endif
                     @endforeach
                 @endif
@@ -48,7 +48,7 @@
         @if (!empty($shopInfoArray['images']) && is_array($shopInfoArray['images']))
             @foreach ($shopInfoArray['images'] as $item)
                 @if (!empty($item))
-                    <img src="/storage/{{ $item }}" class="side-image" />
+                    <img src="/storage/{{ $item }}" class="side-image" onerror="this.onerror=null; this.src='/images/placeholderimage.webp';"/>
                 @endif
             @endforeach
         @endif
@@ -56,7 +56,6 @@
 </section>
 
 <!-- New Products Section -->
-@include('web-views.partials._order-now')
 
 {{-- <div class="main-content">
     <h4 class="top-product-h">Top Products</h4>

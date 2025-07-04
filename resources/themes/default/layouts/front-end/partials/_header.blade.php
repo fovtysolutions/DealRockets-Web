@@ -199,7 +199,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                     <img class="rectangle-stroke-2" src="/img/rectangle-20-stroke-1.svg" />
                     <div class="group-17">
                         <a href="{{ url('/') }}">
-                            <img class="logo-3" src="/img/logo-2.png" />
+                            <img class="logo-3" src="{{ getStorageImages(path: $web_config['web_logo'], type: 'logo') }}" />
                         </a>
                         <div class="group-18">
                             <div class="group-19">

@@ -2,7 +2,7 @@
     <div class="detail-content">
         <div id="content-stock-photo" class="detail-tab-content active">
             <div class="detail-title">
-                {{ $stocksell->name ?? 'N/A' }}
+                {{ $stocksell->product->name ?? ($stocksell->name ?? 'N/A') }}
                 <div class="text-muted">
                     <img src="{{ asset('img/Ellipse 75.png') }}" alt="dot" style="height: 5px;">
                     @php
@@ -44,115 +44,82 @@
             <div class="detail-description">
                 {!! $stocksell->description ?? 'N/A' !!}
             </div>
+            @php
+                $additionalDetailsArray = json_decode($stocksell->dynamic_data, true) ?? [];
+            @endphp
+
             <div class="product-info">
-                <table>
-                    <tbody>
-                        <tr class="row-even">
-                            <td class="label">Name of Product</td>
-                            <td class="value">
-                                <div class="value-with-icon">
-                                    {{ $stocksell->product->name ?? 'N/A' }}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="row-odd">
-                            <td class="label">Type</td>
-                            <td class="value">
-                                <div class="value-with-icon">
-                                    {{ $stocksell->product->product_type ?? 'N/A' }}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="row-even">
-                            <td class="label">Origin</td>
-                            <td class="value">
-                                <div class="value-with-icon">
-                                    @php
-                                        $origin = $stocksell->product->origin ?? null;
-                                        if (isset($origin)) {
-                                            $origin = $stocksell->product->origin;
-                                            if (is_numeric($origin)) {
-                                                $country = \App\Models\Country::find($origin);
-                                                $country_name = $country ? $country->name : 'N/A';
-                                            } else {
-                                                $country_name = $origin ?: 'N/A';
-                                            }
-                                        } else {
-                                            $country_name = 'N/A';
-                                        }
-                                    @endphp
-                                    {{ $country_name }}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="row-odd">
-                            <td class="label">Badge</td>
-                            <td class="value">
-                                <div class="value-with-icon">
-                                    {{ $stocksell->product->badge ?? 'N/A' }}
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                @if (!empty($additionalDetailsArray) && is_array($additionalDetailsArray))
+                    <table>
+                        <tbody>
+                            @foreach ($additionalDetailsArray as $item)
+                                @php
+                                    $subheads = $item['sub_heads'] ?? [];
+                                    $countofsubheads = count($subheads);
+                                @endphp
+                                @foreach ($subheads as $index => $subhead)
+                                    <tr class="{{ $loop->even ? 'row-even' : 'row-odd' }}">
+                                        @if ($index == 0 && isset($item['title']))
+                                            <td class="label" rowspan="{{ $countofsubheads }}">
+                                                {{ $item['title'] }}
+                                            </td>
+                                        @endif
+                                        <td class="label">
+                                            {{ $subhead['sub_head'] ?? '-' }}
+                                        </td>
+                                        <td class="value">
+                                            <div class="value-with-icon">
+                                                {{ $subhead['sub_head_data'] ?? '-' }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p class="text-muted">No technical details available.</p>
+                @endif
             </div>
         </div>
         <div id="content-deal" class="detail-tab-content custom-info">
             <div class="detail-title">Deal Information</div>
+            @php
+                $additionalDetailsArray = json_decode($stocksell->dynamic_data_technical, true) ?? [];
+            @endphp
+
             <div class="product-info">
-                <table>
-                    <tbody>
-                        <tr class="row-even">
-                            <td class="label">Name of Product</td>
-                            <td class="value">
-                                <div class="value-with-icon">
-                                    {{ $stocksell->product->name ?? 'N/A' }}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="row-odd">
-                            <td class="label">Type</td>
-                            <td class="value">
-                                <div class="value-with-icon">
-                                    {{ $stocksell->product->product_type ?? 'N/A' }}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="row-even">
-                            <td class="label">Refundable</td>
-                            <td class="value">
-                                <div class="value-with-icon">
-                                    {{ $stocksell->refundable ?? 'N/A' }}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="row-odd">
-                            <td class="label">Avaliable Stock</td>
-                            <td class="value">
-                                <div class="value-with-icon">
-                                    {{ $stocksell->product->current_stock ?? 'N/A' }} /
-                                    {{ $stocksell->unit ?? 'N/A' }}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="row-even">
-                            <td class="label">Min. Order Quantity</td>
-                            <td class="value">
-                                <div class="value-with-icon">
-                                    {{ $stocksell->quantity ?? 'N/A' }} {{ $stocksell->unit ?? 'N/A' }}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="row-odd">
-                            <td class="label">Shipping Cost</td>
-                            <td class="value">
-                                <div class="value-with-icon">
-                                    {{ $stocksell->product->shipping_cost ?? 'N/A' }}
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                @if (!empty($additionalDetailsArray) && is_array($additionalDetailsArray))
+                    <table>
+                        <tbody>
+                            @foreach ($additionalDetailsArray as $item)
+                                @php
+                                    $subheads = $item['sub_heads'] ?? [];
+                                    $countofsubheads = count($subheads);
+                                @endphp
+                                @foreach ($subheads as $index => $subhead)
+                                    <tr class="{{ $loop->even ? 'row-even' : 'row-odd' }}">
+                                        @if ($index == 0 && isset($item['title']))
+                                            <td class="label" rowspan="{{ $countofsubheads }}">
+                                                {{ $item['title'] }}
+                                            </td>
+                                        @endif
+                                        <td class="label">
+                                            {{ $subhead['sub_head'] ?? '-' }}
+                                        </td>
+                                        <td class="value">
+                                            <div class="value-with-icon">
+                                                {{ $subhead['sub_head_data'] ?? '-' }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p class="text-muted">No technical details available.</p>
+                @endif
             </div>
         </div>
         @php

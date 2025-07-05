@@ -19,12 +19,6 @@
             background-color: var(--web-bg);
         }
 
-        .dropdown-item:hover {
-            background-color: white;
-            transform: scale(1) !important;
-            cursor: pointer;
-        }
-
         .ad-section {
             flex-direction: row !important;
         }
@@ -236,29 +230,6 @@
 @push('script')
     <script src="{{ theme_asset(path: 'public/js/stocksale.js') }}"></script>
     <script>
-        function loadFilteredData(filters, page = 1) {
-            $('#dynamicLoader').css('display', 'block');
-
-            filters.page = page;
-
-            $.ajax({
-                url: "{{ route('dynamic-stocksell') }}",
-                method: 'GET',
-                data: filters,
-                success: function(response) {
-                    $('#stocksaleOfferDynamic').html(response.html);
-                    $('#paginationControls').html(response.pagination);
-                    $('#dynamicLoader').css('display', 'none');
-                    initializeIconCarousel();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                    $('#dynamicLoader').css('display', 'none');
-                }
-            });
-        };
-    </script>
-    <script>
         function loadStockSellData(id) {
             $('#dynamicLoader').css('display', 'block');
 
@@ -280,6 +251,35 @@
             });
         };
         loadStockSellData({{ $items->first()->id ?? 0 }});
+    </script>
+    <script>
+        function loadFilteredData(filters, page = 1) {
+            $('#dynamicLoader').css('display', 'block');
+
+            filters.page = page;
+
+            $.ajax({
+                url: "{{ route('dynamic-stocksell') }}",
+                method: 'GET',
+                data: filters,
+                success: function(response) {
+                    $('#stocksaleOfferDynamic').html(response.html);
+                    $('#paginationControls').html(response.pagination);
+                    $('#dynamicLoader').css('display', 'none');
+                    initializeIconCarousel();
+                    
+                    let firstItem = $('#stocksaleOfferDynamic').find('[data-stock-id]').first();
+                    if (firstItem.length) {
+                        let firstId = firstItem.data('stock-id');
+                        loadStockSellData(firstId);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    $('#dynamicLoader').css('display', 'none');
+                }
+            });
+        };
     </script>
     <script>
         function makeFavourite(element) {

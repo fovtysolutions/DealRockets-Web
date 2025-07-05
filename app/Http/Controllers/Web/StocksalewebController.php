@@ -40,14 +40,24 @@ class StocksalewebController extends Controller
         $categoryId = $request->get('categoryid');
 
         // Always filter by active status
-        $query->where('status', 'active')
-            ->whereHas('countryRelation', function ($query) {
-                $query->where('blacklist', 'no');
-            });
+        $query->where('status', 'active');
+        $query->whereHas('countryRelation', function ($query) {
+            $query->whereRaw('blacklist = ?', ['no']);
+        });
 
         // Filter by text search if available
         if ($request->filled('search_query')) {
-            $query->where('name', 'LIKE', '%' . $request->input('search_query') . '%');
+            $search = $request->input('search_query');
+
+            $query->where(function ($q) use ($search) {
+                // Match directly if user saved a product name
+                $q->where('name', 'LIKE', '%' . $search . '%');
+
+                // Or if product_id is an actual product reference
+                $q->orWhereHas('product', function ($sub) use ($search) {
+                    $sub->where('name', 'LIKE', '%' . $search . '%');
+                });
+            });
         }
 
         // Apply filters based on URL parameters
@@ -60,8 +70,8 @@ class StocksalewebController extends Controller
             $query->whereDate('created_at', '>=', $date);
         }
 
-        if ($location) {
-            $query->where('country', (int) $location);
+        if ($request->has('country') && is_array($request->country)) {
+            $query->whereIn('origin', $request->country);
         }
 
         // Date range filter
@@ -110,8 +120,8 @@ class StocksalewebController extends Controller
         $industries = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
 
         // Quotation banner
-$quotationdata = optional(BusinessSetting::where('type', 'quotation')->first())
-    ->value ? (json_decode(optional(BusinessSetting::where('type', 'quotation')->first())->value, true)['banner'] ?? '') : '';
+        $quotationdata = optional(BusinessSetting::where('type', 'quotation')->first())
+            ->value ? (json_decode(optional(BusinessSetting::where('type', 'quotation')->first())->value, true)['banner'] ?? '') : '';
 
         // Get active stock categories
         $stocktype = StockCategory::where('active', 1)->get();
@@ -152,13 +162,23 @@ $quotationdata = optional(BusinessSetting::where('type', 'quotation')->first())
             $query->whereRaw('blacklist = ?', ['no']);
         });
 
-        if ($request->filled('specific_id')){
-            $query->where('id',$request->input('specific_id'));
+        if ($request->filled('specific_id')) {
+            $query->where('id', $request->input('specific_id'));
         }
 
         // Text search
         if ($request->filled('search_query')) {
-            $query->where('name', 'LIKE', '%' . $request->input('search_query') . '%');
+            $search = $request->input('search_query');
+
+            $query->where(function ($q) use ($search) {
+                // Match directly if user saved a product name
+                $q->where('name', 'LIKE', '%' . $search . '%');
+
+                // Or if product_id is an actual product reference
+                $q->orWhereHas('product', function ($sub) use ($search) {
+                    $sub->where('name', 'LIKE', '%' . $search . '%');
+                });
+            });
         }
 
         // Filter by industry if it's an array of selected industries
@@ -168,7 +188,7 @@ $quotationdata = optional(BusinessSetting::where('type', 'quotation')->first())
 
         // Filter by country if it's an array of selected countries
         if ($request->has('country') && is_array($request->country)) {
-            $query->whereIn('country', $request->country);
+            $query->whereIn('origin', $request->country);
         }
 
         $page = $request->get('page', 1);
@@ -196,7 +216,7 @@ $quotationdata = optional(BusinessSetting::where('type', 'quotation')->first())
         $stocksell_id = $request->input('id');
         if ($stocksell_id) {
             $stocksell = StockSell::where('id', $stocksell_id)->first();
-             if (Auth('customer')->check()) {
+            if (Auth('customer')->check()) {
                 $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
                 if (isset($membership['error'])) {
                     $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
@@ -207,7 +227,7 @@ $quotationdata = optional(BusinessSetting::where('type', 'quotation')->first())
             if ($stocksell) {
                 return response()->json([
                     'status' => 'success',
-                    'html' => view('web.dynamic-partials.dynamic-stocksellview', compact('stocksell','membership'))->render(),
+                    'html' => view('web.dynamic-partials.dynamic-stocksellview', compact('stocksell', 'membership'))->render(),
                 ]);
             }
             return response()->json([

@@ -23,16 +23,27 @@ class StockSellController extends Controller
     public function index(Request $request)
     {
         $query = StockSell::query();
-        if (auth('admin')->user()->id == 1) {
+        if (auth('admin')->check()) {
             // Continue
         } else {
             $query->whereHas('countryRelation', function ($query) {
                 $query->where('country', 'no');
             });
         }
-        if ($request->name) {
-            $query->where('name', 'like', '%' . $request->name . '%');
+        // $query->whereHas('countryRelation', function ($query) {
+        //     $query->where('blacklist', 'no');
+        // });
+
+        if ($request->product_name) {
+            $query->where(function ($q) use ($request) {
+                $q->where('product_id', 'like', '%' . $request->product_name . '%');
+
+                $q->orWhereHas('product', function ($subQuery) use ($request) {
+                    $subQuery->where('name', 'like', '%' . $request->product_name . '%');
+                });
+            });
         }
+
         if ($request->status) {
             $query->where('status', 'like', '%' . $request->status . '%');
         }
@@ -134,7 +145,7 @@ class StockSellController extends Controller
         $categories = StockCategory::all();
         $dynamicData = $stocksell->dynamic_data;
         $dynamicDataTechnical = $stocksell->dynamic_data_technical;
-        return view('admin-views.stocksell.edit', compact('stocksell', 'items', 'name', 'countries', 'industry', 'categories','dynamicData','dynamicDataTechnical'));
+        return view('admin-views.stocksell.edit', compact('stocksell', 'items', 'name', 'countries', 'industry', 'categories', 'dynamicData', 'dynamicDataTechnical'));
     }
 
     public function update(Request $request, $id)
@@ -227,15 +238,15 @@ class StockSellController extends Controller
     private function validateStockSellData($request, $nullable = '')
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'nullable',
             'description' => 'required',
-            'quantity' => 'required|integer',
+            'quantity' => 'required',
             'product_id' => 'required',
             'status' => 'required|in:active,inactive,rejected',
-            'country' => 'required',
+            'country' => 'nullable',
             'industry' => 'required',
-            'company_name' => 'required',
-            'company_address' => 'required',
+            'company_name' => 'nullable',
+            'company_address' => 'nullable',
             'company_icon' => 'nullable',
             'images' => "$nullable|array|max:10",
             'images.*' => 'image|max:2048',
@@ -243,7 +254,7 @@ class StockSellController extends Controller
             'upper_limit' => 'nullable|string',
             'lower_limit' => 'nullable|string',
             'unit' => 'nullable|string',
-            'city' => 'nullable|string',
+            'city' => 'required|string',
             'stock_type' => 'nullable|string',
             'product_type' => 'nullable|string',
             'origin' => 'nullable|string',
@@ -264,13 +275,15 @@ class StockSellController extends Controller
             'dimensions_per_unit_type' => 'nullable|string',
             'dimension_per_unit' => 'nullable|string',
             'dimension_per_unit_type' => 'nullable|string',
-            'dimension_per_unit' => $request->dimension_per_unit,
-            'dimension_per_unit_type' => $request->dimension_per_unit_type,
             'master_packing' => 'nullable|string',
             'master_packing_unit' => 'nullable|string',
             'certificate' => 'nullable|image',
             'dynamic_data' => 'nullable',
             'dynamic_data_technical' => 'nullable',
+            'product_code' => 'nullable',
+            'delivery_mode' => 'nullable',
+            'payment_terms' => 'nullable',
+            'certificate_name' => 'nullable',
         ]);
     }
 
@@ -315,10 +328,16 @@ class StockSellController extends Controller
             'weight_per_unit_type' => $request->weight_per_unit_type,
             'dimensions_per_unit' => $request->dimensions_per_unit,
             'dimensions_per_unit_type' => $request->dimensions_per_unit_type,
+            'dimension_per_unit' => $request->dimension_per_unit,
+            'dimension_per_unit_type' => $request->dimension_per_unit_type,
             'master_packing' => $request->master_packing,
             'master_packing_unit' => $request->master_packing_unit,
             'dynamic_data' => $request->dynamic_data,
             'dynamic_data_technical' => $request->dynamic_data_technical,
+            'product_code' => $request->product_code,
+            'delivery_mode' => $request->delivery_mode,
+            'payment_terms' => $request->payment_terms,
+            'certificate_name' => $request->certificate_name,
         ];
     }
 

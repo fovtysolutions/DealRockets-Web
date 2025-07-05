@@ -1,5 +1,97 @@
 @php
     $isEdit = isset($stocksell);
+    $units = [
+        'Piece (pc)',
+        'Kilogram (kg)',
+        'Gram (g)',
+        'Tonne (t)',
+        'Litre (l)',
+        'Millilitre (ml)',
+        'Meter (m)',
+        'Centimeter (cm)',
+        'Millimeter (mm)',
+        'Square Meter (m²)',
+        'Cubic Meter (m³)',
+        'Dozen',
+        'Pack',
+        'Box',
+        'Carton',
+        'Roll',
+        'Set',
+        'Pair',
+        'Bottle',
+        'Bag',
+    ];
+    $paymentTerms = [
+        'L/C at Sight',
+        'L/C 30/60/90 Days',
+        'D/A (Documents Against Acceptance)',
+        'D/P (Documents Against Payment)',
+        'CAD (Cash Against Documents)',
+        'T/T (Telegraphic Transfer)',
+        'Advance Payment',
+        'Advance + Partial Payment',
+        'Advance 30%, Balance Before Shipment',
+        'Advance 30%, Balance Against BL Copy',
+        'Advance 50%, Balance on Delivery',
+        'Advance 100% before Production',
+        'Advance + L/C',
+        'Advance + T/T',
+    ];
+    $dimensionUnits = [
+        // Metric Units
+        'mm', // millimeter
+        'cm', // centimeter
+        'dm', // decimeter
+        'm', // meter
+        'km', // kilometer
+
+        // Imperial Units
+        'in', // inch
+        'ft', // foot
+        'yd', // yard
+
+        // Volume (used in shipping container space)
+        'ml', // milliliter
+        'l', // liter
+        'm³', // cubic meter
+        'cm³', // cubic centimeter
+        'ft³', // cubic foot
+        'in³', // cubic inch
+        'yd³', // cubic yard
+
+        // Packaging-Specific Units
+        'pcs', // pieces
+        'bale',
+        'box',
+        'bag',
+        'carton',
+        'drum',
+        'crate',
+        'pallet',
+        'container',
+        'roll',
+        'reel',
+        'tube',
+        'IBC', // Intermediate Bulk Container
+        'tank',
+
+        // Special Logistics Units
+        'TEU', // Twenty-foot Equivalent Unit (container)
+        'FEU', // Forty-foot Equivalent Unit
+    ];
+
+    // Internal Packing values
+    $internalValue = old('dimensions_per_unit', $isEdit ? $stocksell->dimensions_per_unit : '');
+    preg_match('/([0-9xX* ]+)\s*([a-zA-Z]+)?/', $internalValue, $intMatch);
+    $internalDims = trim($intMatch[1] ?? '');
+    $internalUnit = strtolower(trim($intMatch[2] ?? ''));
+
+    // Master Packing values
+    $masterValue = old('master_packing', $isEdit ? $stocksell->master_packing : '');
+    preg_match('/([0-9xX* ]+)\s*([a-zA-Z]+)?/', $masterValue, $masMatch);
+    $masterDims = trim($masMatch[1] ?? '');
+    $masterUnit = strtolower(trim($masMatch[2] ?? ''));
 @endphp
 <div class="progress-form-main">
     <div class="progress-container">
@@ -34,59 +126,6 @@
     <div class="step-section" data-step="1">
         <div class="form-row">
             <div class="form-group">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" name="name" id="name" class="form-control"
-                    value="{{ old('name', $isEdit ? $stocksell->name : '') }}" placeholder="Enter name" required>
-            </div>
-
-            <div class="form-group">
-                <label for="product_id" class="form-label">Product</label>
-                <select id="product" name="product_id" class="form-control" required>
-                    <option value="">Select a product</option>
-                    @foreach ($items as $key => $value)
-                        <option value="{{ $key }}"
-                            {{ old('product_id', $isEdit ? $stocksell->product_id : '') == $key ? 'selected' : '' }}>
-                            {{ $value }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="description" class="form-label">Description</label>
-                <textarea id="description" name="description" class="form-control" placeholder="Enter description" rows="1">{{ old('description', $isEdit ? $stocksell->description : '') }}</textarea>
-            </div>
-            <div class="form-group">
-                <label for="industry" class="form-label">Country</label>
-                <select name="country" id="country" class="form-control">
-                    <option value="" selected>Select a Country</option>
-                    @foreach ($countries as $ind)
-                        <option value="{{ $ind->id }}"
-                            {{ old('country', $isEdit ? $stocksell->country : '') == $ind->id ? 'selected' : '' }}>
-                            {{ $ind->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="origin" class="form-label">Origin</label>
-                <input type="text" value="{{ old('origin', $isEdit ? $stocksell->origin : '') }}" name="origin"
-                    id="origin" class="form-control" placeholder="Enter Origin">
-            </div>
-            <div class="form-group">
-                <label for="city" class="form-label">City</label>
-                <input type="text" name="city" id="city" class="form-control"
-                    value="{{ old('city', $isEdit ? $stocksell->city : '') }}" placeholder="Enter City" required>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
                 <label for="industry" class="form-label">Category</label>
                 <select name="industry" id="industry" class="form-control" required>
                     <option value="" selected>Select an Category</option>
@@ -115,16 +154,77 @@
                 </select>
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group">
-                <label for="product_type" class="form-label">Product Type</label>
-                <input type="text" name="product_type" id="product_type" class="form-control"
-                    value="{{ old('product_type', $isEdit ? $stocksell->product_type : '') }}"
-                    placeholder="Enter Product Type">
+                <label for="product_id" class="form-label">Product Name</label>
+                <select id="product_id" name="product_id" class="form-control" required>
+                    <option value="">Select a product</option>
+                    @foreach ($items as $key => $value)
+                        <option value="{{ $key }}"
+                            {{ old('product_id', $isEdit ? $stocksell->product_id : '') == $key ? 'selected' : '' }}>
+                            {{ $value }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
-
             <div class="form-group">
+                <label for="hs_code" class="form-label">HS Code</label>
+                <input type="text" name="hs_code" id="hs_code" class="form-control"
+                    value="{{ old('hs_code', $isEdit ? $stocksell->hs_code : '') }}" placeholder="Enter HS Code"
+                    required>
+            </div>
+        </div>
+        <button type="button" class="next-btn" data-next="2">Next</button>
+    </div>
+    <div class="step-section" data-step="2">
+        <div class="form-row">
+            @if ($isEdit)
+                <div class="form-group">
+                    <label for="imagePicker">Choose Images</label>
+                    <input type="file" name="images[]" id="new_images" class="form-select" accept="image/*" multiple>
+                </div>
+            @else
+                <div class="form-group">
+                    <label for="imagePicker">Choose Images</label>
+                    <input type="file" class="form-select" id="imagePicker" name="images[]" multiple />
+                </div>
+            @endif
+            <div class="form-group">
+                <label for="origin" class="form-label">Origin</label>
+                <select name="origin" id="origin" class="form-control">
+                    <option value="">{{ __('Select a Country') }}</option>
+                    @foreach ($countries as $country)
+                        <option value="{{ $country->id }}"
+                            {{ old('origin', $isEdit ? $stocksell->origin : '') == $country->id ? 'selected' : '' }}>
+                            {{ $country->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        @if ($isEdit)
+            <div class="form-row">
+                <div class="existing-images d-flex gap-3">
+                    @if ($stocksell->image)
+                        <!-- Check if images exist -->
+                        @foreach (json_decode($stocksell->image) as $image)
+                            <div class="image-preview d-flex flex-column">
+                                <img src="/{{ $image }}" alt="Product Image"
+                                    style="width: 100px; height: 100px; object-fit: cover;">
+                                <span>
+                                    <input type="checkbox" name="remove_images[]" value="{{ $image }}">
+                                    Remove
+                                </span>
+                            </div>
+                        @endforeach
+                    @else
+                        <p>No images uploaded yet.</p>
+                    @endif
+                </div>
+            </div>
+        @endif
+        <div class="form-row">
+            <div class="form-single">
                 <label for="stock_type" class="form-label">Stock Type</label>
                 <select name="stock_type" id="stock_type" class="form-control">
                     <option value="">Select a Category</option>
@@ -137,24 +237,217 @@
                 </select>
             </div>
         </div>
-
         <div class="form-row">
             <div class="form-group">
-                <label for="badge" class="form-label">Badge</label>
-                <input type="text" name="badge" id="badge" class="form-control"
-                    value="{{ old('badge', $isEdit ? $stocksell->badge : '') }}" placeholder="Enter Badge">
+                <label class="form-label">Certificate Name</label>
+                <input class="form-control" type="text" name="certificate_name" id="certificate_name"
+                    value={{ old('certificate_name', $isEdit ? $stocksell->certificate_name : '') }}>
             </div>
-
             <div class="form-group">
-                <label for="hs_code" class="form-label">HS Code</label>
-                <input type="text" name="hs_code" id="hs_code" class="form-control"
-                    value="{{ old('hs_code', $isEdit ? $stocksell->hs_code : '') }}" placeholder="Enter HS Code"
-                    required>
+                <label class="form-label">Certificate</label>
+                <input class="form-select" type="file" name="certificate" id="certificate">
             </div>
         </div>
-        <button type="button" class="next-btn" data-next="2">Next</button>
+        @if ($isEdit)
+            Current Certificate:
+            <div class="form-row">
+                <img src="/{{ $stocksell->certificate }}" alt="Certificate"
+                    style="width: 100px; height: 100px; object-fit: cover;">
+            </div>
+        @endif
+        <div class="form-row">
+            <div class="form-group">
+                <label for="city" class="form-label">City</label>
+                <input type="text" name="city" id="city" class="form-control" required
+                    value="{{ old('city', $isEdit ? $stocksell->city : '') }}" placeholder="Enter City">
+            </div>
+            @php
+                $quantityValue = old('quantity', $isEdit ? $stocksell->quantity : '');
+                preg_match('/([\d.,]+)\s*([a-zA-Z]+)/', $quantityValue, $matches);
+                $parsedQuantity = $matches[1] ?? '';
+                $parsedUnit = strtoupper(trim($matches[2] ?? ''));
+            @endphp
+
+            <div class="form-group">
+                <label for="quantity_value" class="form-label">Quantity</label>
+                <div class="input-group">
+                    <input type="number" min="0" step="any" id="quantity_value" class="form-control"
+                        placeholder="Enter quantity" value="{{ $parsedQuantity }}" required>
+
+                    <select id="quantity_unit" class="form-control" required>
+                        <option value="">Select Unit</option>
+                        @foreach ($units as $unit)
+                            <option value="{{ $unit }}"
+                                {{ strtoupper($unit) == $parsedUnit ? 'selected' : '' }}>
+                                {{ $unit }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- Hidden input for combined quantity + unit --}}
+                <input type="hidden" name="quantity" id="quantity" value="{{ $quantityValue }}">
+            </div>
+
+        </div>
+        <button type="button" class="prev-btn" data-prev="1">Prev</button>
+        <button type="button" class="next-btn" data-next="3">Next</button>
     </div>
-    <div class="step-section" data-step="2">
+    <div class="step-section" data-step="3">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="upper_limit" class="form-label">Upper Limit ($)</label>
+                <input type="text" name="upper_limit" id="upper_limit" class="form-control"
+                    value="{{ old('upper_limit', $isEdit ? $stocksell->upper_limit : '') }}"
+                    placeholder="Enter Upper Limit">
+            </div>
+            <div class="form-group">
+                <label for="lower_limit" class="form-label">Lower Limit ($)</label>
+                <input type="text" name="lower_limit" id="lower_limit" class="form-control"
+                    value="{{ old('lower_limit', $isEdit ? $stocksell->lower_limit : '') }}"
+                    placeholder="Enter Lower Limit">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="title-color">{{ translate('Delivery Terms') }}</label>
+                <select class="form-control" name="delivery_terms" id="delivery_terms">
+                    @php
+                        $deliveryTerms = ['CFR', 'FOB', 'CIF', 'EXW', 'FCA', 'FAS', 'CPT', 'CIP', 'DAP', 'DPU', 'DDP'];
+                    @endphp
+                    @foreach ($deliveryTerms as $term)
+                        <option value="{{ $term }}"
+                            {{ $isEdit ? ($stocksell->delivery_terms == $term ? 'selected' : '') : '' }}>
+                            {{ $term }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="title-color">{{ translate('Delivery Mode') }}</label>
+                <select class="form-control" name="delivery_mode" id="delivery_mode">
+                    @php
+                        $deliveryModes = ['Air', 'Sea', 'Rail', 'Road'];
+                    @endphp
+                    @foreach ($deliveryModes as $mode)
+                        <option value="{{ $mode }}"
+                            {{ $isEdit ? ($stocksell->delivery_mode == $mode ? 'selected' : '') : '' }}>
+                            {{ $mode }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-single">
+                <label class="title-color">{{ translate('Payment Terms') }}</label>
+                <select class="form-control" name="payment_terms" id="payment_terms">
+                    @foreach ($paymentTerms as $term)
+                        <option value="{{ $term }}"
+                            {{ $isEdit ? ($stocksell->payment_terms == $term ? 'selected' : '') : '' }}>
+                            {{ $term }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <button type="button" class="prev-btn" data-prev="2">Prev</button>
+        <button type="button" class="next-btn" data-next="4">Next</button>
+    </div>
+    <div class="step-section" data-step="4">
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">{{ translate('Internal Packing') }}</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="internal_dims" value="{{ $internalDims }}"
+                        placeholder="e.g., 10x5x2">
+                    <select class="form-control" id="internal_unit">
+                        <option value="">Select Unit</option>
+                        @foreach ($dimensionUnits as $unit)
+                            <option value="{{ $unit }}"
+                                {{ $internalUnit == strtolower($unit) ? 'selected' : '' }}>
+                                {{ strtoupper($unit) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <input type="hidden" name="dimensions_per_unit" id="dimensions_per_unit"
+                    value="{{ $internalValue }}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ translate('Internal Packing Unit') }}</label>
+                <select class="form-control" name="dimensions_per_unit_type">
+                    @php
+                        $packingTypes = [
+                            'PP Bag',
+                            'Carton',
+                            'Plastic Drum',
+                            'Steel Drum',
+                            'Wooden Crate',
+                            'Bulk',
+                            'IBC Tank',
+                            'Plastic Container',
+                            'Custom Packaging',
+                        ];
+                        $selectedInternalUnit = old(
+                            'dimensions_per_unit_type',
+                            $isEdit ? $stocksell->dimensions_per_unit_type ?? '' : '',
+                        );
+                    @endphp
+                    <option value="">Select Unit</option>
+                    @foreach ($packingTypes as $unit)
+                        <option value="{{ $unit }}" {{ $selectedInternalUnit == $unit ? 'selected' : '' }}>
+                            {{ $unit }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">{{ translate('Master Packing') }}</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="master_dims" value="{{ $masterDims }}"
+                        placeholder="e.g., 100x50x40">
+                    <select class="form-control" id="master_unit">
+                        <option value="">Select Unit</option>
+                        @foreach ($dimensionUnits as $unit)
+                            <option value="{{ $unit }}"
+                                {{ $masterUnit == strtolower($unit) ? 'selected' : '' }}>
+                                {{ strtoupper($unit) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <input type="hidden" name="master_packing" id="master_packing" value="{{ $masterValue }}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ translate('Master Packing Unit') }}</label>
+                <select class="form-control" name="master_packing_unit">
+                    @php
+                        $selectedMasterUnit = old(
+                            'master_packing_unit',
+                            $isEdit ? $stocksell->master_packing_unit ?? '' : '',
+                        );
+                    @endphp
+                    <option value="">Select Unit</option>
+                    @foreach ($packingTypes as $unit)
+                        <option value="{{ $unit }}" {{ $selectedMasterUnit == $unit ? 'selected' : '' }}>
+                            {{ $unit }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-single">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-control" placeholder="Enter description" rows="1"
+                    required>{{ old('description', $isEdit ? $stocksell->description : '') }}</textarea>
+            </div>
+        </div>
+        <button type="button" class="prev-btn" data-prev="3">Prev</button>
+        <button type="button" class="next-btn" data-next="5">Next</button>
+    </div>
+    <div class="step-section" data-step="5">
         <div class="form-row">
             <div class="form-single">
                 <label class="form-label">{{ translate('Standard Specification') }}</label>
@@ -175,348 +468,94 @@
                     Title</button>
             </div>
         </div>
-        <button type="button" class="prev-btn" data-prev="1">Prev</button>
-        <button type="button" class="next-btn" data-next="3">Next</button>
-    </div>
-    <div class="step-section" data-step="3">
-        @php
-            $isEdit = isset($stocksell);
-        @endphp
-
-        <!-- Quantity & Unit -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="quantity" class="form-label">Quantity</label>
-                <input type="number" name="quantity" id="quantity" class="form-control"
-                    value="{{ old('quantity', $isEdit ? $stocksell->quantity : '') }}" placeholder="Enter quantity"
-                    required>
-            </div>
-            <div class="form-group">
-                <label for="unit" class="form-label">Unit</label>
-                <select name="unit" id="unit" class="form-control">
-                    @php
-                        $unitOptions = ['kg', 'ltr', 'cbm', 'pcs', 'gms', 'oz', 'lb', 'pair'];
-                        $selectedUnit = old('unit', $isEdit ? $stocksell->unit : '');
-                    @endphp
-                    <option value="">Select Unit</option>
-                    @foreach ($unitOptions as $unit)
-                        <option value="{{ $unit }}" {{ $selectedUnit == $unit ? 'selected' : '' }}>
-                            {{ $unit }}</option>
-                    @endforeach
+        <div class="form-row mb-3">
+            <div class="from-single">
+                <label for="status" class="form-label">Status</label>
+                @php
+                    $statusValue = old('status', $isEdit ? $stocksell->status : '');
+                @endphp
+                <select id="status" name="status" class="form-control" required>
+                    <option disabled value="" {{ $statusValue == '' ? 'selected' : '' }}>Select an option
+                    </option>
+                    <option value="active" {{ $statusValue == 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="inactive" {{ $statusValue == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                    <option value="rejected" {{ $statusValue == 'rejected' ? 'selected' : '' }}>Rejected</option>
                 </select>
             </div>
         </div>
-
-        <!-- Upper & Lower Limit -->
-        <div class="form-row">
-            <div class="form-group">
-                <label for="upper_limit" class="form-label">Upper Limit</label>
-                <input type="text" name="upper_limit" id="upper_limit" class="form-control"
-                    value="{{ old('upper_limit', $isEdit ? $stocksell->upper_limit : '') }}"
-                    placeholder="Enter Upper Limit">
-            </div>
-            <div class="form-group">
-                <label for="lower_limit" class="form-label">Lower Limit</label>
-                <input type="text" name="lower_limit" id="lower_limit" class="form-control"
-                    value="{{ old('lower_limit', $isEdit ? $stocksell->lower_limit : '') }}"
-                    placeholder="Enter Lower Limit">
-            </div>
-        </div>
-
-        <!-- Internal Packing -->
-        <div class="form-row">
-            <div class="form-group">
-                <label class="form-label">{{ translate('Internal Packing') }}</label>
-                <input type="text" class="form-control" name="dimensions_per_unit"
-                    value="{{ old('dimensions_per_unit', $isEdit ? $stocksell->dimensions_per_unit : '') }}"
-                    placeholder="e.g., 10x5x2 cm">
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ translate('Internal Packing Unit') }}</label>
-                <select class="form-control" name="dimensions_per_unit_type">
-                    @php
-                        $dimensionUnits = ['cm', 'mm', 'm', 'in', 'ft'];
-                        $selectedInternalUnit = old(
-                            'dimensions_per_unit_type',
-                            $isEdit ? $stocksell->dimensions_per_unit_type ?? '' : '',
-                        );
-                    @endphp
-                    <option value="">Select Unit</option>
-                    @foreach ($dimensionUnits as $unit)
-                        <option value="{{ $unit }}" {{ $selectedInternalUnit == $unit ? 'selected' : '' }}>
-                            {{ $unit }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <!-- Master Packing -->
-        <div class="form-row">
-            <div class="form-group">
-                <label class="form-label">{{ translate('Master Packing') }}</label>
-                <input type="text" class="form-control" name="master_packing"
-                    value="{{ old('master_packing', $isEdit ? $stocksell->master_packing : '') }}"
-                    placeholder="e.g., 100x50x40 cm">
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ translate('Master Packing Unit') }}</label>
-                <select class="form-control" name="master_packing_unit">
-                    @php
-                        $selectedMasterUnit = old(
-                            'master_packing_unit',
-                            $isEdit ? $stocksell->master_packing_unit ?? '' : '',
-                        );
-                    @endphp
-                    <option value="">Select Unit</option>
-                    @foreach ($dimensionUnits as $unit)
-                        <option value="{{ $unit }}" {{ $selectedMasterUnit == $unit ? 'selected' : '' }}>
-                            {{ $unit }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <button type="button" class="prev-btn" data-prev="2">Prev</button>
-        <button type="button" class="next-btn" data-next="4">Next</button>
+        <button type="button" class="prev-btn" data-prev="4">Prev</button>
+        <button type="submit" class="submit-btn">Submit</button>
     </div>
-    <div class="step-section" data-step="4">
-        <!-- Packing Type -->
-        <div class="form-row">
-            @if ($isEdit)
-                <div class="form-group">
-                @else
-                    <div class="form-single">
-            @endif
-            <label class="form-label">{{ translate('Packing Type') }}</label>
-            <select class="form-control" name="packing_type">
-                <option value="">Select Packing Type</option>
-                @php
-                    $packingTypes = [
-                        'PP Bag',
-                        'Carton',
-                        'Plastic Drum',
-                        'Steel Drum',
-                        'Wooden Crate',
-                        'Bulk',
-                        'IBC Tank',
-                        'Plastic Container',
-                        'Custom Packaging',
-                    ];
-                    $selectedPackingType = old('packing_type', $isEdit ? $stocksell->packing_type : '');
-                @endphp
-                @foreach ($packingTypes as $type)
-                    <option value="{{ $type }}" {{ $selectedPackingType == $type ? 'selected' : '' }}>
-                        {{ $type }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        @if ($isEdit)
-            <div class="form-group">
-                <label for="imagePicker">Choose Images</label>
-                <input type="file" name="images[]" id="new_images" class="form-select" accept="image/*"
-                    multiple>
-            </div>
-        @endif
-    </div>
-    @if ($isEdit)
-        <div class="form-row">
-            <div class="existing-images d-flex gap-3">
-                @if ($stocksell->image)
-                    <!-- Check if images exist -->
-                    @foreach (json_decode($stocksell->image) as $image)
-                        <div class="image-preview d-flex flex-column">
-                            <img src="/{{ $image }}" alt="Product Image"
-                                style="width: 100px; height: 100px; object-fit: cover;">
-                            <span>
-                                <input type="checkbox" name="remove_images[]" value="{{ $image }}">
-                                Remove
-                            </span>
-                        </div>
-                    @endforeach
-                @else
-                    <p>No images uploaded yet.</p>
-                @endif
-            </div>
-        </div>
-    @endif
-    <!-- Weight Per Unit -->
-    <div class="form-row">
-        <div class="form-group">
-            <label class="form-label">{{ translate('Weight Per Unit') }}</label>
-            <input type="text" class="form-control" name="weight_per_unit" placeholder="e.g., 1.5"
-                value="{{ old('weight_per_unit', $isEdit ? $stocksell->weight_per_unit : '') }}">
-        </div>
-        <div class="form-group">
-            <label class="form-label">{{ translate('Weight Per Unit Type') }}</label>
-            <select class="form-control" name="weight_per_unit_type">
-                @php
-                    $weightUnits = ['kg', 'g', 'lb', 'oz'];
-                    $selectedWeightUnit = old(
-                        'weight_per_unit_type',
-                        $isEdit ? $stocksell->weight_per_unit_type ?? '' : '',
-                    );
-                @endphp
-                <option value="">Select Unit</option>
-                @foreach ($weightUnits as $unit)
-                    <option value="{{ $unit }}" {{ $selectedWeightUnit == $unit ? 'selected' : '' }}>
-                        {{ $unit }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-
-    <!-- Dimensions Per Unit -->
-    <div class="form-row">
-        <div class="form-group">
-            <label class="form-label">{{ translate('Dimensions Per Unit') }}</label>
-            <input type="text" class="form-control" name="dimension_per_unit" placeholder="e.g., 30x30x30"
-                value="{{ old('dimension_per_unit', $isEdit ? $stocksell->dimension_per_unit : '') }}">
-        </div>
-        <div class="form-group">
-            <label class="form-label">{{ translate('Dimension Per Unit Type') }}</label>
-            <select class="form-control" name="dimension_per_unit_type">
-                @php
-                    $dimensionUnits = ['cm', 'inch', 'mm'];
-                    $selectedDimUnit = old(
-                        'dimension_per_unit_type',
-                        $isEdit ? $stocksell->dimension_per_unit_type ?? '' : '',
-                    );
-                @endphp
-                <option value="">Select Unit</option>
-                @foreach ($dimensionUnits as $unit)
-                    <option value="{{ $unit }}" {{ $selectedDimUnit == $unit ? 'selected' : '' }}>
-                        {{ $unit }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <button type="button" class="prev-btn" data-prev="3">Prev</button>
-    <button type="button" class="next-btn" data-next="5">Next</button>
 </div>
-<div class="step-section" data-step="5">
-    <div class="form-row">
-        <div class="form-group">
-            <label for="rate" class="form-label">Rate ($)</label>
-            <input type="number" name="rate" id="rate"
-                value="{{ old('rate', $isEdit ? $stocksell->rate : '') }}" class="form-control"
-                placeholder="Enter Rate" required>
-        </div>
-        <div class="form-group">
-            <label for="rate_unit" class="form-label">Rate Unit</label>
-            <select name="rate_unit" id="rate_unit" class="form-control">
-                @php
-                    $rateUnits = ['per kg', 'per ltr', 'per cbm', 'per pcs'];
-                    $selectedRateUnit = old('rate_unit', $isEdit ? $stocksell->rate_unit : '');
-                @endphp
-                <option value="">Select Rate Unit</option>
-                @foreach ($rateUnits as $unit)
-                    <option value="{{ $unit }}" {{ $selectedRateUnit == $unit ? 'selected' : '' }}>
-                        {{ $unit }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group">
-            <label for="local_currency" class="form-label">Local Currency</label>
-            <input type="text" name="local_currency" id="local_currency" class="form-control"
-                placeholder="Enter Local Currency"
-                value="{{ old('local_currency', $isEdit ? $stocksell->local_currency : '') }}">
-        </div>
-        <div class="form-group">
-            <label class="title-color">{{ translate('Delivery Terms') }}</label>
-            <select class="form-control" name="delivery_terms" id="delivery_terms">
-                @php
-                    $deliveryTerms = ['CFR', 'FOB', 'CIF', 'EXW', 'FCA', 'FAS', 'CPT', 'CIP', 'DAP', 'DPU', 'DDP'];
-                @endphp
-                @foreach ($deliveryTerms as $term)
-                    <option value="{{ $term }}"
-                        {{ $isEdit ? ($stocksell->delivery_terms == $term ? 'selected' : '') : '' }}>
-                        {{ $term }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <button type="button" class="prev-btn" data-prev="4">Prev</button>
-    <button type="button" class="next-btn" data-next="6">Next</button>
-</div>
-<div class="step-section" data-step="6">
-    <div class="form-row">
-        <div class="form-group">
-            <label for="company_name" class="form-label">Company Name</label>
-            <input type="text" name="company_name" id="company_name" class="form-control"
-                placeholder="Enter Company Name" required
-                value="{{ old('company_name', $isEdit ? $stocksell->company_name : '') }}">
-        </div>
-        <div class="form-group">
-            <label for="company_icon" class="form-label">Company Icon</label>
-            <input type="file" name="company_icon" id="company_icon" class="form-select"
-                placeholder="Enter Company Icon" {{ $isEdit ? '' : 'required' }}>
-        </div>
-    </div>
-    @if ($isEdit)
-        <div class="form-row">
-            <span>
-                Current Image:
-                <img src="/{{ $stocksell->company_icon }}" alt="Company Icon"
-                    style="width: 100px; height: 100px; object-fit: cover;">
-            </span>
-        </div>
-    @endif
-    @php
-        $selectedStatus = old('status', $isEdit ? $stocksell->status : '');
-        $selectedCompliance = old('compliance_status', $isEdit ? $stocksell->compliance_status : 'pending');
-    @endphp
-    <div class="form-row">
-        <!-- Status -->
-        <div class="form-group">
-            <label for="status" class="form-label">Status</label>
-            <select id="status" name="status" class="form-control" required>
-                <option disabled value="">Select an option</option>
-                <option value="active" {{ $selectedStatus === 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ $selectedStatus === 'inactive' ? 'selected' : '' }}>Inactive</option>
-                <option value="rejected" {{ $selectedStatus === 'rejected' ? 'selected' : '' }}>Rejected</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="company_address" class="form-label">Company Address</label>
-            <input type="text" name="company_address" id="company_address" class="form-control"
-                placeholder="Enter Company Address" required
-                value="{{ old('company_address', $isEdit ? $stocksell->company_address : '') }}">
-        </div>
-    </div>
-    <div class="form-row">
-        <!-- Compliance Status -->
-        <div class="form-group">
-            <label for="compliance_status" class="form-label">Compliance Status</label>
-            <select name="compliance_status" id="compliance_status" class="form-control">
-                <option value="pending" {{ $selectedCompliance === 'pending' ? 'selected' : '' }}>Pending</option>
-                @if (auth('admin')->check())
-                    <option value="approved" {{ $selectedCompliance === 'approved' ? 'selected' : '' }}>Approved
-                    </option>
-                    <option value="flagged" {{ $selectedCompliance === 'flagged' ? 'selected' : '' }}>Flagged
-                    </option>
-                @endif
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="refundable" class="form-label">Refundable</label>
-            <select name="refundable" id="refundable" class="form-control" placeholder="Is Refundable? (Yes/No)">
-                <option value="" selected disabled>Select an option</option>
-                <option value="yes"
-                    {{ old('refundable', $isEdit ? $stocksell->refundable : '') == 'yes' ? 'selected' : '' }}>Yes
-                </option>
-                <option value="no"
-                    {{ old('refundable', $isEdit ? $stocksell->refundable : '') == 'no' ? 'selected' : '' }}>No
-                </option>
-            </select>
-        </div>
-    </div>
-    <button type="button" class="prev-btn" data-prev="5">Prev</button>
-    <button type="submit" class="submit-btn">Submit</button>
-</div>
-</div>
+<script>
+    $(document).ready(function() {
+        $('#product_id').select2({
+            tags: true,
+            placeholder: 'Search or add product name',
+            minimumInputLength: 2,
+            ajax: {
+                url: '{{ route('products.search') }}',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        q: params.term // search term
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function(params) {
+                return {
+                    id: params.term,
+                    text: params.term,
+                    newOption: true
+                };
+            },
+            templateResult: function(data) {
+                return data.newOption ? `<em>Add "${data.text}"</em>` : data.text;
+            }
+        });
+    });
+</script>
+<script>
+    function updateQuantityField() {
+        const qty = document.getElementById('quantity_value').value;
+        const unit = document.getElementById('quantity_unit').value;
+        document.getElementById('quantity').value = qty && unit ? `${qty} ${unit}` : '';
+    }
+
+    document.getElementById('quantity_value').addEventListener('input', updateQuantityField);
+    document.getElementById('quantity_unit').addEventListener('change', updateQuantityField);
+
+    // Initialize on load if value exists
+    document.addEventListener('DOMContentLoaded', updateQuantityField);
+</script>
+<script>
+    function updatePackingValue(dimsId, unitId, targetId) {
+        const dims = document.getElementById(dimsId).value.trim();
+        const unit = document.getElementById(unitId).value.trim();
+        document.getElementById(targetId).value = dims && unit ? `${dims} ${unit}` : dims;
+    }
+
+    document.getElementById('internal_dims').addEventListener('input', () => {
+        updatePackingValue('internal_dims', 'internal_unit', 'dimensions_per_unit');
+    });
+    document.getElementById('internal_unit').addEventListener('change', () => {
+        updatePackingValue('internal_dims', 'internal_unit', 'dimensions_per_unit');
+    });
+
+    document.getElementById('master_dims').addEventListener('input', () => {
+        updatePackingValue('master_dims', 'master_unit', 'master_packing');
+    });
+    document.getElementById('master_unit').addEventListener('change', () => {
+        updatePackingValue('master_dims', 'master_unit', 'master_packing');
+    });
+</script>

@@ -6,7 +6,7 @@
             'subtitle' => 'Simplify Your B2B Transactions',
             'description' => 'Get expert assistance in negotiating and closing deals with verified suppliers and buyers. Ensure secure, transparent, and profitable business transactions.',
             'btn-text' => 'Get Expert Help',
-            'link' => '#'
+            'link' => '/deal-assist'
         ],
         [
             'image' => '/img/stock-sale-solution.png',
@@ -14,7 +14,7 @@
             'subtitle' => 'Bulk Stock, Best Prices',
             'description' => 'Access exclusive bulk inventory at competitive prices. Find ready-to-ship stock from trusted suppliers and maximize your profit margins.',
             'btn-text' => 'Browse Bulk Stock',
-            'link' => '#'
+            'link' => '/stock-sale'
         ],
         [
             'image' => '/img/industryjobs-solution.png',
@@ -22,7 +22,7 @@
             'subtitle' => 'Connecting Businesses with Skilled Talent',
             'description' => 'Find experienced professionals for your industry or explore job opportunities that match your skills. Post, search, and hire with ease.',
             'btn-text' => 'Find Opportunities',
-            'link' => '#'
+            'link' => '/industry-jobs'
         ],
         [
             'image' => '/img/stock-sale-solution.png',
@@ -44,7 +44,7 @@
                 </div>
                 <div class="leadstitle2 active" data-tab="tab-4" style="text-transform:uppercase;">
                     Our Services</div>
-                <a href="#" class="top-movers-viewall" style="text-decoration: none; align-content: center;">View All <i style="color:#ED4553;" class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i></a>
+                <a href="/info" class="top-movers-viewall" style="text-decoration: none; align-content: center;">View All <i style="color:#ED4553;" class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i></a>
             </div>
             <div class="tab-contentuno active" id="tab-8">
                 <div class="d-flex insidestuff">

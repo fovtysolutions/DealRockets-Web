@@ -56,7 +56,7 @@
         <!-- Buy Leads Section -->
         <div class="buy-leads-container">
             <div class="header">
-                <div class="d-flex w-100" style="justify-content: space-between; padding-left: 10px;">
+                <div class="d-flex w-100" style="justify-content: space-between;padding-left: 10px;padding-top: 15px;padding-bottom: 0px;align-items: center;">
                     <span class="leadstitle2">LATEST BUY LEADS</span>
                     <a href="{{ route('buyer') }}" class="top-movers-viewall" style="text-decoration: none;">View All <i
                             style="color:#ED4553;"
@@ -148,7 +148,7 @@
         <!-- Sell Leads Section -->
         <div class="sell-leads-container">
             <div class="header">
-                <div class="d-flex w-100" style="justify-content: space-between; padding-left: 10px;">
+                <div class="d-flex w-100"  style="justify-content: space-between;padding-left: 10px;padding-top: 15px;padding-bottom: 0px;align-items: center;">
                     <span class="leadstitle2">LATEST SELL LEADS</span>
                     <a href="{{ route('seller') }}" class="top-movers-viewall" style="text-decoration: none;">View All
                         <i style="color:#ED4553;"

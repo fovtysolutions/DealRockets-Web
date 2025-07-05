@@ -52,11 +52,10 @@
                                 <thead class="thead-light thead-50 text-capitalize">
                                     <tr>
                                         <th>#</th>
-                                        <th class="text-capitalize">Name</th>
+                                        <th class="text-capitalize">Product</th>
                                         <th class="text-center text-capitalize">Description</th>
                                         <th class="text-center text-capitalize">Quantity</th>
                                         <th class="text-center text-capitalize">Status</th>
-                                        <th class="text-center text-capitalize">View Product</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -64,7 +63,7 @@
                                     @foreach ($items as $key => $value)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td class="text-center">{{ $value->name }}</td>
+                                            <td class="text-center">{{ $value->product ? $value->product->name : $value->product_id }}</td>
                                             <td class="text-center">{{ $value->description }}</td>
                                             <td class="text-center">{{ $value->quantity }}</td>
                                             <td class="text-center">
@@ -77,12 +76,6 @@
                                                 @else
                                                     <span class="badge bg-warning">Invalid</span>
                                                 @endif
-                                            </td>
-                                            <td class="text-center">
-                                                <a
-                                                    href="{{ route('vendor.products.view', ['id' => "$value->product_id"]) }}">
-                                                    <span>See Product</span>
-                                                </a>
                                             </td>
                                             <td>
                                                 <span class="d-flex gap-2">

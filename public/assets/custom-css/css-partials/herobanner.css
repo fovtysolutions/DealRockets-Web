@@ -756,6 +756,7 @@
     .top-movers-viewall{
         color: #515050; 
         font-size:14px;
+        margin-right: 7px;
         text-decoration: none;
         transition: all ease 0.3s;
     }

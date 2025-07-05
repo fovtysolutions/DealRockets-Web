@@ -43,7 +43,7 @@ class StockSell extends Model
         'delivery_terms',
         'packing_type',
         'weight_per_unit',
-        'dimenstions_per_unit',
+        'dimensions_per_unit',
         'certificate',
         'dynamic_data',
         'dynamic_data_technical',
@@ -54,11 +54,15 @@ class StockSell extends Model
         'master_packing_unit',
         'weight_per_unit_type',
         'rate_unit',
+        'product_code',
+        'delivery_mode',
+        'payment_terms',
+        'certificate_name',
     ];
 
     public function countryRelation()
     {
-        return $this->belongsTo(Country::class, 'country', 'id'); // Adjust 'country' and 'id' as per your database schema
+        return $this->belongsTo(Country::class, 'origin', 'id'); // Adjust 'country' and 'id' as per your database schema
     }
 
     public function product()

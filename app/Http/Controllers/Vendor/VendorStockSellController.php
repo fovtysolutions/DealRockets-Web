@@ -21,15 +21,15 @@ class VendorStockSellController extends Controller
     private function validateStockSellData($request, $nullable = '')
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'nullable',
             'description' => 'required',
-            'quantity' => 'required|integer',
+            'quantity' => 'required',
             'product_id' => 'required',
             'status' => 'required|in:active,inactive,rejected',
-            'country' => 'required',
+            'country' => 'nullable',
             'industry' => 'required',
-            'company_name' => 'required',
-            'company_address' => 'required',
+            'company_name' => 'nullable',
+            'company_address' => 'nullable',
             'company_icon' => 'nullable',
             'images' => "$nullable|array|max:10",
             'images.*' => 'image|max:2048',
@@ -63,6 +63,10 @@ class VendorStockSellController extends Controller
             'certificate' => 'nullable|image',
             'dynamic_data' => 'nullable',
             'dynamic_data_technical' => 'nullable',
+            'product_code' => 'nullable',
+            'delivery_mode' => 'nullable',
+            'payment_terms' => 'nullable',
+            'certificate_name' => 'nullable',
         ]);
     }
 
@@ -113,6 +117,10 @@ class VendorStockSellController extends Controller
             'master_packing_unit' => $request->master_packing_unit,
             'dynamic_data' => $request->dynamic_data,
             'dynamic_data_technical' => $request->dynamic_data_technical,
+            'product_code' => $request->product_code,
+            'delivery_mode' => $request->delivery_mode,
+            'payment_terms' => $request->payment_terms,
+            'certificate_name' => $request->certificate_name,
         ];
     }
 
@@ -171,13 +179,19 @@ class VendorStockSellController extends Controller
         $role = $user_data['role'];
         $query->where('user_id', $user_id);
         $query->where('role', $role);
-        $query->whereHas('countryRelation', function ($query) {
-            $query->where('blacklist', 'no');
-        });
+        // $query->whereHas('countryRelation', function ($query) {
+        //     $query->where('blacklist', 'no');
+        // });
+        if ($request->product_name) {
+            $query->where(function ($q) use ($request) {
+                $q->where('product_id', 'like', '%' . $request->product_name . '%');
 
-        if ($request->name) {
-            $query->where('name', 'like', '%' . $request->name . '%');
+                $q->orWhereHas('product', function ($subQuery) use ($request) {
+                    $subQuery->where('name', 'like', '%' . $request->product_name . '%');
+                });
+            });
         }
+
         if ($request->status) {
             $query->where('status', 'like', '%' . $request->status . '%');
         }

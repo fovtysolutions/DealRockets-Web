@@ -16,12 +16,12 @@
                                     <div class="item">
                                         <img class="ico" src="/{{ $image }}"
                                              onerror="this.onerror=null;this.src='/images/placeholderimage.webp';"
-                                             style="height: 106px; width: 100%;" />
+                                             style="height: 135px; width: 100%;" />
                                     </div>
                                 @empty
                                     <div class="item">
                                         <img class="ico" src="/images/placeholderimage.webp"
-                                             style="height: 106px; width: 100%;" />
+                                             style="height: 135px; width: 100%;" />
                                     </div>
                                 @endforelse
                             </div>
@@ -29,7 +29,7 @@
 
                         <div class="product-info">
                             <div class="product-header">
-                                <div class="product-title">{{ $stocksell->name ?? 'Unnamed Product' }}</div>
+                                <div class="product-title">{{ $stocksell->product->name ?? ($stocksell->name ?? 'N/A') }}</div>
 
                                 @php
                                     $user = auth('customer')->user();
@@ -59,7 +59,7 @@
                             </div>
 
                             <div class="product-origin">
-                                <div>Origin:</div>
+                                <div style="width: 75px;">Origin:</div>
                                 <div class="product-origin-location">
                                     @php
                                         $country = \App\Models\Country::find($stocksell->country);
@@ -73,6 +73,13 @@
                                         <img src="{{ $flag }}" width="15" alt="Flag">
                                     @endif
                                     <div>{{ $stocksell->city ?? 'Unknown City' }}, {{ $countryName }}</div>
+                                </div>
+                            </div>
+
+                            <div class="product-origin">
+                                <div style="width: 75px;">Quantity:</div>
+                                <div class="product-origin-location">
+                                    {{ $stocksell->quantity }}  {{ $stocksell->unit }}
                                 </div>
                             </div>
 

@@ -24,7 +24,7 @@
                     <div class="others-store-slider owl-theme owl-carousel">
 
                         @foreach ($topVendorsList as $vendorData)
-                            <a stlye="text-decoration: none;" href="{{route('shopView',['id'=> $vendorData['id']])}}" class="others-store-card text-capitalize" style="padding-bottom: 2px; box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25); margin-bottom: 10px; margin-top:5px;">
+                            <a stlye="text-decoration: none;" href="{{route('shopView',['id'=> $vendorData['id']])}}" class="others-store-card text-capitalize" style="padding-bottom: 2px; border: 1px solid lightgrey; margin-bottom: 10px; margin-top:5px;">
                                 <div class="overflow-hidden other-store-banner image-wrapper shimmer">
                                     <img class="w-100 h-100 object-cover lazyload" alt=""
                                          data-src="{{ getStorageImages(path: $vendorData->banner_full_url, type: 'shop-banner') }}">

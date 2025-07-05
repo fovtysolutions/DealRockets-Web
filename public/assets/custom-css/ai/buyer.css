@@ -24,7 +24,7 @@
 }
 
 .filter-sidebar {
-    box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.25);
+    border: 1px solid lightgrey;
 }
 
 .buy-offer .sidebar-inner {
@@ -48,11 +48,11 @@
     margin-top: 12px;
 }
 
-.buy-offer .visibleonlow{
+.buy-offer .visibleonlow {
     display: none !important;
 }
 
-.buy-offer .visibleonhigh{
+.buy-offer .visibleonhigh {
     display: block !important;
 }
 
@@ -180,7 +180,7 @@
     width: 100%;
     border: 1px solid lightgrey;
     /* max-width: 1000px; */
-    border-radius: 0.375rem;
+    /* border-radius: 0.375rem; */
     margin-bottom: 0.625rem;
 }
 
@@ -335,7 +335,7 @@
     table-layout: fixed;
 }
 
-.buy-offer .lead-details-table{
+.buy-offer .lead-details-table {
     width: 100%;
     flex-direction: row;
     display: flex;
@@ -366,11 +366,13 @@
 }
 
 .buy-offer .text-truncate-2 {
-    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-line-clamp: 2;
+    /* Limit to 2 lines */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-height: 3em; /* Adjust if needed (line-height * 2) */
+    max-height: 3em;
+    /* Adjust if needed (line-height * 2) */
     line-height: 1.5em;
 }
 
@@ -554,7 +556,7 @@
     width: 20px;
 }
 
-.buy-offer .filter-section:first-child{
+.buy-offer .filter-section:first-child {
     margin-top: 0;
 }
 
@@ -565,7 +567,7 @@
     padding: 15px;
 }
 
-.reset-filter{
+.reset-filter {
     display: flex;
     width: max-content;
     justify-self: end;
@@ -914,11 +916,11 @@ input[type='checkbox'] {
         flex-wrap: wrap !important;
     }
 
-    .buy-offer .visibleonlow{
+    .buy-offer .visibleonlow {
         display: block !important;
     }
-    
-    .buy-offer .visibleonhigh{
+
+    .buy-offer .visibleonhigh {
         display: none !important;
     }
 

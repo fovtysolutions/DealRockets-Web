@@ -6,11 +6,11 @@
     --border-color: #D5D5D5;
     --background-color: #F7F7F7;
     --white: #FFFFFF;
-    --shadow: 0px 0px 5px -1px rgba(0,0,0,0.25);
-    --border-radius-sm: 4px;
-    --border-radius-md: 8px;
-    --border-radius-lg: 12px;
-    --border-radius-xl: 60px;
+    --shadow: unset;
+    --border-radius-sm: 0;
+    --border-radius-md: 0;
+    --border-radius-lg: 0;
+    --border-radius-xl: 0;
 }
 
 .candidate-jobs .hide-header {
@@ -54,6 +54,7 @@
     background-color: var(--white);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow);
+    border: 1px solid lightgrey;
     padding: 1.5rem;
     flex-shrink: 0;
 }
@@ -212,6 +213,7 @@
     background-color: var(--white);
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow);
+    border: 1px solid lightgrey;
     overflow: hidden;
 }
 
@@ -336,6 +338,7 @@
     background-color: var(--white);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow);
+    border: 1px solid lightgrey;
     padding: 1.5rem;
     flex-shrink: 0;
 }
@@ -506,7 +509,7 @@
 }
 
 .candidate-jobs .leftdiv{
-    width: 19%;
+    width: 18%;
 }
 
 .candidate-jobs .rightdiv{

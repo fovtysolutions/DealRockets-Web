@@ -464,6 +464,17 @@ input[type='checkbox'] {
     display: flex;
 }
 
+.reset-filter{
+    display: flex;
+    width: max-content;
+    justify-self: end;
+    background: linear-gradient(to right, #FE4E44, #9F0900);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 27px;
+}
+
 .stock-sale .detail-image {
     width: 100%;
     aspect-ratio: 1;

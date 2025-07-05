@@ -560,6 +560,17 @@
     padding: 15px;
 }
 
+.reset-filter{
+    display: flex;
+    width: max-content;
+    justify-self: end;
+    background: linear-gradient(to right, #FE4E44, #9F0900);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 27px;
+}
+
 .buy-offer .country-list {
     display: flex;
     flex-direction: column;

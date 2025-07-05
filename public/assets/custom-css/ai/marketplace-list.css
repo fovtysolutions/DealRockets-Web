@@ -227,6 +227,18 @@ h3 {
     z-index: 10;
 }
 
+
+.reset-filter{
+    display: flex;
+    width: max-content;
+    justify-self: end;
+    background: linear-gradient(to right, #FE4E44, #9F0900);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 27px;
+}
+
 .marketplace-list .heart-image .circle-container img {
     height: 20px;
     width: 20px;

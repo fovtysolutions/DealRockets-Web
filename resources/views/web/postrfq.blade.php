@@ -365,6 +365,9 @@
             var mobile = sessionStorage.getItem('mobile');
             var quantity = sessionStorage.getItem('quantity');
             var unit = sessionStorage.getItem('unit');
+            var details = sessionStorage.getItem('details');
+            var payment_terms = sessionStorage.getItem('payment_terms');
+            var shipping_method = sessionStorage.getItem('shipping_method');
 
             // Auto Fill Session Values
             if (productName) {
@@ -393,6 +396,30 @@
                 });
                 updateProgress();
             }
+            if (details) {
+                $('textarea[name="details"]').val(details);
+                updateProgress();
+            }
+            if (payment_terms) {
+                var terms_selector = $('select[name="terms"]');
+                terms_selector.find('option').each(function() {
+                    var option = $(this);
+                    if (option.val() === payment_terms) {
+                        option.prop('selected', true);
+                    }
+                });
+                updateProgress();
+            }
+            if (shipping_method) {
+                var shipping_selector = $('select[name="shipping_method"]');
+                shipping_selector.find('option').each(function() {
+                    var option = $(this);
+                    if (option.val() === shipping_method) {
+                        option.prop('selected', true);
+                    }
+                });
+                updateProgress();
+            }
 
             // Remove Item
             sessionStorage.removeItem('productName');
@@ -400,6 +427,9 @@
             sessionStorage.removeItem('mobile');
             sessionStorage.removeItem('quantity');
             sessionStorage.removeItem('unit');
+            sessionStorage.removeItem('details');
+            sessionStorage.removeItem('payment_terms');
+            sessionStorage.removeItem('shipping_method');
         });
     </script>
     <script>

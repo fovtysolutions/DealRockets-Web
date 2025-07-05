@@ -142,6 +142,10 @@
                                     value="{{ request('max_experience', '') }}">
                             </div>
                         </div>
+                        
+                        <div class="filter-section togglebelow768">
+                            <a href="{{ request()->url() }}" class="btn btn-sm reset-filter">Reset Filters</a>
+                        </div>
                     </div>
                 </form>
 

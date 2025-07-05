@@ -29,6 +29,17 @@
     margin: 1.5rem 0;
 }
 
+.reset-filter{
+    display: flex;
+    width: max-content;
+    justify-self: end;
+    background: var(--primary-color);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 27px;
+}
+
 .candidate-jobs .container {
     display: flex;
     margin: 20px auto;

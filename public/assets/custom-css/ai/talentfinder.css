@@ -17,6 +17,17 @@
   width: 19%;
 }
 
+.reset-filter{
+    display: flex;
+    width: max-content;
+    justify-self: end;
+    background: var(--primary-color);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 27px;
+}
+
 /* Sidebar Styles */
 .talent-finder .sidebar {
   /* flex-shrink: 0; */

@@ -2,98 +2,71 @@
 
 @section('title',translate('FAQ'))
 
+@push('css_or_js')
+    <link rel="stylesheet" href="{{ asset('assets/custom-css/css-partials/faq.css') }}">
+@endpush
+
 @section('content')
-    <div class="__inline-60">
-        <div class="container rtl">
-            <div class="row">
-                <div class="col-md-12 sidebar_heading text-center mb-2">
-                    <h1 class="text-center pt-4 fs-24 font-semi-bold text-capitalize">{{ translate('frequently_asked_question') }}</h1>
+    <div class="content faqs mainpagesection" style="margin-top: 22px; background-color: unset;">
+        <div class="faq-container">
+            <div class="faq-header">
+                <h1>Frequently Asked Questions</h1>
+                <p>Find answers to common questions about our services</p>
+
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="Search questions...">
+                        <button class="clear-search" title="Clear search">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="category-filter">
+                    <button class="category-btn active" data-category="all">All</button>
+                    @foreach ($userFeatures as $key => $value)
+                        <button class="category-btn" data-category="{{ $key }}">{{ $value }}</button>
+                    @endforeach
                 </div>
             </div>
-            <hr>
-        </div>
 
-        <div class="container pb-5 mb-2 mb-md-4 mt-3 rtl">
-            <div class="row">
-
-                @php $length=count($helps); @endphp
-                @if(count($helps) > 0)
-                    @php if($length%2!=0){$first=($length+1)/2;}else{$first=$length/2;}@endphp
-                    <div class="col-lg-2"></div>
-                    <section class="col-lg-10 mt-3">
-                        <section class="container pt-4 pb-5 ">
-                            <div class="row pt-4">
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled">
-                                        @for($i=0;$i<$first;$i++)
-                                            <div id="accordion">
-                                                <div class="row mb-0 text-black">
-                                                    <div class="col-1 mt-3">
-                                                        <i class="czi-book text-muted mr-2"></i>
-                                                    </div>
-                                                    <div class="col-11">
-                                                        <button class="btnF btn-link collapsed text-align-direction" data-toggle="collapse"
-                                                                data-target="#collapseTwo{{ $helps[$i]['id'] }}"
-                                                                aria-expanded="false" aria-controls="collapseTwo">
-                                                            <span class="d-flex align-items-center border-bottom pb-3 mb-3">{{ $helps[$i]['question'] }}</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div id="collapseTwo{{ $helps[$i]['id'] }}" class="collapse"
-                                                     aria-labelledby="headingTwo" data-parent="#accordion">
-                                                    <div class="card-body">
-                                                        {{ $helps[$i]['answer'] }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endfor
-                                    </ul>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <ul class="list-unstyled">
-                                        @for($i=$first; $i<$length; $i++)
-                                            <div id="accordion">
-                                                <div class="row mb-0 text-black">
-                                                    <div class="col-1 mt-3">
-                                                        <i class="czi-book text-muted mr-2"></i>
-                                                    </div>
-                                                    <div class="col-11">
-                                                        <button class="btnF btn-link collapsed text-align-direction" data-toggle="collapse"
-                                                                data-target="#collapseTwo{{ $helps[$i]['id'] }}"
-                                                                aria-expanded="false" aria-controls="collapseTwo">
-                                                            <span class="d-flex align-items-center border-bottom pb-3 mb-3">{{ $helps[$i]['question'] }}</span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div id="collapseTwo{{ $helps[$i]['id'] }}" class="collapse"
-                                                     aria-labelledby="headingTwo" data-parent="#accordion">
-                                                    <div class="card-body">
-                                                        {{ $helps[$i]['answer'] }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endfor
-                                    </ul>
-                                </div>
-
-                            </div>
-                        </section>
-                    </section>
-                @else
-                    <div class="col-12">
-                        <div class="d-flex justify-content-center align-items-center pt-4">
-                            <div class="d-flex flex-column justify-content-center align-items-center gap-3">
-                                <img src="{{ dynamicStorage(path: 'public/assets/front-end/img/empty-icons/empty-faqs.svg') }}"
-                                     alt="{{ translate('brand') }}" class="img-fluid" width="100">
-                                <h5 class="text-muted fs-14 font-semi-bold text-center">{{ translate('there_is_no_FAQs') }}</h5>
-                            </div>
-                        </div>
-                    </div>
+            <div class="faq-content">
+                @if ($faqs->empty())
+                    <h6 class="text-dark"> No FAQ's Avaliable </h6>
                 @endif
+                @foreach ($userFeatures as $key => $value)
+                    <div class="faq-category" data-category="{{ $key }}">
+                        <h2>{{ $value }} Questions</h2>
+
+                        @php
+                            $filteredFaqs = $faqs->where('sub_type', $key);
+                        @endphp
+
+                        @if ($filteredFaqs->isEmpty())
+                            <h6 class="text-dark"> No FAQ's Avaliable </h6>
+                        @else
+                            @foreach ($filteredFaqs as $item)
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <h3>{{ $item->question }}</h3>
+                                        <span class="faq-icon"><i class="fa-solid fa-plus"></i></span>
+                                    </div>
+                                    <div class="faq-answer">
+                                        <p>{{ $item->answer }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
 @endsection
 
-
+@push('script')
+    <script src="{{ asset('js/faqs.js') }}"></script>
+@endpush

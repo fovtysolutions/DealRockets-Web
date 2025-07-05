@@ -12,10 +12,54 @@ $quotationdata = $quotationbanner ? json_decode($quotationbanner->value, true) :
 
 // Handle null or missing data
 $quotationDescription = isset($quotationdata['description']) ? $quotationdata['description'] : '';
+
+$units = ['pc' => 'Piece(s)', 'kg' => 'Kilogram(s)', 'g' => 'Gram(s)', 'mg' => 'Milligram(s)', 'ltr' => 'Liter(s)', 'ml' => 'Milliliter(s)', 'cbm' => 'Cubic Meter(s)', 'cm' => 'Centimeter(s)', 'm' => 'Meter(s)', 'in' => 'Inch(es)', 'ft' => 'Foot/Feet', 'yd' => 'Yard(s)', 'sqft' => 'Square Foot/Feet', 'sqm' => 'Square Meter(s)', 'dozen' => 'Dozen', 'box' => 'Box(es)', 'pack' => 'Pack(s)', 'roll' => 'Roll(s)', 'set' => 'Set(s)', 'bottle' => 'Bottle(s)'];
+$payment_terms = [
+    't/t' => 'T/T (Telegraphic Transfer)',
+    'l/c' => 'L/C (Letter of Credit)',
+    'd/p' => 'D/P (Documents Against Payment)',
+    'd/a' => 'D/A (Documents Against Acceptance)',
+    'open_account' => 'Open Account',
+    'advance_payment' => 'Advance Payment',
+    'partial_payment' => 'Partial Payment',
+    'cash_on_delivery' => 'Cash on Delivery (COD)',
+    'cash_in_advance' => 'Cash in Advance',
+    'net_30' => 'Net 30 Days',
+    'net_60' => 'Net 60 Days',
+    'paypal' => 'PayPal',
+    'western_union' => 'Western Union',
+    'moneygram' => 'MoneyGram',
+    'credit_card' => 'Credit Card',
+    'debit_card' => 'Debit Card',
+    'bank_transfer' => 'Bank Transfer',
+    'escrow' => 'Escrow',
+    'bitcoin' => 'Bitcoin',
+    'alipay' => 'Alipay',
+    'wechat_pay' => 'WeChat Pay',
+];
+$shipping_method = [
+    'sea_fcl' => 'Sea Freight (FCL - Full Container Load)',
+    'sea_lcl' => 'Sea Freight (LCL - Less than Container Load)',
+    'sea_bulk' => 'Sea Freight (Bulk)',
+    'air_freight' => 'Air Freight',
+    'air_express' => 'Air Express',
+    'rail_freight' => 'Rail Freight',
+    'rail_container' => 'Rail Container Transport',
+    'road_freight' => 'Road Freight',
+    'road_truck' => 'Road Transport (Truck)',
+    'road_ltl' => 'Road Freight (LTL - Less than Truckload)',
+    'road_ftl' => 'Road Freight (FTL - Full Truckload)',
+    'courier_express' => 'Courier (Express)',
+    'courier_standard' => 'Courier (Standard)',
+    'multimodal' => 'Multimodal Transport',
+    'pickup' => 'Local Pickup',
+    'dropoff' => 'Local Dropoff',
+];
 ?>
 <section class="mainpagesection custom-dealrock-banner-large" style="background-color: var(--web-bg);">
     <div class="rfq-section bg-shimmer"
-        data-bg="linear-gradient(to right, rgb(0 0 0 / 68%), rgb(0 0 0 / 0%)), url(/img/rfq-image-1.png)" data-bgtype='withlinear'>
+        data-bg="linear-gradient(to right, rgb(0 0 0 / 68%), rgb(0 0 0 / 0%)), url(/img/rfq-image-1.png)"
+        data-bgtype='withlinear'>
         <div class="hiddenuntil768"> Request For Quotations (RFQ)</div>
         <div class="rfq-info">
             <h2>Request for Quotations (RFQ)</h2>
@@ -30,28 +74,82 @@ $quotationDescription = isset($quotationdata['description']) ? $quotationdata['d
             </ul>
         </div>
         <div class="rfq-form-container">
-            <form class="rfq-form">
-                <h3>Get Quotations Now</h3>
-                <input type="text" name="productName" placeholder="Please enter a specific product name" required>
-                <input type="text" name="port" placeholder="Please enter a Port" required>
-                <input type="tel" placeholder="Enter your mobile number" name="mobile" required>
-                <div class="quantity-row">
-                    <input type="number" name="quantity" placeholder="Quantity" required>
-                    <select name="unit" required>
-                        <option value="" disabled selected>Select Unit</option>
-                        <!-- Weight Units -->
-                        <option value="mg">Milligram(s) (mg)</option>
-                        <option value="g">Gram(s) (g)</option>
-                        <option value="kg">Kilogram(s) (kg)</option>
-                        <option value="tonne">Tonne(s) (t)</option>
+            <form class="rfq-form container">
+                <h3 class="mb-1 text-left">Get Quotations Now from Verified Global Suppliers</h3>
 
-                        <!-- Volume Units -->
-                        <option value="ml">Millilitre(s) (ml)</option>
-                        <option value="l">Litre(s) (l)</option>
-                        <option value="cbm">Cubic Meter(s) (m³)</option>
-                    </select>
+                <div class="row">
+                    <div class="col-md-4 mb-1">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="productName" name="productName"
+                            placeholder="Enter specific product name" required>
+                    </div>
+                    <div class="col-md-4 mb-1">
+                        <label for="port" class="form-label">Port</label>
+                        <input type="text" class="form-control" id="port" name="port"
+                            placeholder="Enter destination port" required>
+                    </div>
+                    <div class="col-md-4 mb-1">
+                        <label for="mobile" class="form-label">Mobile Number</label>
+                        <input type="tel" class="form-control" id="mobile" name="mobile"
+                            placeholder="Enter your mobile number" required>
+                    </div>
                 </div>
-                <button type="button" id="quotationButton" class="submit-rfq">REQUEST FOR QUOTATIONS</button>
+
+                <div class="row mb-1">
+                    <div class="col-md-6">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity"
+                            required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="unit" class="form-label">Unit</label>
+                        <select class="form-control" id="unit" name="unit" required>
+                            <option value="" disabled selected>Select Unit</option>
+                            @foreach ($units as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-1">
+                        <label for="shipping_method" class="form-label">Shipping Method</label>
+                        <select class="form-control" id="shipping_method" name="shipping_method" required>
+                            <option value="">Select Shipping Method</option>
+                            @foreach ($shipping_method as $method => $label)
+                                <option value="{{ $method }}"
+                                    {{ old('shipping_method') == $method ? 'selected' : '' }}>
+                                    {{ $label }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-1">
+                        <label for="terms" class="form-label">Payment Terms</label>
+                        <select class="form-control" id="terms" name="terms" required>
+                            <option value="">Select Payment Terms</option>
+                            @foreach ($payment_terms as $term => $label)
+                                <option value="{{ $term }}" {{ old('terms') == $term ? 'selected' : '' }}>
+                                    {{ $label }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="label-width">Details</label>
+                        <textarea class="form-control" rows="1" name="details"
+                            placeholder="Describe product requirements..." required>{{ old('details') }}</textarea>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="button" id="quotationButton" class="btn btn-primary px-5 py-2">
+                        Request for Quotations
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -124,6 +222,9 @@ $quotationDescription = isset($quotationdata['description']) ? $quotationdata['d
         sessionStorage.setItem('mobile', formData.get('mobile'));
         sessionStorage.setItem('quantity', formData.get('quantity'));
         sessionStorage.setItem('unit', formData.get('unit'));
+        sessionStorage.setItem('details', formData.get('details'));
+        sessionStorage.setItem('payment_terms', formData.get('terms'));
+        sessionStorage.setItem('shipping_method', formData.get('shipping_method'));
 
         window.location.href = "{{ route('quotationweb') }}";
     });

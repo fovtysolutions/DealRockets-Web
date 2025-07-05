@@ -6,6 +6,7 @@ use App\Contracts\Repositories\BusinessSettingRepositoryInterface;
 use App\Contracts\Repositories\HelpTopicRepositoryInterface;
 use App\Contracts\Repositories\RobotsMetaContentRepositoryInterface;
 use App\Http\Controllers\Controller;
+use App\Models\faq;
 use App\Utils\CategoryManager;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -52,7 +53,18 @@ class PageController extends Controller
         }
         $helps = $this->helpTopicRepo->getListWhere(orderBy: ['id' => 'desc'], filters: ['status' => 1, 'type' => 'default'], dataLimit: 'all');
         $pageTitleBanner = $this->businessSettingRepo->whereJsonContains(params: ['type' => 'banner_faq_page'], value: ['status' => '1']);
-        return view(VIEW_FILE_NAMES['faq'], compact('categories','helps', 'pageTitleBanner', 'robotsMetaContentData'));
+        $faqs = faq::where('type','user')->get();
+        $userFeatures = [
+            'stocksell' => 'Stock Sell',
+            'buyleads' => 'Buy Leads',
+            'saleoffer' => 'Sale Offer',
+            'dealassist' => 'Deal Assist',
+            'postrfq' => 'RFQ',
+            'industryjobs' => 'Industry Jobs',
+            'tradeshow' => 'Tradeshow',
+            'marketplace' => 'Marketplace',
+        ];
+        return view(VIEW_FILE_NAMES['faq'], compact('faqs','userFeatures','categories','helps', 'pageTitleBanner', 'robotsMetaContentData'));
     }
 
     public function getRefundPolicyView(): View|RedirectResponse

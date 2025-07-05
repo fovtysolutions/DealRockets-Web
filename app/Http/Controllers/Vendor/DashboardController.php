@@ -386,8 +386,25 @@ class DashboardController extends BaseController
     }
 
     public function seefaqs(){
-        $faqs = faq::all();
-        return view('vendor-views.faq.seefaqs',compact('faqs'));
+        $faqs = faq::where('type','vendor')->get();
+        $vendorCategories = [
+            'analytics' => 'Analytics',
+            'inbox' => 'Inbox',
+            'notifications' => 'Notifications',
+            'marketplace' => 'Marketplace',
+            'profile' => 'My Profile',
+            'advertise' => 'Advertise',
+            'stocksell' => 'Stock Sell',
+            'buyleads' => 'Buy Leads',
+            'saleoffer' => 'Sale Offer',
+            'dealassist' => 'Deal Assist',
+            'postrfq' => 'RFQ',
+            'industryjobs' => 'Industry Jobs',
+            'tradeshow' => 'Tradeshow',
+            'membership' => 'Membership',
+            'clearingforwarding' => 'Clearing & Forwarding',
+        ];
+        return view('vendor-views.faq.seefaqs',compact('faqs','vendorCategories'));
     }
 
     // Sub Cards Functions

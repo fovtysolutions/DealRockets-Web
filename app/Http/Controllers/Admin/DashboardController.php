@@ -482,10 +482,50 @@ class DashboardController extends BaseController
     }
 
 
-    public function faq()
+    public function faq(Request $request)
     {
-        $faqs = faq::all();
-        return view('admin-views.faq.manage', compact('faqs'));
+        $query = Faq::query();
+
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        if ($request->filled('feature')) {
+            $query->where('feature', $request->feature);
+        }
+
+        $faqs = $query->get();
+
+        $vendorFeatures = [
+            'analytics' => 'Analytics',
+            'inbox' => 'Inbox',
+            'notifications' => 'Notifications',
+            'marketplace' => 'Marketplace',
+            'profile' => 'My Profile',
+            'advertise' => 'Advertise',
+            'stocksell' => 'Stock Sell',
+            'buyleads' => 'Buy Leads',
+            'saleoffer' => 'Sale Offer',
+            'dealassist' => 'Deal Assist',
+            'postrfq' => 'RFQ',
+            'industryjobs' => 'Industry Jobs',
+            'tradeshow' => 'Tradeshow',
+            'membership' => 'Membership',
+            'clearingforwarding' => 'Clearing & Forwarding',
+        ];
+
+        $userFeatures = [
+            'stocksell' => 'Stock Sell',
+            'buyleads' => 'Buy Leads',
+            'saleoffer' => 'Sale Offer',
+            'dealassist' => 'Deal Assist',
+            'postrfq' => 'RFQ',
+            'industryjobs' => 'Industry Jobs',
+            'tradeshow' => 'Tradeshow',
+            'marketplace' => 'Marketplace',
+        ];
+
+        return view('admin-views.faq.manage', compact('faqs', 'vendorFeatures', 'userFeatures'));
     }
 
     public function crudFAQ(Request $request)
@@ -498,8 +538,10 @@ class DashboardController extends BaseController
                     'seller' => 'required|exists:admins,id',
                     'question' => 'required|string',
                     'answer' => 'required|string',
+                    'type' => 'required|string',
+                    'sub_type' => 'required|string',
                 ]);
-                $faq = FAQ::create($request->only('question', 'seller', 'answer'));
+                $faq = FAQ::create($request->only('question', 'seller', 'answer','type','sub_type'));
                 return response()->json(['message' => 'FAQ created', 'faq' => $faq]);
 
             case 'read':
@@ -511,9 +553,11 @@ class DashboardController extends BaseController
                     'id' => 'required|exists:faq,id',
                     'question' => 'required|string',
                     'answer' => 'required|string',
+                    'type' => 'required|string',
+                    'sub_type' => 'required|string',
                 ]);
                 $faq = FAQ::find($request->id);
-                $faq->update($request->only('question', 'answer'));
+                $faq->update($request->only('question', 'answer', 'type', 'sub_type'));
                 return response()->json(['message' => 'FAQ updated', 'faq' => $faq]);
 
             case 'delete':

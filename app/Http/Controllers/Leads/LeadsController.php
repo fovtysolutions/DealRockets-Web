@@ -72,17 +72,17 @@ class LeadsController extends Controller
     {
         return $request->validate([
             'type' => 'required|string',
-            'name' => 'required|string|max:255',
+            'name' => 'string|max:255',
             'country' => 'required|string',
-            'product_id' => 'required',
+            'product_id' => 'nullable',
             'company_name' => 'string|max:255',
-            'contact_number' => 'required|string|max:255',
+            'contact_number' => 'nullable|string|max:255',
             'quantity_required' => 'required|string|max:255',
-            'buying_frequency' => 'required|string|max:255',
+            'buying_frequency' => 'string|max:255',
             'details' => 'required|string|max:1000',
             'industry' => 'required|string|max:255',
-            'term' => 'required|string|max:255',
-            'unit' => 'required|string|max:255',
+            'term' => 'string|max:255',
+            'unit' => 'string|max:255',
             'compliance_status' => 'required',
             'city' => 'nullable|string|max:255',
             'tags' => 'nullable|string|max:255',
@@ -407,7 +407,7 @@ class LeadsController extends Controller
             // Add compliance status to the validated data
             $validatedData['compliance_status'] = $complianceStatus;
 
-            $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data']);
+            $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data'] ?? []);
 
             // Create a new lead record
             Leads::create($validatedData);
@@ -460,7 +460,7 @@ class LeadsController extends Controller
         }
 
         if ($request->filled('name')) {
-            $query->where('name', 'LIKE', '%' . $request->name . '%');
+            $query->where('details', 'LIKE', '%' . $request->name . '%');
         }
 
         if ($request->filled('country')) {
@@ -542,11 +542,17 @@ class LeadsController extends Controller
             // Add compliance status to the validated data
             $validatedData['compliance_status'] = $complianceStatus;
 
-            // Images the user chose to keep
-            $keepImages = $request->input('keep_images', []);
+            // Images the user chose to keep (from form input)
+            $keepImages = $request->input('keep_images', []); // default to empty array
+
+            // Current images already saved in DB
+            $currentImages = $lead->images ?? []; // default to empty array
+
+            // Ensure both are arrays
+            $keepImages = is_array($keepImages) ? $keepImages : [];
+            $currentImages = is_array($currentImages) ? $currentImages : [];
 
             // Delete old images not in the keep list
-            $currentImages = $lead->images ?? [];
             $imagesToDelete = array_diff($currentImages, $keepImages);
 
             foreach ($imagesToDelete as $img) {
@@ -557,19 +563,18 @@ class LeadsController extends Controller
             // Handle new uploads
             $newImages = [];
 
-
             if ($request->hasFile('new_images')) {
                 foreach ($request->file('new_images') as $image) {
                     $filename = time() . '_' . $image->getClientOriginalName();
-                    $path = $image->storeAs('uploads/leads/images', $filename, 'public'); // stored in storage/app/public/uploads/leads/images
-                    $newImages[] = 'storage/' . $path; // public path for display
+                    $path = $image->storeAs('uploads/leads/images', $filename, 'public'); // saved to storage/app/public/uploads/leads/images
+                    $newImages[] = 'storage/' . $path; // convert to public path
                 }
             }
 
             // Update images list
             $validatedData['images'] = array_merge($keepImages, $newImages);
 
-            $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data']);
+            $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data'] ?? []);
 
             // Update the lead record
             $leads->update($validatedData);
@@ -594,7 +599,7 @@ class LeadsController extends Controller
         $leads = Leads::findOrFail($id); // Fetch supplier or throw 404
         $leads->delete(); // Delete the lead
 
-        return redirect()->route('admin.leads.list')->with('success', 'Supplier deleted successfully.');
+        return redirect()->back()->with('success', 'Lead deleted successfully.');
     }
 
     public function vadd_new()
@@ -630,7 +635,7 @@ class LeadsController extends Controller
         $query->where('type', 'seller');
 
         if ($request->filled('name')) {
-            $query->where('name', 'LIKE', '%' . $request->name . '%');
+            $query->where('details', 'LIKE', '%' . $request->name . '%');
         }
 
         if ($request->filled('country')) {

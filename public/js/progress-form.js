@@ -3,7 +3,7 @@ function initializeMultiStepForm() {
     const stepIndicators = document.querySelectorAll(".step");
 
     function showStep(step) {
-        console.log('show step',step);
+        console.log("show step", step);
         steps.forEach((s) => s.classList.add("d-none"));
         const currentStep = document.querySelector(
             `.step-section[data-step="${step}"]`
@@ -23,15 +23,35 @@ function initializeMultiStepForm() {
             "input[required], select[required], textarea[required]"
         );
         let allFilled = true;
+        let firstInvalidInput = null;
 
         requiredInputs.forEach((input) => {
+            const label =
+                input.closest(".form-group")?.querySelector("label")
+                    ?.innerText || input.name;
+
             if (!input.value.trim()) {
                 allFilled = false;
                 input.classList.add("input-error");
+
+                // Show toastr error per field
+                toastr.error(`The field "${label}" is required.`);
+
+                // Save the first invalid input for scroll-to
+                if (!firstInvalidInput) {
+                    firstInvalidInput = input;
+                }
             } else {
                 input.classList.remove("input-error");
             }
         });
+
+        if (!allFilled && firstInvalidInput) {
+            firstInvalidInput.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+        }
 
         return allFilled;
     }

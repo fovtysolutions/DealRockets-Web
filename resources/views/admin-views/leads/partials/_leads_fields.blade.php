@@ -20,10 +20,6 @@
         <div class="step">
             <div class="step-circle">4</div>
         </div>
-        <div class="step-line"></div>
-        <div class="step">
-            <div class="step-circle">5</div>
-        </div>
     </div>
     <div class="form-header">
         <h1>{{ $isEdit ? 'Edit Lead' : 'Create Lead' }}</h1>
@@ -32,6 +28,50 @@
         </p>
     </div>
     <div class="step-section" data-step="1">
+        <div class="form-row {{ auth('seller')->check() ? 'd-none' : '' }}">
+            <div class="form-group">
+                <label for="buyer_seller" class="title-color">
+                    {{ translate('buy_leads_or_sell_offer') }}
+                    <span class="input-required-icon">*</span>
+                </label>
+                @php
+                    $selectedType = old('type') ?? ($isEdit ? $leads->type : (auth('seller')->check() ? 'seller' : ''));
+                @endphp
+
+                <select class="form-control" name="type" required>
+                    <option value="" disabled {{ $selectedType == '' ? 'selected' : '' }}>
+                        {{ translate('select_buyer_or_seller') }}
+                    </option>
+                    @if (auth('admin')->check())
+                        <option value="buyer" {{ $selectedType == 'buyer' ? 'selected' : '' }}>
+                            {{ translate('buy_leads') }}
+                        </option>
+                    @endif
+                    <option value="seller" {{ $selectedType == 'seller' ? 'selected' : '' }}>
+                        {{ translate('sell_offer') }}
+                    </option>
+                </select>
+
+            </div>
+            <div class="form-group">
+                <label for="compliance_status" class="form-label">Compliance Status</label>
+                <select name="compliance_status" id="compliance_status" class="form-control">
+                    @php
+                        if (auth('admin')->check()) {
+                            $statusList = ['pending', 'approved', 'flagged'];
+                        } else {
+                            $statusList = ['pending'];
+                        }
+                    @endphp
+                    @foreach ($statusList as $status)
+                        <option value="{{ $status }}"
+                            {{ old('compliance_status', $isEdit ? $leads->compliance_status : 'pending') == $status ? 'selected' : '' }}>
+                            {{ ucfirst($status) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="industry" class="form-label">Industry</label>
@@ -80,9 +120,9 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="product_id" class="form-label">Product Name</label>
-                <select name="product_id" id="product_id" class="form-select" required>
+                <select name="product_id" id="product_id" class="form-select" {{ $isEdit ? '' : 'required' }}>
                     @if ($isEdit && $leads->product)
-                        <option value="{{ $leads->product->id }}" selected>{{ $leads->product->name }}</option>
+                        <option value="{{ $leads->product_id }}" selected>Select a Option if Updating</option>
                     @endif
                 </select>
             </div>
@@ -94,107 +134,33 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-single">
-                <label for="description" class="form-label">Description</label>
-                <textarea required id="details" name="details" class="form-control" placeholder="Enter description" rows="1">{{ old('details', $isEdit ? $leads->details : '') }}</textarea>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-single">
-                <label class="form-label">{{ translate('Standard Specification') }}</label>
-                <div id="dynamic-data-box">
-                    {{-- Title Groups Go Here --}}
-                </div>
-                <button type="button" class="btn btn-primary mt-2" id="add-title-group">Add
-                    Title</button>
-            </div>
-        </div>
-        <button type="button" class="next-btn" data-next="2">Next</button>
-    </div>
-    <div class="step-section d-none" data-step="2">
-        <div class="form-row">
-            <div class="form-group">
-                <label class="form-label">{{ translate('Packing Type') }}</label>
-                <select class="form-control" name="packing_type">
-                    <option value="">Select Packing Type</option>
-                    @php
-                        $packingTypes = [
-                            'PP Bag',
-                            'Carton',
-                            'Plastic Drum',
-                            'Steel Drum',
-                            'Wooden Crate',
-                            'Bulk',
-                            'IBC Tank',
-                            'Plastic Container',
-                            'Custom Packaging',
-                        ];
-                    @endphp
-                    @foreach ($packingTypes as $type)
-                        <option value="{{ $type }}"
-                            {{ old('packing_type', $isEdit ? $leads->packing_type : '') == $type ? 'selected' : '' }}>
-                            {{ $type }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ translate('Size') }}</label>
-                <input type="text" class="form-control" name="size" placeholder="e.g., 1.5kg"
-                    value="{{ old('size', $isEdit ? $leads->size : '') }}">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="brand" class="form-label">Brand</label>
-                <select name="brand" id="brand" class="form-control">
-                    <option value="" disabled
-                        {{ old('brand', $isEdit ? $leads->brand : '') == '' ? 'selected' : '' }}>
-                        Select a Brand
-                    </option>
-                    @foreach ($brands as $brand)
-                        <option value="{{ $brand->id }}"
-                            {{ old('brand', $isEdit ? $leads->brand : '') == $brand->id ? 'selected' : '' }}>
-                            {{ $brand->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="tags">{{ translate('tags') }}</label>
-                <input type="text" name="tags" id="tags" class="form-control"
-                    placeholder="{{ translate('enter_tags') }}"
-                    value="{{ old('tags', $isEdit ? $leads->tags : '') }}">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="avl_stock">{{ translate('available_stock') }}</label>
-                <input type="text" name="avl_stock" id="avl_stock" class="form-control"
-                    placeholder="{{ translate('enter_available_stock') }}"
-                    value="{{ old('avl_stock', $isEdit ? $leads->avl_stock : '') }}">
-            </div>
-            <div class="form-group">
-                <label for="avl_stock_unit">{{ translate('available_stock_unit') }}</label>
-                <input type="text" name="avl_stock_unit" id="avl_stock_unit" class="form-control"
-                    placeholder="{{ translate('enter_available_stock_unit') }}"
-                    value="{{ old('avl_stock_unit', $isEdit ? $leads->avl_stock_unit : '') }}">
-            </div>
-        </div>
-        <div class="form-row">
             @if ($isEdit)
-                <div class="form-single">
+                <div class="form-group">
                     <label for="images" class="form-label">{{ translate('product_images') }}</label>
                     <input type="file" name="new_images[]" id="images" class="form-select" multiple
                         accept="image/*">
                 </div>
             @else
-                <div class="form-single">
+                <div class="form-group">
                     <label for="imagePicker">Choose Images</label>
-                    <input type="file" name="images[]" id="images" class="form-select" multiple
-                        accept="image/*">
+                    <input type="file" name="images[]" id="images" class="form-select" multiple accept="image/*">
                 </div>
             @endif
+            <div class="form-group">
+                <label for="country" class="form-label">Origin</label>
+                <select name="country" id="country" class="form-control" required>
+                    <option value="" disabled
+                        {{ old('country', $isEdit ? $leads->country : '') == '' ? 'selected' : '' }}>
+                        Select a Country
+                    </option>
+                    @foreach ($countries as $country)
+                        <option value="{{ $country->id }}"
+                            {{ old('country', $isEdit ? $leads->country : '') == $country->id ? 'selected' : '' }}>
+                            {{ $country->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
         @if ($isEdit)
             <div class="form-row">
@@ -228,39 +194,228 @@
                 </div>
             </div>
         @endif
+        <button type="button" class="next-btn" data-next="2">Next</button>
+    </div>
+    <div class="step-section d-none" data-step="2">
+        <div class="form-row">
+            <div class="form-single">
+                <label for="description" class="form-label">Description</label>
+                <textarea required id="details" name="details" class="form-control" placeholder="Enter description"
+                    rows="1">{{ old('details', $isEdit ? $leads->details : '') }}</textarea>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-single">
+                <label class="form-label">{{ translate('Standard Specification') }}</label>
+                <div id="dynamic-data-box">
+                    {{-- Title Groups Go Here --}}
+                </div>
+                <button type="button" class="btn btn-primary mt-2" id="add-title-group">Add
+                    Title</button>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="tags">{{ translate('tags') }}</label>
+                <input type="text" name="tags" id="tags" class="form-control"
+                    placeholder="{{ translate('enter_tags') }}"
+                    value="{{ old('tags', $isEdit ? $leads->tags : '') }}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ translate('Size') }}</label>
+                <input type="text" class="form-control" name="size" placeholder="e.g., 1.5kg"
+                    value="{{ old('size', $isEdit ? $leads->size : '') }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="brand" class="form-label">Brand</label>
+                <input type="text" name="brand" id="brand" class="form-control" placeholder="e.g., 'Reebok'"
+                   value="{{ old('brand', $isEdit ? $leads->brand : '') }}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ translate('Packing Type') }}</label>
+                <select class="form-control" name="packing_type">
+                    <option value="">Select Packing Type</option>
+                    @php
+                        $packingTypes = [
+                            'PP Bag',
+                            'Carton',
+                            'Plastic Drum',
+                            'Steel Drum',
+                            'Wooden Crate',
+                            'Bulk',
+                            'IBC Tank',
+                            'Plastic Container',
+                            'Custom Packaging',
+                        ];
+                    @endphp
+                    @foreach ($packingTypes as $type)
+                        <option value="{{ $type }}"
+                            {{ old('packing_type', $isEdit ? $leads->packing_type : '') == $type ? 'selected' : '' }}>
+                            {{ $type }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
         <button type="button" class="prev-btn" data-prev="1">Prev</button>
         <button type="button" class="next-btn" data-next="3">Next</button>
     </div>
     <div class="step-section d-none" data-step="3">
         <div class="form-row">
             <div class="form-group">
-                <label for="country" class="form-label">Origin</label>
-                <select name="country" id="country" class="form-control" required>
-                    <option value="" disabled
-                        {{ old('country', $isEdit ? $leads->country : '') == '' ? 'selected' : '' }}>
-                        Select a Country
+                <label for="rate" class="form-label">Rate</label>
+                <div class="input-group">
+                    @php
+                        $currencies = ['USD', 'EUR', 'INR', 'PKR', 'SAR', 'AED'];
+                        // Split rate if it includes a space (e.g., "150 USD")
+                        $rateValue = old('rate', $isEdit ? $leads->rate ?? '' : '');
+                        $rateParts = explode(' ', $rateValue);
+                        $rateAmount = $rateParts[0] ?? '';
+                        $rateCurrency = $rateParts[1] ?? 'USD';
+                    @endphp
+
+                    <input type="number" id="rate" class="form-control" placeholder="Enter Rate" required
+                        value="{{ $rateAmount }}">
+
+                    <select id="rate_currency" class="form-select" style="max-width: 120px;border-top-left-radius: 0px;border-bottom-left-radius: 0px;" required>
+                        @foreach ($currencies as $currency)
+                            <option value="{{ $currency }}" {{ $rateCurrency == $currency ? 'selected' : '' }}>
+                                {{ $currency }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <input type="hidden" name="rate" id="rate_combined"
+                    value="{{ trim($rateAmount . ' ' . $rateCurrency) }}">
+            </div>
+
+            <div class="form-group">
+                <label class="title-color" for="quantity_required">{{ translate('quantity_required') }}</label>
+                <div class="input-group">
+                    @php
+                        $units = ['kg', 'ton', 'litre', 'meter', 'pack', 'box', 'piece', 'bag'];
+                        $qtyValue = old('quantity_required', $isEdit ? $leads->quantity_required : '');
+                        $qtyParts = explode(' ', $qtyValue);
+                        $qtyAmount = $qtyParts[0] ?? '';
+                        $qtyUnit = $qtyParts[1] ?? 'kg';
+                    @endphp
+
+                    <input type="number" id="quantity_required" class="form-control"
+                        placeholder="{{ translate('enter_quantity_required') }}" required
+                        value="{{ $qtyAmount }}">
+
+                    <select id="quantity_unit" class="form-select" style="max-width: 120px;border-top-left-radius: 0px;border-bottom-left-radius: 0px;" required>
+                        @foreach ($units as $unit)
+                            <option value="{{ $unit }}" {{ $qtyUnit == $unit ? 'selected' : '' }}>
+                                {{ strtoupper($unit) }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <input type="hidden" name="quantity_required" id="quantity_required_combined"
+                    value="{{ trim($qtyAmount . ' ' . $qtyUnit) }}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="avl_stock">{{ translate('available_stock') }}</label>
+                <input type="text" name="avl_stock" id="avl_stock" class="form-control"
+                    placeholder="{{ translate('enter_available_stock') }}"
+                    value="{{ old('avl_stock', $isEdit ? $leads->avl_stock : '') }}">
+            </div>
+            <div class="form-group">
+                <label for="avl_stock_unit">{{ translate('available_stock_unit') }}</label>
+
+                @php
+                    $unitOptions = ['kg', 'ton', 'litre', 'meter', 'pack', 'box', 'piece', 'bag'];
+                    $selectedUnit = old('avl_stock_unit', $isEdit ? $leads->avl_stock_unit : '');
+                @endphp
+
+                <select name="avl_stock_unit" id="avl_stock_unit" class="form-select">
+                    <option value="" disabled {{ $selectedUnit == '' ? 'selected' : '' }}>
+                        {{ translate('select_unit') }}
                     </option>
-                    @foreach ($countries as $country)
-                        <option value="{{ $country->id }}"
-                            {{ old('country', $isEdit ? $leads->country : '') == $country->id ? 'selected' : '' }}>
-                            {{ $country->name }}
+                    @foreach ($unitOptions as $unit)
+                        <option value="{{ $unit }}" {{ $selectedUnit == $unit ? 'selected' : '' }}>
+                            {{ strtoupper($unit) }}
                         </option>
                     @endforeach
                 </select>
             </div>
-            <div class="form-group">
-                <label for="rate" class="form-label">Rate</label>
-                <input type="number" name="rate" id="rate" class="form-control" placeholder="Enter Rate"
-                    required value="{{ old('rate', $isEdit ? $leads->rate : '') }}">
-            </div>
         </div>
         <div class="form-row">
             <div class="form-group">
+                <label for="lead_time">{{ translate('lead_time') }}</label>
+                <input type="text" name="lead_time" id="lead_time" class="form-control"
+                    placeholder="{{ translate('enter_lead_time') }}"
+                    value="{{ old('lead_time', $isEdit ? $leads->lead_time : '') }}">
+            </div>
+            <div class="form-group">
+                <label for="payment_option">{{ translate('payment_option') }}</label>
+
+                @php
+                    $paymentOptions = [
+                        'L/C at Sight',
+                        'L/C 30/60/90 Days',
+                        'D/A (Documents Against Acceptance)',
+                        'D/P (Documents Against Payment)',
+                        'CAD (Cash Against Documents)',
+                        'T/T (Telegraphic Transfer)',
+                        'Advance Payment',
+                        'Advance + Partial Payment',
+                        'Advance 30%, Balance Before Shipment',
+                        'Advance 30%, Balance Against BL Copy',
+                        'Advance 50%, Balance on Delivery',
+                        'Advance 100% before Production',
+                        'Advance + L/C',
+                        'Advance + T/T',
+                    ];
+                    $selectedPayment = old('payment_option', $isEdit ? $leads->payment_option : '');
+                @endphp
+
+                <select name="payment_option" id="payment_option" class="form-select">
+                    <option value="" disabled {{ $selectedPayment == '' ? 'selected' : '' }}>
+                        {{ translate('select_payment_option') }}
+                    </option>
+                    @foreach ($paymentOptions as $option)
+                        <option value="{{ $option }}" {{ $selectedPayment == $option ? 'selected' : '' }}>
+                            {{ $option }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+        </div>
+        <div class="form-row">
+            <div class="form-single">
+                <label for="refund">{{ translate('refund_policy') }}</label>
+                <input type="text" name="refund" id="refund" class="form-control"
+                    placeholder="{{ translate('enter_refund_policy') }}"
+                    value="{{ old('refund', $isEdit ? $leads->refund : '') }}">
+            </div>
+        </div>
+        <button type="button" class="prev-btn" data-prev="2">Prev</button>
+        <button type="button" class="next-btn" data-next="4">Next</button>
+    </div>
+    <div class="step-section d-none" data-step="4">
+        <div class="form-row">
+            <div class="form-group">
                 <label class="title-color">{{ translate('Delivery Terms') }}</label>
+                @php
+                    $deliveryTerms = ['CFR', 'FOB', 'CIF', 'EXW', 'DDP', 'DAP'];
+                    $selectedTerm = old('delivery_terms', $isEdit ? $leads->delivery_terms : '');
+                @endphp
                 <select class="form-control" name="delivery_terms">
-                    @foreach (['CFR', 'FOB'] as $term)
-                        <option value="{{ $term }}"
-                            {{ old('delivery_terms', $isEdit ? $leads->delivery_terms : '') == $term ? 'selected' : '' }}>
+                    <option value="" disabled {{ $selectedTerm == '' ? 'selected' : '' }}>
+                        {{ translate('select_delivery_terms') }}
+                    </option>
+                    @foreach ($deliveryTerms as $term)
+                        <option value="{{ $term }}" {{ $selectedTerm == $term ? 'selected' : '' }}>
                             {{ $term }}
                         </option>
                     @endforeach
@@ -268,16 +423,22 @@
             </div>
             <div class="form-group">
                 <label class="title-color">{{ translate('Delivery Mode') }}</label>
+                @php
+                    $deliveryModes = ['Air', 'Rail', 'Sea', 'Road', 'Courier'];
+                    $selectedMode = old('delivery_mode', $isEdit ? $leads->delivery_mode : '');
+                @endphp
                 <select class="form-control" name="delivery_mode">
-                    @foreach (['Air', 'Rail', 'Sea'] as $mode)
-                        <option value="{{ $mode }}"
-                            {{ old('delivery_mode', $isEdit ? $leads->delivery_mode : '') == $mode ? 'selected' : '' }}>
+                    <option value="" disabled {{ $selectedMode == '' ? 'selected' : '' }}>
+                        {{ translate('select_delivery_mode') }}
+                    </option>
+                    @foreach ($deliveryModes as $mode)
+                        <option value="{{ $mode }}" {{ $selectedMode == $mode ? 'selected' : '' }}>
                             {{ $mode }}
                         </option>
                     @endforeach
                 </select>
             </div>
-        </div>  
+        </div>
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">{{ translate('Place of Loading') }}</label>
@@ -297,153 +458,27 @@
                 </select>
             </div>
         </div>
-        <button type="button" class="prev-btn" data-prev="2">Prev</button>
-        <button type="button" class="next-btn" data-next="4">Next</button>
-    </div>
-    <div class="step-section d-none" data-step="4">
         <div class="form-row">
             <div class="form-group">
-                <label for="buyer_seller" class="title-color">
-                    {{ translate('buyer_or_seller') }}
-                    <span class="input-required-icon">*</span>
-                </label>
-                <select class="form-control" name="type" required>
+                <label for="country" class="form-label">Origin</label>
+                <select name="country" id="country" class="form-control" required>
                     <option value="" disabled
-                        {{ old('type', $isEdit ? $leads->type : '') == '' ? 'selected' : '' }}>
-                        {{ translate('select_buyer_or_seller') }}
+                        {{ old('country', $isEdit ? $leads->country : '') == '' ? 'selected' : '' }}>
+                        Select a Country
                     </option>
-                    @if (auth('admin')->check())
-                        <option value="buyer"
-                            {{ old('type', $isEdit ? $leads->type : '') == 'buyer' ? 'selected' : '' }}>
-                            {{ translate('buyer') }}
+                    @foreach ($countries as $country)
+                        <option value="{{ $country->id }}"
+                            {{ old('country', $isEdit ? $leads->country : '') == $country->id ? 'selected' : '' }}>
+                            {{ $country->name }}
                         </option>
-                    @endif
-                    <option value="seller"
-                        {{ old('type', $isEdit ? $leads->type : '') == 'seller' ? 'selected' : '' }}>
-                        {{ translate('seller') }}
-                    </option>
+                    @endforeach
                 </select>
             </div>
-
-            <div class="form-group">
-                <label class="title-color" for="name">{{ translate('Lead_name') }}</label>
-                <input type="text" name="name" id="name" class="form-control"
-                    placeholder="{{ translate('new_lead') }}"
-                    value="{{ old('name', $isEdit ? $leads->name : '') }}">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label class="title-color" for="company_name">{{ translate('company_name') }}</label>
-                <input type="text" name="company_name" id="company_name" class="form-control"
-                    placeholder="{{ translate('enter_company_name') }}"
-                    value="{{ old('company_name', $isEdit ? $leads->company_name : '') }}">
-            </div>
-
-            <div class="form-group">
-                <label class="title-color" for="contact_number">
-                    {{ translate('contact_number') }} <span class="input-required-icon">*</span>
-                </label>
-                <input type="text" name="contact_number" id="contact_number" class="form-control"
-                    placeholder="{{ translate('enter_contact_number') }}"
-                    value="{{ old('contact_number', $isEdit ? $leads->contact_number : '') }}">
-            </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <label for="city">{{ translate('city') }}</label>
                 <input type="text" name="city" id="city" class="form-control"
                     placeholder="{{ translate('enter_city') }}"
                     value="{{ old('city', $isEdit ? $leads->city : '') }}">
-            </div>
-            <div class="form-group">
-                <label for="refund">{{ translate('refund_policy') }}</label>
-                <input type="text" name="refund" id="refund" class="form-control"
-                    placeholder="{{ translate('enter_refund_policy') }}"
-                    value="{{ old('refund', $isEdit ? $leads->refund : '') }}">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-single">
-                <label for="compliance_status" class="form-label">Compliance Status</label>
-                <select name="compliance_status" id="compliance_status" class="form-control">
-                    @php
-                        if (auth('admin')->check()) {
-                            $statusList = ['pending', 'approved', 'flagged'];
-                        } else {
-                            $statusList = ['pending'];
-                        }
-                    @endphp
-                    @foreach ($statusList as $status)
-                        <option value="{{ $status }}"
-                            {{ old('compliance_status', $isEdit ? $leads->compliance_status : 'pending') == $status ? 'selected' : '' }}>
-                            {{ ucfirst($status) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <button type="button" class="prev-btn" data-prev="3">Prev</button>
-        <button type="button" class="next-btn" data-next="5">Next</button>
-    </div>
-    <div class="step-section d-none" data-step="5">
-        <div class="form-row">
-            <div class="form-group">
-                <label class="title-color" for="quantity_required">{{ translate('quantity_required') }}</label>
-                <input type="number" name="quantity_required" id="quantity_required" class="form-control"
-                    placeholder="{{ translate('enter_quantity_required') }}" required
-                    value="{{ old('quantity_required', $isEdit ? $leads->quantity_required : '') }}">
-            </div>
-
-            <div class="form-group">
-                <label class="title-color" for="unit">
-                    {{ translate('Unit') }} <span class="input-required-icon">*</span>
-                </label>
-                <input type="text" name="unit" id="unit" class="form-control"
-                    placeholder="{{ translate('Enter Unit') }}" required
-                    value="{{ old('unit', $isEdit ? $leads->unit : '') }}">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label class="title-color" for="term">{{ translate('Term') }}
-                    <span class="input-required-icon">*</span>
-                </label>
-                <input type="text" name="term" id="term" class="form-control"
-                    placeholder="{{ translate('Enter Term') }}" required
-                    value="{{ old('term', $isEdit ? $leads->term : '') }}">
-            </div>
-
-            <div class="form-group">
-                <label class="title-color" for="buying_frequency">{{ translate('buying_frequency') }}
-                    <span class="input-required-icon">*</span>
-                </label>
-                <select class="js-select2-custom form-control" name="buying_frequency" required>
-                    <option value="" disabled
-                        {{ old('buying_frequency', $isEdit ? $leads->buying_frequency : '') == '' ? 'selected' : '' }}>
-                        {{ translate('select_buying_frequency') }}
-                    </option>
-                    @foreach (['daily', 'weekly', 'monthly', 'quarterly', 'yearly'] as $freq)
-                        <option value="{{ $freq }}"
-                            {{ old('buying_frequency', $isEdit ? $leads->buying_frequency : '') == $freq ? 'selected' : '' }}>
-                            {{ translate($freq) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="lead_time">{{ translate('lead_time') }}</label>
-                <input type="text" name="lead_time" id="lead_time" class="form-control"
-                    placeholder="{{ translate('enter_lead_time') }}"
-                    value="{{ old('lead_time', $isEdit ? $leads->lead_time : '') }}">
-            </div>
-            <div class="form-group">
-                <label for="payment_option">{{ translate('payment_option') }}</label>
-                <input type="text" name="payment_option" id="payment_option" class="form-control"
-                    placeholder="{{ translate('enter_payment_option') }}"
-                    value="{{ old('payment_option', $isEdit ? $leads->payment_option : '') }}">
             </div>
         </div>
         <div class="form-row">
@@ -454,7 +489,7 @@
                     value="{{ old('offer_type', $isEdit ? $leads->offer_type : '') }}">
             </div>
         </div>
-        <button type="button" class="prev-btn" data-prev="4">Prev</button>
+        <button type="button" class="prev-btn" data-prev="3">Prev</button>
         <button type="submit" class="submit-btn">Submit</button>
     </div>
 </div>
@@ -478,6 +513,7 @@
 
             container.insertAdjacentHTML('beforeend', html);
 
+            // Set title input, even if it's null
             const titleInput = container.querySelector(
                 `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][title]"]`
             );
@@ -485,29 +521,47 @@
                 titleInput.value = group.title || '';
             }
 
-            const subHeadsContainer = container.querySelector(`.sub-heads[data-title-index="${titleIndex}"]`);
-            subHeadsContainer.innerHTML = ''; // Clear default first sub-head
+            const subHeadsContainer = container.querySelector(
+                `.sub-heads[data-title-index="${titleIndex}"]`
+            );
 
-            if (group.sub_heads && Array.isArray(group.sub_heads)) {
-                group.sub_heads.forEach((sub, subIndex) => {
+            if (subHeadsContainer) {
+                subHeadsContainer.innerHTML = ''; // Clear default sub-head
+
+                const subHeadsRaw = group.sub_heads || {};
+                const subHeadsArray = Array.isArray(subHeadsRaw) ?
+                    subHeadsRaw :
+                    Object.values(subHeadsRaw);
+
+                if (subHeadsArray.length > 0) {
+                    subHeadsArray.forEach((sub, subIndex) => {
+                        const subHtml = isTechnical ?
+                            getSubHeadRowHtmlTechnical(titleIndex, subIndex) :
+                            getSubHeadRowHtml(titleIndex, subIndex);
+
+                        subHeadsContainer.insertAdjacentHTML('beforeend', subHtml);
+
+                        const subHeadInput = subHeadsContainer.querySelector(
+                            `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head]"]`
+                        );
+                        const subHeadDataInput = subHeadsContainer.querySelector(
+                            `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head_data]"]`
+                        );
+
+                        if (subHeadInput) subHeadInput.value = sub.sub_head || '';
+                        if (subHeadDataInput) subHeadDataInput.value = sub.sub_head_data || '';
+                    });
+                } else {
+                    // Insert one empty row if no subheads found
                     const subHtml = isTechnical ?
-                        getSubHeadRowHtmlTechnical(titleIndex, subIndex) :
-                        getSubHeadRowHtml(titleIndex, subIndex);
+                        getSubHeadRowHtmlTechnical(titleIndex, 0) :
+                        getSubHeadRowHtml(titleIndex, 0);
 
                     subHeadsContainer.insertAdjacentHTML('beforeend', subHtml);
-
-                    const subHeadInput = subHeadsContainer.querySelector(
-                        `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head]"]`
-                    );
-                    const subHeadDataInput = subHeadsContainer.querySelector(
-                        `input[name="${isTechnical ? 'dynamic_data_technical' : 'dynamic_data'}[${titleIndex}][sub_heads][${subIndex}][sub_head_data]"]`
-                    );
-
-                    if (subHeadInput) subHeadInput.value = sub.sub_head || '';
-                    if (subHeadDataInput) subHeadDataInput.value = sub.sub_head_data || '';
-                });
+                }
             }
 
+            // Increment counters
             if (isTechnical) {
                 titleCountTechnical++;
             } else {
@@ -652,5 +706,56 @@
                 return data.newOption ? `<em>Add "${data.text}"</em>` : data.text;
             }
         });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const qtyInput = document.getElementById('quantity_required');
+        const unitSelect = document.getElementById('quantity_unit');
+        const hiddenCombined = document.getElementById('quantity_required_combined');
+
+        function updateQuantityField() {
+            const qty = qtyInput.value.trim();
+            const unit = unitSelect.value.trim();
+            hiddenCombined.value = qty && unit ? `${qty} ${unit}` : '';
+        }
+
+        qtyInput.addEventListener('input', updateQuantityField);
+        unitSelect.addEventListener('change', updateQuantityField);
+
+        updateQuantityField(); // Init on load
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const rateInput = document.getElementById('rate');
+        const rateCurrency = document.getElementById('rate_currency');
+        const rateCombined = document.getElementById('rate_combined');
+
+        const qtyInput = document.getElementById('quantity_required');
+        const qtyUnit = document.getElementById('quantity_unit');
+        const qtyCombined = document.getElementById('quantity_required_combined');
+
+        function updateCombinedRate() {
+            const rate = rateInput.value.trim();
+            const currency = rateCurrency.value.trim();
+            rateCombined.value = rate && currency ? `${rate} ${currency}` : '';
+        }
+
+        function updateCombinedQty() {
+            const qty = qtyInput.value.trim();
+            const unit = qtyUnit.value.trim();
+            qtyCombined.value = qty && unit ? `${qty} ${unit}` : '';
+        }
+
+        rateInput.addEventListener('input', updateCombinedRate);
+        rateCurrency.addEventListener('change', updateCombinedRate);
+
+        qtyInput.addEventListener('input', updateCombinedQty);
+        qtyUnit.addEventListener('change', updateCombinedQty);
+
+        // Initialize on load
+        updateCombinedRate();
+        updateCombinedQty();
     });
 </script>

@@ -59,7 +59,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2 col-sm-4 col-6">
+                            {{-- <div class="col-md-2 col-sm-4 col-6">
                                 <label class="form-label mb-1 small">{{ translate('company_name') }}</label>
                                 <input type="text" name="company_name" class="form-control form-control-sm"
                                     placeholder="{{ translate('enter_company_name') }}"
@@ -71,7 +71,7 @@
                                 <input type="text" name="contact_number" class="form-control form-control-sm"
                                     placeholder="{{ translate('enter_contact_number') }}"
                                     value="{{ request('contact_number') }}">
-                            </div>
+                            </div> --}}
 
                             <div class="col-md-2 col-sm-4 col-12 d-flex gap-2">
                                 <a class="btn btn--primary w-100" href="{{ url()->current() }}">
@@ -144,8 +144,6 @@
                                     <th>{{ translate('leads Name') }}</th>
                                     <th class="text-center">{{ translate('type') }}</th>
                                     <th class="text-center">{{ translate('country') }}</th>
-                                    <th class="text-center">{{ translate('company_name') }}</th>
-                                    <th class="text-center">{{ translate('contact_number') }}</th>
                                     <th class="text-center">{{ translate('posted_date') }}</th>
                                     <th class="text-center">{{ translate('action') }}</th>
                                 </tr>
@@ -157,7 +155,7 @@
                                             {{ ($leads->currentPage() - 1) * $leads->perPage() + $key + 1 }}
                                         </th>
                                         <td>
-                                            {{ Str::limit($lead['name'], 20) }}
+                                            {{ Str::limit($lead['details'], 20) }}
                                         </td>
                                         <td class="text-center">
                                             {{ translate(str_replace('_', ' ', $lead['type'])) }}
@@ -166,35 +164,29 @@
                                             {{ \App\Utils\ChatManager::getCountryDetails($lead['country'])['countryName'] ?? 'Invalid Country Name' }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $lead['company_name'] }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ $lead['contact_number'] }}
-                                        </td>
-                                        <td class="text-center">
                                             {{ $lead['posted_date'] }}
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
-                                                <a class="btn btn-outline-info btn-sm square-btn" title="View"
+                                                <a class="btn btn-outline-info" title="View"
                                                     href="{{ route('admin.leads.view', ['id' => $lead['id']]) }}">
-                                                    <i class="tio-invisible"></i>
+                                                    <i class="tio-invisible"></i> View
                                                 </a>
-                                                <a class="btn btn-outline--primary btn-sm square-btn"
+                                                <a class="btn btn-outline--primary"
                                                     title="{{ translate('edit') }}"
                                                     href="{{ route('admin.leads.edit', ['id' => $lead['id']]) }}">
-                                                    <i class="tio-edit"></i>
+                                                    <i class="tio-edit"></i> Edit
                                                 </a>
-                                                <span class="btn btn-outline-danger btn-sm square-btn delete-data"
-                                                    title="{{ translate('delete') }}"
-                                                    data-id="lead-{{ $lead['id'] }}">
-                                                    <i class="tio-delete"></i>
-                                                </span>
+                                                <form action="{{ route('admin.leads.delete', [$lead['id']]) }}"
+                                                    method="post" id="lead-{{ $lead['id'] }}">
+                                                    @csrf @method('delete')
+                                                    <button type="submit" class="btn btn-outline-danger delete-data"
+                                                        title="{{ translate('delete') }}"
+                                                        data-id="lead-{{ $lead['id'] }}">
+                                                        <i class="tio-delete"></i> Delete
+                                                    </button>
+                                                </form>
                                             </div>
-                                            <form action="{{ route('admin.leads.delete', [$lead['id']]) }}"
-                                                method="post" id="lead-{{ $lead['id'] }}">
-                                                @csrf @method('delete')
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

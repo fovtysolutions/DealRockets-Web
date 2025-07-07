@@ -35,17 +35,6 @@ class ComplianceService
                 return 'flagged';
             }
         }
-
-        // Example: Flag if quantity is unrealistic
-        if (isset($data['quantity_required']) && $data['quantity_required'] > 100000) {
-            return 'flagged';
-        }
-
-        // Example: Flag if contact number is invalid
-        if (!preg_match('/^[0-9]{10,15}$/', $data['contact_number'])) {
-            return 'flagged';
-        }
-
         return 'approved';
     }
 }

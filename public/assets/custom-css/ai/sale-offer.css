@@ -267,7 +267,10 @@
 }
 
 .sale-offer-page .product-card:hover {
-    border-color: #FE4E44 !important;
+    /* border-color: #FE4E44 !important; */
+    scale: unset;
+    border-color: lightgrey !important;
+    box-shadow: unset !important;
 }
 
 .sale-offer-page .pagination-number:hover {

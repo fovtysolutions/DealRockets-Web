@@ -6,7 +6,7 @@
                     <div class="d-flex" style="flex-direction: column;width: 75%;">
                         <div class="lead-info">
                             <div class="lead-header">
-                                <h2 class="lead-title">{{ $buyer->name }}</h2>
+                                <h2 class="lead-title">{{ $buyer->product->name ?? $buyer->product_id }}</h2>
                                 @php
                                     $countryDetails = \App\Utils\ChatManager::getCountryDetails($buyer->country);
                                 @endphp

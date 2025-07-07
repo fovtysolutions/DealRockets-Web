@@ -4,7 +4,7 @@
         @foreach ($items as $seller)
             <div class="product-card">
                 <div class="product-image-col">
-                    <h3 class="product-title">{{ $seller->name }}</h3>
+                    <h3 class="product-title">{{ $seller->product->name ?? $seller->product_id }}</h3>
                     <div>
                         <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/247ec7c7bc1f6428f4d5acb3c10d89df21f5e0ba?placeholderIfAbsent=true"
                             alt="${product.title}" class="product-image">
@@ -29,27 +29,27 @@
                     <table class="detail-table">
                         <tr>
                             <td class="detail-label">Rate</td>
-                            <td class="detail-value">$100 <span class="unit">/Piece</span></td>
+                            <td class="detail-value text-truncate">{{ $seller->rate ?? 'N/A' }} <span class="unit">/Piece</span></td>
                         </tr>
                         <tr>
                             <td class="detail-label">Size</td>
-                            <td class="detail-value">{{ $seller->size ?? 'N/A' }}</td>
+                            <td class="detail-value text-truncate">{{ $seller->size ?? 'N/A' }}</td>
                         </tr>
                         <tr>
                             <td class="detail-label">Type</td>
-                            <td class="detail-value">{{ $seller->offer_type ?? 'N/A' }}</td>
+                            <td class="detail-value text-truncate">{{ $seller->offer_type ?? 'N/A' }}</td>
                         </tr>
                         <tr>
                             <td class="detail-label">Terms</td>
-                            <td class="detail-value">{{ $seller->term ?? 'N/A' }}</td>
+                            <td class="detail-value text-truncate">{{ $seller->delivery_terms ?? 'N/A' }}</td>
                         </tr>
                         <tr>
                             <td class="detail-label">Payment</td>
-                            <td class="detail-value">{{ $seller->payment_option ?? 'N/A' }}</td>
+                            <td class="detail-value text-truncate">{{ $seller->payment_option ?? 'N/A' }}</td>
                         </tr>
                         <tr>
                             <td class="detail-label">Brand</td>
-                            <td class="detail-value">{{ $seller->brand ?? 'N/A' }}</td>
+                            <td class="detail-value text-truncate">{{ $seller->brand ?? 'N/A' }}</td>
                         </tr>
                     </table>
                 </div>

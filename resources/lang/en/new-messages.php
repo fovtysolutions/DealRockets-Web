@@ -9561,4 +9561,10 @@ return [
 	"Buy Leads Banners" => "Buy Leads Banners",
 	"select_sub_category" => "Select sub category",
 	"Please Provice a valid email" => "Please Provice a valid email",
+	"buy_leads_or_sell_offer" => "Buy leads or sell offer",
+	"sell_offer" => "Sell offer",
+	"select_unit" => "Select unit",
+	"select_payment_option" => "Select payment option",
+	"select_delivery_terms" => "Select delivery terms",
+	"select_delivery_mode" => "Select delivery mode",
 ];

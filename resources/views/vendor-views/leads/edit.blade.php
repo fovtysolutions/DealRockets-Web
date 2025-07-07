@@ -67,8 +67,8 @@
                     processData: false, // Important! Don't process the data
                     contentType: false, // Important! Set content type to false
                     success: function(response) {
-                        alert("leads updated successfully!"); // Show a simple alert
-                        $('#leadsForm')[0].reset();
+                        toastr.success("leads updated successfully!"); // Show a simple alert
+                        location.reload();
                     },
                     error: function(xhr) {
                         // Handle errors (for example, show validation messages)

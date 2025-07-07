@@ -110,14 +110,14 @@
                                 @foreach ($country as $c)
                                     <option value="{{ trim($c) }}"
                                         {{ request('country') == trim($c) ? 'selected' : '' }}>
-                                        {{ trim(\App\Models\Country::where('id',$c)->first()->name) }}
+                                        {{ trim(\App\Models\Country::where('id', $c)->first()->name) }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-lg-3">
+                    {{-- <div class="col-lg-3">
                         <div class="form-group">
                             <label for="company_name" class="title-color">{{ translate('company_name') }}</label>
                             <input type="text" name="company_name" class="form-control"
@@ -134,7 +134,7 @@
                                 value="{{ request('contact_number') }}"
                                 style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- <div class="col-12">
                     <div class="d-flex gap-3 justify-content-end">
@@ -204,10 +204,7 @@
                                 <tr>
                                     <th>{{ translate('SL') }}</th>
                                     <th>{{ translate('leads Name') }}</th>
-                                    <th class="text-center">{{ translate('type') }}</th>
                                     <th class="text-center">{{ translate('country') }}</th>
-                                    <th class="text-center">{{ translate('company_name') }}</th>
-                                    <th class="text-center">{{ translate('contact_number') }}</th>
                                     <th class="text-center">{{ translate('posted_date') }}</th>
                                     <th class="text-center">{{ translate('active') }}</th>
                                     <th class="text-center">{{ translate('action') }}</th>
@@ -218,24 +215,10 @@
                                     <tr>
                                         <th scope="row">{{ $key + 1 }}</th>
                                         <td>
-                                            <a href="{{ route('vendor.products.view', ['addedBy' => $lead['added_by'] == 'seller' ? 'vendor' : 'in-house', 'id' => $lead['id']]) }}"
-                                                class="media align-items-center gap-2">
-                                                <span class="media-body title-color hover-c1">
-                                                    {{ Str::limit($lead['name'], 20) }}
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td class="text-center">
-                                            {{ translate(str_replace('_', ' ', $lead['type'])) }}
+                                            {{ Str::limit($lead['details'], 20) }}
                                         </td>
                                         <td class="text-center">
                                             {{ \App\Models\Country::where('id', $lead['country'])->first()->name ?? 'Invalid Country ID' }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ $lead['company_name'] }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ $lead['contact_number'] }}
                                         </td>
                                         <td class="text-center">
                                             {{ $lead['posted_date'] }}
@@ -258,21 +241,21 @@
                                                     href="{{ route('vendor.leads.view', ['id' => $lead['id']]) }}">
                                                     <i class="tio-invisible"></i> View
                                                 </a>
-                                                <a class="btn btn-outline--primary"
-                                                    title="{{ translate('edit') }}"
+                                                <a class="btn btn-outline--primary" title="{{ translate('edit') }}"
                                                     href="{{ route('vendor.leads.edit', ['id' => $lead['id']]) }}">
                                                     <i class="tio-edit"></i> Edit
                                                 </a>
-                                                <span class="btn btn-outline-danger delete-data"
-                                                    title="{{ translate('delete') }}"
-                                                    data-id="lead-{{ $lead['id'] }}">
-                                                    <i class="tio-delete"></i> Delete
-                                                </span>
+                                                <form action="{{ route('vendor.leads.delete', [$lead['id']]) }}"
+                                                    method="post" id="lead-{{ $lead['id'] }}">
+                                                    @csrf 
+                                                    @method('post')
+                                                    <button type="submit" class="btn btn-outline-danger delete-data"
+                                                        title="{{ translate('delete') }}"
+                                                        data-id="lead-{{ $lead['id'] }}">
+                                                        <i class="tio-delete"></i> Delete
+                                                    </button>
+                                                </form>
                                             </div>
-                                            <form action="{{ route('admin.leads.delete', [$lead['id']]) }}"
-                                                method="post" id="lead-{{ $lead['id'] }}">
-                                                @csrf @method('delete')
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

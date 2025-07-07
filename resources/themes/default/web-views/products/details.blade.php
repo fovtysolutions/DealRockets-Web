@@ -69,29 +69,6 @@
                 <div class="product-view" style="margin-bottom: 20px;">
                     <!-- Product Images Section -->
                     <div class="product-images">
-
-                        <div class="heart-image">
-                            <div class="circle-container">
-                                @php
-                                    $user = auth('customer')->user();
-                                    $isFavourite = $user
-                                        ? \App\Utils\HelperUtil::checkIfFavourite($item->id, $user->id, 'product')
-                                        : false;
-                                @endphp
-
-                                @if ($user)
-                                    <img class="heart favourite-img" onclick="makeFavourite(this)"
-                                        data-id="{{ $item->id }}" data-userid="{{ $user->id }}" data-type="product"
-                                        data-role="{{ $user->role ?? 'customer' }}"
-                                        src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
-                                        width="20" alt="Featured icon" style="margin-left: auto;">
-                                @else
-                                    <img class="heart favourite-img" onclick="sendtologin()"
-                                        src="{{ theme_asset('public/img/Heart (1).png') }}" width="20"
-                                        alt="Featured icon" style="margin-left: auto;">
-                                @endif
-                            </div>
-                        </div>
                         <img id="mainImage"
                             src="{{ isset($product->thumbnail) ? '/storage/' . $product->thumbnail : '/images/placeholderimage.webp' }}"
                             alt="Main product view" class="main-image">
@@ -121,56 +98,82 @@
                     <!-- Product Details Section -->
                     <div class="product-details">
                         <div class="price-details-box">
-                            <!-- Product Title -->
-                            <section class="product-heading">
-                                <h1 class="product-title">{{ $product->name ?? '' }}</h1>
-                                <p class="product-subtitle">{!! $product->short_details ?? '' !!}</p>
-                            </section>
-
-                            <!-- Specification Section -->
-                            <section class="specification-section">
-                                <div class="product-specs">
-                                    <div class="spec-row"><span class="spec-label">Rate</span><span class="spec-value">US$
-                                            {{ number_format($product->unit_price, 2) ?? '' }}/
-                                            {{ $product->unit ?? '' }}</span>
-                                    </div>
+                            <div class="heart-image">
+                                <div class="circle-container">
                                     @php
-                                        $countryDetails = \App\Utils\ChatManager::getCountryDetails($product->origin);
+                                        $user = auth('customer')->user();
+                                        $isFavourite = $user
+                                            ? \App\Utils\HelperUtil::checkIfFavourite($item->id, $user->id, 'product')
+                                            : false;
                                     @endphp
-                                    <div class="spec-row">
-                                        <span class="spec-label">Product Origin</span>
-                                        <span class="spec-value">
-                                            <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
-                                                class="flag-icon mr-2" alt="{{ $countryDetails['countryName'] }} flag"
-                                                style="width: 25px;" />
-                                            {{ $countryDetails['countryName'] ?? 'Invalid Country Name' }}
-                                        </span>
-                                    </div>
-                                    <div class="spec-row"><span class="spec-label">Port of Loading</span><span
-                                            class="spec-value">{{ $product->port_of_loading ?? '' }}</span></div>
-                                    <div class="spec-row"><span class="spec-label">MOQ</span><span
-                                            class="spec-value">{{ $product->minimum_order_qty ?? '' }}
-                                            {{ $product->unit ?? '' }}</span></div>
-                                    <div class="spec-row"><span class="spec-label">Delivery Mode</span><span
-                                            class="spec-value">{{ $product->delivery_mode ?? '' }}</span></div>
-                                </div>
-                            </section>
 
-                            <section class="specification-section">
-                                <div class="product-specs">
-                                    <div class="spec-row"><span class="spec-label">Payment Term</span>
-                                        <span class="spec-value">{{ $product->payment_terms ?? '' }}
-                                        </span>
-                                    </div>
-                                    <div class="spec-row"><span class="spec-label">Lead Time</span>
-                                        <span class="spec-value">{{ $product->lead_time ?? '' }}
-                                            {{ $product->lead_time_unit ?? '' }}
-                                        </span>
-                                    </div>
+                                    @if ($user)
+                                        <img class="heart favourite-img" onclick="makeFavourite(this)"
+                                            data-id="{{ $item->id }}" data-userid="{{ $user->id }}"
+                                            data-type="product" data-role="{{ $user->role ?? 'customer' }}"
+                                            src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
+                                            width="20" alt="Featured icon" style="margin-left: auto;">
+                                    @else
+                                        <img class="heart favourite-img" onclick="sendtologin()"
+                                            src="{{ theme_asset('public/img/Heart (1).png') }}" width="20"
+                                            alt="Featured icon" style="margin-left: auto;">
+                                    @endif
                                 </div>
-                            </section>
+                            </div>
+                            <!-- Product Title -->
                             <div class="d-flex">
                                 <div style="flex-grow: 1;">
+                                    <section class="product-heading">
+                                        <h1 class="product-title">{{ $product->name ?? '' }}</h1>
+                                        <p class="product-subtitle">{!! $product->short_details ?? '' !!}</p>
+                                    </section>
+
+                                    <!-- Specification Section -->
+                                    <section class="specification-section">
+                                        <div class="product-specs">
+                                            <div class="spec-row"><span class="spec-label">Rate</span><span
+                                                    class="spec-value">US$
+                                                    {{ number_format($product->unit_price, 2) ?? '' }}/
+                                                    {{ $product->unit ?? '' }}</span>
+                                            </div>
+                                            @php
+                                                $countryDetails = \App\Utils\ChatManager::getCountryDetails(
+                                                    $product->origin,
+                                                );
+                                            @endphp
+                                            <div class="spec-row">
+                                                <span class="spec-label">Product Origin</span>
+                                                <span class="spec-value">
+                                                    <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
+                                                        class="flag-icon mr-2"
+                                                        alt="{{ $countryDetails['countryName'] }} flag"
+                                                        style="width: 25px;" />
+                                                    {{ $countryDetails['countryName'] ?? 'Invalid Country Name' }}
+                                                </span>
+                                            </div>
+                                            <div class="spec-row"><span class="spec-label">Port of Loading</span><span
+                                                    class="spec-value">{{ $product->port_of_loading ?? '' }}</span></div>
+                                            <div class="spec-row"><span class="spec-label">MOQ</span><span
+                                                    class="spec-value">{{ $product->minimum_order_qty ?? '' }}
+                                                    {{ $product->unit ?? '' }}</span></div>
+                                            <div class="spec-row"><span class="spec-label">Delivery Mode</span><span
+                                                    class="spec-value">{{ $product->delivery_mode ?? '' }}</span></div>
+                                        </div>
+                                    </section>
+
+                                    <section class="specification-section">
+                                        <div class="product-specs">
+                                            <div class="spec-row"><span class="spec-label">Payment Term</span>
+                                                <span class="spec-value">{{ $product->payment_terms ?? '' }}
+                                                </span>
+                                            </div>
+                                            <div class="spec-row"><span class="spec-label">Lead Time</span>
+                                                <span class="spec-value">{{ $product->lead_time ?? '' }}
+                                                    {{ $product->lead_time_unit ?? '' }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </section>
                                     <section class="specification-section">
                                         <div class="product-specs">
                                             <div class="spec-row">
@@ -277,7 +280,7 @@
 
                 <!-- Product Description Section -->
                 <div class="product-description" style="flex-direction: column;">
-                    <div class="d-flex w-100 gap-3 spec-section">
+                    <div class="d-flex gap-3 spec-section">
                         {{-- Left Section: Technical Details --}}
                         <div class="spec-left">
                             <h4 class="section-title">Specification</h4>
@@ -353,7 +356,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="product-div">
+                    <div class="product-div" id="product-div">
                         <div class="description-tabs">
                             {{-- <div class="tab" data-toggleid="productDescription">Product Description</div> --}}
                             <div class="tab active" data-toggleid="companyInfo">Company Profile</div>
@@ -826,6 +829,16 @@
         }
     </script>
     <script>
+        function isInViewport(elem) {
+            const rect = elem.getBoundingClientRect();
+            return rect.top < window.innerHeight && rect.bottom >= 0;
+        }
+
+        function offsetBottom(element) {
+            eoffsetBottom = element.offsetTop + element.offsetHeight
+            return eoffsetBottom;
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             try {
                 const supplierInfo = document.getElementById("sticky-supplier-info");
@@ -836,6 +849,9 @@
                 }
 
                 const stickyOffset = supplierInfo.offsetTop;
+                const productDiv = document.getElementById('product-div');
+
+                const endproductdiv = offsetBottom(productDiv) - 245 + 93;
 
                 const updateStuckPosition = () => {
                     const container = document.querySelector('.mainpagesection');
@@ -845,7 +861,7 @@
                     }
 
                     const containerRect = container.getBoundingClientRect();
-                    const rightOffset = window.innerWidth - containerRect.right + 15;
+                    const rightOffset = window.innerWidth - containerRect.right + 17;
 
                     if (supplierInfo.classList.contains('stuck')) {
                         supplierInfo.style.right = `${rightOffset}px`;
@@ -858,13 +874,16 @@
 
                 window.addEventListener("scroll", function() {
                     if (window.innerWidth > 1024) {
-                        if (window.pageYOffset > stickyOffset) {
+                        if (window.pageYOffset > stickyOffset && window.pageYOffset < endproductdiv) {
                             if (!supplierInfo.classList.contains("stuck")) {
                                 console.log("Applying stuck class to supplierInfo");
                             }
                             supplierInfo.classList.add("stuck");
                             updateStuckPosition();
-                        } else {
+                        } else if (endproductdiv - 245 < endproductdiv && window.pageYOffset > stickyOffset){ 
+                            console.log('right zone');
+                        }
+                        else {
                             if (supplierInfo.classList.contains("stuck")) {
                                 console.log("Removing stuck class from supplierInfo");
                             }

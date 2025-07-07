@@ -30,7 +30,7 @@
 
             <div class="product-info">
                 @if (Carbon\Carbon::parse($item->created_at)->gt(Carbon\Carbon::now()->subDays(30)))
-                    <div class="d-flex justify-content-between" style="align-items: center;">
+                    <div class="d-flex justify-content-between" style="align-items: center; padding-bottom: 5px;">
                         <p class="new">New</p>
                         <div class="rating">
                             <span style="font-size: 16px;">
@@ -53,8 +53,8 @@
                     $memberCheck = \App\Utils\ChatManager::checkifMember($item->added_by, $item->user_id);
                     if ($item->added_by == 'seller') {
                         $seller = \App\Models\Seller::find($item->user_id);
-                        $shopName = $seller->shop->name ?? 'N/A';
-                        $shopAddress = $seller->shop->address ?? 'N/A';
+                        $shopName = $seller->shop->name ?? '';
+                        $shopAddress = $seller->shop->address ?? '';
                     } else {
                         $shopName = 'Admin Shop';
                         $shopAddress = 'Admin Address';

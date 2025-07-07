@@ -16,7 +16,7 @@
             method="POST"
             enctype="multipart/form-data">
             @csrf
-            <div class="card">
+            <div class="card" style="width: 100%;margin: 0 auto;max-width: 1128px;">
                 <div class="card-body">
                     @include('admin-views.leads.partials._leads_fields')
                 </div>

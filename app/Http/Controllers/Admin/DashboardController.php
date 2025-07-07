@@ -679,7 +679,7 @@ class DashboardController extends BaseController
                 $title = 'Product Approval';
                 $cardData = [
                     ['link' => route('admin.products.list', ['vendor', 'status' => '0']), 'title' => 'New Product Requests', 'value' => 'Yes'],
-                    ['link' => route('admin.products.updated-product-list'), 'title' => 'Update Product List', 'value' => 'Yes'],
+                    // ['link' => route('admin.products.updated-product-list'), 'title' => 'Update Product List', 'value' => 'Yes'],
                     ['link' => route('admin.products.list', ['vendor', 'status' => '1']), 'title' => 'Approved Products', 'value' => 'Yes'],
                     ['link' => route('admin.products.list', ['vendor', 'status' => '2']), 'title' => 'Denied Products', 'value' => 'Yes'],
                 ];

@@ -1,15 +1,15 @@
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 
 @section('title',$seller?->shop->name ?? translate("shop_name_not_found"))
 
 @section('content')
     <div class="content container-fluid">
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2 align-items-center">
                 <img src="{{dynamicAsset(path: 'public/assets/back-end/img/add-new-seller.png')}}" alt="">
                 {{translate('vendor_details')}}
             </h2>
-        </div>
+        </div> --}}
         <div class="flex-between d-sm-flex row align-items-center justify-content-between mb-2 mx-1">
             <div>
                 @if ($seller['status']=="pending")
@@ -50,10 +50,10 @@
                         <a class="nav-link "
                            href="{{ route('admin.vendors.view',$seller->id) }}">{{translate('shop')}}</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link "
                            href="{{ route('admin.vendors.view',['id'=>$seller->id, 'tab'=>'order']) }}">{{translate('order')}}</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{{ route('admin.vendors.view',['id'=>$seller->id, 'tab'=>'product']) }}">{{translate('product')}}</a>
@@ -62,10 +62,10 @@
                         <a class="nav-link"
                            href="{{ route('admin.vendors.view',['id'=>$seller->id, 'tab'=>'setting']) }}">{{translate('setting')}}</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link active"
                            href="{{ route('admin.vendors.view',['id'=>$seller->id, 'tab'=>'transaction']) }}">{{translate('transaction')}}</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{{ route('admin.vendors.view',['id'=>$seller->id, 'tab'=>'review']) }}">{{translate('review')}}</a>

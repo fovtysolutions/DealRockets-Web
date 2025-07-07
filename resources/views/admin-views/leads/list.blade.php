@@ -5,28 +5,25 @@
 @section('content')
     <div class="content container-fluid">
 
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
                 <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
                 {{ translate('leads_List') }}
                 <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{ $totalleads }}</span>
             </h2>
-        </div>
+        </div> --}}
 
-        <div class="card">
-            <div class="card-body">
-                <form action="{{ url()->current() }}" method="GET">
-                    <input type="hidden" value="{{ request('status') }}" name="status">
-                    <div class="row gx-2">
-                        <div class="col-12">
-                            <h4 class="mb-3">{{ translate('filter_leads') }}</h4>
-                        </div>
+        <div class="container-fluid p-0">
+            <div class="mb-3" style="max-width: 100%;">
+                <div class="card-body p-0">
+                    <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="status" value="{{ request('status') }}">
+                        <div class="row g-2 align-items-end pt-3">
 
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label class="title-color" for="type">{{ translate('type') }}</label>
-                                <select name="type" class="js-select2-custom form-control text-capitalize">
-                                    <option value="" selected>{{ translate('all_types') }}</option>
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('type') }}</label>
+                                <select name="type" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_types') }}</option>
                                     @foreach ($type as $t)
                                         <option value="{{ $t }}" {{ request('type') == $t ? 'selected' : '' }}>
                                             {{ $t }}
@@ -34,75 +31,62 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
 
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label for="name" class="title-color">{{ translate('name') }}</label>
-                                <select name="name" class="js-select2-custom form-control text-capitalize">
-                                    <option value="" selected>{{ translate('all_names') }}</option>
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('name') }}</label>
+                                <select name="name" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_names') }}</option>
                                     @foreach ($name as $product)
-                                        <option value="{{ trim($product) }}"
-                                            {{ request('name') == trim($product) ? 'selected' : '' }}>
+                                        <option value="{{ trim($product) }}" {{ request('name') == trim($product) ? 'selected' : '' }}>
                                             {{ trim($product) }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
 
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label for="country" class="title-color">{{ translate('country') }}</label>
-                                <select name="country" class="js-select2-custom form-control text-capitalize">
-                                    <option value="" selected>{{ translate('all_countries') }}</option>
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('country') }}</label>
+                                <select name="country" class="form-control form-control-sm ">
+                                    <option value="">{{ translate('all_countries') }}</option>
                                     @foreach ($country as $c)
-                                        @php
-                                            $countryRecord = \App\Models\Country::find(trim($c));
-                                        @endphp
+                                        @php $countryRecord = \App\Models\Country::find(trim($c)); @endphp
                                         @if ($countryRecord)
-                                            <option value="{{ trim($c) }}"
-                                                {{ request('country') == trim($c) ? 'selected' : '' }}>
+                                            <option value="{{ trim($c) }}" {{ request('country') == trim($c) ? 'selected' : '' }}>
                                                 {{ $countryRecord->name }}
                                             </option>
                                         @endif
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
 
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label for="company_name" class="title-color">{{ translate('company_name') }}</label>
-                                <input type="text" name="company_name" class="form-control"
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('company_name') }}</label>
+                                <input type="text" name="company_name" class="form-control form-control-sm"
                                     placeholder="{{ translate('enter_company_name') }}"
                                     value="{{ request('company_name') }}">
                             </div>
-                        </div>
 
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label for="contact_number" class="title-color">{{ translate('contact_number') }}</label>
-                                <input type="text" name="contact_number" class="form-control"
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('contact_number') }}</label>
+                                <input type="text" name="contact_number" class="form-control form-control-sm"
                                     placeholder="{{ translate('enter_contact_number') }}"
                                     value="{{ request('contact_number') }}">
                             </div>
-                        </div>
 
-                        <div class="col-12">
-                            <div class="d-flex gap-3 justify-content-end">
-                                <a class="btn btn-secondary px-5" href="{{ url()->current() }}">
+                            <div class="col-md-2 col-sm-4 col-12 d-flex gap-2">
+                                <a class="btn btn--primary w-100" href="{{ url()->current() }}">
                                     {{ translate('reset') }}
                                 </a>
-                                <button type="submit" class="btn btn--primary px-5 action-get-element-type">
+                                <button type="submit" class="btn btn--primary  w-100">
                                     {{ translate('show_data') }}
                                 </button>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
+
 
         <div class="row mt-20">
             <div class="col-md-12">
@@ -173,12 +157,7 @@
                                             {{ ($leads->currentPage() - 1) * $leads->perPage() + $key + 1 }}
                                         </th>
                                         <td>
-                                            <a href="{{ route('admin.products.view', ['addedBy' => $lead['added_by'] == 'seller' ? 'vendor' : 'in-house', 'id' => $lead['id']]) }}"
-                                                class="media align-items-center gap-2">
-                                                <span class="media-body title-color hover-c1">
-                                                    {{ Str::limit($lead['name'], 20) }}
-                                                </span>
-                                            </a>
+                                            {{ Str::limit($lead['name'], 20) }}
                                         </td>
                                         <td class="text-center">
                                             {{ translate(str_replace('_', ' ', $lead['type'])) }}

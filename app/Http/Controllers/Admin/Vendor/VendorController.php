@@ -49,21 +49,20 @@ class VendorController extends BaseController
     use EmailTemplateTrait;
 
     public function __construct(
-        private readonly VendorRepositoryInterface           $vendorRepo,
-        private readonly OrderRepositoryInterface            $orderRepo,
-        private readonly ProductRepositoryInterface          $productRepo,
-        private readonly ReviewRepositoryInterface           $reviewRepo,
-        private readonly DeliveryManRepositoryInterface      $deliveryManRepo,
+        private readonly VendorRepositoryInterface $vendorRepo,
+        private readonly OrderRepositoryInterface $orderRepo,
+        private readonly ProductRepositoryInterface $productRepo,
+        private readonly ReviewRepositoryInterface $reviewRepo,
+        private readonly DeliveryManRepositoryInterface $deliveryManRepo,
         private readonly OrderTransactionRepositoryInterface $orderTransactionRepo,
-        private readonly ShippingAddressRepositoryInterface  $shippingAddressRepo,
-        private readonly DeliveryZipCodeRepositoryInterface  $deliveryZipCodeRepo,
-        private readonly WithdrawRequestRepositoryInterface  $withdrawRequestRepo,
-        private readonly VendorWalletRepositoryInterface     $vendorWalletRepo,
-        private readonly ShopRepositoryInterface             $shopRepo,
-        private readonly VendorService                       $vendorService,
-        private readonly ShopService                         $shopService,
-    )
-    {
+        private readonly ShippingAddressRepositoryInterface $shippingAddressRepo,
+        private readonly DeliveryZipCodeRepositoryInterface $deliveryZipCodeRepo,
+        private readonly WithdrawRequestRepositoryInterface $withdrawRequestRepo,
+        private readonly VendorWalletRepositoryInterface $vendorWalletRepo,
+        private readonly ShopRepositoryInterface $shopRepo,
+        private readonly VendorService $vendorService,
+        private readonly ShopService $shopService,
+    ) {
     }
 
     /**
@@ -86,7 +85,7 @@ class VendorController extends BaseController
             relations: ['orders', 'product'],
             dataLimit: getWebConfig(name: WebConfigKey::PAGINATION_LIMIT)
         );
-        return view(Vendor::LIST[VIEW], compact('vendors', 'current_date'));
+        return view(Vendor::LIST [VIEW], compact('vendors', 'current_date'));
     }
 
     public function getAddView(Request $request): View
@@ -295,17 +294,35 @@ class VendorController extends BaseController
         } else {
             $orderCount = $this->orderRepo->getListWhereCount(filters: ['customer_id' => $order['customer_id'], 'order_type' => 'POS']);
         }
-        return view(Vendor::ORDER_DETAILS[VIEW], compact('order', 'seller_id', 'delivery_men', 'linked_orders', 'physical_product',
-            'shipping_address', 'total_delivered', 'countries', 'zip_codes', 'zip_restrict_status', 'country_restrict_status', 'orderCount'));
+        return view(Vendor::ORDER_DETAILS[VIEW], compact(
+            'order',
+            'seller_id',
+            'delivery_men',
+            'linked_orders',
+            'physical_product',
+            'shipping_address',
+            'total_delivered',
+            'countries',
+            'zip_codes',
+            'zip_restrict_status',
+            'country_restrict_status',
+            'orderCount'
+        ));
     }
 
     public function getView(Request $request, $id, $tab = null): View|RedirectResponse
     {
 
         $seller = $this->vendorRepo->getFirstWhere(
-            params: ['id' => $id, 'withCount' => ['product', 'orders' => function ($query) use ($id) {
-                $query->where(['seller_id' => $id, 'seller_is' => ($id == 0 ? 'admin' : 'seller')]);
-            }]],
+            params: [
+                'id' => $id,
+                'withCount' => [
+                    'product',
+                    'orders' => function ($query) use ($id) {
+                        $query->where(['seller_id' => $id, 'seller_is' => ($id == 0 ? 'admin' : 'seller')]);
+                    }
+                ]
+            ],
             relations: ['orders', 'product']
         );
 
@@ -458,7 +475,8 @@ class VendorController extends BaseController
             $product_id = $this->productRepo->getListWhere(
                 searchValue: $request['searchValue'],
                 filters: ['added_by' => 'seller', 'seller_id' => $seller['id']],
-                dataLimit: 'all')->pluck('id')->toArray();
+                dataLimit: 'all'
+            )->pluck('id')->toArray();
             $filtersBy = [
                 'product_id' => $product_id,
             ];
@@ -468,13 +486,15 @@ class VendorController extends BaseController
                 whereInFilters: $filtersBy,
                 relations: ['product'],
                 nullFields: ['delivery_man_id'],
-                dataLimit: getWebConfig(name: 'pagination_limit'));
+                dataLimit: getWebConfig(name: 'pagination_limit')
+            );
         } else {
             $reviews = $this->reviewRepo->getListWhereIn(
                 orderBy: ['id' => 'desc'],
                 filters: ['product_user_id' => $seller['id']],
                 relations: ['product', 'customer'],
-                dataLimit: getWebConfig(name: 'pagination_limit'));
+                dataLimit: getWebConfig(name: 'pagination_limit')
+            );
         }
         return view(Vendor::VIEW_REVIEW[VIEW], [
             'seller' => $seller,
@@ -538,14 +558,16 @@ class VendorController extends BaseController
         $approved = $withdrawRequests->where('approved', 1)->count();
         $denied = $withdrawRequests->where('approved', 2)->count();
 
-        return Excel::download(new VendorWithdrawRequest([
-            'data-from' => 'admin',
-            'withdraw_request' => $withdrawRequests,
-            'filter' => session('withdraw_status_filter'),
-            'pending' => $pending,
-            'approved' => $approved,
-            'denied' => $denied,
-        ]), 'Vendor-Withdraw-Request.xlsx'
+        return Excel::download(
+            new VendorWithdrawRequest([
+                'data-from' => 'admin',
+                'withdraw_request' => $withdrawRequests,
+                'filter' => session('withdraw_status_filter'),
+                'pending' => $pending,
+                'approved' => $approved,
+                'denied' => $denied,
+            ]),
+            'Vendor-Withdraw-Request.xlsx'
         );
     }
 
@@ -580,24 +602,46 @@ class VendorController extends BaseController
 
     }
 
-    public function getVendorRegisterView()
+    public function getVendorRegisterView(Request $request)
     {
-        $registerForms = VendorExtraDetail::all()->paginate(10);
-        return view('admin-views.vendor.register-form',compact('registerForms'));
-    }
+        $query = \App\Models\VendorExtraDetail::query();
 
+        // Join with vendor users table
+        $query->when($request->has('email') && $request->email !== null, function ($q) use ($request) {
+            $q->whereHas('sellerUser', function ($subQuery) use ($request) {
+                $subQuery->where('email', 'like', '%' . $request->email . '%');
+            });
+        });
+
+        $query->when($request->has('phone') && $request->phone !== null, function ($q) use ($request) {
+            $q->whereHas('sellerUser', function ($subQuery) use ($request) {
+                $subQuery->where('phone', 'like', '%' . $request->phone . '%');
+            });
+        });
+
+        $query->when($request->has('status') && $request->status !== null, function ($q) use ($request) {
+            $q->whereHas('sellerUser', function ($subQuery) use ($request) {
+                $subQuery->where('is_complete', $request->status);
+            });
+        });
+
+        $registerForms = $query->paginate(10)->appends($request->query());
+
+        return view('admin-views.vendor.register-form', compact('registerForms'));
+    }
+    
     public function getVendorRegisterDetails($id)
     {
-        $registerForm = VendorExtraDetail::where('id',$id)->first();
-        if(isset($registerForm->seller_id)){
+        $registerForm = VendorExtraDetail::where('id', $id)->first();
+        if (isset($registerForm->seller_id)) {
             $isSeller = 1;
-            $seller = Seller::where('id',(int) $registerForm->seller_id)->first();
-            $shop = Shop::Where('seller_id',$seller->id)->first();
+            $seller = Seller::where('id', (int) $registerForm->seller_id)->first();
+            $shop = Shop::Where('seller_id', $seller->id)->first();
         } else {
             $isSeller = 0;
             $seller = null;
             $shop = null;
         }
-        return view('admin-views.vendor.register-form-view',compact('registerForm','seller','shop','isSeller'));
+        return view('admin-views.vendor.register-form-view', compact('registerForm', 'seller', 'shop', 'isSeller'));
     }
 }

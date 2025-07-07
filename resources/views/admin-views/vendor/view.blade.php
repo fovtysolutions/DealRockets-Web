@@ -4,12 +4,12 @@
 
 @section('content')
     <div class="content container-fluid">
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
                 <img src="{{dynamicAsset(path: 'public/assets/back-end/img/add-new-seller.png')}}" alt="">
                 {{translate('vendor_details')}}
             </h2>
-        </div>
+        </div> --}}
         <div class="page-header border-0 mb-4">
             <div class="js-nav-scroller hs-nav-scroller-horizontal">
                 <ul class="nav nav-tabs flex-wrap page-header-tabs">
@@ -18,10 +18,10 @@
                            href="{{ route('admin.vendors.view', $seller['id']) }}">{{translate('shop_overview')}}</a>
                     </li>
                     @if ($seller['status']!="pending")
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link"
                                href="{{ route('admin.vendors.view',['id'=>$seller['id'], 'tab'=>'order']) }}">{{translate('order')}}</a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{{ route('admin.vendors.view',['id'=>$seller['id'], 'tab'=>'product']) }}">{{translate('product')}}</a>
@@ -30,10 +30,10 @@
                             <a class="nav-link"
                                href="{{ route('admin.vendors.view',['id'=>$seller['id'], 'tab'=>'setting']) }}">{{translate('setting')}}</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link"
                                href="{{ route('admin.vendors.view',['id'=>$seller['id'], 'tab'=>'transaction']) }}">{{translate('transaction')}}</a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{{ route('admin.vendors.view',['id'=>$seller['id'], 'tab'=>'review']) }}">{{translate('review')}}</a>
@@ -124,12 +124,22 @@
                                     <a href="{{ $seller['status']!="pending" ? route('admin.vendors.view',['id'=>$seller['id'], 'tab'=>'review']): 'javascript:' }}"
                                        class="text-dark">{{$seller->rating_count}} {{translate('reviews')}}</a>
                                 </div>
+                                <div class="d-flex  gap-3">
                                 @if ( $seller['status']!="pending" && $seller['status']!="suspended" && $seller['status']!="rejected" && $seller?->shop)
                                     <a href="{{route('shopView', ['id'=> $seller?->shop['id']])}}"
                                        class="btn btn-outline--primary px-4" target="_blank"><i
                                                 class="tio-globe"></i> {{translate('view_live')}}
                                         @endif
                                     </a>
+                                    @php
+                                        $vendordetailsId = \App\Models\VendorExtraDetail::where('seller_id',$seller->id)->first()->id;
+                                    @endphp
+                                    <a title="{{ translate('Check Vendor Registration Form') }}"
+                                    class="btn btn-outline-info"
+                                    href="{{ route('admin.vendors.get-vendor-register-details', $vendordetailsId) }}">
+                                        <i class="tio-invisible"></i> {{ translate('check_registration') }}
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -5,13 +5,13 @@
 
 @section('content')
     <div class="content container-fluid">
-        <div class="mb-4">
+        {{-- <div class="mb-4">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
                 <img src="{{dynamicAsset(path: 'public/assets/back-end/img/add-new-seller.png')}}" alt="">
                 {{translate('vendor_List')}}
                 <span class="badge badge-soft-dark radius-50 fz-12">{{ $vendors->total() }}</span>
             </h2>
-        </div>
+        </div> --}}
         <div class="row mt-4">
             <div class="col-md-12">
                 <div class="card">
@@ -67,7 +67,7 @@
                                 <th>{{translate('contact_info')}}</th>
                                 <th>{{translate('status')}}</th>
                                 <th class="text-center">{{translate('total_products')}}</th>
-                                <th class="text-center">{{translate('total_orders')}}</th>
+                                {{-- <th class="text-center">{{translate('total_orders')}}</th> --}}
                                 <th class="text-center">{{translate('action')}}</th>
                             </tr>
                             </thead>
@@ -115,12 +115,12 @@
                                             {{$seller->product->count()}}
                                         </a>
                                     </td>
-                                    <td class="text-center">
+                                    {{-- <td class="text-center">
                                         <a href="{{route('admin.vendors.order-list',[$seller['id']])}}"
                                             class="btn text-info bg-soft-info font-weight-bold px-3 py-1 fz-12 mb-0">
                                             {{$seller->orders->where('seller_is','seller')->where('order_type','default_type')->count()}}
                                         </a>
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         <div class="d-flex justify-content-center gap-2">
                                             <a title="{{translate('view')}}"

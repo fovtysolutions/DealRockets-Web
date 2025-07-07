@@ -5,7 +5,7 @@
 @section('content')
     <div class="content container-fluid">
 
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
                 <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
                 @if ($type == 'in_house')
@@ -15,105 +15,89 @@
                 @endif
                 <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{ $products->total() }}</span>
             </h2>
-        </div>
+        </div> --}}
 
-        <div class="card">
-            <div class="card-body">
-                <form action="{{ url()->current() }}" method="GET">
-                    <input type="hidden" value="{{ request('status') }}" name="status">
-                    <div class="row gx-2">
-                        <div class="col-12">
-                            <h4 class="mb-3">{{ translate('filter_Products') }}</h4>
-                        </div>
-                        @if (request('type') == 'seller')
-                            <div class="col-sm-6 col-lg-4 col-xl-3">
-                                <div class="form-group">
-                                    <label class="title-color" for="store">{{ translate('store') }}</label>
-                                    <select name="seller_id" class="form-control text-capitalize">
-                                        <option value="" selected>{{ translate('all_store') }}</option>
+        <div class="container-fluid p-0">
+            <div class="mb-3">
+                <div class="card-body p-0">
+                    <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="status" value="{{ request('status') }}">
+
+                        <div class="row g-2 align-items-end">
+                            @if (request('type') == 'seller')
+                                <div class="col-md-2 col-sm-4 col-6">
+                                    <label class="form-label mb-1 small">{{ translate('store') }}</label>
+                                    <select name="seller_id" class="form-control form-control-sm">
+                                        <option value="">{{ translate('all_store') }}</option>
                                         @foreach ($sellers as $seller)
-                                            <option
-                                                value="{{ $seller->id }}"{{ request('seller_id') == $seller->id ? 'selected' : '' }}>
+                                            <option value="{{ $seller->id }}" {{ request('seller_id') == $seller->id ? 'selected' : '' }}>
                                                 {{ $seller->shop->name }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                        @endif
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label class="title-color" for="store">{{ translate('brand') }}</label>
-                                <select name="brand_id" class="js-select2-custom form-control text-capitalize">
-                                    <option value="" selected>{{ translate('all_brand') }}</option>
+                            @endif
+
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('brand') }}</label>
+                                <select name="brand_id" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_brand') }}</option>
                                     @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id }}"
-                                            {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
-                                            {{ $brand->default_name }}</option>
+                                        <option value="{{ $brand->id }}" {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
+                                            {{ $brand->default_name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
 
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label for="name" class="title-color">{{ translate('category') }}</label>
-                                <select class="js-select2-custom form-control action-get-request-onchange"
-                                    name="category_id"
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('category') }}</label>
+                                <select name="category_id" class="form-control form-control-sm action-get-request-onchange"
                                     data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                                    data-element-id="sub-category-select" data-element-type="select">
-                                    <option value="{{ old('category_id') }}" selected disabled>
-                                        {{ translate('select_category') }}</option>
+                                    data-element-id="sub-category-select"
+                                    data-element-type="select">
+                                    <option disabled selected>{{ translate('select_category') }}</option>
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category['id'] }}"
-                                            {{ request('category_id') == $category['id'] ? 'selected' : '' }}>
+                                        <option value="{{ $category['id'] }}" {{ request('category_id') == $category['id'] ? 'selected' : '' }}>
                                             {{ $category['defaultName'] }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label for="name" class="title-color">{{ translate('sub_Category') }}</label>
-                                <select class="js-select2-custom form-control action-get-request-onchange"
-                                    name="sub_category_id" id="sub-category-select"
+
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('sub_Category') }}</label>
+                                <select name="sub_category_id" id="sub-category-select" class="form-control form-control-sm action-get-request-onchange"
                                     data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                                    data-element-id="sub-sub-category-select" data-element-type="select">
-                                    <option
-                                        value="{{ request('sub_category_id') != null ? request('sub_category_id') : null }}"
-                                        selected {{ request('sub_category_id') != null ? '' : 'disabled' }}>
-                                        {{ request('sub_category_id') != null ? $subCategory['defaultName'] : translate('select_Sub_Category') }}
+                                    data-element-id="sub-sub-category-select"
+                                    data-element-type="select">
+                                    <option value="{{ request('sub_category_id') ?? '' }}" selected {{ request('sub_category_id') ? '' : 'disabled' }}>
+                                        {{ request('sub_category_id') ? $subCategory['defaultName'] : translate('select_Sub_Category') }}
                                     </option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="form-group">
-                                <label for="name" class="title-color">{{ translate('sub_Sub_Category') }}</label>
-                                <select class="js-select2-custom form-control" name="sub_sub_category_id"
-                                    id="sub-sub-category-select">
-                                    <option
-                                        value="{{ request('sub_sub_category_id') != null ? request('sub_sub_category_id') : null }}"
-                                        selected {{ request('sub_sub_category_id') != null ? '' : 'disabled' }}>
-                                        {{ request('sub_sub_category_id') != null ? $subSubCategory['defaultName'] : translate('select_Sub_Sub_Category') }}
+
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('sub_Sub_Category') }}</label>
+                                <select name="sub_sub_category_id" id="sub-sub-category-select" class="form-control form-control-sm">
+                                    <option value="{{ request('sub_sub_category_id') ?? '' }}" selected {{ request('sub_sub_category_id') ? '' : 'disabled' }}>
+                                        {{ request('sub_sub_category_id') ? $subSubCategory['defaultName'] : translate('select_Sub_Sub_Category') }}
                                     </option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex gap-3 justify-content-end">
-                                <a href="{{ route('admin.products.list', ['type' => request('type')]) }}"
-                                    class="btn btn-secondary px-5">
+
+                            <div class="col-md-2 col-sm-4 col-6 d-flex gap-2">
+                                <a href="{{ route('admin.products.list', ['type' => request('type')]) }}" class="btn btn--primary w-100">
                                     {{ translate('reset') }}
                                 </a>
-                                <button type="submit" class="btn btn--primary px-5 action-get-element-type">
+                                <button type="submit" class="btn btn--primary w-100">
                                     {{ translate('show_data') }}
                                 </button>
                             </div>
                         </div>
-                    </div>
-                </form>
+
+                    </form>
+                </div>
             </div>
         </div>
 

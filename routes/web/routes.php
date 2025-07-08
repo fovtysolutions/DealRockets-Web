@@ -247,7 +247,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::get('industry-jobs',[CVController::class,'index'])->name('sendcv');
 
     // Details Controller
-    Route::get('info',[WebController::class,'webinfo'])->name('webinfo');
+    Route::get('features',[WebController::class,'webinfo'])->name('webinfo');
 
     // Supplier Controller
     Route::get(Supplier::INDEX[URI],[SupplierController::class,'supplier'])->name('supplier');

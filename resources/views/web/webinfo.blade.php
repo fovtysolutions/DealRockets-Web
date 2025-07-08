@@ -6,10 +6,9 @@
     <style>
         .card {
             width: 320px;
-            /* Fixed card width */
-            border-radius: 15px;
+            border-radius: 0px;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             background-color: #fff;
             display: flex;
@@ -17,8 +16,8 @@
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            /* transform: translateY(-1px); */
+            /* box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); */
         }
 
         .card-body {
@@ -83,43 +82,48 @@
                     'title' => 'Stock Sale',
                     'image' => '/images/info/stocksale.jpg',
                     'alt' => 'Stock Sale',
-                    'description' => 'Buy discounted stock items easily and save on bulk deals.',
+                    'description' => 'Buy discounted stock in bulk and save more with special business pricing deals.',
                 ],
                 [
                     'title' => 'Buy Leads',
                     'image' => '/images/info/buyleads.png',
                     'alt' => 'Buy Leads',
-                    'description' => 'Access verified business leads to grow your customer base.',
+                    'description' =>
+                        'Access verified leads from real buyers and grow your business confidently every day.',
                 ],
                 [
                     'title' => 'Sale Offer',
                     'image' => '/images/info/sellleads.jpg',
                     'alt' => 'Sale Offer',
-                    'description' => 'Discover time-limited offers and boost your business savings today.',
+                    'description' =>
+                        'Find limited-time offers tailored for your business and save big on top products.',
                 ],
                 [
                     'title' => 'Industry Jobs',
                     'image' => '/images/info/industryjobs.jpg',
                     'alt' => 'Industry Jobs',
-                    'description' => 'Explore top job openings across multiple growing industry sectors now.',
+                    'description' =>
+                        'Apply to top jobs in your industry and connect with employers across key sectors.',
                 ],
                 [
                     'title' => 'Solutions',
                     'image' => '/images/info/dealassist.jpg',
                     'alt' => 'Deal Assist',
-                    'description' => 'Explore exclusive features that simplify business growth and transactions.',
+                    'description' =>
+                        'Get smart solutions for hypermarket, hospitality, and construction business operations today.',
                 ],
                 [
                     'title' => 'Deal Assist',
                     'image' => '/images/info/dealassist.jpg',
                     'alt' => 'Deal Assist',
-                    'description' => 'Close deals confidently with expert help every step of way.',
+                    'description' => 'Receive expert help to close deals faster and manage trade with full confidence.',
                 ],
                 [
                     'title' => 'Tradeshows',
                     'image' => '/images/info/tradeshow.jpg',
                     'alt' => 'Tradeshows',
-                    'description' => 'Join tradeshows, connect with professionals, and explore new opportunities.',
+                    'description' =>
+                        'Attend live trade shows, connect with industry leaders, and expand your market reach.',
                 ],
             ];
         @endphp

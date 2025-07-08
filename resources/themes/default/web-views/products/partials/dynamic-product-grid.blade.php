@@ -30,7 +30,7 @@
 
             <div class="product-info">
                 @if (Carbon\Carbon::parse($item->created_at)->gt(Carbon\Carbon::now()->subDays(30)))
-                    <div class="d-flex justify-content-between" style="align-items: center; padding-bottom: 5px;">
+                    <div class="d-flex justify-content-between" style="align-items: center; padding-bottom: 11px;">
                         <p class="new">New</p>
                         <div class="rating">
                             <span style="font-size: 16px;">
@@ -81,11 +81,11 @@
                 </div>
 
                 <div class="product-exhibition" style="display: flex; justify-content: space-between">
-                    <span>{{ $shopName }}</span>
-                    <span style="text-transform: capitalize;">{{ $vendorExtra->business_type }}</span>
+                    <span style="font-size: 13px;">{{ $shopName }}</span>
+                    <span style="text-transform: capitalize; font-size: 13px;">{{ $vendorExtra->business_type ?? 'Manufacturer' }}</span>
                 </div>
                 <div>
-                    <button class="start-order-btn">Explore</button>
+                    <button class="start-order-btn">Inquire Now</button>
                 </div>
             </div>
         </a>

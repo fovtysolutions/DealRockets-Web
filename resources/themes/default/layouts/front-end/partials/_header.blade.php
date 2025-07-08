@@ -160,7 +160,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                         </div>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
-                                        aria-labelledby="dropdownMenuButton" style="border-radius: 10px;">
+                                        aria-labelledby="dropdownMenuButton" style="border-radius: 10px; overflow: hidden;">
 
                                         @if (auth('customer')->check())
                                             <a class="dropdown-item custom-dealrock-text"
@@ -374,12 +374,12 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             <div class="text-center mt-4">
                                                 @if (auth('seller')->check())
                                                     <a href="{{ route('vendor.dashboard.index') }}"
-                                                        class="btn btn-primary btn-sm mb-2 w-100">Dashboard</a>
+                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Dashboard</a>
                                                 @else
                                                     <a href="{{ route('vendor.auth.login') }}"
-                                                        class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
+                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Sign In</a>
                                                     <a href="{{ route('vendor.auth.registration.index') }}"
-                                                        class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                        class="btn btn-primary btn-sm w-100 gradient-button">Sign Up</a>
                                                 @endif
                                             </div>
                                         </div>
@@ -438,16 +438,16 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             <div class="text-center mt-4">
                                                 @if (auth('customer')->check())
                                                     <a href="{{ route('account-oder') }}"
-                                                        class="btn btn-primary btn-sm mb-2 w-100">My Orders</a>
+                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">My Orders</a>
                                                     <a href="{{ route('user-account') }}"
-                                                        class="btn btn-primary btn-sm w-100">My Profile</a>
+                                                        class="btn btn-primary btn-sm w-100 gradient-button">My Profile</a>
                                                     <a href="{{ route('customer.auth.logout') }}"
-                                                        class="btn btn-primary btn-sm w-100">Logout</a>
+                                                        class="btn btn-primary btn-sm w-100 gradient-button">Logout</a>
                                                 @else
                                                     <a href="{{ route('customer.auth.login') }}"
-                                                        class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
+                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Sign In</a>
                                                     <a href="{{ route('customer.auth.sign-up') }}"
-                                                        class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                        class="btn btn-primary btn-sm w-100 gradient-button">Sign Up</a>
                                                 @endif
                                             </div>
                                         </div>
@@ -506,16 +506,16 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             <div class="text-center mt-4">
                                                 @if (auth('customer')->check())
                                                     <a href="{{ route('account-oder') }}"
-                                                        class="btn btn-primary btn-sm mb-2 w-100">My Orders</a>
+                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">My Orders</a>
                                                     <a href="{{ route('user-account') }}"
-                                                        class="btn btn-primary btn-sm w-100">My Profile</a>
+                                                        class="btn btn-primary btn-sm w-100 gradient-button">My Profile</a>
                                                     <a href="{{ route('customer.auth.logout') }}"
-                                                        class="btn btn-primary btn-sm w-100">Logout</a>
+                                                        class="btn btn-primary btn-sm w-100 gradient-button">Logout</a>
                                                 @else
                                                     <a href="{{ route('customer.auth.hire-sign-in') }}"
-                                                        class="btn btn-primary btn-sm mb-2 w-100">Sign In</a>
+                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Sign In</a>
                                                     <a href="{{ route('customer.auth.hire-sign-up') }}"
-                                                        class="btn btn-primary btn-sm w-100">Sign Up</a>
+                                                        class="btn btn-primary btn-sm w-100 gradient-button">Sign Up</a>
                                                 @endif
                                             </div>
                                         </div>

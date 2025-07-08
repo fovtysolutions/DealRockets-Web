@@ -17,25 +17,25 @@
 }
 
 .element-mobile .nav-tile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #555;
-    transition: color 0.3s ease;
-    gap: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #555;
+  transition: color 0.3s ease;
+  gap: 3px;
 }
 
 .element-mobile .nav-label {
   font-size: 12.5px;
 }
 
-.element-mobile .nav-tile i{
+.element-mobile .nav-tile i {
   font-size: 19px;
 }
 
 .element-mobile .nav-tile:hover {
-    color: #FE4E44;
+  color: #FE4E44;
 }
 
 .navbar-floating {
@@ -63,6 +63,12 @@
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-color: #d5d5d5;
+}
+
+.gradient-button {
+  border-radius: 100px;
+  background: linear-gradient(to right, #FE4E44, #9F0900) !important;
+  border: unset;
 }
 
 .element-mobile .logo {
@@ -1154,7 +1160,7 @@
 
 .language-dropdown a:hover {
   background-color: #f5f5f5 !important;
-  color: #FE4E44 !important; 
+  color: #FE4E44 !important;
 }
 
 @media (max-width: 1440px) {
@@ -1166,12 +1172,12 @@
     display: none !important;
   }
 
-  .group-17{
+  .group-17 {
     padding-left: 22px;
     padding-right: 22px;
   }
 
-  .group-14 .contentgroup{
+  .group-14 .contentgroup {
     padding-left: 22px;
     padding-right: 22px;
   }

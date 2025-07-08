@@ -28,9 +28,9 @@
         }
 
         .main-category .country-button {
-            color: black;
+            color: #303030;
             font-size: 16px;
-            border-bottom: 1px solid black;
+            border-bottom: 1px solid lightgrey;
             padding-bottom: 14px;
             width: 90%;
         }
@@ -72,7 +72,7 @@
         </div> --}}
 
         <div class="d-flex w-100" style="border-radius: 10px; margin-top:22px;">
-            <div class="filter-container">
+            <div class="filter-container" style="box-shadow: unset;border: 1px solid lightgrey;">
                 <h5 class="filter-header">
                     All Industries
                 </h5>

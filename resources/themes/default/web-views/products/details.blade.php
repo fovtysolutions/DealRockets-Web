@@ -356,44 +356,235 @@
                             </div>
                         </div>
                     </div>
-                    <div class="product-div" id="product-div">
-                        <div class="description-tabs">
-                            {{-- <div class="tab" data-toggleid="productDescription">Product Description</div> --}}
-                            <div class="tab active" data-toggleid="companyInfo">Company Profile</div>
-                            <div class="tab" data-toggleid="productGallery">Product Gallery</div>
-                        </div>
-                        <div class="tabdata" id="productDescription" style="display: none;">
-                            <div class="description-content p-4 space-y-4">
-                                <div class="description-section" style="padding-bottom: 20px;">
+                    <div class="product-div" id="product-div" style="display: flex; width: 100%;">
+                        <div style="width: 84%;">
+                            <div class="description-tabs">
+                                {{-- <div class="tab" data-toggleid="productDescription">Product Description</div> --}}
+                                <div class="tab active" data-toggleid="companyInfo">Company Profile</div>
+                                <div class="tab" data-toggleid="productGallery">Product Gallery</div>
+                            </div>
+                            <div class="tabdata" id="productDescription" style="display: none;">
+                                <div class="description-content p-4 space-y-4">
+                                    <div class="description-section" style="padding-bottom: 20px;">
 
+                                    </div>
+
+                                    @if (!empty($product->short_details))
+                                        <div class="description-section">
+                                            <h5 class="section-subtitle">Quick Overview</h5>
+                                            <p class="text-muted">{!! $product->short_details !!}</p>
+                                        </div>
+                                    @endif
+
+                                    @if (!empty($product->details))
+                                        <div class="description-section">
+                                            <h5 class="section-subtitle">Product Description</h5>
+                                            <p>{!! $product->details !!}</p>
+                                        </div>
+                                    @endif
+
+                                    @php
+                                        $images = json_decode($product->certificates, true); // or $product->certificates
+                                    @endphp
+
+                                    @if (!empty($images) && is_array($images))
+                                        <div class="product-image-gallery space-y-4">
+                                            <h4 class="section-subtitle">Certificates</h4>
+                                            <div class="image-gallery-preview">
+                                                <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
+                                                    alt="Main Preview">
+                                            </div>
+
+                                            <div class="thumbnail-row flex flex-wrap gap-2 justify-start d-flex">
+                                                @foreach ($images as $image)
+                                                    <div class="thumb border rounded cursor-pointer overflow-hidden">
+                                                        <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail"
+                                                            style="height: 100px;"
+                                                            class="w-20 h-20 object-cover hover:opacity-75 transition"
+                                                            onclick="document.getElementById('mainPreview').src = this.src;">
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    <div class="description-section mt-3">
+                                        <h5 class="section-subtitle">Business Information</h5>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="spec-row">
+                                                <div class="spec-label">Place of Loading</div>
+                                                <div class="spec-value">{{ $product->place_of_loading ?? '-' }}</div>
+                                            </div>
+                                            <div class="spec-row">
+                                                <div class="spec-label">Delivery Terms</div>
+                                                <div class="spec-value">{{ $product->delivery_terms ?? '-' }}</div>
+                                            </div>
+                                            <div class="spec-row">
+                                                <div class="spec-label">Packing Type</div>
+                                                <div class="spec-value">{{ $product->packing_type ?? '-' }}</div>
+                                            </div>
+                                            <div class="spec-row">
+                                                <div class="spec-label">Local Currency</div>
+                                                <div class="spec-value">{{ $product->local_currency ?? '-' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="tabdata" id="companyInfo">
+                                <div class="product-div">
+                                    <div class="vender-contact">
+                                        <div class="contact-section">
+                                            <div class="contact-left">
+                                                <h3>Contact Details</h3>
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <p><strong>Address</strong>
+                                                            <span class="contact-text">
+                                                                {{ $shopInfoArray['company_profiles']->address ?? 'N/A' }}
+                                                            </span>
+                                                        </p>
 
-                                @if (!empty($product->short_details))
-                                    <div class="description-section">
-                                        <h5 class="section-subtitle">Quick Overview</h5>
-                                        <p class="text-muted">{!! $product->short_details !!}</p>
+                                                        <p><strong>Local Time</strong>
+                                                            <span class="contact-text">
+                                                                {{ $shopInfoArray['company_profiles']->local_time ?? 'N/A' }}
+                                                            </span>
+                                                        </p>
+
+                                                        <p><strong>Showroom</strong>
+                                                            <span class="contact-text">
+                                                                {{ $shopInfoArray['company_profiles']->showroom ?? 'N/A' }}
+                                                            </span>
+                                                        </p>
+
+                                                        <p><strong>Website</strong>
+                                                            <span class="contact-text">
+                                                                @if (!empty($shopInfoArray['company_profiles']->website))
+                                                                    <a href="{{ $shopInfoArray['company_profiles']->website }}"
+                                                                        target="_blank">
+                                                                        {{ $shopInfoArray['company_profiles']->website }}
+                                                                    </a>
+                                                                @else
+                                                                    N/A
+                                                                @endif
+                                                            </span>
+                                                        </p>
+
+                                                        @if (auth()->check())
+                                                            <div class="private-info-box">
+                                                                <p><strong>Telephone</strong>
+                                                                    <span class="contact-text margin-l">
+                                                                        {{ $shopInfoArray['company_profiles']->telephone ?? 'N/A' }}
+                                                                    </span>
+                                                                </p>
+
+                                                                <p><strong>Mobile Phone</strong>
+                                                                    <span class="contact-text margin-l">
+                                                                        {{ $shopInfoArray['company_profiles']->mobile ?? 'N/A' }}
+                                                                    </span>
+                                                                </p>
+
+                                                                <p><strong>Fax</strong>
+                                                                    <span class="contact-text margin-l">
+                                                                        {{ $shopInfoArray['company_profiles']->fax ?? 'N/A' }}
+                                                                    </span>
+                                                                </p>
+
+                                                                <p><strong>Alternate Contact</strong>
+                                                                    <span class="contact-text margin-l">
+                                                                        {{ $shopInfoArray['company_profiles']->alternate_contact ?? 'N/A' }}
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                        @else
+                                                            <p><button class="sign-in-btn">Sign In to View Phone &
+                                                                    Email</button>
+                                                            </p>
+                                                        @endif
+                                                    </div>
+                                                    <div>
+                                                        <p><strong>Factory Size</strong>
+                                                            <span class="contact-text margin-l">
+                                                                {{ $shopInfoArray['company_profiles']->factory_size ?? 'N/A' }}
+                                                            </span>
+                                                        </p>
+                                                        <p><strong>Year Established</strong>
+                                                            <span class="contact-text margin-l">
+                                                                {{ $shopInfoArray['company_profiles']->year_established ?? 'N/A' }}
+                                                            </span>
+                                                        </p>
+                                                        <p><strong>Total Employees</strong>
+                                                            <span class="contact-text margin-l">
+                                                                {{ $shopInfoArray['company_profiles']->total_employees ?? 'N/A' }}
+                                                            </span>
+                                                        </p>
+                                                        <p><strong>Production Lines</strong>
+                                                            <span class="contact-text margin-l">
+                                                                {{ $shopInfoArray['company_profiles']->production_lines ?? 'N/A' }}
+                                                            </span>
+                                                        </p>
+                                                        <p><strong>Monthly Output</strong>
+                                                            <span class="contact-text margin-l">
+                                                                {{ $shopInfoArray['company_profiles']->monthly_output ?? 'N/A' }}
+                                                            </span>
+                                                        </p>
+                                                        <p><strong>Total Annual Sales</strong>
+                                                            <span class="contact-text margin-l">
+                                                                {{ $shopInfoArray['company_profiles']->total_annual_sales ?? 'N/A' }}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="contact-right">
+                                                <h3>Contact Person</h3>
+                                                <div class="contact-person">
+                                                    <div class="text-end">
+                                                        <p class="name">
+                                                            {{ $shopInfoArray['company_profiles']->contact_name ?? 'N/A' }}
+                                                        </p>
+                                                        <p class="position">
+                                                            {{ $shopInfoArray['company_profiles']->contact_dept ?? 'N/A' }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="avatar-placeholder"></div>
+                                                </div>
+
+                                                <p><strong>Email:</strong>
+                                                    @if (auth()->check())
+                                                        <span class="contact-text">
+                                                            {{ $shopInfoArray['company_profiles']->email ?? 'N/A' }}
+                                                        </span>
+                                                    @else
+                                                        <button class="sign-in-btn">Sign In for Email</button>
+                                                    @endif
+                                                </p>
+
+                                                <button class="contact-now-btn" data-toggle="modal"
+                                                    data-target="#inquiryModal">
+                                                    Contact Now
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                @endif
-
-                                @if (!empty($product->details))
-                                    <div class="description-section">
-                                        <h5 class="section-subtitle">Product Description</h5>
-                                        <p>{!! $product->details !!}</p>
-                                    </div>
-                                @endif
-
+                                </div>
+                            </div>
+                            <div class="tabdata" id="productGallery" style="display: none;">
                                 @php
-                                    $images = json_decode($product->certificates, true); // or $product->certificates
+                                    $images = json_decode($product->extra_images, true); // or $product->certificates
                                 @endphp
 
                                 @if (!empty($images) && is_array($images))
                                     <div class="product-image-gallery space-y-4">
-                                        <h4 class="section-subtitle">Certificates</h4>
+                                        {{-- Main Preview Image --}}
                                         <div class="image-gallery-preview">
                                             <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
                                                 alt="Main Preview">
                                         </div>
 
+                                        {{-- Thumbnails --}}
                                         <div class="thumbnail-row flex flex-wrap gap-2 justify-start d-flex">
                                             @foreach ($images as $image)
                                                 <div class="thumb border rounded cursor-pointer overflow-hidden">
@@ -406,196 +597,60 @@
                                         </div>
                                     </div>
                                 @endif
-
-                                <div class="description-section mt-3">
-                                    <h5 class="section-subtitle">Business Information</h5>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div class="spec-row">
-                                            <div class="spec-label">Place of Loading</div>
-                                            <div class="spec-value">{{ $product->place_of_loading ?? '-' }}</div>
-                                        </div>
-                                        <div class="spec-row">
-                                            <div class="spec-label">Delivery Terms</div>
-                                            <div class="spec-value">{{ $product->delivery_terms ?? '-' }}</div>
-                                        </div>
-                                        <div class="spec-row">
-                                            <div class="spec-label">Packing Type</div>
-                                            <div class="spec-value">{{ $product->packing_type ?? '-' }}</div>
-                                        </div>
-                                        <div class="spec-row">
-                                            <div class="spec-label">Local Currency</div>
-                                            <div class="spec-value">{{ $product->local_currency ?? '-' }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                        <div class="tabdata" id="companyInfo">
-                            <div class="product-div">
-                                <div class="vender-contact">
-                                    <div class="contact-section">
-                                        <div class="contact-left">
-                                            <h3>Contact Details</h3>
-                                            <div class="d-flex justify-content-between">
-                                                <div>
-                                                    <p><strong>Address</strong>
-                                                        <span class="contact-text">
-                                                            {{ $shopInfoArray['company_profiles']->address ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-
-                                                    <p><strong>Local Time</strong>
-                                                        <span class="contact-text">
-                                                            {{ $shopInfoArray['company_profiles']->local_time ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-
-                                                    <p><strong>Showroom</strong>
-                                                        <span class="contact-text">
-                                                            {{ $shopInfoArray['company_profiles']->showroom ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-
-                                                    <p><strong>Website</strong>
-                                                        <span class="contact-text">
-                                                            @if (!empty($shopInfoArray['company_profiles']->website))
-                                                                <a href="{{ $shopInfoArray['company_profiles']->website }}"
-                                                                    target="_blank">
-                                                                    {{ $shopInfoArray['company_profiles']->website }}
-                                                                </a>
-                                                            @else
-                                                                N/A
-                                                            @endif
-                                                        </span>
-                                                    </p>
-
-                                                    @if (auth()->check())
-                                                        <div class="private-info-box">
-                                                            <p><strong>Telephone</strong>
-                                                                <span class="contact-text margin-l">
-                                                                    {{ $shopInfoArray['company_profiles']->telephone ?? 'N/A' }}
-                                                                </span>
-                                                            </p>
-
-                                                            <p><strong>Mobile Phone</strong>
-                                                                <span class="contact-text margin-l">
-                                                                    {{ $shopInfoArray['company_profiles']->mobile ?? 'N/A' }}
-                                                                </span>
-                                                            </p>
-
-                                                            <p><strong>Fax</strong>
-                                                                <span class="contact-text margin-l">
-                                                                    {{ $shopInfoArray['company_profiles']->fax ?? 'N/A' }}
-                                                                </span>
-                                                            </p>
-
-                                                            <p><strong>Alternate Contact</strong>
-                                                                <span class="contact-text margin-l">
-                                                                    {{ $shopInfoArray['company_profiles']->alternate_contact ?? 'N/A' }}
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                    @else
-                                                        <p><button class="sign-in-btn">Sign In to View Phone &
-                                                                Email</button>
-                                                        </p>
-                                                    @endif
-                                                </div>
-                                                <div>
-                                                    <p><strong>Factory Size</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->factory_size ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-                                                    <p><strong>Year Established</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->year_established ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-                                                    <p><strong>Total Employees</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->total_employees ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-                                                    <p><strong>Production Lines</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->production_lines ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-                                                    <p><strong>Monthly Output</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->monthly_output ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-                                                    <p><strong>Total Annual Sales</strong>
-                                                        <span class="contact-text margin-l">
-                                                            {{ $shopInfoArray['company_profiles']->total_annual_sales ?? 'N/A' }}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="contact-right">
-                                            <h3>Contact Person</h3>
-                                            <div class="contact-person">
-                                                <div class="text-end">
-                                                    <p class="name">
-                                                        {{ $shopInfoArray['company_profiles']->contact_name ?? 'N/A' }}
-                                                    </p>
-                                                    <p class="position">
-                                                        {{ $shopInfoArray['company_profiles']->contact_dept ?? 'N/A' }}
-                                                    </p>
-                                                </div>
-                                                <div class="avatar-placeholder"></div>
-                                            </div>
-
-                                            <p><strong>Email:</strong>
-                                                @if (auth()->check())
-                                                    <span class="contact-text">
-                                                        {{ $shopInfoArray['company_profiles']->email ?? 'N/A' }}
-                                                    </span>
-                                                @else
-                                                    <button class="sign-in-btn">Sign In for Email</button>
-                                                @endif
-                                            </p>
-
-                                            <button class="contact-now-btn" data-toggle="modal"
-                                                data-target="#inquiryModal">
-                                                Contact Now
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tabdata" id="productGallery" style="display: none;">
+                        <div class="supplier-info d-none" id="sticky-supplier-info1">
                             @php
-                                $images = json_decode($product->extra_images, true); // or $product->certificates
+                                $isAdmin = $product->added_by === 'admin';
+                                $vendorExtra = \App\Models\VendorExtraDetail::where(
+                                    'seller_id',
+                                    $product->user_id,
+                                )->first();
                             @endphp
 
-                            @if (!empty($images) && is_array($images))
-                                <div class="product-image-gallery space-y-4">
-                                    {{-- Main Preview Image --}}
-                                    <div class="image-gallery-preview">
-                                        <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
-                                            alt="Main Preview">
-                                    </div>
-
-                                    {{-- Thumbnails --}}
-                                    <div class="thumbnail-row flex flex-wrap gap-2 justify-start d-flex">
-                                        @foreach ($images as $image)
-                                            <div class="thumb border rounded cursor-pointer overflow-hidden">
-                                                <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail"
-                                                    style="height: 100px;"
-                                                    class="w-20 h-20 object-cover hover:opacity-75 transition"
-                                                    onclick="document.getElementById('mainPreview').src = this.src;">
-                                            </div>
-                                        @endforeach
-                                    </div>
+                            <div class="supplier-header">
+                                <div class="supplier-name">
+                                    {{ $isAdmin ? 'Admin Shop' : $product->seller->shop->name ?? 'N/A' }}
                                 </div>
-                            @endif
+                                <div class="contact-person">
+                                    {{ $vendorExtra->contact_person_name ?? 'N/A' }}
+                                </div>
+                            </div>
+
+                            <div class="supplier-meta">
+                                <span class="years">
+                                    Since {{ $isAdmin ? 'Admin' : $product->seller->years . ' years' }}
+                                    in {{ $vendorExtra->city ?? 'N/A' }},
+                                    {{ $isAdmin ? 'DealRockets' : $vendorExtra->country_of_registration ?? 'N/A' }}
+                                </span>
+                            </div>
+
+                            <div class="response-data">
+                                <div class="response-rate">
+                                    <span class="label">Response Rate:</span>
+                                    <span class="value">High</span>
+                                </div>
+                                <div class="response-time">
+                                    <span class="label">Avg Response Time:</span>
+                                    <span class="value">≤24 h</span>
+                                </div>
+                            </div>
+
+                            <div class="subplier-btn"
+                                style="display: flex; flex-direction: column; justify-content: start;">
+                                <div class="business-type">
+                                    <span class="label">Business Type:</span>
+                                    <span class="value">{{ $vendorExtra->business_type ?? 'N/A' }}</span>
+                                </div>
+
+                                <div class="supplier-actions">
+                                    @if (!$isAdmin && isset($product->seller->shop->id))
+                                        <a href="{{ route('shopView', ['id' => $product->seller->shop->id]) }}"
+                                            class="btn-outline">Shop</a>
+                                    @endif
+                                    {{-- <button class="btn-outline">Chat</button> --}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal fade rtl text-align-direction" id="show-modal-view" tabindex="-1" role="dialog"
@@ -617,9 +672,9 @@
     </div>
     @include('web-views.partials._order-now')
     <div style="max-width: 1440px; margin: 0 auto; padding-bottom: 60px;">
-        <div class="modal-content">
+        <div class="modal-content" style="box-shadow: unset; border-radius: 0px; border: 1px solid lightgrey;">
             <!-- Modal Header -->
-            <div class="modal-header" style="background-color:rgba(235, 235, 235, 1);">
+            <div class="modal-header" style="background-color:rgba(235, 235, 235, 1); border-radius: 0px;">
                 <h5 class="modal-title" id="inquiryModalLabel">Send a direct inquiry to this
                     supplier</h5>
                 {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
@@ -839,6 +894,19 @@
             return eoffsetBottom;
         }
 
+        function hideDuplicate(element1, element2) {
+            const isElement1Stuck = element1.classList.contains('stuck');
+            const isElement2Visible = !element2.classList.contains('d-none');
+
+            if (isElement1Stuck) {
+                element2.classList.add('d-none');
+                element1.style.display = '';
+            } else {
+                element1.style.display = '';
+                element2.classList.remove('d-none');
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             try {
                 const supplierInfo = document.getElementById("sticky-supplier-info");
@@ -850,8 +918,9 @@
 
                 const stickyOffset = supplierInfo.offsetTop;
                 const productDiv = document.getElementById('product-div');
+                const stickyElement1 = document.getElementById('sticky-supplier-info1');
 
-                const endproductdiv = offsetBottom(productDiv) - 245 + 93;
+                const endproductdiv = offsetBottom(productDiv) - 245 - 150;
 
                 const updateStuckPosition = () => {
                     const container = document.querySelector('.mainpagesection');
@@ -874,21 +943,33 @@
 
                 window.addEventListener("scroll", function() {
                     if (window.innerWidth > 1024) {
-                        if (window.pageYOffset > stickyOffset && window.pageYOffset < endproductdiv) {
-                            if (!supplierInfo.classList.contains("stuck")) {
-                                console.log("Applying stuck class to supplierInfo");
-                            }
-                            supplierInfo.classList.add("stuck");
-                            updateStuckPosition();
-                        } else if (endproductdiv - 245 < endproductdiv && window.pageYOffset > stickyOffset){ 
-                            console.log('right zone');
-                        }
-                        else {
+                        if (window.pageYOffset < stickyOffset) {
+                            // ABOVE: don't show anything sticky
                             if (supplierInfo.classList.contains("stuck")) {
-                                console.log("Removing stuck class from supplierInfo");
+                                console.log("Removing stuck class (above stickyOffset)");
                             }
                             supplierInfo.classList.remove("stuck");
                             supplierInfo.style.right = '';
+                            // stickyElement1.classList.remove('d-none'); // if needed
+
+                        } else if (window.pageYOffset >= stickyOffset && window.pageYOffset <
+                            endproductdiv) {
+                            // WITHIN range: apply sticky
+                            if (!supplierInfo.classList.contains("stuck")) {
+                                console.log("Applying stuck class to supplierInfo");
+                            }
+                            stickyElement1.classList.add('d-none');
+                            supplierInfo.classList.add("stuck");
+                            updateStuckPosition();
+
+                        } else {
+                            // BELOW: remove sticky
+                            if (supplierInfo.classList.contains("stuck")) {
+                                console.log("Removing stuck class (below endproductdiv)");
+                            }
+                            supplierInfo.classList.remove("stuck");
+                            supplierInfo.style.right = '';
+                            stickyElement1.classList.remove('d-none'); // if needed
                         }
                     } else {
                         supplierInfo.classList.remove("stuck");

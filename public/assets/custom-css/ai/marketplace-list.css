@@ -27,10 +27,11 @@
 
 .marketplace-list .product-info1 {
     padding: 10px;
-    /* padding-top: 30px; */
     width: 55%;
+    /* justify-content: space-between;
+    display: flex; */
+    flex-direction: column;
     height: -webkit-fill-available;
-    /* padding-bottom: 30px; */
 }
 
 input[type="checkbox"] {

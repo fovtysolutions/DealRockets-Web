@@ -219,29 +219,27 @@ class ChatManager
 
     public static function getUserDataChat($userId, $userRole)
     {
-        if ($userRole == 'customer') {
-            $userdata = User::find($userId);
-            $userdata = [
-                'name' => $userdata['name'],
-            ];
-            return $userdata;
-        } else if ($userRole == 'seller') {
-            $userdata = Seller::find($userId);
-            $userdata = [
-                'name' => $userdata['f_name'] . ' ' . $userdata['l_name'],
-            ];
-            return $userdata;
-        } else if ($userRole == 'admin') {
-            $userdata = Admin::find($userId);
-            $userdata = [
-                'name' => $userdata['name'],
-            ];
-            return $userdata;
-        } else {
-            $userdata = [
-                'name' => 'N/A',
-            ];
-            return $userdata;
+        switch ($userRole) {
+            case 'customer':
+                $user = User::find($userId);
+                return [
+                    'name' => $user?->name ?? 'N/A',
+                ];
+
+            case 'seller':
+                $seller = Seller::find($userId);
+                return [
+                    'name' => $seller ? trim($seller->f_name . ' ' . $seller->l_name) : 'N/A',
+                ];
+
+            case 'admin':
+                $admin = Admin::find($userId);
+                return [
+                    'name' => $admin?->name ?? 'N/A',
+                ];
+
+            default:
+                return ['name' => 'N/A'];
         }
     }
 
@@ -657,13 +655,13 @@ class ChatManager
      */
     public static function getchats($other_user_id, $other_user_type, $type, $listing_id)
     {
-        $current_user = ChatManager::getRoleDetail();
-
+        $current_user = self::getRoleDetail();
         $userId = $current_user['user_id'];
         $userRole = $current_user['role'];
 
         $query = ChatsOther::query()->where('type', $type);
 
+        // Match listing type with corresponding column
         switch ($type) {
             case 'products':
                 $query->where('product_id', $listing_id);
@@ -679,49 +677,50 @@ class ChatManager
                 return [];
         }
 
-        $data = $query->get();
+        // Order by sent time ascending
+        $messages = $query->orderBy('sent_at', 'asc')->get();
 
-        $finalChat = [];
-        $idsToMarkAsRead = [];
+        if ($messages->isEmpty()) return [];
 
-        if ($data->isEmpty()) {
-            return [];
-        }
+        // Collect sender/receiver info once
+        $userCache = [];
 
-        // Get first message's sender as the 'reference sender'
-        $firstMessage = $data->first();
-        $referenceSenderId = $firstMessage->sender_id;
-        $referenceSenderType = $firstMessage->sender_type;
+        $finalChat = $messages->map(function ($msg) use ($userId, $userRole, &$userCache) {
+            // Determine if this message was sent by current user
+            $isSelf = $msg->sender_id == $userId && $msg->sender_type == $userRole;
 
-        foreach ($data as $value) {
-            // Flag based on whether sender matches the first message's sender
-            $flag = ($value->sender_id == $referenceSenderId && $value->sender_type == $referenceSenderType)
-                ? 'other'
-                : 'self';
-
-            // Mark as read if the current user is the receiver
-            if ($userId == $value->receiver_id && $userRole == $value->receiver_type && !$value->is_read) {
-                $idsToMarkAsRead[] = $value->id;
+            // Mark as read if received by current user
+            if (!$isSelf && !$msg->is_read) {
+                $msg->is_read = 1;
+                $msg->read_at = now();
+                $msg->save();
             }
 
-            $finalChat[] = [
-                'id' => $value->id,
-                'sender_id' => $value->sender_id,
-                'sender_type' => $value->sender_type,
-                'receiver_id' => $value->receiver_id,
-                'receiver_type' => $value->receiver_type,
-                'message' => $value->message,
-                'sent_at' => $value->sent_at,
-                'is_read' => $value->is_read,
-                'flag' => $flag,
+            // Cache user names to avoid repetitive DB hits
+            $senderKey = $msg->sender_type . '_' . $msg->sender_id;
+            if (!isset($userCache[$senderKey])) {
+                $userCache[$senderKey] = self::getUserDataChat($msg->sender_id, $msg->sender_type);
+            }
+
+            return [
+                'id' => $msg->id,
+                'chat_id' => $msg->chat_id,
+                'message' => $msg->message,
+                'sender_id' => $msg->sender_id,
+                'sender_type' => $msg->sender_type,
+                'sender_name' => $userCache[$senderKey]['name'] ?? 'N/A',
+                'receiver_id' => $msg->receiver_id,
+                'receiver_type' => $msg->receiver_type,
+                'sent_at' => $msg->sent_at,
+                'is_read' => $msg->is_read,
+                'flag' => $isSelf ? 'self' : 'other',
+                'title' => $msg->title,
+                'action_url' => $msg->action_url,
+                'priority' => $msg->priority,
             ];
-        }
+        });
 
-        if (!empty($idsToMarkAsRead)) {
-            ChatsOther::whereIn('id', $idsToMarkAsRead)->update(['is_read' => 1]);
-        }
-
-        return $finalChat;
+        return $finalChat->toArray();
     }
 
     /**
@@ -1444,13 +1443,13 @@ class ChatManager
         return self::checkAccessByType('access_jobs');
     }
 
-    public static function checkifMember($added_by,$user_id)
-    {       
-        if ($added_by == 'admin'){
+    public static function checkifMember($added_by, $user_id)
+    {
+        if ($added_by == 'admin') {
             return 1;
         } else {
             $seller = Seller::find($user_id);
-            if($seller && $seller->membership != 'Free'){
+            if ($seller && $seller->membership != 'Free') {
                 return 1;
             } else {
                 return 0;

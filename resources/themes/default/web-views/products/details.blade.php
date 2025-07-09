@@ -64,7 +64,7 @@
     ?>
     <div class="__inline-23 mainpagesection" style="background-color: unset; margin-top: 22px;">
         <div>
-            <div class="product-view-section" style="background: #f7f7f7;">
+            <div class="product-view-section">
                 <!-- Product View Section -->
                 <div class="product-view" style="margin-bottom: 20px;">
                     <!-- Product Images Section -->
@@ -103,13 +103,13 @@
                                     @php
                                         $user = auth('customer')->user();
                                         $isFavourite = $user
-                                            ? \App\Utils\HelperUtil::checkIfFavourite($item->id, $user->id, 'product')
+                                            ? \App\Utils\HelperUtil::checkIfFavourite($product->id, $user->id, 'product')
                                             : false;
                                     @endphp
 
                                     @if ($user)
                                         <img class="heart favourite-img" onclick="makeFavourite(this)"
-                                            data-id="{{ $item->id }}" data-userid="{{ $user->id }}"
+                                            data-id="{{ $product->id }}" data-userid="{{ $user->id }}"
                                             data-type="product" data-role="{{ $user->role ?? 'customer' }}"
                                             src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
                                             width="20" alt="Featured icon" style="margin-left: auto;">

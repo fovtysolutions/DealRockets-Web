@@ -43,14 +43,15 @@
                     </span>
                 </div> --}}
             </div>
-            <h3 class="product-title product-title1" style="height: 1rem;">{{ $item->name }}</h3>
-            <div class="product-subtitle" style="margin-bottom: 10px;">
-                {{ $item->short_details }}
-            </div>
-            <div class="product-price product-price1" style="font-size: 29px;">${{ number_format($item->unit_price, 2, '.', ',') }} <span
+            <h3 class="product-title product-title1 text-truncate" style="height: 1rem; margin-bottom: 5px; font-size: 18px;">{{ $item->name }}</h3>
+            <div class="product-price product-price1" style="font-size: 26px;">
+                ${{ number_format($item->unit_price, 2, '.', ',') }} <span
                     style="color: #515050; font-size: 14px; font-weight: 400;"> / {{ $item->unit }}</span></div>
             <div class="product-moq product-moq1">{{ $item->minimum_order_qty }} {{ $item->unit }} <span
-                    style="color: #515050; font-size: 14px;">(MOQ)</span></div>
+                    style="color: #515050; font-size: 16px;">(MOQ)</span></div>
+            <div class="product-subtitle" style="margin-bottom: 10px;color: #555 !important; font-size: 14px !important;">
+                {{ $item->short_details }}
+            </div>
             @php
                 $memberCheck = \App\Utils\ChatManager::checkifMember($item->added_by, $item->user_id);
                 if ($item->added_by == 'seller') {
@@ -62,7 +63,7 @@
                     $shopAddress = 'Admin Address';
                 }
             @endphp
-            <div class="lead-details-table">
+            {{-- <div class="lead-details-table">
                 <table class="detail-table">
                     <tr>
                         <td class="detail-label">Origin</td>
@@ -84,15 +85,16 @@
                         <td class="detail-value text-truncate">{{ $item->delivery_mode ?? 'N/A' }}</td>
                     </tr>
                 </table>
-            </div>
+            </div> --}}
             {{-- <div class="product-exhibition product-exhibition1">Exhibition: Tech Expo 2025</div> --}}
         </div>
         <div
             style="width: 25%;padding: 10px;height: -webkit-fill-available;display: flex;flex-direction: column;justify-content: space-between;">
-            <div class="product-seller product-seller1">{{ $shopName ?? '' }}</div>
+            <div class="product-seller product-seller1" style="text-decoration: underline;">{{ $shopName ?? '' }}</div>
             <div>
                 @if ($memberCheck == 1)
                     <img src="/img/Diamond.png" alt="diamond" class="dimond-img" style="width: 25px;">
+                    <span style="font-size: 14px;color: #555;">Verified</span>
                 @endif
                 <div class="product-seller product-seller1"
                     style="color: rgba(81, 80, 80, 1);font-size: 14px;font-weight: 400;">

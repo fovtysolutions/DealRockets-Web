@@ -107,7 +107,7 @@
                 ],
                 [
                     'title' => 'Solutions',
-                    'image' => '/images/info/dealassist.jpg',
+                    'image' => '/images/features-club-img.png',
                     'alt' => 'Deal Assist',
                     'description' =>
                         'Get smart solutions for hypermarket, hospitality, and construction business operations today.',

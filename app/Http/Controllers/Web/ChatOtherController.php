@@ -10,40 +10,90 @@ use App\Models\Product;
 use App\Models\StockSell;
 use App\Utils\ChatManager;
 use Exception;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Exists;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class ChatOtherController extends Controller
 {
+    private function sendMessage(array $data)
+    {
+        // Validate incoming data
+        $validator = Validator::make($data, [
+            'sender_id' => 'required|integer',
+            'sender_type' => 'required|in:customer,seller,admin',
+            'receiver_id' => 'required|integer',
+            'receiver_type' => 'required|in:seller,admin,customer',
+            'message' => 'required|string|max:1000',
+            'type' => 'required|string',
+            'leads_id' => 'nullable|integer|exists:leads,id',
+            'suppliers_id' => 'nullable|integer|exists:suppliers,id',
+            'stocksell_id' => 'nullable|integer|exists:stock_sell,id',
+            'product_id' => 'nullable|integer|exists:products,id',
+            'product_qty' => 'nullable|integer',
+        ]);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        $validated = $validator->validated();
+
+        // Find existing chat_id for this conversation (both directions)
+        $existingChat = ChatsOther::where('type', $validated['type'])
+            ->where(function ($query) use ($validated) {
+                $query->where(function ($q) use ($validated) {
+                    $q->where('sender_id', $validated['sender_id'])
+                        ->where('sender_type', $validated['sender_type'])
+                        ->where('receiver_id', $validated['receiver_id'])
+                        ->where('receiver_type', $validated['receiver_type']);
+                })->orWhere(function ($q) use ($validated) {
+                    $q->where('sender_id', $validated['receiver_id'])
+                        ->where('sender_type', $validated['receiver_type'])
+                        ->where('receiver_id', $validated['sender_id'])
+                        ->where('receiver_type', $validated['sender_type']);
+                });
+
+                if (!empty($validated['leads_id'])) {
+                    $query->where('leads_id', $validated['leads_id']);
+                }
+                if (!empty($validated['stocksell_id'])) {
+                    $query->where('stocksell_id', $validated['stocksell_id']);
+                }
+                if (!empty($validated['product_id'])) {
+                    $query->where('product_id', $validated['product_id']);
+                }
+            })
+            ->first();
+
+        if ($existingChat) {
+            $validated['chat_id'] = $existingChat->chat_id;
+            $validated['chat_initiator'] = 0;
+        } else {
+            $validated['chat_id'] = (string) Str::uuid();
+            $validated['chat_initiator'] = 1;
+        }
+
+        // Create the chat message record
+        $chat = ChatsOther::create($validated);
+
+        // Increment quotes if applicable
+        if (!empty($validated['leads_id'])) {
+            Leads::where('id', $validated['leads_id'])->increment('quotes_recieved');
+        }
+        if (!empty($validated['stocksell_id'])) {
+            StockSell::where('id', $validated['stocksell_id'])->increment('quote_recieved');
+        }
+
+        return $chat;
+    }
+
+    // Rewritten sendotherMessage to use sendMessage()
     public function sendotherMessage(Request $request)
     {
         try {
-            $validated = $request->validate([
-                'sender_id' => 'required|integer',
-                'sender_type' => 'required|in:customer,seller,admin',
-                'receiver_id' => 'required|integer',
-                'receiver_type' => 'required|in:seller,admin,customer',
-                'message' => 'required|string|max:1000',
-                'type' => 'required|string',
-                'leads_id' => 'integer|exists:leads,id',
-                'suppliers_id' => 'integer|exists:suppliers,id',
-                'stocksell_id' => 'integer|exists:stock_sell,id',
-                'product_id' => 'integer|exists:products,id',
-                'product_qty' => 'integer',
-            ]);
-
-            $chat = ChatsOther::create($validated);
-
-            if (isset($chat->leads_id)) {
-                $leads = Leads::where('id', $validated['leads_id'])->first();
-                $leads->increment('quotes_recieved');
-            }
-
-            if (isset($chat->stocksell_id)) {
-                $stock = StockSell::where('id', $validated['stocksell_id'])->first();
-                $stock->increment('quote_recieved');
-            }
-
+            $chat = $this->sendMessage($request->all());
             return back()->with('success', 'Message sent successfully!');
         } catch (ValidationException $ve) {
             return back()->with('error', 'Message Sent Error: ' . $ve->getMessage());
@@ -52,22 +102,20 @@ class ChatOtherController extends Controller
         }
     }
 
+    // Rewritten sendadminreply to use sendMessage()
     public function sendadminreply(Request $request)
     {
-        $validated = $request->validate([
-            'sender_id' => 'required|integer',
-            'sender_type' => 'required|in:customer,seller,admin',
-            'receiver_id' => 'required|integer',
-            'receiver_type' => 'required|in:seller,admin,customer',
-            'message' => 'required|string|max:1000',
-            'type' => 'required|string',
-        ]);
-
-        $chat = ChatsOther::create($validated);
-
-        return response()->json(['message' => 'Message sent successfully!', 'data' => $chat], 201);
+        try {
+            $chat = $this->sendMessage($request->all());
+            return response()->json(['message' => 'Message sent successfully!', 'data' => $chat], 201);
+        } catch (ValidationException $ve) {
+            return response()->json(['error' => 'Validation failed.', 'details' => $ve->errors()], 422);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to send message.', 'details' => $e->getMessage()], 500);
+        }
     }
 
+    // Rewritten sendReplyMessage to use sendMessage()
     public function sendReplyMessage(Request $request)
     {
         try {
@@ -103,21 +151,20 @@ class ChatOtherController extends Controller
                     ], 422);
             }
 
-            // Keep 'type', but no need to keep 'listing_id'
-            unset($validated['listing_id']);
+            unset($validated['listing_id']); // remove listing_id as it is replaced
 
-            $chat = ChatsOther::create($validated);
+            $chat = $this->sendMessage($validated);
 
             return response()->json([
                 'message' => 'Message sent successfully!',
                 'data' => $chat,
             ], 201);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $ve) {
             return response()->json([
                 'error' => 'Validation failed.',
-                'details' => $e->errors(),
+                'details' => $ve->errors(),
             ], 422);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'error' => 'Failed to send message.',
                 'details' => $e->getMessage(),

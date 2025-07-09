@@ -94,6 +94,21 @@ class ChatOtherController extends Controller
     {
         try {
             $chat = $this->sendMessage($request->all());
+            ChatManager::sendNotification([
+                'sender_id'      => $chat['sender_id'],
+                'receiver_id'    => $chat['receiver_id'],
+                'receiver_type'  => $chat['receiver_type'],
+                'type'           => $chat['type'],
+                'stocksell_id'   => $chat['stocksell_id'],
+                'leads_id'       => $chat['leads_id'],
+                'suppliers_id'   => $chat['suppliers_id'],
+                'product_id'     => $chat['product_id'],
+                'product_qty'    => $chat['product_qty'],
+                'title'          => 'New message received',
+                'message'        => Str::limit($chat['message'], 100),
+                'priority'       => 'normal',
+                'action_url'     => 'inbox',
+            ]);
             return back()->with('success', 'Message sent successfully!');
         } catch (ValidationException $ve) {
             return back()->with('error', 'Message Sent Error: ' . $ve->getMessage());

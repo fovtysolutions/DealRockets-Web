@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Validator;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Mpdf\Tag\B;
+use Illuminate\Support\Str;
 
 class ChatManager
 {
@@ -598,6 +599,39 @@ class ChatManager
     {
         $product = Product::find($id);
         return $product ? $product->name : "Select A Product";
+    }
+
+    public static function sendNotification(array $data): bool
+    {
+        try {
+            ChatsOther::create([
+                'id'             => Str::uuid(),
+                'category'       => 'notification',
+                'sender_id'      => $data['sender_id'],
+                'receiver_id'    => $data['receiver_id'],
+                'receiver_type'  => $data['receiver_type'],
+                'type'           => $data['type'] ?? null,
+                'stocksell_id'   => $data['stocksell_id'] ?? null,
+                'leads_id'       => $data['leads_id'] ?? null,
+                'suppliers_id'   => $data['suppliers_id'] ?? null,
+                'product_id'     => $data['product_id'] ?? null,
+                'product_qty'    => $data['product_qty'] ?? null,
+                'title'          => $data['title'] ?? null,
+                'message'        => $data['message'] ?? null,
+                'action_url'     => $data['action_url'] ?? null,
+                'priority'       => $data['priority'] ?? 'normal',
+                'is_read'        => false,
+                'read_at'        => null,
+                'chat_initiator' => $data['chat_initiator'] ?? null,
+                'created_at'     => now(),
+                'updated_at'     => now(),
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to send notification: ' . $e->getMessage());
+            return false;
+        }
     }
 
     /**

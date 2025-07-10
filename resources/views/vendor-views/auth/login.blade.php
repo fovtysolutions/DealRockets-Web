@@ -305,7 +305,7 @@
                                 <button type="button" class="btn btn-lg btn-block btn--primary submit-login-form">
                                     {{ translate('Sign In') }}
                                 </button>
-                                <span style="padding-top:10px; position: absolute;">Don't have an Account? You can <a href="{{ route('vendor.auth.login') }}">Sign Up</a> Here!</span>
+                                <span style="padding-top:10px; position: absolute;">Don't have an Account? You can <a href="{{ route('vendor.auth.registration.index') }}">Sign Up</a> Here!</span>
                             </form>
                         </div>
                         @if (env('APP_MODE') == 'demo')

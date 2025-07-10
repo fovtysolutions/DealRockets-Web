@@ -673,3 +673,4 @@ Route::get('/solutions/web/{id}', [SolutionController::class, 'webindexpage'])->
 Route::get('/get-subcategories-by-categories/{id}', [SolutionController::class, 'getSubcategorybyCategory'])->name('get-subcategory-by-category');
 Route::get('/get-categories', [SolutionController::class, 'getCategory'])->name('get-category');
 Route::get('/get-all-category-names',[SolutionController::class, 'getallcategoryname'])->name('get-all-category-names');
+Route::post('/mark-as-read',[ChatOtherController::class, 'markAsRead'])->name('markAsRead');

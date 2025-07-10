@@ -282,19 +282,19 @@ class ChatOtherController extends Controller
             $query->where('message', 'LIKE', '%' . $search . '%');
         }
 
-        if ($special != null) {
-            switch ($special) {
-                case 'unread':
-                    $query->where('is_read', 0);
-                    break;
-                case 'read':
-                    $query->where('is_read', 1);
-                    break;
-                case 'all':
-                default:
-                    break;
-            }
-        }
+        // if ($special != null) {
+        //     switch ($special) {
+        //         case 'unread':
+        //             $query->where('is_read', 0);
+        //             break;
+        //         case 'read':
+        //             $query->where('is_read', 1);
+        //             break;
+        //         case 'all':
+        //         default:
+        //             break;
+        //     }
+        // }
 
         switch ($role) {
             case 'seller':
@@ -308,24 +308,51 @@ class ChatOtherController extends Controller
                 break;
         }
 
-        $messages = $query->get()
-            ->filter(function ($item) {
-                return $item->leads_id || $item->stocksell_id || $item->product_id || $item->type === 'reachout';
-            })
-            ->groupBy(function ($item) {
-                return match ($item->type) {
-                    'stocksell' => 'stocksell_' . $item->stocksell_id,
-                    'products' => 'product_' . $item->product_id,
-                    'buyleads', 'sellleads' => 'lead_' . $item->leads_id,
-                    'reachout' => 'reachout_' . $item->id,
-                    default => 'unknown_' . $item->id,
-                };
-            })
-            ->map(fn($group) => $group->first())
-            ->groupBy(fn($item) => $item->type)
-            ->toArray();
+        $statuses = [
+            'all'    => $query,
+            'read'   => (clone $query)->where('is_read', 1),
+            'unread' => (clone $query)->where('is_read', 0),
+        ];
 
-        return $messages;
+        $chatData = [];
+
+        // 1. Build read/unread/all tabs
+        foreach ($statuses as $status => $queryBuilder) {
+            $chatData[$status] = $queryBuilder->get()
+                ->filter(function ($item) {
+                    return $item->leads_id || $item->stocksell_id || $item->product_id || $item->type === 'reachout';
+                })
+                ->groupBy(function ($item) {
+                    return match ($item->type) {
+                        'stocksell' => 'stocksell_' . $item->stocksell_id,
+                        'products' => 'product_' . $item->product_id,
+                        'buyleads', 'sellleads' => 'lead_' . $item->leads_id,
+                        'reachout' => 'reachout_' . $item->id,
+                        default => 'unknown_' . $item->id,
+                    };
+                })
+                ->flatMap(function ($group) {
+                    return $group->sortByDesc('created_at')->values();
+                })
+                ->values();
+        }
+
+        // 2. Build listing-type-specific tabs (flat and deduplicated)
+        foreach (['buyleads', 'sellleads', 'stocksell', 'products'] as $typeKey) {
+            $chatData[$typeKey] = collect($chatData['all'] ?? [])
+                ->filter(fn($item) => $item->type === $typeKey)
+                ->values();
+        }
+
+        return $chatData;
+    }
+
+    public function markAsRead(Request $request)
+    {
+        $id = $request->input('id');
+        $item = ChatsOther::find($id);
+        $item->is_read = 1;
+        $item->save();
     }
 
     public function adminChatbox(Request $request)

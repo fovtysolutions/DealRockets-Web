@@ -280,7 +280,7 @@
 
     <div class="form-row">
         <div class="form-single">
-            <label>Alternative Contact (Optional)</label>
+            <label>Alternative Contact</label>
             <input type="text" name="alt_contact" required value="{{ $vendorProfileData->alt_contact ?? null }}">
         </div>
     </div>
@@ -396,7 +396,7 @@
 
     <div class="form-row">
         <div class="form-group">
-            <label>Top Authority ID (National ID / Passport - optional)</label>
+            <label>Top Authority ID (National ID / Passport)</label>
             <input type="file" name="authority_id" accept=".pdf">
         </div>
 
@@ -459,7 +459,7 @@
         </div>
 
         <div class="form-group">
-            <label>Upload Signature (Optional)</label>
+            <label>Upload Signature</label>
             <input type="file" name="signature" accept=".jpg,.jpeg,.png,.pdf">
         </div>
     </div>

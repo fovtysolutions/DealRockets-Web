@@ -709,10 +709,10 @@ class LeadsController extends Controller
     public function toggle($id)
     {
         $saleOffer = ChatManager::checksaleofferlimit();
-        if ($saleOffer['status'] == 'failure') {
-            toastr()->error('Leads Limit Used Up,Edit Current Leads or Delete!');
-            return redirect()->back()->with('Leads Limit Used Up!');
-        }
+        // if ($saleOffer['status'] == 'failure') {
+        //     toastr()->error('Leads Limit Used Up,Edit Current Leads or Delete!');
+        //     return redirect()->back()->with('Leads Limit Used Up!');
+        // }
         $lead = Leads::findOrFail($id);
         $lead->active = !$lead->active; // Toggle active status
         $lead->save();

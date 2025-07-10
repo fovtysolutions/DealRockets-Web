@@ -29,8 +29,8 @@
                             </div>
                         </li>
                         <li class="w-full">
-                            <a class="{{ request('special') === 'all' ? 'bg-blue-200 font-semibold' : 'hover:bg-gray-200' }} w-full flex leading-none pl-3 py-2 gap-3 items-center rounded-e-full pr-3"
-                                href="{{ route('vendor.get-chat-lists', ['special' => 'all']) }}">
+                            <a data-tab="all" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
                                 <i class="fa-solid fa-inbox"></i>
                                 <p class="flex w-full justify-between">All
                                     <span id="allmessages">{{ $chatboxStatics['total_messages'] }}</span>
@@ -39,8 +39,8 @@
                         </li>
 
                         <li class="w-full">
-                            <a class="{{ request('special') === 'read' ? 'bg-blue-200 font-semibold' : 'hover:bg-gray-200' }} w-full flex leading-none pl-3 py-2 gap-3 items-center rounded-e-full pr-3"
-                                href="{{ route('vendor.get-chat-lists', ['special' => 'read']) }}">
+                            <a data-tab="read" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
                                 <i class="fa-regular fa-star"></i>
                                 <p class="flex w-full justify-between">Read
                                     <span id="readmessages">{{ $chatboxStatics['read_messages'] }}</span>
@@ -49,8 +49,8 @@
                         </li>
 
                         <li class="w-full">
-                            <a class="{{ request('special') === 'unread' ? 'bg-blue-200 font-semibold' : 'hover:bg-gray-200' }} w-full flex leading-none pl-3 py-2 gap-3 items-center rounded-e-full pr-3"
-                                href="{{ route('vendor.get-chat-lists', ['special' => 'unread']) }}">
+                            <a data-tab="unread" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
                                 <i class="fa-regular fa-clock"></i>
                                 <p class="flex w-full justify-between">Unread
                                     <span id="unreadmessages">{{ $chatboxStatics['unread_messages'] }}</span>

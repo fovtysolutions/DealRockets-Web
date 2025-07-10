@@ -14,27 +14,43 @@
     </div>
 </div>
 <div class="scrolable-width overflow-y-scroll overflow-x-hidden">
-    <div class="hidden md:flex h-12 text-sm font-medium leading-none text-gray-600 border-b border-gray-200" style="align-items:center;">
+    <div class="hidden md:flex h-12 text-sm font-medium leading-none text-gray-600 border-b border-gray-200"
+        style="align-items:center;">
         <h1 style="font-size: 20px; padding-left: 20px;">Messages</h1>
     </div>
     <div class="tab-content-wrapper flex flex-col h-full">
-        <div id="tab-rfq" class="tab-content">
-            @include('vendor-views.betterchat.partials.rfqentries', [
+        <div id="tab-all" class="tab-content">
+            @include('vendor-views.betterchat.partials.allentries', [
+                'chatdata' => $chatData['all'] ?? [],
+            ])
+        </div>
+        <div id="tab-read" class="tab-content hidden">
+            @include('vendor-views.betterchat.partials.allentries', [
+                'chatdata' => $chatData['read'] ?? [],
+            ])
+        </div>
+        <div id="tab-unread" class="tab-content hidden">
+            @include('vendor-views.betterchat.partials.allentries', [
+                'chatdata' => $chatData['unread'] ?? [],
+            ])
+        </div>
+        <div id="tab-rfq" class="tab-content hidden">
+            @include('vendor-views.betterchat.partials.allentries', [
                 'chatdata' => $chatData['buyleads'] ?? [],
             ])
         </div>
         <div id="tab-sell" class="tab-content hidden">
-            @include('vendor-views.betterchat.partials.saleofferentries', [
+            @include('vendor-views.betterchat.partials.allentries', [
                 'chatdata' => $chatData['sellleads'] ?? [],
             ])
         </div>
         <div id="tab-stock" class="tab-content hidden">
-            @include('vendor-views.betterchat.partials.stocksaleentries', [
+            @include('vendor-views.betterchat.partials.allentries', [
                 'chatdata' => $chatData['stocksell'] ?? [],
             ])
         </div>
         <div id="tab-market" class="tab-content hidden">
-            @include('vendor-views.betterchat.partials.marketplaceentries', [
+            @include('vendor-views.betterchat.partials.allentries', [
                 'chatdata' => $chatData['products'] ?? [],
             ])
         </div>
@@ -44,8 +60,29 @@
     </div>
 </div>
 <script>
+    function markAsReadAndRedirect(id, url) {
+        $.ajax({
+            method: 'POST',
+            url: "{{ route('markAsRead') }}",
+            data: {
+                id: id,
+                _token: "{{ csrf_token() }}",
+            },
+            success: function(response) {
+                console.log('Message marked as Read');
+                // Now redirect
+                window.location.href = url;
+            },
+            error: function(xhr) {
+                console.error('Failed to mark as read:', xhr);
+                // Optionally still redirect if marking fails
+                window.location.href = url;
+            }
+        });
+    }
+
     $(document).ready(function() {
-        let lastActiveTab = 'rfq'; // default, adjust if needed
+        let lastActiveTab = 'all'; // default, adjust if needed
 
         // Hide all tabs helper
         function hideAllTabs() {
@@ -68,11 +105,11 @@
             lastActiveTab = tabId;
         }
 
-        function getchatHeaderData(id,firstresponse) {
+        function getchatHeaderData(id, firstresponse) {
             $.ajax({
                 method: 'POST',
                 url: "{{ route('get-chat-header-data') }}",
-                data:{
+                data: {
                     id: id,
                     _token: "{{ csrf_token() }}",
                 },
@@ -88,7 +125,8 @@
                     let type = response.type;
                     let listing = response.listing;
 
-                    username.textContent = `Chat from ${senderType} #${senderId} for ${type} listing`;
+                    username.textContent =
+                        `Chat from ${senderType} #${senderId} for ${type} listing`;
                     listing_name.textContent = listing.name;
                     listing_created.textContent = new Date(listing.created_at).toString();
                 },
@@ -103,7 +141,7 @@
             let lastDate = null;
 
             let firstresponse = response[0];
-            getchatHeaderData(firstresponse.id,firstresponse);
+            getchatHeaderData(firstresponse.id, firstresponse);
 
             response.forEach((element) => {
                 const messageDate = new Date(element.sent_at);
@@ -212,7 +250,7 @@
         // When a tab button is clicked (your existing code)
         $('.custom-tab-button').on('click', function() {
             const tabId = $(this).data('tab');
-            
+
             // Hide all tabs and chatbox
             hideAllTabs();
             hideChatbox();

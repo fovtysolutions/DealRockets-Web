@@ -92,7 +92,7 @@
     <span id="get-root-path-for-toggle-modal-image"
         data-path="{{ dynamicAsset(path: 'public/assets/back-end/img/modal') }}"></span>
 
-    <main id="content" role="main" class="main pointer-event">
+    <main id="content" role="main" class="main pointer-event" style="background-color: white;">
         @yield('content')
         @include('layouts.back-end.partials._modals')
         @include('layouts.back-end.partials._toggle-modal')

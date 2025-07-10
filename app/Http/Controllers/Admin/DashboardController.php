@@ -12,6 +12,7 @@ use App\Contracts\Repositories\OrderTransactionRepositoryInterface;
 use App\Contracts\Repositories\ProductRepositoryInterface;
 use App\Contracts\Repositories\VendorRepositoryInterface;
 use App\Contracts\Repositories\VendorWalletRepositoryInterface;
+use App\Enums\EmailTemplateKey;
 use App\Enums\ViewPaths\Admin\Dashboard;
 use App\Http\Controllers\BaseController;
 use App\Models\Country;
@@ -541,7 +542,7 @@ class DashboardController extends BaseController
                     'type' => 'required|string',
                     'sub_type' => 'required|string',
                 ]);
-                $faq = FAQ::create($request->only('question', 'seller', 'answer','type','sub_type'));
+                $faq = FAQ::create($request->only('question', 'seller', 'answer', 'type', 'sub_type'));
                 return response()->json(['message' => 'FAQ created', 'faq' => $faq]);
 
             case 'read':
@@ -695,7 +696,7 @@ class DashboardController extends BaseController
 
             case 'leads':
                 $title = 'Leads';
-                $cardData = [                    
+                $cardData = [
                     ['link' => route('admin.add-new-leads'), 'title' => 'Add Lead', 'value' => 'Yes'],
                     ['link' => route('admin.leads.list'), 'title' => 'Manage Lead', 'value' => 'Yes'],
                 ];
@@ -787,6 +788,27 @@ class DashboardController extends BaseController
                     ['link' => route('admin.business-settings.web-config.index'), 'title' => 'Business Settings', 'value' => 'Yes'],
                     ['link' => route('admin.business-settings.terms-condition'), 'title' => 'Business Pages', 'value' => 'Yes'],
                     ['link' => route('admin.webtheme.index'), 'title' => 'Website Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.support-ticket.view'), 'title' => 'Support Ticket View', 'value' => 'Yes'],
+                    ['link' => route('admin.product-settings.inhouse-shop'), 'title' => 'Inhouse Shop Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.seo-settings.web-master-tool'), 'title' => 'Webmaster Tools (SEO)', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.web-config.environment-setup'), 'title' => 'Environment Setup', 'value' => 'Yes'],
+                    ['link' => route('admin.system-setup.login-settings.customer-login-setup'), 'title' => 'Customer Login Setup', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.web-config.theme.setup'), 'title' => 'Theme Setup', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.email-templates.view', ['admin', EmailTemplateKey::ADMIN_EMAIL_LIST[0]]), 'title' => 'Admin Email Template', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.payment-method.index'), 'title' => 'Payment Methods', 'value' => 'Yes'],
+                    ['link' => route('admin.social-media-chat.view'), 'title' => 'Social Media Chat', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.social-media'), 'title' => 'Social Media Links', 'value' => 'Yes'],
+                    ['link' => route('admin.file-manager.index'), 'title' => 'File Manager', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.vendor-registration-settings.index'), 'title' => 'Vendor Registration Settings', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'dashboard-allotment':
+                $title = 'Dashboard Allotment';
+                $cardData = [
+                    ['link' => route('admin.custom-role.create'), 'title' => 'Create Employee Roles', 'value' => 'Yes'],
+                    ['link' => route('admin.custom-role.list'), 'title' => 'Manage Employee Roles', 'value' => 'Yes'],
+                    ['link' => route('admin.employee.list'), 'title' => 'All Employees', 'value' => 'Yes']
                 ];
                 break;
 

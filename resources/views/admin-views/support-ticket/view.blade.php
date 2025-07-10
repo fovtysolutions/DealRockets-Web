@@ -1,5 +1,5 @@
 @php use Carbon\Carbon; @endphp
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 
 @section('title', translate('support_Ticket'))
 

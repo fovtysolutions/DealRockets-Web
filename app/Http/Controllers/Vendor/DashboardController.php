@@ -539,11 +539,12 @@ class DashboardController extends BaseController
                 break;
 
             case 'clearing-forwarding':
-                $title = 'Clearing and Forwarding Services';
-                $cardData = [
-                    ['link' => '#', 'title' => 'Clearing Service', 'value' => 'No'],
-                    ['link' => '#', 'title' => 'Forwarding Service', 'value' => 'No'],
-                ];
+                return redirect("/marketplace-categories/88");
+                // $title = 'Clearing and Forwarding Services';
+                // $cardData = [
+                //     ['link' => '#', 'title' => 'Clearing Service', 'value' => 'No'],
+                //     ['link' => '#', 'title' => 'Forwarding Service', 'value' => 'No'],
+                // ];
                 break;
 
             case 'settings':

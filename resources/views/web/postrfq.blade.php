@@ -5,9 +5,9 @@
 @endpush
 @section('content')
     <section class="mainpagesection rfq-form" style="background-color: unset;">
-        <div class="rfq-form-container " style="background-color: #f7f7f7;">
+        <div class="rfq-form-container">
             <div style="margin-left: 15px;">
-                <div class="section-heading mb-0">Essential Product Details</div>
+                <div class="section-heading mb-0">Connect with Suppliers Instantly</div>
                 <div class="right-text">
                     Provide detailed requirements to receive quicker and more accurate responses.
                 </div>

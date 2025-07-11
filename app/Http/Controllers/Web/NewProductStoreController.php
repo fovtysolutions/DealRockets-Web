@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\NewProductStore;
 use App\Models\Product;
+use App\Models\Seller;
 use App\Utils\ChatManager;
+use App\Utils\EmailHelper;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -50,6 +53,42 @@ class NewProductStoreController extends Controller
         Log::info($data);
 
         $product = Product::create($data);
+        $user_id = $user_details['user_id'];
+        $role = $user_details['role'];
+
+        if ($role === 'admin') {
+            $user = Admin::find($user_id);
+        } else {
+            $user = Seller::find($user_id);
+        }
+
+        // Send Notification & Email
+        ChatManager::sendNotification([
+            'sender_id'     => $user_id,
+            'receiver_id'   => $user_id,
+            'receiver_type' => $role,
+            'type'          => 'product_created',
+            'stocksell_id'  => null,
+            'leads_id'      => null,
+            'suppliers_id'  => $user_data['vendor_id'] ?? null,
+            'product_id'    => $product->id,
+            'product_qty'   => $product->current_stock ?? null,
+            'title'         => 'Your Product Listing is Created',
+            'message'       => Str::limit($product->details ?? 'Your product is now listed.', 100),
+            'priority'      => 'normal',
+            'action_url'    => 'products',
+        ]);
+
+        $response = EmailHelper::sendProductCreatedMail($user, $product);
+
+        if (!$response['success']) {
+            Log::error('Email sending failed for Product creation', [
+                'user_id'    => $user->id,
+                'email'      => $user->email,
+                'error'      => $response['message'] ?? 'Unknown error',
+                'product_id' => $product->id,
+            ]);
+        }
 
         session()->flash('success', 'Product Added successfully!');
         return redirect()->back();
@@ -170,6 +209,43 @@ class NewProductStoreController extends Controller
         try {
             $product = Product::findOrFail($id);
             if ($product->status == 0) {
+                $user_id = $product['user_id'];
+                $role = $product['added_by'];
+
+                if ($role === 'admin') {
+                    $user = Admin::find($user_id);
+                } else {
+                    $user = Seller::find($user_id);
+                }
+
+                // Send Notification for product approval
+                ChatManager::sendNotification([
+                    'sender_id'     => $user_id,
+                    'receiver_id'   => $user_id,
+                    'receiver_type' => $role,
+                    'type'          => 'product_approved',
+                    'stocksell_id'  => null,
+                    'leads_id'      => null,
+                    'suppliers_id'  => $user_data['vendor_id'] ?? null,
+                    'product_id'    => $product->id,
+                    'product_qty'   => $product->current_stock ?? null,
+                    'title'         => 'Your Product Has Been Approved',
+                    'message'       => Str::limit($product->details ?? 'Your product has been approved and is now listed.', 100),
+                    'priority'      => 'normal',
+                    'action_url'    => 'products',
+                ]);
+
+                // Send Product Approved Email
+                $response = EmailHelper::sendProductApprovedMail($user, $product);
+
+                if (!$response['success']) {
+                    Log::error('Email sending failed for Product approval', [
+                        'user_id'    => $user->id,
+                        'email'      => $user->email,
+                        'error'      => $response['message'] ?? 'Unknown error',
+                        'product_id' => $product->id,
+                    ]);
+                }
                 $product->status = 1;
             } else {
                 $product->status = 0;
@@ -189,6 +265,43 @@ class NewProductStoreController extends Controller
             if ($product->status == 1) {
                 $product->status = 2;
             } else {
+                $user_id = $product['user_id'];
+                $role = $product['added_by'];
+
+                if ($role === 'admin') {
+                    $user = Admin::find($user_id);
+                } else {
+                    $user = Seller::find($user_id);
+                }
+
+                // Send Notification for product approval
+                ChatManager::sendNotification([
+                    'sender_id'     => $user_id,
+                    'receiver_id'   => $user_id,
+                    'receiver_type' => $role,
+                    'type'          => 'product_approved',
+                    'stocksell_id'  => null,
+                    'leads_id'      => null,
+                    'suppliers_id'  => $user_data['vendor_id'] ?? null,
+                    'product_id'    => $product->id,
+                    'product_qty'   => $product->current_stock ?? null,
+                    'title'         => 'Your Product Has Been Approved',
+                    'message'       => Str::limit($product->details ?? 'Your product has been approved and is now listed.', 100),
+                    'priority'      => 'normal',
+                    'action_url'    => 'products',
+                ]);
+
+                // Send Product Approved Email
+                $response = EmailHelper::sendProductApprovedMail($user, $product);
+
+                if (!$response['success']) {
+                    Log::error('Email sending failed for Product approval', [
+                        'user_id'    => $user->id,
+                        'email'      => $user->email,
+                        'error'      => $response['message'] ?? 'Unknown error',
+                        'product_id' => $product->id,
+                    ]);
+                }
                 $product->status = 1;
             }
             $product->save();

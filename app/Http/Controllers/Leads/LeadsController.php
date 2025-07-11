@@ -40,6 +40,8 @@ use App\Models\BusinessSetting;
 use App\Utils\ChatManager;
 use App\Models\Country;
 use App\Models\Product;
+use Illuminate\Support\Str;
+use App\Utils\EmailHelper;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -410,7 +412,52 @@ class LeadsController extends Controller
             $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data'] ?? []);
 
             // Create a new lead record
-            Leads::create($validatedData);
+            $lead = Leads::create($validatedData);
+
+            $user_id = $userId;
+            $role = $role;
+            $type = $lead['type']; // 'buyer' or 'seller'
+
+            if ($role === 'admin') {
+                $user = Admin::find($user_id);
+            } else {
+                $user = Seller::find($user_id);
+            }
+
+            // Send creation notification
+            ChatManager::sendNotification([
+                'sender_id'     => $user_id,
+                'receiver_id'   => $user_id,
+                'receiver_type' => $role,
+                'type'          => $type === 'buyer' ? 'buy_lead_created' : 'sale_offer_created',
+                'stocksell_id'  => null,
+                'leads_id'      => $lead->id,
+                'suppliers_id'  => $user_data['vendor_id'] ?? null,
+                'product_id'    => null,
+                'product_qty'   => null,
+                'title'         => $type === 'buyer' ? 'Your Buy Lead Has Been Created' : 'Your Sale Offer Has Been Created',
+                'message'       => Str::limit($product->details ?? 'Your listing is now live.', 100),
+                'priority'      => 'normal',
+                'action_url'    => $type === 'buyer' ? 'buy-leads' : 'sale-offers',
+            ]);
+
+            // Send corresponding email
+            if ($type === 'buyer') {
+                $response = EmailHelper::sendBuyLeadCreatedMail($user, $lead);
+            } else {
+                $response = EmailHelper::sendSaleOfferCreatedMail($user, $lead);
+            }
+
+            // Log failure if needed
+            if (!$response['success']) {
+                Log::error('Email sending failed for listing creation', [
+                    'user_id'    => $user->id,
+                    'email'      => $user->email,
+                    'error'      => $response['message'] ?? 'Unknown error',
+                    'lead_id' => $lead->id,
+                    'listing_type' => $type
+                ]);
+            }
 
             toastr()->success('Lead Added Successfully');
 

@@ -30,7 +30,8 @@
                                     <select name="seller_id" class="form-control form-control-sm">
                                         <option value="">{{ translate('all_store') }}</option>
                                         @foreach ($sellers as $seller)
-                                            <option value="{{ $seller->id }}" {{ request('seller_id') == $seller->id ? 'selected' : '' }}>
+                                            <option value="{{ $seller->id }}"
+                                                {{ request('seller_id') == $seller->id ? 'selected' : '' }}>
                                                 {{ $seller->shop->name }}
                                             </option>
                                         @endforeach
@@ -43,7 +44,8 @@
                                 <select name="brand_id" class="form-control form-control-sm">
                                     <option value="">{{ translate('all_brand') }}</option>
                                     @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id }}" {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
+                                        <option value="{{ $brand->id }}"
+                                            {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
                                             {{ $brand->default_name }}
                                         </option>
                                     @endforeach
@@ -54,11 +56,11 @@
                                 <label class="form-label mb-1 small">{{ translate('category') }}</label>
                                 <select name="category_id" class="form-control form-control-sm action-get-request-onchange"
                                     data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                                    data-element-id="sub-category-select"
-                                    data-element-type="select">
+                                    data-element-id="sub-category-select" data-element-type="select">
                                     <option disabled selected>{{ translate('select_category') }}</option>
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category['id'] }}" {{ request('category_id') == $category['id'] ? 'selected' : '' }}>
+                                        <option value="{{ $category['id'] }}"
+                                            {{ request('category_id') == $category['id'] ? 'selected' : '' }}>
                                             {{ $category['defaultName'] }}
                                         </option>
                                     @endforeach
@@ -67,11 +69,12 @@
 
                             <div class="col-md-2 col-sm-4 col-6">
                                 <label class="form-label mb-1 small">{{ translate('sub_Category') }}</label>
-                                <select name="sub_category_id" id="sub-category-select" class="form-control form-control-sm action-get-request-onchange"
+                                <select name="sub_category_id" id="sub-category-select"
+                                    class="form-control form-control-sm action-get-request-onchange"
                                     data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                                    data-element-id="sub-sub-category-select"
-                                    data-element-type="select">
-                                    <option value="{{ request('sub_category_id') ?? '' }}" selected {{ request('sub_category_id') ? '' : 'disabled' }}>
+                                    data-element-id="sub-sub-category-select" data-element-type="select">
+                                    <option value="{{ request('sub_category_id') ?? '' }}" selected
+                                        {{ request('sub_category_id') ? '' : 'disabled' }}>
                                         {{ request('sub_category_id') ? $subCategory['defaultName'] : translate('select_Sub_Category') }}
                                     </option>
                                 </select>
@@ -79,15 +82,18 @@
 
                             <div class="col-md-2 col-sm-4 col-6">
                                 <label class="form-label mb-1 small">{{ translate('sub_Sub_Category') }}</label>
-                                <select name="sub_sub_category_id" id="sub-sub-category-select" class="form-control form-control-sm">
-                                    <option value="{{ request('sub_sub_category_id') ?? '' }}" selected {{ request('sub_sub_category_id') ? '' : 'disabled' }}>
+                                <select name="sub_sub_category_id" id="sub-sub-category-select"
+                                    class="form-control form-control-sm">
+                                    <option value="{{ request('sub_sub_category_id') ?? '' }}" selected
+                                        {{ request('sub_sub_category_id') ? '' : 'disabled' }}>
                                         {{ request('sub_sub_category_id') ? $subSubCategory['defaultName'] : translate('select_Sub_Sub_Category') }}
                                     </option>
                                 </select>
                             </div>
 
                             <div class="col-md-2 col-sm-4 col-6 d-flex gap-2">
-                                <a href="{{ route('admin.products.list', ['type' => request('type')]) }}" class="btn btn--primary w-100">
+                                <a href="{{ route('admin.products.list', ['type' => request('type')]) }}"
+                                    class="btn btn--primary w-100">
                                     {{ translate('reset') }}
                                 </a>
                                 <button type="submit" class="btn btn--primary w-100">
@@ -258,12 +264,6 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive mt-4">
-                        <div class="px-4 d-flex justify-content-lg-end">
-                            {{ $products->links() }}
-                        </div>
-                    </div>
-
                     @if (count($products) == 0)
                         @include(
                             'layouts.back-end._empty-state',
@@ -273,6 +273,9 @@
                     @endif
                 </div>
             </div>
+        </div>
+        <div class="row mt-3">
+            {{ $products->links() }}
         </div>
     </div>
     <span id="message-select-word" data-text="{{ translate('select') }}"></span>

@@ -11,14 +11,17 @@
             <form action="{{ route('vendor.stock.index') }}" method="GET" class="row" id="form-filter">
                 <!-- Search by Name -->
                 <div class="col-md-4">
-                    <label for="searchName" class="form-label" style="color: var(--title-color);font-weight: 700;">Search by Name</label>
+                    <label for="searchName" class="form-label" style="color: var(--title-color);font-weight: 700;">Search by
+                        Name</label>
                     <input type="text" id="searchName" class="form-control" name="name"
                         placeholder="Enter product name" style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
                 </div>
                 <!-- Filter by Status -->
                 <div class="col-md-4">
-                    <label for="filterStatus" class="form-label" style="color: var(--title-color);font-weight: 700;">Filter by Status</label>
-                    <select id="filterStatus" class="form-control" name="status" style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
+                    <label for="filterStatus" class="form-label" style="color: var(--title-color);font-weight: 700;">Filter
+                        by Status</label>
+                    <select id="filterStatus" class="form-control" name="status"
+                        style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
                         <option selected value="">All Statuses</option>
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
@@ -27,7 +30,8 @@
                 </div>
                 <!-- Filter by Quantity -->
                 <div class="col-md-4">
-                    <label for="quantityRange" class="form-label" style="color: var(--title-color);font-weight: 700;">Filter by Quantity</label>
+                    <label for="quantityRange" class="form-label" style="color: var(--title-color);font-weight: 700;">Filter
+                        by Quantity</label>
                     <div class="input-group">
                         <input type="number" name="minqty" id="minQuantity" class="form-control" placeholder="Min"
                             min="0" style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
@@ -63,7 +67,8 @@
                                     @foreach ($items as $key => $value)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td class="text-center">{{ $value->product ? $value->product->name : $value->product_id }}</td>
+                                            <td class="text-center">
+                                                {{ $value->product ? $value->product->name : $value->product_id }}</td>
                                             <td class="text-center">{{ $value->description }}</td>
                                             <td class="text-center">{{ $value->quantity }}</td>
                                             <td class="text-center">
@@ -90,8 +95,7 @@
                                                     <form action="{{ route('vendor.stock.destroy', ['id' => $value->id]) }}"
                                                         method="post">
                                                         @csrf @method('delete')
-                                                        <button
-                                                            class="btn btn-outline-danger delete-data"><i
+                                                        <button class="btn btn-outline-danger delete-data"><i
                                                                 class="tio-delete"></i> Delete</button>
                                                     </form>
                                                 </span>
@@ -99,11 +103,13 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                {{ $items->links() }}
                             </table>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row mt-3">
+                {{ $items->links() }}
             </div>
         @endif
     </div>

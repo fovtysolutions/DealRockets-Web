@@ -114,10 +114,6 @@
         <div class="step">
             <div class="step-circle">5</div>
         </div>
-        <div class="step-line"></div>
-        <div class="step">
-            <div class="step-circle">6</div>
-        </div>
     </div>
     <div class="form-header">
         <h1>{{ $isEdit ? 'Edit Stock Sale' : 'Add Stock Sale' }}</h1>
@@ -479,7 +475,9 @@
                     </option>
                     <option value="active" {{ $statusValue == 'active' ? 'selected' : '' }}>Active</option>
                     <option value="inactive" {{ $statusValue == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                    <option value="rejected" {{ $statusValue == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                    @if(auth('admin')->check())
+                        <option value="rejected" {{ $statusValue == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                    @endif
                 </select>
             </div>
         </div>

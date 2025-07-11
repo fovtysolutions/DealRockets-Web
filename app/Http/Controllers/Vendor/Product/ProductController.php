@@ -104,14 +104,14 @@ class ProductController extends BaseController
         $searchValue = $request['searchValue'];
         $user_detail = ChatManager::getRoleDetail();
         $user_id = $user_detail['user_id'];
-        // $products = NewProductStore::where('role','seller')->where('user_id',$user_id)->paginate(10);
-        $products = $this->productRepo->getListWhere(
-            orderBy: ['id' => 'desc'],
-            searchValue: $searchValue,
-            filters: $filters,
-            relations: ['translations','seoInfo'],
-            dataLimit: getWebConfig(name: WebConfigKey::PAGINATION_LIMIT)
-        );
+        $products = ModelsProduct::where('added_by','seller')->where('user_id',$user_id)->paginate(10);
+        // $products = $this->productRepo->getListWhere(
+        //     orderBy: ['id' => 'desc'],
+        //     searchValue: $searchValue,
+        //     filters: $filters,
+        //     relations: ['translations','seoInfo'],
+        //     dataLimit: getWebConfig(name: WebConfigKey::PAGINATION_LIMIT)
+        // );
         $brands = $this->brandRepo->getListWhere(filters: ['status' => 1], dataLimit: 'all');
         $categories = $this->categoryRepo->getListWhere(filters: ['position' => 0], dataLimit: 'all');
         $subCategory = $this->categoryRepo->getFirstWhere(params: ['id' => $request['sub_category_id']]);

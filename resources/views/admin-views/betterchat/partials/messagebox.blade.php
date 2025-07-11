@@ -34,7 +34,7 @@
                 'chatdata' => $chatData['unread'] ?? [],
             ])
         </div>
-        <div id="tab-rfq" class="tab-content">
+        <div id="tab-rfq" class="tab-content hidden">
             @include('admin-views.betterchat.partials.allentries', [
                 'chatdata' => $chatData['buyleads'] ?? [],
             ])

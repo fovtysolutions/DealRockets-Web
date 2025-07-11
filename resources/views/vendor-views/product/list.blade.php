@@ -119,10 +119,10 @@
                                     </ul>
                                 </div>
                                 @if ($type != 'new-request')
-                                    <a href="{{ route('vendor.products.stock-limit-list') }}" class="btn btn-info">
+                                    {{-- <a href="{{ route('vendor.products.stock-limit-list') }}" class="btn btn-info">
                                         <i class="tio-add-circle"></i>
                                         <span class="text">{{ translate('limited_Stocks') }}</span>
-                                    </a>
+                                    </a> --}}
                                     <a href="{{ route('vendor.products.add') }}" class="btn btn--primary">
                                         <i class="tio-add"></i>
                                         <span class="text">{{ translate('add_new_product') }}</span>
@@ -231,13 +231,6 @@
                             </table>
                         </div>
                     </div>
-
-                    <div class="table-responsive mt-4">
-                        <div class="px-4 d-flex justify-content-lg-end">
-                            {{ $products->links() }}
-                        </div>
-                    </div>
-
                     @if (count($products) == 0)
                         @include(
                             'layouts.back-end._empty-state',
@@ -247,6 +240,9 @@
                     @endif
                 </div>
             </div>
+        </div>
+        <div class="row mt-3">
+            {{ $products->links() }}
         </div>
     </div>
     <span id="message-select-word" data-text="{{ translate('select') }}"></span>

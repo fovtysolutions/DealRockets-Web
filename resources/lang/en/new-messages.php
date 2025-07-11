@@ -9611,4 +9611,6 @@ return [
 	"update_your_preferences" => "Update your preferences",
 	"or" => "Or",
 	"unsubscribe" => "Unsubscribe",
+	"Fill Correct Credentials" => "Fill Correct Credentials",
+	"This email was sent from a no-reply address." => "This email was sent from a no-reply address.",
 ];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\StockSell;
@@ -17,6 +18,8 @@ use App\Models\StockCategory;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Services\ComplianceService; // Import the ComplianceService
+use App\Utils\EmailHelper;
+use Illuminate\Support\Str;
 
 class StockSellController extends Controller
 {
@@ -115,6 +118,37 @@ class StockSellController extends Controller
 
         // Create the StockSell record
         $stockSell = StockSell::create($validatedData);
+
+        $user_id = $user_data['user_id'];
+        $role = $user_data['role'];
+        $user = Admin::find($user_id);
+
+        ChatManager::sendNotification([
+            'sender_id'      => $user_id,
+            'receiver_id'    => $user_id,
+            'receiver_type'  => $role,
+            'type'           => 'stock_created',
+            'stocksell_id'   => $stockSell->id,
+            'leads_id'       => null,
+            'suppliers_id'   => $user_data['vendor_id'] ?? null,
+            'product_id'     => $validatedData['product_id'] ?? null,
+            'product_qty'    => $validatedData['product_quantity'] ?? null,
+            'title'          => 'Your StockSell Listing is Created',
+            'message'        => Str::limit($validatedData['description'] ?? 'Your stock is now listed.', 100),
+            'priority'       => 'normal',
+            'action_url'     => 'stocksell',
+        ]);
+
+        $response = EmailHelper::sendStockSellCreatedMail($user, $stockSell);
+
+        if (!$response['success']) {
+            Log::error('Email sending failed for StockSell creation', [
+                'user_id'   => $user->id,
+                'email'     => $user->email,
+                'error'     => $response['message'] ?? 'Unknown error',
+                'stock_id'  => $stockSell->id,
+            ]);
+        }
 
         // If images were uploaded, save their paths to the database
         if (!empty($imagePaths)) {
@@ -337,7 +371,7 @@ class StockSellController extends Controller
             'product_code' => $request->product_code,
             'delivery_mode' => $request->delivery_mode,
             'payment_terms' => $request->payment_terms,
-            'certificate_name' => $request->certificate_name,
+            'certificate_name' => $request->certificate_name ?? '',
         ];
     }
 

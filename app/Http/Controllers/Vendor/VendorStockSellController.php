@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Vendor;
 
+use App\Utils\EmailHelper;
 use App\Http\Controllers\Admin\Settings\CountrySetupController;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
@@ -12,9 +13,11 @@ use Brian2694\Toastr\Facades\Toastr;
 use App\Utils\ChatManager;
 use Exception;
 use App\Models\Country;
+use App\Models\Seller;
 use App\Models\StockCategory;
 use App\Services\ComplianceService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class VendorStockSellController extends Controller
 {
@@ -120,7 +123,7 @@ class VendorStockSellController extends Controller
             'product_code' => $request->product_code,
             'delivery_mode' => $request->delivery_mode,
             'payment_terms' => $request->payment_terms,
-            'certificate_name' => $request->certificate_name,
+            'certificate_name' => $request->certificate_name ?? '',
         ];
     }
 
@@ -220,6 +223,10 @@ class VendorStockSellController extends Controller
     public function store(Request $request)
     {
         $user_data = ChatManager::getRoleDetail();
+        $user_id = $user_data['user_id'];
+        $role = $user_data['role'];
+
+        $user = Seller::find($user_id);
 
         // Validate the form data
         $this->validateStockSellData($request);
@@ -263,9 +270,42 @@ class VendorStockSellController extends Controller
 
         $validatedData['dynamic_data'] = json_encode($validatedData['dynamic_data']);
         $validatedData['dynamic_data_technical'] = json_encode($validatedData['dynamic_data_technical']);
+        $validatedData['product_code'] = 'STK-' . strtoupper(Str::random(8));
 
         // Create the StockSell record
         $stockSell = StockSell::create($validatedData);
+
+        $user_id = $user_data['user_id'];
+        $role = $user_data['role'];
+        $user = Seller::find($user_id);
+
+        // Send Notification & Email
+        ChatManager::sendNotification([
+            'sender_id'      => $user_id,
+            'receiver_id'    => $user_id,
+            'receiver_type'  => $role,
+            'type'           => 'stock_created',
+            'stocksell_id'   => $stockSell->id,
+            'leads_id'       => null,
+            'suppliers_id'   => $user_data['vendor_id'] ?? null,
+            'product_id'     => $validatedData['product_id'] ?? null,
+            'product_qty'    => $validatedData['product_quantity'] ?? null,
+            'title'          => 'Your StockSell Listing is Created',
+            'message'        => Str::limit($validatedData['description'] ?? 'Your stock is now listed.', 100),
+            'priority'       => 'normal',
+            'action_url'     => 'stocksell',
+        ]);
+
+        $response = EmailHelper::sendStockSellCreatedMail($user, $stockSell);
+
+        if (!$response['success']) {
+            Log::error('Email sending failed for StockSell creation', [
+                'user_id'   => $user->id,
+                'email'     => $user->email,
+                'error'     => $response['message'] ?? 'Unknown error',
+                'stock_id'  => $stockSell->id,
+            ]);
+        }
 
         // If images were uploaded, save their paths to the database
         if (!empty($imagePaths)) {

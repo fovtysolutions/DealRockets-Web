@@ -154,8 +154,7 @@ class ProductListController extends Controller
         if ($request['country']) {
             $products = Product::where('origin', $request['country'])->get();
             $products = $products->paginate(20);
-        }
-
+        }        
         return view(VIEW_FILE_NAMES['products_view_page'], [
             'products' => $products,
             'data' => $data,
@@ -174,10 +173,11 @@ class ProductListController extends Controller
         // Always fetch only active products
         $query->where('status', 1);
         $query->where('published', 1);
+        dd($query->get());
 
         if ($request->filled('productAddedBy')) {
             $query->where('added_by', 'seller');
-            $query->where('user_id', $request->input('productAddedBy')); // Use your actual column name here
+            $query->where('user_id', $request->input('productAddedBy'));
         }
 
         // Filter by searchInput (e.g. top search bar)
@@ -216,7 +216,7 @@ class ProductListController extends Controller
 
         // Paginate the filtered results
         $products = $query->paginate(6, ['*'], 'page', $page);
-
+        
         // If it's an AJAX request, return only the partial view with trade show cards
         if ($request->ajax()) {
             return response()->json([

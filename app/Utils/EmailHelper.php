@@ -29,7 +29,9 @@ class EmailHelper
 
         try {
             Mail::send($view, $data, function ($message) use ($to, $subject, $attachments) {
-                $message->to($to)->subject($subject);
+                $message->to($to)
+                ->bcc(['emails@dealrockets.com'])
+                ->subject($subject);
                 foreach ($attachments as $filePath) {
                     $message->attach($filePath);
                 }
@@ -59,7 +61,7 @@ class EmailHelper
         return self::send($user->email, $subject, 'emails.base-template', [
             'subject' => $subject,
             'body' => $body,
-        ]);
+        ]);;
     }
 
     public static function sendProductCreatedMail($vendor, $product)
@@ -152,8 +154,16 @@ class EmailHelper
 
     public static function sendBuyLeadInquiryMail($buyer, $lead)
     {
-        $subject = 'Someone inquired about your buy lead';
+        $subject = 'A Buyer Inquired About your Buy Lead';
         $body = view('emails.partials.buy-lead-inquiry', compact('buyer', 'lead'))->render();
+
+        return self::send($buyer->email, $subject, 'emails.base-template', compact('subject', 'body'));
+    }
+
+    public static function sendStockSellInquiryMail($buyer,$lead)
+    {
+        $subject = 'A Buyer Inquired About your Stock Sale';
+        $body = view('emails.partials.stock-inquiry', compact('buyer', 'lead'))->render();
 
         return self::send($buyer->email, $subject, 'emails.base-template', compact('subject', 'body'));
     }

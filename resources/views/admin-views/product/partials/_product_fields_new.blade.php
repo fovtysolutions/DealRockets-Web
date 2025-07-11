@@ -149,7 +149,7 @@
                     </span>
                 </label>
                 <select class="form-control" placeholder="{{ translate('Enter Origin') }}" name="origin"
-                    data-role="origininput">
+                    data-role="origininput" required>
                     <option selected value="">Select a Country</option>
                     @foreach ($countries as $country)
                         <option value="{{ $country->id }}"

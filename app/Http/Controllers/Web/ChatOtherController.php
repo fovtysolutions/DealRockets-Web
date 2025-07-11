@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Models\ChatsOther;
 use App\Models\Leads;
 use App\Models\Product;
+use App\Models\Seller;
 use App\Models\StockSell;
 use App\Utils\ChatManager;
+use App\Utils\EmailHelper;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Exists;
 use Illuminate\Support\Str;
@@ -109,6 +113,37 @@ class ChatOtherController extends Controller
                 'priority'       => 'normal',
                 'action_url'     => 'inbox',
             ]);
+
+            $user_id = $chat['receiver_id'];
+            $role = $chat['receiver_type'];
+            $type = $chat['type'];
+
+            if ($role == 'seller'){
+                $user = Seller::find($user_id);
+            } else if ($role == 'admin') {
+                $user = Admin::find($user_id);
+            }
+
+            if($type == 'stocksell'){
+                $stocksell = StockSell::find($chat['stocksell_id']);
+                $response = EmailHelper::sendStockSellInquiryMail($user, $stocksell);
+            } else if($type == 'buyleads'){
+                $lead = Leads::find($chat['leads_id']);
+                $response = EmailHelper::sendBuyLeadInquiryMail($user, $lead);
+            } else if($type == 'saleoffer'){
+                $lead = Leads::find($chat['leads_id']);
+                $response = EmailHelper::sendSaleOfferInquiryMail($user, $lead);
+            } else if($type == ''){
+                $response = EmailHelper::sendStockSellCreatedMail($user, $stockSell);
+            } else {
+                // Do Nothing
+            }
+
+            if (!$response['success']) {
+                Log::error('Email Notification creation', [
+                    'error'     => $response['message'] ?? 'Unknown error',
+                ]);
+            }
             return back()->with('success', 'Message sent successfully!');
         } catch (ValidationException $ve) {
             return back()->with('error', 'Message Sent Error: ' . $ve->getMessage());

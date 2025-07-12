@@ -2,107 +2,126 @@
 <div id="dynamicSellLeads">
     @if (isset($items))
         @foreach ($items as $seller)
-            <div class="product-card">
-                <div class="product-image-col">
-                    <h3 class="product-title">{{ $seller->product->name ?? $seller->product_id }}</h3>
-                    <div>
-                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/247ec7c7bc1f6428f4d5acb3c10d89df21f5e0ba?placeholderIfAbsent=true"
-                            alt="${product.title}" class="product-image">
+            @php
+                $user = auth('customer')->user();
+                if ($user) {
+                    $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($seller->id, $user->id, 'saleoffer');
+                } else {
+                    $isFavourite = false;
+                }
+            @endphp
+            <div class="product-card" style="flex-direction: column;">
+                <div class="d-flex" style="flex-direction: column; justify-content: space-between;">
+                    <div style="
+    justify-content: space-between;
+    display: flex;
+">
+                        <h3 class="product-title custom-dealrock-head">
+                            {{ $seller->product->name ?? $seller->product_id }}
+                        </h3>
+
+                        @if (auth('customer')->user())
+                            <img class="heart favourite-img" style="/* margin-left: auto; */width: 25px;height: 23px;" onclick="makeFavourite(this)" data-id="{{ $seller->id }}"
+                                data-userid="{{ $user->id }}" data-type="saleoffer"
+                                data-role="{{ auth()->user()->role ?? 'customer' }}"
+                                src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
+                                width="20" alt="Featured icon" style="margin-left: auto;">
+                        @else
+                            <img class="heart favourite-img" style="/* margin-left: auto; */width: 25px;height: 23px;" onclick="sendtologin()"
+                                src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
+                                style="margin-left: auto;">
+                        @endif
                     </div>
-                    <div class="product-location">
-                        @php
-                            $countryDetails = \App\Utils\ChatManager::getCountryDetails($seller->country);
-                        @endphp
-                        <div>Location:</div>
+                </div>
+                <div class="d-flex" style="flex-direction: row;">
+                    <div class="product-image-col">
                         <div>
-                            <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg" class="flag-icon"
-                                alt="{{ $countryDetails['countryName'] }} flag" />
-                            <span>{{ $seller->city }}, {{ $countryDetails['countryName'] }}</span>
+                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/247ec7c7bc1f6428f4d5acb3c10d89df21f5e0ba?placeholderIfAbsent=true"
+                                alt="${product.title}" class="product-image">
+                        </div>
+                        <div class="product-location">
+                            @php
+                                $countryDetails = \App\Utils\ChatManager::getCountryDetails($seller->country);
+                            @endphp
+                            <div>Location:</div>
+                            <div>
+                                <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg" class="flag-icon"
+                                    alt="{{ $countryDetails['countryName'] }} flag" />
+                                <span>{{ $seller->city }}, {{ $countryDetails['countryName'] }}</span>
+                            </div>
+                        </div>
+                        <div class="view-detail-btn-hide">
+                            <button class="view-detail-btn" data-index="${index}" data-target="#productDetailModal"
+                                data-toggle="modal">View Details</button>
                         </div>
                     </div>
-                    <div class="view-detail-btn-hide">
-                        <button class="view-detail-btn" data-index="${index}" data-target="#productDetailModal"
-                            data-toggle="modal">View Details</button>
+                    <div class="product-details-col hidebelow926">
+                        <table class="detail-table">
+                            <tr>
+                                <td class="detail-label">Rate</td>
+                                <td class="detail-value text-truncate">{{ $seller->rate ?? 'N/A' }} <span
+                                        class="unit">/Piece</span></td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Size</td>
+                                <td class="detail-value text-truncate">{{ $seller->size ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Type</td>
+                                <td class="detail-value text-truncate">{{ $seller->offer_type ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Terms</td>
+                                <td class="detail-value text-truncate">{{ $seller->delivery_terms ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Payment</td>
+                                <td class="detail-value text-truncate">{{ $seller->payment_option ?? 'N/A' }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Brand</td>
+                                <td class="detail-value text-truncate">{{ $seller->brand ?? 'N/A' }}</td>
+                            </tr>
+                        </table>
                     </div>
-                </div>
-                <div class="product-details-col hidebelow926">
-                    <table class="detail-table">
-                        <tr>
-                            <td class="detail-label">Rate</td>
-                            <td class="detail-value text-truncate">{{ $seller->rate ?? 'N/A' }} <span class="unit">/Piece</span></td>
-                        </tr>
-                        <tr>
-                            <td class="detail-label">Size</td>
-                            <td class="detail-value text-truncate">{{ $seller->size ?? 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="detail-label">Type</td>
-                            <td class="detail-value text-truncate">{{ $seller->offer_type ?? 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="detail-label">Terms</td>
-                            <td class="detail-value text-truncate">{{ $seller->delivery_terms ?? 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="detail-label">Payment</td>
-                            <td class="detail-value text-truncate">{{ $seller->payment_option ?? 'N/A' }}</td>
-                        </tr>
-                        <tr>
-                            <td class="detail-label">Brand</td>
-                            <td class="detail-value text-truncate">{{ $seller->brand ?? 'N/A' }}</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="hidebelow926 contact-seller-col">
-                    @php
-                        $user = auth('customer')->user();
-                        if ($user) {
-                            $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($seller->id, $user->id,'saleoffer');
-                        } else {
-                            $isFavourite = false;
-                        }
-                    @endphp
-                    @if (auth('customer')->user())
-                        <img class="heart favourite-img" onclick="makeFavourite(this)" data-id="{{ $seller->id }}"
-                            data-userid="{{ $user->id }}" data-type="saleoffer"
-                            data-role="{{ auth()->user()->role ?? 'customer' }}"
-                            src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
-                            width="20" alt="Featured icon" style="margin-left: auto;">
-                    @else
-                        <img class="heart favourite-img" onclick="sendtologin()"
-                            src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
-                            style="margin-left: auto;">
-                    @endif
-                    @php
-                        $flagImage = 0;
-                        if ($seller->role === 'seller') {
-                            $seller = \App\Models\Seller::find($seller->added_by);
-                            $shopName = $seller->shop->name ?? 'N/A';
-                            $shopAddress = $seller->shop->address ?? 'N/A';
-                            $countryDetails = \App\Utils\ChatManager::getCountryDetails($seller->country);
-                            if ($countryDetails) {
-                                $flagImage = 1;
+                    <div class="hidebelow926 contact-seller-col">
+                        <div>
+                            {{-- Supporting Div --}}
+                        </div>
+                        @php
+                            $flagImage = 0;
+                            if ($seller->role === 'seller') {
+                                $seller = \App\Models\Seller::find($seller->added_by);
+                                $shopName = $seller->shop->name ?? 'N/A';
+                                $shopAddress = $seller->shop->address ?? 'N/A';
+                                $countryDetails = \App\Utils\ChatManager::getCountryDetails($seller->country);
+                                if ($countryDetails) {
+                                    $flagImage = 1;
+                                }
+                            } elseif ($seller->role === 'admin') {
+                                $shopName = 'Admin Shop';
+                                $shopAddress = 'Admin Address';
                             }
-                        } elseif ($seller->role === 'admin') {
-                            $shopName = 'Admin Shop';
-                            $shopAddress = 'Admin Address';
-                        }
-                    @endphp
-                    @php
-                        $userdata = \App\Utils\ChatManager::getRoleDetail();
-                        $userId = $userdata['user_id'] ?? null;
-                        $role = $userdata['role'] ?? null;
-                    @endphp
-                    <div>
-                        <button class="contact-btn" data-toggle="modal"
-                            data-target="#inquireButton{{ $seller->id }}">Contact Seller</button>
-                        <div class="seller-name">{{ $shopName }}</div>
-                        <div class="company-name">{{ $shopAddress }}</div>
+                        @endphp
+                        @php
+                            $userdata = \App\Utils\ChatManager::getRoleDetail();
+                            $userId = $userdata['user_id'] ?? null;
+                            $role = $userdata['role'] ?? null;
+                        @endphp
+                        <div>
+                            <button class="contact-btn" data-toggle="modal"
+                                data-target="#inquireButton{{ $seller->id }}">Contact Seller</button>
+                            <div class="seller-name">{{ $shopName }}</div>
+                            <div class="company-name">{{ $shopAddress }}</div>
+                        </div>
+                        <div>
+                            <div class="lead-posted"
+                                style="color: #515050;text-align: right;font-size: 0.75rem;font-weight: normal; margin: 0 auto;">
+                                Posted: {{ $seller->created_at->diffForHumans() }}</div>
+                        </div>
                     </div>
-                    <div>
-                        {{-- Supporting Div --}}
-                    </div> 
                 </div>
+
             </div>
             <!-- Modal -->
             <div class="modal fade" id="inquireButton{{ $seller->id }}" tabindex="-1" role="dialog"
@@ -118,7 +137,8 @@
                                 </button>
                             </div>
                             <div class="inquiry-body">
-                                <form id="inquiryForm" method="POST" action="{{ route('sendmessage.other') }}" enctype="application/x-www-form-urlencoded">
+                                <form id="inquiryForm" method="POST" action="{{ route('sendmessage.other') }}"
+                                    enctype="application/x-www-form-urlencoded">
                                     @csrf
                                     @php
                                         $flagImage = 0;

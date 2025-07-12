@@ -218,7 +218,7 @@ class ProductListController extends Controller
         $page = $request->get('page', 1);
 
         // Paginate the filtered results
-        $products = $query->paginate(6, ['*'], 'page', $page);
+        $products = $query->paginate(30, ['*'], 'page', $page);
         
         // If it's an AJAX request, return only the partial view with trade show cards
         if ($request->ajax()) {

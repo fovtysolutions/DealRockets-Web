@@ -250,7 +250,7 @@ h3 {
 /* Product Grid */
 .marketplace-list .product-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     width: 100%;
 }
@@ -288,7 +288,7 @@ h3 {
 
 .marketplace-list .product-title {
     font-size: 16px !important;
-    color: #000 !important;
+    color: #555 !important;
     margin-bottom: 10px;
     align-content: center;
     line-height: 1rem;
@@ -395,7 +395,7 @@ h3 {
 }
 
 .marketplace-list .start-order-btn {
-    padding: 8px 28px;
+    padding: 8px 10px;
     border: unset !important;
     border-radius: 25px;
     background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);

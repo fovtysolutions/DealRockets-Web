@@ -28,16 +28,16 @@
 
 @section('content')
     <?php
-    // if (Auth('customer')->check()) {
-    //     $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
-    //     if (isset($membership)) {
-    //         if ($membership['status'] == 'error') {
-    //             $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
-    //         }
-    //     }
-    // } else {
-    //     $membership = ['status' => 'notLogged', 'message' => 'Not Logged In'];
-    // }
+    if (Auth('customer')->check()) {
+        $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
+        if (isset($membership)) {
+            if ($membership['status'] == 'error') {
+                $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
+            }
+        }
+    } else {
+        $membership = ['status' => 'notLogged', 'message' => 'Not Logged In'];
+    }
     $userdata = \App\Utils\ChatManager::getRoleDetail();
     if ($userdata) {
         $role = $userdata['role'];

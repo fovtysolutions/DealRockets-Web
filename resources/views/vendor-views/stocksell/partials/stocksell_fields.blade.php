@@ -153,7 +153,7 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="product_id" class="form-label">Product Name</label>
-                <select id="product_id" name="product_id" class="form-control" required>
+                <select id="product_id" name="product_id" class="form-control" {{ $isEdit ? '' : 'required' }}>
                     <option value="">Select a product</option>
                     @foreach ($items as $key => $value)
                         <option value="{{ $key }}"

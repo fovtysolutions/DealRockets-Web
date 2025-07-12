@@ -13,6 +13,7 @@ use App\Models\Leads;
 use Brian2694\Toastr\Toastr;
 use App\Utils\ChatManager;
 use App\Utils\EmailHelper;
+use App\Utils\HelperUtil;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -107,6 +108,8 @@ class QuotatioController extends Controller
                 'error'     => $response['message'] ?? 'Unknown error',
             ]);
         }
+
+        HelperUtil::transferQuotationToLead($quotation);
 
         // Notify the user of success
         toastr()->success('Quotation Submitted Successfully');

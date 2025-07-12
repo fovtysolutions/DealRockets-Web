@@ -94,7 +94,6 @@
     {{-- ✅ Vendor Ad after every 6 products --}}
     @if (($index + 1) % 6 === 0)
         <div class="vendor-ad" style="grid-column: span 2;">
-            {{-- Customize this ad block as needed --}}
             <a href="javascript:0" style="height: 100%;">
                 <img src="/images/vendor-ad-placeholder.jpg" style="height: 100%; object-fit:fill;" alt="Vendor Ad"
                     onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" class="img-fluid">

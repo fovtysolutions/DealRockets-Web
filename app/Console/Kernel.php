@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->call(function() {
             HelperUtil::automatedQuotation();
-        })->hourly();
+        })->everyFiveSeconds();
     }
 
     /**

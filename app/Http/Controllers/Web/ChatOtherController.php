@@ -23,74 +23,78 @@ class ChatOtherController extends Controller
 {
     private function sendMessage(array $data)
     {
-        // Validate incoming data
-        $validator = Validator::make($data, [
-            'sender_id' => 'required|integer',
-            'sender_type' => 'required|in:customer,seller,admin',
-            'receiver_id' => 'required|integer',
-            'receiver_type' => 'required|in:seller,admin,customer',
-            'message' => 'required|string|max:1000',
-            'type' => 'required|string',
-            'leads_id' => 'nullable|integer|exists:leads,id',
-            'suppliers_id' => 'nullable|integer|exists:suppliers,id',
-            'stocksell_id' => 'nullable|integer|exists:stock_sell,id',
-            'product_id' => 'nullable|integer|exists:products,id',
-            'product_qty' => 'nullable|integer',
-        ]);
+        try {
+            // Validate incoming data
+            $validator = Validator::make($data, [
+                'sender_id' => 'required|integer',
+                'sender_type' => 'required|in:customer,seller,admin',
+                'receiver_id' => 'required|integer',
+                'receiver_type' => 'required|in:seller,admin,customer',
+                'message' => 'required|string|max:1000',
+                'type' => 'required|string',
+                'leads_id' => 'nullable|integer|exists:leads,id',
+                'suppliers_id' => 'nullable|integer|exists:suppliers,id',
+                'stocksell_id' => 'nullable|integer|exists:stock_sell,id',
+                'product_id' => 'nullable|integer|exists:products,id',
+                'product_qty' => 'nullable|integer',
+            ]);
 
-        if ($validator->fails()) {
-            throw new ValidationException($validator);
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+
+            $validated = $validator->validated();
+
+            // Find existing chat_id for this conversation (both directions)
+            $existingChat = ChatsOther::where('type', $validated['type'])
+                ->where(function ($query) use ($validated) {
+                    $query->where(function ($q) use ($validated) {
+                        $q->where('sender_id', $validated['sender_id'])
+                            ->where('sender_type', $validated['sender_type'])
+                            ->where('receiver_id', $validated['receiver_id'])
+                            ->where('receiver_type', $validated['receiver_type']);
+                    })->orWhere(function ($q) use ($validated) {
+                        $q->where('sender_id', $validated['receiver_id'])
+                            ->where('sender_type', $validated['receiver_type'])
+                            ->where('receiver_id', $validated['sender_id'])
+                            ->where('receiver_type', $validated['sender_type']);
+                    });
+
+                    if (!empty($validated['leads_id'])) {
+                        $query->where('leads_id', $validated['leads_id']);
+                    }
+                    if (!empty($validated['stocksell_id'])) {
+                        $query->where('stocksell_id', $validated['stocksell_id']);
+                    }
+                    if (!empty($validated['product_id'])) {
+                        $query->where('product_id', $validated['product_id']);
+                    }
+                })
+                ->first();
+
+            if ($existingChat) {
+                $validated['chat_id'] = $existingChat->chat_id;
+                $validated['chat_initiator'] = 0;
+            } else {
+                $validated['chat_id'] = (string) Str::uuid();
+                $validated['chat_initiator'] = 1;
+            }
+
+            // Create the chat message record
+            $chat = ChatsOther::create($validated);
+
+            // Increment quotes if applicable
+            if (!empty($validated['leads_id'])) {
+                Leads::where('id', $validated['leads_id'])->increment('quotes_recieved');
+            }
+            if (!empty($validated['stocksell_id'])) {
+                StockSell::where('id', $validated['stocksell_id'])->increment('quote_recieved');
+            }
+
+            return $chat;
+        } catch (Exception $e) {
+            return back()->with('error', 'Message Sent Error: ' . $e->getMessage());
         }
-
-        $validated = $validator->validated();
-
-        // Find existing chat_id for this conversation (both directions)
-        $existingChat = ChatsOther::where('type', $validated['type'])
-            ->where(function ($query) use ($validated) {
-                $query->where(function ($q) use ($validated) {
-                    $q->where('sender_id', $validated['sender_id'])
-                        ->where('sender_type', $validated['sender_type'])
-                        ->where('receiver_id', $validated['receiver_id'])
-                        ->where('receiver_type', $validated['receiver_type']);
-                })->orWhere(function ($q) use ($validated) {
-                    $q->where('sender_id', $validated['receiver_id'])
-                        ->where('sender_type', $validated['receiver_type'])
-                        ->where('receiver_id', $validated['sender_id'])
-                        ->where('receiver_type', $validated['sender_type']);
-                });
-
-                if (!empty($validated['leads_id'])) {
-                    $query->where('leads_id', $validated['leads_id']);
-                }
-                if (!empty($validated['stocksell_id'])) {
-                    $query->where('stocksell_id', $validated['stocksell_id']);
-                }
-                if (!empty($validated['product_id'])) {
-                    $query->where('product_id', $validated['product_id']);
-                }
-            })
-            ->first();
-
-        if ($existingChat) {
-            $validated['chat_id'] = $existingChat->chat_id;
-            $validated['chat_initiator'] = 0;
-        } else {
-            $validated['chat_id'] = (string) Str::uuid();
-            $validated['chat_initiator'] = 1;
-        }
-
-        // Create the chat message record
-        $chat = ChatsOther::create($validated);
-
-        // Increment quotes if applicable
-        if (!empty($validated['leads_id'])) {
-            Leads::where('id', $validated['leads_id'])->increment('quotes_recieved');
-        }
-        if (!empty($validated['stocksell_id'])) {
-            StockSell::where('id', $validated['stocksell_id'])->increment('quote_recieved');
-        }
-
-        return $chat;
     }
 
     // Rewritten sendotherMessage to use sendMessage()
@@ -118,22 +122,22 @@ class ChatOtherController extends Controller
             $role = $chat['receiver_type'];
             $type = $chat['type'];
 
-            if ($role == 'seller'){
+            if ($role == 'seller') {
                 $user = Seller::find($user_id);
             } else if ($role == 'admin') {
                 $user = Admin::find($user_id);
             }
 
-            if($type == 'stocksell'){
+            if ($type == 'stocksell') {
                 $stocksell = StockSell::find($chat['stocksell_id']);
                 $response = EmailHelper::sendStockSellInquiryMail($user, $stocksell);
-            } else if($type == 'buyleads'){
+            } else if ($type == 'buyleads') {
                 $lead = Leads::find($chat['leads_id']);
                 $response = EmailHelper::sendBuyLeadInquiryMail($user, $lead);
-            } else if($type == 'saleoffer'){
+            } else if ($type == 'saleoffer') {
                 $lead = Leads::find($chat['leads_id']);
                 $response = EmailHelper::sendSaleOfferInquiryMail($user, $lead);
-            } else if($type == ''){
+            } else if ($type == '') {
                 $product = Product::find($chat['product_id']);
                 $response = EmailHelper::sendProductInquiryMail($user, $product);
             } else {

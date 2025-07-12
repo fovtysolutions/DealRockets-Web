@@ -371,7 +371,7 @@
                     value="{{ $internalValue }}">
             </div>
             <div class="form-group">
-                <label class="form-label">{{ translate('Internal Packing Unit') }}</label>
+                <label class="form-label">{{ translate('Internal Packing Type') }}</label>
                 <select class="form-control" name="dimensions_per_unit_type">
                     @php
                         $packingTypes = [
@@ -417,7 +417,7 @@
                 <input type="hidden" name="master_packing" id="master_packing" value="{{ $masterValue }}">
             </div>
             <div class="form-group">
-                <label class="form-label">{{ translate('Master Packing Unit') }}</label>
+                <label class="form-label">{{ translate('Master Packing Type') }}</label>
                 <select class="form-control" name="master_packing_unit">
                     @php
                         $selectedMasterUnit = old(
@@ -431,6 +431,13 @@
                             {{ $unit }}</option>
                     @endforeach
                 </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-single">
+                <label for="pod_port" class="form-label">Port of Delivery (POD)</label>
+                <input type="text" name="pod_port" id="pod_port" class="form-control"
+                    value="{{ old('pod_port', $isEdit ? $stocksell->pod_port : '') }}" placeholder="Enter POD Port">
             </div>
         </div>
         <div class="form-row">

@@ -58,6 +58,7 @@ class StockSell extends Model
         'delivery_mode',
         'payment_terms',
         'certificate_name',
+        'pod_port',
     ];
 
     public function countryRelation()

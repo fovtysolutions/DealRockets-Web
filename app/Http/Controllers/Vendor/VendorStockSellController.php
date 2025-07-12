@@ -70,6 +70,7 @@ class VendorStockSellController extends Controller
             'delivery_mode' => 'nullable',
             'payment_terms' => 'nullable',
             'certificate_name' => 'nullable',
+            'pod_port' => 'nullable',
         ]);
     }
 
@@ -120,13 +121,13 @@ class VendorStockSellController extends Controller
             'master_packing_unit' => $request->master_packing_unit,
             'dynamic_data' => $request->dynamic_data,
             'dynamic_data_technical' => $request->dynamic_data_technical,
-            'product_code' => $request->product_code ?? '',
+            'product_code' => $request->product_code,
             'delivery_mode' => $request->delivery_mode,
             'payment_terms' => $request->payment_terms,
             'certificate_name' => $request->certificate_name ?? '',
+            'pod_port' => $request->pod_port,
         ];
     }
-
     private function handleImages($request, $existingImages = [])
     {
         $imagePaths = $existingImages;

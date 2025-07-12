@@ -103,7 +103,11 @@
                                     @php
                                         $user = auth('customer')->user();
                                         $isFavourite = $user
-                                            ? \App\Utils\HelperUtil::checkIfFavourite($product->id, $user->id, 'product')
+                                            ? \App\Utils\HelperUtil::checkIfFavourite(
+                                                $product->id,
+                                                $user->id,
+                                                'product',
+                                            )
                                             : false;
                                     @endphp
 
@@ -762,24 +766,24 @@
                             $role = $userdata['role'] ?? null;
                         @endphp
                         <!-- Hidden fields -->
-                        <input type="hidden" id="sender_id" name="sender_id" value={{ $userId }}>
-                        <input type="hidden" id="sender_type" name="sender_type" value={{ $role }}>
-                        <input type="hidden" id="receiver_id" name="receiver_id" value={{ $product->user_id }}>
-                        <input type="hidden" id="receiver_type" name="receiver_type" value={{ $product->added_by }}>
-                        <input type="hidden" id="product_id" name="product_id" value={{ $product->id }}>
+                        <input type="hidden" id="sender_id1" name="sender_id" value={{ $userId }}>
+                        <input type="hidden" id="sender_type1" name="sender_type" value={{ $role }}>
+                        <input type="hidden" id="receiver_id1" name="receiver_id" value={{ $product->user_id }}>
+                        <input type="hidden" id="receiver_type1" name="receiver_type" value={{ $product->added_by }}>
+                        <input type="hidden" id="product_id1" name="product_id" value={{ $product->id }}>
                         <input type="hidden" id="type" name="type" value="products">
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail Address</label>
-                            <input type="email" class="form-control" id="email"
+                            <input type="email" class="form-control" id="email1"
                                 placeholder="Please enter your business e-mail address" required>
                         </div>
                         <div class="mb-3">
                             <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" rows="4" placeholder="Enter product details..." required></textarea>
+                            <textarea class="form-control" id="message1" rows="4" placeholder="Enter product details..." required></textarea>
                         </div>
                         @if (auth('customer')->check())
                             @if (strtolower(trim($membership['status'] ?? '')) == 'active')
-                                <button type="button" onclick="triggerChat()" class="btn-inquire-now btn">Send Inquiry
+                                <button type="button" onclick="triggerChat1()" class="btn-inquire-now btn">Send Inquiry
                                     Now</button>
                             @else
                                 <a href="{{ route('membership') }}" class="btn-inquire-now btn">Send Inquiry
@@ -831,6 +835,39 @@
                 type: $('#type').val(),
                 email: $('#email').val(),
                 message: $('#message').val()
+            };
+
+            $.ajax({
+                url: "{{ route('sendmessage.other') }}",
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                headers: {
+                    'X-CSRF-TOKEN': _token,
+                },
+                success: function(response) {
+                    toastr.success('Inquiry sent successfully!', 'Success');
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                    toastr.error('Failed to send inquiry.', 'Error');
+                }
+            });
+        }
+
+        function triggerChat1() {
+            var _token = $('input[name="_token"]').val()
+
+            var formData = {
+                sender_id: $('#sender_id1').val(),
+                sender_type: $('#sender_type1').val(),
+                receiver_id: $('#receiver_id1').val(),
+                receiver_type: $('#receiver_type1').val(),
+                product_id: $('#product_id1').val(),
+                product_qty: $('#productQty').val(),
+                type: $('#type').val(),
+                email: $('#email1').val(),
+                message: $('#message1').val()
             };
 
             $.ajax({

@@ -318,6 +318,7 @@ class StockSellController extends Controller
             'delivery_mode' => 'nullable',
             'payment_terms' => 'nullable',
             'certificate_name' => 'nullable',
+            'pod_port' => 'nullable',
         ]);
     }
 
@@ -372,6 +373,7 @@ class StockSellController extends Controller
             'delivery_mode' => $request->delivery_mode,
             'payment_terms' => $request->payment_terms,
             'certificate_name' => $request->certificate_name ?? '',
+            'pod_port' => $request->pod_port,
         ];
     }
 

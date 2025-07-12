@@ -313,7 +313,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                 </div>
                             </div>
                             <div class="frame-11">
-                                <a href="{{ route('quotationweb') }}" target="_blank">
+                                <a href="{{ route('quotationweb') }}">
                                     <div class="group-9">
                                         <img class="chat img-default" src="/img/chat-1.png" />
                                         <img class="chat img-hover" src="/img/chat (2).png" />
@@ -327,7 +327,6 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                         <img class="parcel img-hover" src="/img/parcel (2).png" />
                                         <div class="text-wrapper-10">Supplier</div>
                                     </a>
-
                                     <div class="dropdown-menu dropdown-menu-{{ Session::get('direction') === 'rtl' ? 'left' : 'right' }}"
                                         aria-labelledby="dropdownMenuButton"
                                         style="border-radius: 10px; min-width: 300px; padding: 20px;">
@@ -375,6 +374,11 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                 @if (auth('seller')->check())
                                                     <a href="{{ route('vendor.dashboard.index') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Dashboard</a>
+                                                @elseif (auth('web')->check() || auth('customer')->check() || auth('admin')->check())
+                                                    <a href="javascript:void(0)"
+                                                    class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Already Logged In
+                                                    </a>                                                
                                                 @else
                                                     <a href="{{ route('vendor.auth.login') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Sign In</a>
@@ -436,13 +440,18 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             </ul>
 
                                             <div class="text-center mt-4">
-                                                @if (auth('customer')->check())
+                                                @if (auth('customer')->check() && auth('customer')->user()->typerole == 'jobseeker')
                                                     <a href="{{ route('account-oder') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100 gradient-button">My Orders</a>
                                                     <a href="{{ route('user-account') }}"
-                                                        class="btn btn-primary btn-sm w-100 gradient-button">My Profile</a>
+                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">My Profile</a>
                                                     <a href="{{ route('customer.auth.logout') }}"
                                                         class="btn btn-primary btn-sm w-100 gradient-button">Logout</a>
+                                                @elseif (auth('web')->check() || auth('seller')->check() || auth('admin')->check())
+                                                    <a href="javascript:void(0)"
+                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Already Logged In
+                                                    </a>                                                
                                                 @else
                                                     <a href="{{ route('customer.auth.login') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Sign In</a>
@@ -504,13 +513,18 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                             </ul>
 
                                             <div class="text-center mt-4">
-                                                @if (auth('customer')->check())
+                                                @if (auth('customer')->check() && auth('customer')->user()->typerole == 'findtalent')
                                                     <a href="{{ route('account-oder') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100 gradient-button">My Orders</a>
                                                     <a href="{{ route('user-account') }}"
-                                                        class="btn btn-primary btn-sm w-100 gradient-button">My Profile</a>
+                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">My Profile</a>
                                                     <a href="{{ route('customer.auth.logout') }}"
                                                         class="btn btn-primary btn-sm w-100 gradient-button">Logout</a>
+                                                @elseif (auth('web')->check() || auth('seller')->check() || auth('admin')->check())
+                                                    <a href="javascript:void(0)"
+                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Already Logged In
+                                                    </a>                                                
                                                 @else
                                                     <a href="{{ route('customer.auth.hire-sign-in') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Sign In</a>

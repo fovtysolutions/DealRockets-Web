@@ -19,6 +19,10 @@
                     role="tab">Sale
                     Offer</a>
             </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" style="color:black;" id="products-tab" data-toggle="tab" href="#products"
+                    role="tab">Products</a>
+            </li>
         </ul>
 
         {{-- Tab Contents --}}
@@ -26,7 +30,7 @@
             {{-- Stock Sell Tab --}}
             <div class="tab-pane fade show active" id="stocksell" role="tabpanel">
                 @include('web.partials.favourite', [
-                    'items' => $favourites_array->where('type', 'stocksell'),
+                    'items' => $favourites_array->where('type', 'stocksell')->values(),
                     'type' => 'stocksell',
                 ])
             </div>
@@ -34,7 +38,7 @@
             {{-- Buy Leads Tab --}}
             <div class="tab-pane fade" id="buyleads" role="tabpanel">
                 @include('web.partials.favourite', [
-                    'items' => $favourites_array->where('type', 'buyleads'),
+                    'items' => $favourites_array->where('type', 'buyleads')->values(),
                     'type' => 'buyleads',
                 ])
             </div>
@@ -42,7 +46,15 @@
             {{-- Sale Offer Tab --}}
             <div class="tab-pane fade" id="saleoffer" role="tabpanel">
                 @include('web.partials.favourite', [
-                    'items' => $favourites_array->where('type', 'saleoffer'),
+                    'items' => $favourites_array->where('type', 'saleoffer')->values(),
+                    'type' => 'saleoffer',
+                ])
+            </div>
+
+            {{-- Product Tab --}}
+            <div class="tab-pane fade" id="products" role="tabpanel">
+                @include('web.partials.favourite', [
+                    'items' => $favourites_array->where('type', 'product')->values(),
                     'type' => 'saleoffer',
                 ])
             </div>

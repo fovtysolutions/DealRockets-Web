@@ -56,7 +56,7 @@
 
     /* Sidebar */
     .tradeshow .sidebar {
-      width: 23%;
+      width: 18%;
     }
 
     .tradeshow .filter-container {
@@ -251,6 +251,7 @@
       margin-top: 8px;
       height: 2rem;
       line-height: 1rem;
+      overflow: hidden;
     }
 
     .tradeshow .card-details {

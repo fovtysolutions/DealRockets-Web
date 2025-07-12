@@ -128,18 +128,26 @@ class EmailHelper
         return self::send($user->email, $subject, 'emails.base-template', compact('subject', 'body'));
     }
 
-    public static function sendRFQToBuyLeadMail($vendor, $rfq)
+    public static function sendRFQToBuyLeadMail($vendor)
     {
-        $subject = 'An RFQ has been converted to a Buy Lead';
-        $body = view('emails.partials.rfq-conversion', compact('vendor', 'rfq'))->render();
+        $subject = 'Several RFQ has been converted to a Buy Lead';
+        $body = view('emails.partials.rfq-conversion', compact('vendor'))->render();
 
         return self::send($vendor->email, $subject, 'emails.base-template', compact('subject', 'body'));
     }
 
-    public static function sendInquiryMail($vendor, $inquiry)
+    public static function sendMailonSuccessRegister($vendor)
     {
-        $subject = 'You have a new inquiry';
-        $body = view('emails.partials.inquiry', compact('vendor', 'inquiry'))->render();
+        $subject = 'You have been Registered';
+        $body = view('emails.partials.user-register', compact('vendor'))->render();
+
+        return self::send($vendor->email, $subject, 'emails.base-template', compact('subject', 'body'));
+    }
+
+    public static function sendInquiryMail($vendor)
+    {
+        $subject = 'You have a new RFQ Inquiry';
+        $body = view('emails.partials.inquiry', compact('vendor'))->render();
 
         return self::send($vendor->email, $subject, 'emails.base-template', compact('subject', 'body'));
     }
@@ -166,5 +174,14 @@ class EmailHelper
         $body = view('emails.partials.stock-inquiry', compact('buyer', 'lead'))->render();
 
         return self::send($buyer->email, $subject, 'emails.base-template', compact('subject', 'body'));
+    }
+
+    public static function sendProductInquiryMail($buyer,$lead)
+    {
+        $subject = 'A Buyer Inquired About your Stock Sale';
+        $body = view('emails.partials.product-inquiry', compact('buyer', 'lead'))->render();
+
+        return self::send($buyer->email, $subject, 'emails.base-template', compact('subject', 'body'));
+
     }
 }

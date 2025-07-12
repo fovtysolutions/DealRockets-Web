@@ -64,6 +64,7 @@ class VendorRepository implements VendorRepositoryInterface
                             ->orWhere('l_name', 'like', "%$term%")
                             ->orWhere('phone', 'like', "%$term%")
                             ->orWhere('email', 'like', "%$term%")
+                            ->orWhere('seller_unique_id', 'like', "%$term%")
                             ->orWhereHas('shop', function ($query) use ($term) {
                                 $query->where('name', 'like', "%$term%");
                             });

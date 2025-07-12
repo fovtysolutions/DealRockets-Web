@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Quotation;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Services\QuotationService;
 use Illuminate\Http\Request;
 use App\Models\Quotation;
@@ -11,6 +12,9 @@ use App\Models\Category;
 use App\Models\Leads;
 use Brian2694\Toastr\Toastr;
 use App\Utils\ChatManager;
+use App\Utils\EmailHelper;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class QuotatioController extends Controller
 {
@@ -42,7 +46,7 @@ class QuotatioController extends Controller
         $userId = $userdata['user_id'] ?? '1';
         $role = $userdata['role'] ?? 'admin';
 
-                
+
         $data = [
             'name' => $request->input('product_name'),
             'industry' => $request->input('category'),
@@ -66,7 +70,7 @@ class QuotatioController extends Controller
         ];
 
         // Handle the Image Upload
-        if ($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $path = public_path('uploads/quotation');
@@ -77,7 +81,32 @@ class QuotatioController extends Controller
         }
 
         // Create a new Quotation entry
-        Quotation::create($data);
+        $quotation = Quotation::create($data);
+
+        ChatManager::sendNotification([
+            'sender_id'      => $quotation['user_id'],
+            'receiver_id'    => $quotation['user_id'],
+            'receiver_type'  => $quotation['role'],
+            'type'           => 'quotation',
+            'stocksell_id'   => null,
+            'leads_id'       => null,
+            'suppliers_id'   => null,
+            'product_id'     => null,
+            'product_qty'    => null,
+            'title'          => 'New RFQ received',
+            'message'        => Str::limit($quotation['description'], 100),
+            'priority'       => 'normal',
+            'action_url'     => 'quotation',
+        ]);
+
+        $user = Admin::find(1);
+        $response = EmailHelper::sendInquiryMail($user);
+
+        if (!$response['success']) {
+            Log::error('Email Notification creation', [
+                'error'     => $response['message'] ?? 'Unknown error',
+            ]);
+        }
 
         // Notify the user of success
         toastr()->success('Quotation Submitted Successfully');
@@ -103,8 +132,19 @@ class QuotatioController extends Controller
             $query->where('description', 'LIKE', '%' . $request->description . '%');
         }
 
-        if ($request->filled('searchValue')){
-            $query->where('name','LIKE','%'.$request->searchValue.'%');
+        if ($request->filled('searchValue')) {
+            $query->where('name', 'LIKE', '%' . $request->searchValue . '%');
+        }
+
+        if ($request->filled('from_date') && $request->filled('to_date')) {
+            $query->whereBetween('created_at', [
+                $request->from_date . ' 00:00:00',
+                $request->to_date . ' 23:59:59',
+            ]);
+        } elseif ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->from_date);
+        } elseif ($request->filled('to_date')) {
+            $query->whereDate('created_at', '<=', $request->to_date);
         }
 
         $quotations = $query->get();
@@ -177,7 +217,7 @@ class QuotatioController extends Controller
         $user_id = $userdata['user_id'];
         $user_role = $userdata['role'];
 
-        $dataArray = $service->getImportquotationService($request,$user_id,$user_role);
+        $dataArray = $service->getImportquotationService($request, $user_id, $user_role);
         if (!$dataArray['status']) {
             toastr()->error($dataArray['message']);
             return back();
@@ -188,9 +228,10 @@ class QuotatioController extends Controller
         return back();
     }
 
-    public function index(){
+    public function index()
+    {
         $data['categories'] = Category::all();
-        return view('web.postrfq',$data);
+        return view('web.postrfq', $data);
     }
 
     public function getLeadsForBanner()

@@ -17,10 +17,12 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class HelperUtil
 {
-/**
+    /**
      * Get all search tags and counts for a user.
      */
     private static function getUserSearch(int $userId): array
@@ -183,7 +185,7 @@ class HelperUtil
                 throw new Exception("Invalid user type.");
         }
     }
-    
+
     public static function consumeCvTopUp($userId, $userType)
     {
         try {
@@ -223,7 +225,6 @@ class HelperUtil
                 'status' => 'success',
                 'message' => 'CV Top-Up consumed successfully.'
             ];
-
         } catch (Exception $e) {
             // Return error message
             return [
@@ -232,7 +233,7 @@ class HelperUtil
             ];
         }
     }
-    
+
     public static function automatedQuotation()
     {
         $checkIfSettingQuotation = BusinessSetting::where('type', 'quotation_enabled')->first();
@@ -267,7 +268,6 @@ class HelperUtil
 
             if ($updated) {
                 self::notifyAllAdmins();
-                self::notifyAllVendors();
             }
 
             return response()->json([
@@ -291,7 +291,7 @@ class HelperUtil
             if ($existingLead) {
                 return; // If already transferred, exit
             }
-        
+
             // Map quotation data to lead data
             $leadData = [
                 'type' => $quotation->type ?? null,
@@ -311,10 +311,10 @@ class HelperUtil
                 'created_at' => Carbon::now(),
                 'quotation_id' => $quotation->id, // Track the quotation
             ];
-        
+
             // Try to create a new lead
             $newLead = Leads::create($leadData);
-        
+
             if (!$newLead) {
                 // If lead creation somehow fails, revert quotation
                 $quotation->converted_lead = null;
@@ -324,21 +324,48 @@ class HelperUtil
             // In case of any exception, also revert quotation
             $quotation->converted_lead = null;
             $quotation->save();
-        
+
             // Optionally, log the error
             \Log::error('Failed to transfer quotation to lead: ' . $e->getMessage());
-        }        
+        }
     }
 
-    public static function notifyAllVendors(){
+    public static function notifyAllVendors()
+    {
         Seller::query()->update(['lead_notif' => 1]);
     }
 
-    public static function notifyAllAdmins(){
-        Admin::query()->update(['lead_notif' => 1]);
+    public static function notifyAllAdmins()
+    {
+        $user = Admin::find(1);
+
+        ChatManager::sendNotification([
+            'sender_id'      => $user->id,
+            'receiver_id'    => $user->id,
+            'receiver_type'  => 'admin',
+            'type'           => 'quotation',
+            'stocksell_id'   => null,
+            'leads_id'       => null,
+            'suppliers_id'   => null,
+            'product_id'     => null,
+            'product_qty'    => null,
+            'title'          => 'Several RFQ has been converted to Buy Leads',
+            'message'        => 'You can check your Buy Leads for more Additions from RFQ Conversions.',
+            'priority'       => 'normal',
+            'action_url'     => 'rfqconverted',
+        ]);
+
+        $response = EmailHelper::sendRFQToBuyLeadMail($user);
+
+        if (!$response['success']) {
+            Log::error('Email Notification creation', [
+                'error'     => $response['message'] ?? 'Unknown error',
+            ]);
+        }
     }
 
-    public static function getLeadNotif() {
+    public static function getLeadNotif()
+    {
         try {
             if (auth('seller')->check()) {
                 $seller = auth('seller')->user();
@@ -359,7 +386,7 @@ class HelperUtil
                     ];
                 }
             }
-    
+
             return [
                 'status' => 'fail',
                 'notif' => 0,
@@ -377,9 +404,9 @@ class HelperUtil
     {
         // Check if the item is already favorited
         $favourite = Favourites::where('user_id', $userId)
-                              ->where('listing_id', $listingId)
-                              ->where('type', $type)
-                              ->first();
+            ->where('listing_id', $listingId)
+            ->where('type', $type)
+            ->first();
 
         return $favourite ? true : false; // Return true if found, false otherwise
     }

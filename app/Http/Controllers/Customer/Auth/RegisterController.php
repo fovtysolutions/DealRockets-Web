@@ -9,6 +9,7 @@ use App\Contracts\Repositories\PhoneOrEmailVerificationRepositoryInterface;
 use App\Events\EmailVerificationEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\CustomerRegistrationRequest;
+use App\Models\Admin;
 use App\Models\BusinessSetting;
 use App\Models\PhoneOrEmailVerification;
 use App\Models\Wishlist;
@@ -18,7 +19,9 @@ use App\Traits\EmailTemplateTrait;
 use App\Models\User;
 use App\Utils\CartManager;
 use App\Utils\CategoryManager;
+use App\Utils\ChatManager;
 use App\Utils\CustomerManager;
+use App\Utils\EmailHelper;
 use App\Utils\Helpers;
 use App\Utils\SMSModule;
 use Brian2694\Toastr\Facades\Toastr;
@@ -29,6 +32,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\Gateways\Traits\SmsGateway;
 
@@ -43,8 +47,7 @@ class RegisterController extends Controller
         private readonly LoginSetupRepositoryInterface               $loginSetupRepo,
         private readonly CustomerAuthService                         $customerAuthService,
         private readonly FirebaseService                             $firebaseService,
-    )
-    {
+    ) {
         $this->middleware('guest:customer', ['except' => ['logout']]);
     }
 
@@ -57,7 +60,7 @@ class RegisterController extends Controller
             return redirect()->route('home')->with('message', translate('you_are_already_logged_in'));
         }
 
-        return view('web-views.customer-views.auth.register',compact("categories"));
+        return view('web-views.customer-views.auth.register', compact("categories"));
     }
 
     public function submitRegisterData(CustomerRegistrationRequest $request): JsonResponse|RedirectResponse
@@ -97,6 +100,32 @@ class RegisterController extends Controller
                 $this->phoneOrEmailVerificationRepo->delete(params: ['phone_or_email' => $user?->email]);
                 $this->getCustomerVerificationCheck($user, 'email');
                 return redirect(route('customer.auth.check-verification', ['identity' => base64_encode($user['email']), 'type' => base64_encode('email_verification')]));
+            }
+
+            $adminuser = Admin::find(1);
+
+            ChatManager::sendNotification([
+                'sender_id'      => $adminuser->id,
+                'receiver_id'    => $adminuser->id,
+                'receiver_type'  => 'admin',
+                'type'           => 'user_registered',
+                'stocksell_id'   => null,
+                'leads_id'       => null,
+                'suppliers_id'   => null,
+                'product_id'     => null,
+                'product_qty'    => null,
+                'title'          => 'A User has been created',
+                'message'        => 'A New User Account has been created.',
+                'priority'       => 'normal',
+                'action_url'     => 'user_account_created',
+            ]);
+
+            $response = EmailHelper::sendMailonSuccessRegister($user);
+
+            if (!$response['success']) {
+                Log::error('Email Notification creation', [
+                    'error'  => $response['message'] ?? 'Unknown error',
+                ]);
             }
             Toastr::success(translate('registration_success_login_now'));
             return redirect(route('customer.auth.login'));
@@ -188,7 +217,7 @@ class RegisterController extends Controller
         if ($firebaseOTPVerification && $firebaseOTPVerification['status'] && empty($request['g-recaptcha-response'])) {
             $recaptcha = getWebConfig(name: 'recaptcha');
             $recaptchaEnabled = $recaptcha['status'];
-            
+
             if ($recaptchaEnabled && empty($request['g-recaptcha-response'])) {
                 if (request()->ajax()) {
                     return response()->json([
@@ -202,7 +231,7 @@ class RegisterController extends Controller
         }
 
         $maxOTPHit = getWebConfig(name: 'maximum_otp_hit') ?? 5;
-        $maxOTPHitTime = getWebConfig(name: 'otp_resend_time') ?? 60;// seconds
+        $maxOTPHitTime = getWebConfig(name: 'otp_resend_time') ?? 60; // seconds
         $tempBlockTime = getWebConfig(name: 'temporary_block_time') ?? 600; // seconds
         $tempBlockTime = getWebConfig(name: 'temporary_block_time') ?? 5;
 
@@ -247,7 +276,7 @@ class RegisterController extends Controller
 
             if ($identityType == 'phone' && $firebaseOTPVerification && $firebaseOTPVerification['status']) {
                 $firebaseVerify = $this->firebaseService->verifyOtp($getToken['token'], $getToken['phone_or_email'], $request['token']);
-                $tokenVerifyStatus = (boolean)($firebaseVerify['status'] == 'success');
+                $tokenVerifyStatus = (bool)($firebaseVerify['status'] == 'success');
                 if (!$tokenVerifyStatus) {
                     $this->phoneOrEmailVerificationRepo->updateOrCreate(params: ['phone_or_email' => $identity], value: [
                         'otp_hit_count' => ($getToken['otp_hit_count'] + 1),
@@ -259,7 +288,7 @@ class RegisterController extends Controller
                 }
             } else {
                 $tokenVerify = $this->phoneOrEmailVerificationRepo->getFirstWhere(params: ['phone_or_email' => $identity, 'token' => $request['token']]);
-                $tokenVerifyStatus = (boolean)$tokenVerify;
+                $tokenVerifyStatus = (bool)$tokenVerify;
             }
 
             if ($tokenVerifyStatus) {
@@ -402,7 +431,6 @@ class RegisterController extends Controller
 
                     $verify_status = 'error';
                     $message = translate('please_try_again_after_') . CarbonInterval::seconds($time)->cascade()->forHumans();
-
                 } elseif ($verification->is_temp_blocked == 1 && isset($verification->created_at) && Carbon::parse($verification->created_at)->diffInSeconds() >= $temp_block_time) {
                     $verification->otp_hit_count = 1;
                     $verification->is_temp_blocked = 0;
@@ -412,7 +440,6 @@ class RegisterController extends Controller
 
                     $verify_status = 'error';
                     $message = translate('Verification_OTP_mismatched');
-
                 } elseif ($verification->otp_hit_count >= $maxOTPHit && $verification->is_temp_blocked == 0) {
                     $verification->is_temp_blocked = 1;
                     $verification->temp_block_time = now();
@@ -422,7 +449,6 @@ class RegisterController extends Controller
                     $time = $temp_block_time - Carbon::parse($verification->temp_block_time)->diffInSeconds();
                     $verify_status = 'error';
                     $message = translate('too_many_attempts. please_try_again_after_') . CarbonInterval::seconds($time)->cascade()->forHumans();
-
                 } else {
                     $verification->otp_hit_count += 1;
                     $verification->save();
@@ -458,7 +484,7 @@ class RegisterController extends Controller
         if ($firebaseOTPVerification && $firebaseOTPVerification['status'] && empty($request['g-recaptcha-response'])) {
             $recaptcha = getWebConfig(name: 'recaptcha');
             $recaptchaEnabled = $recaptcha['status'];
-            
+
             if ($recaptchaEnabled && empty($request['g-recaptcha-response'])) {
                 if (request()->ajax()) {
                     return response()->json([
@@ -472,7 +498,7 @@ class RegisterController extends Controller
         }
 
         $maxOTPHit = getWebConfig(name: 'maximum_otp_hit') ?? 5;
-        $maxOTPHitTime = getWebConfig(name: 'otp_resend_time') ?? 60;// seconds
+        $maxOTPHitTime = getWebConfig(name: 'otp_resend_time') ?? 60; // seconds
         $tempBlockTime = getWebConfig(name: 'temporary_block_time') ?? 600; // seconds
         $tempBlockTime = getWebConfig(name: 'temporary_block_time') ?? 5;
         $phoneVerification = getLoginConfig(key: 'phone_verification');
@@ -491,10 +517,10 @@ class RegisterController extends Controller
             $identityType = 'phone';
             $phoneVerification = 1;
             $customer = [
-              'phone' => $identity,
-              'email' => $identity,
-              'is_phone_verified' => 0,
-              'is_email_verified' => 0,
+                'phone' => $identity,
+                'email' => $identity,
+                'is_phone_verified' => 0,
+                'is_email_verified' => 0,
             ];
         }
 
@@ -520,5 +546,4 @@ class RegisterController extends Controller
             return redirect(route('customer.auth.login'));
         }
     }
-
 }

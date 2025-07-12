@@ -1204,51 +1204,7 @@ class UserProfileController extends Controller
     public function getfavourites(Request $request)
     {
         $user = auth('customer')->user(); // Or use auth()->user() based on guard
-        $favourites = Favourites::where('user_id', $user->id)->where('role', 'customer')->get();
-        $favourites_array = [];
-        foreach ($favourites as $fav) {
-            if ($fav->type == 'stocksell') {
-                $data = \App\Models\StockSell::where('id', $fav->listing_id)->first();
-                if ($data) {
-                    $decodedImage = json_decode($data->image);
-                    $image = $decodedImage[0];
-                    $name = $data->name;
-                    $link = route('stocksale');
-                    $favourites_array[] = [
-                        'image' => $image,
-                        'name' => $name,
-                        'link' => $link,
-                    ];
-                }
-            } elseif ($fav->type == 'buyleads') {
-                $data = \App\Models\Leads::where('type', 'buyer')->where('id', $fav->listing_id)->first();
-                if ($data) {
-                    $decodedImage = json_decode($data->images);
-                    $image = $decodedImage[0];
-                    $name = $data->name;
-                    $link = route('buyer');
-                    $favourites_array[] = [
-                        'image' => $image,
-                        'name' => $name,
-                        'link' => $link,
-                    ];
-                }
-            } elseif ($fav->type == 'saleoffer') {
-                $data = \App\Models\Leads::where('type', 'seller')->where('id', $fav->listing_id)->first();
-                if ($data) {
-                    $decodedImage = json_decode($data->images);
-                    $image = $decodedImage[0];
-                    $name = $data->name;
-                    $link = route('seller');
-                    $favourites_array[] = [
-                        'image' => $image,
-                        'name' => $name,
-                        'link' => $link,
-                    ];
-                }
-            }
-        }
-        $favourites_array = collect($favourites_array);
-        return view('web.getfavourites', compact('favourites','favourites_array'));
+        $favourites_array = Favourites::where('user_id', $user->id)->where('role', 'customer')->get();
+        return view('web.getfavourites', compact('favourites_array'));
     }
 }

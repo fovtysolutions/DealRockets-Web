@@ -159,7 +159,7 @@ class StocksalewebController extends Controller
 
         // Filter by country if necessary
         $query->whereHas('countryRelation', function ($query) {
-            $query->whereRaw('blacklist = ?', ['no']);
+            $query->where('blacklist', 'no');
         });
 
         if ($request->filled('specific_id')) {

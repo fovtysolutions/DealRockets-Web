@@ -40,7 +40,7 @@ use function PHPSTORM_META\map;
  */
 class Seller extends Authenticatable
 {
-    use Notifiable,StorageTrait;
+    use Notifiable, StorageTrait;
 
     protected $fillable = [
         'f_name',
@@ -73,6 +73,7 @@ class Seller extends Authenticatable
         'vendor_type',
         'country',
         'ad_banners',
+        'seller_unique_id',
     ];
 
     protected $casts = [
@@ -87,40 +88,40 @@ class Seller extends Authenticatable
 
     public function scopeApproved($query)
     {
-        return $query->where(['status'=>'approved']);
+        return $query->where(['status' => 'approved']);
     }
 
-    public function shop():HasOne
+    public function shop(): HasOne
     {
         return $this->hasOne(Shop::class, 'seller_id');
     }
 
-    public function shops():HasMany
+    public function shops(): HasMany
     {
         return $this->hasMany(Shop::class, 'seller_id');
     }
 
-    public function orders():HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class, 'seller_id');
     }
 
-    public function product():HasMany
+    public function product(): HasMany
     {
-        return $this->hasMany(Product::class, 'user_id')->where(['added_by'=>'seller']);
+        return $this->hasMany(Product::class, 'user_id')->where(['added_by' => 'seller']);
     }
 
-    public function wallet():HasOne
+    public function wallet(): HasOne
     {
         return $this->hasOne(SellerWallet::class);
     }
 
-    public function coupon():HasMany
+    public function coupon(): HasMany
     {
         return $this->hasMany(Coupon::class, 'seller_id')
-            ->where(['coupon_bearer'=>'seller', 'status'=>1])
-            ->whereDate('start_date','<=',date('Y-m-d'))
-            ->whereDate('expire_date','>=',date('Y-m-d'));
+            ->where(['coupon_bearer' => 'seller', 'status' => 1])
+            ->whereDate('start_date', '<=', date('Y-m-d'))
+            ->whereDate('expire_date', '>=', date('Y-m-d'));
     }
 
     public function getImageFullUrlAttribute(): array
@@ -129,8 +130,8 @@ class Seller extends Authenticatable
             return getWebConfig(name: 'company_fav_icon');
         }
         $value = $this->image;
-        if (count($this->storage) > 0 ) {
-            $storage = $this->storage->where('key','image')->first();
+        if (count($this->storage) > 0) {
+            $storage = $this->storage->where('key', 'image')->first();
         }
         return $this->storageLink('seller', $value, $storage['value'] ?? 'public');
     }
@@ -139,8 +140,13 @@ class Seller extends Authenticatable
     protected static function boot(): void
     {
         parent::boot();
+        static::creating(function ($model) {
+            if (empty($model->seller_unique_id)) {
+                $model->seller_unique_id = 'SELLER-' . strtoupper(Str::random(8));
+            }
+        });
         static::saved(function ($model) {
-            if($model->isDirty('image')){
+            if ($model->isDirty('image')) {
                 $storage = config('filesystems.disks.default') ?? 'public';
                 DB::table('storages')->updateOrInsert([
                     'data_type' => get_class($model),
@@ -154,5 +160,4 @@ class Seller extends Authenticatable
             }
         });
     }
-
 }

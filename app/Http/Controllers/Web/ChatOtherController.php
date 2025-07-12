@@ -134,7 +134,8 @@ class ChatOtherController extends Controller
                 $lead = Leads::find($chat['leads_id']);
                 $response = EmailHelper::sendSaleOfferInquiryMail($user, $lead);
             } else if($type == ''){
-                $response = EmailHelper::sendStockSellCreatedMail($user, $stockSell);
+                $product = Product::find($chat['product_id']);
+                $response = EmailHelper::sendProductInquiryMail($user, $product);
             } else {
                 // Do Nothing
             }

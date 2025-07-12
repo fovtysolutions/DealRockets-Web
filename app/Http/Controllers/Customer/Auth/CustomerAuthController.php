@@ -12,7 +12,10 @@ use App\Utils\CategoryManager;
 use App\Utils\CustomerManager;
 use App\Utils\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Utils\CartManager;
+use App\Utils\ChatManager;
+use App\Utils\EmailHelper;
 use App\Utils\SMSModule;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
@@ -23,6 +26,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class CustomerAuthController extends Controller
@@ -660,7 +664,8 @@ class CustomerAuthController extends Controller
         }
     }
 
-    public function hire_sign_in(Request $request){
+    public function hire_sign_in(Request $request)
+    {
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         session()->put('keep_return_url', url()->previous());
 
@@ -671,7 +676,8 @@ class CustomerAuthController extends Controller
         return theme_root_path() == 'default' ? view('web-views.hire.login', compact("categories")) : redirect()->route('home');
     }
 
-    public function hire_sign_up(Request $request){
+    public function hire_sign_up(Request $request)
+    {
         $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         session()->put('keep_return_url', url()->previous());
 
@@ -679,6 +685,6 @@ class CustomerAuthController extends Controller
             return redirect()->route('home')->with('message', translate('you_are_already_logged_in'));
         }
 
-        return view('web-views.hire.register',compact("categories"));
+        return view('web-views.hire.register', compact("categories"));
     }
 }

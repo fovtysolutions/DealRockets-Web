@@ -697,7 +697,8 @@ class DashboardController extends BaseController
             case 'leads':
                 $title = 'Leads';
                 $cardData = [
-                    ['link' => route('admin.add-new-leads'), 'title' => 'Add Lead', 'value' => 'Yes'],
+                    // ['link' => route('admin.add-new-leads'), 'title' => 'Add Lead', 'value' => 'Yes'],
+                    ['link' => route('admin.quotation.list'), 'title' => 'Manage Quotations', 'value' => 'Yes'],
                     ['link' => route('admin.leads.list'), 'title' => 'Manage Lead', 'value' => 'Yes'],
                 ];
                 break;
@@ -705,7 +706,7 @@ class DashboardController extends BaseController
             case 'sell-offer':
                 $title = 'Sell Offers';
                 $cardData = [
-                    ['link' => route('admin.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 'Yes'],
+                    // ['link' => route('admin.add-new-leads'), 'title' => 'Add Sell Offer', 'value' => 'Yes'],
                     ['link' => route('admin.leads.list'), 'title' => 'Manage Sell Offer', 'value' => 'Yes'],
                     // ['link' => route('admin.bulk-import-leads'), 'title' => 'Import Sell Offer', 'value' => 'Yes'],
                 ];
@@ -718,7 +719,7 @@ class DashboardController extends BaseController
             case 'marketplace':
                 $title = 'Marketplace';
                 $cardData = [
-                    ['link' => route('admin.products.add'), 'title' => 'Products Add', 'value' => 'Yes'],
+                    // ['link' => route('admin.products.add'), 'title' => 'Products Add', 'value' => 'Yes'],
                     ['link' => route('admin.products.list', ['in-house']), 'title' => 'Products List', 'value' => 'Yes'],
                     ['link' => route('admin.category.view'), 'title' => 'Categories', 'value' => 'Yes'],
                     ['link' => route('admin.sub-category.view'), 'title' => 'Sub Categories', 'value' => 'Yes'],
@@ -732,7 +733,7 @@ class DashboardController extends BaseController
             case 'stock-sell':
                 $title = 'Stock Sell';
                 $cardData = [
-                    ['link' => route('admin.stock.create'), 'title' => 'Add Stock Sale', 'value' => 'Yes'],
+                    // ['link' => route('admin.stock.create'), 'title' => 'Add Stock Sale', 'value' => 'Yes'],
                     ['link' => route('admin.stock.index'), 'title' => 'Stock Sale List', 'value' => 'Yes'],
                     ['link' => route('admin.stock.category.create'), 'title' => 'Add Stock Category', 'value' => 'Yes'],
                     ['link' => route('admin.stock.category.list'), 'title' => 'Manage Stock Category', 'value' => 'Yes'],

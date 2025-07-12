@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: rgba(247, 247, 247, 1);
+    /* background-color: rgba(247, 247, 247, 1); */
 }
 
 .stock-sale .container {
@@ -206,8 +206,6 @@ input[type='checkbox'] {
 }
 
 .stock-sale .product-list-inner {
-    /* background-color: rgba(247, 247, 247, 1); */
-    /* padding: 0 1.25rem; */
     height: 100%;
 }
 

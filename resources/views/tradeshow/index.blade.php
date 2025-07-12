@@ -118,7 +118,7 @@
           </aside>
 
           <!-- Main content area with trade show cards -->
-          <div>
+          <div style="width: 82%;">
             @include('tradeshow.partials.dynamic-list')
             <div id="paginationControls">
                 {{ $tradeshows->links('custom-paginator.custom') }}

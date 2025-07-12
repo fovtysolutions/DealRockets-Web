@@ -1,26 +1,26 @@
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-partial')
 
 @section('title', translate('quotations_List'))
 
 @section('content')
 <div class="content container-fluid">
 
-    <div class="mb-3">
+    {{-- <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
             <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
             {{ translate('quotations_List') }}
             <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{ $totalquotations }}</span>
         </h2>
-    </div>
+    </div> --}}
 
-    <div class="card">
-        <div class="card-body">
+    <div class="row">
+        <div>
             <form action="{{ url()->current() }}" method="GET">
                 <input type="hidden" value="{{ request('status') }}" name="status">
                 <div class="row gx-2">
-                    <div class="col-12">
+                    {{-- <div class="col-12">
                         <h4 class="mb-3">{{ translate('filter_quotations') }}</h4>
-                    </div>
+                    </div> --}}
 
                     <div class="col-sm-6 col-lg-4 col-xl-3">
                         <div class="form-group">
@@ -43,12 +43,26 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
-                        <div class="d-flex gap-3 justify-content-end">
-                            <a class="btn btn-secondary px-5" href="{{ url()->current() }}">
+                    <div class="col-sm-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <label class="title-color" for="from_date">{{ translate('from_date') }}</label>
+                            <input type="date" name="from_date" class="form-control" value="{{ request('from_date') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4 col-xl-3">
+                        <div class="form-group">
+                            <label class="title-color" for="to_date">{{ translate('to_date') }}</label>
+                            <input type="date" name="to_date" class="form-control" value="{{ request('to_date') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4 col-xl-3" style="align-content: center;">
+                        <div class="d-flex gap-3">
+                            <a class="btn btn-secondary" href="{{ url()->current() }}">
                                 {{ translate('reset') }}
                             </a>
-                            <button type="submit" class="btn btn--primary px-5 action-get-element-type">
+                            <button type="submit" class="btn btn--primary action-get-element-type">
                                 {{ translate('show_data') }}
                             </button>
                         </div>
@@ -109,6 +123,7 @@
                                 <th>{{ translate('SL') }}</th>
                                 <th>{{ translate('name') }}</th>
                                 <th class="text-center">{{ translate('quantity') }}</th>
+                                <th class="text-center">{{ translate('Converted Lead') }}</th>
                                 <th class="text-center">{{ translate('description') }}</th>
                                 <th class="text-center">{{ translate('action') }}</th>
                             </tr>
@@ -126,27 +141,30 @@
                                         </a>
                                     </td>
                                     <td class="text-center">{{ $quotation->quantity }}</td>
+                                    <td class="text-center">
+                                        {{ $quotation->converted_lead == 'active' ? 'Active' : 'Inactive' }}
+                                    </td>
                                     <td class="text-center">{{ Str::limit($quotation->description, 50) }}</td>
                                     <td class="text-center">
                                         <div class="d-flex justify-content-center gap-2">
-                                            <a class="btn btn-outline-info btn-sm square-btn" title="View"
+                                            <a class="btn btn-outline-info" title="View"
                                                 href="{{ route('admin.quotation.view', ['id' => $quotation->id]) }}">
-                                                <i class="tio-invisible"></i>
+                                                <i class="tio-invisible"></i> View
                                             </a>
                                             {{-- <a class="btn btn-outline--primary btn-sm square-btn"
                                                 title="{{ translate('edit') }}"
                                                 href="{{ route('admin.quotation.edit', ['id' => $quotation->id]) }}">
                                                 <i class="tio-edit"></i>
                                             </a> --}}
-                                            <span class="btn btn-outline-danger btn-sm square-btn delete-data"
-                                                title="{{ translate('delete') }}" data-id="quotation-{{ $quotation->id}}">
-                                                <i class="tio-delete"></i>
-                                            </span>
+                                            <form action="{{ route('admin.quotation.delete', [$quotation->id]) }}" method="post"
+                                                id="quotation-{{ $quotation->id}}">
+                                                @csrf @method('delete')
+                                                <button class="btn btn-outline-danger delete-data" type="submit"
+                                                    title="{{ translate('delete') }}" data-id="quotation-{{ $quotation->id}}">
+                                                    <i class="tio-delete"></i> Delete
+                                                </button>
+                                            </form>
                                         </div>
-                                        <form action="{{ route('admin.quotation.delete', [$quotation->id]) }}" method="post"
-                                            id="quotation-{{ $quotation->id}}">
-                                            @csrf @method('delete')
-                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

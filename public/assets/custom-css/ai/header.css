@@ -891,10 +891,11 @@
 .element-mobile .group-17 {
   position: absolute;
   width: 100%;
-  height: 45px;
-  top: 18px;
+  height: 78px;
+  margin: 0 auto;
   /* left: 20px; */
   display: flex;
+  flex-wrap: wrap;
   align-content: center;
   justify-content: space-between;
   /* padding-left: 20px;

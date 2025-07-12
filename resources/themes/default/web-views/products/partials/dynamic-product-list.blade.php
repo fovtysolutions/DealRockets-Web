@@ -108,12 +108,12 @@
             {{-- <div class="product-diamond">
                 <img src="/img/Diamond.png" alt="diamond" class="dimond-img">
             </div> --}}
-            <div>
+            <div class="d-flex gap-3" style="flex-wrap: wrap;">
                 <a href="{{ route('product', $item->slug) }}">
-                    <button class="start-order-btn1">Inquire Now</button>
+                    <button class="start-order-btn1">Inquire</button>
                 </a>
                 <a href="{{ route('shopView', ['id' => $item->seller->shop->id]) }}">
-                    <button class="start-order-btn1">Supplier</button>
+                    <button class="start-order-btn1">Explore</button>
                 </a>
             </div>
         </div>

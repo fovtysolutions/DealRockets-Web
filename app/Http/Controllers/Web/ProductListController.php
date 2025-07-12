@@ -173,11 +173,14 @@ class ProductListController extends Controller
         // Always fetch only active products
         $query->where('status', 1);
         $query->where('published', 1);
-        dd($query->get());
 
         if ($request->filled('productAddedBy')) {
             $query->where('added_by', 'seller');
             $query->where('user_id', $request->input('productAddedBy'));
+        }
+
+        if ($request->filled('specific_id')) {
+            $query->where('id', $request->input('specific_id'));
         }
 
         // Filter by searchInput (e.g. top search bar)

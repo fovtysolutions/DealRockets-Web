@@ -1,12 +1,12 @@
 body {
-    /* background-color: var(--web-bg) !important; */
-    background-color: white !important;
-    font: 14px "Roboto", Arial, sans-serif !important;
-    /* color: var(--web-text) !important; */
+  /* background-color: var(--web-bg) !important; */
+  background-color: white !important;
+  font: 14px "Roboto", Arial, sans-serif !important;
+  /* color: var(--web-text) !important; */
 }
-  
-a{
-    text-decoration: none !important;
+
+a {
+  text-decoration: none !important;
 }
 
 /* a:hover{
@@ -33,6 +33,22 @@ a{
 .custom-dealrock-subtext {
   font: 12px "Roboto", Arial, sans-serif !important;
   color: #666;
+}
+
+.dealrocket-text-18 {
+  font: 18px "Roboto", Arial, sans-serif !important;
+}
+
+.dealrocket-text-16 {
+  font: 16px "Roboto", Arial, sans-serif !important;
+}
+
+.dealrock-text-14 {
+  font: 14px "Roboto", Arial, sans-serif !important;
+}
+
+.dealrock-text-12 {
+  font: 12px "Roboto", Arial, sans-serif !important;
 }
 
 /* .custom-dealrock-banner-vlarge {

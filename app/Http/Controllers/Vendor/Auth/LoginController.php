@@ -65,14 +65,14 @@ class LoginController extends Controller
         $vendorUsers = VendorUsers::where('email', $email)->first();
         if(!isset($vendorUsers)){
             return response()->json([
-                'success' => translate('Create an Account First') . '!',
+                'error' => translate('Create an Account First') . '!',
                 'redirectRoute' => route('vendor.auth.login'),
             ]);
         }
         if(isset($vendorUsers) && isset($password)){
             if($password != $vendorUsers->password){
                 return response()->json([
-                    'success' => translate('Fill Correct Credentials') . '!',
+                    'error' => translate('Fill Correct Credentials') . '!',
                     'redirectRoute' => route('vendor.auth.login'),
                 ]);
             }

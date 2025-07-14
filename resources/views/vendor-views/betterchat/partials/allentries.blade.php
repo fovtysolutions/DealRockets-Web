@@ -16,17 +16,27 @@
                     'products', 'marketplace' => $item['product_id'],
                     default => null,
                 };
+                $type = $item['type'];
                 // Dynamic message
-                $messageText = match ($item['type']) {
-                    'stocksell' => "{$chatUser['name']} has created an inquiry in Stock Sell: {$item['message']}",
-                    'products',
-                    'marketplace'
-                        => "{$chatUser['name']} has shown interest in a Product: {$item['message']}",
-                    'sellleads',
-                    'buyleads',
-                    'rfq'
-                        => "{$chatUser['name']} has submitted a Lead Inquiry: {$item['message']}",
-                    default => "{$chatUser['name']} sent a message: {$item['message']}",
+                $messageText = match (true) {
+                    $type === 'stocksell' || $type === 'stock_created'
+                        => "{$chatUser['name']} created an inquiry in Stock Sell {$item['message']}",
+
+                    $type === 'products' || $type === 'product_created' || $type === 'product_approved'
+                        => "{$chatUser['name']} showed interest in a product {$item['message']}",
+
+                    $type === 'sale_offer_created' => "{$chatUser['name']} created a new sale offer {$item['message']}",
+
+                    $type === 'buyleads' || $type === 'buy_lead_created'
+                        => "{$chatUser['name']} submitted a buy lead inquiry {$item['message']}",
+
+                    $type === 'sellleads' => "{$chatUser['name']} submitted a sell lead inquiry {$item['message']}",
+
+                    $type === 'quotation' => "{$chatUser['name']} submitted a quotation {$item['message']}",
+                    // System notifications (underscore or rfq)
+                    $isNotification => ucwords(str_replace('_', ' ', $type)) . ' notification',
+
+                    default => "{$chatUser['name']} sent a message {$item['message']}",
                 };
 
                 if ($item['category'] === 'chat') {
@@ -49,11 +59,25 @@
 
                     default => '#',
                 };
+                $urlmapper = [
+                    'products' => '/products/specific_id=',
+                    'quotation' => '/buy-leads',
+                    'sale-offers' => '/sell-offer/specific_id=',
+                    'stocksell' => '/stock-sale/specific_id=',
+                    'user_account_created' => '#',
+                    'inbox' => '#',
+                ];
+                $baseUrl = $urlmapper[$item['type']] ?? '#';
+
+                $needsId = str_contains($baseUrl, 'specific_id=');
+                $id = $item['ref_id'] ?? ($item['item_id'] ?? null);
+
+                $url = $needsId && $id ? str_replace('specific_id=', $listingId, $baseUrl) : $baseUrl;
             @endphp
             @if ($hasActionUrl)
-                <a href="{{ $url }}" 
-                   onclick="event.preventDefault(); markAsReadAndRedirect({{ $item['id'] }}, '{{ $url }}')"
-                   class="flex h-9 px-2 items-center text-sm border-b border-gray-200 hover:shadow-md cursor-pointer
+                <a href="{{ $url }}"
+                    onclick="event.preventDefault(); markAsReadAndRedirect({{ $item['id'] }}, '{{ $url }}')"
+                    class="flex h-9 px-2 items-center text-sm border-b border-gray-200 hover:shadow-md cursor-pointer
                    {{ $isNotification ? 'border-l-4 border-yellow-400 pl-2' : '' }}
                    {{ $item['category'] === 'chat' ? 'chat-entry' : '' }}"
                     style="{{ $backgroundStyle }}"

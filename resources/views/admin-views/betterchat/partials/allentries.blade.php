@@ -16,17 +16,25 @@
                     'products', 'marketplace' => $item['product_id'],
                     default => null,
                 };
+                $type = $item['type'];
                 // Dynamic message
-                $messageText = match ($item['type']) {
-                    'stocksell' => "{$chatUser['name']} has created an inquiry in Stock Sell: {$item['message']}",
-                    'products',
-                    'marketplace'
-                        => "{$chatUser['name']} has shown interest in a Product: {$item['message']}",
-                    'sellleads',
-                    'buyleads',
-                    'rfq'
-                        => "{$chatUser['name']} has submitted a Lead Inquiry: {$item['message']}",
-                    default => "{$chatUser['name']} sent a message: {$item['message']}",
+                $messageText = match (true) {
+                    $type === 'stocksell' || $type === 'stock_created' => "{$item['title']} with {$item['message']}",
+
+                    $type === 'products' || $type === 'product_created' || $type === 'product_approved'
+                        => "{$item['title']} with {$item['message']}",
+
+                    $type === 'sale_offer_created' => "{$item['title']} with {$item['message']}",
+
+                    $type === 'buyleads' || $type === 'buy_lead_created' => "{$item['title']} with {$item['message']}",
+
+                    $type === 'sellleads' => "{$item['title']} with {$item['message']}",
+
+                    $type === 'quotation' => "{$item['title']} with {$item['message']}",
+                    // System notifications (underscore or rfq)
+                    $isNotification => ucwords(str_replace('_', ' ', $type)) . ' notification',
+
+                    default => "{$item['title']} sent a message {$item['message']}",
                 };
 
                 if ($item['category'] === 'chat') {
@@ -49,22 +57,43 @@
 
                     default => '#',
                 };
+                $urlmapper = [
+                    'products' => '/products?specific_id=',
+                    'quotation' => '/buy-leads',
+                    'sale-offers' => '/sell-offer?specific_id=',
+                    'stocksell' => '/stock-sale?specific_id=',
+                    'user_account_created' => '#',
+                    'inbox' => '#',
+                ];
+
+                $baseUrl = $urlmapper[$item['action_url']] ?? '#';
+                $needsId = str_contains($baseUrl, 'specific_id=');
+                $action_id = match ($item['action_url']) {
+                    'stocksell' => $item['stocksell_id'],
+                    'sellleads', 'buyleads' => $item['leads_id'],
+                    'products', 'marketplace' => $item['product_id'],
+                    default => null,
+                };
+                $url = $needsId ? $baseUrl . $action_id : $baseUrl;
+                $userdata = \App\Utils\ChatManager::getRoleDetail();
+                $user_id = $userdata['user_id'];
+                $role = $userdata['role'];
             @endphp
             @if ($hasActionUrl)
-                <a href="{{ $url }}" 
-                   onclick="markAsRead({{ $item['id'] }})"
-                class="flex h-9 px-2 items-center text-sm border-b border-gray-200 hover:shadow-md cursor-pointer
-                {{ $isNotification ? 'border-l-4 border-yellow-400 pl-2' : '' }}
-                {{ $item['category'] === 'chat' ? 'chat-entry' : '' }}"
+                <a href="{{ $url }}" target="_top"
+                    onclick="event.preventDefault(); markAsReadAndRedirect({{ $item['id'] }}, '{{ $url }}')"
+                    class="chat-paginate flex h-9 px-2 items-center text-sm border-b border-gray-200 hover:shadow-md cursor-pointer
+                   {{ $isNotification ? 'border-l-4 border-yellow-400 pl-2' : '' }}
+                   {{ $item['category'] === 'chat' ? 'chat-entry' : '' }}"
                     style="{{ $backgroundStyle }}"
                     @unless ($isNotification)
-                    data-user-id="{{ $item['receiver_id'] }}"
-                    data-user-type="{{ $item['receiver_type'] }}"
-                    data-type="{{ $item['type'] }}"
-                    data-sendToId="{{ $item['sender_id'] }}"
-                    data-sendToType="{{ $item['sender_type'] }}"
-                    data-listing-id="{{ $listingId }}"
-                @endunless>
+                        data-user-id="{{ $item['receiver_id'] }}"
+                        data-user-type="{{ $item['receiver_type'] }}"
+                        data-type="{{ $item['type'] }}"
+                        data-sendToId="{{ $item['sender_id'] }}"
+                        data-sendToType="{{ $item['sender_type'] }}"
+                        data-listing-id="{{ $listingId }}"
+                    @endunless>
                     <!-- Left: Sender -->
                     <div class="flex items-center w-1/5 text-gray-700 font-semibold truncate">
                         <p class="text-black ml-1">
@@ -90,7 +119,7 @@
                     </div>
                 </a>
             @else
-                <div class="flex h-9 px-2 items-center text-sm border-b border-gray-200 hover:shadow-md cursor-pointer
+                <div class="chat-paginate flex h-9 px-2 items-center text-sm border-b border-gray-200 hover:shadow-md cursor-pointer
                 {{ $isNotification ? 'border-l-4 border-yellow-400 pl-2' : '' }}
                 {{ $item['category'] === 'chat' ? 'chat-entry' : '' }}"
                     style="{{ $backgroundStyle }}"
@@ -101,6 +130,8 @@
                     data-sendToId="{{ $item['sender_id'] }}"
                     data-sendToType="{{ $item['sender_type'] }}"
                     data-listing-id="{{ $listingId }}"
+                    data-loggedid="{{ $user_id }}"
+                    data-loggedtype="{{ $role }}"
                 @endunless>
                     <!-- Left: Sender -->
                     <div class="flex items-center w-1/5 text-gray-700 font-semibold truncate">

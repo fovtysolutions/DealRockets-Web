@@ -74,20 +74,20 @@
         <!-- Toggle Button for Small Screens -->
         <div class="btn menu-toggle d-flex justify-content-between d-md-none w-100 h-100">
             {{-- <i class="fa-solid fa-bars pr-2 align-items-center"></i> --}}
-            <h5 class="fw-bold" style="color: black;">
+            <h5 class="fw-bold dealrocket-text-18" style="color: black;">
                 <span style="color:rgb(236, 51, 51);">☰</span> TOP CATEGORIES
             </h5>
         </div>
 
         <!-- Sidebar -->
         <div class="sidebar d-md-block border-0 h-100" id="sidebarMenu">
-            <h5 class="fw-bold hidebelow728" style="color: black;">
+            <h5 class="fw-bold hidebelow728 dealrocket-text-18" style="color: black;">
                 <span style="color:rgb(236, 51, 51);">☰</span> TOP CATEGORIES
             </h5>
             <ul id="categoryList" class="category-list">
                 @foreach ($categories as $key => $category)
                     <li class="text-left category-item"> <!-- Added class here -->
-                        <a href="{{ route('marketplace-categories', ['id' => $category['id']]) }}">
+                        <a class="dealrocket-text-14" href="{{ route('marketplace-categories', ['id' => $category['id']]) }}">
                             {{ $category->name }}
                         </a>
 
@@ -96,7 +96,7 @@
                                 @foreach ($category->childes->take(6) as $sub_category)
                                     <div class="mega_menu_inner_new">
                                         <h6>
-                                            <a
+                                            <a class="dealrocket-text-14"
                                                 href="{{ route('products', ['category_id' => $sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">
                                                 {{ $sub_category->name }}
                                             </a>
@@ -104,7 +104,7 @@
                                         @if ($sub_category->childes->count() > 0)
                                             @foreach ($sub_category->childes->take(5) as $sub_sub_category)
                                                 <div>
-                                                    <a class="sub-sub-category"
+                                                    <a class="sub-sub-category dealrocket-text-14"
                                                         href="{{ route('products', ['category_id' => $sub_sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">
                                                         {{ $sub_sub_category->name }}
                                                     </a>

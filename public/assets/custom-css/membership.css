@@ -1,217 +1,201 @@
-.membershipplan .nlic-pricing-table {
-    font-family: 'Roboto';
+h1 {
     font-weight: 300;
-    font-size: 14px;
-    height: 100%;
-    line-height: 22px;
-    margin-left: 0;
-    margin-right: 0;
+    font-size: 5em;
+    line-height: 1.35;
+    margin: 0 0 .125em;
 }
 
-.membershipplan .nlic-pricing-table a,
-a:focus {
-    text-decoration: none;
+h1+p {
+    font-size: 1.5em;
+    color: #999;
+    max-width: 30em;
+    margin: 0 auto 3em;
 }
 
-.membershipplan .nlic-pricing-table ul {
-    margin: 0 0;
-    padding: 0 0;
-    width: auto;
-    clear: both;
-}
-
-.membershipplan .nlic-pricing-table ul li {
-    display: block;
-    padding: 15px 0;
-    max-height: 60px;
-    list-style-type: none;
-    text-align: center;
-    transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    -webkit-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out;
-    line-height: 1.2;
-    white-space: nowrap;
-}
-
-.membershipplan .nlic-pricing-table ul li:nth-child(2n+1) {
-    background: rgba(0, 0, 0, 0.02);
-}
-
-.membershipplan .nlic-pricing-table ul li:nth-child(2n) {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-.membershipplan .nlic-pricing-table ul li:nth-child(16) {
-    padding: 10px 0 0 0;
-    height: 60px;
-}
-
-.membershipplan .nlic-pricing-table .nlic-column-head {
-    text-align: center;
-    display: block;
-    margin: 0 0;
-    font-size: larger;
-    padding: 20px 0 0 0;
-}
-
-.membershipplan .nlic-pricing-table .nlic-column-head span {
-    color: red;
-}
-
-.membershipplan .nlic-column {
-    position: relative;
-    min-height: 1px;
-    padding-right: 10px;
-    padding-left: 10px;
-    float: left;
-    width: 20%;
-}
-
-.membershipplan .nlic-plan-column .nlic-column-head {
-    color: #FFFFFF;
-    background-color: #E14817;
-}
-
-.membershipplan .nlic-plan-column ul li:nth-child(16) {
-    padding-top: 20px;
-}
-
-.membershipplan .nlic-plan-column ul li {
-    color: #E14817;
-}
-
-.membershipplan .nlic-plan-column {
-    border: 1px solid #E14817;
-}
-
-.membershipplan .nlic-plan-name {
-    font-size: larger;
-    min-height: 40px;
-    display: block;
-    font-weight: 700;
-}
-
-.membershipplan .nlic-plan-description {
-    min-height: 50px;
-    display: block;
-}
-
-.membershipplan .nlic-plan-price {
-    text-align: center;
-    font-weight: bold;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    min-height: 50px;
-    display: block;
-    font-size: 28px;
-}
-
-.membershipplan .nlic-plan-column .nlic-plan-price {
-    color: #853E29 !important;
-    background-color: #F9F9F9;
-}
-
-.membershipplan .nlic-sku-description {
-    display: none;
-}
-
-.membershipplan .nlic-sku-feature-item {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: large;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.membershipplan .nlic-sku-feature-value-enabled:before {
-    content: "\f14a" !important;
-}
-
-.membershipplan .nlic-sku-feature-value-disabled:before {
-    content: "\f096" !important;
-}
-
-.membershipplan .nlic-price-empty:before {
-    content: "Customizable";
-}
-
-.membershipplan .nlic-action {
-    padding: 5px 0 10px 0;
-}
-
-.membershipplan .nlic-action a {
-    min-width: 50px;
-    max-width: 250px;
-    display: block;
-    background: none;
-    vertical-align: middle;
-    position: relative;
-    z-index: 1;
-    padding: 20px;
-    margin: 0 auto;
-    text-align: center;
-    text-transform: none;
-    line-height: 2px;
-    margin-top: 8px;
-    margin-bottom: 0px;
-    border: 1px solid #853E29;
-    color: #853E29 !important;
-    -webkit-backface-visibility: hidden;
-    -moz-osx-font-smoothing: grayscale;
-    margin-right: 15px;
-    margin-left: 15px;
-}
-
-.membershipplan .nlic-action a::before {
-    background: #853E29;
-}
-
-.membershipplan .nlic-action a:hover {
-    color: #fff !important;
-    text-decoration: none;
-    border-color: #853E29;
-}
-
-.membershipplan .nlic-action a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
+table {
     width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: 0;
-    -webkit-transform: scale3d(0.7, 1, 1);
-    transform: scale3d(0.7, 1, 1);
-    -webkit-transition: -webkit-transform 0.4s, opacity 0.4s;
-    transition: transform 0.4s, opacity 0.4s;
-    -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
-    transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+    text-align: left;
+    border-spacing: 0;
+    border-collapse: collapse;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.membershipplan .nlic-action a::before {
-    -webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
-    transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+th,
+td {
+    font-family: inherit;
+    font-size: .875em;
+    line-height: 1.45;
+    color: #444;
+    vertical-align: middle;
+    padding: 1em;
 }
 
-.membershipplan .nlic-action a:hover::before {
-    opacity: 0.9;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+th {
+    font-weight: 600;
 }
 
-.membershipplan .nlic-attribution {
-    clear: both;
+colgroup:nth-child(1) {
+    width: 31%;
+    border: 0 none;
 }
 
-/* Custom styles */
-
-.membershipplan .nlic-column-PLAN-COMMERCIAL .nlic-column-head {
-    background-color: #853E29;
+colgroup:nth-child(2) {
+    width: 22%;
+    border: 1px solid #ccc;
 }
 
-.membershipplan .nlic-column-PLAN-COMMERCIAL .nlic-plan-column {
-    border: 1px solid #853E29;
+colgroup:nth-child(3) {
+    width: 25%;
+    border: 10px solid  var(--web-hover);
+}
+
+colgroup:nth-child(4) {
+    width: 22%;
+    border: 1px solid #ccc;
+}
+
+/* Tablehead */
+
+thead th {
+    background: #def4fe;
+    background: -moz-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
+    background: -webkit-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
+    background: -o-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
+    background: -ms-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
+    background: linear-gradient(to bottom, #ffffff 0%, #f5f5f5 100%);
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    padding: 3em 0 2em;
+    font-weight: 400;
+    color: #999;
+}
+
+thead th:nth-child(1) {
+    background: transparent;
+}
+
+thead th:nth-child(3) {
+    padding: 2em 0 5em;
+}
+
+thead th h2 {
+    font-weight: 300;
+    font-size: 2.4em;
+    line-height: 1.2;
+    color: var(--web-hover);
+}
+
+thead th h2+p {
+    font-size: 1.25em;
+    line-height: 1.4;
+}
+
+thead th:nth-child(3) h2 {
+    font-size: 3.6em;
+}
+
+thead th:nth-child(3) h2+p {
+    font-size: 1.5em;
+}
+
+thead th p.promo {
+    font-size: 1em;
+    color: #fff;
+    position: absolute;
+    top: 9em;
+    left: -17px;
+    z-index: 1000;
+    width: 100%;
+    margin: 0;
+    padding: .625em 17px .75em;
+    background: #c00;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+    border-bottom: 1px solid #900;
+}
+
+thead th p.promo:before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 0 7px 7px 0;
+    border-color: transparent #900 transparent transparent;
+    bottom: -7px;
+    left: 0;
+}
+
+thead th p.promo:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 7px 7px 0 0;
+    border-color: #900 transparent transparent transparent;
+    bottom: -7px;
+    right: 0;
+}
+
+/* Tablebody */
+
+tbody th {
+    background: #fff;
+    border-left: 1px solid #ccc;
+}
+
+tbody th span {
+    font-weight: normal;
+    font-size: 87.5%;
+    color: #999;
+    display: block;
+}
+
+tbody td {
+    background: #fff;
+    text-align: center;
+}
+
+tbody tr:nth-child(even) th,
+tbody tr:nth-child(even) td {
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    border-width: 1px 0 1px 1px;
+}
+
+tbody tr:last-child td {
+    border-bottom: 0 none;
+}
+
+/* Tablefooter */
+
+tfoot th {
+    padding: 2em 1em;
+    border-top: 1px solid #ccc;
+}
+
+tfoot td {
+    text-align: center;
+    padding: 2em 1em;
+    border-top: 1px solid #ccc;
+}
+
+tfoot a {
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: block;
+    padding: 1.125em 2em;
+    background: var(--web-hover);
+    border-radius: .5em;
+}
+
+tfoot a:hover{
+    color:white;
 }

@@ -39,9 +39,9 @@
             </div>
             <div class="send-box">
                 <?php
-                $userdata = \App\Utils\ChatManager::getRoleDetail();
-                $user_id = $userdata['user_id'];
-                $role = $userdata['role'];
+                    $userdata = \App\Utils\ChatManager::getRoleDetail();
+                    $user_id = $userdata['user_id'];
+                    $role = $userdata['role'];
                 ?>
                 <form id="chatForm">
                     @csrf

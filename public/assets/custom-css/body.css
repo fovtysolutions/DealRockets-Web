@@ -36,19 +36,23 @@ a {
 }
 
 .dealrocket-text-18 {
-  font: 18px "Roboto", Arial, sans-serif !important;
+  font-family: "Roboto", Arial, sans-serif !important;
+  font-size: 18px !important;
 }
 
 .dealrocket-text-16 {
-  font: 16px "Roboto", Arial, sans-serif !important;
+  font-family: "Roboto", Arial, sans-serif !important;
+  font-size: 16px !important;
 }
 
 .dealrock-text-14 {
-  font: 14px "Roboto", Arial, sans-serif !important;
+  font-family: "Roboto", Arial, sans-serif !important;
+  font-size: 14px !important;
 }
 
 .dealrock-text-12 {
-  font: 12px "Roboto", Arial, sans-serif !important;
+  font-family: "Roboto", Arial, sans-serif !important;
+  font-size: 12px !important;
 }
 
 /* .custom-dealrock-banner-vlarge {

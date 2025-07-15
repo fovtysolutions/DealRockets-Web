@@ -5,12 +5,14 @@
     </div>
     <div class="flex gap-1">
         <div class="flex items-center h-full rounded-md px-2 cursor-pointer hover:bg-gray-200">
-            <p>1-Inf of {{ $count }}</p>
+            <p id="range-info">1–10 of {{ $count }}</p>
         </div>
-        <button class="grid place-content-center rounded-full hover:bg-gray-200 p-3"><i
-                class="fa-solid fa-chevron-left"></i></button>
-        <button class="grid place-content-center rounded-full hover:bg-gray-200 p-3"><i
-                class="fa-solid fa-chevron-right"></i></button>
+        <button id="prevPage" class="grid place-content-center rounded-full hover:bg-gray-200 p-3">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button id="nextPage" class="grid place-content-center rounded-full hover:bg-gray-200 p-3">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
     </div>
 </div>
 <div class="scrolable-width overflow-y-scroll overflow-x-hidden">
@@ -71,18 +73,20 @@
             success: function(response) {
                 console.log('Message marked as Read');
                 // Now redirect
-                window.location.href = url;
+                window.top.location.href = url;
             },
             error: function(xhr) {
                 console.error('Failed to mark as read:', xhr);
                 // Optionally still redirect if marking fails
-                window.location.href = url;
+                window.top.location.href = url;
             }
         });
     }
 
     $(document).ready(function() {
         let lastActiveTab = 'all'; // default, adjust if needed
+        let lastMessageId = null;
+        let chatInterval = null;
 
         // Hide all tabs helper
         function hideAllTabs() {
@@ -103,6 +107,9 @@
         function showTab(tabId) {
             $('#tab-' + tabId).removeClass('hidden');
             lastActiveTab = tabId;
+            
+            let currentPage = 1;
+            paginateChatList();
         }
 
         function getchatHeaderData(id, firstresponse) {
@@ -238,8 +245,14 @@
                     _token: "{{ csrf_token() }}",
                 },
                 success: function(response) {
-                    // Populate Chat
-                    populateChat(response);
+                    if (response && response.length > 0) {
+                        const latest = response[response.length - 1];
+
+                        if (latest.id !== lastMessageId) {
+                            lastMessageId = latest.id;
+                            populateChat(response); // Only re-render if new message found
+                        }
+                    }
                 },
                 error: function(xhr) {
                     console.error(`Error occurred: ${xhr.statusText} - ${xhr.responseText}`);
@@ -288,21 +301,45 @@
             // Show chatbox
             showChatbox();
 
-            // Render Chat
+            // Extract chat metadata
             let userId = this.dataset.userId;
             let userType = this.dataset.userType;
             let type = this.dataset.type;
             let listingId = this.dataset.listingId;
             let sendtoId = this.dataset.sendtoid;
             let sendtoType = this.dataset.sendtotype;
+            let loggedid = this.dataset.loggedid;
+            let loggedtype = this.dataset.loggedtype;
+            let chatinput = document.getElementById('chatinput');
 
-            // Setup Reply Function 
+            // Set form values
             document.getElementById('typeuniq').value = type;
+            document.getElementById('receiver_iduniq').value = sendtoId;
+            document.getElementById('receiver_typeuniq').value = sendtoType;
             document.getElementById('receiver_iduniq').value = sendtoId;
             document.getElementById('receiver_typeuniq').value = sendtoType;
             document.getElementById('listing_id').value = listingId;
 
+            console.log(userId,loggedid,userType,loggedtype);
+            if(userId === loggedid && userType === loggedtype){
+                chatinput.disabled = true;
+            } else {
+                chatinput.disabled = false;
+            }
+
+            // Reset last message ID when switching conversations
+            lastMessageId = null;
+
+            // Load chat instantly
             loadChat(userId, userType, type, listingId);
+
+            // Clear any existing interval to avoid duplicates
+            if (chatInterval) clearInterval(chatInterval);
+
+            // Start polling every 2 seconds
+            chatInterval = setInterval(() => {
+                loadChat(userId, userType, type, listingId);
+            }, 2000);
         });
 
         // Close chat button click
@@ -350,5 +387,59 @@
                 },
             });
         });
+    });
+</script>
+<script>
+    let currentPage = 1;
+    const itemsPerPage = 10;
+
+    function getVisibleTab() {
+        return document.querySelector('.tab-content:not(.hidden)');
+    }
+
+    function paginateChatList() {
+        const visibleTab = getVisibleTab();
+        if (!visibleTab) return;
+
+        const items = visibleTab.querySelectorAll('.chat-paginate');
+        const totalItems = items.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+        currentPage = Math.max(1, Math.min(currentPage, totalPages));
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+
+        items.forEach((item, index) => {
+            item.style.display = (index >= startIndex && index < endIndex) ? 'flex' : 'none';
+        });
+
+        const rangeInfo = document.getElementById('range-info');
+        if (rangeInfo) {
+            rangeInfo.innerText = `${startIndex + 1}-${Math.min(endIndex, totalItems)} of ${totalItems}`;
+        }
+
+        document.getElementById('prevPage').disabled = currentPage === 1;
+        document.getElementById('nextPage').disabled = currentPage === totalPages || totalPages === 0;
+    }
+
+    document.addEventListener('DOMContentLoaded', paginateChatList);
+
+    document.getElementById('prevPage').addEventListener('click', function() {
+        if (currentPage > 1) {
+            currentPage--;
+            paginateChatList();
+        }
+    });
+
+    document.getElementById('nextPage').addEventListener('click', function() {
+        const visibleTab = getVisibleTab();
+        const items = visibleTab.querySelectorAll('.chat-paginate');
+        const totalPages = Math.ceil(items.length / itemsPerPage);
+
+        if (currentPage < totalPages) {
+            currentPage++;
+            paginateChatList();
+        }
     });
 </script>

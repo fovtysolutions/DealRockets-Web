@@ -34,7 +34,7 @@
             @endforeach
         </ul>
 
-        <div class="tab-content" id="tabContent" style="min-height: 600px;">
+        <div class="tab-content" id="tabContent">
             @foreach ($cardData as $index => $card)
                 <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="tab-{{ $index }}"
                     role="tabpanel" aria-labelledby="tab-{{ $index }}-tab" style="height: 77vh;">

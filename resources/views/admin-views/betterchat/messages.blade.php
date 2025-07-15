@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app-partial')
+@extends('layouts.back-end.app-partialseller')
 
 @section('title', translate('All Messages'))
 
@@ -29,7 +29,8 @@
                             </div>
                         </li>
                         <li class="w-full">
-                            <a data-tab="all" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2">
+                            <a data-tab="all" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
                                 <i class="fa-solid fa-inbox"></i>
                                 <p class="flex w-full justify-between">All
                                     <span id="allmessages">{{ $chatboxStatics['total_messages'] }}</span>
@@ -38,7 +39,8 @@
                         </li>
 
                         <li class="w-full">
-                            <a data-tab="read" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2">
+                            <a data-tab="read" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
                                 <i class="fa-regular fa-star"></i>
                                 <p class="flex w-full justify-between">Read
                                     <span id="readmessages">{{ $chatboxStatics['read_messages'] }}</span>
@@ -47,7 +49,8 @@
                         </li>
 
                         <li class="w-full">
-                            <a data-tab="unread" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2">
+                            <a data-tab="unread" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
                                 <i class="fa-regular fa-clock"></i>
                                 <p class="flex w-full justify-between">Unread
                                     <span id="unreadmessages">{{ $chatboxStatics['unread_messages'] }}</span>
@@ -82,7 +85,7 @@
                 </div>
                 <div class="bg-white h-full col-span-10 md:col-span-8 rounded-2xl mr-2 flex flex-col">
                     <div id="messagebox">
-                        @include('admin-views.betterchat.partials.messagebox', [
+                        @include('vendor-views.betterchat.partials.messagebox', [
                             'chatData' => $intialMessages,
                         ])
                     </div>

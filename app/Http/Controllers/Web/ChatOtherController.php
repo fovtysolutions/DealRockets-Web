@@ -340,11 +340,11 @@ class ChatOtherController extends Controller
             case 'seller':
                 $query->whereIn('receiver_type', ['seller'])
                     ->where('receiver_id', $userId)
-                    ->orderBy('sent_at', 'asc');
+                    ->orderBy('sent_at', 'desc');
                 break;
             case 'admin':
                 $query->whereIn('receiver_type', ['admin', 'seller'])
-                    ->orderBy('sent_at', 'asc');
+                    ->orderBy('sent_at', 'desc');
                 break;
         }
 
@@ -383,7 +383,6 @@ class ChatOtherController extends Controller
                 ->filter(fn($item) => $item->type === $typeKey)
                 ->values();
         }
-
         return $chatData;
     }
 
@@ -401,7 +400,7 @@ class ChatOtherController extends Controller
         $search = $request->input('search', null);
 
         $data['intialMessages'] = self::getInitialMessages($special, $search);
-        $data['count'] = count($data['intialMessages']);
+        $data['count'] = ChatsOther::count();
         $data['chatboxStatics'] = self::getChatboxStatistics();
         return view('admin-views.betterchat.messages', $data);
     }
@@ -411,8 +410,12 @@ class ChatOtherController extends Controller
         $special = $request->input('special');
         $search = $request->input('search', null);
 
+        $roledetail = ChatManager::getRoleDetail();
+        $role = $roledetail['role'];
+        $userId = $roledetail['user_id'];
+
         $data['intialMessages'] = self::getInitialMessages($special, $search);
-        $data['count'] = count($data['intialMessages']);
+        $data['count'] = ChatsOther::where('receiver_id',$userId)->where('receiver_type',$role)->get()->count();
         $data['chatboxStatics'] = self::getChatboxStatistics();
         return view('vendor-views.betterchat.messages', $data);
     }

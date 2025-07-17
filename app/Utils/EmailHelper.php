@@ -28,14 +28,7 @@ class EmailHelper
         }
 
         try {
-            Mail::send($view, $data, function ($message) use ($to, $subject, $attachments) {
-                $message->to($to)
-                ->bcc(['emails@dealrockets.com'])
-                ->subject($subject);
-                foreach ($attachments as $filePath) {
-                    $message->attach($filePath);
-                }
-            });
+            event(new \App\Events\SendEmailEvent($to, $subject, $view, $data, $attachments));
 
             return ['success' => true];
         } catch (\Throwable $th) {

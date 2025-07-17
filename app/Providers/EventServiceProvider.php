@@ -17,6 +17,7 @@ use App\Events\ChattingEvent;
 use App\Events\OrderStatusEvent;
 use App\Events\ProductRequestStatusUpdateEvent;
 use App\Events\RefundEvent;
+use App\Events\SendEmailEvent;
 use App\Events\VendorRegistrationEvent;
 use App\Events\WithdrawStatusUpdateEvent;
 use App\Listeners\AddFundToWalletListener;
@@ -35,6 +36,7 @@ use App\Listeners\OrderStatusListener;
 use App\Listeners\ProductRequestStatusUpdateListener;
 use App\Listeners\RefundListener;
 use App\Listeners\VendorRegistrationListener;
+use App\Listeners\SendEmailListener;
 use App\Listeners\WithdrawStatusUpdateListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -96,6 +98,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         MaintenanceModeNotificationEvent::class => [
             MaintenanceModeNotificationListener::class,
+        ],
+        SendEmailEvent::class => [
+            SendEmailListener::class,
         ],
     ];
 

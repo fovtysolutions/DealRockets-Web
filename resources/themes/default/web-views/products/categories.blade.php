@@ -30,7 +30,7 @@
         .main-category .country-button {
             color: #303030;
             font-size: 16px;
-            border-bottom: 1px solid lightgrey;
+            /* border-bottom: 1px solid lightgrey; */
             padding-bottom: 14px;
             width: 90%;
         }
@@ -90,7 +90,7 @@
                                 <div class="sub-category-list">
                                     @foreach ($value->childes as $sub_category)
                                         <a class="sub-category-button font-weight-normal"
-                                            href="{{ route('products', ['category_id' => $sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}">
+                                            href="{{ route('products', ['category_id' => $sub_category['id'], 'data_from' => 'category', 'page' => 1]) }}"><i class='fas fa-angle-right'></i>
                                             {{ $sub_category['name'] }}
                                         </a>
                                         {{-- @if ($sub_category->childes->count() > 0)

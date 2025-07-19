@@ -1,8 +1,8 @@
 @foreach ($jobseeker as $item)
     <div class="job-card" data-id="{{ $item->id }}" onclick="populateDetailedBox(this)">
-        <div class="job-header">
+        <div class="job-header pb-0">
             <h2>{{ $item->title ?? 'Untitled Position' }}</h2>
-            <p class="job-meta">
+            <p class="job-meta mb-0">
                 {{ optional($item->created_at)->diffForHumans() ?? 'Date not available' }} 
                 by {{ $item->company_name ?? 'Unknown Company' }}
             </p>

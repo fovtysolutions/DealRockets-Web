@@ -4,7 +4,7 @@
             <div class="detail-title">
                 {{ $stocksell->product->name ?? ($stocksell->name ?? 'N/A') }}
                 <div class="text-muted">
-                    <img src="{{ asset('img/Ellipse 75.png') }}" alt="dot" style="height: 5px;">
+                    <img src="{{ asset('img/Ellipse 75.png') }}" alt="dot" style="height: 5px; ">
                     @php
                         $stock_type_data = \App\Models\StockCategory::where('id', $stocksell->stock_type)->first();
                         if ($stock_type_data) {
@@ -23,7 +23,7 @@
             <div class="owl-carousel details-carousel owl-theme">
                 @forelse ($images as $image)
                     <div class="item">
-                        <img src="/{{ $image }}" class="detail-image"
+                        <img src="/{{ $image }}" class="detail-image" style="aspect-ratio: 1 / 1;"
                             onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" alt="StockSell Image">
                     </div>
                 @empty
@@ -209,10 +209,7 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-    </div>
-    <div class="detail-footer">
+ <div class="detail-footer">
         <div class="company-info">
             <div class="company-rating">
                 @php
@@ -266,6 +263,9 @@
 
         <button class="inquire-button" data-toggle="modal" data-target="#inquireButton">Inquire Now</button>
     </div>
+        </div>
+    </div>
+   
     <!-- Modal -->
     <div class="modal fade" id="inquireButton" tabindex="-1" role="dialog" aria-labelledby="inquireButtonLabel"
         aria-hidden="true">

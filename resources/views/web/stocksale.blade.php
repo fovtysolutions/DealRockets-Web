@@ -1,4 +1,5 @@
 @extends('layouts.front-end.app')
+
 @push('css_or_js')
     <link rel="stylesheet" href="{{ theme_asset(path: 'assets/custom-css/ai/stocksale.css') }}" />
     <style>
@@ -54,10 +55,19 @@
                 <div class="filter-sidebar">
                     <form method="GET" action="{{ route('stocksale') }}" id="filterFormStockSale">
                         <div class="filter-section showbelow768">
-                            <div class="search-section">
-                                <div class="search-label notshowbelow768">Search by Name</div>
+                            <div class="search-section ">
+                               <div class="d-flex justify-content-between pb-3">
+                                     <div class="search-label notshowbelow768" >Filter</div>
+                                      <div class="filter-section togglebelow768 p-0 ">
+                                    <a href="{{ request()->url() }}" class=" reset-filter" style="background-none">Reset Filters</a>
+                                       </div>
+                                </div>
+                                
+                                 <div class="search-label notshowbelow768">Search by Name</div>
                                 <div class="search-input-container">
+                                   
                                     <div class="search-input-field">
+                                       
                                         <input type="text" name="search_query" id="nameFilter"
                                             placeholder="Enter name..." value="{{ request('name') }}" />
                                         <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
@@ -159,9 +169,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="filter-section togglebelow768">
-                            <a href="{{ request()->url() }}" class="btn btn-sm reset-filter">Reset Filters</a>
-                        </div>
+                       
                     </form>
                 </div>
             </div>

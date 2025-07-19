@@ -18,7 +18,19 @@
       height: 0;
       transition: height 1.5s ease-out, opacity 1.5s ease-out;
     }
+.dealassist .custom-inquiry-btn{
+      width: fit-content !important;
+    height: 40px !important;
+    background: linear-gradient(to right, #FE4E44, #9F0900) !important;
+    border-radius: 50px !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: 500 !important;
+    padding: 0 10px !important;
+    font-family: roboto !important;
+    color: white !important;
 
+}
     .dealassist .timeline-container {
       position: relative;
       width: 50%;

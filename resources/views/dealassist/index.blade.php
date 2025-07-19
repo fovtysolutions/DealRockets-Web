@@ -4,6 +4,20 @@
 @endpush
 @section('title', translate('Deal Assist' . ' | ' . $web_config['name']->value))
 @section('content')
+<style>
+    .custom-inquiry-btn {
+        width: fit-content !important;
+        height: 40px !important;
+        background: linear-gradient(to right, #FE4E44, #9F0900) !important;
+        border-radius: 50px !important;
+        border: none !important;
+        color: #fff !important;
+        font-weight: 500 !important;
+        padding: 0 10px !important;
+        font-family: Roboto, sans-serif !important;
+    }
+</style>
+
     <div class="dealassist">
         <div class="main-container">
             <div class="max1440">
@@ -195,8 +209,9 @@
                                 </div>
                             </a>
                         </div>
-
+                        
                     </div>
+                    
                 </div>
                 <div id="supplierTimeline" class="dealassist-tab supplier d-none">
                     <!-- Optional Header -->
@@ -388,6 +403,56 @@
             </div>
         </div>
     </div>
+    <div class="d-flex justify-content-end " style="padding:1rem; background: #f7f7f7;">
+      
+   <button type="button" class="btn custom-inquiry-btn" data-toggle="modal" data-target="#inquiryModal">
+    <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
+        alt="Inquire" class="inquire-icon" loading="lazy">
+    Inquire Now
+</button>
+    </div>
+    <div class="modal fade" id="inquiryModal" tabindex="-1" aria-labelledby="inquiryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header" style="background-color:rgba(235, 235, 235, 1);">
+                <h5 class="modal-title" id="inquiryModalLabel">Send a direct inquiry to this supplier</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <form id="inquiryForm">
+                    <div class="mb-3">
+                        <label for="supplier" class="form-label">To</label>
+                        <div class="form-control">XYZ Store45454</div>
+                    </div>
+
+                    <input type="hidden" id="sender_id1" name="sender_id" value="">
+                    <input type="hidden" id="sender_type1" name="sender_type" value="guest">
+                    <input type="hidden" id="receiver_id1" name="receiver_id" value="14">
+                    <input type="hidden" id="receiver_type1" name="receiver_type" value="seller">
+                    <input type="hidden" id="product_id1" name="product_id" value="353">
+                    <input type="hidden" id="type" name="type" value="products">
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail Address</label>
+                        <input type="email" class="form-control" id="email1"
+                            placeholder="Please enter your business e-mail address" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message1" rows="4"
+                            placeholder="Enter product details..." required></textarea>
+                    </div>
+
+                    <button type="button" onclick="sendtologin()" class="btn btn-primary">Send Inquiry Now</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 @endsection
 @push('script')
     <script>

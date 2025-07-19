@@ -12,7 +12,7 @@
         #sticky-supplier-info.stuck {
             position: fixed;
             top: 136px;
-            width: 211px !important;
+            /* width: 211px !important; */
             z-index: 999;
             height: 245px !important;
             /* right will be set dynamically */
@@ -69,7 +69,7 @@
                 <div class="product-view" style="margin-bottom: 20px;">
                     <!-- Product Images Section -->
                     <div class="product-images">
-                        <img id="mainImage"
+                        <img id="mainImage" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';"
                             src="{{ isset($product->thumbnail) ? '/storage/' . $product->thumbnail : '/images/placeholderimage.webp' }}"
                             alt="Main product view" class="main-image">
                         <div class="thumbnail-container">
@@ -81,12 +81,12 @@
                             @foreach ($productArray as $key => $value)
                                 @if ($key < 3)
                                     <img src="{{ '/storage/' . $value }}" alt="Thumbnail {{ $key + 1 }}"
-                                        class="thumbnail" onclick="openGallery({{ $key }})">
+                                        class="thumbnail" onclick="openGallery({{ $key }})" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';">
                                 @elseif ($key === 3)
                                     <div class="more-thumbnail" onclick="openGallery({{ $key }})">
                                         <img src="{{ '/storage/' . $value }}" alt="Thumbnail {{ $key + 1 }}"
                                             class="thumbnail" onclick="openGallery({{ $key }})"
-                                            style="opacity: 0.2;">
+                                            style="opacity: 0.2;" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';">
                                         <span style="position: absolute; font-size: 22px;"> +{{ $totalImages - 3 }} </span>
                                     </div>
                                     @break
@@ -125,7 +125,7 @@
                                 </div>
                             </div>
                             <!-- Product Title -->
-                            <div class="d-flex">
+                            <div class="d-flex responsive-for-card">
                                 <div style="flex-grow: 1;">
                                     <section class="product-heading">
                                         <h1 class="product-title">{{ $product->name ?? '' }}</h1>
@@ -224,7 +224,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <div class="supplier-info" id="sticky-supplier-info">
+                                <div class="supplier-info" id="sticky-supplier-info" style="padding-left: 20px;">
                                     @php
                                         $isAdmin = $product->added_by === 'admin';
                                         $vendorExtra = \App\Models\VendorExtraDetail::where(
@@ -252,20 +252,38 @@
 
                                     <div class="response-data">
                                         <div class="response-rate">
-                                            <span class="label">Response Rate:</span>
-                                            <span class="value">High</span>
+                                            <!-- <div><i class="fas fa-bolt"></i></div> -->
+                                            <div class="d-flex gap-2 ">
+                                                <div><i class="fas fa-bolt icon-red"></i></div>
+                                                <div>
+                                                     <span class="label">Response Rate:</span>
+                                                  <span class="value">High</span>
+                                                </div>
+                                                
+                                            </div>
+                                           
                                         </div>
                                         <div class="response-time">
-                                            <span class="label">Avg Response Time:</span>
-                                            <span class="value">≤24 h</span>
+                                             <div class="d-flex gap-2 ">
+                                                <div><i class="fas fa-clock icon-red"></i></div>
+                                                <div>
+                                                <span class="label">Avg Response Time:</span>
+                                                <span class="value">≤24 h</span></div>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="subplier-btn"
                                         style="display: flex; flex-direction: column; justify-content: start;">
                                         <div class="business-type">
-                                            <span class="label">Business Type:</span>
-                                            <span class="value">{{ $vendorExtra->business_type ?? 'N/A' }}</span>
+                                            <div class="d-flex gap-2 ">
+                                                <div><i class="fas fa-briefcase icon-red"></i> </div>
+                                                <div>
+                                                    <span class="label">Business Type:</span>
+                                                    <span class="value">{{ $vendorExtra->business_type ?? 'N/A' }}</span>
+                                                </div>
+                                                
+                                            </div>   
                                         </div>
 
                                         <div class="supplier-actions">
@@ -361,7 +379,7 @@
                         </div>
                     </div>
                     <div class="product-div" id="product-div" style="display: flex; width: 100%;">
-                        <div style="width: 84%;">
+                        <div style="width: 100%;">
                             <div class="description-tabs">
                                 {{-- <div class="tab" data-toggleid="productDescription">Product Description</div> --}}
                                 <div class="tab active" data-toggleid="companyInfo">Company Profile</div>
@@ -442,7 +460,8 @@
                                         <div class="contact-section">
                                             <div class="contact-left">
                                                 <h3>Contact Details</h3>
-                                                <div class="d-flex justify-content-between">
+                                                <div>
+ <div class=" contact-details-div">
                                                     <div>
                                                         <p><strong>Address</strong>
                                                             <span class="contact-text">
@@ -475,7 +494,7 @@
                                                             </span>
                                                         </p>
 
-                                                        @if (auth()->check())
+                                                        <!-- @if (auth()->check())
                                                             <div class="private-info-box">
                                                                 <p><strong>Telephone</strong>
                                                                     <span class="contact-text margin-l">
@@ -505,7 +524,7 @@
                                                             <p><button class="sign-in-btn">Sign In to View Phone &
                                                                     Email</button>
                                                             </p>
-                                                        @endif
+                                                        @endif -->
                                                     </div>
                                                     <div>
                                                         <p><strong>Factory Size</strong>
@@ -539,9 +558,45 @@
                                                             </span>
                                                         </p>
                                                     </div>
+                                                    
                                                 </div>
-                                            </div>
+                                                </div>
+                                                  @if (auth()->check())
+                                                            <div class="private-info-box">
+                                                                <p><strong>Telephone</strong>
+                                                                    <span class="contact-text margin-l">
+                                                                        {{ $shopInfoArray['company_profiles']->telephone ?? 'N/A' }}
+                                                                    </span>
+                                                                </p>
 
+                                                                <p><strong>Mobile Phone</strong>
+                                                                    <span class="contact-text margin-l">
+                                                                        {{ $shopInfoArray['company_profiles']->mobile ?? 'N/A' }}
+                                                                    </span>
+                                                                </p>
+
+                                                                <p><strong>Fax</strong>
+                                                                    <span class="contact-text margin-l">
+                                                                        {{ $shopInfoArray['company_profiles']->fax ?? 'N/A' }}
+                                                                    </span>
+                                                                </p>
+
+                                                                <p><strong>Alternate Contact</strong>
+                                                                    <span class="contact-text margin-l">
+                                                                        {{ $shopInfoArray['company_profiles']->alternate_contact ?? 'N/A' }}
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                        @else
+                                                            <p><button class="sign-in-btn">Sign In to View Phone &
+                                                                    Email</button>
+                                                            </p>
+                                                        @endif
+                                                
+                                            </div>
+                                        <div>
+                                            
+                                        </div>
                                             <div class="contact-right">
                                                 <h3>Contact Person</h3>
                                                 <div class="contact-person">
@@ -630,21 +685,38 @@
                             </div>
 
                             <div class="response-data">
+                                
                                 <div class="response-rate">
-                                    <span class="label">Response Rate:</span>
-                                    <span class="value">High</span>
+                                     <div class="d-flex gap-2 ">
+                                                <div><i class="fas fa-bolt icon-red"></i></div>
+                                                <div>
+                                                     <span class="label">Response Rate:</span>
+                                                  <span class="value">High</span>
+                                                </div>
+                                                
+                                            </div>
                                 </div>
                                 <div class="response-time">
-                                    <span class="label">Avg Response Time:</span>
-                                    <span class="value">≤24 h</span>
+                                    <div class="d-flex gap-2 ">
+                                                <div><i class="fas fa-clock icon-red"></i></div>
+                                                <div>
+                                                <span class="label">Avg Response Time:</span>
+                                                <span class="value">≤24 h</span></div>
+                                            </div>
                                 </div>
                             </div>
 
                             <div class="subplier-btn"
                                 style="display: flex; flex-direction: column; justify-content: start;">
                                 <div class="business-type">
-                                    <span class="label">Business Type:</span>
+                                    <div class="d-flex gap-2 ">
+                                    <div><i class="fas fa-clock icon-red"></i></div>
+                                    <div>
+                                              <span class="label">Business Type:</span>
                                     <span class="value">{{ $vendorExtra->business_type ?? 'N/A' }}</span>
+                                    </div>
+                              
+                                 </div>
                                 </div>
 
                                 <div class="supplier-actions">

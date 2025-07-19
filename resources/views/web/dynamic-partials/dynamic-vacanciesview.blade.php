@@ -1,3 +1,4 @@
+<div style="padding: 0 1.5rem">
 <button type="button" class="close showbelow768" aria-label="Close" onclick="toggleDetailBox()">
     <span aria-hidden="true">&times;</span>
 </button>
@@ -6,7 +7,7 @@
     <div class="company-info">
         <img src="{{ isset($firstdata->company_logo) && $firstdata->company_logo
     ? asset('storage/' . $firstdata->company_logo)
-    : asset('/img/image 154 (1).png') }}" alt="Company Logo" class="company-logo">
+    : asset('/img/image 154 (1).png') }}" alt="Company Logo" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" class="company-logo">
 
         <div class="company-meta">
             <h1>{{ $firstdata->title ?? 'No Title Provided' }}</h1>
@@ -22,7 +23,7 @@
 
     <div class="action-icons">
         <button class="share-btn" onclick="copyLinkToClipboard()">
-            <i class="fas fa-share-alt"></i>
+            <i class="fas fa-share-alt ml-0"></i>
         </button>
         {{-- <button class="more-btn"><i class="fas fa-ellipsis-h"></i></button> --}}
     </div>
@@ -51,57 +52,57 @@
 
 <hr>
 
-<div class="job-info-grid">
-    <div class="job-info-left">
-        <div class="info-item">
-            <i class="fa-sharp fa-solid fa-dollar-sign"></i>
-            <span>
-                {{ $firstdata->salary_low ?? 'N/A' }} to {{ $firstdata->salary_high ?? 'N/A' }}
-                {{ $firstdata->currency ?? '' }}
-            </span>
+    <div class="job-info-grid">
+        <div class="job-info-left">
+            <div class="info-item">
+                <i style="color: #151414;" class="fa-sharp fa-solid fa-dollar-sign"></i>
+                <span>
+                    {{ $firstdata->salary_low ?? 'N/A' }} to {{ $firstdata->salary_high ?? 'N/A' }}
+                    {{ $firstdata->currency ?? '' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>
+                    {{ optional(\App\Models\City::find($firstdata->city))->name ?? 'Unknown Location' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-home"></i>
+                <span>{{ $firstdata->employment_space ?? 'Not specified' }}</span>
+            </div>
+            <div class="info-item">
+                <i class="fa-sharp fa-solid fa-house"></i>
+                <span>{{ $firstdata->employment_type ?? 'Not specified' }}</span>
+            </div>
         </div>
-        <div class="info-item">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>
-                {{ optional(\App\Models\City::find($firstdata->city))->name ?? 'Unknown Location' }}
-            </span>
-        </div>
-        <div class="info-item">
-            <i class="fas fa-home"></i>
-            <span>{{ $firstdata->employment_space ?? 'Not specified' }}</span>
-        </div>
-        <div class="info-item">
-            <i class="fa-sharp fa-solid fa-house"></i>
-            <span>{{ $firstdata->employment_type ?? 'Not specified' }}</span>
+
+        <div class="vertical-divider"></div>
+
+        <div class="job-info-right" >
+            <h3 style="color: #151414;">Company</h3>
+            <p>{{ $firstdata->company_employees ? $firstdata->company_employees . ' employee' : 'Employee count unavailable' }}
+            </p>
+            <p>{{ optional(\App\Models\Category::find($firstdata->category))->name ?? 'Category unavailable' }}</p>
         </div>
     </div>
-
-    <div class="vertical-divider"></div>
-
-    <div class="job-info-right">
-        <h3>Company</h3>
-        <p>{{ $firstdata->company_employees ? $firstdata->company_employees . ' employee' : 'Employee count unavailable' }}
-        </p>
-        <p>{{ optional(\App\Models\Category::find($firstdata->category))->name ?? 'Category unavailable' }}</p>
-    </div>
-</div>
 
 <hr>
 
-<div class="job-description-section">
-    <h3>Job Description</h3>
-    <div class="description-text">
-        {{ $firstdata->description ?? 'No description provided.' }}
-    </div>
+        <div class="job-description-section">
+            <h3 style="color: #151414;">Job Description</h3>
+            <div class="description-text">
+                {{ $firstdata->description ?? 'No description provided.' }}
+            </div>
+        </div>
 </div>
-
 <div class="contact-footer">
-    <div class="contact-row">
-        <div class="contact-item">
+    <div class="contact-row " style="padding:0 1.5rem">
+        <div class="contact-item my-1">
             <i class="fas fa-envelope"></i>
             <span>{{ $firstdata->company_email ?? 'Email not available' }}</span>
         </div>
-        <div class="contact-item">
+        <div class="contact-item my-1">
             <i class="fas fa-globe"></i>
             <span>
                 @if(!empty($firstdata->company_website))
@@ -114,12 +115,12 @@
             </span>
         </div>
     </div>
-    <div class="contact-row">
-        <div class="contact-item">
+    <div class="contact-row" style="padding:0 1.5rem">
+        <div class="contact-item my-1">
             <i class="fas fa-phone"></i>
             <span>{{ $firstdata->company_phone ?? 'Phone not available' }}</span>
         </div>
-        <div class="contact-item">
+        <div class="contact-item my-1">
             <i class="fas fa-map-marker-alt"></i>
             <span>{{ $firstdata->company_address ?? 'Address not available' }}</span>
         </div>

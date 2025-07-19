@@ -83,6 +83,7 @@
                     'image' => '/images/info/stocksale.jpg',
                     'alt' => 'Stock Sale',
                     'description' => 'Buy discounted stock in bulk and save more with special business pricing deals.',
+                    'route' => route('stocksale'),
                 ],
                 [
                     'title' => 'Buy Leads',
@@ -90,6 +91,7 @@
                     'alt' => 'Buy Leads',
                     'description' =>
                         'Access verified leads from real buyers and grow your business confidently every day.',
+                        'route' => route('buyer'),
                 ],
                 [
                     'title' => 'Sale Offer',
@@ -97,6 +99,7 @@
                     'alt' => 'Sale Offer',
                     'description' =>
                         'Find limited-time offers tailored for your business and save big on top products.',
+                        'route' => route('seller'),
                 ],
                 [
                     'title' => 'Industry Jobs',
@@ -104,19 +107,23 @@
                     'alt' => 'Industry Jobs',
                     'description' =>
                         'Apply to top jobs in your industry and connect with employers across key sectors.',
+                        'route' => route('sendcv'),
                 ],
                 [
                     'title' => 'Solutions',
-                    'image' => '/images/features-club-img.png',
+                    'image' => '/images/info/dealassist.jpg',
                     'alt' => 'Deal Assist',
-                    'description' =>
-                        'Get smart solutions for hypermarket, hospitality, and construction business operations today.',
+                    'description' =>'Get smart solutions for<a href="solutions/web/1 target="_blank" > hypermarket</a>, 
+                    <a href="solutions/web/3 target="_blank"> hospitality</a>, and 
+                    <a href="solutions/web/2 target="_blank"> construction</a> business operations today.',
+                    'link' => 'solutions/web/1',
                 ],
                 [
                     'title' => 'Deal Assist',
                     'image' => '/images/info/dealassist.jpg',
                     'alt' => 'Deal Assist',
                     'description' => 'Receive expert help to close deals faster and manage trade with full confidence.',
+                    'route' => route('dealassist'),
                 ],
                 [
                     'title' => 'Tradeshows',
@@ -124,24 +131,28 @@
                     'alt' => 'Tradeshows',
                     'description' =>
                         'Attend live trade shows, connect with industry leaders, and expand your market reach.',
+                        'route' => route('tradeshow'),
                 ],
             ];
         @endphp
 
         <div class="card-section">
             @foreach ($cards as $card)
-                <div class="card">
-                    <div class="card-content">
-                        <div class="profile-img">
-                            <img src="{{ $card['image'] }}" alt="{{ $card['alt'] }}">
-                        </div>
-                        <div class="card-body">
-                            <h5>{{ $card['title'] }}</h5>
-                            <p>{{ $card['description'] }}</p>
+                <a href="{{ $card['route'] ?? $card['link'] ?? '#' }}" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="profile-img">
+                                <img src="{{ $card['image'] }}" alt="{{ $card['alt'] }}">
+                            </div>
+                            <div class="card-body">
+                                <h5>{{ $card['title'] }}</h5>
+                              <p class=>{!! $card['description'] !!}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
+
     </section>
 @endsection

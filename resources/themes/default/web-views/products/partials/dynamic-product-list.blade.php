@@ -13,13 +13,13 @@
                         $vendorExtra = \App\Models\VendorExtraDetail::where('seller_id', $item->user_id)->first();
                     @endphp
                     @if (auth('customer')->user())
-                        <img class="heart favourite-img" onclick="makeFavourite(this)" data-id="{{ $item->id }}"
+                        <img class="heart favourite-img" onclick="makeFavourite(this)" data-id="{{ $item->id }}"onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" 
                             data-userid="{{ $user->id }}" data-type="product"
                             data-role="{{ auth()->user()->role ?? 'customer' }}"
                             src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
                             width="20" alt="Featured icon" style="margin-left: auto;">
                     @else
-                        <img class="heart favourite-img" onclick="sendtologin()"
+                        <img class="heart favourite-img" onclick="sendtologin()" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';"  
                             src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
                             style="margin-left: auto;">
                     @endif

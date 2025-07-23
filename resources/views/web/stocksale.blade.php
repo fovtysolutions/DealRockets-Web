@@ -56,14 +56,14 @@
                     <form method="GET" action="{{ route('stocksale') }}" id="filterFormStockSale">
                         <div class="filter-section showbelow768">
                             <div class="search-section ">
-                               <div class="d-flex justify-content-between pb-3">
-                                     <div class="search-label notshowbelow768" >Filter</div>
+                               <div class="d-flex justify-content-between ">
+                                     <div class="search-label notshowbelow768"  >Filter</div>
                                       <div class="filter-section togglebelow768 p-0 ">
                                     <a href="{{ request()->url() }}" class=" reset-filter" style="background-none">Reset Filters</a>
                                        </div>
                                 </div>
                                 
-                                 <div class="search-label notshowbelow768">Search by Name</div>
+                                 <div class="search-label notshowbelow768 mt-3">Search by Name</div>
                                 <div class="search-input-container">
                                    
                                     <div class="search-input-field">
@@ -112,8 +112,9 @@
                                             <input type="checkbox" name="country[]" value="{{ $country }}"
                                                 {{ $isSelected ? 'checked' : '' }} />
                                             <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
-                                                class="flag-icon" alt="{{ $country }} flag" />
-                                            <div class="filter-label">{{ $countryDetails['countryName'] }}</div>
+                                                class="flag-icon" alt="{{ $country }} flag" 
+                                                onerror="this.onerror=null; this.src='/flags/other/earth.svg';" />
+                                            <div class="filter-label">{{ $countryDetails['countryName'] ?? 'Flag' }}</div>
                                         </label>
                                     </div>
                                 @endforeach

@@ -4,7 +4,7 @@
     @else
         @foreach ($items as $stocksell)
             <div class="product-card" data-id="{{ $stocksell->id }}" onclick="populateDetailedBox(this)">
-                <div class="product-card-inner" style="border-radius: 6px;">
+                <div class="product-card-inner">
                     <div class="product-card-content">
                         <div class="product-image-container">
                             <div class="owl-carousel icon-carousel">
@@ -16,12 +16,12 @@
                                     <div class="item">
                                         <img class="ico" src="/{{ $image }}"
                                              onerror="this.onerror=null;this.src='/images/placeholderimage.webp';"
-                                             style="max-height: 135px; width: 100%;" />
+                                             style="max-height: 135px; width: 100%; aspect-ratio: 1/1;" />
                                     </div>
                                 @empty
                                     <div class="item">
                                         <img class="ico" src="/images/placeholderimage.webp"
-                                             style="max-height: 135px; width: 100%;" />
+                                             style="max-height: 135px; width: 100%; aspect-ratio: 1/1;" />
                                     </div>
                                 @endforelse
                             </div>

@@ -13,6 +13,8 @@ $unread = App\Utils\ChatManager::unread_messages();
 $userId = Auth::guard('customer')->user() ? Auth::guard('customer')->id() : 0;
 $role = App\Models\User::where('id', $userId)->first();
 $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
+        $role = \App\Utils\HelperUtil::getLoggedInRole();
+
 ?>
 <p style="height: 124px; visiblity: none;">
     Hidden height From Top
@@ -194,6 +196,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                     </div>
                 </div>
             </div>
+   
             <div class="group-16">
                 <div class="contentgroup">
                     <img class="rectangle-stroke-2" src="/img/rectangle-20-stroke-1.svg" />
@@ -340,8 +343,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-tachometer-alt fa-lg text-primary"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Manage
-                                                            Dashboard</strong><br>
+                                                         <a href="{{ route('vendor.dashboard.index') }}" class="text-decoration-none">
+                                                            <strong class="custom-dealrock-subhead">Manage Dashboard</strong>
+                                                        </a><br>
                                                         <span class="custom-dealrock-subtext">Access all tools to
                                                             control your products, leads, and offers.</span>
                                                     </div>
@@ -351,8 +355,11 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-crown fa-lg text-warning"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Flexible
-                                                            Memberships</strong><br>
+                                                        <a href="/vendor/subcard/membership" class="text-decoration-none">
+                                                             <strong class="custom-dealrock-subhead">Flexible
+                                                            Memberships</strong></a><br>
+                                                        
+                                                       
                                                         <span class="custom-dealrock-subtext">Choose a plan that fits
                                                             your scale and goals.</span>
                                                     </div>
@@ -362,8 +369,10 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-briefcase fa-lg text-success"></i>
                                                     </div>
                                                     <div class="rightclass">
+                                                           <a href="/buy-leads" class="text-decoration-none"></a>
                                                         <strong class="custom-dealrock-subhead">Verified Business
-                                                            Leads</strong><br>
+                                                            Leads</strong> </a><br>
+                                                          
                                                         <span class="custom-dealrock-subtext">Engage with buyers
                                                             actively looking for suppliers like you.</span>
                                                     </div>
@@ -375,10 +384,27 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                     <a href="{{ route('vendor.dashboard.index') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Dashboard</a>
                                                 @elseif (auth('web')->check() || auth('customer')->check() || auth('admin')->check())
-                                                    <a href="javascript:void(0)"
-                                                    class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
-                                                        Already Logged In
-                                                    </a>                                                
+                                                     @if ($role === 'Supplier')
+                                                        <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                            Login by Supplier
+                                                        </a>
+                                                    @elseif ($role === 'Buyer')
+                                                        <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                            Login by Buyer
+                                                        </a>
+                                                    @elseif ($role === 'Hire')
+                                                        <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                            Login by Hire
+                                                        </a>
+                                                    @elseif ($role === 'Admin')
+                                                        <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                            Login by Admin
+                                                        </a>
+                                                    @elseif ($role === 'Web')
+                                                        <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                            Already Logged In
+                                                        </a>
+                                                    @endif                                                
                                                 @else
                                                     <a href="{{ route('vendor.auth.login') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Sign In</a>
@@ -409,8 +435,10 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-search fa-lg text-primary"></i>
                                                     </div>
                                                     <div class="rightclass">
+                                                           <a href="/products?searchInput=" class="text-decoration-none">
                                                         <strong class="custom-dealrock-subhead">Product
-                                                            Discovery</strong><br>
+                                                            Discovery</strong></a><br>
+                                                            
                                                         <span class="custom-dealrock-subtext">Browse thousands of
                                                             products and categories.</span>
                                                     </div>
@@ -420,8 +448,10 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-heart fa-lg text-danger"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Wishlist &
-                                                            Save</strong><br>
+                                                           <a href="/customer/auth/login" class="text-decoration-none">
+                                                             <strong class="custom-dealrock-subhead">Wishlist &
+                                                              Save</strong>
+                                                            </a><br>
                                                         <span class="custom-dealrock-subtext">Shortlist your favorite
                                                             products for later.</span>
                                                     </div>
@@ -431,8 +461,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-paper-plane fa-lg text-success"></i>
                                                     </div>
                                                     <div class="rightclass">
+                                                           <a href="/customer/auth/login" class="text-decoration-none">
                                                         <strong class="custom-dealrock-subhead">Send
-                                                            Inquiries</strong><br>
+                                                            Inquiries</strong></a><br>
                                                         <span class="custom-dealrock-subtext">Reach out to suppliers
                                                             directly with your needs.</span>
                                                     </div>
@@ -448,10 +479,27 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                     <a href="{{ route('customer.auth.logout') }}"
                                                         class="btn btn-primary btn-sm w-100 gradient-button">Logout</a>
                                                 @elseif (auth('web')->check() || auth('seller')->check() || auth('admin')->check())
-                                                    <a href="javascript:void(0)"
-                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                                                                @if ($role === 'Supplier')
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Login by Supplier
+                                                    </a>
+                                                @elseif ($role === 'Buyer')
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Login by Buyer
+                                                    </a>
+                                                @elseif ($role === 'Hire')
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Login by Hire
+                                                    </a>
+                                                @elseif ($role === 'Admin')
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Login by Admin
+                                                    </a>
+                                                @elseif ($role === 'Web')
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
                                                         Already Logged In
-                                                    </a>                                                
+                                                    </a>
+                                                @endif                                               
                                                 @else
                                                     <a href="{{ route('customer.auth.login') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Sign In</a>
@@ -483,8 +531,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-users fa-lg text-info"></i>
                                                     </div>
                                                     <div class="rightclass">
+                                                           <a href="/industry-jobs/talent-finder" class="text-decoration-none">
                                                         <strong class="custom-dealrock-subhead">Browse
-                                                            Talent</strong><br>
+                                                            Talent</strong></a><br>
                                                         <span class="custom-dealrock-subtext">Discover skilled
                                                             freelancers and professionals.</span>
                                                     </div>
@@ -494,7 +543,8 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-briefcase fa-lg text-warning"></i>
                                                     </div>
                                                     <div class="rightclass">
-                                                        <strong class="custom-dealrock-subhead">Post Jobs</strong><br>
+                                                           <a href="#" class="text-decoration-none">
+                                                        <strong class="custom-dealrock-subhead">Post Jobs</strong></a><br>
                                                         <span class="custom-dealrock-subtext">List your hiring needs to
                                                             attract top candidates.</span>
                                                     </div>
@@ -504,8 +554,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         <i class="fa fa-comments fa-lg text-success"></i>
                                                     </div>
                                                     <div class="rightclass">
+                                                        <a href="/industry-jobs/talent-finder" class="text-decoration-none">
                                                         <strong class="custom-dealrock-subhead">Connect &
-                                                            Hire</strong><br>
+                                                            Hire</strong></a><br>
                                                         <span class="custom-dealrock-subtext">Chat, evaluate, and make
                                                             hiring decisions easily.</span>
                                                     </div>
@@ -521,10 +572,27 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                     <a href="{{ route('customer.auth.logout') }}"
                                                         class="btn btn-primary btn-sm w-100 gradient-button">Logout</a>
                                                 @elseif (auth('web')->check() || auth('seller')->check() || auth('admin')->check())
-                                                    <a href="javascript:void(0)"
-                                                        class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                    @if ($role === 'Supplier')
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Login by Supplier
+                                                    </a>
+                                                @elseif ($role === 'Buyer')
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Login by Buyer
+                                                    </a>
+                                                @elseif ($role === 'Hire')
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Login by Hire
+                                                    </a>
+                                                @elseif ($role === 'Admin')
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
+                                                        Login by Admin
+                                                    </a>
+                                                @elseif ($role === 'Web')
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm mb-2 w-100 gradient-button">
                                                         Already Logged In
-                                                    </a>                                                
+                                                    </a>
+                                                @endif                                                
                                                 @else
                                                     <a href="{{ route('customer.auth.hire-sign-in') }}"
                                                         class="btn btn-primary btn-sm mb-2 w-100 gradient-button">Sign In</a>

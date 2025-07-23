@@ -9,6 +9,10 @@
             <div class="sidebar">
                 <div class="filter-sidebar">
                     <form method="GET" action="{{ route('buyer') }}" id="filterFormBuyer">
+                         <div class="filter-section togglebelow768 d-flex justify-content-between pb-0 align-items-center" >
+                            <div class="search-label w-50">Filter</div>
+                            <a href="{{ request()->url() }}" class="btn btn-sm w-50 reset-filter">Reset Filters</a>
+                        </div>
                         <div class="filter-section showbelow768">
                             <div class="search-section">
                                 <div class="search-label notshowbelow768">Search by Name</div>
@@ -32,7 +36,7 @@
                                 </svg>
                             </button>
                         </div>
-
+                        
                         <div class="filter-section togglebelow768">
                             <div class="search-label">Search by Country</div>
                             <div class="search-input-container">
@@ -91,9 +95,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="filter-section togglebelow768">
-                            <a href="{{ request()->url() }}" class="btn btn-sm reset-filter">Reset Filters</a>
-                        </div>
+                       
                     </form>
                 </div>
             </div>

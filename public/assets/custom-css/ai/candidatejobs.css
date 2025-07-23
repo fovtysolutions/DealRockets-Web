@@ -753,7 +753,9 @@ border: 1px solid gray !important;
     .candidate-jobs .job-info {
         /* grid-template-columns: 1fr; */
     }
-
+    .candidate-jobs .job-listings{
+        width: 50% !important;
+    }
     .candidate-jobs .job-info-grid {
         flex-direction: row;
         margin: 0 !important;
@@ -843,4 +845,12 @@ border: 1px solid gray !important;
         display: flex !important;
     }
 
+}
+@media(max-width: 430px){
+      .candidate-jobs .job-listings{
+        width: 100% !important;
+    }
+    .candidate-jobs .container{
+        margin: 0 !important;
+    }
 }

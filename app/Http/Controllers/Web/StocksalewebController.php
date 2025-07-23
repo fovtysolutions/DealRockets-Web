@@ -104,10 +104,7 @@ class StocksalewebController extends Controller
         // $stocksalebanner = json_decode($stocksalebanner->value, true);
 
         // Top 20 Countries by quotes received
-        $countries = StockSell::orderBy('quote_recieved', 'DESC')
-            ->select('country')
-            ->distinct()
-            ->pluck('country');
+        $countries = Country::all()->pluck('id');
 
         // Retrieve distinct locations and times
         $locations = StockSell::distinct()->pluck('country');

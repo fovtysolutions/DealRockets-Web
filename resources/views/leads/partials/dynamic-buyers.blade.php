@@ -29,35 +29,42 @@
                                 <span class="lead-tags-content">{{ $buyer->tags ?? 'N/A' }}</span>
                             </div>
                         </div>
-                        <div class="lead-details-table">
-                            <table class="detail-table">
-                                <tr>
-                                    <td class="detail-label">Quantity Required</td>
-                                    <td class="detail-value text-truncate">{{ $buyer->quantity_required ?? 'N/A' }}
-                                        {{ $buyer->unit ?? 'N/A' }}</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="detail-label">Available Stock</td>
-                                    <td class="detail-value text-truncate">{{ $buyer->avl_stock ?? 'N/A' }}
-                                        {{ $buyer->avl_stock_unit ?? 'N/A' }}</td>
-                                </tr>
-                            </table>
-                            <table class="detail-table">
-                                <tr>
-                                    <td class="detail-label" style="width: 35%;">Lead Time</td>
-                                    <td class="detail-value text-truncate">{{ $buyer->lead_time ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="detail-label">Term</td>
-                                    <td class="detail-value text-truncate">{{ $buyer->term ?? 'N/A' }}</td>
-                                </tr>
-                            </table>
-                            <table class="detail-table">
-                                <tr>
-                                    <td class="detail-label" style="width: 32%;">Refundable</td>
-                                    <td class="detail-value text-truncate-2">{{ $buyer->refund ?? 'N/A' }}</td>
-                                </tr>
-                            </table>
+                     
+                        
+                        <div style="width: 760px; overflow-x: auto;">
+                            <div class="lead-details-table">
+                                <table class="detail-table">
+                                    <tr>
+                                        <td class="detail-label">Quantity</td>
+                                        <td class="detail-value text-truncate">{{ $buyer->quantity_required ?? 'N/A' }}
+                                            {{ $buyer->unit ?? 'N/A' }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detail-label">Term</td>
+                                        <td class="detail-value text-truncate">{{ $buyer->term ?? 'N/A' }}</td>
+                                    </tr>
+                                </table>
+                                <table class="detail-table">
+                                    <tr>
+                                        <td class="detail-label">Payment Term</td>
+                                        <td class="detail-value text-truncate">{{ $buyer->payment_option ?? 'N/A' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detail-label">Lead Time</td>
+                                        <td class="detail-value text-truncate">{{ $buyer->lead_time ?? 'N/A' }}</td>
+                                    </tr>
+                                </table>
+                                <table class="detail-table">
+                                    <tr>
+                                        <td class="detail-label">POD</td>
+                                        <td class="detail-value text-truncate-2">{{ $buyer->port_of_loading ?? 'N/A' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="detail-label">Packing</td>
+                                        <td class="detail-value text-truncate-2">{{ $buyer->packing_type ?? 'N/A' }}</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="divider"></div>

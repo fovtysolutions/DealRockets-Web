@@ -31,8 +31,8 @@
     display: flex;
     width: max-content;
     justify-self: end;
-    background: linear-gradient(to right, #FE4E44, #9F0900);
-    color: white;
+    /* background: linear-gradient(to right, #FE4E44, #9F0900); */
+    color: #FE4E44;
     font-size: 14px;
     font-weight: 500;
     border-radius: 27px;
@@ -96,7 +96,7 @@
 
 .sale-offer-page .search-label {
     color: #0D0D0F;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 500;
 }
 
@@ -755,7 +755,7 @@
     }
 
     .sale-offer-page .product-location {
-        font-size: 11.02px;
+        font-size: 12px;
         margin-top: 25px;
     }
 
@@ -831,12 +831,16 @@
         font-weight: 500 !important;
         text-align: left !important;
     }
-
+.sale-offer-page .togglebelow768{
+    display: none;
+}
     .sale-offer-page .contact-btn {
         font-size: 12.89px !important;
         padding: 9px 28px !important;
     }
-
+.sale-offer-page .sell-offer{
+    flex-direction: column;
+}
     .sale-offer-page .company-name {
         font-size: 10.02px;
         font-weight: 400;
@@ -866,6 +870,7 @@
     }
 
     .sale-offer-page .main-content {
+        width: 100%;
         flex-direction: column;
     }
 
@@ -873,7 +878,37 @@
         display: none;
         width: 100%;
     }
+ .sale-offer-page .mobile-screen{
+    display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row-reverse;
+ }
+ .sale-offer-page .notshowbelow768{
 
+    border: 1px solid #D5D5D5;
+    padding: 8px;
+ }
+ .sale-offer-page #dynamicSellLeads{
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-around; */
+    justify-content: space-between;
+ }
+ .sale-offer-page .products-section{
+    width: 100% !important;
+ }
+ .sale-offer-page .search-input-field{
+    border-radius: 0px;
+ }
+  .sale-offer-page .mobile-screen div{
+order: 1;
+ }
+ .sale-offer-page .search-input-container 
+{
+    width:80% !important ;
+    margin-top: 0px !important;
+}
     .sale-offer-page .mobile-sidebar {
         display: block !important;
     }
@@ -897,7 +932,7 @@
     }
 
     .sale-offer-page .product-title {
-        font-size: 18px !important;
+        font-size: 16px !important;
     }
 
     .sale-offer-page .detail-label,
@@ -1022,7 +1057,8 @@
         flex-wrap: wrap;
         gap: 1rem;
         margin-bottom: 16px;
-        padding: 10px
+        padding: 10px;
+        height:auto !important;
     }
 
     .sale-offer-page .product-details-col{
@@ -1070,11 +1106,11 @@
     }
 
     .sale-offer-page .product-location {
-        font-size: 9.02px;
+        /* font-size: 9.02px; */
     }
 
     .sale-offer-page .product-title {
-        font-size: 11px !important;
+        font-size: 16px !important;
         margin-bottom: 8px !important;
     }
 
@@ -1108,7 +1144,9 @@
         width: 25px;
         height: 25px;
     }
-
+.sale-offer-page .product-card{
+    width: 100% !important;
+}
     .sale-offer-page .hide-num {
         display: none;
     }

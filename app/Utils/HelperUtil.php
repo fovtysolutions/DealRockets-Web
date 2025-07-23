@@ -22,6 +22,31 @@ use Illuminate\Support\Str;
 
 class HelperUtil
 {
+    public static function getLoggedInRole()
+    {
+        if (auth('seller')->check()) {
+            return 'Supplier';
+        }
+
+        if (auth('customer')->check()) {
+            $role = auth('customer')->user()->typerole;
+            if ($role === 'jobseeker') {
+                return 'Buyer';
+            } elseif ($role === 'findtalent') {
+                return 'Hire';
+            }
+        }
+
+        if (auth('admin')->check()) {
+            return 'Admin';
+        }
+
+        if (auth('web')->check()) {
+            return 'Web';
+        }
+
+        return null;
+    }
     /**
      * Get all search tags and counts for a user.
      */
@@ -286,16 +311,15 @@ class HelperUtil
     public static function transferQuotationToLead($quotation)
     {
         try {
-            // Check if the quotation has already been transferred to leads
+            // Prevent duplicate transfers
             $existingLead = Leads::where('quotation_id', $quotation->id)->first();
             if ($existingLead) {
-                return; // If already transferred, exit
+                return;
             }
 
-            // Map quotation data to lead data
             $leadData = [
                 'type' => $quotation->type ?? 'buyer',
-                'name' => $quotation->name ?? null,
+                'name' => $quotation->name ?? '',
                 'country' => $quotation->country ?? '101',
                 'origin' => $quotation->country ?? '101',
                 'product_id' => $quotation->name ?? '',
@@ -303,30 +327,32 @@ class HelperUtil
                 'term' => $quotation->term ?? '',
                 'unit' => $quotation->unit ?? '',
                 'company_name' => $quotation->company_name ?? '',
-                'contact_number' => $quotation->contact_number ?? '',
+                'contact_number' => $quotation->pnumber ?? '', // matches your $data['pnumber']
                 'quantity_required' => $quotation->quantity ?? '',
-                'buying_frequency' => $quotation->buying_frequency ?? '',
                 'details' => $quotation->description ?? '',
-                'role' => 'customer', // Default role if not provided
+                'payment_option' => $quotation->terms ?? '',
+                'lead_time' => $quotation->spin_time ?? '',
+                'role' => $quotation->role ?? 'customer',
                 'added_by' => $quotation->user_id,
                 'created_at' => Carbon::now(),
-                'quotation_id' => $quotation->id, // Track the quotation
+                'quotation_id' => $quotation->id,
+                'delivery_mode' => $quotation->shipping_method ?? '',
+                'port_of_loading' => $quotation->destination_port ?? '',
+                'rate' => $quotation->target_unit_price ?? '',
+                'delivery_terms' => $quotation->term ?? '',
+                'payment_option' => $quotation->terms ?? '',
+                'images' => $quotation->image ? json_encode([$quotation->image]) : null,
+                'quotes_recieved' => 0,
+                'active' => 1,
+                'compliance_status' => 'pending',
             ];
 
-            // Try to create a new lead
-            $newLead = Leads::create($leadData);
+            Leads::create($leadData);
 
-            if (!$newLead) {
-                // If lead creation somehow fails, revert quotation
-                $quotation->converted_lead = null;
-                $quotation->save();
-            }
         } catch (\Exception $e) {
-            // In case of any exception, also revert quotation
             $quotation->converted_lead = null;
             $quotation->save();
 
-            // Optionally, log the error
             \Log::error('Failed to transfer quotation to lead: ' . $e->getMessage());
         }
     }

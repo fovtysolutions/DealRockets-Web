@@ -10,30 +10,37 @@
                 <div class="sidebar">
                     <div class="filter-sidebar">
                         <form method="GET" action="{{ route('buyer') }}" id="filterFormSeller">
-                            <div class="filter-section showbelow768">
-                                <div class="search-section">
-                                    <div class="search-label notshowbelow768">Search by Name</div>
-                                    <div class="search-input-container">
-                                        <div class="search-input-field">
-                                            <input type="text" name="search_query" id="nameFilter"
-                                                placeholder="Enter name..." value="{{ request('name') }}" />
-                                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
-                                                class="search-icon" alt="Search icon" />
-                                        </div>
+                             <div class="filter-section togglebelow768 d-flex justify-content-between pb-0 align-items-center" >
+                            <div class="search-label w-50">Filter</div>
+                            <a href="{{ request()->url() }}" class="btn btn-sm w-50 reset-filter">Reset Filters</a>
+                        </div>
+                           <div class="filter-section showbelow768">
+                            <div class="search-section mobile-screen ">
+                            
+                                
+                                <div class="search-label togglebelow768 notshowbelow768 mt-3">Search by Name</div>
+                                <div class="search-input-container">
+                                   
+                                    <div class="search-input-field">
+                                       
+                                        <input type="text" name="search_query" id="nameFilter"
+                                            placeholder="Enter name..." value="{{ request('name') }}" />
+                                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
+                                            class="search-icon" alt="Search icon" />
                                     </div>
                                 </div>
-
-                                <button id="filters-button" class="filter-button" onclick="toggleFilters(event)">
-                                    Filters
-                                    <!-- Filter Icon SVG -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="black"
-                                        viewBox="0 0 24 24">
-                                        <path d="M3 5h18M6 12h12M10 19h4" stroke="black" stroke-width="2" fill="none"
-                                            stroke-linecap="round" />
-                                    </svg>
-                                </button>
                             </div>
 
+                            <button id="filters-button" class="filter-button" onclick="toggleFilters(event)">
+                                Filters
+                                <!-- Filter Icon SVG -->
+                                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="black"
+                                    viewBox="0 0 24 24">
+                                    <path d="M3 5h18M6 12h12M10 19h4" stroke="black" stroke-width="2" fill="none"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </button>
+                        </div>
                             <div class="filter-section togglebelow768">
                                 <div class="search-label">Search by Country</div>
                                 <div class="search-input-container">
@@ -101,10 +108,10 @@
                 </div>
 
                 <!-- Sidebar Banners -->
-                <div class="sidebar-banner">
+                <div class="sidebar-banner togglebelow768">
                     <img src="/img/vendor-ad.png" alt="Samsung TV Sale">
                 </div>
-                <div class="sidebar-banner">
+                <div class="sidebar-banner togglebelow768">
                     <img src="/img/small-ad.png" alt="Phone Promotion">
                 </div>
             </div>

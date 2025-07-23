@@ -59,7 +59,7 @@
                 <div id="buyerTimeline" class="dealassist-tab buyer">
                     <!-- Subheading and Tagline -->
                     <div class="timeline-header">
-                        <h2 class="timeline-title">Start your Buying Journey</h2>
+                        <h2 class="timeline-title ml-3">Start your Buying Journey</h2>
                         <!-- Optional tagline -->
                         <!-- <p class="timeline-tagline">End-to-end sourcing assistance from DealRockets — ensuring quality, reliability, and global reach.</p> -->
                     </div>
@@ -80,7 +80,7 @@
                             </a>
                         </div>
 
-                        <div class="timeline-container right">
+                        <div class="timeline-container right pt-3">
                             <a href="javascript:" class="content-link">
                                 <div class="content">
                                     <div class="content-header">Supplier Sourcing</div>
@@ -216,7 +216,7 @@
                 <div id="supplierTimeline" class="dealassist-tab supplier d-none">
                     <!-- Optional Header -->
                     <div class="timeline-header">
-                        <h2 class="timeline-title">Supplier Journey with DealRockets</h2>
+                        <h2 class="timeline-title ml-3">Supplier Journey with DealRockets</h2>
                         <!-- <p class="timeline-tagline">Helping suppliers grow globally through trusted buyer connections and full-service support.</p> -->
                     </div>
 

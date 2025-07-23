@@ -139,6 +139,8 @@
       .dealassist .timeline-container.left,
       .dealassist .timeline-container.right {
         left: 0;
+                margin: 4.5rem 0;
+    
       }
     }
 
@@ -806,7 +808,7 @@
       }
 
       .dealassist .rectangle {
-        margin-top: 80px;
+        margin-top: 60px;
       }
 
       .dealassist .laptop,
@@ -909,7 +911,7 @@
       }
 
       .dealassist .main-container {
-        height: 3065px;
+       height: 2596px !important;
       }
     }
 
@@ -942,7 +944,7 @@
       }
 
       .dealassist .business-partners {
-        margin-top: 135px;
+        margin-top: 220px;
       }
     }
 
@@ -954,11 +956,43 @@
       .dealassist .main-container {
         height: 3445px;
       }
-
+    .dealassist .business-partners {
+        margin-top: 180px !important;
+    }
+        .dealassist .rectangle {
+        margin-top: 85px !important;
+    }
       .dealassist .frame-2,
       .dealassist .frame-5,
       .dealassist .frame-9,
       .dealassist .frame-e {
         /* margin-top: 70px; */
       }
+    }
+    @media(max-width:430px){
+      .dealassist .global-success{
+        line-height: 25px !important;
+         margin-bottom: 1px !important;
+        padding-top: 4rem !important;
+        padding-bottom: 0 !important;
+      }
+          .dealassist .frame {
+        /* margin: 0 auto; */
+        margin-top: 35px !important;
+    }
+    .dealassist .group{
+      height: 500px !important;
+    }
+    .dealassist .business-partners {
+        margin-top: 118px !important;
+    }
+    .dealassist .rectangle {
+        margin-top: 117px !important;
+    }
+    .dealassist .timeline-container.left, .dealassist .timeline-container.right{
+             height: 128px !important;
+    }
+        .dealassist .main-container {
+                height: 3744px !important;
+    }
     }

@@ -27,11 +27,11 @@ body {
 }
 
 .stock-sale .product-list-section {
-    width: 30%;
+    width: 33%;
 }
 
 .stock-sale .product-detail-section {
-    width: 49%;
+    width: 46%;
     border: 1px solid lightgrey;
 }
 
@@ -227,7 +227,7 @@ input[type='checkbox'] {
     width: 100%;
     /* max-width: 460px; */
     height: max-content;
-    margin-bottom: 0.5rem;
+    margin-bottom: 20px;
 }
 
 .stock-sale .product-card-inner {
@@ -248,7 +248,7 @@ input[type='checkbox'] {
 }
 
 .stock-sale .product-image-container {
-    width: 27%;
+    width: 40%;
 }
 
 .stock-sale .product-image {

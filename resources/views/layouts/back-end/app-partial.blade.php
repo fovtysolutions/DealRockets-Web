@@ -4,7 +4,7 @@
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ Session::get('direction') }}"
-    style="text-align: {{ Session::get('direction') === 'rtl' ? 'right' : 'left' }};">
+    style="text-align: {{ Session::get('direction') === 'rtl' ? 'right' : 'left' }}; background-color: white;">
 
 <head>
     <meta charset="utf-8">

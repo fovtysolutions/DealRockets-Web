@@ -65,6 +65,7 @@
                                 <th>{{translate('shop_name')}}</th>
                                 <th>{{translate('vendor_name')}}</th>
                                 <th>{{translate('contact_info')}}</th>
+                                <th>{{translate('Date')}}</th>
                                 <th>{{translate('status')}}</th>
                                 <th class="text-center">{{translate('total_products')}}</th>
                                 {{-- <th class="text-center">{{translate('total_orders')}}</th> --}}
@@ -105,6 +106,9 @@
                                             <strong><a class="title-color hover-c1" href="mailto:{{$seller->email}}">{{$seller->email}}</a></strong>
                                         </div>
                                         <a class="title-color hover-c1" href="tel:{{$seller->phone}}">{{$seller->phone}}</a>
+                                    </td>
+                                    <td>    
+                                        {{ date('d M Y',strtotime($seller->created_at)) }}
                                     </td>
                                     <td>
                                         {!! $seller->status=='approved'?'<label class="badge badge-success">'.translate('active').'</label>':'<label class="badge badge-danger">'.translate('inactive').'</label>' !!}

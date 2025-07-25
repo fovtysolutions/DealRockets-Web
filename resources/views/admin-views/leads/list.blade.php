@@ -15,12 +15,12 @@
 
         <div class="container-fluid p-0">
             <div class="mb-3" style="max-width: 100%;">
-                <div class="card-body p-0">
+                <div>
                     <form action="{{ url()->current() }}" method="GET">
                         <input type="hidden" name="status" value="{{ request('status') }}">
-                        <div class="row g-2 align-items-end pt-3">
+                        <div class="d-flex flex-wrap gap-3 align-items-end pt-3">
 
-                            <div class="col-md-2 col-sm-4 col-6">
+                            <div>
                                 <label class="form-label mb-1 small">{{ translate('type') }}</label>
                                 <select name="type" class="form-control form-control-sm">
                                     <option value="">{{ translate('all_types') }}</option>
@@ -32,26 +32,28 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2 col-sm-4 col-6">
+                            <div>
                                 <label class="form-label mb-1 small">{{ translate('name') }}</label>
                                 <select name="name" class="form-control form-control-sm">
                                     <option value="">{{ translate('all_names') }}</option>
                                     @foreach ($name as $product)
-                                        <option value="{{ trim($product) }}" {{ request('name') == trim($product) ? 'selected' : '' }}>
+                                        <option value="{{ trim($product) }}"
+                                            {{ request('name') == trim($product) ? 'selected' : '' }}>
                                             {{ trim($product) }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            <div class="col-md-2 col-sm-4 col-6">
+                            <div>
                                 <label class="form-label mb-1 small">{{ translate('country') }}</label>
-                                <select name="country" class="form-control form-control-sm ">
+                                <select name="country" class="form-control form-control-sm">
                                     <option value="">{{ translate('all_countries') }}</option>
                                     @foreach ($country as $c)
                                         @php $countryRecord = \App\Models\Country::find(trim($c)); @endphp
                                         @if ($countryRecord)
-                                            <option value="{{ trim($c) }}" {{ request('country') == trim($c) ? 'selected' : '' }}>
+                                            <option value="{{ trim($c) }}"
+                                                {{ request('country') == trim($c) ? 'selected' : '' }}>
                                                 {{ $countryRecord->name }}
                                             </option>
                                         @endif
@@ -59,28 +61,32 @@
                                 </select>
                             </div>
 
-                            {{-- <div class="col-md-2 col-sm-4 col-6">
-                                <label class="form-label mb-1 small">{{ translate('company_name') }}</label>
-                                <input type="text" name="company_name" class="form-control form-control-sm"
-                                    placeholder="{{ translate('enter_company_name') }}"
-                                    value="{{ request('company_name') }}">
-                            </div>
+                            {{-- Optional fields: Uncomment if needed --}}
+                            {{-- 
+            <div>
+                <label class="form-label mb-1 small">{{ translate('company_name') }}</label>
+                <input type="text" name="company_name" class="form-control form-control-sm"
+                       placeholder="{{ translate('enter_company_name') }}"
+                       value="{{ request('company_name') }}">
+            </div>
 
-                            <div class="col-md-2 col-sm-4 col-6">
-                                <label class="form-label mb-1 small">{{ translate('contact_number') }}</label>
-                                <input type="text" name="contact_number" class="form-control form-control-sm"
-                                    placeholder="{{ translate('enter_contact_number') }}"
-                                    value="{{ request('contact_number') }}">
-                            </div> --}}
+            <div>
+                <label class="form-label mb-1 small">{{ translate('contact_number') }}</label>
+                <input type="text" name="contact_number" class="form-control form-control-sm"
+                       placeholder="{{ translate('enter_contact_number') }}"
+                       value="{{ request('contact_number') }}">
+            </div>
+            --}}
 
-                            <div class="col-md-2 col-sm-4 col-12 d-flex gap-2">
-                                <a class="btn btn--primary w-100" href="{{ url()->current() }}">
+                            <div class="d-flex gap-2">
+                                <a class="btn btn--primary" href="{{ url()->current() }}">
                                     {{ translate('reset') }}
                                 </a>
-                                <button type="submit" class="btn btn--primary  w-100">
+                                <button type="submit" class="btn btn--primary">
                                     {{ translate('show_data') }}
                                 </button>
                             </div>
+
                         </div>
                     </form>
                 </div>
@@ -172,8 +178,7 @@
                                                     href="{{ route('admin.leads.view', ['id' => $lead['id']]) }}">
                                                     <i class="tio-invisible"></i> View
                                                 </a>
-                                                <a class="btn btn-outline--primary"
-                                                    title="{{ translate('edit') }}"
+                                                <a class="btn btn-outline--primary" title="{{ translate('edit') }}"
                                                     href="{{ route('admin.leads.edit', ['id' => $lead['id']]) }}">
                                                     <i class="tio-edit"></i> Edit
                                                 </a>

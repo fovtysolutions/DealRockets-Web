@@ -698,7 +698,7 @@ class DashboardController extends BaseController
                 $title = 'Leads';
                 $cardData = [
                     // ['link' => route('admin.add-new-leads'), 'title' => 'Add Lead', 'value' => 'Yes'],
-                    ['link' => route('admin.quotation.list'), 'title' => 'Manage Quotations', 'value' => 'Yes'],
+                    ['link' => route('admin.quotation.list'), 'title' => 'Manage RFQ', 'value' => 'Yes'],
                     ['link' => route('admin.leads.list'), 'title' => 'Manage Lead', 'value' => 'Yes'],
                 ];
                 break;

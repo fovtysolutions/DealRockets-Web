@@ -9615,4 +9615,5 @@ return [
 	"This email was sent from a no-reply address." => "This email was sent from a no-reply address.",
 	"Converted Lead" => "Converted Lead",
 	"search_by_shop_name_or_vendor_name_or_phone_or_email_or_supplier_id" => "Search by shop name or vendor name or phone or email or supplier id",
+	"Stock Categories List" => "Stock Categories List",
 ];

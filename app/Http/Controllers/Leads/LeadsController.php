@@ -146,7 +146,7 @@ class LeadsController extends Controller
         $items = $leadsQuery->paginate(10);
 
         // Top 20 Countries by quotes recieved
-        $countries = Leads::where('type', 'buyer')->orderBy('quotes_recieved', 'DESC')->select('country')->distinct()->pluck('country');
+        $countries = Country::all()->pluck('id');
 
         // Trending Section
         $trending = ChatManager::GetTrendingProducts();
@@ -330,7 +330,7 @@ class LeadsController extends Controller
         $items = $leadsQuery->paginate(10);
 
         // Top 20 Countries by quotes recieved
-        $countries = Leads::where('type', 'seller')->orderBy('quotes_recieved', 'DESC')->select('country')->distinct()->pluck('country');
+        $countries = Country::all()->pluck('id');
 
         // All Industry
         $industries = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();

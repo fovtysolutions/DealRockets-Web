@@ -25,7 +25,7 @@
                     @endif
                 </div>
             </div>
-            <img src="{{ isset($item->thumbnail) ? '/storage/' . $item->thumbnail : '/images/placeholderimage.webp' }}"
+            <img src="{{ isset($item->thumbnail) ? '/storage/' . $item->thumbnail : '/images/placeholderimage.webp' }}" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';"
                 alt="Sample Product" class="product-image1">
         </div>
         <div class="product-info1">
@@ -33,7 +33,7 @@
                 @if ($item->badge)
                     <p class="new">{{ $item->badge }}</p>
                 @endif
-                {{-- <div class="rating">
+                <!-- {{-- <div class="rating">
                     <span style="font-size: 12px;">
                         <i class="bi bi-star-fill start-rating text-warning"></i>
                         @php
@@ -41,7 +41,7 @@
                         @endphp
                         {{ $overallRating[0] }}/5
                     </span>
-                </div> --}}
+                </div> --}} -->
             </div>
             <h3 class="product-title product-title1 text-truncate" style="height: 1rem; margin-bottom: 5px; font-size: 18px;">{{ $item->name }}</h3>
             <div class="product-price product-price1" style="font-size: 26px;">

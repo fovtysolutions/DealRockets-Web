@@ -3,10 +3,33 @@
         @foreach ($items as $buyer)
             <article class="lead-card">
                 <div class="lead-card-inner">
-                    <div class="d-flex" style="flex-direction: column;width: 75%;">
+                    <div class="d-flex lead-card-inner-div" >
                         <div class="lead-info">
                             <div class="lead-header">
                                 <h2 class="lead-title">{{ $buyer->product->name ?? $buyer->product_id }}</h2>
+                                  @php
+                            $user = auth('customer')->user();
+                            if ($user) {
+                                $isFavourite = \App\Utils\HelperUtil::checkIfFavourite(
+                                    $buyer->id,
+                                    $user->id,
+                                    'buyleads',
+                                );
+                            } else {
+                                $isFavourite = false;
+                            }
+                        @endphp
+                        @if (auth('customer')->user())
+                            <img class="heart mobile-heart favourite-img" onclick="makeFavourite(this)"
+                                data-id="{{ $buyer->id }}" data-userid="{{ $user->id }}" data-type="buyleads"
+                                data-role="{{ auth()->user()->role ?? 'customer' }}"
+                                src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
+                                width="20" alt="Featured icon" style="margin-left: auto;">
+                        @else
+                            <img class="heart mobile-heart favourite-img" onclick="sendtologin()"
+                                src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
+                                style="margin-left: auto;">
+                        @endif
                                 @php
                                     $countryDetails = \App\Utils\ChatManager::getCountryDetails($buyer->country);
                                 @endphp
@@ -31,40 +54,42 @@
                         </div>
                      
                         
-                        <div style="width: 760px; overflow-x: auto;">
-                            <div class="lead-details-table">
-                                <table class="detail-table">
-                                    <tr>
-                                        <td class="detail-label">Quantity</td>
-                                        <td class="detail-value text-truncate">{{ $buyer->quantity_required ?? 'N/A' }}
-                                            {{ $buyer->unit ?? 'N/A' }}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="detail-label">Term</td>
-                                        <td class="detail-value text-truncate">{{ $buyer->term ?? 'N/A' }}</td>
-                                    </tr>
-                                </table>
-                                <table class="detail-table">
-                                    <tr>
-                                        <td class="detail-label">Payment Term</td>
-                                        <td class="detail-value text-truncate">{{ $buyer->payment_option ?? 'N/A' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="detail-label">Lead Time</td>
-                                        <td class="detail-value text-truncate">{{ $buyer->lead_time ?? 'N/A' }}</td>
-                                    </tr>
-                                </table>
-                                <table class="detail-table">
-                                    <tr>
-                                        <td class="detail-label">POD</td>
-                                        <td class="detail-value text-truncate-2">{{ $buyer->port_of_loading ?? 'N/A' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="detail-label">Packing</td>
-                                        <td class="detail-value text-truncate-2">{{ $buyer->packing_type ?? 'N/A' }}</td>
-                                    </tr>
-                                </table>
-                            </div>
+                        <div class="overflow-div">
+                           <div class="lead-details-table-wrapper">
+    <div class="lead-details-table">
+        <table class="detail-table">
+            <tr>
+                <td class="detail-label">Quantity</td>
+                <td class="detail-value text-truncate">{{ $buyer->quantity_required ?? 'N/A' }} {{ $buyer->unit ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td class="detail-label">Term</td>
+                <td class="detail-value text-truncate">{{ $buyer->term ?? 'N/A' }}</td>
+            </tr>
+        </table>
+        <table class="detail-table">
+            <tr>
+                <td class="detail-label">Payment Term</td>
+                <td class="detail-value text-truncate">{{ $buyer->payment_option ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td class="detail-label">Lead Time</td>
+                <td class="detail-value text-truncate">{{ $buyer->lead_time ?? 'N/A' }}</td>
+            </tr>
+        </table>
+        <table class="detail-table">
+            <tr>
+                <td class="detail-label">POD</td>
+                <td class="detail-value text-truncate-2">{{ $buyer->port_of_loading ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td class="detail-label">Packing</td>
+                <td class="detail-value text-truncate-2">{{ $buyer->packing_type ?? 'N/A' }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -82,13 +107,13 @@
                             }
                         @endphp
                         @if (auth('customer')->user())
-                            <img class="heart favourite-img" onclick="makeFavourite(this)"
+                            <img class="heart favourite-img mobile-hide" onclick="makeFavourite(this)"
                                 data-id="{{ $buyer->id }}" data-userid="{{ $user->id }}" data-type="buyleads"
                                 data-role="{{ auth()->user()->role ?? 'customer' }}"
                                 src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
                                 width="20" alt="Featured icon" style="margin-left: auto;">
                         @else
-                            <img class="heart favourite-img" onclick="sendtologin()"
+                            <img class="heart favourite-img mobile-hide" onclick="sendtologin()"
                                 src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
                                 style="margin-left: auto;">
                         @endif

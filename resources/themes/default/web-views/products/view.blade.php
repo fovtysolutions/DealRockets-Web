@@ -70,7 +70,11 @@
                 <!-- Left Sidebar -->
                 <aside class="sidebar desktop-sidebar">
                     <form method="GET" action="{{ route('products') }}" id="filterFormProducts">
-                        <div class="filter-section showbelow768">
+                          <div class="filter-section togglebelow768 mb-3 d-flex justify-content-between pb-0 align-items-center" >
+                            <div class="search-label w-50">Filter</div>
+                            <a href="{{ request()->url() }}" class=" w-50 reset-filter" style="display: flex;  justify-content: right;">Reset Filters</a>
+                        </div>
+                        <div class="filter-section mt-0 showbelow768">
                             <div class="search-section">
                                 <div class="search-label notshowbelow768">Search by Name</div>
                                 <div class="search-input-container">
@@ -200,9 +204,9 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="filter-section togglebelow768">
+                        <!-- <div class="filter-section togglebelow768">
                             <a href="{{ request()->url() }}" class="btn btn-sm reset-filter">Reset Filters</a>
-                        </div>
+                        </div> -->
                     </form>
                 </aside>
 

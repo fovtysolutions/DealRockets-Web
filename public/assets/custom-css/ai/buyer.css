@@ -175,13 +175,29 @@
     /* margin-left: 1.25rem; */
 }
 
+.buy-offer .lead-card-inner-div{
+flex-direction: column;
+width: 75%;
+}
+
+.lead-details-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.lead-details-table {
+    min-width: 760px;
+    display: flex;
+    gap: 20px; /* optional spacing between tables */
+}
+
 /* Lead Card */
 .buy-offer .lead-card {
     width: 100%;
     border: 1px solid lightgrey;
     /* max-width: 1000px; */
     /* border-radius: 0.375rem; */
-    margin-bottom: 0.625rem;
+    margin-bottom: 20px;
 }
 
 .buy-offer .lead-card:last-child {
@@ -198,6 +214,10 @@
     justify-content: space-between;
     padding: 0.875rem 29px;
     border-radius: 0.375rem;
+}
+
+.buy-offer .lead-card:hover{
+        border: 1px solid #FE4E44;
 }
 
 .buy-offer .lead-info {
@@ -672,7 +692,9 @@ input[type='checkbox'] {
     cursor: pointer;
     margin-top: 10px;
 }
-
+ .buy-offer .mobile-heart{
+display: none !important;
+}
 .buy-offer .filter-button {
     display: none;
     margin-left: 50px;
@@ -858,7 +880,18 @@ input[type='checkbox'] {
     .buy-offer .container {
         padding: 1.25rem;
     }
-
+.buy-offer .lead-card-inner-div{
+/* flex-direction: column; */
+width: 100% !important; 
+overflow-x: scroll;
+}
+ .buy-offer .mobile-heart {
+    display: block !important;
+}
+.overflow-div{
+    width: 100% !important;
+    overflow-x: scroll !important;
+}
     .buy-offer .flex {
         flex-direction: column;
     }
@@ -925,13 +958,17 @@ input[type='checkbox'] {
     }
 
     .buy-offer .lead-header {
-        display: block;
+        /* display: block; */
+        display: flex;
+
     }
 
     .buy-offer .lead-header {
         position: relative;
     }
-
+ .buy-offer .mobile-hide{
+    display: none !important;
+ }
     .buy-offer .lead-actions {
         flex-direction: row;
         flex-direction: row-reverse;
@@ -940,8 +977,9 @@ input[type='checkbox'] {
     }
 
     .buy-offer .lead-actions .contact-btn {
-        margin-top: 0.5rem;
+        margin : 0.3rem 0 !important;
         width: 120px;
+        
     }
 
     .buy-offer .lead-tags {

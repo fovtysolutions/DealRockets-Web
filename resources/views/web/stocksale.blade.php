@@ -56,18 +56,19 @@
                     <form method="GET" action="{{ route('stocksale') }}" id="filterFormStockSale">
                         <div class="filter-section showbelow768">
                             <div class="search-section ">
-                               <div class="d-flex justify-content-between ">
-                                     <div class="search-label notshowbelow768"  >Filter</div>
-                                      <div class="filter-section togglebelow768 p-0 ">
-                                    <a href="{{ request()->url() }}" class=" reset-filter" style="background-none">Reset Filters</a>
-                                       </div>
+                                <div class="d-flex justify-content-between ">
+                                    <div class="search-label notshowbelow768">Filter</div>
+                                    <div class="filter-section togglebelow768 p-0 ">
+                                        <a href="{{ request()->url() }}" class=" reset-filter" style="background-none">Reset
+                                            Filters</a>
+                                    </div>
                                 </div>
-                                
-                                 <div class="search-label notshowbelow768 mt-3">Search by Name</div>
+
+                                <div class="search-label notshowbelow768 mt-3">Search by Name</div>
                                 <div class="search-input-container">
-                                   
+
                                     <div class="search-input-field">
-                                       
+
                                         <input type="text" name="search_query" id="nameFilter"
                                             placeholder="Enter name..." value="{{ request('name') }}" />
                                         <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
@@ -112,7 +113,7 @@
                                             <input type="checkbox" name="country[]" value="{{ $country }}"
                                                 {{ $isSelected ? 'checked' : '' }} />
                                             <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
-                                                class="flag-icon" alt="{{ $country }} flag" 
+                                                class="flag-icon" alt="{{ $country }} flag"
                                                 onerror="this.onerror=null; this.src='/flags/other/earth.svg';" />
                                             <div class="filter-label">{{ $countryDetails['countryName'] ?? 'Flag' }}</div>
                                         </label>
@@ -170,7 +171,7 @@
                                 @endforeach
                             </div>
                         </div>
-                       
+
                     </form>
                 </div>
             </div>
@@ -239,6 +240,12 @@
 @push('script')
     <script src="{{ theme_asset(path: 'public/js/stocksale.js') }}"></script>
     <script>
+        function selectFirstProductCard() {
+            console.log('Selecting first product card');
+            const $cards = $('.product-card-inner');
+            $cards.removeClass('product-card-featured'); // Clear previous selections
+            $cards.first().addClass('product-card-featured'); // Select the first one
+        }
         function loadStockSellData(id) {
             $('#dynamicLoader').css('display', 'block');
 
@@ -273,10 +280,11 @@
                 data: filters,
                 success: function(response) {
                     $('#stocksaleOfferDynamic').html(response.html);
-                    $('#paginationControls').html(response.pagination);
+                    $('#paginationControls').html(response.pagination);        
+                    selectFirstProductCard();
                     $('#dynamicLoader').css('display', 'none');
                     initializeIconCarousel();
-                    
+
                     let firstItem = $('#stocksaleOfferDynamic').find('[data-stock-id]').first();
                     if (firstItem.length) {
                         let firstId = firstItem.data('stock-id');

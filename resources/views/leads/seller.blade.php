@@ -12,7 +12,7 @@
                         <form method="GET" action="{{ route('buyer') }}" id="filterFormSeller">
                              <div class="filter-section togglebelow768 d-flex justify-content-between pb-0 align-items-center" >
                             <div class="search-label w-50">Filter</div>
-                            <a href="{{ request()->url() }}" class=" w-50 reset-filter">Reset Filters</a>
+                            <a href="{{ request()->url() }}" class="reset-filter">Reset Filters</a>
                         </div>
                            <div class="filter-section showbelow768 pt-0">
                             <div class="search-section mobile-screen ">

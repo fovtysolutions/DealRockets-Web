@@ -457,8 +457,8 @@
 .job-landing .hero-section {
     background-image: linear-gradient(to right, #FFFFFF 35%, rgba(255, 255, 255, 0) 61%),
         url('/img/image 165.png');
-    background-size: cover;
-    background-position: center;
+    background-size: contain;
+    background-position: right;
     background-repeat: no-repeat;
     height: 100vh;
     /* or whatever height you need */
@@ -549,8 +549,7 @@ padding-top: 9.19px; */
     font-family: roboto;
     font-size: 28px;
     font-weight: 600;
-    margin-left: 56px;
-
+    /* margin-left: 56px; */
 }
 
 .job-landing .highlight {

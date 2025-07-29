@@ -12,24 +12,22 @@
             @endphp
             <div class="product-card" style="flex-direction: column;">
                 <div class="d-flex" style="flex-direction: column; justify-content: space-between;">
-                    <div style="
-    justify-content: space-between;
-    display: flex;
-">
+                    <div style="justify-content: space-between;display: flex;">
                         <h3 class="product-title custom-dealrock-head">
                             {{ $seller->product->name ?? $seller->product_id }}
                         </h3>
 
                         @if (auth('customer')->user())
-                            <img class="heart favourite-img" style="/* margin-left: auto; */width: 25px;height: 23px;" onclick="makeFavourite(this)" data-id="{{ $seller->id }}"
+                            <img class="heart favourite-img" style="/* margin-left: auto; */width: 25px;height: 23px;"
+                                onclick="makeFavourite(this)" data-id="{{ $seller->id }}"
                                 data-userid="{{ $user->id }}" data-type="saleoffer"
                                 data-role="{{ auth()->user()->role ?? 'customer' }}"
                                 src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
                                 width="20" alt="Featured icon" style="margin-left: auto;">
                         @else
-                            <img class="heart favourite-img" style="/* margin-left: auto; */width: 25px;height: 23px;" onclick="sendtologin()"
-                                src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
-                                style="margin-left: auto;">
+                            <img class="heart favourite-img" style="/* margin-left: auto; */width: 25px;height: 23px;"
+                                onclick="sendtologin()" src="{{ theme_asset('public/img/Heart (1).png') }}"
+                                width="20" alt="Featured icon" style="margin-left: auto;">
                         @endif
                     </div>
                 </div>
@@ -56,33 +54,39 @@
                         </div>
                     </div>
                     <div class="product-details-col hidebelow926">
-                        <table class="detail-table">
-                            <tr>
-                                <td class="detail-label">Rate</td>
-                                <td class="detail-value text-truncate">{{ $seller->rate ?? 'N/A' }} <span
-                                        class="unit">/Piece</span></td>
-                            </tr>
-                            <tr>
-                                <td class="detail-label">Size</td>
-                                <td class="detail-value text-truncate">{{ $seller->size ?? 'N/A' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="detail-label">Type</td>
-                                <td class="detail-value text-truncate">{{ $seller->offer_type ?? 'N/A' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="detail-label">Terms</td>
-                                <td class="detail-value text-truncate">{{ $seller->delivery_terms ?? 'N/A' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="detail-label">Payment</td>
-                                <td class="detail-value text-truncate">{{ $seller->payment_option ?? 'N/A' }}</td>
-                            </tr>
-                            <tr>
-                                <td class="detail-label">Brand</td>
-                                <td class="detail-value text-truncate">{{ $seller->brand ?? 'N/A' }}</td>
-                            </tr>
-                        </table>
+                        <div style="display: flex;width: 100%;gap: 15px;">
+                            <table class="detail-table">
+                                <tr>
+                                    <td class="detail-label">Type</td>
+                                    <td class="detail-value text-truncate">{{ $seller->offer_type ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="detail-label">Terms</td>
+                                    <td class="detail-value text-truncate">{{ $seller->delivery_terms ?? 'N/A' }}</td>
+                                </tr>
+                            </table>
+                            <table class="detail-table">
+                                <tr>
+                                    <td class="detail-label">Payment</td>
+                                    <td class="detail-value text-truncate">{{ $seller->payment_option ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="detail-label">Brand</td>
+                                    <td class="detail-value text-truncate">{{ $seller->brand ?? 'N/A' }}</td>
+                                </tr>
+                            </table>
+                            <table class="detail-table">
+                                <tr>
+                                    <td class="detail-label">Rate</td>
+                                    <td class="detail-value text-truncate">{{ $seller->rate ?? 'N/A' }} <span
+                                            class="unit">/Piece</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="detail-label">Size</td>
+                                    <td class="detail-value text-truncate">{{ $seller->size ?? 'N/A' }}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                     <div class="hidebelow926 contact-seller-col">
                         <div>

@@ -122,25 +122,23 @@
                                             </label>
                                         </form>
                                     </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center align-items-center gap-10">
-                                            <a  class="btn btn-outline--primary btn-sm edit"
-                                                title="{{translate('edit')}}"
-                                                href="{{route('admin.delivery-man.edit',[$deliveryMen['id']])}}">
-                                                <i class="tio-edit"></i></a>
-                                            <a title="Earning Statement"
-                                               class="btn btn-outline-info btn-sm square-btn"
-                                               href="{{ route('admin.delivery-man.earning-statement-overview', ['id' => $deliveryMen['id']]) }}">
-                                                <i class="tio-money"></i>
+                                    <td class="text-center">
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                            <a href="{{route('admin.delivery-man.edit',[$deliveryMen['id']])}}"
+                                                class="btn btn-outline-primary" title="Edit">
+                                                <i class="tio-edit"></i>Edit
                                             </a>
-                                            <a class="btn btn-outline-danger btn-sm delete delete-data" href="javascript:"
-                                                data-id="delivery-man-{{$deliveryMen['id']}}"
-                                                title="{{ translate('delete')}}">
-                                                <i class="tio-delete"></i>
+                                            <a href="{{ route('admin.delivery-man.earning-statement-overview', ['id' => $deliveryMen['id']]) }}"
+                                               class="btn btn-outline-info" title="Earning Statement">
+                                                <i class="tio-money"></i>Earning
                                             </a>
                                             <form action="{{route('admin.delivery-man.delete',[$deliveryMen['id']])}}"
-                                                    method="post" id="delivery-man-{{$deliveryMen['id']}}">
-                                                @csrf @method('delete')
+                                                method="POST" onsubmit="return confirm('Are you sure?');" class="d-inline">
+                                                @csrf 
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                                    Delete<i class="tio-delete"></i>
+                                                </button>
                                             </form>
                                         </div>
                                     </td>

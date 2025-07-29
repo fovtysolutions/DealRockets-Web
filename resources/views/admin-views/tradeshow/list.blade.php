@@ -13,20 +13,16 @@
         </h2>
     </div>
 
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ url()->current() }}" method="GET">
-                <input type="hidden" value="{{ request('status') }}" name="status">
-                <div class="row gx-2">
-                    <div class="col-12">
-                        <h4 class="mb-3">{{ translate('Filter Tradeshows') }}</h4>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label for="name" class="title-color">{{ translate('Name') }}</label>
-                            <select name="name" class="js-select2-custom form-control text-capitalize">
-                                <option value="" selected>{{ translate('All Companys') }}</option>
+    <div class="container-fluid p-0">
+        <div class="mb-3">
+            <div class="card-body p-0">
+                <form action="{{ url()->current() }}" method="GET">
+                    <input type="hidden" value="{{ request('status') }}" name="status">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('company_name') }}</label>
+                            <select name="name" class="form-control form-control-sm">
+                                <option value="">{{ translate('all_companies') }}</option>
                                 @foreach ($company_name as $name)
                                     <option value="{{ trim($name) }}" {{ request('name') == trim($name) ? 'selected' : '' }}>
                                         {{ trim($name) }}
@@ -34,13 +30,11 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
 
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label for="country" class="title-color">{{ translate('Country') }}</label>
-                            <select name="country" class="js-select2-custom form-control text-capitalize">
-                                <option value="" selected>{{ translate('All Countries') }}</option>
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('country') }}</label>
+                            <select name="country" class="form-control form-control-sm">
+                                <option value="">{{ translate('all_countries') }}</option>
                                 @foreach ($country as $c)
                                     <option value="{{ trim($c) }}" {{ request('country') == trim($c) ? 'selected' : '' }}>
                                         {{ trim($c) }}
@@ -48,27 +42,27 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
 
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label for="contact_number" class="title-color">{{ translate('Contact Number') }}</label>
-                            <input type="text" name="contact_number" class="form-control" placeholder="{{ translate('Enter Contact Number') }}" value="{{ request('contact_number') }}">
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('contact_number') }}</label>
+                            <input type="text" name="contact_number" class="form-control form-control-sm" 
+                                placeholder="{{ translate('contact_number') }}" value="{{ request('contact_number') }}">
                         </div>
-                    </div>
 
-                    <div class="col-12">
-                        <div class="d-flex gap-3 justify-content-end">
-                            <a class="btn btn-secondary px-5" href="{{ url()->current() }}">
-                                {{ translate('Reset') }}
+                        <div>
+                            <a href="{{ route('admin.tradeshow.list') }}"
+                                class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                {{ translate('reset') }}
                             </a>
-                            <button type="submit" class="btn btn--primary px-5 action-get-element-type">
-                                {{ translate('Show Data') }}
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                {{ translate('show_data') }}
                             </button>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -152,25 +146,20 @@
                                         {{ $tradeshow['website'] }}
                                     </td>
                                     <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a class="btn btn-outline-info btn-sm square-btn" title="View"
-                                                href="{{ route('admin.tradeshow.view', ['id' => $tradeshow['id']]) }}">
-                                                <i class="tio-invisible"></i>
-                                            </a>
-                                            <a class="btn btn-outline--primary btn-sm square-btn"
-                                                title="{{ translate('Edit') }}"
-                                                href="{{ route('admin.tradeshow.edit', ['id' => $tradeshow['id']]) }}">
-                                                <i class="tio-edit"></i>
-                                            </a>
-                                            <span class="btn btn-outline-danger btn-sm square-btn delete-data"
-                                                title="{{ translate('Delete') }}" data-id="tradeshow-{{ $tradeshow['id'] }}">
-                                                <i class="tio-delete"></i>
-                                            </span>
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                            <a href="{{ route('admin.tradeshow.view', ['id' => $tradeshow['id']]) }}"
+                                                class="btn btn-outline-info" title="View"><i class="tio-invisible"></i>View</a>
+                                            <a href="{{ route('admin.tradeshow.edit', ['id' => $tradeshow['id']]) }}"
+                                                class="btn btn-outline-primary" title="Edit"><i class="tio-edit"></i>Edit</a>
+                                            <form action="{{ route('admin.tradeshow.delete', [$tradeshow['id']]) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure?');" class="d-inline">
+                                                @csrf 
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-outline-danger" title="Delete">Delete
+                                                    <i class="tio-delete"></i>
+                                                </button>
+                                            </form>
                                         </div>
-                                        <form action="{{ route('admin.tradeshow.delete', [$tradeshow['id']]) }}" method="post"
-                                            id="tradeshow-{{ $tradeshow['id'] }}">
-                                            @csrf @method('delete')
-                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

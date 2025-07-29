@@ -67,9 +67,9 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex justify-content-center gap-2">
-                                                    <a title="{{ translate('view') }}" class="btn btn-outline-info btn-sm square-btn"
+                                                    <a title="{{ translate('view') }}" class="btn btn-outline-info"
                                                         href="{{ route('admin.vendors.get-vendor-register-details', $value->id) }}">
-                                                        <i class="tio-invisible"></i>
+                                                        <i class="tio-invisible"></i> View
                                                     </a>
                                                 </div>
                                             </td>

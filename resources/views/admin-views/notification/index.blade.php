@@ -149,25 +149,24 @@
                                             </label>
                                         </form>
                                     </td>
-                                    <td>
-                                        <a href="javascript:" class="btn btn-outline-success square-btn btn-sm resend-notification"
-                                           data-id="{{ $notification->id }}">
-                                            <i class="tio-refresh"></i>
-                                        </a>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-outline-success resend-notification"
+                                           data-id="{{ $notification->id }}" title="Resend">
+                                            <i class="tio-refresh"></i>Resend
+                                        </button>
                                     </td>
                                     <td class="text-center">
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a class="btn btn-outline--primary btn-sm edit square-btn"
-                                               title="{{translate('edit')}}"
-                                               href="{{route('admin.notification.update',[$notification['id']])}}">
-                                                <i class="tio-edit"></i>
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                            <a href="{{route('admin.notification.update',[$notification['id']])}}"
+                                               class="btn btn-outline-primary" title="Edit">
+                                                <i class="tio-edit"></i>Edit
                                             </a>
-                                            <a class="btn btn-outline-danger btn-sm delete-data-without-form"
-                                               title="{{translate('delete')}}"
+                                            <button type="button" class="btn btn-outline-danger delete-data-without-form"
+                                               title="Delete"
                                                data-action="{{route('admin.notification.delete')}}"
-                                               data-id="{{$notification['id']}}')">
-                                                <i class="tio-delete"></i>
-                                            </a>
+                                               data-id="{{$notification['id']}}">
+                                                Delete<i class="tio-delete"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

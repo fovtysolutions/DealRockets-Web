@@ -228,46 +228,38 @@
                                     </label>
                                 </form>
                             </td>
-                            <td>
-                                <div class="d-flex gap-2 justify-content-center">
-                                    <div data-toggle="modal" data-target="#review-view-for-{{ $review['id'] }}">
-                                        <a class="btn btn-outline-info btn-sm square-btn" title="{{ translate('View') }}" data-toggle="tooltip">
-                                            <i class="tio-invisible"></i>
-                                        </a>
-                                    </div>
+                            <td class="text-center">
+                                <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                    <button type="button" class="btn btn-outline-info" title="View" data-toggle="modal" data-target="#review-view-for-{{ $review['id'] }}">
+                                        <i class="tio-invisible"></i>View
+                                    </button>
 
                                     @if(isset($review->product) && $review?->product?->added_by == 'admin')
-                                        <div data-toggle="modal" data-target="#review-update-for-{{ $review['id'] }}">
-                                            @if($review?->reply)
-                                                <a class="btn btn-outline-primary btn-sm square-btn" title="{{ translate('Update_Review') }}" data-toggle="tooltip">
-                                                    <i class="tio-edit"></i>
-                                                </a>
-                                            @else
-                                                <div class="btn btn-outline--primary btn-sm square-btn" title="{{ translate('Review_Reply') }}" data-toggle="tooltip">
-                                                    <i class="tio-reply-all"></i>
-                                                </div>
-                                            @endif
-                                        </div>
+                                        @if($review?->reply)
+                                            <button type="button" class="btn btn-outline-primary" title="Update Review" data-toggle="modal" data-target="#review-update-for-{{ $review['id'] }}">
+                                                <i class="tio-edit"></i>Update
+                                            </button>
+                                        @else
+                                            <button type="button" class="btn btn-outline-primary" title="Review Reply" data-toggle="modal" data-target="#review-update-for-{{ $review['id'] }}">
+                                                <i class="tio-reply-all"></i>Reply
+                                            </button>
+                                        @endif
                                     @elseif($review?->product?->added_by == 'seller')
-                                        <div>
-                                            <a class="btn btn-outline-primary btn-sm square-btn" title="{{ translate('Admin_can_not_reply_to_vendor_product_review') }}" data-toggle="tooltip">
-                                                @if($review?->reply)
-                                                    <i class="tio-edit"></i>
-                                                @else
-                                                    <i class="tio-reply-all"></i>
-                                                @endif
-                                            </a>
-                                        </div>
+                                        <button type="button" class="btn btn-outline-primary" title="Admin can not reply to vendor product review" disabled>
+                                            @if($review?->reply)
+                                                <i class="tio-edit"></i>Update
+                                            @else
+                                                <i class="tio-reply-all"></i>Reply
+                                            @endif
+                                        </button>
                                     @else
-                                        <div>
-                                            <a class="btn btn-outline-primary btn-sm square-btn" title="{{ translate('product_not_found') }}" data-toggle="tooltip">
-                                                @if($review?->reply)
-                                                    <i class="tio-edit"></i>
-                                                @else
-                                                    <i class="tio-reply-all"></i>
-                                                @endif
-                                            </a>
-                                        </div>
+                                        <button type="button" class="btn btn-outline-primary" title="Product not found" disabled>
+                                            @if($review?->reply)
+                                                <i class="tio-edit"></i>Update
+                                            @else
+                                                <i class="tio-reply-all"></i>Reply
+                                            @endif
+                                        </button>
                                     @endif
                                 </div>
                             </td>

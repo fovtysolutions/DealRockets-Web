@@ -136,23 +136,17 @@
                                         </td>
                                         <td class="text-center">{{ Str::limit($quotation->description, 50) }}</td>
                                         <td class="text-center">
-                                            <div class="d-flex justify-content-center gap-2">
-                                                <a class="btn btn-outline-info" title="View"
-                                                    href="{{ route('admin.quotation.view', ['id' => $quotation->id]) }}">
-                                                    <i class="tio-invisible"></i> View
+                                            <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                                <a href="{{ route('admin.quotation.view', ['id' => $quotation->id]) }}"
+                                                    class="btn btn-outline-info" title="View">
+                                                    <i class="tio-invisible"></i>View
                                                 </a>
-                                                {{-- <a class="btn btn-outline--primary btn-sm square-btn"
-                                                title="{{ translate('edit') }}"
-                                                href="{{ route('admin.quotation.edit', ['id' => $quotation->id]) }}">
-                                                <i class="tio-edit"></i>
-                                            </a> --}}
                                                 <form action="{{ route('admin.quotation.delete', [$quotation->id]) }}"
-                                                    method="post" id="quotation-{{ $quotation->id }}">
-                                                    @csrf @method('delete')
-                                                    <button class="btn btn-outline-danger delete-data" type="submit"
-                                                        title="{{ translate('delete') }}"
-                                                        data-id="quotation-{{ $quotation->id }}">
-                                                        <i class="tio-delete"></i> Delete
+                                                    method="POST" onsubmit="return confirm('Are you sure?');" class="d-inline">
+                                                    @csrf 
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                                        Delete<i class="tio-delete"></i>
                                                     </button>
                                                 </form>
                                             </div>

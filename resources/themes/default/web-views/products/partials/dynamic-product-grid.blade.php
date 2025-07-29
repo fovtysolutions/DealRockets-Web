@@ -30,23 +30,23 @@
 
             <div class="product-info">
              @if (Carbon\Carbon::parse($item->created_at)->gt(Carbon\Carbon::now()->subDays(30)))
-    <div class="d-flex justify-content-between" style="align-items: center; padding-bottom: 11px;">
-        <p class="new">New</p>
-        <div class="rating">
-            <span style="font-size: 16px;">
-                <i class="bi bi-star-fill start-rating" style="color: #ffbb00;font-size: 18px !important;"></i>
-                @php
-                    $overallRating = getOverallRating($item->reviews);
-                @endphp
-                {{ $overallRating[0] }}/5
-            </span>
-        </div>
-    </div>
-@else
-    <div class="d-flex justify-content-between" style="height: 38px;">
-        <!-- You can optionally add something here -->
-    </div>
-@endif
+                <div class="d-flex justify-content-between" style="align-items: center; padding-bottom: 11px;">
+                    <p class="new">New</p>
+                    <div class="rating">
+                        <span style="font-size: 16px;">
+                            <i class="bi bi-star-fill start-rating" style="color: #ffbb00;font-size: 18px !important;"></i>
+                            @php
+                                $overallRating = getOverallRating($item->reviews);
+                            @endphp
+                            {{ $overallRating[0] }}/5
+                        </span>
+                    </div>
+                </div>
+            @else
+                <div class="d-flex justify-content-between" style="height: 38px;">
+                    <!-- You can optionally add something here -->
+                </div>
+            @endif
 
                 <h3 class="product-title">{{ $item->short_details }}</h3>
                 <div class="product-price">${{ number_format($item->unit_price, 2) }} / {{ $item->unit }}</div>

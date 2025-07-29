@@ -6,7 +6,7 @@
 @section('title', translate('Job Seeker' . ' | ' . $web_config['name']->value))
 @section('content')
 
-    <section class="mainpagesection candidate-jobs" style="background-color: unset;">
+    <section class="mainpagesection candidate-jobs" style="background-color: unset; "style="margin-top: 20px;">
         <div class="jobs">
             <div class="container jobs">
                 <form method="GET" action="{{ url()->current() }}" id="candidateJobsForm" class="leftdiv">

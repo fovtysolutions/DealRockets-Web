@@ -148,26 +148,25 @@
                                     <td>
                                         {{ $cv['details'] }}
                                     </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a class="btn btn-outline-info btn-sm square-btn" title="View"
-                                                href="{{ route('admin.cv.view', ['id' => $cv['id']]) }}">
-                                                <i class="tio-invisible"></i>
+                                    <td class="text-center">
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                            <a href="{{ route('admin.cv.view', ['id' => $cv['id']]) }}"
+                                                class="btn btn-outline-info" title="View">
+                                                <i class="tio-invisible"></i>View
                                             </a>
-                                            <a class="btn btn-outline--primary btn-sm square-btn"
-                                                title="{{ translate('edit') }}"
-                                                href="{{ route('admin.cv.edit', ['id' => $cv['id']]) }}">
-                                                <i class="tio-edit"></i>
+                                            <a href="{{ route('admin.cv.edit', ['id' => $cv['id']]) }}"
+                                                class="btn btn-outline-primary" title="Edit">
+                                                <i class="tio-edit"></i>Edit
                                             </a>
-                                            <span class="btn btn-outline-danger btn-sm square-btn delete-data"
-                                                title="{{ translate('delete') }}" data-id="cv-{{ $cv['id']}}">
-                                                <i class="tio-delete"></i>
-                                            </span>
+                                            <form action="{{ route('admin.cv.delete', [$cv['id']]) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure?');" class="d-inline">
+                                                @csrf 
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                                    Delete<i class="tio-delete"></i>
+                                                </button>
+                                            </form>
                                         </div>
-                                        <form action="{{ route('admin.cv.delete', [$cv['id']]) }}" method="post"
-                                            id="cv-{{ $cv['id']}}">
-                                            @csrf @method('delete')
-                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

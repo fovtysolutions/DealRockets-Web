@@ -538,6 +538,8 @@ class LeadsController extends Controller
             $query->where('buying_frequency', 'LIKE', '%' . $request->buying_frequency . '%');
         }
 
+        $query->orderBy('posted_date', 'desc');
+
         $leads = $query->paginate(10);
         $totalleads = $leads->count();
         $name = Leads::select('name')->distinct()->pluck('name');

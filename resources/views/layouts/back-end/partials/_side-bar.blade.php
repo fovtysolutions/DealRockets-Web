@@ -173,7 +173,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/buy-leads') ? 'active' : '' }}">
+                        {{-- <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/buy-leads') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                 href="{{ route('admin.subcard', ['slug' => 'buy-leads']) }}">
                                 <i class="fa-brands fa-buy-n-large me-2 sidebar-icon"></i>
@@ -182,7 +182,7 @@
                                     {{ translate('Buy Leads') }}
                                 </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/marketplace') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                 href="{{ route('admin.subcard', ['slug' => 'marketplace']) }}">

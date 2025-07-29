@@ -141,14 +141,14 @@
                                     @if($employee['id'] == 1)
                                         <label class="badge badge-primary-light">{{ translate('default') }}</label>
                                     @else
-                                        <div class="d-flex gap-10 justify-content-center">
-                                            <a href="{{route('admin.employee.update',[$employee['id']])}}"
-                                               class="btn btn-outline--primary btn-sm square-btn"
-                                               title="{{translate('edit')}}">
-                                                <i class="tio-edit"></i>
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                            <a href="{{route('admin.employee.view',['id'=>$employee['id']])}}"
+                                               class="btn btn-outline-info" title="View">
+                                                <i class="tio-invisible"></i>View
                                             </a>
-                                            <a class="btn btn-outline-info btn-sm square-btn" title="View" href="{{route('admin.employee.view',['id'=>$employee['id']])}}">
-                                                <i class="tio-invisible"></i>
+                                            <a href="{{route('admin.employee.update',[$employee['id']])}}"
+                                               class="btn btn-outline-primary" title="Edit">
+                                                <i class="tio-edit"></i>Edit
                                             </a>
                                         </div>
                                     @endif

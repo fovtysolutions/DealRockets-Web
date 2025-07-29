@@ -37,19 +37,18 @@
                         <span class="badge badge-success badge-success-2">{{translate('Yes')}} <i class="tio-all-done"></i></span>
                     @endif
                 </td>
-                <td>
-                    <div class="d-flex gap-10 justify-content-center">
-                        <a title="{{translate('view')}}"
-                           class="btn btn-outline-info btn-sm square-btn"
-                           href="{{route('admin.contact.view',$contact->id)}}">
-                            <i class="tio-invisible"></i>
+                <td class="text-center">
+                    <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                        <a href="{{route('admin.contact.view',$contact->id)}}"
+                           class="btn btn-outline-info" title="View">
+                            <i class="tio-invisible"></i>View
                         </a>
-                        <a class="btn btn-outline-danger btn-sm delete delete-data-without-form"
+                        <button type="button" class="btn btn-outline-danger delete delete-data-without-form"
                            data-id="{{$contact['id']}}"
                            data-action="{{route('admin.contact.delete')}}"
-                           title="{{ translate('delete')}}">
-                            <i class="tio-delete"></i>
-                        </a>
+                           title="Delete">
+                            Delete<i class="tio-delete"></i>
+                        </button>
                     </div>
                 </td>
             </tr>

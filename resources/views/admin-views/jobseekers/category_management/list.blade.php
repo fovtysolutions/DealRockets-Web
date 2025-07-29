@@ -42,20 +42,22 @@
                                                 <span class="badge badge-danger">{{ translate('Inactive') }}</span>
                                             @endif
                                         </td>
-                                        <td>
-                                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#viewCategoryModal" data-category="{{ json_encode($category) }}">
-                                                {{ translate('View') }}
-                                            </button>
-                                            <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editCategoryModal" data-category="{{ json_encode($category) }}">
-                                                {{ translate('Edit') }}
-                                            </button>
-                                            <form action="{{ route('admin.jobvacancy.category.destroy', $category->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">
-                                                    {{ translate('Delete') }}
+                                        <td class="text-center">
+                                            <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                                <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#viewCategoryModal" data-category="{{ json_encode($category) }}" title="View">
+                                                    <i class="tio-invisible"></i>View
                                                 </button>
-                                            </form>
+                                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#editCategoryModal" data-category="{{ json_encode($category) }}" title="Edit">
+                                                    <i class="tio-edit"></i>Edit
+                                                </button>
+                                                <form action="{{ route('admin.jobvacancy.category.destroy', $category->id) }}" method="POST" onsubmit="return confirm('Are you sure?');" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                                        Delete<i class="tio-delete"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

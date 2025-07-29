@@ -71,20 +71,20 @@
                                                 </label>
                                             </form>
                                         </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center gap-10">
-                                                <a class="btn btn-outline--primary btn-sm edit"
+                                        <td class="text-center">
+                                            <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                                <button type="button" class="btn btn-outline-primary edit"
                                                    data-toggle="modal" data-target="#editModal"
-                                                   title="{{ translate('edit')}}"
+                                                   title="Edit"
                                                    data-id="{{ route('admin.helpTopic.update', ['id'=>$help['id']]) }}">
-                                                    <i class="tio-edit"></i>
-                                                </a>
-                                                <a class="btn btn-outline-danger btn-sm delete-data-without-form"
-                                                   title="{{ translate('delete')}}"
+                                                    <i class="tio-edit"></i>Edit
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger delete-data-without-form"
+                                                   title="Delete"
                                                    data-action="{{route('admin.helpTopic.delete')}}"
                                                    data-id="{{$help['id']}}">
-                                                    <i class="tio-delete"></i>
-                                                </a>
+                                                    Delete<i class="tio-delete"></i>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

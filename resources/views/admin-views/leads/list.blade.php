@@ -172,23 +172,22 @@
                                         <td class="text-center">
                                             {{ $lead['posted_date'] }}
                                         </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center gap-2">
-                                                <a class="btn btn-outline-info" title="View"
-                                                    href="{{ route('admin.leads.view', ['id' => $lead['id']]) }}">
-                                                    <i class="tio-invisible"></i> View
+                                        <td class="text-center">
+                                            <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                                <a href="{{ route('admin.leads.view', ['id' => $lead['id']]) }}"
+                                                    class="btn btn-outline-info" title="View">
+                                                    <i class="tio-invisible"></i>View
                                                 </a>
-                                                <a class="btn btn-outline--primary" title="{{ translate('edit') }}"
-                                                    href="{{ route('admin.leads.edit', ['id' => $lead['id']]) }}">
-                                                    <i class="tio-edit"></i> Edit
+                                                <a href="{{ route('admin.leads.edit', ['id' => $lead['id']]) }}"
+                                                    class="btn btn-outline-primary" title="Edit">
+                                                    <i class="tio-edit"></i>Edit
                                                 </a>
                                                 <form action="{{ route('admin.leads.delete', [$lead['id']]) }}"
-                                                    method="post" id="lead-{{ $lead['id'] }}">
-                                                    @csrf @method('delete')
-                                                    <button type="submit" class="btn btn-outline-danger delete-data"
-                                                        title="{{ translate('delete') }}"
-                                                        data-id="lead-{{ $lead['id'] }}">
-                                                        <i class="tio-delete"></i> Delete
+                                                    method="POST" onsubmit="return confirm('Are you sure?');" class="d-inline">
+                                                    @csrf 
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                                        Delete<i class="tio-delete"></i>
                                                     </button>
                                                 </form>
                                             </div>

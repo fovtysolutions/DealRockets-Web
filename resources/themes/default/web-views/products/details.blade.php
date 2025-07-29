@@ -62,11 +62,11 @@
         $isAdmin = 0;
     }
     ?>
-    <div class="__inline-23 mainpagesection" style="background-color: unset; margin-top: 22px;">
+    <div class="__inline-23 mainpagesection" style="background-color: unset; margin-top: 30px;">
         <div>
             <div class="product-view-section">
                 <!-- Product View Section -->
-                <div class="product-view" style="margin-bottom: 20px;">
+                <div class="product-view " style="margin-bottom: 20px; padding-top: 0px !important; ">
                     <!-- Product Images Section -->
                     <div class="product-images">
                         <img id="mainImage" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';"
@@ -413,7 +413,7 @@
                                         <div class="product-image-gallery space-y-4">
                                             <h4 class="section-subtitle">Certificates</h4>
                                             <div class="image-gallery-preview">
-                                                <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
+                                                <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';"
                                                     alt="Main Preview">
                                             </div>
 
@@ -423,7 +423,7 @@
                                                         <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail"
                                                             style="height: 100px;"
                                                             class="w-20 h-20 object-cover hover:opacity-75 transition"
-                                                            onclick="document.getElementById('mainPreview').src = this.src;">
+                                                            onerror="this.onerror=null;this.src='/images/placeholderimage.webp';">
                                                     </div>
                                                 @endforeach
                                             </div>
@@ -639,7 +639,7 @@
                                     <div class="product-image-gallery space-y-4">
                                         {{-- Main Preview Image --}}
                                         <div class="image-gallery-preview">
-                                            <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}"
+                                            <img id="mainPreview" src="{{ asset('storage/' . $images[0]) }}" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';"
                                                 alt="Main Preview">
                                         </div>
 

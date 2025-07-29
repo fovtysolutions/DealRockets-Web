@@ -1687,11 +1687,15 @@ color: #FE4E44 !important;
     .product-view-section .related-products {
         display: none !important;
     }
-#sticky-supplier-info1{
+ .product-view-section #sticky-supplier-info1{
     padding-right: 20px !important;
+    margin-right: 10px !important;
 }
     .product-view-section .card-2 {
         display: none !important;
+    }
+   .product-view-section #sticky-supplier-info {
+        width: 31% !important;
     }
 
     .product-view-section .product-div {
@@ -1734,12 +1738,14 @@ color: #FE4E44 !important;
     display: none !important;
    
 }
-#sticky-supplier-info{
- width: 68% !important;
-
+.product-view-section #sticky-supplier-info{
+ width: 60% !important;
+margin-left: 1.4rem  auto !important;
     border-radius: 18px;
     border-radius: 16px !important;
     gap: 0.1rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
     .product-view-section .tab.active {
         font-size: 16px !important;

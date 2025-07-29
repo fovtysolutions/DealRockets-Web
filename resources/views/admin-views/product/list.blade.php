@@ -91,17 +91,18 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2 col-sm-4 col-6 d-flex gap-2">
+                            <div>
                                 <a href="{{ route('admin.products.list', ['type' => request('type')]) }}"
-                                    class="btn btn--primary w-100">
+                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
                                     {{ translate('reset') }}
                                 </a>
-                                <button type="submit" class="btn btn--primary w-100">
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
                                     {{ translate('show_data') }}
                                 </button>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -154,10 +155,10 @@
                                         <i class="tio-add-circle"></i>
                                         <span class="text">{{ translate('limited_Stocks') }}</span>
                                     </a>
-                                    <a href="{{ route('vendor.products.add') }}" class="btn btn--primary">
+                                    {{-- <a href="{{ route('vendor.products.add') }}" class="btn btn--primary">
                                         <i class="tio-add"></i>
                                         <span class="text">{{ translate('add_new_product') }}</span>
-                                    </a>
+                                    </a> --}}
                                 @endif
                             </div>
                         </div>

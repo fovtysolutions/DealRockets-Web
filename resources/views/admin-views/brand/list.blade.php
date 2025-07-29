@@ -99,18 +99,16 @@
                                                 </label>
                                             </form>
                                         </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center gap-2">
-                                                <a class="btn btn-outline-info btn-sm square-btn" title="{{ translate('edit') }}"
-                                                    href="{{ route('admin.brand.update', [$brand['id']]) }}">
-                                                    <i class="tio-edit"></i>
-                                                </a>
-                                                <a class="btn btn-outline-danger btn-sm delete-brand square-btn " title="{{ translate('delete') }}"
+                                        <td class="text-center">
+                                            <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                                <a href="{{ route('admin.brand.update', [$brand['id']]) }}"
+                                                    class="btn btn-outline-primary" title="Edit"><i class="tio-edit"></i>Edit</a>
+                                                <button type="button" class="btn btn-outline-danger delete-brand" title="Delete"
                                                    data-product-count = "{{count($brand?->brandAllProducts)}}"
                                                    data-text="{{translate('there_were_').count($brand?->brandAllProducts).translate('_products_under_this_brand').'.'.translate('please_update_their_brand_from_the_below_list_before_deleting_this_one').'.'}}"
                                                    id="{{ $brand['id'] }}">
-                                                    <i class="tio-delete"></i>
-                                                </a>
+                                                    Delete<i class="tio-delete"></i>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

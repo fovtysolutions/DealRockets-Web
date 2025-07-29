@@ -9,92 +9,150 @@
 @endpush
 
 @section('content')
-    <div class="container-fluid">
-        <!-- Filters and Actions -->
-        <div class="row mb-4 mt-4">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">{{ translate('Filter') }}</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="col-md-12 d-flex justify-content-between">
-                            <!-- Filter Section -->
-                            <div class="filter-section">
-                                <form method="GET" action="{{ route('admin.jobvacancy.list') }}" class="d-flex">
-                                    <!-- Category Filter -->
-                                    <div class="form-group mx-2">
-                                        <label for="category" class="form-label">Category</label>
-                                        <select class="form-control" name="category" id="category">
-                                            <option value="">All Categories</option>
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->name }}" {{ request('category') == $category->name ? 'selected' : '' }}>{{ $category->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+    <div class="content container-fluid">
+        <div class="mb-3">
+            <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
+                <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
+                {{ translate('Job_Vacancies_List') }}
+                <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{ $vacancies->total() }}</span>
+            </h2>
+        </div>
 
-                                    <!-- Status Filter -->
-                                    <div class="form-group mx-2">
-                                        <label for="status" class="form-label">Status</label>
-                                        <select class="form-control" name="status" id="status">
-                                            <option value="">All Statuses</option>
-                                            <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>
-                                                Active
-                                            </option>
-                                            <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>
-                                                Inactive
-                                            </option>
-                                            <option value="closed" {{ request('status') == 'closed' ? 'selected' : '' }}>
-                                                Closed
-                                            </option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Employment Type Filter -->
-                                    <div class="form-group mx-2">
-                                        <label for="employment_type" class="form-label">Employment Type</label>
-                                        <select class="form-control" name="employment_type" id="employment_type">
-                                            <option value="">All Types</option>
-                                            <option value="full-time" {{ request('employment_type') == 'full-time' ? 'selected' : '' }}>
-                                                Full-Time</option>
-                                            <option value="part-time" {{ request('employment_type') == 'part-time' ? 'selected' : '' }}>
-                                                Part-Time</option>
-                                            <option value="contract" {{ request('employment_type') == 'contract' ? 'selected' : '' }}>
-                                                Contract</option>
-                                            <option value="freelance" {{ request('employment_type') == 'freelance' ? 'selected' : '' }}>
-                                                Freelance</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Submit Button -->
-                                    <div class="form-group mx-2 align-self-end">
-                                        <button type="submit" class="btn btn-primary">Filter</button>
-                                    </div>
-                                </form>
+        <div class="container-fluid p-0">
+            <div class="mb-3">
+                <div class="card-body p-0">
+                    <form action="{{ url()->current() }}" method="GET">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('category') }}</label>
+                                <select name="category" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_categories') }}</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->name }}"
+                                            {{ request('category') == $category->name ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
-                            <!-- Action Buttons -->
-                            <div class="action-buttons">
-                                <a href="{{ route('admin.jobvacancy.create') }}" class="btn btn-success"><i
-                                        class="fa fa-plus"></i>
-                                    Create
-                                    Vacancy</a>
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('status') }}</label>
+                                <select name="status" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_status') }}</option>
+                                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>
+                                        {{ translate('active') }}
+                                    </option>
+                                    <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>
+                                        {{ translate('inactive') }}
+                                    </option>
+                                    <option value="closed" {{ request('status') == 'closed' ? 'selected' : '' }}>
+                                        {{ translate('closed') }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('employment_type') }}</label>
+                                <select name="employment_type" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_types') }}</option>
+                                    <option value="full-time" {{ request('employment_type') == 'full-time' ? 'selected' : '' }}>
+                                        {{ translate('full_time') }}
+                                    </option>
+                                    <option value="part-time" {{ request('employment_type') == 'part-time' ? 'selected' : '' }}>
+                                        {{ translate('part_time') }}
+                                    </option>
+                                    <option value="contract" {{ request('employment_type') == 'contract' ? 'selected' : '' }}>
+                                        {{ translate('contract') }}
+                                    </option>
+                                    <option value="freelance" {{ request('employment_type') == 'freelance' ? 'selected' : '' }}>
+                                        {{ translate('freelance') }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('approval_status') }}</label>
+                                <select name="approved" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_approval_status') }}</option>
+                                    <option value="1" {{ request('approved') == '1' ? 'selected' : '' }}>
+                                        {{ translate('approved') }}
+                                    </option>
+                                    <option value="0" {{ request('approved') == '0' ? 'selected' : '' }}>
+                                        {{ translate('under_review') }}
+                                    </option>
+                                    <option value="2" {{ request('approved') == '2' ? 'selected' : '' }}>
+                                        {{ translate('rejected') }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <a href="{{ route('admin.jobvacancy.list') }}"
+                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    {{ translate('reset') }}
+                                </a>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    {{ translate('show_data') }}
+                                </button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
 
-        <!-- Job Listings -->
-        <div class="row">
+        <div class="row mt-20">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">{{ translate('Vacancy Table') }}</h5>
+                    <div class="px-3 py-4">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4">
+                                <form action="{{ url()->current() }}" method="GET">
+                                    <div class="input-group input-group-custom input-group-merge">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="tio-search"></i>
+                                            </div>
+                                        </div>
+                                        <input id="datatableSearch_" type="search" name="searchValue" class="form-control"
+                                            placeholder="{{ translate('search_by_Job_Title') }}"
+                                            aria-label="Search jobs" value="{{ request('searchValue') }}">
+                                        <input type="hidden" value="{{ request('status') }}" name="status">
+                                        <input type="hidden" value="{{ request('category') }}" name="category">
+                                        <input type="hidden" value="{{ request('employment_type') }}" name="employment_type">
+                                        <input type="hidden" value="{{ request('approved') }}" name="approved">
+                                        <button type="submit" class="btn btn--primary">{{ translate('search') }}</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-8 mt-3 mt-lg-0 d-flex flex-wrap gap-3 justify-content-lg-end">
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-outline--primary" data-toggle="dropdown">
+                                        <i class="tio-download-to"></i>
+                                        {{ translate('export') }}
+                                        <i class="tio-chevron-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>
+                                            <a class="dropdown-item" href="#">
+                                                <img width="14" src="{{ dynamicAsset(path: 'public/assets/back-end/img/excel.png') }}" alt="">
+                                                {{ translate('excel') }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a href="{{ route('admin.jobvacancy.create') }}" class="btn btn--primary">
+                                    <i class="tio-add"></i>
+                                    <span class="text">{{ translate('add_new_vacancy') }}</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
+
+                    <div class="box-view p-3">
 
                         <div class="table-responsive">
                             <table id="datatable"
@@ -149,33 +207,36 @@
                                                     Not Available
                                                 @endif
                                             </td>
-                                            <td>
-                                                <a href="{{ route('admin.jobvacancy.show', ['id' => $vacancy->id]) }}"
-                                                    class="btn btn-info btn-sm"><i class="fa fa-eye"></i> View</a>
-                                                <a href="{{ route('admin.jobvacancy.edit', ['id' => $vacancy->id]) }}"
-                                                    class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
-                                                <form action="{{ route('admin.jobvacancy.destroy', $vacancy->id) }}"
-                                                    method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Are you sure you want to delete this job vacancy?');">
-                                                        Delete
+                                            <td class="text-center">
+                                                <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                                    <a href="{{ route('admin.jobvacancy.show', ['id' => $vacancy->id]) }}"
+                                                        class="btn btn-outline-info" title="View"><i class="tio-invisible"></i>View</a>
+                                                    <a href="{{ route('admin.jobvacancy.edit', ['id' => $vacancy->id]) }}"
+                                                        class="btn btn-outline-primary" title="Edit"><i class="tio-edit"></i>Edit</a>
+                                                    <form action="{{ route('admin.jobvacancy.destroy', $vacancy->id) }}"
+                                                        method="POST" onsubmit="return confirm('Are you sure you want to delete this job vacancy?');" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-outline-danger" title="Delete">Delete
+                                                            <i class="tio-delete"></i>
+                                                        </button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                                                        data-target="#approvalModal" data-id="{{ $vacancy->id }}"
+                                                        data-current-status="{{ $vacancy->approved }}" title="Change Status">
+                                                        <i class="tio-checkmark-circle-outlined"></i>Status
                                                     </button>
-                                                </form>
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                    data-target="#approvalModal" data-id="{{ $vacancy->id }}"
-                                                    data-current-status="{{ $vacancy->approved }}">
-                                                    Change Status
-                                                </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
-                        <!-- Pagination -->
-                        <div class="d-flex justify-content-end">
+                    </div>
+                    
+                    <div class="table-responsive mt-4">
+                        <div class="px-4 d-flex justify-content-lg-end">
                             {{ $vacancies->links() }}
                         </div>
                     </div>

@@ -96,19 +96,17 @@
                                             </label>
                                         </form>
                                     </td>
-                                    <td>
-                                        <div class="d-flex gap-2 justify-content-center">
+                                    <td class="text-center">
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
                                             <a href="{{route('admin.custom-role.update',[$role['id']])}}"
-                                                class="btn btn-outline--primary btn-sm square-btn"
-                                                title="{{translate('edit') }}">
-                                                <i class="tio-edit"></i>
+                                                class="btn btn-outline-primary" title="Edit">
+                                                <i class="tio-edit"></i>Edit
                                             </a>
-                                            <a href="javascript:"
-                                                class="btn btn-outline-danger btn-sm delete-data-without-form"
-                                            data-action="{{route('admin.custom-role.delete')}}"
-                                                title="{{translate('delete') }}" data-id="{{$role['id']}}">
-                                                <i class="tio-delete"></i>
-                                            </a>
+                                            <button type="button" class="btn btn-outline-danger delete-data-without-form"
+                                                data-action="{{route('admin.custom-role.delete')}}"
+                                                title="Delete" data-id="{{$role['id']}}">
+                                                Delete<i class="tio-delete"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

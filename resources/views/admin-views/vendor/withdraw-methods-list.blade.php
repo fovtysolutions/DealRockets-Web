@@ -110,20 +110,20 @@
                                         </form>
                                     </td>
 
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
+                                    <td class="text-center">
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
                                             <a href="{{route('admin.vendors.withdraw-method.edit',[$withdrawalMethod->id])}}"
-                                               class="btn btn-outline--primary btn-sm square-btn">
-                                                <i class="tio-edit"></i>
+                                               class="btn btn-outline-primary" title="Edit">
+                                                <i class="tio-edit"></i>Edit
                                             </a>
                                             @if(!$withdrawalMethod->is_default)
-                                                <a class="btn btn-outline-danger btn-sm square-btn delete-data" href="javascript:"
-                                                   title="{{translate('delete')}}" data-id="delete-{{$withdrawalMethod->id}}">
-                                                    <i class="tio-delete"></i>
-                                                </a>
                                                 <form action="{{route('admin.vendors.withdraw-method.delete',[$withdrawalMethod->id])}}"
-                                                      method="post" id="delete-{{$withdrawalMethod->id}}">
-                                                    @csrf @method('delete')
+                                                      method="POST" onsubmit="return confirm('Are you sure?');" class="d-inline">
+                                                    @csrf 
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger" title="Delete">
+                                                        Delete<i class="tio-delete"></i>
+                                                    </button>
                                                 </form>
                                             @endif
                                         </div>

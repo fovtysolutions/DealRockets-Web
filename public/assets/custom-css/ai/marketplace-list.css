@@ -311,18 +311,20 @@ h3 {
 }
 
 .marketplace-list .product-price {
-    font-size: 20px;
+    font-size: 18px;
     color: #FE4E44;
     font-weight: bold;
     margin-bottom: 4px;
 }
 
 .marketplace-list .product-moq {
-    font-size: 15px;
+    font-size: 14px;
     color: #191919;
     margin-bottom: 10px;
 }
-
+.marketplace-list .product-card:hover ,.marketplace-list .product-card1:hover{
+        border: 1px solid #FE4E44 !important;
+}
 .lead-details-table {
     width: 100%;
     flex-direction: row;

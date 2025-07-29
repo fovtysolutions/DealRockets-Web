@@ -140,12 +140,11 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                <div class="d-flex justify-content-center">
-                                    <a class="btn btn-outline--primary btn-sm"
-                                       title="{{translate('view')}}"
-                                       href="{{route('admin.refund-section.refund.details',['id'=>$refund['id']])}}">
-                                        <i class="tio-invisible"></i>
+                            <td class="text-center">
+                                <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                    <a href="{{route('admin.refund-section.refund.details',['id'=>$refund['id']])}}"
+                                       class="btn btn-outline-info" title="View">
+                                        <i class="tio-invisible"></i>View
                                     </a>
                                 </div>
                             </td>

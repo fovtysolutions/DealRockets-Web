@@ -5,56 +5,59 @@
 
 @section('content')
     <div class="content container-fluid">
-        {{-- <div class="mb-4">
-            <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
+        {{-- <div class="mb-3">
+            <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
                 <img src="{{dynamicAsset(path: 'public/assets/back-end/img/add-new-seller.png')}}" alt="">
                 {{translate('vendor_List')}}
-                <span class="badge badge-soft-dark radius-50 fz-12">{{ $vendors->total() }}</span>
+                <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{ $vendors->total() }}</span>
             </h2>
         </div> --}}
-        <div class="row mt-1">
+
+        <div class="row mt-20">
             <div class="col-md-12">
                 <div class="card">
                     <div class="px-3 py-4">
-                        <div class="d-flex justify-content-between gap-10 flex-wrap align-items-center">
-                            <div class="">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4">
                                 <form action="{{ url()->current() }}" method="GET">
-                                    <div class="input-group input-group-merge input-group-custom width-500px">
+                                    <div class="input-group input-group-custom input-group-merge">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
                                                 <i class="tio-search"></i>
                                             </div>
                                         </div>
                                         <input id="datatableSearch_" type="search" name="searchValue" class="form-control"
-                                            placeholder="{{translate('search_by_shop_name_or_vendor_name_or_phone_or_email_or_supplier_id')}}" aria-label="Search orders" value="{{ request('searchValue') }}">
+                                            placeholder="{{translate('search_by_shop_name_or_vendor_name_or_phone_or_email')}}"
+                                            aria-label="Search vendors" value="{{ request('searchValue') }}">
                                         <button type="submit" class="btn btn--primary">{{translate('search')}}</button>
                                     </div>
                                 </form>
                             </div>
-                            <div class="d-flex justify-content-end gap-2">
-                                <div class="dropdown text-nowrap">
+                            <div class="col-lg-8 mt-3 mt-lg-0 d-flex flex-wrap gap-3 justify-content-lg-end">
+                                <div class="dropdown">
                                     <button type="button" class="btn btn-outline--primary" data-toggle="dropdown">
                                         <i class="tio-download-to"></i>
                                         {{translate('export')}}
                                         <i class="tio-chevron-down"></i>
                                     </button>
-
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
-                                            <a type="submit" class="dropdown-item d-flex align-items-center gap-2 " href="{{route('admin.vendors.export',['searchValue' => request('searchValue')])}}">
+                                            <a class="dropdown-item" href="{{route('admin.vendors.export',['searchValue' => request('searchValue')])}}">
                                                 <img width="14" src="{{dynamicAsset(path: 'public/assets/back-end/img/excel.png')}}" alt="">
                                                 {{translate('excel')}}
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
-                                <a href="{{route('admin.vendors.add')}}" type="button" class="btn btn--primary text-nowrap">
+                                <a href="{{route('admin.vendors.add')}}" class="btn btn--primary">
                                     <i class="tio-add"></i>
-                                    {{translate('add_New_Vendor')}}
+                                    <span class="text">{{translate('add_New_Vendor')}}</span>
                                 </a>
                             </div>
                         </div>
                     </div>
+
+                    <div class="box-view p-3">
                     <div class="table-responsive">
                         <table
                             style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
@@ -125,13 +128,10 @@
                                             {{$seller->orders->where('seller_is','seller')->where('order_type','default_type')->count()}}
                                         </a>
                                     </td> --}}
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a title="{{translate('view')}}"
-                                                class="btn btn-outline-info btn-sm square-btn"
-                                                href="{{route('admin.vendors.view',$seller->id)}}">
-                                                <i class="tio-invisible"></i>
-                                            </a>
+                                    <td class="text-center">
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                            <a href="{{route('admin.vendors.view',$seller->id)}}"
+                                                class="btn btn-outline-info" title="View"><i class="tio-invisible"></i>View</a>
                                         </div>
                                     </td>
                                 </tr>

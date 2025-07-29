@@ -3,131 +3,104 @@
 
 @section('content')
     <div class="content container-fluid">
-        <div>
-            <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
-                <h2 class="h1 mb-0">
-                    <img src="{{dynamicAsset(path: 'public/assets/back-end/img/all-orders.png')}}" class="mb-1 mr-1" alt="">
-                    <span class="page-header-title">
-                        @if($status =='processing')
-                            {{translate('packaging')}}
-                        @elseif($status =='failed')
-                            {{translate('failed_to_Deliver')}}
-                        @elseif($status == 'all')
-                            {{translate('all')}}
-                        @else
-                            {{translate(str_replace('_',' ',$status))}}
-                        @endif
-                    </span>
-                    {{translate('orders')}}
-                </h2>
-                <span class="badge badge-soft-dark radius-50 fz-14">{{$orders->total()}}</span>
-            </div>
-            <div class="card">
-                <div class="card-body">
+        <div class="mb-3">
+            <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
+                <img src="{{dynamicAsset(path: 'public/assets/back-end/img/all-orders.png')}}" alt="">
+                <span class="page-header-title">
+                    @if($status =='processing')
+                        {{translate('packaging')}}
+                    @elseif($status =='failed')
+                        {{translate('failed_to_Deliver')}}
+                    @elseif($status == 'all')
+                        {{translate('all')}}
+                    @else
+                        {{translate(str_replace('_',' ',$status))}}
+                    @endif
+                </span>
+                {{translate('orders')}}
+                <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{$orders->total()}}</span>
+            </h2>
+        </div>
+
+        <div class="container-fluid p-0">
+            <div class="mb-3">
+                <div class="card-body p-0">
                     <form action="{{route('admin.orders.list',['status'=>request('status')])}}" id="form-data" method="GET">
-                        <div class="row gx-2">
-                            <div class="col-12">
-                                <h4 class="mb-3 text-capitalize">{{translate('filter_order')}}</h4>
+                        @if(request('delivery_man_id'))
+                            <input type="hidden" name="delivery_man_id" value="{{ request('delivery_man_id') }}">
+                        @endif
+                        <div class="row g-2 align-items-end">
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{translate('order_type')}}</label>
+                                <select name="filter" id="filter" class="form-control form-control-sm">
+                                    <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>{{translate('all')}}</option>
+                                    <option value="admin" {{ $filter == 'admin' ? 'selected' : '' }}>{{translate('in_House_Order')}}</option>
+                                    <option value="seller" {{ $filter == 'seller' ? 'selected' : '' }}>{{translate('vendor_Order')}}</option>
+                                    @if(($status == 'all' || $status == 'delivered') && !request()->has('delivery_man_id'))
+                                    <option value="POS" {{ $filter == 'POS' ? 'selected' : '' }}>{{translate('POS_Order')}}</option>
+                                    @endif
+                                </select>
                             </div>
-                            @if(request('delivery_man_id'))
-                                <input type="hidden" name="delivery_man_id" value="{{ request('delivery_man_id') }}">
-                            @endif
 
-                            <div class="col-sm-6 col-lg-4 col-xl-3">
-                                <div class="form-group">
-                                    <label class="title-color text-capitalize" for="filter">{{translate('order_type')}}</label>
-                                    <select name="filter" id="filter" class="form-control">
-                                        <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>{{translate('all')}}</option>
-                                        <option value="admin" {{ $filter == 'admin' ? 'selected' : '' }}>{{translate('in_House_Order')}}</option>
-                                        <option value="seller" {{ $filter == 'seller' ? 'selected' : '' }}>{{translate('vendor_Order')}}</option>
-                                        @if(($status == 'all' || $status == 'delivered') && !request()->has('delivery_man_id'))
-                                        <option value="POS" {{ $filter == 'POS' ? 'selected' : '' }}>{{translate('POS_Order')}}</option>
-                                        @endif
-                                    </select>
-                                </div>
+                            <div class="col-md-2 col-sm-4 col-6" id="seller_id_area" style="{{ $filter && $filter == 'admin'?'display:none':'' }}">
+                                <label class="form-label mb-1 small">{{translate('store')}}</label>
+                                <select name="seller_id" id="seller_id" class="form-control form-control-sm">
+                                    <option value="all">{{translate('all_shop')}}</option>
+                                    <option value="0" id="seller_id_inhouse" {{request('seller_id') == 0 ? 'selected' :''}}>{{translate('inhouse')}}</option>
+                                    @foreach ($sellers as $seller)
+                                        @isset($seller->shop)
+                                            <option value="{{$seller->id}}"{{request('seller_id') == $seller->id ? 'selected' :''}}>
+                                                {{ $seller->shop->name }}
+                                            </option>
+                                        @endisset
+                                    @endforeach
+                                </select>
                             </div>
-                            <div class="col-sm-6 col-lg-4 col-xl-3" id="seller_id_area" style="{{ $filter && $filter == 'admin'?'display:none':'' }}">
-                                <div class="form-group">
-                                    <label class="title-color" for="store">{{translate('store')}}</label>
-                                    <select name="seller_id" id="seller_id" class="form-control">
-                                        <option value="all">{{translate('all_shop')}}</option>
-                                        <option value="0" id="seller_id_inhouse" {{request('seller_id') == 0 ? 'selected' :''}}>{{translate('inhouse')}}</option>
-                                        @foreach ($sellers as $seller)
-                                            @isset($seller->shop)
-                                                <option value="{{$seller->id}}"{{request('seller_id') == $seller->id ? 'selected' :''}}>
-                                                    {{ $seller->shop->name }}
-                                                </option>
-                                            @endisset
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-lg-4 col-xl-3">
-                                <div class="form-group">
-                                    <label class="title-color" for="customer">{{translate('customer')}}</label>
 
-                                    <input type="hidden" id='customer_id'  name="customer_id" value="{{request('customer_id') ? request('customer_id') : 'all'}}">
-                                    <select  id="customer_id_value"
-                                    data-placeholder="@if($customer == 'all')
-                                                        {{translate('all_customer')}}
-                                                    @else
-                                                        {{$customer->name ?? $customer->f_name.' '.$customer->l_name.' '.'('.$customer->phone.')'}}
-                                                    @endif"
-                                    class="js-data-example-ajax form-control form-ellipsis">
-                                        <option value="all">{{translate('all_customer')}}</option>
-                                    </select>
-                                </div>
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{translate('date_type')}}</label>
+                                <select class="form-control form-control-sm" name="date_type" id="date_type">
+                                    <option value="">{{translate('select_Date_Type')}}</option>
+                                    <option value="this_year" {{ $dateType == 'this_year'? 'selected' : '' }}>{{translate('this_Year')}}</option>
+                                    <option value="this_month" {{ $dateType == 'this_month'? 'selected' : '' }}>{{translate('this_Month')}}</option>
+                                    <option value="this_week" {{ $dateType == 'this_week'? 'selected' : '' }}>{{translate('this_Week')}}</option>
+                                    <option value="custom_date" {{ $dateType == 'custom_date'? 'selected' : '' }}>{{translate('custom_Date')}}</option>
+                                </select>
                             </div>
-                            <div class="col-sm-6 col-lg-4 col-xl-3">
-                                <label class="title-color" for="date_type">{{translate('date_type')}}</label>
-                                <div class="form-group">
-                                    <select class="form-control __form-control" name="date_type" id="date_type">
-                                        <option value="" selected disabled>{{translate('select_Date_Type')}}</option>
-                                        <option value="this_year" {{ $dateType == 'this_year'? 'selected' : '' }}>{{translate('this_Year')}}</option>
-                                        <option value="this_month" {{ $dateType == 'this_month'? 'selected' : '' }}>{{translate('this_Month')}}</option>
-                                        <option value="this_week" {{ $dateType == 'this_week'? 'selected' : '' }}>{{translate('this_Week')}}</option>
-                                        <option value="custom_date" {{ $dateType == 'custom_date'? 'selected' : '' }}>{{translate('custom_Date')}}</option>
-                                    </select>
-                                </div>
+
+                            <div class="col-md-2 col-sm-4 col-6" id="from_div">
+                                <label class="form-label mb-1 small">{{translate('start_date')}}</label>
+                                <input type="date" name="from" value="{{$from}}" id="from_date" class="form-control form-control-sm">
                             </div>
-                            <div class="col-sm-6 col-lg-4 col-xl-3" id="from_div">
-                                <label class="title-color" for="customer">{{translate('start_date')}}</label>
-                                <div class="form-group">
-                                    <input type="date" name="from" value="{{$from}}" id="from_date" class="form-control">
-                                </div>
+
+                            <div class="col-md-2 col-sm-4 col-6" id="to_div">
+                                <label class="form-label mb-1 small">{{translate('end_date')}}</label>
+                                <input type="date" value="{{$to}}" name="to" id="to_date" class="form-control form-control-sm">
                             </div>
-                            <div class="col-sm-6 col-lg-4 col-xl-3" id="to_div">
-                                <label class="title-color" for="customer">{{translate('end_date')}}</label>
-                                <div class="form-group">
-                                    <input type="date" value="{{$to}}" name="to" id="to_date" class="form-control">
-                                </div>
+
+                            <div>
+                                <a href="{{route('admin.orders.list',['status'=>request('status')])}}"
+                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    {{translate('reset')}}
+                                </a>
                             </div>
-                            <div class="col-12">
-                                <div class="d-flex gap-3 justify-content-end">
-                                    <a href="{{route('admin.orders.list',['status'=>request('status')])}}" class="btn btn-secondary px-5">
-                                        {{translate('reset')}}
-                                    </a>
-                                    <button type="submit" class="btn btn--primary px-5" id="formUrlChange" data-action="{{ url()->current() }}">
-                                        {{translate('show_data')}}
-                                    </button>
-                                </div>
+                            <div>
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;" id="formUrlChange" data-action="{{ url()->current() }}">
+                                    {{translate('show_data')}}
+                                </button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="card mt-3">
-                <div class="card-body">
-                    <div class="px-3 py-4 light-bg">
-                        <div class="row g-2 align-items-center flex-grow-1">
-                            <div class="col-md-4">
-                                <h5 class="text-capitalize d-flex gap-1">
-                                    {{translate('order_list')}}
-                                    <span class="badge badge-soft-dark radius-50 fz-12">{{$orders->total()}}</span>
-                                </h5>
-                            </div>
-                            <div class="col-md-8 d-flex gap-3 flex-wrap flex-sm-nowrap justify-content-md-end">
-                                <form action="" method="GET">
+        </div>
+        <div class="row mt-20">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="px-3 py-4">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4">
+                                <form action="{{ url()->current() }}" method="GET">
                                     <div class="input-group input-group-custom input-group-merge">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
@@ -135,21 +108,29 @@
                                             </div>
                                         </div>
                                         <input id="datatableSearch_" type="search" name="searchValue" class="form-control"
-                                            placeholder="{{translate('search_by_Order_ID')}}" aria-label="Search by Order ID" value="{{ $searchValue }}">
-                                        <button type="submit" class="btn btn--primary input-group-text">{{translate('search')}}</button>
+                                            placeholder="{{translate('search_by_Order_ID')}}" aria-label="Search orders" value="{{ $searchValue }}">
+                                        <input type="hidden" value="{{ request('status') }}" name="status">
+                                        <input type="hidden" value="{{ $filter }}" name="filter">
+                                        <input type="hidden" value="{{ request('seller_id') }}" name="seller_id">
+                                        <input type="hidden" value="{{ request('customer_id') }}" name="customer_id">
+                                        <input type="hidden" value="{{ $dateType }}" name="date_type">
+                                        <input type="hidden" value="{{ $from }}" name="from">
+                                        <input type="hidden" value="{{ $to }}" name="to">
+                                        <button type="submit" class="btn btn--primary">{{translate('search')}}</button>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="col-lg-8 mt-3 mt-lg-0 d-flex flex-wrap gap-3 justify-content-lg-end">
                                 <div class="dropdown">
                                     <button type="button" class="btn btn-outline--primary" data-toggle="dropdown">
                                         <i class="tio-download-to"></i>
                                         {{translate('export')}}
                                         <i class="tio-chevron-down"></i>
                                     </button>
-
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
-                                            <a type="submit" class="dropdown-item d-flex align-items-center gap-2" href="{{ route('admin.orders.export-excel', ['delivery_man_id' => request('delivery_man_id'), 'status' => $status, 'from' => $from, 'to' => $to, 'filter' => $filter, 'searchValue' => $searchValue,'seller_id'=>$vendorId,'customer_id'=>$customerId, 'date_type'=>$dateType]) }}">
-                                                <img width="14" src="{{asset('public/assets/back-end/img/excel.png')}}" alt="">
+                                            <a class="dropdown-item" href="{{ route('admin.orders.export-excel', ['delivery_man_id' => request('delivery_man_id'), 'status' => $status, 'from' => $from, 'to' => $to, 'filter' => $filter, 'searchValue' => $searchValue,'seller_id'=>$vendorId,'customer_id'=>$customerId, 'date_type'=>$dateType]) }}">
+                                                <img width="14" src="{{dynamicAsset(path: 'public/assets/back-end/img/excel.png')}}" alt="">
                                                 {{translate('excel')}}
                                             </a>
                                         </li>
@@ -158,9 +139,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive datatable-custom">
-                        <table class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table w-100 text-start">
-                            <thead class="thead-light thead-50 text-capitalize">
+                    <div class="box-view p-3">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table w-100 text-start">
+                                <thead class="thead-light thead-50 text-capitalize">
                                 <tr>
                                     <th>{{translate('SL')}}</th>
                                     <th>{{translate('order_ID')}}</th>
@@ -271,16 +253,12 @@
                                             {{str_replace('_',' ',$order['payment_method'])}}
                                         </td>
                                     @endif
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a class="btn btn-outline--primary square-btn btn-sm mr-1" title="{{translate('view')}}"
-                                                href="{{route('admin.orders.details',['id'=>$order['id']])}}">
-                                                <img src="{{dynamicAsset(path: 'public/assets/back-end/img/eye.svg')}}" class="svg" alt="">
-                                            </a>
-                                            <a class="btn btn-outline-success square-btn btn-sm mr-1" target="_blank" title="{{translate('invoice')}}"
-                                                href="{{route('admin.orders.generate-invoice',[$order['id']])}}">
-                                                <i class="tio-download-to"></i>
-                                            </a>
+                                    <td class="text-center">
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                            <a href="{{route('admin.orders.details',['id'=>$order['id']])}}"
+                                                class="btn btn-outline-info" title="View"><i class="tio-invisible"></i>View</a>
+                                            <a href="{{route('admin.orders.generate-invoice',[$order['id']])}}" target="_blank"
+                                                class="btn btn-outline-success" title="Invoice"><i class="tio-download-to"></i>Invoice</a>
                                         </div>
                                     </td>
                                 </tr>

@@ -210,18 +210,16 @@
                                     <td>{{($category['defaultname']) }}</td>
                                     <td>{{$category?->parent?->defaultname ?? translate('category_not_found') }}</td>
                                     <td class="text-center">{{ $category['priority']}}</td>
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a class="btn btn-outline-info btn-sm square-btn"
-                                               title="{{ translate('edit') }}"
-                                               href="{{ route('admin.sub-category.update',[$category['id']]) }}">
-                                                <i class="tio-edit"></i>
+                                    <td class="text-center">
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                            <a href="{{ route('admin.sub-category.update',[$category['id']]) }}"
+                                               class="btn btn-outline-primary" title="Edit">
+                                                <i class="tio-edit"></i>Edit
                                             </a>
-                                            <a class="btn btn-outline-danger btn-sm square-btn category-delete-button"
-                                               title="{{ translate('delete') }}"
-                                               id="{{ $category['id']}}">
-                                                <i class="tio-delete"></i>
-                                            </a>
+                                            <button type="button" class="btn btn-outline-danger category-delete-button"
+                                               title="Delete" id="{{ $category['id']}}">
+                                                Delete<i class="tio-delete"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

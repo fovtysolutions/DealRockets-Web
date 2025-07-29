@@ -1,4 +1,4 @@
-<div style="padding: 0 1.5rem">
+<div style="padding: 0 1rem">
 <button type="button" class="close showbelow768" aria-label="Close" onclick="toggleDetailBox()">
     <span aria-hidden="true">&times;</span>
 </button>
@@ -97,7 +97,7 @@
         </div>
 </div>
 <div class="contact-footer">
-    <div class="contact-row " style="padding:0 1.5rem">
+    <div class="contact-row pr-0 " style="padding:0 1rem">
         <div class="contact-item my-1">
             <i class="fas fa-envelope"></i>
             <span>{{ $firstdata->company_email ?? 'Email not available' }}</span>

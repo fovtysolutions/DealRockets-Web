@@ -5,59 +5,91 @@
 
 @section('content')
     <div class="content container-fluid">
-        <div class="mb-4">
-            <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
+        <div class="mb-3">
+            <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
                 <img width="20" src="{{dynamicAsset(path: 'public/assets/back-end/img/customer.png')}}" alt="">
                 {{translate('customer_list')}}
-                <span class="badge badge-soft-dark radius-50">{{$customers->total()}}</span>
+                <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{$customers->total()}}</span>
             </h2>
         </div>
-        <div class="card">
-            <div class="px-3 py-4">
-                <div class="row gy-2 align-items-center">
-                    <div class="col-sm-8 col-md-6 col-lg-8">
-                        <form action="{{ url()->current() }}" method="GET" class="d-flex">
-                            <div class="input-group input-group-merge input-group-custom">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="tio-search"></i>
-                                    </div>
-                                </div>
-                                <input id="datatableSearch_" type="search" name="searchValue" class="form-control"
-                                       placeholder="{{translate('search_by_Name_or_Email_or_Phone')}}"
-                                       aria-label="Search orders" value="{{ request('searchValue') }}">
-                                <button type="submit" class="btn btn--primary">{{translate('search')}}</button>
+
+        <div class="container-fluid p-0">
+            <div class="mb-3">
+                <div class="card-body p-0">
+                    <form action="{{ url()->current() }}" method="GET">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('membership_tier') }}</label>
+                                <select name="membership" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_membership_tiers') }}</option>
+                                    @foreach($membershipTiers as $tier)
+                                        <option value="{{ $tier->membership_name }}" {{ request('membership') == $tier->membership_name ? 'selected' : '' }}>
+                                            {{ $tier->membership_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <select name="membership" class="form-control ml-2">
-                                <option value="">{{ translate('select_membership_tier') }}</option>
-                                @foreach($membershipTiers as $tier)
-                                    <option value="{{ $tier->membership_name }}" {{ request('membership') == $tier->membership_name ? 'selected' : '' }}>
-                                        {{ $tier->membership_name }}
-                                    </option>
-                                @endforeach
-                            </select>                    
-                        </form>
-                    </div>
-                    <div class="col-sm-4 col-md-6 col-lg-4 mb-2 mb-sm-0">
-                        <div class="d-flex justify-content-sm-end">
-                            <button type="button" class="btn btn-outline--primary" data-toggle="dropdown">
-                                <i class="tio-download-to"></i>
-                                {{translate('export')}}
-                                <i class="tio-chevron-down"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{{route('admin.customer.export',['searchValue'=>request('searchValue')])}}">
-                                        <img width="14" src="{{dynamicAsset(path: 'public/assets/back-end/img/excel.png')}}" alt="">
-                                        {{translate('excel')}}
-                                    </a>
-                                </li>
-                            </ul>
+
+                            <div>
+                                <a href="{{ route('admin.customer.list') }}"
+                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    {{ translate('reset') }}
+                                </a>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    {{ translate('show_data') }}
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
+        </div>
+
+        <div class="row mt-20">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="px-3 py-4">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4">
+                                <form action="{{ url()->current() }}" method="GET">
+                                    <div class="input-group input-group-custom input-group-merge">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="tio-search"></i>
+                                            </div>
+                                        </div>
+                                        <input id="datatableSearch_" type="search" name="searchValue" class="form-control"
+                                            placeholder="{{translate('search_by_Name_or_Email_or_Phone')}}"
+                                            aria-label="Search customers" value="{{ request('searchValue') }}">
+                                        <input type="hidden" value="{{ request('membership') }}" name="membership">
+                                        <button type="submit" class="btn btn--primary">{{translate('search')}}</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-8 mt-3 mt-lg-0 d-flex flex-wrap gap-3 justify-content-lg-end">
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-outline--primary" data-toggle="dropdown">
+                                        <i class="tio-download-to"></i>
+                                        {{translate('export')}}
+                                        <i class="tio-chevron-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{route('admin.customer.export',['searchValue'=>request('searchValue')])}}">
+                                                <img width="14" src="{{dynamicAsset(path: 'public/assets/back-end/img/excel.png')}}" alt="">
+                                                {{translate('excel')}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-view p-3">
             <div class="table-responsive datatable-custom">
                 <table
                     style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
@@ -128,29 +160,25 @@
                                 @endif
                             </td>
 
-                            <td>
-                                <div class="d-flex justify-content-center gap-2">
+                            <td class="text-center">
+                                <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
                                     @if(\App\Utils\RolesAccess::checkButtonAccess('user_management',$customer['country'],'read'))
-                                        <a title="{{translate('view')}}"
-                                        class="btn btn-outline-info btn-sm square-btn"
-                                        href="{{route('admin.customer.view',[$customer['id']])}}">
-                                            <i class="tio-invisible"></i>
-                                        </a>
+                                        <a href="{{route('admin.customer.view',[$customer['id']])}}"
+                                            class="btn btn-outline-info" title="View"><i class="tio-invisible"></i>View</a>
                                     @endif
                                     @if(\App\Utils\RolesAccess::checkButtonAccess('user_management',$customer['country'],'delete'))
                                         @if($customer['id'] != '0')
-                                            <a title="{{translate('delete')}}"
-                                            class="btn btn-outline-danger btn-sm delete square-btn delete-data" href="javascript:"
-                                            data-id="customer-{{$customer['id']}}">
-                                                <i class="tio-delete"></i>
-                                            </a>
+                                            <form action="{{route('admin.customer.delete',[$customer['id']])}}" method="POST"
+                                                onsubmit="return confirm('Are you sure?');" class="d-inline">
+                                                @csrf 
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-outline-danger" title="Delete">Delete
+                                                    <i class="tio-delete"></i>
+                                                </button>
+                                            </form>
                                         @endif
                                     @endif
                                 </div>
-                                <form action="{{route('admin.customer.delete',[$customer['id']])}}"
-                                      method="post" id="customer-{{$customer['id']}}">
-                                    @csrf @method('delete')
-                                </form>
                             </td>
                         </tr>
                     @endforeach

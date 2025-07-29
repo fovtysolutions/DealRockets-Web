@@ -13,20 +13,16 @@
         </h2>
     </div>
 
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ url()->current() }}" method="GET">
-                <input type="hidden" value="{{ request('status') }}" name="status">
-                <div class="row gx-2">
-                    <div class="col-12">
-                        <h4 class="mb-3">{{ translate('filter_suppliers') }}</h4>
-                    </div>
-
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label class="title-color" for="business_type">{{ translate('business_Type') }}</label>
-                            <select name="business_type" class="js-select2-custom form-control text-capitalize">
-                                <option value="" selected>{{ translate('all_business_type') }}</option>
+    <div class="container-fluid p-0">
+        <div class="mb-3">
+            <div class="card-body p-0">
+                <form action="{{ url()->current() }}" method="GET">
+                    <input type="hidden" value="{{ request('status') }}" name="status">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('business_type') }}</label>
+                            <select name="business_type" class="form-control form-control-sm">
+                                <option value="">{{ translate('all_business_type') }}</option>
                                 @foreach ($business_type as $business)
                                     <option value="{{ $business }}" {{ request('business_type') == $business ? 'selected' : '' }}>
                                         {{ $business }}
@@ -34,13 +30,11 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
 
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label for="main_products" class="title-color">{{ translate('main_products') }}</label>
-                            <select name="main_products" class="js-select2-custom form-control text-capitalize">
-                                <option value="" selected>{{ translate('all_main_products') }}</option>
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('main_products') }}</label>
+                            <select name="main_products" class="form-control form-control-sm">
+                                <option value="">{{ translate('all_main_products') }}</option>
                                 @foreach ($main_products as $product)
                                     <option value="{{ trim($product) }}" {{ request('main_products') == trim($product) ? 'selected' : '' }}>
                                         {{ trim($product) }}
@@ -48,15 +42,11 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
 
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label for="management_certification"
-                                class="title-color">{{ translate('management_certification') }}</label>
-                            <select name="management_certification"
-                                class="js-select2-custom form-control text-capitalize">
-                                <option value="" selected>{{ translate('all_management_certification') }}</option>
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('management_certification') }}</label>
+                            <select name="management_certification" class="form-control form-control-sm">
+                                <option value="">{{ translate('all_management_certification') }}</option>
                                 @foreach ($management_certification as $certification)
                                     <option value="{{ trim($certification) }}" {{ request('management_certification') == trim($certification) ? 'selected' : '' }}>
                                         {{ trim($certification) }}
@@ -64,13 +54,11 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
 
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label for="city_province" class="title-color">{{ translate('city_province') }}</label>
-                            <select name="city_province" class="js-select2-custom form-control text-capitalize">
-                                <option value="" selected>{{ translate('all_city_province') }}</option>
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('city_province') }}</label>
+                            <select name="city_province" class="form-control form-control-sm">
+                                <option value="">{{ translate('all_city_province') }}</option>
                                 @foreach ($city_province as $city)
                                     <option value="{{ trim($city) }}" {{ request('city_province') == trim($city) ? 'selected' : '' }}>
                                         {{ trim($city) }}
@@ -78,20 +66,21 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
 
-                    <div class="col-12">
-                        <div class="d-flex gap-3 justify-content-end">
-                            <a class="btn btn-secondary px-5" href="{{ url()->current() }}">
+                        <div>
+                            <a href="{{ route('admin.suppliers.list') }}"
+                                class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
                                 {{ translate('reset') }}
                             </a>
-                            <button type="submit" class="btn btn--primary px-5 action-get-element-type">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
                                 {{ translate('show_data') }}
                             </button>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -188,25 +177,20 @@
                                         {{ $supplier['city_province']}}
                                     </td>
                                     <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a class="btn btn-outline-info btn-sm square-btn" title="View"
-                                                href="{{ route('admin.suppliers.view', ['id' => $supplier['id']]) }}">
-                                                <i class="tio-invisible"></i>
-                                            </a>
-                                            <a class="btn btn-outline--primary btn-sm square-btn"
-                                                title="{{ translate('edit') }}"
-                                                href="{{ route('admin.suppliers.edit', ['id' => $supplier['id']]) }}">
-                                                <i class="tio-edit"></i>
-                                            </a>
-                                            <span class="btn btn-outline-danger btn-sm square-btn delete-data"
-                                                title="{{ translate('delete') }}" data-id="product-{{ $supplier['id']}}">
-                                                <i class="tio-delete"></i>
-                                            </span>
+                                        <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                            <a href="{{ route('admin.suppliers.view', ['id' => $supplier['id']]) }}"
+                                                class="btn btn-outline-info" title="View"><i class="tio-invisible"></i>View</a>
+                                            <a href="{{ route('admin.suppliers.edit', ['id' => $supplier['id']]) }}"
+                                                class="btn btn-outline-primary" title="Edit"><i class="tio-edit"></i>Edit</a>
+                                            <form action="{{ route('admin.suppliers.delete', [$supplier['id']]) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure?');" class="d-inline">
+                                                @csrf 
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-outline-danger" title="Delete">Delete
+                                                    <i class="tio-delete"></i>
+                                                </button>
+                                            </form>
                                         </div>
-                                        <form action="{{ route('admin.suppliers.delete', [$supplier['id']]) }}" method="post"
-                                            id="product-{{ $supplier['id']}}">
-                                            @csrf @method('delete')
-                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

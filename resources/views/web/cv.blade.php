@@ -33,16 +33,18 @@
                 <h2 class="section-title1">Job <span class="highlight">Categories</span></h2>
                 <div class="categories-grid">
                     @forelse ($jobspercategory as $item)
-                        <div class="category-card">
-                            <div class="category-icon-container">
-                                <img src="{{ !empty($item['image']) ? '/storage/category/' . $item['image'] : '/images/missing_image.jpg' }}"
-                                    alt="{{ $item['name'] ?? 'Unknown Category' }}" class="category-icon">
+                        <a href="{{ route('jobseeker') }}?category_id={{ $item['id'] ?? '' }}&category_name={{ urlencode($item['name'] ?? '') }}" class="category-card-link">
+                            <div class="category-card">
+                                <div class="category-icon-container">
+                                    <img src="{{ !empty($item['image']) ? '/storage/category/' . $item['image'] : '/images/missing_image.jpg' }}"
+                                        alt="{{ $item['name'] ?? 'Unknown Category' }}" class="category-icon">
+                                </div>
+                                <div class="category-info">
+                                    <h3 class="category-title">{{ $item['name'] ?? 'Unknown Category' }}</h3>
+                                    <p class="category-count">{{ $item['count'] ?? 0 }} Jobs Available</p>
+                                </div>
                             </div>
-                            <div class="category-info">
-                                <h3 class="category-title">{{ $item['name'] ?? 'Unknown Category' }}</h3>
-                                <p class="category-count">{{ $item['count'] ?? 0 }} Jobs Available</p>
-                            </div>
-                        </div>
+                        </a>
                     @empty
                         <div>No categories available.</div>
                     @endforelse

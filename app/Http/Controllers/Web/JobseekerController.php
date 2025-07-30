@@ -156,7 +156,8 @@ class JobseekerController extends Controller
         $newcategories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
 
         // Get the category filter from the URL if present
-        $categoryId = $request->get('categoryid');
+        $categoryId = $request->get('categoryid') ?? $request->get('category_id');
+        $categoryName = $request->get('category_name');
         $vacancy = $request->get('vacancy');
 
         if($vacancy){
@@ -173,6 +174,17 @@ class JobseekerController extends Controller
         $jobseekerQuery->whereHas('countryRelation', function ($query) {
             $query->where('blacklist', 'no');
         });
+
+        // Apply category filter if provided
+        if ($categoryId) {
+            // First try to filter by category ID, if that doesn't work, try by name
+            $categoryModel = Category::find($categoryId);
+            if ($categoryModel) {
+                $jobseekerQuery->where('category', $categoryModel->name);
+            }
+        } elseif ($categoryName) {
+            $jobseekerQuery->where('category', $categoryName);
+        }
 
         // Get the filtered job vacancies
         $jobseeker = $jobseekerQuery->paginate(20);
@@ -209,8 +221,9 @@ class JobseekerController extends Controller
 
         $firstdata = optional($jobseeker->first());
 
-        // Pass all data to the view
-        return view('web.jobseeker', compact('profile', 'countries', 'jobseeker', 'firstdata', 'newcategories', 'categories', 'currencies'));
+        // Pass all data to the view including selected category
+        $selectedCategory = ['id' => $categoryId, 'name' => $categoryName];
+        return view('web.jobseeker', compact('profile', 'countries', 'jobseeker', 'firstdata', 'newcategories', 'categories', 'currencies', 'selectedCategory'));
     }
 
     public function dynamicData(Request $request)

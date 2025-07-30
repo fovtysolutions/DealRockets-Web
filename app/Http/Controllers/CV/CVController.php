@@ -20,9 +20,7 @@ class CVController extends Controller
     {
         // Category Counter
         $categories = Category::withCount('vacancies')->orderBy('vacancies_count', 'DESC')->limit(8)->get();
-
         $jobspercategory = [];
-
         foreach ($categories as $category) {
             $jobspercategory[] = [
                 'name' => $category->name,

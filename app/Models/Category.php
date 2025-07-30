@@ -62,7 +62,7 @@ class Category extends Model
     }
 
     public function vacancies() {
-        return $this->belongsTo(Vacancies::class, 'id'); 
+        return $this->hasMany(Vacancies::class, 'category', 'name');
     }
 
     public function parent(): BelongsTo

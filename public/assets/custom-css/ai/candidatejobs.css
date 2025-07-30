@@ -60,7 +60,7 @@
 }
 
 .candidate-jobs .filter-section {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
     padding-bottom: 1rem;
     /* border-bottom: 1px solid var(--border-color); */
 }
@@ -844,8 +844,8 @@ border: 1px solid gray !important;
     .candidate-jobs .search-compact {
         display: flex !important;
     }
-
 }
+
 @media(max-width: 430px){
       .candidate-jobs .job-listings{
         width: 100% !important;

@@ -5,13 +5,13 @@
 
 @section('content')
     <div class="content container-fluid">
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
                 <img width="20" src="{{dynamicAsset(path: 'public/assets/back-end/img/customer.png')}}" alt="">
                 {{translate('customer_list')}}
                 <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{$customers->total()}}</span>
             </h2>
-        </div>
+        </div> --}}
 
         <div class="container-fluid p-0">
             <div class="mb-3">
@@ -99,6 +99,7 @@
                         <th>{{translate('SL')}}</th>
                         <th>{{translate('customer_name')}}</th>
                         <th>{{translate('contact_info')}}</th>
+                        <th>{{translate('Joined At')}}</th>
                         {{-- <th>{{translate('total_Order')}} </th> --}}
                         <th class="text-center">{{translate('block')}} / {{translate('unblock')}}</th>
                         <th class="text-center">{{translate('action')}}</th>
@@ -126,6 +127,9 @@
                                 </div>
                                 <a class="title-color hover-c1" href="tel:{{$customer->phone}}">{{$customer->phone}}</a>
 
+                            </td>
+                            <td>
+                                {{date('Y-m-d H:i:s',strtotime($customer->created_at))}}
                             </td>
                             {{-- <td>
                                 <label class="btn text-info bg-soft-info font-weight-bold px-3 py-1 mb-0 fz-12">

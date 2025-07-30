@@ -91,6 +91,7 @@ class CustomerController extends BaseController
             searchValue: $request->get('searchValue'),
             filters: $filters,
             relations: ['orders'],
+            orderBy: ['created_at' => 'desc'],
             dataLimit: getWebConfig(name: 'pagination_limit')
         );
 

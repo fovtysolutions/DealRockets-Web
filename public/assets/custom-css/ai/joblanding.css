@@ -165,6 +165,24 @@
     gap: 20px;
 }
 
+.job-landing .category-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.job-landing .category-card-link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.job-landing .category-card-link:hover .category-card {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(191, 158, 102, 0.2);
+    border-color: rgba(191, 158, 102, 1);
+}
+
 .job-landing .category-card {
     display: flex;
     align-items: center;
@@ -172,6 +190,8 @@
     background: white;
     border: 1px solid #D5D5D5;
     border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .job-landing .category-icon-container {

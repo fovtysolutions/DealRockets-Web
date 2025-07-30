@@ -24,7 +24,7 @@
                             <!-- Compact version -->
                             <div class="search-compact align-items-center" style="width: 50%;">
                                 <div class="d-flex align-items-center w-100 bg-white border px-3" style="height: 44px;">
-                                <img src="/img/Magnifiying Glass.png" alt="Search Icon" class="me-2"  
+                                    <img src="/img/Magnifiying Glass.png" alt="Search Icon" class="me-2"
                                         style="width: 20px;" />
                                     <input type="text" class="form-control border-0" style="height: 100%;"
                                         placeholder="Search by Name" style="box-shadow: none;" />
@@ -34,48 +34,51 @@
                             <button type="button"
                                 class="btn btn-outline-light bg-white border ms-3 d-flex align-items-center "
                                 style="color: var(--text-medium);" id="filtertoggle">
-                                Filters&nbsp;<i class="bi bi-filter align-items-center h-75"
+                                Filter&nbsp;<i class="bi bi-filter align-items-center h-75"
                                     style="font-size:22px; position: relative; top: 4px;"></i>
                             </button>
 
                         </div>
                     </div>
                     <div class="sidebar" id="sidebartoggle">
-                        <div class="d-flex justify-content-between pb-3 filter-section">
-                                     <h3>Filler</h3>
-                                      <div class="filter-section togglebelow768 p-0 ">
-                                    <a href="{{ request()->url() }}" class=" reset-filter background-none" style=" color:#BF9E66">Reset Filters</a>
-                                       </div>
-                                </div>
+                        <div class="d-flex justify-content-between pb-0 filter-section">
+                            <h3>Filter</h3>
+                            <div class="filter-section togglebelow768 p-0 ">
+                                <a href="{{ request()->url() }}" class=" reset-filter background-none"
+                                    style=" color:#BF9E66">Reset Filters</a>
+                            </div>
+                        </div>
                         <div class="salary-slider-wrapper filter-section">
-                         <h3>Salary Range</h3>
-                        <div class="salary-slider-range">
-                            <div class="salary-slider-track"></div>
-                            <input type="range" min="0" max="100" value="30" id="slider-1" oninput="slideOne()" />
-                            <input type="range" min="0" max="100" value="70" id="slider-2" oninput="slideTwo()" />
+                            <h3>Salary Range</h3>
+                            <div class="salary-slider-range">
+                                <div class="salary-slider-track"></div>
+                                <input type="range" min="0" max="100" value="0" id="slider-1"
+                                    oninput="slideOne()" />
+                                <input type="range" min="0" max="100000" value="100000" id="slider-2"
+                                    oninput="slideTwo()" />
+                            </div>
+                            <div class="salary-values-display d-flex justify-content-between align-items-center">
+                                <span id="range1" class="W-100 col-5">0 </span>
+                                <span class="col-1"> &dash; </span>
+                                <span class="col-5" id="range2" class="W-100">100 </span>
+                            </div>
                         </div>
-                        <div class="salary-values-display d-flex justify-content-between align-items-center">
-                            <span id="range1" class="W-100 col-5">0 </span>
-                            <span class="col-1"> &dash; </span>
-                            <span class="col-5" id="range2" class="W-100">100 </span>
-                        </div>
-                    </div>
                         <!-- Salary Range -->
                         <!-- <div class="filter-section">
-                            <h3>Salary Range</h3>
-                            <div class="salary-slider">
-                                
-                                <div class="salary-values">
-                                    <label for="min_salary">Min Salary</label>
-                                    <input id="min_salary" type="number" class="form-control" name="min_salary"
-                                        value="{{ request('min_salary', 0) }}" min="0">
+                                <h3>Salary Range</h3>
+                                <div class="salary-slider">
+                                    
+                                    <div class="salary-values">
+                                        <label for="min_salary">Min Salary</label>
+                                        <input id="min_salary" type="number" class="form-control" name="min_salary"
+                                            value="{{ request('min_salary', 0) }}" min="0">
 
-                                    <label for="max_salary">Max Salary</label>
-                                    <input id="max_salary" class="form-control" type="number" name="max_salary"
-                                        value="{{ request('max_salary', 100000000) }}" min="0">
+                                        <label for="max_salary">Max Salary</label>
+                                        <input id="max_salary" class="form-control" type="number" name="max_salary"
+                                            value="{{ request('max_salary', 100000000) }}" min="0">
+                                    </div>
                                 </div>
-                            </div>
-                        </div> -->
+                            </div> -->
 
                         <!-- Currency Filter -->
                         <div class="filter-section">
@@ -136,8 +139,8 @@
                             <div class="filter-options">
                                 @foreach (['Agency', 'Employer', 'Deal Rocket'] as $poster)
                                     <div class="filter-option">
-                                        <input type="checkbox" id="posted_by_{{ \Str::slug($poster) }}" name="posted_by[]"
-                                            value="{{ $poster }}"
+                                        <input type="checkbox" id="posted_by_{{ \Str::slug($poster) }}"
+                                            name="posted_by[]" value="{{ $poster }}"
                                             {{ in_array($poster, request()->get('posted_by', [])) ? 'checked' : '' }}>
                                         <label for="posted_by_{{ \Str::slug($poster) }}">{{ $poster }}
                                             {{-- <span class="count">(500)</span> --}}
@@ -152,20 +155,20 @@
                             <h3>Experience Level (Years)</h3>
                             <div class="experience-range">
                                 <label for="min_experience">Min Experience</label>
-                                <input id="min_experience" type="number" name="min_experience" class="form-control mb-2"
-                                    min="0" placeholder="Min Experience"
+                                <input id="min_experience" type="number" name="min_experience"
+                                    class="form-control mb-2" min="0" placeholder="Min Experience"
                                     value="{{ request('min_experience', '') }}">
 
                                 <label for="max_experience">Max Experience</label>
-                                <input id="max_experience" type="number" name="max_experience" class="form-control mb-1"
-                                    min="0" placeholder="Max Experience"
+                                <input id="max_experience" type="number" name="max_experience"
+                                    class="form-control mb-1" min="0" placeholder="Max Experience"
                                     value="{{ request('max_experience', '') }}">
                             </div>
                         </div>
-                        
+
                         <!-- <div class="filter-section togglebelow768">
-                            <a href="{{ request()->url() }}" class="btn btn-sm reset-filter">Reset Filters</a>
-                        </div> -->
+                                <a href="{{ request()->url() }}" class="btn btn-sm reset-filter">Reset Filters</a>
+                            </div> -->
                     </div>
                 </form>
 
@@ -250,43 +253,40 @@
         }
     </script>
     <script>
+        window.onload = function() {
+            slideOne();
+            slideTwo();
+        };
 
-  window.onload = function () {
-    slideOne();
-    slideTwo();
-  };
+        let sliderOne = document.getElementById("slider-1");
+        let sliderTwo = document.getElementById("slider-2");
+        let displayValOne = document.getElementById("range1");
+        let displayValTwo = document.getElementById("range2");
+        let sliderTrack = document.querySelector(".salary-slider-track");
+        let sliderMaxValue = sliderOne.max;
+        let minGap = 0;
 
-  let sliderOne = document.getElementById("slider-1");
-  let sliderTwo = document.getElementById("slider-2");
-  let displayValOne = document.getElementById("range1");
-  let displayValTwo = document.getElementById("range2");
-  let sliderTrack = document.querySelector(".salary-slider-track");
-  let sliderMaxValue = sliderOne.max;
-  let minGap = 0;
+        function slideOne() {
+            if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+                sliderOne.value = parseInt(sliderTwo.value) - minGap;
+            }
+            displayValOne.textContent = sliderOne.value;
+            fillColor();
+        }
 
-  function slideOne() {
-    if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
-      sliderOne.value = parseInt(sliderTwo.value) - minGap;
-    }
-    displayValOne.textContent = sliderOne.value;
-    fillColor();
-  }
+        function slideTwo() {
+            if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
+                sliderTwo.value = parseInt(sliderOne.value) + minGap;
+            }
+            displayValTwo.textContent = sliderTwo.value;
+            fillColor();
+        }
 
-  function slideTwo() {
-    if (parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap) {
-      sliderTwo.value = parseInt(sliderOne.value) + minGap;
-    }
-    displayValTwo.textContent = sliderTwo.value;
-    fillColor();
-  }
-
-  function fillColor() {
-    let percent1 = (sliderOne.value / sliderMaxValue) * 100;
-    let percent2 = (sliderTwo.value / sliderMaxValue) * 100;
-    sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #BF9E66 ${percent1}% , #BF9E66 ${percent2}%, #dadae5 ${percent2}%)`;
-  }
-
-
-</script>
-
+        function fillColor() {
+            let percent1 = (sliderOne.value / sliderMaxValue) * 100;
+            let percent2 = (sliderTwo.value / sliderMaxValue) * 100;
+            sliderTrack.style.background =
+                `linear-gradient(to right, #dadae5 ${percent1}% , #BF9E66 ${percent1}% , #BF9E66 ${percent2}%, #dadae5 ${percent2}%)`;
+        }
+    </script>
 @endpush

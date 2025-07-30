@@ -136,7 +136,7 @@ class ProductListController extends Controller
         }
         
         $productListData = ProductManager::getProductListData(request: $request);
-        $products = $productListData->paginate(20)->appends($data);
+        $products = $productListData->paginate(24)->appends($data);
 
         if (auth('customer')->check() && isset($request->searchInput)) {
             self::add_user_search($request->searchInput);
@@ -150,10 +150,10 @@ class ProductListController extends Controller
         }
         $productsCountries = Product::select('origin')->distinct()->pluck('origin');
 
-        $countries = Country::whereIn('id', $productsCountries)->get();
+        $countries = Country::all();
         if ($request['country']) {
             $products = Product::where('origin', $request['country'])->get();
-            $products = $products->paginate(20);
+            $products = $products->paginate(24);
         }        
         return view(VIEW_FILE_NAMES['products_view_page'], [
             'products' => $products,
@@ -218,7 +218,7 @@ class ProductListController extends Controller
         $page = $request->get('page', 1);
 
         // Paginate the filtered results
-        $products = $query->paginate(30, ['*'], 'page', $page);
+        $products = $query->paginate(24, ['*'], 'page', $page);
         
         // If it's an AJAX request, return only the partial view with trade show cards
         if ($request->ajax()) {

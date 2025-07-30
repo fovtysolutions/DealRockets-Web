@@ -155,7 +155,7 @@
 
 /* Job Categories Section */
 .job-landing .job-categories {
-    padding: 40px;
+    padding: 30px;
     background-color: var(--web-bg);
 }
 
@@ -198,8 +198,8 @@
 .job-landing .available-jobs {
     background-color: white;
     /* box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.25); */
-    margin-top: 30px;
-    padding: 40px;
+    /* margin-top: 30px; */
+    padding: 30px;
 }
 
 .job-landing .jobs-grid {
@@ -218,6 +218,10 @@
     background-color: white;
     border-radius: 10px;
     padding: 20px;
+}
+
+.job-landing .job-card:hover{
+    border-color: rgba(191, 158, 102, 1);
 }
 
 .job-landing .job-header {
@@ -301,10 +305,11 @@
 .job-landing .hiring-content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .job-landing .hiring-left {
-    width: 50%;
+    /* width: 50%; */
     padding-right: 40px;
 }
 
@@ -344,7 +349,7 @@
 }
 
 .job-landing .hiring-right {
-    width: 50%;
+    /* width: 50%; */
 }
 
 .job-landing .hiring-image {
@@ -362,6 +367,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 40px;
+    justify-content: space-between;
     margin-top: 30px;
 }
 
@@ -378,6 +384,7 @@
 .job-landing .consultants-logos {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     gap: 40px;
     margin-top: 30px;
 }
@@ -472,12 +479,13 @@
     font-family: roboto;
     font-size: 44px;
     font-weight: 700;
+    color: black;
     line-height: 57.43px;
 }
 
 .job-landing .dealrocket-logo {
-    width: 130px;
-    height: 26px;
+    width: 355px;
+    height: 37px;
 }
 
 .job-landing .industry-jobs {
@@ -497,7 +505,7 @@ padding-top: 9.19px; */
     /* width: 119px; */
     height: 40px;
     font-family: roboto;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 100%;
     margin-bottom: 41px;
@@ -505,6 +513,7 @@ padding-top: 9.19px; */
 
 .job-landing .category-title {
     font-family: roboto;
+    color: black;
     font-size: 24px;
     font-weight: 600;
     line-height: 120%;
@@ -548,6 +557,7 @@ padding-top: 9.19px; */
 .job-landing .section-title {
     font-family: roboto;
     font-size: 28px;
+    color: black;
     font-weight: 600;
     /* margin-left: 56px; */
 }
@@ -628,8 +638,8 @@ padding-top: 9.19px; */
 }
 
 .job-landing .white-bg-container {
-    margin-top: 30px;
-    padding: 15px 57px 40px;
+    margin-top: 0px;
+    padding: 15px 27px 40px;
 }
 
 .job-landing .box-gold {
@@ -643,6 +653,7 @@ padding-top: 9.19px; */
 .job-landing .hiring-title {
     font-family: roboto;
     font-size: 28px;
+    color: black;
     font-weight: 600;
 }
 
@@ -674,6 +685,7 @@ padding-top: 9.19px; */
 .job-landing .section-title1 {
     font-family: roboto;
     font-size: 28px;
+    color: black;
     font-weight: 600;
     /* margin-left: 56px; */
     margin-bottom: 20px;
@@ -682,6 +694,7 @@ padding-top: 9.19px; */
 .job-landing .section-title2 {
     font-family: roboto;
     font-size: 28px;
+    color: black;
     font-weight: 600;
     /* margin-left: 56px; */
     margin-bottom: 20px;
@@ -692,6 +705,7 @@ padding-top: 9.19px; */
     font-family: roboto;
     font-size: 28px;
     font-weight: 600;
+    color: black;
     /* margin-left: 56px; */
     margin-bottom: 20px;
 }
@@ -794,7 +808,7 @@ padding-top: 9.19px; */
 }
 
 .job-landing .hiring-left {
-    margin-left: 50px
+    /* margin-left: 50px */
 }
 
 .job-landing .hiring-image {

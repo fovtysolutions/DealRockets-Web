@@ -8,7 +8,7 @@
 
 .marketplace-list .product-card1 {
     display: flex;
-    margin-bottom: 1rem;
+    margin-bottom: 20px;
     align-items: center;
     width: 100%;
     background: white;
@@ -586,7 +586,7 @@ input[type='checkbox'] {
 
 .marketplace-list .product-list {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
 }
 
 .marketplace-list .diamong-img {
@@ -635,11 +635,12 @@ input[type='checkbox'] {
 
 /* Pagination */
 .marketplace-list .pagination {
-    display: none !important;
-    /* display: flex; */
+    /* display: none; */
+    display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
+    width: 100%;
 }
 
 .marketplace-list .items-per-page {

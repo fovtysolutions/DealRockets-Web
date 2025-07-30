@@ -11,9 +11,8 @@
                 <div class="hero-content">
                     <div class="hero-left">
                         <div class="logo-container">
-                            <img src="/img/a0b617ba94804b374f010991f905edd8.png" alt="DealRocket Logo"
+                            <img src="/img/industryjobs-icon.png" alt="DealRocket Logo"
                                 class="dealrocket-logo">
-                            <span class="industry-jobs">INDUSTRY JOB'S</span>
                         </div>
                         <h1 class="hero-title">Find the Right Opportunity</h1>
                         <p class="hero-description">Advance your career or discover the ideal candidate.<br />Take the next
@@ -31,81 +30,83 @@
 
             <!-- Job Categories Section -->
             <section class="job-categories">
-    <h2 class="section-title1">Job <span class="highlight">Categories</span></h2>
-    <div class="categories-grid">
-        @forelse ($jobspercategory as $item)
-            <div class="category-card">
-                <div class="category-icon-container">
-                    <img src="{{ !empty($item['image']) ? '/storage/category/' . $item['image'] : '/images/missing_image.jpg' }}"
-                        alt="{{ $item['name'] ?? 'Unknown Category' }}" class="category-icon">
+                <h2 class="section-title1">Job <span class="highlight">Categories</span></h2>
+                <div class="categories-grid">
+                    @forelse ($jobspercategory as $item)
+                        <div class="category-card">
+                            <div class="category-icon-container">
+                                <img src="{{ !empty($item['image']) ? '/storage/category/' . $item['image'] : '/images/missing_image.jpg' }}"
+                                    alt="{{ $item['name'] ?? 'Unknown Category' }}" class="category-icon">
+                            </div>
+                            <div class="category-info">
+                                <h3 class="category-title">{{ $item['name'] ?? 'Unknown Category' }}</h3>
+                                <p class="category-count">{{ $item['count'] ?? 0 }} Jobs Available</p>
+                            </div>
+                        </div>
+                    @empty
+                        <div>No categories available.</div>
+                    @endforelse
                 </div>
-                <div class="category-info">
-                    <h3 class="category-title">{{ $item['name'] ?? 'Unknown Category' }}</h3>
-                    <p class="category-count">{{ $item['count'] ?? 0 }} Jobs Available</p>
-                </div>
-            </div>
-        @empty
-            <div>No categories available.</div>
-        @endforelse
-    </div>
-</section>
+            </section>
 
 
             <!-- Available Jobs Section -->
             <section class="available-jobs">
-    <h2 class="section-title">Available <span class="highlight1">Job's</span></h2>
-    <div class="jobs-grid">
-        <div class="job-row">
-            @forelse ($jobs as $item)
-                <div class="job-card">
-                    <div class="job-header">
-                        <h3 class="job-title">{{ $item->title ?? 'Untitled Job' }}</h3>
-                        <span class="job-posted">
-                            {{ $item->created_at ? $item->created_at->diffForHumans() : 'Unknown date' }}
-                            by <span class="highlight2">{{ $item->company_name ?? 'Unknown Company' }}</span>
-                        </span>
+                <h2 class="section-title">Available <span class="highlight1">Job's</span></h2>
+                <div class="jobs-grid">
+                    <div class="job-row">
+                        @forelse ($jobs as $item)
+                            <div class="job-card">
+                                <div class="job-header">
+                                    <h3 class="job-title">{{ $item->title ?? 'Untitled Job' }}</h3>
+                                    <span class="job-posted">
+                                        {{ $item->created_at ? $item->created_at->diffForHumans() : 'Unknown date' }}
+                                        by <span class="highlight2">{{ $item->company_name ?? 'Unknown Company' }}</span>
+                                    </span>
+                                </div>
+                                <div class="job-details-container">
+                                    <div class="job-details">
+                                        <div class="job-detail">
+                                            <img src="https://img.icons8.com/material-outlined/16/000000/us-dollar.png"
+                                                alt="salary" class="job-icon">
+                                            <span>
+                                                {{ $item->currency ?? '$' }}
+                                                {{ $item->salary_low ?? 'N/A' }} to {{ $item->salary_high ?? 'N/A' }}
+                                            </span>
+                                        </div>
+                                        <div class="job-detail">
+                                            <img src="https://img.icons8.com/material-outlined/16/000000/home-office.png"
+                                                alt="work location" class="job-icon">
+                                            <span>{{ $item->employment_space ?? 'N/A' }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="job-details">
+                                        <div class="job-detail">
+                                            <img src="https://img.icons8.com/material-outlined/16/000000/marker.png"
+                                                alt="city" class="job-icon">
+                                            @php
+                                                $cityname = $item->city
+                                                    ? \App\Models\City::find($item->city)->name ?? 'Unknown City'
+                                                    : 'Unknown City';
+                                            @endphp
+                                            <span>{{ $cityname }}</span>
+                                        </div>
+                                        <div class="job-detail">
+                                            <img src="https://img.icons8.com/material-outlined/16/000000/clock.png"
+                                                alt="job type" class="job-icon">
+                                            <span>{{ $item->employment_type ?? 'N/A' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="job-description">{{ $item->description ?? 'No description available.' }}</p>
+                                <button class="btn btn-outline-small">Apply Now</button>
+                            </div>
+                        @empty
+                            <div>No jobs available.</div>
+                        @endforelse
                     </div>
-                    <div class="job-details-container">
-                        <div class="job-details">
-                            <div class="job-detail">
-                                <img src="https://img.icons8.com/material-outlined/16/000000/us-dollar.png"
-                                    alt="salary" class="job-icon">
-                                <span>
-                                    {{ $item->currency ?? '$' }}
-                                    {{ $item->salary_low ?? 'N/A' }} to {{ $item->salary_high ?? 'N/A' }}
-                                </span>
-                            </div>
-                            <div class="job-detail">
-                                <img src="https://img.icons8.com/material-outlined/16/000000/home-office.png"
-                                    alt="work location" class="job-icon">
-                                <span>{{ $item->employment_space ?? 'N/A' }}</span>
-                            </div>
-                        </div>
-                        <div class="job-details">
-                            <div class="job-detail">
-                                <img src="https://img.icons8.com/material-outlined/16/000000/marker.png"
-                                    alt="city" class="job-icon">
-                                @php
-                                    $cityname = $item->city ? (\App\Models\City::find($item->city)->name ?? 'Unknown City') : 'Unknown City';
-                                @endphp
-                                <span>{{ $cityname }}</span>
-                            </div>
-                            <div class="job-detail">
-                                <img src="https://img.icons8.com/material-outlined/16/000000/clock.png"
-                                    alt="job type" class="job-icon">
-                                <span>{{ $item->employment_type ?? 'N/A' }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="job-description">{{ $item->description ?? 'No description available.' }}</p>
-                    <button class="btn btn-outline-small">Apply Now</button>
                 </div>
-            @empty
-                <div>No jobs available.</div>
-            @endforelse
-        </div>
-    </div>
-</section>
+            </section>
 
             <div class="white-bg-container">
                 <!-- Hiring Section -->
@@ -187,9 +188,9 @@
                 <!-- foo -->
                 <div class="foo">
                     <div class="foo-links">
-                        <a href="#" class="foo-link">Terms & Conditions</a>
+                        <a href="{{ route('terms') }}" class="foo-link">Terms & Conditions</a>
                         <span class="foo-divider"></span>
-                        <a href="#" class="foo-link">Privacy Policy</a>
+                        <a href="{{ route('privacy-policy') }}" class="foo-link">Privacy Policy</a>
                         <span class="foo-divider"></span>
                         <a href="#" class="foo-link">© 2025 Industry Jobs</a>
                     </div>

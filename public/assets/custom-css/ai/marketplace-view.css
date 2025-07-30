@@ -648,8 +648,8 @@
     border: 1px solid #eee;
     padding: 26px;
     gap: 20px;
-    /* max-width: 1280px; */
-    margin: 15px;
+    max-width: 100%;
+    /* margin: 15px; */
     margin-top: 2rem;
     /* box-shadow: 0px 0px 5px 0px #00000040; */
     justify-content: space-between;
@@ -666,7 +666,7 @@
 }
 
 .vender-contact .contact-left {
-    max-width: 100%;
+    max-width: 50%;
 }
 
 #sticky-supplier-info.at-end {
@@ -697,7 +697,7 @@
 .vender-contact .contact-right {
     border-left: 1px solid #ddd;
     padding: 9px 25px;
-    max-width: 35%;
+    max-width: 40%;
 }
 
 .vender-contact .private-info-box {
@@ -1152,7 +1152,7 @@ color: #FE4E44 !important;
     font-size: 16px !important;
     line-height: 22px !important;
     color: #000000 !important;
-    /* margin-left: 12px; */
+    margin-left: 12px;
     width: 230px;
     height: fit-content;
     margin-top: auto;
@@ -1401,7 +1401,9 @@ color: #FE4E44 !important;
 #sticky-supplier-info1{
     margin-left: 2px;
     margin-bottom: 15px;
+    margin-right: 25px;
     padding-right: 28px;
+    width: 261px;
 }
 
 .product-view-section .see-more-btn {
@@ -1423,7 +1425,7 @@ color: #FE4E44 !important;
 
 .product-view-section .spec-section {
     padding: 15px 15px 15px 15px;
-    width: 84%;
+    width: 83%;
 }
 
 .product-view-section .card-2 {

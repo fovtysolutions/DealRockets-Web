@@ -1039,7 +1039,7 @@
                     }
 
                     const containerRect = container.getBoundingClientRect();
-                    const rightOffset = window.innerWidth - containerRect.right + 17;
+                    const rightOffset = window.innerWidth - containerRect.right + 4;
 
                     if (supplierInfo.classList.contains('stuck')) {
                         supplierInfo.style.right = `${rightOffset}px`;

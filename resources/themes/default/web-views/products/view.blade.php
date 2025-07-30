@@ -231,13 +231,12 @@
         <div id="filterModal" class="filter-modal d-none">
             <aside class="sidebar mobile-sidebar">
                 <!-- <div class="search-section">
-                                                        <h3>Search by Name</h3>
-                                                        <div class="search-input">
-                                                            <input type="text" placeholder="Search">
-                                                            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12f01963377e36ee54832fed9f9fa99ecc307862?placeholderIfAbsent=true" alt="Search">
-                                                        </div>
-                                                    </div> -->
-
+                    <h3>Search by Name</h3>
+                    <div class="search-input">
+                        <input type="text" placeholder="Search">
+                        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/12f01963377e36ee54832fed9f9fa99ecc307862?placeholderIfAbsent=true" alt="Search">
+                    </div>
+                </div> -->
                 <div class="filter-section">
                     <h3>Filter By Country</h3>
                     <div class="search-input">

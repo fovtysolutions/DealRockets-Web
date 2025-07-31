@@ -4,6 +4,18 @@
 @endpush
 @section('title', translate('Deal Assist' . ' | ' . $web_config['name']->value))
 @section('content')
+@php
+    if (Auth('customer')->check()) {
+        $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
+        if(isset($membership)){
+                if ($membership['status'] == 'error') {
+                $membership = ['status' => 'NotMade', 'message' => 'Membership Not Applied'];
+            }
+        }
+    } else {
+        $membership = ['status'=>'notLogged','message'=>'Not Logged In'];
+    }
+@endphp
 <style>
     .custom-inquiry-btn {
         width: fit-content !important;
@@ -422,17 +434,17 @@
 
             <div class="modal-body">
                 <form id="inquiryForm">
+                    @csrf
                     <div class="mb-3">
                         <label for="supplier" class="form-label">To</label>
-                        <div class="form-control">XYZ Store45454</div>
+                        <div class="form-control">DealRockets</div>
                     </div>
 
-                    <input type="hidden" id="sender_id1" name="sender_id" value="">
-                    <input type="hidden" id="sender_type1" name="sender_type" value="guest">
-                    <input type="hidden" id="receiver_id1" name="receiver_id" value="14">
-                    <input type="hidden" id="receiver_type1" name="receiver_type" value="seller">
-                    <input type="hidden" id="product_id1" name="product_id" value="353">
-                    <input type="hidden" id="type" name="type" value="products">
+                    <input type="hidden" id="sender_id1" name="sender_id" value="{{ auth('customer')->check() ? auth('customer')->id() : '' }}">
+                    <input type="hidden" id="sender_type1" name="sender_type" value="customer">
+                    <input type="hidden" id="receiver_id1" name="receiver_id" value="1">
+                    <input type="hidden" id="receiver_type1" name="receiver_type" value="admin">
+                    <input type="hidden" id="type" name="type" value="dealassist">
 
                     <div class="mb-3">
                         <label for="email" class="form-label">E-mail Address</label>
@@ -443,10 +455,21 @@
                     <div class="mb-3">
                         <label for="message" class="form-label">Message</label>
                         <textarea class="form-control" id="message1" rows="4"
-                            placeholder="Enter product details..." required></textarea>
+                            placeholder="Enter Deal Assist Inquiry..." required></textarea>
                     </div>
 
-                    <button type="button" onclick="sendtologin()" class="btn btn-primary">Send Inquiry Now</button>
+                    @if (auth('customer')->check())
+                        @if (strtolower(trim($membership['status'] ?? '')) == 'active')
+                            <button type="button" onclick="triggerChat1()" class="btn-primary btn">Send Inquiry
+                                Now</button>
+                        @else
+                            <a href="{{ route('membership') }}" class="btn-primary btn">Send Inquiry
+                                Now</a>
+                        @endif
+                    @else
+                        <button type="button" onclick="sendtologin()" class="btn-primary btn">Send
+                            Inquiry Now</button>
+                    @endif                
                 </form>
             </div>
 
@@ -455,7 +478,40 @@
 </div>
 @endsection
 @push('script')
+    <script src="{{ theme_asset(path: 'public/js/product-detail.js') }}"></script>
     <script>
+        function triggerChat1() {
+            var _token = $('input[name="_token"]').val() || $('meta[name="csrf-token"]').attr('content');
+
+            var formData = {
+                _token: _token,
+                sender_id: $('#sender_id1').val(),
+                sender_type: $('#sender_type1').val(),
+                receiver_id: $('#receiver_id1').val(),
+                receiver_type: $('#receiver_type1').val(),
+                type: $('#type').val(),
+                email: $('#email1').val(),
+                message: $('#message1').val()
+            };
+
+            $.ajax({
+                url: "{{ route('sendmessage.other') }}",
+                type: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': _token,
+                },
+                success: function(response) {
+                    toastr.success('Inquiry sent successfully!', 'Success');
+                    window.location.reload();
+                },
+                error: function(xhr) {
+                    toastr.error('Failed to send inquiry.', 'Error');
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             // Timeline intersection observer
             const timelineContainers = document.querySelectorAll('.timeline-container');

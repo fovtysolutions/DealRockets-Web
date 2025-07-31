@@ -9639,4 +9639,5 @@ return [
 	"under_review" => "Under review",
 	"search_by_Job_Title" => "Search by Job Title",
 	"add_new_vacancy" => "Add new vacancy",
+	"Membership | Deal Rockets" => "Membership | Deal Rockets",
 ];

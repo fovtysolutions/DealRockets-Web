@@ -16,7 +16,7 @@
 
                     <!-- Subtle black overlay -->
                     <div class="position-absolute top-0 start-0 w-100 h-100"
-                        style="background-color: rgba(0, 0, 0, 56%); z-index: 1;"></div>
+                        style="background-color: rgba(0, 0, 0, 30%); z-index: 1;"></div>
 
                     <!-- Text content -->
                     <div class="position-relative"

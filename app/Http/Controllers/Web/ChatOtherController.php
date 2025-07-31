@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\ChatsOther;
 use App\Models\Leads;
@@ -102,6 +103,7 @@ class ChatOtherController extends Controller
     {
         try {
             $chat = $this->sendMessage($request->all());
+            // Send notification to receiver (normal case)
             ChatManager::sendNotification([
                 'sender_id'      => $chat['sender_id'],
                 'receiver_id'    => $chat['receiver_id'],
@@ -112,11 +114,30 @@ class ChatOtherController extends Controller
                 'suppliers_id'   => $chat['suppliers_id'],
                 'product_id'     => $chat['product_id'],
                 'product_qty'    => $chat['product_qty'],
-                'title'          => 'New message received',
+                'title'          => $chat['type'] == 'dealassist' ? 'Deal Assist inquiry received' : 'New message received',
                 'message'        => Str::limit($chat['message'], 100),
                 'priority'       => 'normal',
                 'action_url'     => 'inbox',
             ]);
+
+            // For Deal Assist, also send confirmation notification back to the sender (customer)
+            if ($chat['type'] == 'dealassist') {
+                ChatManager::sendNotification([
+                    'sender_id'      => $chat['receiver_id'], // Admin as sender for confirmation
+                    'receiver_id'    => $chat['sender_id'],   // Customer as receiver for confirmation  
+                    'receiver_type'  => $chat['sender_type'], // Customer type
+                    'type'           => $chat['type'],
+                    'stocksell_id'   => $chat['stocksell_id'],
+                    'leads_id'       => $chat['leads_id'],
+                    'suppliers_id'   => $chat['suppliers_id'],
+                    'product_id'     => $chat['product_id'],
+                    'product_qty'    => $chat['product_qty'],
+                    'title'          => 'Deal Assist inquiry sent successfully',
+                    'message'        => 'Your Deal Assist inquiry has been received by our team. We will get back to you soon.',
+                    'priority'       => 'normal',
+                    'action_url'     => 'inbox',
+                ]);
+            }
 
             $user_id = $chat['receiver_id'];
             $role = $chat['receiver_type'];
@@ -126,6 +147,8 @@ class ChatOtherController extends Controller
                 $user = Seller::find($user_id);
             } else if ($role == 'admin') {
                 $user = Admin::find($user_id);
+            } else if ($role == 'customer') {
+                $user = User::find($user_id);
             }
 
             if ($type == 'stocksell') {
@@ -137,11 +160,16 @@ class ChatOtherController extends Controller
             } else if ($type == 'saleoffer') {
                 $lead = Leads::find($chat['leads_id']);
                 $response = EmailHelper::sendSaleOfferInquiryMail($user, $lead);
-            } else if ($type == '') {
+            } else if ($type == 'products') {
                 $product = Product::find($chat['product_id']);
                 $response = EmailHelper::sendProductInquiryMail($user, $product);
+            } else if ($type == 'dealassist') {
+                // For Deal Assist inquiries, we can create a simple email notification
+                // or handle it differently as needed
+                $response = ['success' => true]; // Skip email for now, just use in-app notification
             } else {
                 // Do Nothing
+                $response = ['success' => true];
             }
 
             if (!$response['success']) {
@@ -272,6 +300,45 @@ class ChatOtherController extends Controller
             return $data;
         }
 
+        if ($role == 'customer') {
+            // Count total messages for customer
+            $totalMessages = ChatsOther::where('receiver_type', 'customer')->where('receiver_id', $userId)->count();
+
+            // Count unread messages
+            $unreadMessages = ChatsOther::where('receiver_type', 'customer')->where('receiver_id', $userId)->where('is_read', 0)->count();
+
+            $readMessages = ChatsOther::where('receiver_type', 'customer')->where('receiver_id', $userId)->where('is_read', 1)->count();
+
+            // Messages grouped by type
+            $messagesByType = ChatsOther::where('receiver_type', 'customer')->where('receiver_id', $userId)->select('type')
+                ->selectRaw('COUNT(*) as total')
+                ->groupBy('type')
+                ->get();
+
+            // Open vs Closed status
+            $statusStats = ChatsOther::where('receiver_type', 'customer')->where('receiver_id', $userId)->select('openstatus')
+                ->selectRaw('COUNT(*) as total')
+                ->groupBy('openstatus')
+                ->get();
+
+            // Messages by sender_type
+            $bySenderType = ChatsOther::where('receiver_type', 'customer')->where('receiver_id', $userId)->select('sender_type')
+                ->selectRaw('COUNT(*) as total')
+                ->groupBy('sender_type')
+                ->get();
+
+            $data = [
+                'total_messages'     => $totalMessages,
+                'read_messages'      => $readMessages,
+                'unread_messages'    => $unreadMessages,
+                'messages_by_type'   => $messagesByType,
+                'status_distribution' => $statusStats,
+                'by_sender_type'     => $bySenderType,
+            ];
+
+            return $data;
+        }
+
         // Count total messages
         $totalMessages = ChatsOther::count();
 
@@ -346,12 +413,17 @@ class ChatOtherController extends Controller
                 $query->whereIn('receiver_type', ['admin', 'seller'])
                     ->orderBy('sent_at', 'desc');
                 break;
+            default:
+                // For any other role, show all messages (fallback)
+                $query->orderBy('sent_at', 'desc');
+                break;
         }
 
+        $baseQuery = clone $query;
         $statuses = [
-            'all'    => $query,
-            'read'   => (clone $query)->where('is_read', 1),
-            'unread' => (clone $query)->where('is_read', 0),
+            'all'    => clone $baseQuery,
+            'read'   => (clone $baseQuery)->where('is_read', 1),
+            'unread' => (clone $baseQuery)->where('is_read', 0),
         ];
 
         $chatData = [];
@@ -359,16 +431,14 @@ class ChatOtherController extends Controller
         // 1. Build read/unread/all tabs
         foreach ($statuses as $status => $queryBuilder) {
             $chatData[$status] = $queryBuilder->get()
-                ->filter(function ($item) {
-                    return $item->leads_id || $item->stocksell_id || $item->product_id || $item->type === 'reachout';
-                })
                 ->groupBy(function ($item) {
                     return match ($item->type) {
-                        'stocksell' => 'stocksell_' . $item->stocksell_id,
-                        'products' => 'product_' . $item->product_id,
-                        'buyleads', 'sellleads' => 'lead_' . $item->leads_id,
+                        'stocksell' => 'stocksell_' . ($item->stocksell_id ?? $item->id),
+                        'products' => 'product_' . ($item->product_id ?? $item->id),
+                        'buyleads', 'sellleads' => 'lead_' . ($item->leads_id ?? $item->id),
                         'reachout' => 'reachout_' . $item->id,
-                        default => 'unknown_' . $item->id,
+                        'dealassist' => 'dealassist_' . $item->id,
+                        default => $item->type . '_' . $item->id,
                     };
                 })
                 ->flatMap(function ($group) {
@@ -378,7 +448,7 @@ class ChatOtherController extends Controller
         }
 
         // 2. Build listing-type-specific tabs (flat and deduplicated)
-        foreach (['buyleads', 'sellleads', 'stocksell', 'products'] as $typeKey) {
+        foreach (['buyleads', 'sellleads', 'stocksell', 'products', 'dealassist'] as $typeKey) {
             $chatData[$typeKey] = collect($chatData['all'] ?? [])
                 ->filter(fn($item) => $item->type === $typeKey)
                 ->values();
@@ -418,6 +488,21 @@ class ChatOtherController extends Controller
         $data['count'] = ChatsOther::where('receiver_id',$userId)->where('receiver_type',$role)->get()->count();
         $data['chatboxStatics'] = self::getChatboxStatistics();
         return view('vendor-views.betterchat.messages', $data);
+    }
+
+    public function customerChatbox(Request $request)
+    {
+        $special = $request->input('special');
+        $search = $request->input('search', null);
+
+        $roledetail = ChatManager::getRoleDetail();
+        $role = $roledetail['role'];
+        $userId = $roledetail['user_id'];
+
+        $data['intialMessages'] = self::getInitialMessages($special, $search);
+        $data['count'] = ChatsOther::where('receiver_id',$userId)->where('receiver_type',$role)->get()->count();
+        $data['chatboxStatics'] = self::getChatboxStatistics();
+        return view('web-views.betterchat.messages', $data);
     }
 
     public function fetchChat($user_id, $user_type, $type, $listing_id)
@@ -466,6 +551,18 @@ class ChatOtherController extends Controller
                 return [
                     'type' => $type,
                     'listing' => 'N/A',
+                ];
+
+            case 'dealassist':
+                return [
+                    'type' => $type,
+                    'listing' => [
+                        'title' => 'Deal Assist Inquiry',
+                        'description' => 'Customer inquiry for deal assistance',
+                        'message' => $chat->message,
+                        'sender_type' => $chat->sender_type,
+                        'receiver_type' => $chat->receiver_type,
+                    ],
                 ];
 
             default:

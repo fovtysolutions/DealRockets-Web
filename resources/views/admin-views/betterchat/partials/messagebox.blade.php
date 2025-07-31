@@ -305,7 +305,7 @@
             let userId = this.dataset.userId;
             let userType = this.dataset.userType;
             let type = this.dataset.type;
-            let listingId = this.dataset.listingId;
+            let listingId = this.dataset.listingId || 'singleentry';
             let sendtoId = this.dataset.sendtoid;
             let sendtoType = this.dataset.sendtotype;
             let loggedid = this.dataset.loggedid;
@@ -364,7 +364,7 @@
                 sender_type: $('#sender_type').val(), // assuming hidden input with auth user type
                 receiver_id: $('#receiver_iduniq').val(),
                 receiver_type: $('#receiver_typeuniq').val(),
-                listing_id: $('#listing_id').val(),
+                listing_id: $('#listing_id').val() || 'singleentry',
                 message: message,
                 type: $('#typeuniq').val(),
                 _token: "{{ csrf_token() }}", // or pass it explicitly

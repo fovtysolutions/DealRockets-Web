@@ -120,24 +120,8 @@ class ChatOtherController extends Controller
                 'action_url'     => 'inbox',
             ]);
 
-            // For Deal Assist, also send confirmation notification back to the sender (customer)
-            if ($chat['type'] == 'dealassist') {
-                ChatManager::sendNotification([
-                    'sender_id'      => $chat['receiver_id'], // Admin as sender for confirmation
-                    'receiver_id'    => $chat['sender_id'],   // Customer as receiver for confirmation  
-                    'receiver_type'  => $chat['sender_type'], // Customer type
-                    'type'           => $chat['type'],
-                    'stocksell_id'   => $chat['stocksell_id'],
-                    'leads_id'       => $chat['leads_id'],
-                    'suppliers_id'   => $chat['suppliers_id'],
-                    'product_id'     => $chat['product_id'],
-                    'product_qty'    => $chat['product_qty'],
-                    'title'          => 'Deal Assist inquiry sent successfully',
-                    'message'        => 'Your Deal Assist inquiry has been received by our team. We will get back to you soon.',
-                    'priority'       => 'normal',
-                    'action_url'     => 'inbox',
-                ]);
-            }
+            // Deal Assist works as a proper chat - no automatic confirmation needed
+            // Admin will respond manually through the chat interface
 
             $user_id = $chat['receiver_id'];
             $role = $chat['receiver_type'];
@@ -177,10 +161,32 @@ class ChatOtherController extends Controller
                     'error'     => $response['message'] ?? 'Unknown error',
                 ]);
             }
+            // Check if this is an AJAX request (for Deal Assist and other AJAX forms)
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Message sent successfully!',
+                    'chat_id' => $chat['chat_id'],
+                    'type' => $chat['type'],
+                ]);
+            }
+            
             return back()->with('success', 'Message sent successfully!');
         } catch (ValidationException $ve) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Validation Error: ' . $ve->getMessage(),
+                ], 422);
+            }
             return back()->with('error', 'Message Sent Error: ' . $ve->getMessage());
         } catch (Exception $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error: ' . $e->getMessage(),
+                ], 500);
+            }
             return back()->with('error', 'Message Sent Error: ' . $e->getMessage());
         }
     }

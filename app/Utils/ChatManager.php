@@ -707,6 +707,11 @@ class ChatManager
             case 'sellleads':
                 $query->where('leads_id', $listing_id);
                 break;
+            case 'dealassist':
+            case 'reachout':
+                // For dealassist and reachout, use chat_id as the grouping identifier
+                $query->where('chat_id', $listing_id);
+                break;
             default:
                 return [];
         }

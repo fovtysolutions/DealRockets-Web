@@ -502,8 +502,14 @@
                     'X-CSRF-TOKEN': _token,
                 },
                 success: function(response) {
-                    toastr.success('Inquiry sent successfully!', 'Success');
-                    window.location.reload();
+                    if (response.success && response.type === 'dealassist') {
+                        toastr.success('Deal Assist inquiry sent! Check inbox...', 'Success');
+                        // Redirect to customer inbox where they can continue the chat
+                        // window.location.href = '/customer/inbox';
+                    } else {
+                        toastr.success('Inquiry sent successfully!', 'Success');
+                        window.location.reload();
+                    }
                 },
                 error: function(xhr) {
                     toastr.error('Failed to send inquiry.', 'Error');

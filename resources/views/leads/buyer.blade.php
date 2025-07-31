@@ -123,6 +123,51 @@
 @endsection
 @push('script')
     <script src="{{ theme_asset('public/js/buyer.js') }}"></script>
+    <style>
+        /* Hover popup styles */
+        .hover-popup {
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1000;
+            max-width: 300px;
+            word-wrap: break-word;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .hover-popup.show {
+            opacity: 1;
+        }
+        
+        .hover-popup::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #333;
+        }
+        
+        .hover-popup.popup-below::before {
+            bottom: auto;
+            top: -5px;
+            border-top: none;
+            border-bottom: 5px solid #333;
+        }
+        
+        .detail-value.hoverable {
+            cursor: help;
+            position: relative;
+        }
+    </style>
     <script>
         function loadFilteredData(filters, page = 1) {
             $("#dynamicLoader").css("display", "block");
@@ -137,6 +182,7 @@
                     $("#dynamicBuyLeads").html(response.html);
                     $("#paginationControls").html(response.pagination);
                     $("#dynamicLoader").css("display", "none");
+                    initializeHoverPopups(); // Reinitialize popups after AJAX content load
                 },
                 error: function(xhr, status, error) {
                     console.error("Error:", error);
@@ -144,6 +190,67 @@
                 },
             });
         }
+
+        // Hover popup functionality
+        function initializeHoverPopups() {
+            // Remove existing popup if any
+            $('.hover-popup').remove();
+            
+            // Create popup element
+            const popup = $('<div class="hover-popup"></div>');
+            $('body').append(popup);
+            
+            // Add hover events to truncated table cells
+            $(document).on('mouseenter', '.detail-value.text-truncate, .detail-value.text-truncate-2', function(e) {
+                const $this = $(this);
+                const fullText = $this.text().trim();
+                
+                // Only show popup if text is actually truncated
+                if (this.scrollWidth > this.offsetWidth || fullText.length > 20) {
+                    popup.text(fullText);
+                    popup.addClass('show');
+                    
+                    // Position popup - account for scroll position
+                    const rect = this.getBoundingClientRect();
+                    const scrollTop = $(window).scrollTop();
+                    const scrollLeft = $(window).scrollLeft();
+                    const popupWidth = popup.outerWidth();
+                    const popupHeight = popup.outerHeight();
+                    
+                    let left = rect.left + scrollLeft + (rect.width / 2) - (popupWidth / 2);
+                    let top = rect.top + scrollTop - popupHeight - 5;
+                    
+                    // Adjust if popup goes off screen horizontally
+                    if (left < 10) left = 10;
+                    if (left + popupWidth > $(window).width() - 10) {
+                        left = $(window).width() - popupWidth - 10;
+                    }
+                    
+                    // If popup goes off screen at top, show it below the element
+                    if (top < scrollTop + 10) {
+                        top = rect.bottom + scrollTop + 5;
+                        // Change arrow direction when popup is below
+                        popup.addClass('popup-below');
+                    } else {
+                        popup.removeClass('popup-below');
+                    }
+                    
+                    popup.css({
+                        left: left + 'px',
+                        top: top + 'px'
+                    });
+                }
+            });
+            
+            $(document).on('mouseleave', '.detail-value.text-truncate, .detail-value.text-truncate-2', function() {
+                popup.removeClass('show');
+            });
+        }
+        
+        // Initialize on page load
+        $(document).ready(function() {
+            initializeHoverPopups();
+        });
     </script>
     <script>
         function makeFavourite(element) {

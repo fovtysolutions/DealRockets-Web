@@ -78,13 +78,29 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Search box functionality
+    // Search box functionality for filter sections
     const searchInputs = document.querySelectorAll(".search-box input");
 
     searchInputs.forEach(input => {
         input.addEventListener("input", function() {
-            // In a real application, this would filter based on search
-            console.log(`Searching for: ${this.value}`);
+            const searchTerm = this.value.toLowerCase();
+            const filterSection = this.closest('.filter-section');
+            
+            if (filterSection) {
+                const options = filterSection.querySelectorAll('.filter-option, .currency-option');
+                
+                options.forEach(option => {
+                    const label = option.querySelector('label:last-child');
+                    if (label) {
+                        const text = label.textContent.toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            option.style.display = 'block';
+                        } else {
+                            option.style.display = 'none';
+                        }
+                    }
+                });
+            }
         });
     });
 
@@ -144,15 +160,13 @@ document.addEventListener("DOMContentLoaded", function() {
         const form = document.getElementById("filterFormIndustryJobs");
 
         let filters = {
-            // Not present in your form, placeholder in case you later add it
-            search_filter:
-                form.querySelector("input[name='search_filter']")?.value || "",
+            search_filter: form.querySelector("input[name='search_filter']")?.value || "",
 
-            min_salary: form.querySelector("#min-salary")?.value || 0,
-            max_salary: form.querySelector("#max-salary")?.value || 500,
+            min_salary: form.querySelector("#min_salary")?.value || 0,
+            max_salary: form.querySelector("#max_salary")?.value || 100000,
 
             currencies: Array.from(
-                form.querySelectorAll('input[name="currency[]"]:checked')
+                form.querySelectorAll('input[name="currencies[]"]:checked')
             ).map(cb => cb.value),
 
             keywords: Array.from(
@@ -160,27 +174,35 @@ document.addEventListener("DOMContentLoaded", function() {
             ).map(cb => cb.value),
 
             job_types: Array.from(
-                form.querySelectorAll(
-                    'input[name="full-time"]:checked, input[name="part-time"]:checked, input[name="weekly"]:checked, input[name="hourly"]:checked, input[name="contract"]:checked, input[name="freelancing"]:checked'
-                )
-            ).map(cb => cb.name), // Using name as value isn't defined
-
-            // Location is mixed into keywords in your form — optional separation if needed
-            locations: Array.from(
-                form.querySelectorAll('input[name="country[]"]:checked')
-            )
-                .filter(cb => cb.id.startsWith("country-")) // Just an example to distinguish countries
-
-                .map(cb => cb.value), // Could be ID (from countries table)
-
-            jobtitle: Array.from(
-                form.querySelectorAll('input[name="jobtitle[]"]:checked')
+                form.querySelectorAll('input[name="job_types[]"]:checked')
             ).map(cb => cb.value),
+
+            countries: Array.from(
+                form.querySelectorAll('input[name="countries[]"]:checked')
+            ).map(cb => cb.value),
+
+            jobtitles: Array.from(
+                form.querySelectorAll('input[name="jobtitles[]"]:checked')
+            ).map(cb => cb.value),
+
+            min_experience: form.querySelector("input[name='min_experience']")?.value || "",
+            max_experience: form.querySelector("input[name='max_experience']")?.value || "",
         };
 
         filters.page = page;
 
         loadFilteredData(filters, page);
+    }
+
+    // Function to handle search button click
+    function performSearch() {
+        const searchInput = document.querySelector('.search-input-tab');
+        const hiddenSearchInput = document.querySelector('#search_filter');
+        
+        if (searchInput && hiddenSearchInput) {
+            hiddenSearchInput.value = searchInput.value;
+            applyFilters(1);
+        }
     }
 
     $(document).on("click", ".pagination a", function(e) {

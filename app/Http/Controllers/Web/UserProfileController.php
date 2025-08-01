@@ -294,7 +294,7 @@ class UserProfileController extends Controller
             }
 
             // Return success response
-            return response()->back()->with('success', 'Profile updated successfully!');
+            return redirect()->back()->with('success', 'Profile updated successfully!');
         } catch (\Exception $e) {
             // Log error for debugging
             Log::error('Failed to update job profile for user ' . $user . ': ' . $e->getMessage());

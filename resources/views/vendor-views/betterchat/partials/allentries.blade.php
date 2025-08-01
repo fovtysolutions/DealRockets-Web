@@ -81,7 +81,12 @@
             @endphp
             @if ($hasActionUrl)
                 <a href="{{ $url }}" target="_top"
-                    onclick="event.preventDefault(); markAsReadAndRedirect({{ $item['id'] }}, '{{ $url }}')"
+                    onclick="event.preventDefault(); 
+                    if ('{{ $url }}' !== '#') {
+                        markAsReadAndRedirect({{ $item['id'] }}, '{{ $url }}');
+                    } else {
+                        markAsReadOnly({{ $item['id'] }});
+                    }"                    
                     class="chat-paginate flex h-9 px-2 items-center text-sm border-b border-gray-200 hover:shadow-md cursor-pointer
                    {{ $isNotification ? 'border-l-4 border-yellow-400 pl-2' : '' }}
                    {{ $item['category'] === 'chat' ? 'chat-entry' : '' }}"

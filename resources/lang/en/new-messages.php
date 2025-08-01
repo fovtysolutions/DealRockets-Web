@@ -9640,4 +9640,5 @@ return [
 	"search_by_Job_Title" => "Search by Job Title",
 	"add_new_vacancy" => "Add new vacancy",
 	"Membership | Deal Rockets" => "Membership | Deal Rockets",
+	"Job Profile | Deal Rockets" => "Job Profile | Deal Rockets",
 ];

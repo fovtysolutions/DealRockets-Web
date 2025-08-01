@@ -428,7 +428,7 @@
                                         <select class="form-control" id="industry" name="industry">
                                             <option value="">Select Industry</option>
                                             @foreach ($industries as $industry)
-                                                <option value="{{ $industry }}"
+                                                <option value="{{ $industry->id }}"
                                                     {{ old('industry', $profile->industry ?? '') == $industry ? 'selected' : '' }}>
                                                     {{ $industry->name }}
                                                 </option>

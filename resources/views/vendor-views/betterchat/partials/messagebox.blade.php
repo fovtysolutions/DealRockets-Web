@@ -83,6 +83,28 @@
         });
     }
 
+    
+    function markAsReadOnly() {
+        $.ajax({
+            method: 'POST',
+            url: "{{ route('markAsRead') }}",
+            data: {
+                id: id,
+                _token: "{{ csrf_token() }}",
+            },
+            success: function(response) {
+                console.log('Message marked as Read');
+                // Now redirect
+                // window.top.location.href = url;
+            },
+            error: function(xhr) {
+                console.error('Failed to mark as read:', xhr);
+                // Optionally still redirect if marking fails
+                // window.top.location.href = url;
+            }
+        });
+    }
+
     $(document).ready(function() {
         let lastActiveTab = 'all'; // default, adjust if needed
         let lastMessageId = null;

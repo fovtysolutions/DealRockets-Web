@@ -285,7 +285,11 @@ class JobseekerController extends Controller
         }
 
         if ($request->filled('specializations')) {
-            $jobseekerQuery->whereIn('category', $request->specializations);
+            // Convert category IDs to category names
+            $categoryNames = Category::whereIn('id', $request->specializations)->pluck('name')->toArray();
+            if (!empty($categoryNames)) {
+                $jobseekerQuery->whereIn('category', $categoryNames);
+            }
         }
 
         if ($request->filled('job_types')) {
@@ -324,7 +328,7 @@ class JobseekerController extends Controller
     {
         $jobseeker = $request->input('id');
         if ($jobseeker) {
-            $firstdata = Vacancies::find('id');
+            $firstdata = Vacancies::find($jobseeker);
              if (Auth('customer')->check()) {
                 $membership = \App\Utils\ChatManager::getMembershipStatusCustomer(Auth('customer')->user()->id);
                 if (isset($membership['error'])) {

@@ -10,7 +10,7 @@
     : asset('/img/image 154 (1).png') }}" alt="Company Logo" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" class="company-logo">
 
         <div class="company-meta">
-            <h1>{{ $firstdata->title ?? 'No Title Provided' }}</h1>
+            <h1 class="text-black">{{ $firstdata->title ?? 'No Title Provided' }}</h1>
             <p>
                 {{ $firstdata->company_name ?? 'Company name unavailable' }} -
                 {{ $firstdata->company_address ?? 'Address unavailable' }}
@@ -62,17 +62,17 @@
                 </span>
             </div>
             <div class="info-item">
-                <i class="fas fa-map-marker-alt"></i>
+                <i class="fa fa-map-marker"></i>
                 <span>
                     {{ optional(\App\Models\City::find($firstdata->city))->name ?? 'Unknown Location' }}
                 </span>
             </div>
             <div class="info-item">
-                <i class="fas fa-home"></i>
+                <i class="fa-sharp fa fa-house"></i>
                 <span>{{ $firstdata->employment_space ?? 'Not specified' }}</span>
             </div>
             <div class="info-item">
-                <i class="fa-sharp fa-solid fa-house"></i>
+                <i class="far fa-clock"></i>
                 <span>{{ $firstdata->employment_type ?? 'Not specified' }}</span>
             </div>
         </div>
@@ -81,8 +81,7 @@
 
         <div class="job-info-right" >
             <h3 style="color: #151414;">Company</h3>
-            <p>{{ $firstdata->company_employees ? $firstdata->company_employees . ' employee' : 'Employee count unavailable' }}
-            </p>
+            <p>{{ $firstdata->company_employees ? $firstdata->company_employees . ' employee' : 'Employee count unavailable' }}</p>
             <p>{{ optional(\App\Models\Category::find($firstdata->category))->name ?? 'Category unavailable' }}</p>
         </div>
     </div>
@@ -100,14 +99,14 @@
     <div class="contact-row pr-0 " style="padding:0 1rem">
         <div class="contact-item my-1">
             <i class="fas fa-envelope"></i>
-            <span>{{ $firstdata->company_email ?? 'Email not available' }}</span>
+            <span class="text-black">{{ $firstdata->company_email ?? 'Email not available' }}</span>
         </div>
         <div class="contact-item my-1">
             <i class="fas fa-globe"></i>
-            <span>
+            <span class="text-black">
                 @if(!empty($firstdata->company_website))
                     <a href="{{ $firstdata->company_website }}" target="_blank" rel="noopener noreferrer">
-                        Click here to go to Website
+                        {{ $firstdata->company_website }}
                     </a>
                 @else
                     Website not available
@@ -118,11 +117,11 @@
     <div class="contact-row" style="padding:0 1.5rem">
         <div class="contact-item my-1">
             <i class="fas fa-phone"></i>
-            <span>{{ $firstdata->company_phone ?? 'Phone not available' }}</span>
+            <span class="text-black">{{ $firstdata->company_phone ?? 'Phone not available' }}</span>
         </div>
         <div class="contact-item my-1">
             <i class="fas fa-map-marker-alt"></i>
-            <span>{{ $firstdata->company_address ?? 'Address not available' }}</span>
+            <span class="text-black">{{ $firstdata->company_address ?? 'Address not available' }}</span>
         </div>
     </div>
 </div>

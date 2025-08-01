@@ -269,8 +269,9 @@
 
 .candidate-jobs .job-info i {
     margin-right: 0.5rem;
+    font-size: 16px;
     color: var(--text-medium);
-    width: 16px;
+    /* width: 16px; */
 }
 
 .candidate-jobs .job-description p {
@@ -507,7 +508,7 @@ border: 1px solid gray !important;
     background-color: var(--primary-color);
     color: var(--white);
     border: none;
-    border-radius: var(--border-radius-xl);
+    border-radius: 25px;
     padding: 0.6rem 1.5rem;
     font-size: 1rem;
     font-weight: 600;
@@ -518,9 +519,10 @@ border: 1px solid gray !important;
     background-color: var(--white);
     color: var(--text-dark);
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-xl);
+    border-radius: 25px;
     padding: 0.6rem 1.5rem;
     font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
 }
 
@@ -542,13 +544,13 @@ border: 1px solid gray !important;
 }
 
 .candidate-jobs .info-item i {
-    width: 16px;
+    font-size: 16px;
     margin-right: 0.75rem;
     color: var(--text-medium);
 }
 
 .candidate-jobs .vertical-divider {
-    width: a1px;
+    width: 1px;
     background-color: var(--border-color);
     margin: 0 1.5rem;
 }
@@ -559,6 +561,7 @@ border: 1px solid gray !important;
 
 .candidate-jobs .job-info-right h3 {
     font-size: 1rem;
+    font-weight: 600;
     margin-bottom: 0.75rem;
 }
 
@@ -588,6 +591,7 @@ border: 1px solid gray !important;
     color: var(--text-medium);
     display: flex;
     gap: 10px;
+    justify-content: space-between;
 }
 
 .candidate-jobs .contact-row {

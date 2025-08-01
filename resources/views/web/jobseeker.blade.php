@@ -18,7 +18,7 @@
                                     style="max-width: 600px; height: 44px;">
                                     <input type="text" name="search_filter" class="form-control border-0 ps-3"
                                         placeholder="Search for jobs..." />
-                                    <button type="button" class="btn btn-gold px-4">Search</button>
+                                    <button type="button" class="btn btn-gold px-4 search-icon">Search</button>
                                 </div>
                             </div>
                             <!-- Compact version -->
@@ -194,6 +194,12 @@
 
                 <div class="d-flex rightdiv">
                     <div class="job-listings">
+                        <div id="dynamicLoader" style="display: none; text-align: center; padding: 20px;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <p>Loading jobs...</p>
+                        </div>
                         <div id="dynamic-jobvacancies" style="gap: 20px; display: flex; flex-direction: column;">
                             @include('web.dynamic-partials.dynamic-vacancies')
                         </div>
@@ -215,6 +221,8 @@
     <script src="{{ asset('js/candidatejobs.js') }}"></script>
     <script>
         function loadFilteredData(filters, page = 1) {
+            // Debug: uncomment the line below to see filter data
+            // console.log('LoadFilteredData called with:', filters);
             $("#dynamicLoader").css("display", "block");
 
             filters.page = page;
@@ -231,10 +239,11 @@
                     // Auto-select first job card after loading new content
                     setTimeout(function() {
                         autoSelectFirstJobCard();
+                        loadFirstJobDetails();
                     }, 50);
                 },
                 error: function(xhr, status, error) {
-                    console.error("Error:", error);
+                    console.error("Error loading jobs:", error);
                     $("#dynamicLoader").css("display", "none");
                 },
             });
@@ -273,8 +282,59 @@
             });
         }
 
+        function loadFirstJobDetails() {
+            const firstJobCard = document.querySelector('.job-card');
+            if (firstJobCard) {
+                const jobId = firstJobCard.getAttribute('data-id');
+                $.ajax({
+                    url: "{{ route('dynamic-jobview') }}",
+                    method: "GET",
+                    data: { id: jobId },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            $("#dynamicvacanciesviews").html(response.html);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error loading first job details:", error);
+                    }
+                });
+            }
+        }
+
         function sendtologin() {
             window.location.href = "/customer/auth/login";
+        }
+
+        function populateDetailedBox(element) {
+            const jobId = element.getAttribute('data-id');
+            
+            // Remove selection from all job cards and select clicked one
+            document.querySelectorAll('.job-card').forEach(card => {
+                card.style.border = '1px solid lightgrey';
+                card.style.boxShadow = 'var(--shadow)';
+            });
+            
+            // Apply selection styling to clicked card
+            element.style.border = '1px solid var(--primary-color)';
+            element.style.boxShadow = 'var(--shadow)';
+            
+            // Load job details via AJAX
+            $.ajax({
+                url: "{{ route('dynamic-jobview') }}",
+                method: "GET",
+                data: { id: jobId },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $("#dynamicvacanciesviews").html(response.html);
+                    } else {
+                        console.error('Failed to load job details');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error loading job details:", error);
+                }
+            });
         }
     </script>
     <script>
@@ -297,6 +357,11 @@
             }
             displayValOne.textContent = sliderOne.value;
             fillColor();
+            
+            // Trigger filtering when slider changes
+            if (typeof applyFilters === 'function') {
+                applyFilters();
+            }
         }
 
         function slideTwo() {
@@ -305,6 +370,11 @@
             }
             displayValTwo.textContent = sliderTwo.value;
             fillColor();
+            
+            // Trigger filtering when slider changes
+            if (typeof applyFilters === 'function') {
+                applyFilters();
+            }
         }
 
         function fillColor() {

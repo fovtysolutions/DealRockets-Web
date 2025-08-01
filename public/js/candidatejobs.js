@@ -38,14 +38,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function applyFilters(page = 1) {
         const form = document.getElementById("candidateJobsForm");
+        
+        // Get slider values instead of non-existent min/max salary inputs
+        const minSalarySlider = document.getElementById("slider-1");
+        const maxSalarySlider = document.getElementById("slider-2");
 
         let filters = {
             search_filter:
                 form.querySelector("input[name=search_filter]").value || "",
-            min_salary:
-                form.querySelector('input[name="min_salary"]').value || 0,
-            max_salary:
-                form.querySelector('input[name="max_salary"]').value || 500,
+            min_salary: minSalarySlider ? minSalarySlider.value : 0,
+            max_salary: maxSalarySlider ? maxSalarySlider.value : 100000,
 
             currencies: Array.from(
                 form.querySelectorAll('input[name="currencies[]"]:checked')
@@ -69,20 +71,38 @@ document.addEventListener("DOMContentLoaded", function() {
 
         filters.page = page;
 
+        // Debug: uncomment the line below to see filter data
+        // console.log('ApplyFilters called with:', filters);
         loadFilteredData(filters, page);
     }
 
     $(document).on("click", ".pagination a", function(e) {
         e.preventDefault();
 
+        const form = document.getElementById("candidateJobsForm");
+        
+        // Get slider values for pagination as well
+        const minSalarySlider = document.getElementById("slider-1");
+        const maxSalarySlider = document.getElementById("slider-2");
+        
         let filters = {
-            search_query: document.getElementById("nameFilter").value, // Adjust to your input field ID
-            country: Array.from(
-                document.querySelectorAll('input[name="country[]"]:checked')
-            ).map(checkbox => checkbox.value), // For multiple checkboxes
-            industry: Array.from(
-                document.querySelectorAll('input[name="industry[]"]:checked')
-            ).map(checkbox => checkbox.value) // For multiple checkboxes
+            search_filter: form.querySelector("input[name=search_filter]").value || "",
+            min_salary: minSalarySlider ? minSalarySlider.value : 0,
+            max_salary: maxSalarySlider ? maxSalarySlider.value : 100000,
+            currencies: Array.from(
+                form.querySelectorAll('input[name="currencies[]"]:checked')
+            ).map(cb => cb.value),
+            specializations: Array.from(
+                form.querySelectorAll('input[name="specializations[]"]:checked')
+            ).map(cb => cb.value),
+            job_types: Array.from(
+                form.querySelectorAll('input[name="job_types[]"]:checked')
+            ).map(cb => cb.value),
+            posted_by: Array.from(
+                form.querySelectorAll('input[name="posted_by[]"]:checked')
+            ).map(cb => cb.value),
+            min_experience: form.querySelector('input[name="min_experience"]').value || "",
+            max_experience: form.querySelector('input[name="max_experience"]').value || ""
         };
 
         var page = $(this).data("page");
@@ -112,7 +132,12 @@ document.addEventListener("DOMContentLoaded", function() {
     window.autoSelectFirstJobCard = autoSelectFirstJobCard;
 
     // Auto-select first job card on page load
-    setTimeout(autoSelectFirstJobCard, 100);
+    // setTimeout(function() {
+    //     autoSelectFirstJobCard();
+    //     if (typeof loadFirstJobDetails === 'function') {
+    //         loadFirstJobDetails();
+    //     }
+    // }, 200);
 
     // Buttons to toggle sections
     const applyResumeButton = document.getElementById("applyResumeButton");
@@ -135,4 +160,62 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#filtertoggle").on("click", function() {
         $("#sidebartoggle").toggle(); // Hides if visible, shows if hidden
     });
+
+    // Add search functionality for filter sections
+    function addFilterSearch() {
+        // Search functionality for currencies
+        const currencySearch = document.querySelector('.filter-section:has(.currency-options) .search-box input');
+        if (currencySearch) {
+            currencySearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const options = document.querySelectorAll('.currency-option');
+                options.forEach(option => {
+                    const text = option.textContent.toLowerCase();
+                    option.style.display = text.includes(searchTerm) ? 'block' : 'none';
+                });
+            });
+        }
+
+        // Search functionality for specializations
+        const specializationSearch = document.querySelector('.filter-section:has([name="specializations[]"]) .search-box input');
+        if (specializationSearch) {
+            specializationSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const options = document.querySelectorAll('.filter-section:has([name="specializations[]"]) .filter-option');
+                options.forEach(option => {
+                    const text = option.textContent.toLowerCase();
+                    option.style.display = text.includes(searchTerm) ? 'block' : 'none';
+                });
+            });
+        }
+
+        // Search functionality for job types
+        const jobTypeSearch = document.querySelector('.filter-section:has([name="job_types[]"]) .search-box input');
+        if (jobTypeSearch) {
+            jobTypeSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const options = document.querySelectorAll('.filter-section:has([name="job_types[]"]) .filter-option');
+                options.forEach(option => {
+                    const text = option.textContent.toLowerCase();
+                    option.style.display = text.includes(searchTerm) ? 'block' : 'none';
+                });
+            });
+        }
+
+        // Search functionality for posted by
+        const postedBySearch = document.querySelector('.filter-section:has([name="posted_by[]"]) .search-box input');
+        if (postedBySearch) {
+            postedBySearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const options = document.querySelectorAll('.filter-section:has([name="posted_by[]"]) .filter-option');
+                options.forEach(option => {
+                    const text = option.textContent.toLowerCase();
+                    option.style.display = text.includes(searchTerm) ? 'block' : 'none';
+                });
+            });
+        }
+    }
+
+    // Initialize search functionality
+    addFilterSearch();
 });

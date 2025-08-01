@@ -48,8 +48,8 @@
                                     style=" color:#BF9E66">Reset Filters</a>
                             </div>
                         </div>
-                        <div class="salary-slider-wrapper filter-section">
-                            <h3>Salary Range</h3>
+                        <div class="salary-slider-wrapper filter-section" style="padding-top: 0px;">
+                            <h3 class="mb-0">Salary Range</h3>
                             <div class="salary-slider-range">
                                 <div class="salary-slider-track"></div>
                                 <input type="range" min="0" max="100" value="0" id="slider-1"
@@ -90,10 +90,12 @@
                             <div class="currency-options">
                                 @foreach ($currencies as $currency)
                                     <div class="currency-option">
-                                        <input type="checkbox" id="currency_{{ $currency }}" name="currencies[]"
-                                            value="{{ $currency }}"
-                                            {{ in_array($currency, request()->get('currencies', [])) ? 'checked' : '' }}>
-                                        <label for="currency_{{ $currency }}">{{ $currency }}</label>
+                                        <label class="filter-item">
+                                            <input type="checkbox" id="currency_{{ $currency }}" name="currencies[]"
+                                                value="{{ $currency }}"
+                                                {{ in_array($currency, request()->get('currencies', [])) ? 'checked' : '' }}>
+                                            <label for="currency_{{ $currency }}">{{ $currency }}</label>
+                                        </label>
                                     </div>
                                 @endforeach
                             </div>
@@ -102,14 +104,20 @@
                         <!-- Specialization Filter -->
                         <div class="filter-section">
                             <h3>Specialization</h3>
+                            <div class="search-box">
+                                <input type="text" placeholder="Search specialization">
+                                <i class="fas fa-search"></i>
+                            </div>
                             <div class="filter-options">
                                 @foreach ($categories as $category)
                                     <div class="filter-option">
-                                        <input type="checkbox" id="specialization_{{ $category->id }}"
-                                            name="specializations[]" value="{{ $category->id }}"
-                                            {{ in_array($category->id, request()->get('specializations', [])) ? 'checked' : '' }}>
-                                        <label for="specialization_{{ $category->id }}">{{ $category->name }}
-                                            {{-- <span class="count">(937)</span> --}}
+                                        <label class="filter-item">
+                                            <input type="checkbox" id="specialization_{{ $category->id }}"
+                                                name="specializations[]" value="{{ $category->id }}"
+                                                {{ in_array($category->id, request()->get('specializations', [])) ? 'checked' : '' }}>
+                                            <label for="specialization_{{ $category->id }}">{{ $category->name }}
+                                                {{-- <span class="count">(937)</span> --}}
+                                            </label>
                                         </label>
                                     </div>
                                 @endforeach
@@ -119,15 +127,21 @@
                         <!-- Job Type -->
                         <div class="filter-section">
                             <h3>Job Type</h3>
+                            <div class="search-box">
+                                <input type="text" placeholder="Search job type">
+                                <i class="fas fa-search"></i>
+                            </div>
                             <div class="filter-options">
                                 @foreach (['Permanent', 'Temporary', 'Contract', 'Full-Time', 'Part-Time', 'Work From Home'] as $type)
                                     <div class="filter-option">
+                                        <label class="filter-item">
                                         <input type="checkbox" id="job_type_{{ \Str::slug($type) }}" name="job_types[]"
                                             value="{{ $type }}"
                                             {{ in_array($type, request()->get('job_types', [])) ? 'checked' : '' }}>
                                         <label for="job_type_{{ \Str::slug($type) }}">{{ $type }}
                                             {{-- <span class="count">(500)</span> --}}
                                         </label>
+</label>
                                     </div>
                                 @endforeach
                             </div>
@@ -136,15 +150,21 @@
                         <!-- Posted By -->
                         <div class="filter-section">
                             <h3>Posted By</h3>
+                            <div class="search-box">
+                                <input type="text" placeholder="Search posted by">
+                                <i class="fas fa-search"></i>
+                            </div>
                             <div class="filter-options">
                                 @foreach (['Agency', 'Employer', 'Deal Rocket'] as $poster)
                                     <div class="filter-option">
+                                        <label class="filter-item">
                                         <input type="checkbox" id="posted_by_{{ \Str::slug($poster) }}"
                                             name="posted_by[]" value="{{ $poster }}"
                                             {{ in_array($poster, request()->get('posted_by', [])) ? 'checked' : '' }}>
                                         <label for="posted_by_{{ \Str::slug($poster) }}">{{ $poster }}
                                             {{-- <span class="count">(500)</span> --}}
                                         </label>
+</label>
                                     </div>
                                 @endforeach
                             </div>
@@ -174,7 +194,7 @@
 
                 <div class="d-flex rightdiv">
                     <div class="job-listings">
-                        <div id="dynamic-jobvacancies" style="gap: 15px; display: flex; flex-direction: column;">
+                        <div id="dynamic-jobvacancies" style="gap: 20px; display: flex; flex-direction: column;">
                             @include('web.dynamic-partials.dynamic-vacancies')
                         </div>
                     </div>
@@ -207,6 +227,11 @@
                     $("#dynamic-jobvacancies").html(response.html);
                     $("#paginationControls").html(response.pagination);
                     $("#dynamicLoader").css("display", "none");
+                    
+                    // Auto-select first job card after loading new content
+                    setTimeout(function() {
+                        autoSelectFirstJobCard();
+                    }, 50);
                 },
                 error: function(xhr, status, error) {
                     console.error("Error:", error);

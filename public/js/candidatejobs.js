@@ -91,6 +91,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
     applyFilters();
 
+    // Function to auto-select first job card
+    function autoSelectFirstJobCard() {
+        // Remove existing selection styling from all job cards
+        const allJobCards = document.querySelectorAll('.job-card');
+        allJobCards.forEach(card => {
+            card.style.border = '1px solid lightgrey';
+            card.style.boxShadow = 'var(--shadow)';
+        });
+
+        // Apply styling to first job card
+        const firstJobCard = document.querySelector('.job-card');
+        if (firstJobCard) {
+            firstJobCard.style.border = '1px solid var(--primary-color)';
+            firstJobCard.style.boxShadow = 'var(--shadow)';
+        }
+    }
+
+    // Make function globally accessible
+    window.autoSelectFirstJobCard = autoSelectFirstJobCard;
+
+    // Auto-select first job card on page load
+    setTimeout(autoSelectFirstJobCard, 100);
+
     // Buttons to toggle sections
     const applyResumeButton = document.getElementById("applyResumeButton");
     const applyFormButton = document.getElementById("applyFormButton");

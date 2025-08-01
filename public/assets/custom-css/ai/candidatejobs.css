@@ -45,7 +45,7 @@
     margin: 30px auto;
     width: 100%;
     padding: unset;
-    gap: 1.5rem;
+    gap: 20px;
 }
 
 /* Sidebar Styles */
@@ -55,19 +55,26 @@
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow);
     border: 1px solid lightgrey;
-    padding: 15px;
+    /* padding: 15px; */
     flex-shrink: 0;
 }
 
 .candidate-jobs .filter-section {
     margin-bottom: 0;
-    padding-bottom: 1rem;
+    padding: 15px;
     /* border-bottom: 1px solid var(--border-color); */
 }
 
 .candidate-jobs .filter-section .filter-options{
-    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+    /* min-height: 477px; */
+    max-width: 100%;
+    max-height: 215px;
+    /* width: 199px; */
     overflow-y: scroll;
+    margin-top: 0;
+    /* background-color: #e0dce24a; */
 }
 
 .candidate-jobs .filter-section:last-child {
@@ -133,7 +140,7 @@
 /* Search Box */
 .candidate-jobs .search-box {
     position: relative;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .candidate-jobs .search-box input {
@@ -152,17 +159,18 @@
     color: var(--text-medium);
 }
 
+.candidate-jobs .filter-item{
+    display: flex;
+    gap: 8px;
+}
+
 /* Custom Checkbox */
 .candidate-jobs .currency-option,
 .candidate-jobs .filter-option {
-    display: flex;
     align-items: center;
     margin-left: 8px;
+    gap: 0.625rem;
     margin-top: 0.5rem;
-    /* margin-bottom: 0.6rem; */
-    cursor: pointer;
-    gap: 5px;
-    font-size: 0.875rem;
 }
 
 .candidate-jobs .filter-option label {
@@ -187,6 +195,11 @@
 .candidate-jobs .checkbox-custom.checked {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
+}
+
+.candidate-jobs .job-card:hover{
+    box-shadow: var(--shadow);
+    border: 1px solid var(--primary-color);
 }
 
 .candidate-jobs .checkbox-custom.checked::after {
@@ -607,7 +620,7 @@ border: 1px solid gray !important;
 
 .candidate-jobs .rightdiv{
     width: 81%;
-    gap: 1.5rem; 
+    gap: 20px; 
 }
 
 /* Responsive Design */

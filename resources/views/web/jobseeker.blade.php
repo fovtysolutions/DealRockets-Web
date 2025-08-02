@@ -87,9 +87,9 @@
                                 <input type="text" placeholder="Search currency">
                                 <i class="fas fa-search"></i>
                             </div>
-                            <div class="currency-options">
+                            <div class="filter-options">
                                 @foreach ($currencies as $currency)
-                                    <div class="currency-option">
+                                    <div class="filter-option">
                                         <label class="filter-item">
                                             <input type="checkbox" id="currency_{{ $currency }}" name="currencies[]"
                                                 value="{{ $currency }}"

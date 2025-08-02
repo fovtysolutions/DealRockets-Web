@@ -44,7 +44,7 @@
             <div style="display: flex; justify-content: space-between;">
                 <div class="job-info">
                     <div class="salary">
-                        <i class="fa-sharp fa-solid fa-dollar-sign"></i> 
+                        <i class="fa-sharp fa-solid fa-dollar-sign" style="font-size: 15px;"></i> 
                         {{ $item->salary_low ?? 'N/A' }} to {{ $item->salary_high ?? 'N/A' }}
                     </div>
 

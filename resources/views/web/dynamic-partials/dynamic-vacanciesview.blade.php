@@ -23,7 +23,7 @@
 
     <div class="action-icons">
         <button class="share-btn" onclick="copyLinkToClipboard()">
-            <i class="fas fa-share-alt ml-0"></i>
+            <img src="/img/Share.png" alt="Share Icon" style="max-width:20px;">
         </button>
         {{-- <button class="more-btn"><i class="fas fa-ellipsis-h"></i></button> --}}
     </div>
@@ -55,24 +55,32 @@
     <div class="job-info-grid">
         <div class="job-info-left">
             <div class="info-item">
-                <i style="color: #151414;" class="fa-sharp fa-solid fa-dollar-sign"></i>
+                <div class="icon-container">
+                    <i class="fa-sharp fa-solid fa-dollar-sign"></i>
+                </div>
                 <span>
                     {{ $firstdata->salary_low ?? 'N/A' }} to {{ $firstdata->salary_high ?? 'N/A' }}
                     {{ $firstdata->currency ?? '' }}
                 </span>
             </div>
             <div class="info-item">
-                <i class="fa fa-map-marker"></i>
+                <div class="icon-container">
+                    <i class="fa fa-map-marker"></i>
+                </div>
                 <span>
                     {{ optional(\App\Models\City::find($firstdata->city))->name ?? 'Unknown Location' }}
                 </span>
             </div>
             <div class="info-item">
-                <i class="fa-sharp fa fa-house"></i>
+                <div class="icon-container">
+                    <i class="fa-sharp fa fa-house"></i>
+                </div>
                 <span>{{ $firstdata->employment_space ?? 'Not specified' }}</span>
             </div>
             <div class="info-item">
-                <i class="far fa-clock"></i>
+                <div class="icon-container">
+                    <i class="far fa-clock"></i>
+                </div>
                 <span>{{ $firstdata->employment_type ?? 'Not specified' }}</span>
             </div>
         </div>

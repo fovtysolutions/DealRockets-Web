@@ -145,6 +145,20 @@ class CVController extends Controller
             'apply_via' => 'cv',
         ]);
 
+        // Create notification for admin
+        $jobVacancy = Vacancies::find($request->jobid);
+        $applicantName = $user->name ?? 'Applicant';
+        $jobTitle = $jobVacancy->title ?? 'Job Position';
+        
+        \App\Models\Notification::create([
+            'sent_by' => 'system',
+            'sent_to' => 'admin',
+            'title' => 'New Job Application via Resume',
+            'description' => "{$applicantName} has applied for the position '{$jobTitle}' by uploading their resume.",
+            'notification_count' => 1,
+            'status' => 1,
+        ]);
+
         toastr()->success('Successfully Job Applied');
         return redirect()->back()->with('success', 'CV uploaded successfully!');
     }

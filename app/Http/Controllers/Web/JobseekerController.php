@@ -772,6 +772,21 @@ class JobseekerController extends Controller
                 'apply_via' => 'form',
             ]);
 
+            // Create notification for admin
+            $jobVacancy = Vacancies::find($request->jobid);
+            $applicantUser = Auth::guard('customer')->user();
+            $applicantName = $applicantUser->name ?? 'Applicant';
+            $jobTitle = $jobVacancy->title ?? 'Job Position';
+            
+            \App\Models\Notification::create([
+                'sent_by' => 'system',
+                'sent_to' => 'admin',
+                'title' => 'New Job Application via Form',
+                'description' => "{$applicantName} has applied for the position '{$jobTitle}' by filling out the application form.",
+                'notification_count' => 1,
+                'status' => 1,
+            ]);
+
             toastr()->success('Successfully Job Applied');
 
             // Return success response

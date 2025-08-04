@@ -294,6 +294,12 @@ class ChatOtherController extends Controller
                 ->groupBy('sender_type')
                 ->get();
 
+            // Count job-related notifications for seller
+            $jobNotifications = ChatsOther::where('receiver_type', 'seller')
+                ->where('receiver_id', $userId)
+                ->whereIn('type', ['jobapplied', 'vacancycreated', 'jobprofileupdated', 'jobprofileaccess'])
+                ->count();
+
             $data = [
                 'total_messages'     => $totalMessages,
                 'read_messages'      => $readMessages,
@@ -301,6 +307,7 @@ class ChatOtherController extends Controller
                 'messages_by_type'   => $messagesByType,
                 'status_distribution' => $statusStats,
                 'by_sender_type'     => $bySenderType,
+                'job_notifications'  => $jobNotifications,
             ];
 
             return $data;
@@ -333,6 +340,12 @@ class ChatOtherController extends Controller
                 ->groupBy('sender_type')
                 ->get();
 
+            // Count job-related notifications for customer
+            $jobNotifications = ChatsOther::where('receiver_type', 'customer')
+                ->where('receiver_id', $userId)
+                ->whereIn('type', ['jobapplied', 'vacancycreated', 'jobprofileupdated', 'jobprofileaccess'])
+                ->count();
+
             $data = [
                 'total_messages'     => $totalMessages,
                 'read_messages'      => $readMessages,
@@ -340,6 +353,7 @@ class ChatOtherController extends Controller
                 'messages_by_type'   => $messagesByType,
                 'status_distribution' => $statusStats,
                 'by_sender_type'     => $bySenderType,
+                'job_notifications'  => $jobNotifications,
             ];
 
             return $data;
@@ -371,6 +385,10 @@ class ChatOtherController extends Controller
             ->groupBy('sender_type')
             ->get();
 
+        // Count job-related notifications for admin
+        $jobNotifications = ChatsOther::whereIn('type', ['jobapplied', 'vacancycreated', 'jobprofileupdated', 'jobprofileaccess'])
+            ->count();
+
         $data = [
             'total_messages'     => $totalMessages,
             'read_messages'      => $readMessages,
@@ -378,6 +396,7 @@ class ChatOtherController extends Controller
             'messages_by_type'   => $messagesByType,
             'status_distribution' => $statusStats,
             'by_sender_type'     => $bySenderType,
+            'job_notifications'  => $jobNotifications,
         ];
 
         return $data;
@@ -444,6 +463,8 @@ class ChatOtherController extends Controller
                         'buyleads', 'sellleads' => 'lead_' . ($item->leads_id ?? $item->id),
                         'reachout' => 'reachout_' . $item->id,
                         'dealassist' => 'dealassist_' . $item->id,
+                        // Job-related notifications
+                        'jobapplied', 'vacancycreated', 'jobprofileupdated', 'jobprofileaccess' => 'job_' . $item->id,
                         default => $item->type . '_' . $item->id,
                     };
                 })
@@ -459,6 +480,11 @@ class ChatOtherController extends Controller
                 ->filter(fn($item) => $item->type === $typeKey)
                 ->values();
         }
+
+        // 3. Build jobs tab for job-related notifications
+        $chatData['jobs'] = collect($chatData['all'] ?? [])
+            ->filter(fn($item) => in_array($item->type, ['jobapplied', 'vacancycreated', 'jobprofileupdated', 'jobprofileaccess']))
+            ->values();
         return $chatData;
     }
 

@@ -13,6 +13,7 @@ use Brian2694\Toastr\Toastr;
 use App\Models\User;
 use App\Models\JobAppliers;
 use App\Models\Vacancies;
+use App\Utils\ChatManager;
 
 class CVController extends Controller
 {
@@ -145,18 +146,36 @@ class CVController extends Controller
             'apply_via' => 'cv',
         ]);
 
-        // Create notification for admin
+        // Send notification to job poster using ChatManager
         $jobVacancy = Vacancies::find($request->jobid);
         $applicantName = $user->name ?? 'Applicant';
         $jobTitle = $jobVacancy->title ?? 'Job Position';
         
-        \App\Models\Notification::create([
-            'sent_by' => 'system',
-            'sent_to' => 'admin',
+        // Determine who posted the job (admin or customer)
+        if ($jobVacancy->admin_id) {
+            // Job posted by admin
+            $receiverId = $jobVacancy->admin_id;
+            $receiverType = 'admin';
+        } elseif ($jobVacancy->user_id) {
+            // Job posted by customer/vendor
+            $receiverId = $jobVacancy->user_id;
+            $receiverType = 'customer';
+        } else {
+            // Fallback to admin if neither is set
+            $receiverId = 1; // Assuming admin ID 1 exists
+            $receiverType = 'admin';
+        }
+
+        // Send notification using ChatManager
+        ChatManager::sendNotification([
+            'sender_id' => $userId,
+            'receiver_id' => $receiverId,
+            'receiver_type' => $receiverType,
+            'type' => 'jobapplied',
             'title' => 'New Job Application via Resume',
-            'description' => "{$applicantName} has applied for the position '{$jobTitle}' by uploading their resume.",
-            'notification_count' => 1,
-            'status' => 1,
+            'message' => "{$applicantName} has applied for the position '{$jobTitle}' by uploading their resume.",
+            'priority' => 'high',
+            'action_url' => 'jobapplications',
         ]);
 
         toastr()->success('Successfully Job Applied');

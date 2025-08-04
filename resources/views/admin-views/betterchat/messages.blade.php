@@ -81,6 +81,24 @@
                                 <p class="flex w-full justify-between">Marketplace</p>
                             </a>
                         </li>
+                        <li class="w-full">
+                            <a data-tab="jobs" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
+                                <i class="fa-solid fa-briefcase"></i>
+                                <p class="flex w-full justify-between">Jobs
+                                    <span id="jobmessages">{{ $chatboxStatics['job_notifications'] ?? 0 }}</span>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="w-full">
+                            <a data-tab="dealassist" class="custom-tab-button w-full flex leading-none hover:bg-gray-200 pl-5 py-2 gap-3 items-center rounded-e-full pr-2"
+                                href="javascript:">
+                                <i class="fa-solid fa-handshake"></i>
+                                <p class="flex w-full justify-between">Deal Assist
+                                    <span id="dealassistmessages">{{ collect($chatboxStatics['messages_by_type'])->where('type', 'dealassist')->first()->total ?? 0 }}</span>
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="bg-white h-full col-span-10 md:col-span-8 rounded-2xl mr-2 flex flex-col">

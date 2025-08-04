@@ -56,6 +56,11 @@
                 'chatdata' => $chatData['products'] ?? [],
             ])
         </div>
+        <div id="tab-jobs" class="tab-content hidden">
+            @include('vendor-views.betterchat.partials.allentries', [
+                'chatdata' => $chatData['jobs'] ?? [],
+            ])
+        </div>
         <div id="chatbox" class="hidden ">
             @include('vendor-views.betterchat.partials.messages')
         </div>

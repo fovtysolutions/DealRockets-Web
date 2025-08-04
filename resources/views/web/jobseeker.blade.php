@@ -286,6 +286,10 @@
             const firstJobCard = document.querySelector('.job-card');
             if (firstJobCard) {
                 const jobId = firstJobCard.getAttribute('data-id');
+                
+                // Store the selected job ID globally for use in modal
+                window.selectedJobId = jobId;
+                
                 $.ajax({
                     url: "{{ route('dynamic-jobview') }}",
                     method: "GET",
@@ -308,6 +312,9 @@
 
         function populateDetailedBox(element) {
             const jobId = element.getAttribute('data-id');
+            
+            // Store the selected job ID globally for use in modal
+            window.selectedJobId = jobId;
             
             // Remove selection from all job cards and select clicked one
             document.querySelectorAll('.job-card').forEach(card => {
@@ -336,6 +343,23 @@
                 }
             });
         }
+        
+        // Function to set job ID in modal when Apply Now is clicked
+        function setJobIdInModal() {
+            if (window.selectedJobId) {
+                // Set job ID in both hidden inputs (for resume and form sections)
+                document.querySelectorAll('.jobidselected').forEach(function(input) {
+                    input.value = window.selectedJobId;
+                });
+            }
+        }
+        
+        // Add event listener for modal show event
+        $(document).ready(function() {
+            $('#modalJobApply').on('show.bs.modal', function() {
+                setJobIdInModal();
+            });
+        });
     </script>
     <script>
         window.onload = function() {

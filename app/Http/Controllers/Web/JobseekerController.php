@@ -24,6 +24,7 @@ use App\Models\ShortlistCandidates;
 use App\Models\JobCategory;
 use App\Models\JobSearchLog;
 use App\Models\User;
+use App\Models\Seller;
 
 class JobseekerController extends Controller
 {
@@ -546,7 +547,7 @@ class JobseekerController extends Controller
             }
 
             // Create a new vacancy
-            Vacancies::create([
+            $vacancy = Vacancies::create([
                 'title' => $request->title,
                 'description' => $request->description,
                 'salary_low' => $request->salary_low,
@@ -583,6 +584,22 @@ class JobseekerController extends Controller
                 'user_id' => $vendorid ?? null,
                 'admin_id' => $adminid ?? null,
                 'Approved' => 1,
+            ]);
+
+            // Send notification to admin about new vacancy creation
+            $companyName = $request->company_name ?? 'Unknown Company';
+            $jobTitle = $request->title ?? 'Untitled Position';
+            $posterName = $role === 'seller' ? Seller::find($userId)->f_name . ' ' . Seller::find($userId)->l_name : 'Admin';
+            
+            ChatManager::sendNotification([
+                'sender_id' => $userId,
+                'receiver_id' => 1, // Admin ID (assuming admin ID is 1)
+                'receiver_type' => 'admin',
+                'type' => 'vacancycreated',
+                'title' => 'New Job Vacancy Created',
+                'message' => "{$posterName} from {$companyName} has created a new job vacancy: '{$jobTitle}'",
+                'priority' => 'normal',
+                'action_url' => 'vacancies',
             ]);
 
             // Redirect with success message
@@ -772,19 +789,37 @@ class JobseekerController extends Controller
                 'apply_via' => 'form',
             ]);
 
-            // Create notification for admin
+            // Send notification to job poster using ChatManager
             $jobVacancy = Vacancies::find($request->jobid);
             $applicantUser = Auth::guard('customer')->user();
             $applicantName = $applicantUser->name ?? 'Applicant';
             $jobTitle = $jobVacancy->title ?? 'Job Position';
             
-            \App\Models\Notification::create([
-                'sent_by' => 'system',
-                'sent_to' => 'admin',
+            // Determine who posted the job (admin or customer)
+            if ($jobVacancy->admin_id) {
+                // Job posted by admin
+                $receiverId = $jobVacancy->admin_id;
+                $receiverType = 'admin';
+            } elseif ($jobVacancy->user_id) {
+                // Job posted by customer/vendor
+                $receiverId = $jobVacancy->user_id;
+                $receiverType = 'customer';
+            } else {
+                // Fallback to admin if neither is set
+                $receiverId = 1; // Assuming admin ID 1 exists
+                $receiverType = 'admin';
+            }
+
+            // Send notification using ChatManager
+            ChatManager::sendNotification([
+                'sender_id' => $user,
+                'receiver_id' => $receiverId,
+                'receiver_type' => $receiverType,
+                'type' => 'jobapplied',
                 'title' => 'New Job Application via Form',
-                'description' => "{$applicantName} has applied for the position '{$jobTitle}' by filling out the application form.",
-                'notification_count' => 1,
-                'status' => 1,
+                'message' => "{$applicantName} has applied for the position '{$jobTitle}' by filling out the application form.",
+                'priority' => 'high',
+                'action_url' => 'jobapplications',
             ]);
 
             toastr()->success('Successfully Job Applied');

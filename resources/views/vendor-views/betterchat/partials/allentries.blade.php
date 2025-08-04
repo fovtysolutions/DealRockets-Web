@@ -31,6 +31,13 @@
                     $type === 'sellleads' => "{$item['title']} with {$item['message']}",
 
                     $type === 'quotation' => "{$item['title']} with {$item['message']}",
+
+                    // Job-related notifications
+                    $type === 'jobapplied' => "{$item['title']}: {$item['message']}",
+                    $type === 'vacancycreated' => "{$item['title']}: {$item['message']}",
+                    $type === 'jobprofileupdated' => "{$item['title']}: {$item['message']}",
+                    $type === 'jobprofileaccess' => "{$item['title']}: {$item['message']}",
+
                     // System notifications (underscore or rfq)
                     $isNotification => ucwords(str_replace('_', ' ', $type)) . ' notification',
 
@@ -64,6 +71,10 @@
                     'stocksell' => '/stock-sale?specific_id=',
                     'user_account_created' => '#',
                     'inbox' => '#',
+                    // Job-related URL mappings
+                    'jobapplications' => '/vendor/subcard/post-job',
+                    'vacancies' => '/vendor/subcard/post-job',
+                    'jobprofiles' => '/vendor/subcard/post-job',
                 ];
 
                 $baseUrl = $urlmapper[$item['action_url']] ?? '#';

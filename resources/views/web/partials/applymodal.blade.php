@@ -97,7 +97,7 @@
                     <h6>Upload Your Resume</h6>
                     <form id="cvForm" action="{{ route('storecv') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input class="jobidselected" id="jobidselected" name="jobid" value="" type="hidden">
+                        <input class="jobidselected" id="jobidselected-resume" name="jobid" value="" type="hidden">
                         <div class="loader" id="loader" style="display: none;"></div>
                         <div class="mb-3">
                             <label for="resumeUpload" class="form-label">Upload Resume</label>
@@ -112,7 +112,7 @@
                     <h6>Fill Out the Application Form</h6>
                     <form action="{{ route('apply_by_form') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <input class="jobidselected" id="jobidselected" name="jobid" value="" type="hidden">
+                        <input class="jobidselected" id="jobidselected-form" name="jobid" value="" type="hidden">
                         <section id="employer-post-new-job">
                             <div>
                                 <div>

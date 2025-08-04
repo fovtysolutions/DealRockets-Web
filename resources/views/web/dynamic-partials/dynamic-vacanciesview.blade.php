@@ -30,15 +30,38 @@
 </div>
 
 <div class="action-buttons">
-    <button class="apply-now-btn" data-toggle="modal" data-target="#modalJobApply">Apply Now</button>
-
     @php
         $user = auth('customer')->user();
+        $hasApplied = false;
         $isFavourite = false;
+        
         if ($user && isset($firstdata->id)) {
+            // Check if user has already applied for this job
+            $hasApplied = \App\Models\JobAppliers::where('user_id', $user->id)
+                ->where('jobid', $firstdata->id)
+                ->exists();
+            
             $isFavourite = \App\Utils\HelperUtil::checkIfFavourite($firstdata->id, $user->id, 'industryjob');
         }
     @endphp
+
+    @if ($user)
+        @if ($hasApplied)
+            <button class="apply-now-btn applied" disabled 
+                    style="background-color: #28a745; cursor: not-allowed; opacity: 0.8;" 
+                    title="You have already applied for this position">
+                <i class="fas fa-check"></i> Applied
+            </button>
+        @else
+            <button class="apply-now-btn" data-toggle="modal" data-target="#modalJobApply">
+                <i class="fas fa-paper-plane"></i> Apply Now
+            </button>
+        @endif
+    @else
+        <button class="apply-now-btn" onclick="sendtologin()">
+            <i class="fas fa-paper-plane"></i> Apply Now
+        </button>
+    @endif
 
     @if ($user)
         <button class="save-btn" onclick="makeFavourite(this)" data-id="{{ $firstdata->id ?? '' }}"
@@ -133,6 +156,29 @@
         </div>
     </div>
 </div>
+
+<style>
+    .apply-now-btn.applied {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        color: white !important;
+        opacity: 0.8;
+        cursor: not-allowed !important;
+        transition: all 0.3s ease;
+    }
+    
+    .apply-now-btn.applied:hover {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        opacity: 0.8 !important;
+        transform: none !important;
+    }
+    
+    .apply-now-btn i {
+        margin-right: 5px;
+    }
+</style>
+
 <script>
     function copyLinkToClipboard() {
         const url = window.location.href;

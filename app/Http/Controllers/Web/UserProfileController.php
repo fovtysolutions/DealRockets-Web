@@ -50,6 +50,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\JobAppliers;
 use App\Utils\CategoryManager;
 use App\Models\ShortlistCandidates;
+use App\Utils\ChatManager;
 
 class UserProfileController extends Controller
 {
@@ -143,6 +144,22 @@ class UserProfileController extends Controller
         $user = Auth::guard('customer')->user()->id;
         $profile = TableJobProfile::where('user_id', $user)->first();
         $countries = CountrySetupController::getCountries();
+
+        // Send notification to admin when a user accesses job profile page for the first time (no existing profile)
+        if (!$profile) {
+            $userName = Auth::guard('customer')->user()->name ?? 'User';
+            
+            ChatManager::sendNotification([
+                'sender_id' => $user,
+                'receiver_id' => 1, // Admin ID (assuming admin ID is 1)
+                'receiver_type' => 'admin',
+                'type' => 'jobprofileaccess',
+                'title' => 'New Job Seeker Interest',
+                'message' => "{$userName} is accessing the job profile creation page for the first time",
+                'priority' => 'low',
+                'action_url' => 'jobprofiles',
+            ]);
+        }
 
         if ($profile) {
             if (isset($profile->languages)) {
@@ -288,10 +305,30 @@ class UserProfileController extends Controller
             if ($profile) {
                 // Update existing profile with validated data
                 $profile->update($validated);
+                $isNewProfile = false;
             } else {
                 // Create new profile if not exists
                 TableJobProfile::create($validated);
+                $isNewProfile = true;
             }
+
+            // Send notification to admin about job profile activity
+            $userName = Auth::guard('customer')->user()->name ?? 'User';
+            $desiredPosition = $validated['desired_position'] ?? 'Job Seeker';
+            $notificationMessage = $isNewProfile 
+                ? "{$userName} has created a new job profile for '{$desiredPosition}'"
+                : "{$userName} has updated their job profile for '{$desiredPosition}'";
+            
+            ChatManager::sendNotification([
+                'sender_id' => $user,
+                'receiver_id' => 1, // Admin ID (assuming admin ID is 1)
+                'receiver_type' => 'admin',
+                'type' => 'jobprofileupdated',
+                'title' => $isNewProfile ? 'New Job Profile Created' : 'Job Profile Updated',
+                'message' => $notificationMessage,
+                'priority' => 'normal',
+                'action_url' => 'jobprofiles',
+            ]);
 
             // Return success response
             return redirect()->back()->with('success', 'Profile updated successfully!');

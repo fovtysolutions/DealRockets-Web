@@ -14,7 +14,7 @@
                 {{translate('pages')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.pages-inline-menu')
+        {{-- @include('admin-views.business-settings.pages-inline-menu') --}}
         @php($page_data= json_decode($data->value, true))
         <div class="row">
             <div class="col-md-12">

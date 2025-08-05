@@ -10,7 +10,7 @@
                 {{translate('3rd_party')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.third-party-inline-menu')
+        {{-- @include('admin-views.business-settings.third-party-inline-menu') --}}
         @php($whatsapp = getWebConfig('whatsapp'))
         <div class="card overflow-hidden">
             <form action="{{route('admin.social-media-chat.update',['whatsapp'])}}" method="post">

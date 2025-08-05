@@ -14,7 +14,7 @@
             {{translate('pages')}}
         </h2>
     </div>
-    @include('admin-views.business-settings.pages-inline-menu')
+    {{-- @include('admin-views.business-settings.pages-inline-menu') --}}
     <div class="row">
         <div class="col-md-12">
             <div class="card">

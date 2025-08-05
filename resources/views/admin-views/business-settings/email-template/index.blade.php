@@ -28,7 +28,7 @@
 @section('content')
     <div class="content container-fluid">
         @include('admin-views.business-settings.email-template.partials.page-title')
-        @include('admin-views.business-settings.email-template.partials.'.$template['user_type'].'-mail-inline-menu')
+        {{-- @include('admin-views.business-settings.email-template.partials.'.$template['user_type'].'-mail-inline-menu') --}}
         <div class="">
             @include('admin-views.business-settings.email-template.partials.update-status')
             <div class="card">

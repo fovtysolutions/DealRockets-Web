@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        @include('admin-views.business-settings.business-setup-inline-menu')
+        {{-- @include('admin-views.business-settings.business-setup-inline-menu') --}}
         @include('admin-views.business-settings.priority-setup.partial.brand')
         @include('admin-views.business-settings.priority-setup.partial.category')
         @include('admin-views.business-settings.priority-setup.partial.vendor-list')

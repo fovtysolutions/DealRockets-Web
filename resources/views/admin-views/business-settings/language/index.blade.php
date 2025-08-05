@@ -14,7 +14,7 @@
                 {{translate('system_setup')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.system-settings-inline-menu')
+        {{-- @include('admin-views.business-settings.system-settings-inline-menu') --}}
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-danger mb-3" role="alert">

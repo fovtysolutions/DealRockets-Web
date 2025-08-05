@@ -10,7 +10,7 @@
             {{ translate('pages') }}
         </h2>
     </div>
-    @include('admin-views.business-settings.pages-inline-menu')
+    {{-- @include('admin-views.business-settings.pages-inline-menu') --}}
     <form action="{{ route('admin.business-settings.features-section.submit') }}" method="POST"
         enctype="multipart/form-data">
         @csrf

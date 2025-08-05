@@ -10,7 +10,7 @@
                 {{translate('system_setup')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.system-settings-inline-menu')
+        {{-- @include('admin-views.business-settings.system-settings-inline-menu') --}}
         <form action="{{ route('admin.business-settings.cookie-settings') }}" method="post"
               enctype="multipart/form-data" id="update-settings">
             @csrf

@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        @include('admin-views.business-settings.business-setup-inline-menu')
+        {{-- @include('admin-views.business-settings.business-setup-inline-menu') --}}
         <div class="card">
             <div class="card-header">
                 <h5 class="text-capitalize mb-0 d-flex align-items-center gap-2">

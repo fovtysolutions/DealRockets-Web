@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        @include('admin-views.business-settings.business-setup-inline-menu')
+        {{-- @include('admin-views.business-settings.business-setup-inline-menu') --}}
 
         <form action="{{ route('admin.business-settings.vendor-settings.update-vendor-settings') }}" method="post">
             @csrf

@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        @include('admin-views.business-settings.business-setup-inline-menu')
+        {{-- @include('admin-views.business-settings.business-setup-inline-menu') --}}
 
         <div class="card">
             <div class="border-bottom px-4 py-3">

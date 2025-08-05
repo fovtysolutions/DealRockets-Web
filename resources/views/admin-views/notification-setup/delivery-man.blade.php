@@ -10,6 +10,6 @@
                 {{translate('notification_setup')}}
             </h2>
         </div>
-        @include('admin-views.notification-setup.partials.inline-menu')
+        {{-- @include('admin-views.notification-setup.partials.inline-menu') --}}
     </div>
 @endsection

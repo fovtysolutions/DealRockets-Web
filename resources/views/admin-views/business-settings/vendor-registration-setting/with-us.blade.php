@@ -3,7 +3,7 @@
 @section('title', translate('with_us'))
 @section('content')
     <div class="content container-fluid">
-        @include('admin-views.business-settings.vendor-registration-setting.partial.inline-menu')
+        {{-- @include('admin-views.business-settings.vendor-registration-setting.partial.inline-menu') --}}
 
         <form action="{{route('admin.business-settings.vendor-registration-settings.with-us')}}" method="post" enctype="multipart/form-data">
             @csrf

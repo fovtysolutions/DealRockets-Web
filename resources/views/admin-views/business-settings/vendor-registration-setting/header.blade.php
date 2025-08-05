@@ -3,7 +3,7 @@
 @section('title', translate('header'))
 @section('content')
     <div class="content container-fluid">
-        @include('admin-views.business-settings.vendor-registration-setting.partial.inline-menu')
+        {{-- @include('admin-views.business-settings.vendor-registration-setting.partial.inline-menu') --}}
         <form action="{{route('admin.business-settings.vendor-registration-settings.index')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="card">

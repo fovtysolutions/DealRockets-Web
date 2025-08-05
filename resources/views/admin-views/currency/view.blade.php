@@ -10,7 +10,7 @@
                 {{translate('system_Setup')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.system-settings-inline-menu')
+        {{-- @include('admin-views.business-settings.system-settings-inline-menu') --}}
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0 d-flex align-items-center gap-2">

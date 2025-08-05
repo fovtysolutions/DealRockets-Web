@@ -10,7 +10,7 @@
                 {{translate('3rd_party')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.third-party-inline-menu')
+        {{-- @include('admin-views.business-settings.third-party-inline-menu') --}}
 
         <div class="card border-0">
             <div class="card-header shadow-none border-0 pb-0 pt-4">

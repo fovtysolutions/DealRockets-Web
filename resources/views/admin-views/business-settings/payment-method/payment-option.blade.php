@@ -10,7 +10,7 @@
                 {{ translate('business_Setup') }}
             </h2>
         </div>
-        @include('admin-views.business-settings.business-setup-inline-menu')
+        {{-- @include('admin-views.business-settings.business-setup-inline-menu') --}}
         <div class="card mb-4">
             <div class="card-body">
                 <form action="{{route('admin.business-settings.payment-method.payment-option')}}"

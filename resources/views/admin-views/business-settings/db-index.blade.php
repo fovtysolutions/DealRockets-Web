@@ -17,7 +17,7 @@
                 {{translate('system_Settings')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.system-settings-inline-menu')
+        {{-- @include('admin-views.business-settings.system-settings-inline-menu') --}}
         <div class="row">
             <div class="col-12 mb-3">
                 <div class="alert badge-soft-danger mb-0 mx-sm-2 {{ $direction === 'rtl' ? 'text-right' : 'text-left' }}" role="alert">

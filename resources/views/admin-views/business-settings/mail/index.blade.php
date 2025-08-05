@@ -14,7 +14,7 @@
                 {{translate('3rd_party')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.third-party-inline-menu')
+        {{-- @include('admin-views.business-settings.third-party-inline-menu') --}}
         <div class="bg-white rounded-top">
             <div class="card-body pb-0">
                 <div class="d-flex flex-wrap justify-content-between gap-3 border-bottom">

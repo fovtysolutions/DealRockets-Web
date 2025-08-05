@@ -8,7 +8,7 @@
                 {{translate('3rd_party')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.third-party-inline-menu')
+        {{-- @include('admin-views.business-settings.third-party-inline-menu') --}}
         <div class="row gy-3">
             <div class="col-lg-6">
                 <div class="card">

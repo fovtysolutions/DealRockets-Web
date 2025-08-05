@@ -9652,4 +9652,5 @@ return [
 	"Supplier Onboarding" => "Supplier Onboarding",
 	"Marketing Dashboard Allotment" => "Marketing Dashboard Allotment",
 	"User Accounts" => "User Accounts",
+	"View_Permissions" => "View Permissions",
 ];

@@ -10,7 +10,7 @@
                 {{translate('3rd_party')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.third-party-inline-menu')
+        {{-- @include('admin-views.business-settings.third-party-inline-menu') --}}
         <div class="row">
             <div class="col-12">
                 <div class="card overflow-hidden">

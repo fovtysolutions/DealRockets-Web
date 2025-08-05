@@ -10,7 +10,7 @@
                 {{ translate('SEO_Settings') }}
             </h2>
         </div>
-        @include('admin-views.business-settings.seo-settings._inline-menu')
+        {{-- @include('admin-views.business-settings.seo-settings._inline-menu') --}}
 
         <div class="card shadow-none">
             <div class="card-header flex-wrap gap-2">

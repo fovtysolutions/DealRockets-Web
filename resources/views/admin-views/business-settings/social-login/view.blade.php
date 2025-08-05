@@ -10,7 +10,7 @@
                 {{translate('3rd_party')}}
             </h2>
         </div>
-        @include('admin-views.business-settings.third-party-inline-menu')
+        {{-- @include('admin-views.business-settings.third-party-inline-menu') --}}
         <?php
             $socialLoginServices = json_decode($data['value'], true);
             $appleLoginServices = $apple ? json_decode($apple['value'], true) : [];

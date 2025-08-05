@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        @include('admin-views.business-settings.business-setup-inline-menu')
+        {{-- @include('admin-views.business-settings.business-setup-inline-menu') --}}
         <div class="alert alert-danger d-none mb-3" role="alert">
             {{translate('changing_some_settings_will_take_time_to_show_effect_please_clear_session_or_wait_for_60_minutes_else_browse_from_incognito_mode')}}
         </div>

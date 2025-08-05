@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        @include('admin-views.business-settings.business-setup-inline-menu')
+        {{-- @include('admin-views.business-settings.business-setup-inline-menu') --}}
         <form action="{{ route('admin.customer.customer-settings') }}" method="post" id="update-settings">
             @csrf
             <div class="card mb-3">

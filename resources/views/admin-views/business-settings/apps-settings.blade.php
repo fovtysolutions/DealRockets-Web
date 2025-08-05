@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        @include('admin-views.business-settings.system-settings-inline-menu')
+        {{-- @include('admin-views.business-settings.system-settings-inline-menu') --}}
         <div class="d-flex gap-2 mb-3">
             <img width="16" src="{{dynamicAsset(path: 'public/assets/back-end/img/settings.png')}}" alt="">
             <h5 class="mb-0">{{translate('user_app_version_control')}}</h5>

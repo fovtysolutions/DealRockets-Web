@@ -3,7 +3,7 @@
 @section('title', translate('FAQs'))
 @section('content')
     <div class="content container-fluid">
-        @include('admin-views.business-settings.vendor-registration-setting.partial.inline-menu')
+        {{-- @include('admin-views.business-settings.vendor-registration-setting.partial.inline-menu') --}}
         <div class="card mt-3">
             <div class="px-3 py-4">
                 <div class="d-flex flex-wrap justify-content-between gap-3 align-items-center">

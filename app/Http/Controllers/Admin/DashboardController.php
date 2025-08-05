@@ -786,21 +786,15 @@ class DashboardController extends BaseController
             case 'graphics':
                 $title = 'Graphics';
                 $cardData = [
-                    ['link' => route('admin.business-settings.web-config.index'), 'title' => 'Business Settings', 'value' => 'Yes'],
-                    ['link' => route('admin.business-settings.terms-condition'), 'title' => 'Business Pages', 'value' => 'Yes'],
                     ['link' => route('admin.webtheme.index'), 'title' => 'Website Settings', 'value' => 'Yes'],
-                    ['link' => route('admin.support-ticket.view'), 'title' => 'Support Ticket View', 'value' => 'Yes'],
-                    ['link' => route('admin.product-settings.inhouse-shop'), 'title' => 'Inhouse Shop Settings', 'value' => 'Yes'],
-                    ['link' => route('admin.seo-settings.web-master-tool'), 'title' => 'Webmaster Tools (SEO)', 'value' => 'Yes'],
-                    ['link' => route('admin.business-settings.web-config.environment-setup'), 'title' => 'Environment Setup', 'value' => 'Yes'],
-                    ['link' => route('admin.system-setup.login-settings.customer-login-setup'), 'title' => 'Customer Login Setup', 'value' => 'Yes'],
                     ['link' => route('admin.business-settings.web-config.theme.setup'), 'title' => 'Theme Setup', 'value' => 'Yes'],
-                    ['link' => route('admin.business-settings.email-templates.view', ['admin', EmailTemplateKey::ADMIN_EMAIL_LIST[0]]), 'title' => 'Admin Email Template', 'value' => 'Yes'],
-                    ['link' => route('admin.business-settings.payment-method.index'), 'title' => 'Payment Methods', 'value' => 'Yes'],
-                    ['link' => route('admin.social-media-chat.view'), 'title' => 'Social Media Chat', 'value' => 'Yes'],
-                    ['link' => route('admin.business-settings.social-media'), 'title' => 'Social Media Links', 'value' => 'Yes'],
                     ['link' => route('admin.file-manager.index'), 'title' => 'File Manager', 'value' => 'Yes'],
-                    ['link' => route('admin.business-settings.vendor-registration-settings.index'), 'title' => 'Vendor Registration Settings', 'value' => 'Yes'],
+                    // SEO Settings Sub-menu
+                    ['link' => route('admin.seo-settings.web-master-tool'), 'title' => 'Webmaster Tools', 'value' => 'Yes'],
+                    ['link' => route('admin.seo-settings.robot-txt'), 'title' => 'Robots.txt', 'value' => 'Yes'],
+                    ['link' => route('admin.seo-settings.sitemap'), 'title' => 'Sitemap', 'value' => 'Yes'],
+                    ['link' => route('admin.seo-settings.robots-meta-content.index'), 'title' => 'Robots Meta Content', 'value' => 'Yes'],
+                    ['link' => route('admin.error-logs.index'), 'title' => '404 Logs', 'value' => 'Yes'],
                 ];
                 break;
 
@@ -839,6 +833,92 @@ class DashboardController extends BaseController
                 $cardData = [
                     ['link' => route('admin.createfaq'), 'title' => 'Create FAQ', 'value' => 'Yes'],
                     ['link' => route('admin.managefaq'), 'title' => 'Manage FAQs', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'home-page':
+                $title = 'Home Page';
+                $cardData = [
+                    // Business Setup Sub-menu
+                    ['link' => route('admin.business-settings.web-config.index'), 'title' => 'General Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.payment-method.payment-option'), 'title' => 'Payment Options', 'value' => 'Yes'],
+                    ['link' => route('admin.product-settings.index'), 'title' => 'Products Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.priority-setup.index'), 'title' => 'Priority Setup', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.order-settings.index'), 'title' => 'Orders Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.vendor-settings.index'), 'title' => 'Vendors Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.customer.customer-settings'), 'title' => 'Customers Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.delivery-man-settings.index'), 'title' => 'Delivery Men Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.shipping-method.index'), 'title' => 'Shipping Method', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.delivery-restriction.index'), 'title' => 'Delivery Restriction', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.invoice-settings.index'), 'title' => 'Invoice Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.countrySetup.index'), 'title' => 'Country Setup', 'value' => 'Yes'],
+                    // Pages Sub-menu
+                    ['link' => route('admin.business-settings.terms-condition'), 'title' => 'Terms & Conditions', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.privacy-policy'), 'title' => 'Privacy Policy', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.page', ['refund-policy']), 'title' => 'Refund Policy', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.page', ['return-policy']), 'title' => 'Return Policy', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.page', ['cancellation-policy']), 'title' => 'Cancellation Policy', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.page', ['shipping-policy']), 'title' => 'Shipping Policy', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.about-us'), 'title' => 'About Us', 'value' => 'Yes'],
+                    ['link' => route('admin.helpTopic.list'), 'title' => 'FAQ', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.features-section'), 'title' => 'Features Section', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.company-reliability'), 'title' => 'Company Reliability', 'value' => 'Yes'],
+                    // Vendor Registration Sub-menu
+                    ['link' => route('admin.business-settings.vendor-registration-settings.index'), 'title' => 'Vendor Registration Header', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.vendor-registration-settings.with-us'), 'title' => 'Why Sell With Us', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.vendor-registration-settings.business-process'), 'title' => 'Business Process', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.vendor-registration-settings.download-app'), 'title' => 'Download App', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.vendor-registration-settings.faq'), 'title' => 'Vendor Registration FAQ', 'value' => 'Yes'],
+                    // System Settings Sub-menu
+                    ['link' => route('admin.system-setup.login-settings.customer-login-setup'), 'title' => 'Customer Login Setup', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'footer':
+                $title = 'Footer';
+                $cardData = [
+                    // Third Party Settings Sub-menu
+                    ['link' => route('admin.social-media-chat.view'), 'title' => 'Social Media Chat', 'value' => 'Yes'],
+                    ['link' => route('admin.social-login.view'), 'title' => 'Social Media Login', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.mail.index'), 'title' => 'Mail Config', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.sms-module'), 'title' => 'SMS Config', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.captcha'), 'title' => 'Recaptcha', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.map-api'), 'title' => 'Google Map APIs', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.analytics-index'), 'title' => 'Analytic Scripts', 'value' => 'Yes'],
+                    ['link' => route('admin.storage-connection-settings.index'), 'title' => 'Storage Connection', 'value' => 'Yes'],
+                    ['link' => route('admin.firebase-otp-verification.index'), 'title' => 'Firebase Auth', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.social-media'), 'title' => 'Social Media Links', 'value' => 'Yes'],
+                    // Email Templates Sub-menu (Admin)
+                    ['link' => route('admin.business-settings.email-templates.view', ['admin', 'add-fund-wallet']), 'title' => 'Add Fund Wallet Template', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.email-templates.view', ['admin', 'registration-approval']), 'title' => 'Registration Approval Template', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.email-templates.view', ['admin', 'registration-deny']), 'title' => 'Registration Deny Template', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.email-templates.view', ['admin', 'product-approval']), 'title' => 'Product Approval Template', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.email-templates.view', ['admin', 'product-deny']), 'title' => 'Product Deny Template', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.email-templates.view', ['admin', 'withdraw-request']), 'title' => 'Withdraw Request Template', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.email-templates.view', ['admin', 'withdraw-request-approve']), 'title' => 'Withdraw Approve Template', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.email-templates.view', ['admin', 'withdraw-request-deny']), 'title' => 'Withdraw Deny Template', 'value' => 'Yes'],
+                ];
+                break;
+
+            case 'finance-account':
+                $title = 'Finance & Account';
+                $cardData = [
+                    ['link' => route('admin.business-settings.payment-method.index'), 'title' => 'Payment Methods', 'value' => 'Yes'],
+                    // System Settings Sub-menu
+                    ['link' => route('admin.business-settings.web-config.environment-setup'), 'title' => 'Environment Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.web-config.app-settings'), 'title' => 'App Settings', 'value' => 'Yes'],
+                    ['link' => route('admin.system-settings.software-update'), 'title' => 'Software Update', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.language.index'), 'title' => 'Language', 'value' => 'Yes'],
+                    ['link' => route('admin.currency.view'), 'title' => 'Currency', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.cookie-settings'), 'title' => 'Cookies', 'value' => 'Yes'],
+                    ['link' => route('admin.business-settings.web-config.db-index'), 'title' => 'Clean Database', 'value' => 'Yes'],
+                ];
+                break;
+            
+            case 'grievence-complaint':
+                $title = 'Grievance & Complaint';
+                $cardData = [
+                    ['link' => route('admin.support-ticket.view'), 'title' => 'Support Ticket View', 'value' => 'Yes'],
                 ];
                 break;
 

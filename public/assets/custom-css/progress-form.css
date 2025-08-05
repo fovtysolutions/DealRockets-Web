@@ -409,6 +409,42 @@
     padding: 10px !important;
 }
 
+/* Additional styling for vacancy forms */
+.progress-form-main .title-color {
+    color: #374151 !important;
+    font-weight: 600;
+}
+
+.progress-form-main .input-required-icon {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+.progress-form-main .step-section {
+    display: none;
+}
+
+.progress-form-main .step-section:first-of-type {
+    display: block;
+}
+
+.progress-form-main .d-none {
+    display: none !important;
+}
+
+.progress-form-main .form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.progress-form-main .form-actions .prev-btn {
+    margin-right: 10px;
+}
+
 @media (max-width: 768px) {
     .progress-form-main .container {
         margin: 10px;
@@ -449,5 +485,20 @@
         width: 28px;
         height: 28px;
         font-size: 12px;
+    }
+
+    .progress-form-main .form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .progress-form-main .form-actions .prev-btn {
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .progress-form-main .next-btn,
+    .progress-form-main .submit-btn {
+        width: 100%;
     }
 }

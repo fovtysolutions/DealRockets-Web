@@ -78,11 +78,14 @@
             </div>
             --}}
 
-                            <div class="d-flex gap-2">
-                                <a class="btn btn--primary" href="{{ url()->current() }}">
+                            <div>
+                                <a href="{{ route('admin.leads.list') }}"
+                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
                                     {{ translate('reset') }}
                                 </a>
-                                <button type="submit" class="btn btn--primary">
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
                                     {{ translate('show_data') }}
                                 </button>
                             </div>

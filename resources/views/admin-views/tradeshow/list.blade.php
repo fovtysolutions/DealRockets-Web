@@ -5,13 +5,13 @@
 @section('content')
 <div class="content container-fluid">
 
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
             <img src="{{ dynamicAsset('public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
             {{ translate('Tradeshow List') }}
             <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{ $totalTradeshows }}</span>
         </h2>
-    </div>
+    </div> -->
 
     <div class="container-fluid p-0">
         <div class="mb-3">

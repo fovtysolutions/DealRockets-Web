@@ -447,9 +447,24 @@
                     <input type="hidden" id="type" name="type" value="dealassist">
 
                     <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name1"
+                            placeholder="Please enter your full name" 
+                            value="{{ auth('customer')->check() ? auth('customer')->user()->f_name . ' ' . auth('customer')->user()->l_name : '' }}" required>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="email" class="form-label">E-mail Address</label>
                         <input type="email" class="form-control" id="email1"
-                            placeholder="Please enter your business e-mail address" required>
+                            placeholder="Please enter your business e-mail address" 
+                            value="{{ auth('customer')->check() ? auth('customer')->user()->email : '' }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone1"
+                            placeholder="Please enter your phone number" 
+                            value="{{ auth('customer')->check() ? auth('customer')->user()->phone : '' }}">
                     </div>
 
                     <div class="mb-3">
@@ -480,6 +495,11 @@
 @push('script')
     <script src="{{ theme_asset(path: 'public/js/product-detail.js') }}"></script>
     <script>
+        function sendtologin() {
+            // Redirect to login page
+            window.location.href = "{{ route('customer.auth.login') }}";
+        }
+        
         function triggerChat1() {
             var _token = $('input[name="_token"]').val() || $('meta[name="csrf-token"]').attr('content');
 
@@ -490,29 +510,62 @@
                 receiver_id: $('#receiver_id1').val(),
                 receiver_type: $('#receiver_type1').val(),
                 type: $('#type').val(),
+                name: $('#name1').val(),
                 email: $('#email1').val(),
+                phone: $('#phone1').val(),
                 message: $('#message1').val()
             };
 
+            // First, submit to deal assist table
             $.ajax({
-                url: "{{ route('sendmessage.other') }}",
+                url: "{{ route('deal-assist.submit') }}",
                 type: 'POST',
                 data: formData,
                 headers: {
                     'X-CSRF-TOKEN': _token,
                 },
-                success: function(response) {
-                    if (response.success && response.type === 'dealassist') {
-                        toastr.success('Deal Assist inquiry sent! Check inbox...', 'Success');
-                        // Redirect to customer inbox where they can continue the chat
-                        // window.location.href = '/customer/inbox';
-                    } else {
-                        toastr.success('Inquiry sent successfully!', 'Success');
-                        window.location.reload();
-                    }
+                success: function(dealAssistResponse) {
+                    console.log('Deal Assist record created:', dealAssistResponse);
+                    
+                    // Then send the chat message
+                    $.ajax({
+                        url: "{{ route('sendmessage.other') }}",
+                        type: 'POST',
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': _token,
+                        },
+                        success: function(chatResponse) {
+                            if (chatResponse.success && chatResponse.type === 'dealassist') {
+                                toastr.success('Deal Assist inquiry sent! Check inbox...', 'Success');
+                                // Clear form
+                                $('#name1').val('');
+                                $('#email1').val('');
+                                $('#phone1').val('');
+                                $('#message1').val('');
+                                // Close modal
+                                $('#inquiryModal').modal('hide');
+                                // Redirect to customer inbox where they can continue the chat
+                                // window.location.href = '/customer/inbox';
+                            } else {
+                                toastr.success('Inquiry sent successfully!', 'Success');
+                                // Clear form
+                                $('#name1').val('');
+                                $('#email1').val('');
+                                $('#phone1').val('');
+                                $('#message1').val('');
+                                // Close modal
+                                $('#inquiryModal').modal('hide');
+                            }
+                        },
+                        error: function(xhr) {
+                            toastr.error('Failed to send chat message.', 'Error');
+                            console.log(xhr.responseText);
+                        }
+                    });
                 },
                 error: function(xhr) {
-                    toastr.error('Failed to send inquiry.', 'Error');
+                    toastr.error('Failed to create deal assist record.', 'Error');
                     console.log(xhr.responseText);
                 }
             });

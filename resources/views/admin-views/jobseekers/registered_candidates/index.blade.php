@@ -9,24 +9,44 @@
 @endpush
 
 @section('content')
-    <div class="container-fluid">
-        <!-- Filters and Actions -->
-        <div class="row mb-4 mt-4">
-            <div class="col-md-12 d-flex justify-content-between">
-                <!-- Filter Section -->
-                <div class="filter-section">
-                    <form method="GET" action="{{ route('admin.jobvacancy.registered-candidates') }}" class="d-flex" id="filterRegisteredCandidates-form">
-                        <div class="form-group mx-2">
-                            <label for="search" class="form-label">Search</label>
-                            <input class="form-control" name="search" id="search" value="{{ request('search') }}" placeholder="Search by Name or Email" />
+    <div class="content container-fluid">
+        <!-- <div class="mb-3">
+            <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
+                <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
+                {{ translate('Registered Candidates') }}
+                <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{ $candidates->total() ?? count($candidates) }}</span>
+            </h2>
+        </div> -->
+
+        <div class="container-fluid p-0">
+            <div class="mb-3">
+                <div class="card-body p-0">
+                    <form action="{{ url()->current() }}" method="GET">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('search') }}</label>
+                                <input type="text" name="search" class="form-control form-control-sm" placeholder="{{ translate('search_by_name_or_email') }}" value="{{ request('search') }}">
+                            </div>
+
+                            <div>
+                                <a href="{{ route('admin.jobvacancy.registered-candidates') }}"
+                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    {{ translate('reset') }}
+                                </a>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    {{ translate('show_data') }}
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <div class="mt-5 mb-5">
-            <div class="row">
+        <div>
+            <div>
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">

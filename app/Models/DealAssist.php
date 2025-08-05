@@ -14,6 +14,7 @@ class DealAssist extends Model
         'phone_number',
         'email',
         'name',
+        'message',
         'role'
     ];
 

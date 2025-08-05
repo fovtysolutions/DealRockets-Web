@@ -5,67 +5,48 @@
 @section('content')
 <div class="content container-fluid">
 
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
             <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/inhouse-product-list.png') }}" alt="">
             {{ translate('cv_List') }}
             <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{ $totalCvs }}</span>
         </h2>
-    </div>
+    </div> -->
 
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ url()->current() }}" method="GET">
-                <input type="hidden" value="{{ request('status') }}" name="status">
-                <div class="row gx-2">
-                    <div class="col-12">
-                        <h4 class="mb-3">{{ translate('filter_cvs') }}</h4>
-                    </div>
-
-                    <!-- Filter by Name -->
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label class="title-color" for="name">{{ translate('name') }}</label>
-                            <input type="text" name="name" class="form-control text-capitalize" placeholder="{{ translate('search_by_name') }}" value="{{ request('name') }}">
+    <div class="container-fluid p-0">
+        <div class="mb-3">
+            <div class="card-body p-0">
+                <form action="{{ url()->current() }}" method="GET">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('name') }}</label>
+                            <input type="text" name="name" class="form-control form-control-sm" placeholder="{{ translate('search_by_name') }}" value="{{ request('name') }}">
                         </div>
-                    </div>
 
-                    <!-- Filter by Details -->
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label class="title-color" for="details">{{ translate('details') }}</label>
-                            <input type="text" name="details" class="form-control text-capitalize" placeholder="{{ translate('search_by_details') }}" value="{{ request('details') }}">
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('email') }}</label>
+                            <input type="text" name="email" class="form-control form-control-sm" placeholder="{{ translate('search_by_email') }}" value="{{ request('email') }}">
                         </div>
-                    </div>
 
-                    <!-- Filter by Email -->
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label class="title-color" for="email">{{ translate('email') }}</label>
-                            <input type="text" name="email" class="form-control text-capitalize" placeholder="{{ translate('search_by_email') }}" value="{{ request('email') }}">
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('phone_number') }}</label>
+                            <input type="text" name="pnumber" class="form-control form-control-sm" placeholder="{{ translate('search_by_phone_number') }}" value="{{ request('pnumber') }}">
                         </div>
-                    </div>
 
-                    <!-- Filter by Phone Number -->
-                    <div class="col-sm-6 col-lg-4 col-xl-3">
-                        <div class="form-group">
-                            <label class="title-color" for="pnumber">{{ translate('phone_number') }}</label>
-                            <input type="text" name="pnumber" class="form-control text-capitalize" placeholder="{{ translate('search_by_phone_number') }}" value="{{ request('pnumber') }}">
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="d-flex gap-3 justify-content-end">
-                            <a class="btn btn-secondary px-5" href="{{ url()->current() }}">
+                        <div>
+                            <a href="{{ route('admin.cv.list') }}"
+                                class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
                                 {{ translate('reset') }}
                             </a>
-                            <button type="submit" class="btn btn--primary px-5">
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
                                 {{ translate('show_data') }}
                             </button>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 

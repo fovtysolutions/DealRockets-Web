@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="content container-fluid">
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
                 <img src="{{dynamicAsset(path: 'public/assets/back-end/img/all-orders.png')}}" alt="">
                 <span class="page-header-title">
@@ -20,7 +20,7 @@
                 {{translate('orders')}}
                 <span class="badge badge-soft-dark radius-50 fz-14 ml-1">{{$orders->total()}}</span>
             </h2>
-        </div>
+        </div> -->
 
         <div class="container-fluid p-0">
             <div class="mb-3">

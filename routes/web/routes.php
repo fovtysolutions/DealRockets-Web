@@ -57,6 +57,7 @@ use App\Http\Controllers\Vendor\ProfileController;
 use App\Http\Controllers\Web\AgrotradexController;
 use App\Http\Controllers\Web\SupplierController;
 use App\Http\Controllers\Web\DealAssist;
+use App\Http\Controllers\deal_assist\DealAssistController;
 use App\Http\Controllers\Web\JobseekerController;
 use App\Http\Controllers\Web\TalentfinderController;
 use App\Http\Controllers\Web\TradeshowController;
@@ -254,6 +255,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
 
     // Deal Assist Controller
     Route::get('deal-assist',[DealAssist::class,'index'])->name('dealassist');
+    Route::post('deal-assist/submit',[DealAssistController::class,'submitInquiry'])->name('deal-assist.submit');
 
     // Leads Controller
     Route::get('rotating-leads',[QuotatioController::class,'getLeadsForBanner'])->name('rotating-leads');

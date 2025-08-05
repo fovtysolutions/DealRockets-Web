@@ -7,12 +7,35 @@
 
 @section('content')
     <div class="content container-fluid">
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
                 <img width="20" src="{{dynamicAsset(path: 'public/assets/back-end/img/message.png')}}" alt="">
                 {{translate('customer_message')}}
             </h2>
+        </div> -->
+
+        <div class="container-fluid p-0">
+            <div class="mb-3">
+                <div class="card-body p-0">
+                    <form action="{{ url()->current() }}" method="GET">
+                        <div class="row g-2 align-items-end">
+                            <div>
+                                <a href="{{ route('admin.contact.list') }}"
+                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    {{ translate('reset') }}
+                                </a>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    {{ translate('show_data') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+
         <div class="row mt-20">
             <div class="col-md-12">
                 <div class="card">

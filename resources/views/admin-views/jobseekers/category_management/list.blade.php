@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">{{ translate('Job Categories List') }}</h3>
-                        <a href="{{ route('admin.jobvacancy.category.create') }}" class="btn btn-primary btn-sm float-right">
+                        <a href="{{ route('admin.jobvacancy.category.create') }}" class="btn btn-primary float-right">
                             {{ translate('Add Category') }}
                         </a>
                     </div>

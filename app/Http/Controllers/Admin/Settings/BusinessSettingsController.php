@@ -101,6 +101,12 @@ class BusinessSettingsController extends BaseController
             'banner_logo1' => $this->getSettings(object: $web, type: 'company_banner_logo1')->value ?? '',
             'banner_logo2' => $this->getSettings(object: $web, type: 'company_banner_logo2')->value ?? '',
             'banner_logo3' => $this->getSettings(object: $web, type: 'company_banner_logo3')->value ?? '',
+            'banner_logo4' => $this->getSettings(object: $web, type: 'company_banner_logo4')?->value ?? '',
+            'banner_logo5' => $this->getSettings(object: $web, type: 'company_banner_logo5')?->value ?? '',
+            'banner_logo6' => $this->getSettings(object: $web, type: 'company_banner_logo6')?->value ?? '',
+            'banner_logo7' => $this->getSettings(object: $web, type: 'company_banner_logo7')?->value ?? '',
+            'banner_logo8' => $this->getSettings(object: $web, type: 'company_banner_logo8')?->value ?? '',
+            'banner_logo9' => $this->getSettings(object: $web, type: 'company_banner_logo9')?->value ?? '',
             'shop_address' => $this->getSettings(object: $web, type: 'shop_address')->value ?? '',
             'company_copyright_text' => $this->getSettings(object: $web, type: 'company_copyright_text')->value ?? '',
             'system_default_currency' => $this->getSettings(object: $web, type: 'system_default_currency')->value ?? '',
@@ -255,6 +261,84 @@ class BusinessSettingsController extends BaseController
                 'storage' => config('filesystems.disks.default') ?? 'public'
             ];
             $this->businessSettingRepo->updateWhere(params: ['type' => 'company_banner_logo3'], data: ['value' => $bannerIconImage3]);
+        }
+
+        $bannerImage4 = $this->businessSettingRepo->getFirstWhere(params: ['type' => 'company_banner_logo4']);
+        if ($request->has('company_banner_logo4')) {
+            $oldImage = null;
+            if ($bannerImage4 && isset($bannerImage4['value'])) {
+                $oldImage = is_array($bannerImage4['value']) ? $bannerImage4['value']['image_name'] : $bannerImage4['value'];
+            }
+            $bannerIconImage4 = [
+                'image_name' => $this->updateFile(dir: 'company/', oldImage: $oldImage, format: 'webp', image: $request->file('company_banner_logo4')),
+                'storage' => config('filesystems.disks.default') ?? 'public'
+            ];
+            $this->businessSettingRepo->updateOrInsert(type: 'company_banner_logo4', value: $bannerIconImage4);
+        }
+
+        $bannerImage5 = $this->businessSettingRepo->getFirstWhere(params: ['type' => 'company_banner_logo5']);
+        if ($request->has('company_banner_logo5')) {
+            $oldImage = null;
+            if ($bannerImage5 && isset($bannerImage5['value'])) {
+                $oldImage = is_array($bannerImage5['value']) ? $bannerImage5['value']['image_name'] : $bannerImage5['value'];
+            }
+            $bannerIconImage5 = [
+                'image_name' => $this->updateFile(dir: 'company/', oldImage: $oldImage, format: 'webp', image: $request->file('company_banner_logo5')),
+                'storage' => config('filesystems.disks.default') ?? 'public'
+            ];
+            $this->businessSettingRepo->updateOrInsert(type: 'company_banner_logo5', value: $bannerIconImage5);
+        }
+
+        $bannerImage6 = $this->businessSettingRepo->getFirstWhere(params: ['type' => 'company_banner_logo6']);
+        if ($request->has('company_banner_logo6')) {
+            $oldImage = null;
+            if ($bannerImage6 && isset($bannerImage6['value'])) {
+                $oldImage = is_array($bannerImage6['value']) ? $bannerImage6['value']['image_name'] : $bannerImage6['value'];
+            }
+            $bannerIconImage6 = [
+                'image_name' => $this->updateFile(dir: 'company/', oldImage: $oldImage, format: 'webp', image: $request->file('company_banner_logo6')),
+                'storage' => config('filesystems.disks.default') ?? 'public'
+            ];
+            $this->businessSettingRepo->updateOrInsert(type: 'company_banner_logo6', value: $bannerIconImage6);
+        }
+
+        $bannerImage7 = $this->businessSettingRepo->getFirstWhere(params: ['type' => 'company_banner_logo7']);
+        if ($request->has('company_banner_logo7')) {
+            $oldImage = null;
+            if ($bannerImage7 && isset($bannerImage7['value'])) {
+                $oldImage = is_array($bannerImage7['value']) ? $bannerImage7['value']['image_name'] : $bannerImage7['value'];
+            }
+            $bannerIconImage7 = [
+                'image_name' => $this->updateFile(dir: 'company/', oldImage: $oldImage, format: 'webp', image: $request->file('company_banner_logo7')),
+                'storage' => config('filesystems.disks.default') ?? 'public'
+            ];
+            $this->businessSettingRepo->updateOrInsert(type: 'company_banner_logo7', value: $bannerIconImage7);
+        }
+
+        $bannerImage8 = $this->businessSettingRepo->getFirstWhere(params: ['type' => 'company_banner_logo8']);
+        if ($request->has('company_banner_logo8')) {
+            $oldImage = null;
+            if ($bannerImage8 && isset($bannerImage8['value'])) {
+                $oldImage = is_array($bannerImage8['value']) ? $bannerImage8['value']['image_name'] : $bannerImage8['value'];
+            }
+            $bannerIconImage8 = [
+                'image_name' => $this->updateFile(dir: 'company/', oldImage: $oldImage, format: 'webp', image: $request->file('company_banner_logo8')),
+                'storage' => config('filesystems.disks.default') ?? 'public'
+            ];
+            $this->businessSettingRepo->updateOrInsert(type: 'company_banner_logo8', value: $bannerIconImage8);
+        }
+
+        $bannerImage9 = $this->businessSettingRepo->getFirstWhere(params: ['type' => 'company_banner_logo9']);
+        if ($request->has('company_banner_logo9')) {
+            $oldImage = null;
+            if ($bannerImage9 && isset($bannerImage9['value'])) {
+                $oldImage = is_array($bannerImage9['value']) ? $bannerImage9['value']['image_name'] : $bannerImage9['value'];
+            }
+            $bannerIconImage9 = [
+                'image_name' => $this->updateFile(dir: 'company/', oldImage: $oldImage, format: 'webp', image: $request->file('company_banner_logo9')),
+                'storage' => config('filesystems.disks.default') ?? 'public'
+            ];
+            $this->businessSettingRepo->updateOrInsert(type: 'company_banner_logo9', value: $bannerIconImage9);
         }
 
         $loaderGif = $this->businessSettingRepo->getFirstWhere(params: ['type' => 'loader_gif']);

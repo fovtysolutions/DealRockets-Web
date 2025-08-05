@@ -88,6 +88,10 @@ class HomeController extends Controller
             'company_banner_logo1',
             'company_banner_logo2',
             'company_banner_logo3',
+            'company_banner_logo4',
+            'company_banner_logo5',
+            'company_banner_logo6',
+            'company_banner_logo7',
             'memsetting',
             'memsettingseller',
             'tradeshowhomepage',
@@ -126,7 +130,11 @@ class HomeController extends Controller
             $getBannerImage('company_banner_logo'),
             $getBannerImage('company_banner_logo1'),
             $getBannerImage('company_banner_logo2'),
-            $getBannerImage('company_banner_logo3')
+            $getBannerImage('company_banner_logo3'),
+            $getBannerImage('company_banner_logo4'),
+            $getBannerImage('company_banner_logo5'),
+            $getBannerImage('company_banner_logo6'),
+            $getBannerImage('company_banner_logo7'),
         ]);
         $bannerCount = count($banners);
 

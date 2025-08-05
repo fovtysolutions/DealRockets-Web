@@ -156,31 +156,44 @@
             <!-- Carousel Section -->
             <div class="mainbannerbox">
                 <div id="carouselExample" class="owl-theme owl-carousel">
-                    <div class="item">
-                        <div class="image-wrapper shimmer">
-                            <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                    @if (!empty($banners))
+                        @foreach ($banners as $banner)
+                            <div class="item">
+                                <a href="javascript:void(0)">
+                                    <div class="card image-wrapper shimmer">
+                                        <img class="lazyload" data-src="/storage/company/{{ $banner }}"
+                                            alt="Card Image">
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="item">
+                            <div class="image-wrapper shimmer">
+                                <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="image-wrapper shimmer">
-                            <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                        <div class="item">
+                            <div class="image-wrapper shimmer">
+                                <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="image-wrapper shimmer">
-                            <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                        <div class="item">
+                            <div class="image-wrapper shimmer">
+                                <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="image-wrapper shimmer">
-                            <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                        <div class="item">
+                            <div class="image-wrapper shimmer">
+                                <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                            </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="image-wrapper shimmer">
-                            <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                        <div class="item">
+                            <div class="image-wrapper shimmer">
+                                <img data-src="img/main.png" class="d-block w-100 h-100 lazyload" alt="Slide 1">
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
 

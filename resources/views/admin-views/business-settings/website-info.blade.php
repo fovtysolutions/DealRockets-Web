@@ -841,6 +841,104 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xxl-4 col-sm-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
+                                <img src="{{dynamicAsset(path: 'public/assets/back-end/img/footer-logo.png')}}" alt="">
+                                {{translate('website_banner_logo')}}
+                            </h5>
+                            <span
+                                class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Banner Image'] }}</span>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-around">
+                            <div class="d-flex justify-content-center">
+                                <img height="60" id="view-website-banner-logo4"
+                                     src="{{ getStorageImages(path: $businessSetting['banner_logo4'] , type: 'backend-basic') }}"alt="">
+                            </div>
+                            <div class="position-relative mt-4">
+                                <input type="file" name="company_banner_logo4" id="website-banner-logo4"
+                                       class="custom-file-input image-input" data-image-id="view-website-banner-logo4"
+                                       accept=".webp, .jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                <label class="custom-file-label text-capitalize"
+                                       for="website-banner-logo4">{{translate('choose_file')}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-4 col-sm-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
+                                <img src="{{dynamicAsset(path: 'public/assets/back-end/img/footer-logo.png')}}" alt="">
+                                {{translate('website_banner_logo')}}
+                            </h5>
+                            <span
+                                class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Banner Image'] }}</span>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-around">
+                            <div class="d-flex justify-content-center">
+                                <img height="60" id="view-website-banner-logo5"
+                                     src="{{ getStorageImages(path: $businessSetting['banner_logo5'] , type: 'backend-basic') }}"alt="">
+                            </div>
+                            <div class="position-relative mt-4">
+                                <input type="file" name="company_banner_logo5" id="website-banner-logo5"
+                                       class="custom-file-input image-input" data-image-id="view-website-banner-logo5"
+                                       accept=".webp, .jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                <label class="custom-file-label text-capitalize"
+                                       for="website-banner-logo5">{{translate('choose_file')}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="col-xxl-4 col-sm-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
+                                <img src="{{dynamicAsset(path: 'public/assets/back-end/img/footer-logo.png')}}" alt="">
+                                {{translate('website_banner_logo')}}
+                            </h5>
+                            <span
+                                class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Banner Image'] }}</span>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-around">
+                            <div class="d-flex justify-content-center">
+                                <img height="60" id="view-website-banner-logo6"
+                                     src="{{ getStorageImages(path: $businessSetting['banner_logo6'] , type: 'backend-basic') }}"alt="">
+                            </div>
+                            <div class="position-relative mt-4">
+                                <input type="file" name="company_banner_logo6" id="website-banner-logo6"
+                                       class="custom-file-input image-input" data-image-id="view-website-banner-logo6"
+                                       accept=".webp, .jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                <label class="custom-file-label text-capitalize"
+                                       for="website-banner-logo6">{{translate('choose_file')}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="col-xxl-4 col-sm-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
+                                <img src="{{dynamicAsset(path: 'public/assets/back-end/img/footer-logo.png')}}" alt="">
+                                {{translate('website_banner_logo')}}
+                            </h5>
+                            <span
+                                class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Banner Image'] }}</span>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-around">
+                            <div class="d-flex justify-content-center">
+                                <img height="60" id="view-website-banner-logo7"
+                                     src="{{ getStorageImages(path: $businessSetting['banner_logo7'] , type: 'backend-basic') }}"alt="">
+                            </div>
+                            <div class="position-relative mt-4">
+                                <input type="file" name="company_banner_logo7" id="website-banner-logo7"
+                                       class="custom-file-input image-input" data-image-id="view-website-banner-logo7"
+                                       accept=".webp, .jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                <label class="custom-file-label text-capitalize"
+                                       for="website-banner-logo7">{{translate('choose_file')}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn--primary text-capitalize px-4">{{translate('save_information')}}</button>

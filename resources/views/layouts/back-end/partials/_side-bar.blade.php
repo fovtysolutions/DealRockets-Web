@@ -113,257 +113,200 @@
                         </div>
                     </div>
                     <ul class="navbar-nav navbar-nav-lg nav-tabs">
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/dashboard*') ? 'active' : '' }}">
+                        <!-- 1. Dashboard -->
+                        <li class="nav-item-button-sidebar {{ Request::is('admin/dashboard*') ? 'active' : '' }}" style="border-top: 2px solid rgb(195 195 195) !important;">
                             <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                 href="{{ route('admin.dashboard.index') }}">
                                 <i class="fa-solid fa-border-all sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('dashboard') }}
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    {{ translate('Dashboard') }}
                                 </span>
                             </a>
                         </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/analytics') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'analytics']) }}">
-                                <i class="fa-solid fa-chart-line me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Analytics') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/product-approval') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'product-approval']) }}">
-                                <i class="fa-regular fa-thumbs-up me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Product Approvals') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/vendor-approval') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'vendor-approval']) }}">
-                                <i class="fa-solid fa-person-circle-check me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Vendor Approvals') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/leads') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'leads']) }}">
-                                <i class="fa-solid fa-pencil me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Leads') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/sell-offer') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'sell-offer']) }}">
-                                <i class="fa-solid fa-wand-magic me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Sell Offer') }}
-                                </span>
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/buy-leads') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'buy-leads']) }}">
-                                <i class="fa-brands fa-buy-n-large me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Buy Leads') }}
-                                </span>
-                            </a>
-                        </li> --}}
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/marketplace') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'marketplace']) }}">
-                                <i class="fa-solid fa-store me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Marketplace') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/stock-sell') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'stock-sell']) }}">
-                                <i class="fa-solid fa-arrow-trend-up me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Stock Sell') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/tradeshow') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'tradeshows']) }}">
-                                <i class="fa-brands fa-trade-federation me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Tradeshows') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/vendor') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'vendor']) }}">
-                                <i class="fa-solid fa-tarp me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Vendor') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/buyer') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'buyer']) }}">
-                                <i class="fa-regular fa-credit-card me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Buyer') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/guest') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'guest']) }}">
-                                <i class="i fa-regular fa-user me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Guest') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/consultant') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'consultant']) }}">
-                                <i class="fa-solid fa-user-tie me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Consultant') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/industry-jobs') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'industry-jobs']) }}">
-                                <i class="fa-solid fa-briefcase me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Industry Jobs') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/graphics') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'graphics']) }}">
-                                <i class="fa-brands fa-artstation me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Graphics') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/deal-assist') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'deal-assist']) }}">
-                                <i class="fa-regular fa-handshake me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Deal Assist') }}
-                                </span>
-                            </a>
-                        </li>
+
+                        <!-- 2. Inbox -->
                         <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/inbox') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                 href="{{ route('admin.subcard', ['slug' => 'inbox']) }}">
-                                <i class="fa-solid fa-inbox me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
+                                <i class="fa-solid fa-inbox sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                     {{ translate('Inbox') }}
                                 </span>
                             </a>
                         </li>
-                        
+
+                        <!-- 3. User Account Settings - Dropdown -->
+                        <li class="nav-item-button-sidebar">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link toggle-dropdown"
+                                href="javascript:void(0)">
+                                <i class="fa-solid fa-user-cog sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    {{ translate('User Accounts') }}
+                                </span>
+                                <i class="tio-chevron-down ms-auto"></i>
+                            </a>
+                            <ul class="dropdown-menu-sidebar" style="display: none;">
+                                <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/buyer') ? 'active' : '' }}">
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                        href="{{ route('admin.subcard', ['slug' => 'buyer']) }}">
+                                        <i class="fa-regular fa-credit-card sidebar-icon"></i>
+                                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                            {{ translate('Buyer') }}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/vendor') ? 'active' : '' }}">
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                        href="{{ route('admin.subcard', ['slug' => 'vendor']) }}">
+                                        <i class="fa-solid fa-tarp sidebar-icon"></i>
+                                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                            {{ translate('Supplier') }}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/guest') ? 'active' : '' }}">
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                        href="{{ route('admin.subcard', ['slug' => 'guest']) }}">
+                                        <i class="fa-regular fa-user sidebar-icon"></i>
+                                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                            {{ translate('Job Seeker') }}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/consultant') ? 'active' : '' }}">
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                        href="{{ route('admin.subcard', ['slug' => 'consultant']) }}">
+                                        <i class="fa-solid fa-user-tie sidebar-icon"></i>
+                                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                            {{ translate('Hire') }}
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- 4. Industry Jobs -->
+                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/industry-jobs') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                href="{{ route('admin.subcard', ['slug' => 'industry-jobs']) }}">
+                                <i class="fa-solid fa-briefcase sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    {{ translate('Industry Jobs') }}
+                                </span>
+                            </a>
+                        </li>
+
+                        <!-- 5. Graphics and Dashboard Allotment - Dropdown -->
+                        <li class="nav-item-button-sidebar">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link toggle-dropdown"
+                                href="javascript:void(0)">
+                                <i class="fa-solid fa-chart-pie sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    {{ translate('Graphics and Dashboard Allotment') }}
+                                </span>
+                                <i class="tio-chevron-down ms-auto"></i>
+                            </a>
+                            <ul class="dropdown-menu-sidebar" style="display: none;">
+                                <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/graphics') ? 'active' : '' }}">
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                        href="{{ route('admin.subcard', ['slug' => 'graphics']) }}">
+                                        <i class="fa-brands fa-artstation sidebar-icon"></i>
+                                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                            {{ translate('Graphics') }}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/dashboard-allotment') ? 'active' : '' }}">
+                                    <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                        href="{{ route('admin.subcard', ['slug' => 'dashboard-allotment']) }}">
+                                        <i class="fa-solid fa-table-columns sidebar-icon"></i>
+                                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                            {{ translate('Dashboard Allotment') }}
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- 6. Supplier Onboarding -->
+                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/supplier-onboarding') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                href="{{ route('admin.subcard', ['slug' => 'supplier-onboarding']) }}">
+                                <i class="fa-solid fa-user-check sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    {{ translate('Supplier Onboarding') }}
+                                </span>
+                            </a>
+                        </li>
+
+                        <!-- 7. Finance & Accounting -->
+                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/finance-account') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                href="{{ route('admin.subcard', ['slug' => 'finance-account']) }}">
+                                <i class="fa-solid fa-coins sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    {{ translate('Finance & Accounting') }}
+                                </span>
+                            </a>
+                        </li>
+
+                        <!-- 8. Grievance & Complain -->
+                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/grievence-compliant') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                href="{{ route('admin.subcard', ['slug' => 'grievence-compliant']) }}">
+                                <i class="fa-regular fa-face-angry sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    {{ translate('Grievance & Complain') }}
+                                </span>
+                            </a>
+                        </li>
+
+                        <!-- 9. Marketing Dashboard Allotment -->
+                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/marketing-dashboard') ? 'active' : '' }}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
+                                href="{{ route('admin.subcard', ['slug' => 'marketing-dashboard']) }}">
+                                <i class="fa-solid fa-chart-line sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    {{ translate('Marketing Dashboard Allotment') }}
+                                </span>
+                            </a>
+                        </li>
+
+                        <!-- 10. Membership -->
                         <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/membership') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                 href="{{ route('admin.subcard', ['slug' => 'membership']) }}">
-                                <i class="fa-solid fa-user-plus me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
+                                <i class="fa-solid fa-user-plus sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                     {{ translate('Membership') }}
                                 </span>
                             </a>
                         </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/home-page') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'home-page']) }}">
-                                <i class="fa-solid fa-house-user me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Home Page') }}
-                                </span>
-                            </a>
-                        </li>
+
+                        <!-- 11. FAQ Setting -->
                         <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/faq') ? 'active' : '' }}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                 href="{{ route('admin.subcard', ['slug' => 'faq']) }}">
-                                <i class="fa-regular fa-circle-question me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('FAQ Settings') }}
+                                <i class="fa-solid fa-question sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
+                                    {{ translate('FAQ Setting') }}
                                 </span>
                             </a>
                         </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/footer') ? 'active' : '' }}">
+
+                        <!-- 12. Footer -->
+                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/footer') ? 'active' : '' }}" style="border-bottom: 2px solid rgb(195 195 195) !important;">
                             <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
                                 href="{{ route('admin.subcard', ['slug' => 'footer']) }}">
-                                <i class="fa-solid fa-bars-progress me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
+                                <i class="fa-solid fa-bars-progress sidebar-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                     {{ translate('Footer') }}
                                 </span>
                             </a>
                         </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/finance-account') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'finance-account']) }}">
-                                <i class="fa-solid fa-coins me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Finance & Account') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/dashboard-allotment') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'dashboard-allotment']) }}">
-                                <i class="fa-solid fa-table-columns me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Dashboard Allotment') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/grievence-compliant') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                href="{{ route('admin.subcard', ['slug' => 'grievence-compliant']) }}">
-                                <i class="fa-regular fa-face-angry me-2 sidebar-icon"></i>
-                                <span
-                                    class="text-truncate sidebar-text">
-                                    {{ translate('Grievence / Compliant') }}
-                                </span>
-                            </a>
-                        </li>
+
+                        <!-- Items not included in your requested structure (commented out): -->
+                        <!-- Analytics, Product Approvals, Vendor Approvals, Leads, Sell Offer, Marketplace, Stock Sell, Tradeshows, Deal Assist, Home Page -->
                     </ul>
                 </div>
             </div>
@@ -372,20 +315,61 @@
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        let isSmallviewHovered = false;
+        let rememberedDropdowns = new Set(); // Remember which dropdowns were open
+        
+        // Handle dropdown toggle functionality
         document.querySelectorAll('.toggle-dropdown').forEach(function(toggle) {
-            toggle.addEventListener('click', function() {
-                const dropdown = this.nextElementSibling;
-                const icon = this.querySelector('.tio-chevron-down');
-
-                if (dropdown.style.display === 'block') {
+            const dropdown = toggle.nextElementSibling;
+            const icon = toggle.querySelector('.tio-chevron-down');
+            const parentLi = toggle.closest('li');
+            
+            // Click handler for dropdown toggle
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
                     dropdown.style.display = 'none';
                     icon.classList.remove('rotate-180');
+                    parentLi.classList.remove('dropdown-open');
+                    rememberedDropdowns.delete(dropdown); // Remove from memory
                 } else {
+                    dropdown.classList.add('show');
                     dropdown.style.display = 'block';
                     icon.classList.add('rotate-180');
+                    parentLi.classList.add('dropdown-open');
+                    rememberedDropdowns.add(dropdown); // Add to memory
                 }
             });
         });
+        
+        // Handle smallview sidebar hover state
+        const smallviewSidebar = document.querySelector('.smallview');
+        if (smallviewSidebar) {
+            smallviewSidebar.addEventListener('mouseenter', function() {
+                isSmallviewHovered = true;
+                // Re-show remembered dropdowns when smallview is hovered
+                rememberedDropdowns.forEach(function(dropdown) {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.style.display = 'block';
+                    }
+                });
+            });
+            
+            smallviewSidebar.addEventListener('mouseleave', function() {
+                isSmallviewHovered = false;
+            });
+        }
+        
+        // Simple condition: if dropdown is block and smallview is not hovered then display none
+        setInterval(function() {
+            document.querySelectorAll('.dropdown-menu-sidebar').forEach(function(dropdown) {
+                if (dropdown.style.display === 'block' && !isSmallviewHovered) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        }, 100);
     });
 </script>
 

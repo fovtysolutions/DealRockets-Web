@@ -238,6 +238,10 @@
     margin-top: auto;
 }
 
+.text-red{
+    color: #ff3535  !important;
+}
+
 .btn-membership {
     background: linear-gradient(90deg, #FE4E44, #9F0900);
     color: white;

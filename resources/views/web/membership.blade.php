@@ -98,8 +98,8 @@ if(Auth('customer')->check()){
                                     $featureValue = $memdata['feature' . ($index + 1)][$featureIndex] ?? 'N/A';
                                     $isAvailable = $featureValue !== 'N/A' && $featureValue !== '0' && $featureValue !== 'No';
                                 @endphp
-                                <li class="{{ !$isAvailable ? 'unavailable' : '' }}">
-                                    <i class="fas {{ $isAvailable ? 'fa-check-circle' : 'fa-times-circle' }}"></i>
+                                <li class="{{ !$isAvailable ? '' : '' }}">
+                                    <i class="fas {{ $isAvailable ? 'fa-check-circle' : 'fa-times-circle text-red' }}"></i>
                                     <span>
                                         <strong>{{ $featureType }}</strong> - {{ $featureValue }}
                                         @if(isset($memdata['desc'][$featureIndex]) && $memdata['desc'][$featureIndex])

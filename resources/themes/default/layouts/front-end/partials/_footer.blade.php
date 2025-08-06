@@ -56,7 +56,6 @@
                             <div class="text-wrapper-5">Legal</div>
                             <div class="frame-7">
                                 <div class="footer-text"><a href="#" class="text-wrapper-7">Trade Mark</a></div>
-                                <div class="footer-text"><a href="#" class="text-wrapper-7">FAQ</a></div>
                                 <div class="footer-text"><a href="#" class="text-wrapper-7">Grievance</a></div>
                                 <div class="footer-text"><a href="#" class="text-wrapper-7">Language Declaration</a></div>
                             </div>
@@ -64,8 +63,6 @@
                         <div class="group-18">
                             <div class="text-wrapper-5">Policies</div>
                             <div class="frame-7">
-                                <div class="footer-text"><a href="{{ route('privacy-policy') }}" class="text-wrapper-7">Privacy Policy</a></div>
-                                <div class="footer-text"><a href="{{ route('terms') }}" class="text-wrapper-7">Terms of Use</a></div>
                                 <div class="footer-text"><a href="#" class="text-wrapper-7">User Agreement</a></div>
                                 <div class="footer-text"><a href="#" class="text-wrapper-7">Trade Solutions</a></div>
                             </div>
@@ -73,10 +70,10 @@
                         <div class="group-17">
                             <div class="text-wrapper-5">Registration</div>
                             <div class="frame-7">
-                                <div class="footer-text"><a href="#" class="text-wrapper-7">Register as Buyer</a></div>
+                                <div class="footer-text"><a href="/customer/auth/login" class="text-wrapper-7">Register as Buyer</a></div>
                                 <div class="footer-text"><a href="{{ route('vendor.auth.login') }}" class="text-wrapper-7">Register as Supplier</a></div>
-                                <div class="footer-text"><a href="#" class="text-wrapper-7">Register as Consultant</a></div>
-                                <div class="footer-text"><a href="#" class="text-wrapper-7">Membership</a></div>
+                                <div class="footer-text"><a href="/customer/auth/hire-sign-in" class="text-wrapper-7">Register as Consultant</a></div>
+                                <div class="footer-text"><a href="/membership" class="text-wrapper-7">Membership</a></div>
                             </div>
                         </div>
                         <div class="group-19">
@@ -168,17 +165,16 @@
                             </div>
                         </div>
                         <div class="group-17">
-                            <div class="text-wrapper-5">Shipping info</div>
+                            <div class="text-wrapper-5">Quick Links</div>
                             <div class="frame-7">
-                                <div class="footer-text"><a href="{{ route('refund-policy') }}"
-                                        class="text-wrapper-7">Refund policy</a>
+                                <div class="footer-text"><a href="{{ route('products') }}"
+                                        class="text-wrapper-7">All Products</a>
                                 </div>
-                                <div class="footer-text"><a href=" {{ route('return-policy') }} "
-                                        class="text-wrapper-7">Return policy</a>
+                                <div class="footer-text"><a href="#"
+                                        class="text-wrapper-7">All Shops</a>
                                 </div>
-                                <div class="footer-text"><a href="{{ route('cancellation-policy') }}"
-                                        class="text-wrapper-7">Cancellation
-                                        policy</a></div>
+                                <div class="footer-text"><a href="{{ route('brands') }}"
+                                        class="text-wrapper-7">All Brands</a></div>
                                 <div class="footer-text"></div>
                             </div>
                         </div>
@@ -190,7 +186,7 @@
                                 <div class="footer-text"><a href="{{ route('contacts') }}"
                                         class="text-wrapper-7">Contact Us</a></div>
                                 <div class="footer-text"><a href="{{ route('helpTopic') }}"
-                                        class="text-wrapper-7">HelpTopic</a></div>
+                                        class="text-wrapper-7">FAQ</a></div>
                                 <div class="footer-text"><a href="{{ route('account-tickets') }}"
                                         class="text-wrapper-7">Support
                                         ticket</a></div>

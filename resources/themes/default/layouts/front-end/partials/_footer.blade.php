@@ -49,6 +49,92 @@
                         </div>
                     </div>
                 </div>
+                <!-- New Client Requested Footer Sections -->
+                <div class="d-flex" style="height: 175px;margin-bottom: 20px;">
+                    <div class="frame-x">
+                        <div class="group-17">
+                            <div class="text-wrapper-5">Legal</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Trade Mark</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">FAQ</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Grievance</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Language Declaration</a></div>
+                            </div>
+                        </div>
+                        <div class="group-18">
+                            <div class="text-wrapper-5">Policies</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="{{ route('privacy-policy') }}" class="text-wrapper-7">Privacy Policy</a></div>
+                                <div class="footer-text"><a href="{{ route('terms') }}" class="text-wrapper-7">Terms of Use</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">User Agreement</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Trade Solutions</a></div>
+                            </div>
+                        </div>
+                        <div class="group-17">
+                            <div class="text-wrapper-5">Registration</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Register as Buyer</a></div>
+                                <div class="footer-text"><a href="{{ route('vendor.auth.login') }}" class="text-wrapper-7">Register as Supplier</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Register as Consultant</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Membership</a></div>
+                            </div>
+                        </div>
+                        <div class="group-19">
+                            <div class="text-wrapper-5">Return Policy</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="{{ route('return-policy') }}" class="text-wrapper-7">Return Policy</a></div>
+                                <div class="footer-text"><a href="{{ route('refund-policy') }}" class="text-wrapper-7">Refund Policy</a></div>
+                                <div class="footer-text"><a href="{{ route('cancellation-policy') }}" class="text-wrapper-7">Cancellation Policy</a></div>
+                                <div class="footer-text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- Buyers Benefits Section -->
+                    <div class="frame-y">
+                        <div class="group-17">
+                            <div class="text-wrapper-5">For Buyers</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Current Sale Offers</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">10,000+ Products</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Deal Assist</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Rocket Negotiation</a></div>
+                            </div>
+                        </div>
+                        <div class="group-18">
+                            <div class="text-wrapper-5">Buyer Benefits</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">All Benefits</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Premium Access</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Verified Suppliers</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Quality Assurance</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- Suppliers Benefits Section -->
+                    <div class="frame-y">
+                        <div class="group-17">
+                            <div class="text-wrapper-5">For Suppliers</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Global Buy Leads</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Sell on Marketplace</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Jobs & Hire Talent</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Trade Shows</a></div>
+                            </div>
+                        </div>
+                        <div class="group-18">
+                            <div class="text-wrapper-5">Business Growth</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Bulk Stock Sales</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Startup Assistance</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Rocket Growth</a></div>
+                                <div class="footer-text"><a href="#" class="text-wrapper-7">Business Support</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of New Client Requested Footer Sections -->
                 <div class="group-16 responsive-1">
                     <div class="frame-6">
                         <div class="group-17">

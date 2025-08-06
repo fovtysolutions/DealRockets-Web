@@ -1,201 +1,546 @@
-h1 {
-    font-weight: 300;
-    font-size: 5em;
-    line-height: 1.35;
-    margin: 0 0 .125em;
+/* Clean White Membership Page Styles */
+.membership-page {
+    /* background: linear-gradient(135deg, #f8fafc 0%, #e8f4f8 100%); */
+    min-height: 100vh;
+    padding: 40px 0 60px;
+    position: relative;
 }
 
-h1+p {
-    font-size: 1.5em;
-    color: #999;
-    max-width: 30em;
-    margin: 0 auto 3em;
+.membership-page .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-table {
-    width: 100%;
-    text-align: left;
-    border-spacing: 0;
-    border-collapse: collapse;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+.membership-header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 0 20px;
 }
 
-th,
-td {
-    font-family: inherit;
-    font-size: .875em;
-    line-height: 1.45;
-    color: #444;
-    vertical-align: middle;
-    padding: 1em;
+.membership-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+    color: #1e293b;
 }
 
-th {
+.membership-header p {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-weight: 400;
+    color: #64748b;
+}
+
+/* Billing Toggle */
+.billing-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.toggle-container {
+    background: white;
+    border-radius: 50px;
+    padding: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #e2e8f0;
+}
+
+.toggle-option {
+    padding: 12px 32px;
+    border-radius: 46px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    background: none;
+}
+
+.toggle-option.active {
+    background: linear-gradient(90deg, #FE4E44, #9F0900);
+    color: white;
+    box-shadow: 0 2px 8px rgba(254, 78, 68, 0.3);
+}
+
+.toggle-option:not(.active) {
+    color: #64748b;
+}
+
+.toggle-option:not(.active):hover {
+    color: #374151;
+}
+
+.membership-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: stretch;
+}
+
+.membership-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    overflow: visible;
+    position: relative;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+.membership-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.membership-card.popular {
+    border: 2px solid #FE4E44 !important;
+    transform: translateY(-8px) scale(1.05) !important;
+    box-shadow: 0 10px 40px rgba(254, 78, 68, 0.2) !important;
+    z-index: 10;
+    position: relative;
+}
+
+.recommended-badge {
+    background: linear-gradient(90deg, #FE4E44, #9F0900) !important;
+    color: white !important;
+    padding: 12px 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    border-radius: 14px 14px 0 0;
+    margin: -2px -2px 0 -2px;
+    display: block !important;
+    width: calc(100% + 4px);
+    position: relative;
+    z-index: 10;
+}
+
+.card-header {
+    padding: 30px 30px 25px;
+    text-align: center;
+    background: white;
+    position: relative;
+}
+
+.membership-card.popular .card-header {
+    padding-top: 30px;
+    border-radius: 0;
+}
+
+.card-header h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 16px;
+}
+
+.billing-period {
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-header .price {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+}
+
+.card-header .price .currency {
+    font-size: 2rem;
+    color: #64748b;
     font-weight: 600;
 }
 
-colgroup:nth-child(1) {
-    width: 31%;
-    border: 0 none;
+.card-header .price-period {
+    color: #64748b;
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
-colgroup:nth-child(2) {
-    width: 22%;
-    border: 1px solid #ccc;
+.card-body {
+    padding: 0 30px;
+    flex-grow: 1;
 }
 
-colgroup:nth-child(3) {
-    width: 25%;
-    border: 10px solid  var(--web-hover);
+.features-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 5px;
 }
 
-colgroup:nth-child(4) {
-    width: 22%;
-    border: 1px solid #ccc;
-}
-
-/* Tablehead */
-
-thead th {
-    background: #def4fe;
-    background: -moz-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
-    background: -webkit-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
-    background: -o-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
-    background: -ms-linear-gradient(top, #ffffff 0%, #f5f5f5 100%);
-    background: linear-gradient(to bottom, #ffffff 0%, #f5f5f5 100%);
-    text-align: center;
-    position: relative;
-    border-bottom: 1px solid #ccc;
-    padding: 3em 0 2em;
-    font-weight: 400;
-    color: #999;
-}
-
-thead th:nth-child(1) {
-    background: transparent;
-}
-
-thead th:nth-child(3) {
-    padding: 2em 0 5em;
-}
-
-thead th h2 {
-    font-weight: 300;
-    font-size: 2.4em;
-    line-height: 1.2;
-    color: var(--web-hover);
-}
-
-thead th h2+p {
-    font-size: 1.25em;
-    line-height: 1.4;
-}
-
-thead th:nth-child(3) h2 {
-    font-size: 3.6em;
-}
-
-thead th:nth-child(3) h2+p {
-    font-size: 1.5em;
-}
-
-thead th p.promo {
-    font-size: 1em;
-    color: #fff;
-    position: absolute;
-    top: 9em;
-    left: -17px;
-    z-index: 1000;
-    width: 100%;
+.features-list {
+    list-style: none;
+    padding: 0;
     margin: 0;
-    padding: .625em 17px .75em;
-    background: #c00;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
-    border-bottom: 1px solid #900;
 }
 
-thead th p.promo:before {
-    content: "";
-    position: absolute;
-    display: block;
-    width: 0px;
-    height: 0px;
-    border-style: solid;
-    border-width: 0 7px 7px 0;
-    border-color: transparent #900 transparent transparent;
-    bottom: -7px;
-    left: 0;
+.features-list li {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    color: #4b5563;
+    line-height: 1.6;
 }
 
-thead th p.promo:after {
-    content: "";
-    position: absolute;
-    display: block;
-    width: 0px;
-    height: 0px;
-    border-style: solid;
-    border-width: 7px 7px 0 0;
-    border-color: #900 transparent transparent transparent;
-    bottom: -7px;
-    right: 0;
+.features-list li:last-child {
+    padding-bottom: 0;
 }
 
-/* Tablebody */
-
-tbody th {
-    background: #fff;
-    border-left: 1px solid #ccc;
+.features-list li i {
+    color: #3b82f6;
+    margin-right: 12px;
+    font-size: 1rem;
+    min-width: 18px;
+    margin-top: 4px;
+    flex-shrink: 0;
 }
 
-tbody th span {
-    font-weight: normal;
-    font-size: 87.5%;
-    color: #999;
-    display: block;
+.features-list li.unavailable {
+    opacity: 0.5;
 }
 
-tbody td {
-    background: #fff;
+.features-list li.unavailable i {
+    color: #d1d5db;
+}
+
+.features-list li strong {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.card-footer {
+    padding: 25px 30px 30px;
     text-align: center;
+    background: white;
+    margin-top: auto;
 }
 
-tbody tr:nth-child(even) th,
-tbody tr:nth-child(even) td {
-    background: #f5f5f5;
-    border: 1px solid #ccc;
-    border-width: 1px 0 1px 1px;
-}
-
-tbody tr:last-child td {
-    border-bottom: 0 none;
-}
-
-/* Tablefooter */
-
-tfoot th {
-    padding: 2em 1em;
-    border-top: 1px solid #ccc;
-}
-
-tfoot td {
-    text-align: center;
-    padding: 2em 1em;
-    border-top: 1px solid #ccc;
-}
-
-tfoot a {
-    font-weight: bold;
-    color: #fff;
+.btn-membership {
+    background: linear-gradient(90deg, #FE4E44, #9F0900);
+    color: white;
+    border: none;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+    cursor: pointer;
     text-decoration: none;
-    text-transform: uppercase;
-    display: block;
-    padding: 1.125em 2em;
-    background: var(--web-hover);
-    border-radius: .5em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 50px;
+    box-shadow: 0 4px 12px rgba(254, 78, 68, 0.2);
 }
 
-tfoot a:hover{
-    color:white;
+.btn-membership:hover {
+    background: linear-gradient(90deg, #E63E35, #8A0800);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(254, 78, 68, 0.3);
 }
+
+.btn-membership.disabled {
+    background: #f1f5f9;
+    color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-membership.current {
+    background: #22c55e;
+    color: white;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+}
+
+.btn-membership.current:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+}
+
+/* Professional Modal Styles */
+.modal-content {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-header {
+    background: linear-gradient(90deg, #FE4E44, #9F0900);
+    color: white;
+    border-radius: 12px 12px 0 0;
+    padding: 24px 32px;
+    border-bottom: none;
+}
+
+.modal-header .modal-title {
+    color: white;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.btn-close {
+    filter: invert(1);
+    opacity: 0.8;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+.modal-body {
+    padding: 32px;
+}
+
+.membership-details-card {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 32px;
+    border: 1px solid #e2e8f0;
+}
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.payment-method {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.payment-method:hover {
+    border-color: #FE4E44;
+    box-shadow: 0 4px 6px -1px rgba(254, 78, 68, 0.2);
+}
+
+.payment-method.selected {
+    border-color: #FE4E44;
+    background: #fef2f2;
+    box-shadow: 0 4px 6px -1px rgba(254, 78, 68, 0.2);
+}
+
+.payment-method label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    margin: 0;
+    font-weight: 500;
+}
+
+.payment-method img {
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+.custom-radio {
+    width: 18px;
+    height: 18px;
+    accent-color: #FE4E44;
+}
+
+/* Brand Color Scheme Variables */
+:root {
+    --brand-gradient: linear-gradient(90deg, #FE4E44, #9F0900);
+    --brand-primary: #FE4E44;
+    --brand-secondary: #9F0900;
+    --brand-hover: #E63E35;
+    --success-color: #22c55e;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --border-color: #e2e8f0;
+    --background-gray: #f8fafc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .membership-page {
+        padding: 30px 0 50px;
+    }
+    
+    .membership-header h1 {
+        font-size: 2rem;
+    }
+    
+    .membership-header {
+        margin-bottom: 40px;
+    }
+    
+    .toggle-container {
+        margin: 0 20px;
+    }
+    
+    .toggle-option {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+    
+    .membership-cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 0 16px;
+    }
+    
+    .membership-card.popular {
+        transform: translateY(-4px) scale(1);
+    }
+    
+    .card-header {
+        padding: 25px 24px 20px;
+    }
+    
+    .card-body {
+        padding: 0 24px;
+    }
+    
+    .card-footer {
+        padding: 20px 24px 25px;
+    }
+    
+    .card-header .price {
+        font-size: 2.5rem;
+    }
+    
+    .payment-methods {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-body {
+        padding: 24px;
+    }
+    
+    .membership-details-card {
+        padding: 20px;
+    }
+}
+
+/* Subtle Animation */
+.membership-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.membership-card:nth-child(1) { animation-delay: 0.1s; }
+.membership-card:nth-child(2) { animation-delay: 0.2s; }
+.membership-card:nth-child(3) { animation-delay: 0.3s; }
+.membership-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Focus states for accessibility */
+.btn-membership:focus {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+}
+
+.payment-method:focus-within {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(254, 78, 68, 0.1);
+}
+
+/* Ensure proper card height alignment */
+.membership-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.card-body {
+    flex-grow: 1;
+}
+
+/* Enhanced Card Styling */
+.membership-card.popular .card-header {
+    background: linear-gradient(135deg, #fef7f7 0%, #fef2f2 100%);
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
+}
+
+/* Smooth Animations */
+.membership-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: slideInUp 0.6s ease forwards;
+}
+
+@keyframes slideInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.membership-card:nth-child(1) { animation-delay: 0.1s; }
+.membership-card:nth-child(2) { animation-delay: 0.2s; }
+.membership-card:nth-child(3) { animation-delay: 0.3s; }
+
+/* Focus States */
+.btn-membership:focus {
+    outline: 3px solid rgba(254, 78, 68, 0.3);
+    outline-offset: 2px;
+}
+
+.toggle-option:focus {
+    outline: 2px solid rgba(254, 78, 68, 0.5);
+    outline-offset: 2px;
+}
+
+/* Additional Brand Touches */
+/* .recommended-badge::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #9F0900;
+} */

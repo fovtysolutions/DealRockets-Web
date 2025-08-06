@@ -203,7 +203,7 @@
                     @if (!$solutions->isEmpty())
                         @foreach ($solutions as $solution)
                             <div class="item">
-                                <a href="{{ route('solutions.web', ['id' => $solution->id]) }}">
+                                <a href="{{ route('solutions.web', ['id' => $solution->id]) }}" style="width: 100%;">
                                     <div class="card image-wrapper shimmer">
                                         <img class="lazyload" data-src="/storage/{{ $solution->image }}"
                                             alt="Card Image">
@@ -238,7 +238,7 @@
                     @if (!$solutions->isEmpty())
                         @foreach ($solutions->reverse() as $solution)
                             <div class="item">
-                                <a href="{{ route('solutions.web', ['id' => $solution->id]) }}">
+                                <a href="{{ route('solutions.web', ['id' => $solution->id]) }}" style="width: 100%;">
                                     <div class="card image-wrapper shimmer">
                                         <img class="lazyload" data-src="/storage/{{ $solution->image }}"
                                             alt="Card Image">

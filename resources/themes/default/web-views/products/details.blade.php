@@ -461,7 +461,7 @@
                                             <div class="contact-left">
                                                 <h3>Contact Details</h3>
                                                 <div>
- <div class=" contact-details-div">
+                                                    <div class=" contact-details-div">
                                                     <div>
                                                         <p><strong>Address</strong>
                                                             <span class="contact-text">

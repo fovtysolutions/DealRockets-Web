@@ -54,38 +54,39 @@
                         </div>
                     </div>
                     <div class="product-details-col hidebelow926">
-                        <div style="display: flex;width: 100%;gap: 15px;">
-                            <table class="detail-table">
-                                <tr>
-                                    <td class="detail-label">Type</td>
-                                    <td class="detail-value text-truncate">{{ $seller->offer_type ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="detail-label">Terms</td>
-                                    <td class="detail-value text-truncate">{{ $seller->delivery_terms ?? 'N/A' }}</td>
-                                </tr>
-                            </table>
-                            <table class="detail-table">
-                                <tr>
-                                    <td class="detail-label">Payment</td>
-                                    <td class="detail-value text-truncate">{{ $seller->payment_option ?? 'N/A' }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="detail-label">Brand</td>
-                                    <td class="detail-value text-truncate">{{ $seller->brand ?? 'N/A' }}</td>
-                                </tr>
-                            </table>
-                            <table class="detail-table">
-                                <tr>
-                                    <td class="detail-label">Rate</td>
-                                    <td class="detail-value text-truncate">{{ $seller->rate ?? 'N/A' }} <span
-                                            class="unit">/Piece</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="detail-label">Size</td>
-                                    <td class="detail-value text-truncate">{{ $seller->size ?? 'N/A' }}</td>
-                                </tr>
-                            </table>
+                        <div class="details-flex-container">
+                            <!-- Left Column -->
+                            <div class="details-column">
+                                <div>
+                                    <p><strong class="detail-label-fixed">Type</strong>
+                                        <span class="contact-text">{{ $seller->offer_type ?? 'N/A' }}</span>
+                                    </p>
+                                    <p><strong class="detail-label-fixed">Terms</strong>
+                                        <span class="contact-text">{{ $seller->delivery_terms ?? 'N/A' }}</span>
+                                    </p>
+                                    <p><strong class="detail-label-fixed">Payment</strong>
+                                        <span class="contact-text">{{ $seller->payment_option ?? 'N/A' }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Column -->
+                            <div class="details-column">
+                                <div>
+                                    <p><strong class="detail-label-fixed1">Brand</strong>
+                                        <span class="contact-text">{{ $seller->brand ?? 'N/A' }}</span>
+                                    </p>
+                                    <p><strong class="detail-label-fixed1">Rate</strong>
+                                        <span class="contact-text">
+                                            {{ $seller->rate ?? 'N/A' }} 
+                                            <span class="unit">/Piece</span>
+                                        </span>
+                                    </p>
+                                    <p><strong class="detail-label-fixed1">Size</strong>
+                                        <span class="contact-text">{{ $seller->size ?? 'N/A' }}</span>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="hidebelow926 contact-seller-col">
@@ -96,6 +97,7 @@
                             $flagImage = 0;
                             if ($seller->role === 'seller') {
                                 $seller = \App\Models\Seller::find($seller->added_by);
+                                $sellerName = $seller->name ?? 'N/A';
                                 $shopName = $seller->shop->name ?? 'N/A';
                                 $shopAddress = $seller->shop->address ?? 'N/A';
                                 $countryDetails = \App\Utils\ChatManager::getCountryDetails($seller->country);
@@ -104,6 +106,7 @@
                                 }
                             } elseif ($seller->role === 'admin') {
                                 $shopName = 'Admin Shop';
+                                $sellerName = 'Admin';
                                 $shopAddress = 'Admin Address';
                             }
                         @endphp
@@ -113,10 +116,31 @@
                             $role = $userdata['role'] ?? null;
                         @endphp
                         <div>
-                            <button class="contact-btn" data-toggle="modal"
-                                data-target="#inquireButton{{ $seller->id }}">Contact Seller</button>
-                            <div class="seller-name">{{ $shopName }}</div>
-                            <div class="company-name">{{ $shopAddress }}</div>
+                            <div class="contact-right">
+                                <div class="contact-person">
+                                    <div class="text-end">
+                                        <p class="seller-name">
+                                            {{ $shopName }}
+                                        </p>
+                                        <p class="company-name">
+                                            {{ $sellerName }}
+                                        </p>
+                                    </div>
+                                    <div class="avatar-placeholder"></div>
+                                </div>
+
+                                <p><strong>Email:</strong>
+                                    @if (auth()->check())
+                                        <span class="contact-text">
+                                            {{ $shopInfoArray['company_profiles']->email ?? 'N/A' }}
+                                        </span>
+                                    @else
+                                        <button class="sign-in-btn">Sign In for Email</button>
+                                    @endif
+                                </p>
+                                <button class="contact-btn" data-toggle="modal"
+                                    data-target="#inquireButton{{ $seller->id }}">Contact Seller</button>
+                            </div>
                         </div>
                         <div>
                             <div class="lead-posted"

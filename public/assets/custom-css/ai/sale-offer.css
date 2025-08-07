@@ -12,6 +12,58 @@
     width: 100%;
 }
 
+.sale-offer-page .details-flex-container {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.sale-offer-page .details-column {
+    flex: 1;
+}
+
+.sale-offer-page .detail-label-fixed {
+    display: inline-block;
+    width: 63px;
+    font-weight: 400;
+    color: grey;
+}
+
+.sale-offer-page .detail-label-fixed1 {
+    display: inline-block;
+    width: 42px;
+    font-weight: 400;
+    color: grey;
+}
+
+.sale-offer-page .avatar-placeholder {
+    width: 80px;
+    height: 70px;
+    background-color: #e2e2e2;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.sale-offer-page .contact-person {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.sale-offer-page .sign-in-btn {
+    background-color: #FFEEED;
+    border: 1px solid #FE4E44;
+    color: #FE4E44;
+    padding: 3px 9px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.sale-offer-page .contact-text {
+    color: black;
+    font-weight: 500;
+}
+
 .sale-offer-page .sidebar-inner {
     background-color: white;
     min-height: 619px;
@@ -319,7 +371,7 @@
 
 /* Product Details Column */
 .sale-offer-page .product-details-col {
-    width: 60%;
+    width: 50%;
     align-content: center;
 }
 
@@ -377,7 +429,7 @@
 
 /* Contact Seller Column */
 .sale-offer-page .contact-seller-col {
-    width: 20%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/body.css')}}" />
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/custom-css/popup.css')}}" />
     <link rel="stylesheet" href="{{theme_asset(path: 'public/assets/front-end/css/home.css')}}" />
+    <link rel="stylesheet" href="{{theme_asset(path: 'public/assets/front-end/css/chatbot.css')}}" />
+    <link rel="stylesheet" href="{{theme_asset(path: 'public/assets/front-end/css/chatbot-widget.css')}}" />
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/owl.theme.default.min.css') }}">
 @endpush
@@ -49,6 +51,10 @@
     @include('web-views.partials._multistuff')
     @include('web-views.partials._top-sellers')
     @include('web-views.partials._order-now')
+    
+    {{-- Chatbot Widget --}}
+    @include('web-views.chatbot.widget')
+    
     {{-- @if(!auth('customer')->check())
         <div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true"
             data-bs-backdrop="static">
@@ -65,6 +71,7 @@
 @push('script')
     <script defer src="{{theme_asset(path: 'public/assets/front-end/js/owl.carousel.min.js')}}"></script>
     <script defer src="{{ theme_asset(path: 'public/assets/front-end/js/home.js') }}"></script>
+    <script defer src="{{ theme_asset(path: 'public/assets/front-end/js/chatbot.js') }}"></script>
     <script defer>
         $(document).ready(function () {
             const searchProductsBtn = $('#searchProducts');

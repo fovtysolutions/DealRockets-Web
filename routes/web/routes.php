@@ -105,6 +105,15 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
         Route::get('/', 'index')->name('home');
     });
 
+    // Chatbot routes
+    Route::controller(ChatbotController::class)->group(function () {
+        Route::get('chatbot', 'index')->name('chatbot');
+        Route::post('chatbot/message', 'processMessage')->name('chatbot.message');
+        Route::post('chatbot/submit-form', 'submitForm')->name('chatbot.submit-form');
+        Route::get('chatbot/conversation-history', 'getConversationHistory')->name('chatbot.history');
+        Route::post('chatbot/external-api', 'callExternalApi')->name('chatbot.external-api');
+    });
+
     Route::controller(WebController::class)->group(function () {
         Route::get('quick-view', 'getQuickView')->name('quick-view');
         Route::get('searched-products', 'getSearchedProducts')->name('searched-products');
@@ -677,3 +686,8 @@ Route::get('/get-subcategories-by-categories/{id}', [SolutionController::class, 
 Route::get('/get-categories', [SolutionController::class, 'getCategory'])->name('get-category');
 Route::get('/get-all-category-names',[SolutionController::class, 'getallcategoryname'])->name('get-all-category-names');
 Route::post('/mark-as-read',[ChatOtherController::class, 'markAsRead'])->name('markAsRead');
+
+// ==========================================
+// 🤖 CHATBOT ROUTES
+// ==========================================
+require __DIR__ . '/../chatbot.php';

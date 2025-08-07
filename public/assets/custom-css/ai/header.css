@@ -26,6 +26,12 @@
     gap: 3px;
 }
 
+.element-mobile .gradient-button {
+  background: linear-gradient(90deg, rgb(254, 78, 68), rgb(159, 9, 0));
+  border-radius: 25px;
+  border: unset;
+}
+
 .element-mobile .nav-label {
   font-size: 12.5px;
 }

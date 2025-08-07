@@ -561,6 +561,16 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                             hiring decisions easily.</span>
                                                     </div>
                                                 </li>
+                                                <li class="d-flex mb-3">
+                                                    <div class="leftclass pr-2">
+                                                        <i class="fa fa-user fa-lg text-danger"></i>
+                                                    </div>
+                                                    <div class="rightclass">
+                                                        <a href="/customer/auth/jobseeker-sign-in" class="text-decoration-none">
+                                                        <strong class="custom-dealrock-subhead">Job Seeker</strong></a><br>
+                                                        <span class="custom-dealrock-subtext">Sign In as Job Seeker.</span>
+                                                    </div>
+                                                </li>
                                             </ul>
 
                                             <div class="text-center mt-4">

@@ -687,4 +687,28 @@ class CustomerAuthController extends Controller
 
         return view('web-views.hire.register', compact("categories"));
     }
+
+    public function jobseeker_sign_in(Request $request)
+    {
+        $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
+        session()->put('keep_return_url', url()->previous());
+
+        if (auth('customer')->check() || auth('seller')->check() || auth('admin')->check()) {
+            return redirect()->route('home')->withIn('message', translate('you_are_already_logged_in'));
+        }
+
+        return theme_root_path() == 'default' ? view('web-views.hire.jobseeker.login', compact("categories")) : redirect()->route('home');
+    }
+
+    public function jobseeker_sign_up(Request $request)
+    {
+        $categories = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
+        session()->put('keep_return_url', url()->previous());
+
+        if (auth('customer')->check() || auth('seller')->check() || auth('admin')->check()) {
+            return redirect()->route('home')->with('message', translate('you_are_already_logged_in'));
+        }
+
+        return view('web-views.hire.jobseeker.register', compact("categories"));
+    }
 }

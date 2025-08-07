@@ -225,9 +225,20 @@ class ChatbotController extends Controller
             
             if (empty($keywords)) {
                 return [
-                    'message' => 'What product are you looking for? Please provide more details.',
-                    'type' => 'text',
-                    'metadata' => ['requires_input' => true]
+                    'message' => 'What product are you looking for? Please choose an option:',
+                    'type' => 'search_input',
+                    'metadata' => [
+                        'search_type' => 'product',
+                        'placeholder' => 'Enter product name or keywords...',
+                        'suggestions' => [
+                            'Electronics',
+                            'Fashion',
+                            'Home & Garden',
+                            'Sports',
+                            'Books',
+                            'Browse all categories'
+                        ]
+                    ]
                 ];
             }
 
@@ -239,7 +250,7 @@ class ChatbotController extends Controller
                 }
             })
             ->where('status', 1)
-            ->limit(5)
+            ->limit(10)
             ->get();
 
             if ($products->count() > 0) {
@@ -250,7 +261,9 @@ class ChatbotController extends Controller
                             'name' => $product->name,
                             'price' => $product->unit_price,
                             'image' => $product->thumbnail_full_url ?? '',
-                            'url' => route('product', $product->slug)
+                            'url' => route('product', $product->slug),
+                            'category' => $product->category->name ?? 'N/A',
+                            'rating' => $product->rating ?? 0
                         ];
                     } catch (\Exception $e) {
                         Log::error('Product mapping error: ' . $e->getMessage());
@@ -259,26 +272,54 @@ class ChatbotController extends Controller
                             'name' => $product->name,
                             'price' => $product->unit_price,
                             'image' => '',
-                            'url' => '#'
+                            'url' => '#',
+                            'category' => 'N/A',
+                            'rating' => 0
                         ];
                     }
                 });
 
                 return [
-                    'message' => "I found {$products->count()} products that match your search:",
-                    'type' => 'product_list',
+                    'message' => "I found {$products->count()} products matching '{$keywords[0]}':",
+                    'type' => 'product_grid',
                     'metadata' => [
                         'products' => $productList,
-                        'search_keywords' => $keywords
+                        'search_keywords' => $keywords,
+                        'total_found' => $products->count(),
+                        'actions' => [
+                            [
+                                'title' => 'Refine Search',
+                                'action' => 'search',
+                                'icon' => 'search'
+                            ],
+                            [
+                                'title' => 'Filter Results',
+                                'action' => 'filter',
+                                'icon' => 'filter'
+                            ],
+                            [
+                                'title' => 'Sort By',
+                                'action' => 'sort',
+                                'icon' => 'sort',
+                                'options' => ['Price: Low to High', 'Price: High to Low', 'Rating', 'Newest']
+                            ]
+                        ]
                     ]
                 ];
             }
 
             return [
-                'message' => "I couldn't find any products matching your search. Try different keywords or browse our categories.",
-                'type' => 'text',
+                'message' => "No products found for '{$keywords[0]}'. Would you like to try something else?",
+                'type' => 'no_results',
                 'metadata' => [
-                    'suggestions' => ['Browse categories', 'Popular products', 'Contact support']
+                    'search_term' => $keywords[0],
+                    'suggestions' => [
+                        'Try different keywords',
+                        'Browse categories',
+                        'Popular products',
+                        'Contact seller directly'
+                    ],
+                    'alternative_searches' => $this->getSimilarSearchSuggestions($keywords[0])
                 ]
             ];
 
@@ -286,11 +327,32 @@ class ChatbotController extends Controller
             Log::error('Product search error: ' . $e->getMessage());
             return [
                 'message' => 'Sorry, I encountered an error while searching for products. Please try again.',
-                'type' => 'text',
+                'type' => 'error',
                 'metadata' => [
+                    'error_type' => 'search_error',
                     'suggestions' => ['Try again', 'Browse categories', 'Contact support']
                 ]
             ];
+        }
+    }
+
+    private function getSimilarSearchSuggestions($searchTerm)
+    {
+        // Get popular products or categories that might be similar
+        try {
+            $categories = Category::where('name', 'LIKE', "%{$searchTerm}%")
+                                ->orWhere('name', 'LIKE', "%{substr($searchTerm, 0, 3)}%")
+                                ->limit(3)
+                                ->pluck('name')
+                                ->toArray();
+            
+            if (empty($categories)) {
+                $categories = ['Electronics', 'Fashion', 'Home & Garden'];
+            }
+            
+            return $categories;
+        } catch (\Exception $e) {
+            return ['Electronics', 'Fashion', 'Home & Garden'];
         }
     }
 
@@ -1194,11 +1256,11 @@ class ChatbotController extends Controller
     public function handleLeadManagement($message, $userId)
     {
         if (preg_match('/\b(post|create|add)\b.*\b(buy|purchase|requirement)\b/i', $message)) {
-            return $this->getBuyLeadForm();
+            return $this->getBuyRequirementFlow();
         }
         
         if (preg_match('/\b(post|create|add)\b.*\b(sell|offer|supply)\b/i', $message)) {
-            return $this->getSellOfferForm();
+            return $this->getSellOfferFlow();
         }
         
         if (preg_match('/\b(my|view)\b.*\b(leads|requirements|offers)\b/i', $message)) {
@@ -1206,63 +1268,76 @@ class ChatbotController extends Controller
         }
 
         return [
-            'message' => "I can help you with lead management. What would you like to do?",
-            'type' => 'text',
+            'message' => 'I can help you with lead management. What would you like to do?',
+            'type' => 'selection',
             'metadata' => [
-                'suggestions' => [
-                    'Post buy requirement',
-                    'Post sell offer',
-                    'View my leads',
-                    'Lead status'
+                'title' => 'Lead Management Options',
+                'options' => [
+                    [
+                        'id' => 'post_buy',
+                        'title' => 'Post Buy Requirement',
+                        'description' => 'Create a new buy requirement',
+                        'action' => 'form',
+                        'url' => route('chatbot.leads.buy-form')
+                    ],
+                    [
+                        'id' => 'post_sell',
+                        'title' => 'Post Sell Offer',
+                        'description' => 'Create a new sell offer',
+                        'action' => 'form',
+                        'url' => route('chatbot.leads.sell-form')
+                    ],
+                    [
+                        'id' => 'view_leads',
+                        'title' => 'View My Leads',
+                        'description' => 'See all your posted leads',
+                        'action' => 'view',
+                        'url' => route('chatbot.leads.my-leads')
+                    ],
+                    [
+                        'id' => 'search_leads',
+                        'title' => 'Search Leads',
+                        'description' => 'Find relevant buy/sell leads',
+                        'action' => 'search'
+                    ]
                 ]
             ]
         ];
     }
 
-    private function getBuyLeadForm()
+    private function getBuyRequirementFlow()
     {
         return [
-            'message' => "I'll help you post a buy requirement. Please provide the following information:",
-            'type' => 'form',
+            'message' => 'I\'ll help you post a buy requirement. Please fill out this form:',
+            'type' => 'form_redirect',
             'metadata' => [
-                'form_type' => 'buy_lead',
-                'fields' => [
-                    ['name' => 'name', 'label' => 'Your Name', 'type' => 'text', 'required' => true],
-                    ['name' => 'product_name', 'label' => 'Product Name', 'type' => 'text', 'required' => true],
-                    ['name' => 'quantity_required', 'label' => 'Quantity Required', 'type' => 'text', 'required' => true],
-                    ['name' => 'details', 'label' => 'Detailed Requirements', 'type' => 'textarea', 'required' => true],
-                    ['name' => 'contact_number', 'label' => 'Contact Number', 'type' => 'text', 'required' => true],
-                    ['name' => 'country', 'label' => 'Country', 'type' => 'select', 'required' => true],
-                    ['name' => 'city', 'label' => 'City', 'type' => 'text', 'required' => false],
-                    ['name' => 'buying_frequency', 'label' => 'Buying Frequency', 'type' => 'select', 
-                     'options' => ['One Time', 'Monthly', 'Quarterly', 'Yearly']],
-                    ['name' => 'unit', 'label' => 'Unit', 'type' => 'text', 'required' => false]
-                ]
+                'form_url' => route('chatbot.leads.buy-form'),
+                'form_title' => 'Post Buy Requirement',
+                'description' => 'Fill out the details for what you want to buy',
+                'suggestions' => ['Fill form now', 'Get help', 'Cancel']
             ]
         ];
     }
 
-    private function getSellOfferForm()
+    private function getSellOfferFlow()
     {
         return [
-            'message' => "I'll help you post a sell offer. Please provide the following information:",
-            'type' => 'form',
+            'message' => 'I\'ll help you post a sell offer. Please fill out this form:',
+            'type' => 'form_redirect',
             'metadata' => [
-                'form_type' => 'sell_offer',
-                'fields' => [
-                    ['name' => 'name', 'label' => 'Your Name', 'type' => 'text', 'required' => true],
-                    ['name' => 'product_name', 'label' => 'Product Name', 'type' => 'text', 'required' => true],
-                    ['name' => 'avl_stock', 'label' => 'Available Stock', 'type' => 'text', 'required' => true],
-                    ['name' => 'details', 'label' => 'Product Details', 'type' => 'textarea', 'required' => true],
-                    ['name' => 'contact_number', 'label' => 'Contact Number', 'type' => 'text', 'required' => true],
-                    ['name' => 'country', 'label' => 'Country', 'type' => 'select', 'required' => true],
-                    ['name' => 'city', 'label' => 'City', 'type' => 'text', 'required' => false],
-                    ['name' => 'rate', 'label' => 'Rate/Price', 'type' => 'number', 'required' => false],
-                    ['name' => 'unit', 'label' => 'Unit', 'type' => 'text', 'required' => false]
-                ]
+                'form_url' => route('chatbot.leads.sell-form'),
+                'form_title' => 'Post Sell Offer',
+                'description' => 'Fill out the details for what you want to sell',
+                'suggestions' => ['Fill form now', 'Get help', 'Cancel']
             ]
         ];
     }
+
+
+
+
+
+
 
     private function viewMyLeads($userId)
     {
@@ -1336,11 +1411,11 @@ class ChatbotController extends Controller
     public function handleJobInquiry($message, $userId)
     {
         if (preg_match('/\b(search|find|look)\b.*\b(job|career|vacancy)\b/i', $message)) {
-            return $this->searchJobs($message);
+            return $this->getJobSearchFlow();
         }
         
         if (preg_match('/\b(post|create|add)\b.*\b(job|vacancy|hiring)\b/i', $message)) {
-            return $this->getJobPostingForm();
+            return $this->getJobPostFlow();
         }
         
         if (preg_match('/\b(apply|application)\b/i', $message)) {
@@ -1348,18 +1423,73 @@ class ChatbotController extends Controller
         }
 
         return [
-            'message' => "I can help you with job-related queries. What are you looking for?",
-            'type' => 'text',
+            'message' => 'I can help you with job-related queries. What would you like to do?',
+            'type' => 'selection',
             'metadata' => [
-                'suggestions' => [
-                    'Search jobs',
-                    'Post job vacancy',
-                    'My applications',
-                    'Job categories'
+                'title' => 'Job & Career Options',
+                'options' => [
+                    [
+                        'id' => 'search_jobs',
+                        'title' => 'Search Jobs',
+                        'description' => 'Find job opportunities',
+                        'action' => 'form',
+                        'url' => route('chatbot.jobs.search-form')
+                    ],
+                    [
+                        'id' => 'post_job',
+                        'title' => 'Post Job Vacancy',
+                        'description' => 'Post a new job opening',
+                        'action' => 'form',
+                        'url' => route('chatbot.jobs.post-form')
+                    ],
+                    [
+                        'id' => 'my_applications',
+                        'title' => 'My Applications',
+                        'description' => 'View your job applications',
+                        'action' => 'view'
+                    ],
+                    [
+                        'id' => 'job_categories',
+                        'title' => 'Browse Categories',
+                        'description' => 'Explore job categories',
+                        'action' => 'browse'
+                    ]
                 ]
             ]
         ];
     }
+
+    private function getJobSearchFlow()
+    {
+        return [
+            'message' => 'I\'ll help you search for jobs. Please specify your preferences:',
+            'type' => 'form_redirect',
+            'metadata' => [
+                'form_url' => route('chatbot.jobs.search-form'),
+                'form_title' => 'Job Search',
+                'description' => 'Find jobs that match your skills and preferences',
+                'suggestions' => ['Search now', 'Browse categories', 'Cancel']
+            ]
+        ];
+    }
+
+    private function getJobPostFlow()
+    {
+        return [
+            'message' => 'I\'ll help you post a job vacancy. Please fill out the job details:',
+            'type' => 'form_redirect',
+            'metadata' => [
+                'form_url' => route('chatbot.jobs.post-form'),
+                'form_title' => 'Post Job Vacancy',
+                'description' => 'Create a new job posting to find the right candidates',
+                'suggestions' => ['Post job now', 'Get help', 'Cancel']
+            ]
+        ];
+    }
+
+
+
+
 
     private function searchJobs($message)
     {
@@ -1452,61 +1582,103 @@ class ChatbotController extends Controller
     public function handleDealAssist($message, $userId)
     {
         if (preg_match('/\b(negotiate|bargain|price)\b/i', $message)) {
-            return $this->getNegotiationForm();
+            return $this->getNegotiationFlow();
         }
         
         if (preg_match('/\b(deal|assistance|help)\b/i', $message)) {
-            return $this->getDealAssistForm();
+            return $this->getDealAssistFlow();
         }
 
         return [
-            'message' => "I can help you with deal assistance and negotiations. What do you need help with?",
-            'type' => 'text',
+            'message' => 'I can help you with deal assistance and negotiations. What would you like to do?',
+            'type' => 'selection',
             'metadata' => [
-                'suggestions' => [
-                    'Request negotiation',
-                    'Deal assistance',
-                    'Track negotiation',
-                    'Contact support'
+                'title' => 'Deal Assistance Options',
+                'options' => [
+                    [
+                        'id' => 'start_negotiation',
+                        'title' => 'Start Negotiation',
+                        'description' => 'Begin price negotiation for a product',
+                        'action' => 'form',
+                        'url' => route('chatbot.deals.negotiate-form')
+                    ],
+                    [
+                        'id' => 'track_negotiations',
+                        'title' => 'Track My Negotiations',
+                        'description' => 'View status of ongoing negotiations',
+                        'action' => 'view'
+                    ],
+                    [
+                        'id' => 'custom_offer',
+                        'title' => 'Send Custom Offer',
+                        'description' => 'Make a custom price offer',
+                        'action' => 'form'
+                    ],
+                    [
+                        'id' => 'price_inquiry',
+                        'title' => 'Price Inquiry',
+                        'description' => 'Ask about product pricing',
+                        'action' => 'search'
+                    ]
                 ]
             ]
         ];
     }
 
-    private function getNegotiationForm()
+    private function getNegotiationFlow()
     {
         return [
-            'message' => "I'll help you negotiate a deal. Please provide the details:",
-            'type' => 'form',
+            'message' => 'I\'ll help you start a price negotiation. Please provide the details:',
+            'type' => 'form_redirect',
             'metadata' => [
-                'form_type' => 'negotiation',
-                'fields' => [
-                    ['name' => 'deal_id', 'label' => 'Product/Deal ID', 'type' => 'number', 'required' => true],
-                    ['name' => 'offered_price', 'label' => 'Your Offered Price', 'type' => 'number', 'required' => true],
-                    ['name' => 'negotiation_type', 'label' => 'Negotiation Type', 'type' => 'select', 
-                     'options' => ['price', 'quantity', 'terms'], 'required' => true],
-                    ['name' => 'message', 'label' => 'Additional Message', 'type' => 'textarea', 'required' => false]
+                'form_url' => route('chatbot.deals.negotiate-form'),
+                'form_title' => 'Start Price Negotiation',
+                'description' => 'Negotiate the best price for your desired product',
+                'suggestions' => ['Start negotiation', 'Get tips', 'Cancel']
+            ]
+        ];
+    }
+
+    private function getDealAssistFlow()
+    {
+        return [
+            'message' => 'I can provide various deal assistance services. What do you need help with?',
+            'type' => 'selection',
+            'metadata' => [
+                'title' => 'Deal Assistance Services',
+                'options' => [
+                    [
+                        'id' => 'price_comparison',
+                        'title' => 'Price Comparison',
+                        'description' => 'Compare prices across different sellers',
+                        'action' => 'search'
+                    ],
+                    [
+                        'id' => 'bulk_discount',
+                        'title' => 'Bulk Discount Inquiry',
+                        'description' => 'Ask about bulk purchase discounts',
+                        'action' => 'form'
+                    ],
+                    [
+                        'id' => 'payment_terms',
+                        'title' => 'Payment Terms',
+                        'description' => 'Negotiate payment terms',
+                        'action' => 'form'
+                    ],
+                    [
+                        'id' => 'deal_alerts',
+                        'title' => 'Deal Alerts',
+                        'description' => 'Set up alerts for price drops',
+                        'action' => 'form'
+                    ]
                 ]
             ]
         ];
     }
 
-    private function getDealAssistForm()
-    {
-        return [
-            'message' => "I'll help you with deal assistance. Please describe your issue:",
-            'type' => 'form',
-            'metadata' => [
-                'form_type' => 'deal_assist',
-                'fields' => [
-                    ['name' => 'deal_id', 'label' => 'Deal/Product ID', 'type' => 'number', 'required' => false],
-                    ['name' => 'issue', 'label' => 'Describe Your Issue', 'type' => 'textarea', 'required' => true],
-                    ['name' => 'contact_preference', 'label' => 'Preferred Contact Method', 'type' => 'select', 
-                     'options' => ['Email', 'Phone', 'Chat']]
-                ]
-            ]
-        ];
-    }
+
+
+
 
     // ==========================================
     // 🧾 5. MEMBERSHIP & SUBSCRIPTIONS
@@ -1515,11 +1687,11 @@ class ChatbotController extends Controller
     public function handleMembershipInquiry($message, $userId)
     {
         if (preg_match('/\b(plans|pricing|membership)\b/i', $message)) {
-            return $this->showMembershipPlansResponse();
+            return $this->getMembershipPlansFlow();
         }
         
         if (preg_match('/\b(upgrade|subscribe)\b/i', $message)) {
-            return $this->getMembershipUpgradeForm();
+            return $this->getMembershipUpgradeFlow();
         }
         
         if (preg_match('/\b(status|current|my)\b.*\b(membership|subscription)\b/i', $message)) {
@@ -1527,34 +1699,110 @@ class ChatbotController extends Controller
         }
 
         return [
-            'message' => "I can help you with membership and subscription queries. What would you like to know?",
-            'type' => 'text',
+            'message' => 'I can help you with membership and subscription queries. What would you like to do?',
+            'type' => 'selection',
             'metadata' => [
-                'suggestions' => [
-                    'View membership plans',
-                    'Compare features',
-                    'Upgrade membership',
-                    'My membership status'
+                'title' => 'Membership & Subscription Options',
+                'options' => [
+                    [
+                        'id' => 'view_plans',
+                        'title' => 'View Membership Plans',
+                        'description' => 'See all available membership plans',
+                        'action' => 'view',
+                        'url' => route('chatbot.membership.plans')
+                    ],
+                    [
+                        'id' => 'compare_features',
+                        'title' => 'Compare Features',
+                        'description' => 'Compare features across plans',
+                        'action' => 'view',
+                        'url' => route('chatbot.membership.compare')
+                    ],
+                    [
+                        'id' => 'upgrade_membership',
+                        'title' => 'Upgrade Membership',
+                        'description' => 'Upgrade to a higher plan',
+                        'action' => 'form',
+                        'url' => route('chatbot.membership.upgrade-form')
+                    ],
+                    [
+                        'id' => 'membership_status',
+                        'title' => 'My Membership Status',
+                        'description' => 'View your current membership details',
+                        'action' => 'view'
+                    ]
                 ]
             ]
         ];
     }
 
-    private function showMembershipPlansResponse()
+    private function getMembershipPlansFlow()
     {
         return [
-            'message' => "Here are our membership plans:",
+            'message' => 'Here are our membership plans with detailed features:',
             'type' => 'membership_plans',
             'metadata' => [
                 'plans' => [
-                    ['name' => 'Basic', 'price' => 'Free', 'features' => ['5 Products', '2 Leads', 'Basic Support']],
-                    ['name' => 'Premium', 'price' => '$29/month', 'features' => ['50 Products', '20 Leads', 'Priority Support', 'Analytics']],
-                    ['name' => 'Enterprise', 'price' => '$99/month', 'features' => ['Unlimited Products', 'Unlimited Leads', '24/7 Support', 'Advanced Analytics']]
+                    [
+                        'id' => 'basic',
+                        'name' => 'Basic',
+                        'price' => 'Free',
+                        'duration' => 'Forever',
+                        'features' => ['5 Products', '2 Leads', 'Basic Support', 'Standard Listing'],
+                        'limitations' => ['Limited visibility', 'No analytics', 'Email support only']
+                    ],
+                    [
+                        'id' => 'premium',
+                        'name' => 'Premium',
+                        'price' => '$29',
+                        'duration' => 'per month',
+                        'features' => ['50 Products', '20 Leads', 'Priority Support', 'Analytics Dashboard', 'Featured Listings'],
+                        'limitations' => ['Monthly billing', 'Standard API access']
+                    ],
+                    [
+                        'id' => 'enterprise',
+                        'name' => 'Enterprise',
+                        'price' => '$99',
+                        'duration' => 'per month',
+                        'features' => ['Unlimited Products', 'Unlimited Leads', '24/7 Support', 'Advanced Analytics', 'Custom Branding', 'API Access'],
+                        'limitations' => ['Annual commitment recommended']
+                    ]
                 ],
-                'suggestions' => ['Compare features', 'Upgrade now', 'Contact sales']
+                'actions' => [
+                    [
+                        'title' => 'Compare Plans',
+                        'action' => 'compare',
+                        'url' => route('chatbot.membership.compare')
+                    ],
+                    [
+                        'title' => 'Upgrade Now',
+                        'action' => 'form',
+                        'url' => route('chatbot.membership.upgrade-form')
+                    ],
+                    [
+                        'title' => 'Contact Sales',
+                        'action' => 'contact'
+                    ]
+                ]
             ]
         ];
     }
+
+    private function getMembershipUpgradeFlow()
+    {
+        return [
+            'message' => 'I\'ll help you upgrade your membership. Please select your preferred plan:',
+            'type' => 'form_redirect',
+            'metadata' => [
+                'form_url' => route('chatbot.membership.upgrade-form'),
+                'form_title' => 'Upgrade Membership',
+                'description' => 'Choose your new membership plan and payment method',
+                'suggestions' => ['Upgrade now', 'Compare plans', 'Cancel']
+            ]
+        ];
+    }
+
+
 
     private function viewMembershipStatus($userId)
     {
@@ -1574,23 +1822,6 @@ class ChatbotController extends Controller
                 'status' => 'active',
                 'features' => ['5 Products', '2 Leads', 'Basic Support'],
                 'suggestions' => ['Upgrade membership', 'View usage', 'Billing history']
-            ]
-        ];
-    }
-
-    private function getMembershipUpgradeForm()
-    {
-        return [
-            'message' => "I'll help you upgrade your membership. Please select a plan:",
-            'type' => 'form',
-            'metadata' => [
-                'form_type' => 'membership_upgrade',
-                'fields' => [
-                    ['name' => 'plan_id', 'label' => 'Select Plan', 'type' => 'select', 
-                     'options' => ['premium' => 'Premium ($29/month)', 'enterprise' => 'Enterprise ($99/month)'], 'required' => true],
-                    ['name' => 'payment_method', 'label' => 'Payment Method', 'type' => 'select', 
-                     'options' => ['Credit Card', 'PayPal', 'Bank Transfer'], 'required' => true]
-                ]
             ]
         ];
     }
@@ -3063,6 +3294,52 @@ class ChatbotController extends Controller
             Log::error('List Supported Languages Error: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Failed to load languages'], 500);
         }
+    }
+
+    // ==========================================
+    // 📝 FORM REDIRECT METHODS FOR 3-LEVEL FLOW
+    // ==========================================
+
+    public function getBuyLeadForm()
+    {
+        // Redirect to existing RFQ/Quotation form
+        return redirect()->route('quotationweb');
+    }
+
+    public function getSellOfferForm()
+    {
+        // Redirect to existing sell offer form or vendor registration
+        return redirect()->route('vendor.auth.registration');
+    }
+
+    public function getJobSearchForm()
+    {
+        // Redirect to existing job search page
+        return redirect()->route('jobseeker');
+    }
+
+    public function getJobPostForm()
+    {
+        // Redirect to existing job posting page
+        return redirect()->route('job-panel');
+    }
+
+    public function getNegotiationForm()
+    {
+        // Redirect to deal assist page
+        return redirect()->route('dealassist');
+    }
+
+    public function getSupportTicketForm()
+    {
+        // Redirect to existing support ticket system
+        return redirect()->route('account-tickets');
+    }
+
+    public function getBusinessDetailsForm()
+    {
+        // Redirect to existing profile update page
+        return redirect()->route('user-profile');
     }
 
 }

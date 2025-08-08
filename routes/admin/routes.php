@@ -290,6 +290,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::get(Product::PRODUCT_GALLERY[URI], 'getProductGalleryView')->name('product-gallery');
             Route::get(Product::STOCK_LIMIT_STATUS[URI] . '/{type}', 'getStockLimitStatus')->name('stock-limit-status');
             Route::post(Product::DELETE_PREVIEW_FILE[URI], 'deletePreviewFile')->name('delete-preview-file');
+            Route::get('search-hs-codes', 'searchHsCodes')->name('search-hs-codes');
         });
     });
 
@@ -1207,6 +1208,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::post('leads/update' . '/{id}', [LeadsController::class, 'update'])->name('leads.update');
     Route::delete('leads/delete' . '/{id}', [LeadsController::class, 'delete'])->name('leads.delete');
     Route::get('leads/get-messages', [LeadsController::class, 'getMessages'])->name('leads.get-messages');
+    Route::get('leads/search-hs-codes', [LeadsController::class, 'searchHsCodes'])->name('leads.search-hs-codes');
 
     // Admin Tradeshow
     Route::get(Tradeshow::ADD[URI], [TradeshowController::class, 'add_new'])->name('add-new-tradeshow');

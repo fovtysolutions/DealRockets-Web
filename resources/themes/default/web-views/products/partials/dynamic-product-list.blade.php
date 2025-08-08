@@ -1,4 +1,4 @@
-@foreach ($products as $item)
+@foreach ($products as $index => $item)
     <div class="product-card1 d-flex" onclick="window.location='{{ route('product', $item->slug) }}';">
          <!-- <a href="{{ route('product', $item->slug) }}" style="width: 100%;"></a> -->
             <div class="imagebox ">
@@ -12,6 +12,15 @@
                                 $isFavourite = false;
                             }
                             $vendorExtra = \App\Models\VendorExtraDetail::where('seller_id', $item->user_id)->first();
+                            $memberCheck = \App\Utils\ChatManager::checkifMember($item->added_by, $item->user_id);
+                            if ($item->added_by == 'seller') {
+                                $seller = \App\Models\Seller::find($item->user_id);
+                                $shopName = $seller->shop->name ?? 'N/A';
+                                $shopAddress = $seller->shop->address ?? 'N/A';
+                            } elseif ($item->added_by == 'admin') {
+                                $shopName = 'Admin Shop';
+                                $shopAddress = 'Admin Address';
+                            }
                         @endphp
                         @if (auth('customer')->user())
                             <img class="heart favourite-img" onclick="makeFavourite(this)" data-id="{{ $item->id }}"onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" 
@@ -30,21 +39,53 @@
                     alt="Sample Product" class="product-image1">
             </div>
             <div class="product-info1">
-                <div class="d-flex justify-content-between">
-                    @if ($item->badge)
-                        <p class="new">{{ $item->badge }}</p>
+                @if (Carbon\Carbon::parse($item->created_at)->gt(Carbon\Carbon::now()->subDays(30)))
+                    <div class="d-flex justify-content-between" style="align-items: center; padding-bottom: 11px;">
+                        <p class="new">New</p>
+                        <div class="rating">
+                            <span style="font-size: 12px;">
+                                <i class="bi bi-star-fill start-rating" style="color: #ffbb00;font-size: 14px !important;"></i>
+                                @php
+                                    $overallRating = getOverallRating($item->reviews);
+                                @endphp
+                                {{ $overallRating[0] }}/5
+                            </span>
+                        </div>
+                    </div>
+                @else
+                    <div class="d-flex justify-content-between" style="align-items: center; padding-bottom: 11px;">
+                        @if ($item->badge)
+                            <p class="new">{{ $item->badge }}</p>
+                        @else
+                            <div></div>
+                        @endif
+                        <div class="rating">
+                            <span style="font-size: 12px;">
+                                <i class="bi bi-star-fill start-rating" style="color: #ffbb00;font-size: 14px !important;"></i>
+                                @php
+                                    $overallRating = getOverallRating($item->reviews);
+                                @endphp
+                                {{ $overallRating[0] }}/5
+                            </span>
+                        </div>
+                    </div>
+                @endif
+                <h3 class="product-title product-title1 text-truncate" style="height: 1rem; margin-bottom: 5px; font-size: 16px; display:flex; justify-content:space-between;">
+                    {{ $item->name }}
+                    @if ($item->origin)
+                        @php
+                            $countryDetails = \App\Utils\ChatManager::getCountryDetails($item->origin);
+                        @endphp
+                        @if ($countryDetails)
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
+                                    class="flag-icon" alt="{{ $countryDetails['countryName'] }} flag" 
+                                    style="width: 17px;" />
+                                <span>{{ $countryDetails['countryName'] }}</span>
+                            </div>
+                        @endif
                     @endif
-                    <!-- {{-- <div class="rating">
-                        <span style="font-size: 12px;">
-                            <i class="bi bi-star-fill start-rating text-warning"></i>
-                            @php
-                                $overallRating = getOverallRating($item->reviews);
-                            @endphp
-                            {{ $overallRating[0] }}/5
-                        </span>
-                    </div> --}} -->
-                </div>
-                <h3 class="product-title product-title1 text-truncate" style="height: 1rem; margin-bottom: 5px; font-size: 16px;">{{ $item->name }}</h3>
+                </h3>
                 <div class="product-price product-price1" style="font-size: 18px;">
                     ${{ number_format($item->unit_price, 2, '.', ',') }} <span
                         style="color: #515050; font-size: 14px; font-weight: 400;"> / {{ $item->unit }}</span></div>
@@ -53,17 +94,8 @@
                 <div class="product-subtitle" style="margin-bottom: 10px;color: #555 !important; font-size: 14px !important;">
                     {{ $item->short_details }}
                 </div>
-                @php
-                    $memberCheck = \App\Utils\ChatManager::checkifMember($item->added_by, $item->user_id);
-                    if ($item->added_by == 'seller') {
-                        $seller = \App\Models\Seller::find($item->user_id);
-                        $shopName = $seller->shop->name ?? 'N/A';
-                        $shopAddress = $seller->shop->address ?? 'N/A';
-                    } elseif ($item->added_by == 'admin') {
-                        $shopName = 'Admin Shop';
-                        $shopAddress = 'Admin Address';
-                    }
-                @endphp
+                
+                {{-- Business type information like grid view --}}
                 {{-- <div class="lead-details-table">
                     <table class="detail-table">
                         <tr>
@@ -120,4 +152,17 @@
             </div>
         <!-- </a> -->
     </div>
+
+    {{-- ✅ Vendor Ad after every 6 products --}}
+    @if (($index + 1) % 6 === 0)
+        <div class="vendor-ad-list" style="width: 100%; margin: 20px 0; border-radius: 8px; overflow: hidden;">
+            <a href="javascript:0" style="display: block; width: 100%; height: 200px;">
+                <img src="/images/vendor-ad-placeholder.jpg" 
+                     style="width: 100%; height: 100%; object-fit: cover;" 
+                     alt="Vendor Ad"
+                     onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" 
+                     class="img-fluid">
+            </a>
+        </div>
+    @endif
 @endforeach

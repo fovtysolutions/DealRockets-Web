@@ -13,6 +13,24 @@
     <meta property="twitter:description"
         content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)), 0, 160) }}">
     <link rel="stylesheet" href="{{ asset('assets/custom-css/ai/marketplace-list.css') }}" />
+    
+    <style>
+        /* Hierarchical Category Styling - Minimal spacing only */
+        .hierarchical-category-list .filter-label {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        
+        /* Simple indentation */
+        .sub-category-item .filter-label {
+            padding-left: 15px;
+        }
+        
+        .sub-sub-category-item .filter-label {
+            padding-left: 30px;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -131,28 +149,71 @@
                             </div>
                         </div>
 
-                        <!-- Filter By Category Section -->
+                        <!-- Hierarchical Category Filter Section -->
                         <div class="filter-section togglebelow768">
                             <div class="search-label">Search by Category</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
-                                    <input type="text" name="industry_search" placeholder="Enter Category..."
-                                        class="search-filter" data-target="#categorycheckbox"
-                                        value="{{ request('industry_search') }}" />
+                                    <input type="text" name="category_search" placeholder="Search categories..."
+                                        class="search-filter" data-target="#hierarchicalcategory"
+                                        value="{{ request('category_search') }}" />
                                     <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/1198a3d1d34d3e698d6d5a08e6c9133273758e48?placeholderIfAbsent=true"
                                         class="search-icon" alt="Search icon" />
                                 </div>
                             </div>
 
-                            <div class="category-list filter-options checkbox-list" id="categorycheckbox">
-                                @foreach ($categories as $industry)
-                                    <div class="checkbox-item">
+                            <div class="hierarchical-category-list filter-options checkbox-list" id="hierarchicalcategory">
+                                @foreach ($categories as $mainCategory)
+                                    <!-- Main Category -->
+                                    <div class="checkbox-item main-category-item" data-category-id="{{ $mainCategory->id }}">
                                         <label class="filter-checkbox category-option filter-item">
-                                            <input type="checkbox" name="industry[]" value="{{ $industry->id }}"
-                                                {{ in_array($industry->id, request('industry', [])) ? 'checked' : '' }} />
-                                            <div class="filter-label">{{ $industry->name }}</div>
+                                            <input type="checkbox" name="industry[]" value="{{ $mainCategory->id }}"
+                                                {{ in_array($mainCategory->id, request('industry', [])) ? 'checked' : '' }}
+                                                onchange="toggleSubCategories({{ $mainCategory->id }})" />
+                                            <div class="filter-label">
+                                                {{ $mainCategory->name }}
+                                            </div>
                                         </label>
                                     </div>
+
+                                    <!-- Sub Categories (initially hidden) -->
+                                    @foreach ($mainCategory->childes as $subCategory)
+                                        @php
+                                            $parentChecked = in_array($mainCategory->id, request('industry', []));
+                                            $displayStyle = $parentChecked ? 'display: flex !important;' : 'display: none !important;';
+                                        @endphp
+                                        <div class="checkbox-item sub-category-item" 
+                                             data-parent-id="{{ $mainCategory->id }}" 
+                                             data-sub-category-id="{{ $subCategory->id }}"
+                                             style="{{ $displayStyle }}">
+                                            <label class="filter-checkbox sub-category-option filter-item">
+                                                <input type="checkbox" name="sub_category[]" value="{{ $subCategory->id }}"
+                                                    {{ in_array($subCategory->id, request('sub_category', [])) ? 'checked' : '' }}
+                                                    onchange="toggleSubSubCategories({{ $subCategory->id }})" />
+                                                <div class="filter-label">
+                                                    {{ $subCategory->name }}
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <!-- Sub Sub Categories (initially hidden) -->
+                                        @foreach ($subCategory->childes as $subSubCategory)
+                                            @php
+                                                $subParentChecked = in_array($subCategory->id, request('sub_category', []));
+                                                $mainParentChecked = in_array($mainCategory->id, request('industry', []));
+                                                $subSubDisplayStyle = ($parentChecked && $subParentChecked) ? 'display: flex !important;' : 'display: none !important;';
+                                            @endphp
+                                            <div class="checkbox-item sub-sub-category-item" 
+                                                 data-sub-parent-id="{{ $subCategory->id }}"
+                                                 style="{{ $subSubDisplayStyle }}">
+                                                <label class="filter-checkbox sub-sub-category-option filter-item">
+                                                    <input type="checkbox" name="sub_sub_category[]" value="{{ $subSubCategory->id }}"
+                                                        {{ in_array($subSubCategory->id, request('sub_sub_category', [])) ? 'checked' : '' }} />
+                                                    <div class="filter-label">{{ $subSubCategory->name }}</div>
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    @endforeach
                                 @endforeach
                             </div>
                         </div>
@@ -327,6 +388,11 @@
                     $("#productList").html(response.html2);
                     $("#paginationControls").html(response.pagination);
                     $("#dynamicLoader").css("display", "none");
+                    
+                    // Maintain category hierarchy after AJAX load
+                    if (typeof maintainCategoryHierarchy === 'function') {
+                        maintainCategoryHierarchy();
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error("Error:", error);
@@ -334,5 +400,76 @@
                 },
             });
         }
+
+        // Toggle sub-categories when main category is selected
+        function toggleSubCategories(categoryId) {
+            const subCategories = document.querySelectorAll(`[data-parent-id="${categoryId}"]`);
+            const isChecked = document.querySelector(`input[name="industry[]"][value="${categoryId}"]`).checked;
+            
+            subCategories.forEach(function(subCategory) {
+                if (isChecked) {
+                    subCategory.style.setProperty('display', 'flex', 'important');
+                } else {
+                    subCategory.style.setProperty('display', 'none', 'important');
+                    
+                    // Also hide all sub-sub-categories and uncheck sub-categories
+                    const subCategoryInput = subCategory.querySelector('input[type="checkbox"]');
+                    if (subCategoryInput) {
+                        subCategoryInput.checked = false;
+                        const subCategoryId = subCategoryInput.value;
+                        const subSubCategories = document.querySelectorAll(`[data-sub-parent-id="${subCategoryId}"]`);
+                        subSubCategories.forEach(function(subSubCategory) {
+                            subSubCategory.style.setProperty('display', 'none', 'important');
+                            const subSubInput = subSubCategory.querySelector('input[type="checkbox"]');
+                            if (subSubInput) {
+                                subSubInput.checked = false;
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        // Toggle sub-sub-categories when sub-category is selected  
+        function toggleSubSubCategories(subCategoryId) {
+            const subSubCategories = document.querySelectorAll(`[data-sub-parent-id="${subCategoryId}"]`);
+            const isChecked = document.querySelector(`input[name="sub_category[]"][value="${subCategoryId}"]`).checked;
+            
+            subSubCategories.forEach(function(subSubCategory) {
+                if (isChecked) {
+                    subSubCategory.style.setProperty('display', 'flex', 'important');
+                } else {
+                    subSubCategory.style.setProperty('display', 'none', 'important');
+                    
+                    // Uncheck sub-sub-categories when hiding
+                    const subSubInput = subSubCategory.querySelector('input[type="checkbox"]');
+                    if (subSubInput) {
+                        subSubInput.checked = false;
+                    }
+                }
+            });
+        }
+
+        // Initialize hierarchy on page load based on checked items
+        document.addEventListener('DOMContentLoaded', function() {
+            // Only show sub-categories if their parent main category is also checked
+            document.querySelectorAll('input[name="industry[]"]:checked').forEach(function(input) {
+                toggleSubCategories(input.value);
+            });
+            
+            // Only show sub-sub-categories if their parent sub-category is also checked
+            document.querySelectorAll('input[name="sub_category[]"]:checked').forEach(function(input) {
+                // Check if the parent sub-category's main category is also checked
+                const subCategoryId = input.value;
+                const subCategoryElement = document.querySelector(`[data-sub-category-id="${subCategoryId}"]`);
+                if (subCategoryElement) {
+                    const parentId = subCategoryElement.getAttribute('data-parent-id');
+                    const parentCheckbox = document.querySelector(`input[name="industry[]"][value="${parentId}"]`);
+                    if (parentCheckbox && parentCheckbox.checked) {
+                        toggleSubSubCategories(subCategoryId);
+                    }
+                }
+            });
+        });
     </script>
 @endpush

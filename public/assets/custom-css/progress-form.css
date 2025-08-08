@@ -420,10 +420,6 @@
     font-weight: bold;
 }
 
-.progress-form-main .step-section {
-    display: none;
-}
-
 .progress-form-main .step-section:first-of-type {
     display: block;
 }

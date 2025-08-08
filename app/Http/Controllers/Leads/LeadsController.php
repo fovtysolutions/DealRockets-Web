@@ -840,4 +840,54 @@ class LeadsController extends Controller
     {
         return view('vendor-views.Leads.adminbuyerview');
     }
+
+    /**
+     * Search HS codes based on query string
+     */
+    public function searchHsCodes(Request $request)
+    {
+        $query = $request->get('query', '');
+        
+        if (strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $csvPath = public_path('db/harmonized-system.csv');
+        
+        if (!file_exists($csvPath)) {
+            return response()->json(['error' => 'HS Code database not found'], 404);
+        }
+
+        $results = [];
+        $handle = fopen($csvPath, 'r');
+        
+        if ($handle !== false) {
+            // Skip header row
+            fgetcsv($handle);
+            
+            $count = 0;
+            $maxResults = 20; // Limit results for performance
+            
+            while (($data = fgetcsv($handle)) !== false && $count < $maxResults) {
+                if (count($data) >= 3) {
+                    $hsCode = $data[1]; // hscode column
+                    $description = $data[2]; // description column
+                    
+                    // Search in both HS code and description (case insensitive)
+                    if (stripos($hsCode, $query) !== false || stripos($description, $query) !== false) {
+                        $results[] = [
+                            'hs_code' => $hsCode,
+                            'description' => $description,
+                            'display' => $hsCode . ' - ' . $description
+                        ];
+                        $count++;
+                    }
+                }
+            }
+            
+            fclose($handle);
+        }
+
+        return response()->json($results);
+    }
 }

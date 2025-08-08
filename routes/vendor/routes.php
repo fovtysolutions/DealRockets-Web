@@ -181,6 +181,7 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
             Route::patch('leads/toggle'.'/{id}', [LeadsController::class, 'toggle'])->name('leads.toggle');
             Route::post('leads/vdelete'.'/{id}',[LeadsController::class,'delete'])->name('leads.delete');
             Route::get('leads/buyers',[LeadsController::class,'buyeradminview'])->name('leads.buyers');
+            Route::get('leads/search-hs-codes', [LeadsController::class, 'searchHsCodes'])->name('leads.search-hs-codes');
 
         
             Route::group(['prefix' => 'pos', 'as' => 'pos.'], function () {
@@ -245,6 +246,7 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
                     Route::get(Product::PRODUCT_GALLERY[URI], 'getProductGalleryView')->name('product-gallery');
                     Route::get(Product::STOCK_LIMIT_STATUS[URI], 'getStockLimitStatus')->name('stock-limit-status');
                     Route::post(Product::DELETE_PREVIEW_FILE[URI], 'deletePreviewFile')->name('delete-preview-file');
+                    Route::get('search-hs-codes', 'searchHsCodes')->name('search-hs-codes');
                 });
             });
             Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
@@ -291,6 +293,7 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
                 Route::post('update/{id}',[VendorStockSellController::class,'update'])->name('update');
                 Route::delete('destroy/{id}',[VendorStockSellController::class,'destroy'])->name('destroy');
                 Route::get('messages',[VendorStockSellController::class,'messages'])->name('get-messages');
+                Route::get('search-hs-codes',[VendorStockSellController::class,'searchHsCodes'])->name('search-hs-codes');
             });
 
 

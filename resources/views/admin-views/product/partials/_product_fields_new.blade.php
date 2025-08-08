@@ -124,8 +124,12 @@
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('HS Code') }}</label>
-                <input type="text" class="form-control" name="hts_code"
-                    value="{{ $isEdit ? $product['hts_code'] : '' }}" placeholder="e.g., 8473301000">
+                <div class="position-relative">
+                    <input type="text" class="form-control" name="hts_code" id="hts_code"
+                        value="{{ $isEdit ? $product['hts_code'] : '' }}" 
+                        placeholder="Enter HS Code or Product Description" autocomplete="off">
+                    <div id="hts_code_suggestions" class="hs-suggestions-dropdown"></div>
+                </div>
             </div>
         </div>
 
@@ -829,4 +833,136 @@
 
     // Initialize on load
     updateMasterPackingValue();
+</script>
+
+{{-- HS Code Autocomplete Styles --}}
+<style>
+.hs-suggestions-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.hs-suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.hs-suggestion-item:hover {
+    background-color: #f5f5f5;
+}
+
+.hs-suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.hs-suggestion-code {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.hs-suggestion-desc {
+    color: #666;
+    margin-top: 2px;
+    font-size: 12px;
+}
+
+.hs-loading {
+    padding: 10px;
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+</style>
+
+{{-- HS Code Autocomplete Script --}}
+<script>
+$(document).ready(function() {
+    let hsCodeTimeout;
+    const hsCodeInput = $('#hts_code');
+    const suggestionDropdown = $('#hts_code_suggestions');
+    
+    // Get the correct route based on current context
+    const searchRoute = @if(auth('admin')->check())
+        '{{ route("admin.products.search-hs-codes") }}'
+    @else
+        '{{ route("vendor.products.search-hs-codes") }}'
+    @endif;
+
+    hsCodeInput.on('input', function() {
+        const query = $(this).val().trim();
+        
+        // Clear previous timeout
+        clearTimeout(hsCodeTimeout);
+        
+        if (query.length < 2) {
+            suggestionDropdown.hide().empty();
+            return;
+        }
+
+        // Show loading
+        suggestionDropdown.show().html('<div class="hs-loading">Searching...</div>');
+
+        // Debounce the search
+        hsCodeTimeout = setTimeout(function() {
+            $.ajax({
+                url: searchRoute,
+                method: 'GET',
+                data: { query: query },
+                success: function(data) {
+                    suggestionDropdown.empty();
+                    
+                    if (data.length === 0) {
+                        suggestionDropdown.html('<div class="hs-loading">No results found</div>');
+                        return;
+                    }
+
+                    data.forEach(function(item) {
+                        const suggestionItem = $(`
+                            <div class="hs-suggestion-item" data-hs-code="${item.hs_code}">
+                                <div class="hs-suggestion-code">${item.hs_code}</div>
+                                <div class="hs-suggestion-desc">${item.description}</div>
+                            </div>
+                        `);
+                        
+                        suggestionItem.on('click', function() {
+                            hsCodeInput.val($(this).data('hs-code'));
+                            suggestionDropdown.hide().empty();
+                        });
+                        
+                        suggestionDropdown.append(suggestionItem);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('HS Code search error:', error);
+                    suggestionDropdown.html('<div class="hs-loading">Error loading results</div>');
+                }
+            });
+        }, 300); // 300ms delay
+    });
+
+    // Hide suggestions when clicking outside
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('#hts_code, #hts_code_suggestions').length) {
+            suggestionDropdown.hide().empty();
+        }
+    });
+
+    // Hide suggestions on escape key
+    hsCodeInput.on('keydown', function(e) {
+        if (e.key === 'Escape') {
+            suggestionDropdown.hide().empty();
+        }
+    });
+});
 </script>

@@ -210,6 +210,16 @@ class ProductListController extends Controller
             $query->whereIn('category_id', $request->industry);
         }
 
+        // Filter by sub-category if it's an array of selected sub-categories
+        if ($request->has('sub_category') && is_array($request->sub_category)) {
+            $query->whereIn('sub_category_id', $request->sub_category);
+        }
+
+        // Filter by sub-sub-category if it's an array of selected sub-sub-categories
+        if ($request->has('sub_sub_category') && is_array($request->sub_sub_category)) {
+            $query->whereIn('sub_sub_category_id', $request->sub_sub_category);
+        }
+
         // Filter by country if it's an array of selected countries
         if ($request->has('country') && is_array($request->country)) {
             $query->whereIn('origin', $request->country);

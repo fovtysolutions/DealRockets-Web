@@ -30,63 +30,72 @@
                             <input type="hidden" name="delivery_man_id" value="{{ request('delivery_man_id') }}">
                         @endif
                         <div class="row g-2 align-items-end">
-                            <div class="col-md-2 col-sm-4 col-6">
+                            <!-- Date From Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                                <input type="date" name="from" class="form-control form-control-sm" 
+                                       value="{{ request('from') }}">
+                            </div>
+                            
+                            <!-- Date To Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                                <input type="date" name="to" class="form-control form-control-sm" 
+                                       value="{{ request('to') }}">
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="id_asc" {{ request('sort_by') == 'id_asc' ? 'selected' : '' }}>{{ translate('id_asc') }}</option>
+                                    <option value="id_desc" {{ request('sort_by') == 'id_desc' ? 'selected' : '' }}>{{ translate('id_desc') }}</option>
+                                    <option value="amount_asc" {{ request('sort_by') == 'amount_asc' ? 'selected' : '' }}>{{ translate('amount_asc') }}</option>
+                                    <option value="amount_desc" {{ request('sort_by') == 'amount_desc' ? 'selected' : '' }}>{{ translate('amount_desc') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Order Type Filter -->
+                            <div class="col-md-2">
                                 <label class="form-label mb-1 small">{{translate('order_type')}}</label>
                                 <select name="filter" id="filter" class="form-control form-control-sm">
                                     <option value="all" {{ $filter == 'all' ? 'selected' : '' }}>{{translate('all')}}</option>
-                                    <option value="admin" {{ $filter == 'admin' ? 'selected' : '' }}>{{translate('in_House_Order')}}</option>
-                                    <option value="seller" {{ $filter == 'seller' ? 'selected' : '' }}>{{translate('vendor_Order')}}</option>
+                                    <option value="admin" {{ $filter == 'admin' ? 'selected' : '' }}>{{translate('in_house')}}</option>
+                                    <option value="seller" {{ $filter == 'seller' ? 'selected' : '' }}>{{translate('vendor')}}</option>
                                     @if(($status == 'all' || $status == 'delivered') && !request()->has('delivery_man_id'))
-                                    <option value="POS" {{ $filter == 'POS' ? 'selected' : '' }}>{{translate('POS_Order')}}</option>
+                                    <option value="POS" {{ $filter == 'POS' ? 'selected' : '' }}>{{translate('POS')}}</option>
                                     @endif
                                 </select>
                             </div>
 
-                            <div class="col-md-2 col-sm-4 col-6" id="seller_id_area" style="{{ $filter && $filter == 'admin'?'display:none':'' }}">
+                            <!-- Store Filter -->
+                            <div class="col-md-2">
                                 <label class="form-label mb-1 small">{{translate('store')}}</label>
                                 <select name="seller_id" id="seller_id" class="form-control form-control-sm">
-                                    <option value="all">{{translate('all_shop')}}</option>
-                                    <option value="0" id="seller_id_inhouse" {{request('seller_id') == 0 ? 'selected' :''}}>{{translate('inhouse')}}</option>
+                                    <option value="all">{{translate('all')}}</option>
+                                    <option value="0" {{request('seller_id') == 0 ? 'selected' :''}}>{{translate('inhouse')}}</option>
                                     @foreach ($sellers as $seller)
                                         @isset($seller->shop)
                                             <option value="{{$seller->id}}"{{request('seller_id') == $seller->id ? 'selected' :''}}>
-                                                {{ $seller->shop->name }}
+                                                {{ Str::limit($seller->shop->name, 15) }}
                                             </option>
                                         @endisset
                                     @endforeach
                                 </select>
                             </div>
 
-                            <div class="col-md-2 col-sm-4 col-6">
-                                <label class="form-label mb-1 small">{{translate('date_type')}}</label>
-                                <select class="form-control form-control-sm" name="date_type" id="date_type">
-                                    <option value="">{{translate('select_Date_Type')}}</option>
-                                    <option value="this_year" {{ $dateType == 'this_year'? 'selected' : '' }}>{{translate('this_Year')}}</option>
-                                    <option value="this_month" {{ $dateType == 'this_month'? 'selected' : '' }}>{{translate('this_Month')}}</option>
-                                    <option value="this_week" {{ $dateType == 'this_week'? 'selected' : '' }}>{{translate('this_Week')}}</option>
-                                    <option value="custom_date" {{ $dateType == 'custom_date'? 'selected' : '' }}>{{translate('custom_Date')}}</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-2 col-sm-4 col-6" id="from_div">
-                                <label class="form-label mb-1 small">{{translate('start_date')}}</label>
-                                <input type="date" name="from" value="{{$from}}" id="from_date" class="form-control form-control-sm">
-                            </div>
-
-                            <div class="col-md-2 col-sm-4 col-6" id="to_div">
-                                <label class="form-label mb-1 small">{{translate('end_date')}}</label>
-                                <input type="date" value="{{$to}}" name="to" id="to_date" class="form-control form-control-sm">
-                            </div>
-
-                            <div>
-                                <a href="{{route('admin.orders.list',['status'=>request('status')])}}"
-                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{translate('reset')}}
+                            <!-- Reset Button -->
+                            <div class="col-md-1">
+                                <a href="{{route('admin.orders.list',['status'=>request('status')])}}" class="btn btn--primary w-100" style="height:35px;">
+                                    <i class="tio-refresh"></i>
                                 </a>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;" id="formUrlChange" data-action="{{ url()->current() }}">
-                                    {{translate('show_data')}}
+                            
+                            <!-- Show Data Button -->
+                            <div class="col-md-1">
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px;" id="formUrlChange" data-action="{{ url()->current() }}">
+                                    <i class="tio-filter-list"></i>
                                 </button>
                             </div>
                         </div>
@@ -129,9 +138,21 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('admin.orders.export-excel', ['delivery_man_id' => request('delivery_man_id'), 'status' => $status, 'from' => $from, 'to' => $to, 'filter' => $filter, 'searchValue' => $searchValue,'seller_id'=>$vendorId,'customer_id'=>$customerId, 'date_type'=>$dateType]) }}">
+                                            <a class="dropdown-item" href="{{ route('admin.orders.export-excel', array_merge(request()->all())) }}">
                                                 <img width="14" src="{{dynamicAsset(path: 'public/assets/back-end/img/excel.png')}}" alt="">
                                                 {{translate('excel')}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('admin.orders.export-excel', array_merge(request()->all(), ['format' => 'pdf'])) }}">
+                                                <i class="tio-document-text text-danger"></i>
+                                                {{translate('pdf')}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('admin.orders.export-excel', array_merge(request()->all(), ['format' => 'csv'])) }}">
+                                                <i class="tio-table text-success"></i>
+                                                {{translate('csv')}}
                                             </a>
                                         </li>
                                     </ul>

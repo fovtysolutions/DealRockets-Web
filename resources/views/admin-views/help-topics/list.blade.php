@@ -22,16 +22,68 @@
             <div class="mb-3">
                 <div class="card-body p-0">
                     <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                        
                         <div class="row g-2 align-items-end">
-                            <div>
-                                <a href="{{ route('admin.help-topics.list') }}"
-                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{ translate('reset') }}
+                            <!-- Date From Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                                <input type="date" name="from" class="form-control form-control-sm" 
+                                       value="{{ request('from') }}">
+                            </div>
+                            
+                            <!-- Date To Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                                <input type="date" name="to" class="form-control form-control-sm" 
+                                       value="{{ request('to') }}">
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="question_asc" {{ request('sort_by') == 'question_asc' ? 'selected' : '' }}>{{ translate('question_asc') }}</option>
+                                    <option value="question_desc" {{ request('sort_by') == 'question_desc' ? 'selected' : '' }}>{{ translate('question_desc') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('date_asc') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('date_desc') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Category Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('category') }}</label>
+                                <select name="category" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all') }}</option>
+                                    <option value="general" {{ request('category') == 'general' ? 'selected' : '' }}>{{ translate('general') }}</option>
+                                    <option value="orders" {{ request('category') == 'orders' ? 'selected' : '' }}>{{ translate('orders') }}</option>
+                                    <option value="products" {{ request('category') == 'products' ? 'selected' : '' }}>{{ translate('products') }}</option>
+                                    <option value="payments" {{ request('category') == 'payments' ? 'selected' : '' }}>{{ translate('payments') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Status Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('status') }}</label>
+                                <select name="status" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all') }}</option>
+                                    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>{{ translate('active') }}</option>
+                                    <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>{{ translate('inactive') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Reset Button -->
+                            <div class="col-md-1">
+                                <a href="{{ route('admin.help-topics.list') }}" class="btn btn--primary w-100" style="height:35px;">
+                                    <i class="tio-refresh"></i>
                                 </a>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{ translate('show_data') }}
+                            
+                            <!-- Show Data Button -->
+                            <div class="col-md-1">
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px;">
+                                    <i class="tio-filter-list"></i>
                                 </button>
                             </div>
                         </div>

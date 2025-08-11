@@ -18,15 +18,56 @@
             <div class="mb-3">
                 <div class="card-body p-0">
                     <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                        
                         <div class="row g-2 align-items-end">
+                            <!-- Created Date Filter -->
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('created_date_from') }}</label>
+                                <input type="date" name="created_from" class="form-control form-control-sm" 
+                                       value="{{ request('created_from') }}">
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('created_date_to') }}</label>
+                                <input type="date" name="created_to" class="form-control form-control-sm" 
+                                       value="{{ request('created_to') }}">
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>{{ translate('name_ascending') }}</option>
+                                    <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>{{ translate('name_descending') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('created_date_ascending') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('created_date_descending') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Subject Filter -->
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('subject') }}</label>
+                                <select name="subject" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_subjects') }}</option>
+                                    <option value="general" {{ request('subject') == 'general' ? 'selected' : '' }}>{{ translate('general') }}</option>
+                                    <option value="support" {{ request('subject') == 'support' ? 'selected' : '' }}>{{ translate('support') }}</option>
+                                    <option value="complaint" {{ request('subject') == 'complaint' ? 'selected' : '' }}>{{ translate('complaint') }}</option>
+                                    <option value="suggestion" {{ request('subject') == 'suggestion' ? 'selected' : '' }}>{{ translate('suggestion') }}</option>
+                                </select>
+                            </div>
+
                             <div>
                                 <a href="{{ route('admin.contact.list') }}"
                                     class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    <i class="tio-refresh"></i>
                                     {{ translate('reset') }}
                                 </a>
                             </div>
                             <div>
                                 <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    <i class="tio-filter-list"></i>
                                     {{ translate('show_data') }}
                                 </button>
                             </div>

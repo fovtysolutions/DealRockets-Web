@@ -6,6 +6,7 @@ use App\Http\Middleware\ActivationCheckMiddleware;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\APIGuestMiddleware;
 use App\Http\Middleware\APILocalizationMiddleware;
+use App\Http\Middleware\CorsMiddleware;
 use App\Http\Middleware\CustomerIsActiveCheck;
 use App\Http\Middleware\CustomerMiddleware;
 use App\Http\Middleware\DeliveryManAuth;
@@ -86,6 +87,7 @@ class Kernel extends HttpKernel
         'seller_api_auth' => SellerApiAuthMiddleware::class,
         'guestCheck' => GuestMiddleware::class,
         'apiGuestCheck' => APIGuestMiddleware::class,
+        'cors' => CorsMiddleware::class,
     ];
 
     /**

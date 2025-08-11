@@ -16,16 +16,58 @@
             <div class="mb-3">
                 <div class="card-body p-0">
                     <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                        <input type="hidden" name="status" value="{{ request('status') }}">
+                        
                         <div class="row g-2 align-items-end">
-                            <div>
-                                <a href="{{ route('admin.refund-section.refund.list', ['status' => request('status')]) }}"
-                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{ translate('reset') }}
+                            <!-- Date From Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                                <input type="date" name="from" class="form-control form-control-sm" 
+                                       value="{{ request('from') }}">
+                            </div>
+                            
+                            <!-- Date To Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                                <input type="date" name="to" class="form-control form-control-sm" 
+                                       value="{{ request('to') }}">
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="amount_asc" {{ request('sort_by') == 'amount_asc' ? 'selected' : '' }}>{{ translate('amount_asc') }}</option>
+                                    <option value="amount_desc" {{ request('sort_by') == 'amount_desc' ? 'selected' : '' }}>{{ translate('amount_desc') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('date_asc') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('date_desc') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Refund Type Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('type') }}</label>
+                                <select name="refund_type" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all') }}</option>
+                                    <option value="order_cancel" {{ request('refund_type') == 'order_cancel' ? 'selected' : '' }}>{{ translate('order_cancel') }}</option>
+                                    <option value="return" {{ request('refund_type') == 'return' ? 'selected' : '' }}>{{ translate('return') }}</option>
+                                    <option value="refund" {{ request('refund_type') == 'refund' ? 'selected' : '' }}>{{ translate('refund') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Reset Button -->
+                            <div class="col-md-2">
+                                <a href="{{ route('admin.refund-section.refund.list', ['status' => request('status')]) }}" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-refresh"></i> {{ translate('reset') }}
                                 </a>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{ translate('show_data') }}
+                            
+                            <!-- Show Data Button -->
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-filter-list"></i> {{ translate('show_data') }}
                                 </button>
                             </div>
                         </div>

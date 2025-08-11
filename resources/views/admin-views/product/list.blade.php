@@ -21,85 +21,63 @@
             <div class="mb-3">
                 <div class="card-body p-0">
                     <form action="{{ url()->current() }}" method="GET">
-                        <input type="hidden" name="status" value="{{ request('status') }}">
-
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                        <input type="hidden" name="type" value="{{ request('type') }}">
+                        
                         <div class="row g-2 align-items-end">
-                            @if (request('type') == 'seller')
-                                <div class="col-md-2 col-sm-4 col-6">
-                                    <label class="form-label mb-1 small">{{ translate('store') }}</label>
-                                    <select name="seller_id" class="form-control form-control-sm">
-                                        <option value="">{{ translate('all_store') }}</option>
-                                        @foreach ($sellers as $seller)
-                                            <option value="{{ $seller->id }}"
-                                                {{ request('seller_id') == $seller->id ? 'selected' : '' }}>
-                                                {{ $seller->shop->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
+                            <!-- Date From Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                                <input type="date" name="from" class="form-control form-control-sm" 
+                                       value="{{ request('from') }}">
+                            </div>
+                            
+                            <!-- Date To Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                                <input type="date" name="to" class="form-control form-control-sm" 
+                                       value="{{ request('to') }}">
+                            </div>
 
-                            <div class="col-md-2 col-sm-4 col-6">
-                                <label class="form-label mb-1 small">{{ translate('brand') }}</label>
-                                <select name="brand_id" class="form-control form-control-sm">
-                                    <option value="">{{ translate('all_brand') }}</option>
-                                    @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id }}"
-                                            {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
-                                            {{ $brand->default_name }}
-                                        </option>
-                                    @endforeach
+                            <!-- Sort Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>{{ translate('name_asc') }}</option>
+                                    <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>{{ translate('name_desc') }}</option>
+                                    <option value="price_asc" {{ request('sort_by') == 'price_asc' ? 'selected' : '' }}>{{ translate('price_asc') }}</option>
+                                    <option value="price_desc" {{ request('sort_by') == 'price_desc' ? 'selected' : '' }}>{{ translate('price_desc') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('date_asc') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('date_desc') }}</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-2 col-sm-4 col-6">
+                            <!-- Category Filter -->
+                            <div class="col-md-2">
                                 <label class="form-label mb-1 small">{{ translate('category') }}</label>
-                                <select name="category_id" class="form-control form-control-sm action-get-request-onchange"
-                                    data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                                    data-element-id="sub-category-select" data-element-type="select">
-                                    <option disabled selected>{{ translate('select_category') }}</option>
+                                <select name="category_id" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_categories') }}</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category['id'] }}"
                                             {{ request('category_id') == $category['id'] ? 'selected' : '' }}>
-                                            {{ $category['defaultName'] }}
+                                            {{ Str::limit($category['defaultName'], 15) }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            <div class="col-md-2 col-sm-4 col-6">
-                                <label class="form-label mb-1 small">{{ translate('sub_Category') }}</label>
-                                <select name="sub_category_id" id="sub-category-select"
-                                    class="form-control form-control-sm action-get-request-onchange"
-                                    data-url-prefix="{{ url('/admin/products/get-categories?parent_id=') }}"
-                                    data-element-id="sub-sub-category-select" data-element-type="select">
-                                    <option value="{{ request('sub_category_id') ?? '' }}" selected
-                                        {{ request('sub_category_id') ? '' : 'disabled' }}>
-                                        {{ request('sub_category_id') ? $subCategory['defaultName'] : translate('select_Sub_Category') }}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-2 col-sm-4 col-6">
-                                <label class="form-label mb-1 small">{{ translate('sub_Sub_Category') }}</label>
-                                <select name="sub_sub_category_id" id="sub-sub-category-select"
-                                    class="form-control form-control-sm">
-                                    <option value="{{ request('sub_sub_category_id') ?? '' }}" selected
-                                        {{ request('sub_sub_category_id') ? '' : 'disabled' }}>
-                                        {{ request('sub_sub_category_id') ? $subSubCategory['defaultName'] : translate('select_Sub_Sub_Category') }}
-                                    </option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <a href="{{ route('admin.products.list', ['type' => request('type')]) }}"
-                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{ translate('reset') }}
+                            <!-- Reset Button -->
+                            <div class="col-md-2">
+                                <a href="{{ route('admin.products.list', ['type' => request('type')]) }}" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-refresh"></i> {{ translate('reset') }}
                                 </a>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{ translate('show_data') }}
+                            
+                            <!-- Show Data Button -->
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-filter-list"></i> {{ translate('show_data') }}
                                 </button>
                             </div>
                         </div>

@@ -4,27 +4,61 @@
 
 @section('content')
     <div class="content container-fluid">
-        <!-- <div class="mb-3">
-            <h2 class="h1 mb-0 d-flex gap-2">
-                <img width="20" src="{{ dynamicAsset(path: 'public/assets/back-end/img/brand.png') }}" alt="">
-                {{ translate('brand_List') }}
-                <span class="badge badge-soft-dark radius-50 fz-14">{{ $brands->total() }}</span>
-            </h2>
-        </div> -->
-
         <div class="container-fluid p-0">
             <div class="mb-3">
                 <div class="card-body p-0">
                     <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                        
                         <div class="row g-2 align-items-end">
-                            <div>
-                                <a href="{{ route('admin.brand.list') }}"
-                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                            <!-- Date From Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                                <input type="date" name="from" class="form-control form-control-sm" 
+                                       value="{{ request('from') }}">
+                            </div>
+                            
+                            <!-- Date To Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                                <input type="date" name="to" class="form-control form-control-sm" 
+                                       value="{{ request('to') }}">
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>{{ translate('name_asc') }}</option>
+                                    <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>{{ translate('name_desc') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('date_asc') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('date_desc') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Status Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('status') }}</label>
+                                <select name="status" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_status') }}</option>
+                                    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>{{ translate('active') }}</option>
+                                    <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>{{ translate('inactive') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Reset Button -->
+                            <div class="col-md-2">
+                                <a href="{{ route('admin.brand.list') }}" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-refresh"></i>
                                     {{ translate('reset') }}
                                 </a>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                            
+                            <!-- Show Data Button -->
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-filter-list"></i>
                                     {{ translate('show_data') }}
                                 </button>
                             </div>
@@ -62,9 +96,21 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('admin.brand.export', ['searchValue'=>request('searchValue')]) }}">
+                                            <a class="dropdown-item" href="{{ route('admin.brand.export', array_merge(request()->all())) }}">
                                                 <img width="14" src="{{ dynamicAsset(path: 'public/assets/back-end/img/excel.png') }}" alt="">
                                                 {{ translate('excel') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('admin.brand.export', array_merge(request()->all(), ['format' => 'pdf'])) }}">
+                                                <i class="tio-document-text text-danger"></i>
+                                                {{ translate('pdf') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('admin.brand.export', array_merge(request()->all(), ['format' => 'csv'])) }}">
+                                                <i class="tio-table text-success"></i>
+                                                {{ translate('csv') }}
                                             </a>
                                         </li>
                                     </ul>
@@ -125,12 +171,16 @@
                                         <td class="text-center">
                                             <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
                                                 <a href="{{ route('admin.brand.update', [$brand['id']]) }}"
-                                                    class="btn btn-outline-primary" title="Edit"><i class="tio-edit"></i>Edit</a>
+                                                    class="btn btn-outline-primary" title="Edit">
+                                                    <i class="tio-edit"></i>
+                                                    {{ translate('edit') }}
+                                                </a>
                                                 <button type="button" class="btn btn-outline-danger delete-brand" title="Delete"
                                                    data-product-count = "{{count($brand?->brandAllProducts)}}"
                                                    data-text="{{translate('there_were_').count($brand?->brandAllProducts).translate('_products_under_this_brand').'.'.translate('please_update_their_brand_from_the_below_list_before_deleting_this_one').'.'}}"
                                                    id="{{ $brand['id'] }}">
-                                                    Delete<i class="tio-delete"></i>
+                                                    <i class="tio-delete"></i>
+                                                    {{ translate('delete') }}
                                                 </button>
                                             </div>
                                         </td>

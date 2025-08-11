@@ -15,15 +15,67 @@
             <div class="mb-3">
                 <div class="card-body p-0">
                     <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                        
                         <div class="row g-2 align-items-end">
+                            <!-- Created Date Filter -->
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('created_date_from') }}</label>
+                                <input type="date" name="created_from" class="form-control form-control-sm" 
+                                       value="{{ request('created_from') }}">
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('created_date_to') }}</label>
+                                <input type="date" name="created_to" class="form-control form-control-sm" 
+                                       value="{{ request('created_to') }}">
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="rating_asc" {{ request('sort_by') == 'rating_asc' ? 'selected' : '' }}>{{ translate('rating_ascending') }}</option>
+                                    <option value="rating_desc" {{ request('sort_by') == 'rating_desc' ? 'selected' : '' }}>{{ translate('rating_descending') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('created_date_ascending') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('created_date_descending') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Rating Filter -->
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('rating') }}</label>
+                                <select name="rating" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_ratings') }}</option>
+                                    <option value="5" {{ request('rating') == '5' ? 'selected' : '' }}>{{ translate('5_star') }}</option>
+                                    <option value="4" {{ request('rating') == '4' ? 'selected' : '' }}>{{ translate('4_star') }}</option>
+                                    <option value="3" {{ request('rating') == '3' ? 'selected' : '' }}>{{ translate('3_star') }}</option>
+                                    <option value="2" {{ request('rating') == '2' ? 'selected' : '' }}>{{ translate('2_star') }}</option>
+                                    <option value="1" {{ request('rating') == '1' ? 'selected' : '' }}>{{ translate('1_star') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Status Filter -->
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('status') }}</label>
+                                <select name="status" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_status') }}</option>
+                                    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>{{ translate('active') }}</option>
+                                    <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>{{ translate('inactive') }}</option>
+                                </select>
+                            </div>
+
                             <div>
                                 <a href="{{ route('admin.reviews.list') }}"
                                     class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    <i class="tio-refresh"></i>
                                     {{ translate('reset') }}
                                 </a>
                             </div>
                             <div>
                                 <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    <i class="tio-filter-list"></i>
                                     {{ translate('show_data') }}
                                 </button>
                             </div>

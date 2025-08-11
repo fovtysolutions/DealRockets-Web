@@ -84,6 +84,10 @@ use App\Http\Controllers\Web\ChatbotController;
 
 Route::get('symbolic-link',[WebController::class,'symboliclink']);
 
+// Translation endpoints (public JSON APIs)
+Route::post('translate/text', [\App\Http\Controllers\TranslationController::class, 'translate'])->name('translate.text');
+Route::post('translate/batch', [\App\Http\Controllers\TranslationController::class, 'translateBatch'])->name('translate.batch');
+
 Route::controller(WebController::class)->group(function () {
     Route::get('maintenance-mode', 'maintenance_mode')->name('maintenance-mode');
 });
@@ -931,4 +935,15 @@ Route::prefix('chatbot')->name('chatbot.')->group(function () {
     // ==========================================
     
     Route::post('/submit-form', [ChatbotController::class, 'submitForm'])->name('submit-form');
+});
+
+// ==========================================
+// 🌍 TRANSLATION ROUTES
+// ==========================================
+use App\Http\Controllers\TranslationController;
+
+Route::prefix('translate')->name('translate.')->middleware(['web', 'cors'])->group(function () {
+    Route::post('/', [TranslationController::class, 'translate'])->name('text');
+    Route::post('/batch', [TranslationController::class, 'translateBatch'])->name('batch');
+    Route::get('/languages', [TranslationController::class, 'getSupportedLanguages'])->name('languages');
 });

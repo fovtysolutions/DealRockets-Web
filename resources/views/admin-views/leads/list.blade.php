@@ -14,82 +14,65 @@
         </div> --}}
 
         <div class="container-fluid p-0">
-            <div class="mb-3" style="max-width: 100%;">
-                <div>
+            <div class="mb-3">
+                <div class="card-body p-0">
                     <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
                         <input type="hidden" name="status" value="{{ request('status') }}">
-                        <div class="d-flex flex-wrap gap-3 align-items-end pt-3">
+                        
+                        <div class="row g-2 align-items-end">
+                            <!-- Date From Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                                <input type="date" name="from" class="form-control form-control-sm" 
+                                       value="{{ request('from') }}">
+                            </div>
+                            
+                            <!-- Date To Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                                <input type="date" name="to" class="form-control form-control-sm" 
+                                       value="{{ request('to') }}">
+                            </div>
 
-                            <div>
+                            <!-- Sort Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>{{ translate('name_asc') }}</option>
+                                    <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>{{ translate('name_desc') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('date_asc') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('date_desc') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Lead Type Filter -->
+                            <div class="col-md-2">
                                 <label class="form-label mb-1 small">{{ translate('type') }}</label>
                                 <select name="type" class="form-control form-control-sm">
-                                    <option value="">{{ translate('all_types') }}</option>
+                                    <option value="">{{ translate('all') }}</option>
                                     @foreach ($type as $t)
                                         <option value="{{ $t }}" {{ request('type') == $t ? 'selected' : '' }}>
-                                            {{ $t }}
+                                            {{ Str::limit($t, 12) }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            <div>
-                                <label class="form-label mb-1 small">{{ translate('name') }}</label>
-                                <select name="name" class="form-control form-control-sm">
-                                    <option value="">{{ translate('all_names') }}</option>
-                                    @foreach ($name as $product)
-                                        <option value="{{ trim($product) }}"
-                                            {{ request('name') == trim($product) ? 'selected' : '' }}>
-                                            {{ trim($product) }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="form-label mb-1 small">{{ translate('country') }}</label>
-                                <select name="country" class="form-control form-control-sm">
-                                    <option value="">{{ translate('all_countries') }}</option>
-                                    @foreach ($country as $c)
-                                        @php $countryRecord = \App\Models\Country::find(trim($c)); @endphp
-                                        @if ($countryRecord)
-                                            <option value="{{ trim($c) }}"
-                                                {{ request('country') == trim($c) ? 'selected' : '' }}>
-                                                {{ $countryRecord->name }}
-                                            </option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            {{-- Optional fields: Uncomment if needed --}}
-                            {{-- 
-            <div>
-                <label class="form-label mb-1 small">{{ translate('company_name') }}</label>
-                <input type="text" name="company_name" class="form-control form-control-sm"
-                       placeholder="{{ translate('enter_company_name') }}"
-                       value="{{ request('company_name') }}">
-            </div>
-
-            <div>
-                <label class="form-label mb-1 small">{{ translate('contact_number') }}</label>
-                <input type="text" name="contact_number" class="form-control form-control-sm"
-                       placeholder="{{ translate('enter_contact_number') }}"
-                       value="{{ request('contact_number') }}">
-            </div>
-            --}}
-
-                            <div>
-                                <a href="{{ route('admin.leads.list') }}"
-                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{ translate('reset') }}
+                            <!-- Reset Button -->
+                            <div class="col-md-2">
+                                <a href="{{ route('admin.leads.list') }}" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-refresh"></i> {{ translate('reset') }}
                                 </a>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{ translate('show_data') }}
+                            
+                            <!-- Show Data Button -->
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-filter-list"></i> {{ translate('show_data') }}
                                 </button>
                             </div>
-
                         </div>
                     </form>
                 </div>

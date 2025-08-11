@@ -114,34 +114,1073 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                 </a>
                             </div>
 
-                            <div class="group-4">
-                                <div id="languageToggleBtn" class="nav-tile">
-                                    <div class="frame-4" style="left:0;">
-                                        <div class="text-wrapper-5">
-                                            Translate
+                            @include('themes.default.layouts.front-end.partials._libre-translate-button')
+                                    <div class="dropdown-header">
+                                        <div class="search-container">
+                                            <i class="fas fa-search"></i>
+                                            <input type="text" id="languageSearch" placeholder="Search languages..." />
                                         </div>
-                                        {{-- <img class="img" src="/img/arrow-down-sign-to-navigate-5.png" /> --}}
+                                        <div class="translate-info">
+                                            <i class="fas fa-globe"></i>
+                                            <span>Powered by LibreTranslate</span>
+                                        </div>
                                     </div>
-                                    <div class="icon-hover group-language">
-                                        <img class="badge img-default" src="/img/language-1.png" />
-                                        <img class="badge img-hover" src="/img/language (2).png" />
+                                    
+                                    <div class="language-sections">
+                                        <!-- Popular Languages -->
+                                        <div class="language-section">
+                                            <h6 class="section-title">
+                                                <i class="fas fa-star"></i> Popular Languages
+                                            </h6>
+                                            <div class="language-grid popular-languages">
+                                                <div class="language-item" data-code="en" data-name="English">
+                                                    <span class="flag">🇺🇸</span>
+                                                    <span class="name">English</span>
+                                                </div>
+                                                <div class="language-item" data-code="es" data-name="Spanish">
+                                                    <span class="flag">🇪🇸</span>
+                                                    <span class="name">Spanish</span>
+                                                </div>
+                                                <div class="language-item" data-code="fr" data-name="French">
+                                                    <span class="flag">🇫🇷</span>
+                                                    <span class="name">French</span>
+                                                </div>
+                                                <div class="language-item" data-code="de" data-name="German">
+                                                    <span class="flag">🇩🇪</span>
+                                                    <span class="name">German</span>
+                                                </div>
+                                                <div class="language-item" data-code="zh" data-name="Chinese">
+                                                    <span class="flag">🇨🇳</span>
+                                                    <span class="name">Chinese</span>
+                                                </div>
+                                                <div class="language-item" data-code="ja" data-name="Japanese">
+                                                    <span class="flag">🇯🇵</span>
+                                                    <span class="name">Japanese</span>
+                                                </div>
+                                                <div class="language-item" data-code="ko" data-name="Korean">
+                                                    <span class="flag">🇰🇷</span>
+                                                    <span class="name">Korean</span>
+                                                </div>
+                                                <div class="language-item" data-code="ar" data-name="Arabic">
+                                                    <span class="flag">🇸🇦</span>
+                                                    <span class="name">Arabic</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- All Languages -->
+                                        <div class="language-section">
+                                            <h6 class="section-title">
+                                                <i class="fas fa-globe-americas"></i> All Languages
+                                            </h6>
+                                            <div class="language-list" id="allLanguagesList">
+                                                <!-- A-C -->
+                                                <div class="language-item" data-code="af" data-name="Afrikaans">
+                                                    <span class="flag">🇿🇦</span>
+                                                    <span class="name">Afrikaans</span>
+                                                </div>
+                                                <div class="language-item" data-code="sq" data-name="Albanian">
+                                                    <span class="flag">🇦🇱</span>
+                                                    <span class="name">Albanian</span>
+                                                </div>
+                                                <div class="language-item" data-code="am" data-name="Amharic">
+                                                    <span class="flag">🇪🇹</span>
+                                                    <span class="name">Amharic</span>
+                                                </div>
+                                                <div class="language-item" data-code="ar" data-name="Arabic">
+                                                    <span class="flag">🇸🇦</span>
+                                                    <span class="name">Arabic</span>
+                                                </div>
+                                                <div class="language-item" data-code="hy" data-name="Armenian">
+                                                    <span class="flag">🇦🇲</span>
+                                                    <span class="name">Armenian</span>
+                                                </div>
+                                                <div class="language-item" data-code="az" data-name="Azerbaijani">
+                                                    <span class="flag">🇦🇿</span>
+                                                    <span class="name">Azerbaijani</span>
+                                                </div>
+                                                <div class="language-item" data-code="eu" data-name="Basque">
+                                                    <span class="flag">🇪🇸</span>
+                                                    <span class="name">Basque</span>
+                                                </div>
+                                                <div class="language-item" data-code="be" data-name="Belarusian">
+                                                    <span class="flag">🇧🇾</span>
+                                                    <span class="name">Belarusian</span>
+                                                </div>
+                                                <div class="language-item" data-code="bn" data-name="Bengali">
+                                                    <span class="flag">🇧🇩</span>
+                                                    <span class="name">Bengali</span>
+                                                </div>
+                                                <div class="language-item" data-code="bs" data-name="Bosnian">
+                                                    <span class="flag">🇧🇦</span>
+                                                    <span class="name">Bosnian</span>
+                                                </div>
+                                                <div class="language-item" data-code="bg" data-name="Bulgarian">
+                                                    <span class="flag">🇧🇬</span>
+                                                    <span class="name">Bulgarian</span>
+                                                </div>
+                                                <div class="language-item" data-code="ca" data-name="Catalan">
+                                                    <span class="flag">🇪🇸</span>
+                                                    <span class="name">Catalan</span>
+                                                </div>
+                                                <div class="language-item" data-code="ceb" data-name="Cebuano">
+                                                    <span class="flag">🇵🇭</span>
+                                                    <span class="name">Cebuano</span>
+                                                </div>
+                                                <div class="language-item" data-code="zh" data-name="Chinese">
+                                                    <span class="flag">🇨🇳</span>
+                                                    <span class="name">Chinese</span>
+                                                </div>
+                                                <div class="language-item" data-code="co" data-name="Corsican">
+                                                    <span class="flag">🇫🇷</span>
+                                                    <span class="name">Corsican</span>
+                                                </div>
+                                                <div class="language-item" data-code="hr" data-name="Croatian">
+                                                    <span class="flag">🇭🇷</span>
+                                                    <span class="name">Croatian</span>
+                                                </div>
+                                                <div class="language-item" data-code="cs" data-name="Czech">
+                                                    <span class="flag">🇨🇿</span>
+                                                    <span class="name">Czech</span>
+                                                </div>
+                                                
+                                                <!-- D-H -->
+                                                <div class="language-item" data-code="da" data-name="Danish">
+                                                    <span class="flag">🇩🇰</span>
+                                                    <span class="name">Danish</span>
+                                                </div>
+                                                <div class="language-item" data-code="nl" data-name="Dutch">
+                                                    <span class="flag">🇳🇱</span>
+                                                    <span class="name">Dutch</span>
+                                                </div>
+                                                <div class="language-item" data-code="en" data-name="English">
+                                                    <span class="flag">🇺🇸</span>
+                                                    <span class="name">English</span>
+                                                </div>
+                                                <div class="language-item" data-code="eo" data-name="Esperanto">
+                                                    <span class="flag">🌍</span>
+                                                    <span class="name">Esperanto</span>
+                                                </div>
+                                                <div class="language-item" data-code="et" data-name="Estonian">
+                                                    <span class="flag">🇪🇪</span>
+                                                    <span class="name">Estonian</span>
+                                                </div>
+                                                <div class="language-item" data-code="fi" data-name="Finnish">
+                                                    <span class="flag">🇫🇮</span>
+                                                    <span class="name">Finnish</span>
+                                                </div>
+                                                <div class="language-item" data-code="fr" data-name="French">
+                                                    <span class="flag">🇫🇷</span>
+                                                    <span class="name">French</span>
+                                                </div>
+                                                <div class="language-item" data-code="fy" data-name="Frisian">
+                                                    <span class="flag">🇳🇱</span>
+                                                    <span class="name">Frisian</span>
+                                                </div>
+                                                <div class="language-item" data-code="gl" data-name="Galician">
+                                                    <span class="flag">🇪🇸</span>
+                                                    <span class="name">Galician</span>
+                                                </div>
+                                                <div class="language-item" data-code="ka" data-name="Georgian">
+                                                    <span class="flag">🇬🇪</span>
+                                                    <span class="name">Georgian</span>
+                                                </div>
+                                                <div class="language-item" data-code="de" data-name="German">
+                                                    <span class="flag">🇩🇪</span>
+                                                    <span class="name">German</span>
+                                                </div>
+                                                <div class="language-item" data-code="el" data-name="Greek">
+                                                    <span class="flag">🇬🇷</span>
+                                                    <span class="name">Greek</span>
+                                                </div>
+                                                <div class="language-item" data-code="gu" data-name="Gujarati">
+                                                    <span class="flag">🇮🇳</span>
+                                                    <span class="name">Gujarati</span>
+                                                </div>
+                                                <div class="language-item" data-code="ht" data-name="Haitian Creole">
+                                                    <span class="flag">🇭🇹</span>
+                                                    <span class="name">Haitian Creole</span>
+                                                </div>
+                                                <div class="language-item" data-code="ha" data-name="Hausa">
+                                                    <span class="flag">🇳🇬</span>
+                                                    <span class="name">Hausa</span>
+                                                </div>
+                                                <div class="language-item" data-code="haw" data-name="Hawaiian">
+                                                    <span class="flag">🇺🇸</span>
+                                                    <span class="name">Hawaiian</span>
+                                                </div>
+                                                <div class="language-item" data-code="he" data-name="Hebrew">
+                                                    <span class="flag">🇮🇱</span>
+                                                    <span class="name">Hebrew</span>
+                                                </div>
+                                                <div class="language-item" data-code="hi" data-name="Hindi">
+                                                    <span class="flag">🇮🇳</span>
+                                                    <span class="name">Hindi</span>
+                                                </div>
+                                                <div class="language-item" data-code="hmn" data-name="Hmong">
+                                                    <span class="flag">🇱🇦</span>
+                                                    <span class="name">Hmong</span>
+                                                </div>
+                                                <div class="language-item" data-code="hu" data-name="Hungarian">
+                                                    <span class="flag">🇭🇺</span>
+                                                    <span class="name">Hungarian</span>
+                                                </div>
+                                                
+                                                <!-- I-M -->
+                                                <div class="language-item" data-code="is" data-name="Icelandic">
+                                                    <span class="flag">🇮🇸</span>
+                                                    <span class="name">Icelandic</span>
+                                                </div>
+                                                <div class="language-item" data-code="ig" data-name="Igbo">
+                                                    <span class="flag">🇳🇬</span>
+                                                    <span class="name">Igbo</span>
+                                                </div>
+                                                <div class="language-item" data-code="id" data-name="Indonesian">
+                                                    <span class="flag">🇮🇩</span>
+                                                    <span class="name">Indonesian</span>
+                                                </div>
+                                                <div class="language-item" data-code="ga" data-name="Irish">
+                                                    <span class="flag">🇮🇪</span>
+                                                    <span class="name">Irish</span>
+                                                </div>
+                                                <div class="language-item" data-code="it" data-name="Italian">
+                                                    <span class="flag">🇮🇹</span>
+                                                    <span class="name">Italian</span>
+                                                </div>
+                                                <div class="language-item" data-code="ja" data-name="Japanese">
+                                                    <span class="flag">🇯🇵</span>
+                                                    <span class="name">Japanese</span>
+                                                </div>
+                                                <div class="language-item" data-code="jv" data-name="Javanese">
+                                                    <span class="flag">🇮🇩</span>
+                                                    <span class="name">Javanese</span>
+                                                </div>
+                                                <div class="language-item" data-code="kn" data-name="Kannada">
+                                                    <span class="flag">🇮🇳</span>
+                                                    <span class="name">Kannada</span>
+                                                </div>
+                                                <div class="language-item" data-code="kk" data-name="Kazakh">
+                                                    <span class="flag">🇰🇿</span>
+                                                    <span class="name">Kazakh</span>
+                                                </div>
+                                                <div class="language-item" data-code="km" data-name="Khmer">
+                                                    <span class="flag">🇰🇭</span>
+                                                    <span class="name">Khmer</span>
+                                                </div>
+                                                <div class="language-item" data-code="rw" data-name="Kinyarwanda">
+                                                    <span class="flag">🇷🇼</span>
+                                                    <span class="name">Kinyarwanda</span>
+                                                </div>
+                                                <div class="language-item" data-code="ko" data-name="Korean">
+                                                    <span class="flag">🇰🇷</span>
+                                                    <span class="name">Korean</span>
+                                                </div>
+                                                <div class="language-item" data-code="ku" data-name="Kurdish">
+                                                    <span class="flag">🇮🇶</span>
+                                                    <span class="name">Kurdish</span>
+                                                </div>
+                                                <div class="language-item" data-code="ky" data-name="Kyrgyz">
+                                                    <span class="flag">🇰🇬</span>
+                                                    <span class="name">Kyrgyz</span>
+                                                </div>
+                                                <div class="language-item" data-code="lo" data-name="Lao">
+                                                    <span class="flag">🇱🇦</span>
+                                                    <span class="name">Lao</span>
+                                                </div>
+                                                <div class="language-item" data-code="la" data-name="Latin">
+                                                    <span class="flag">🇻🇦</span>
+                                                    <span class="name">Latin</span>
+                                                </div>
+                                                <div class="language-item" data-code="lv" data-name="Latvian">
+                                                    <span class="flag">🇱🇻</span>
+                                                    <span class="name">Latvian</span>
+                                                </div>
+                                                <div class="language-item" data-code="lt" data-name="Lithuanian">
+                                                    <span class="flag">🇱🇹</span>
+                                                    <span class="name">Lithuanian</span>
+                                                </div>
+                                                <div class="language-item" data-code="lb" data-name="Luxembourgish">
+                                                    <span class="flag">🇱🇺</span>
+                                                    <span class="name">Luxembourgish</span>
+                                                </div>
+                                                <div class="language-item" data-code="mk" data-name="Macedonian">
+                                                    <span class="flag">🇲🇰</span>
+                                                    <span class="name">Macedonian</span>
+                                                </div>
+                                                <div class="language-item" data-code="mg" data-name="Malagasy">
+                                                    <span class="flag">🇲🇬</span>
+                                                    <span class="name">Malagasy</span>
+                                                </div>
+                                                <div class="language-item" data-code="ms" data-name="Malay">
+                                                    <span class="flag">🇲🇾</span>
+                                                    <span class="name">Malay</span>
+                                                </div>
+                                                <div class="language-item" data-code="ml" data-name="Malayalam">
+                                                    <span class="flag">🇮🇳</span>
+                                                    <span class="name">Malayalam</span>
+                                                </div>
+                                                <div class="language-item" data-code="mt" data-name="Maltese">
+                                                    <span class="flag">🇲🇹</span>
+                                                    <span class="name">Maltese</span>
+                                                </div>
+                                                <div class="language-item" data-code="mi" data-name="Maori">
+                                                    <span class="flag">🇳🇿</span>
+                                                    <span class="name">Maori</span>
+                                                </div>
+                                                <div class="language-item" data-code="mr" data-name="Marathi">
+                                                    <span class="flag">🇮🇳</span>
+                                                    <span class="name">Marathi</span>
+                                                </div>
+                                                <div class="language-item" data-code="mn" data-name="Mongolian">
+                                                    <span class="flag">🇲🇳</span>
+                                                    <span class="name">Mongolian</span>
+                                                </div>
+                                                <div class="language-item" data-code="my" data-name="Myanmar">
+                                                    <span class="flag">🇲🇲</span>
+                                                    <span class="name">Myanmar</span>
+                                                </div>
+                                                
+                                                <!-- N-S -->
+                                                <div class="language-item" data-code="ne" data-name="Nepali">
+                                                    <span class="flag">🇳🇵</span>
+                                                    <span class="name">Nepali</span>
+                                                </div>
+                                                <div class="language-item" data-code="no" data-name="Norwegian">
+                                                    <span class="flag">🇳🇴</span>
+                                                    <span class="name">Norwegian</span>
+                                                </div>
+                                                <div class="language-item" data-code="ny" data-name="Nyanja">
+                                                    <span class="flag">🇲🇼</span>
+                                                    <span class="name">Nyanja</span>
+                                                </div>
+                                                <div class="language-item" data-code="or" data-name="Odia">
+                                                    <span class="flag">🇮🇳</span>
+                                                    <span class="name">Odia</span>
+                                                </div>
+                                                <div class="language-item" data-code="ps" data-name="Pashto">
+                                                    <span class="flag">🇦🇫</span>
+                                                    <span class="name">Pashto</span>
+                                                </div>
+                                                <div class="language-item" data-code="fa" data-name="Persian">
+                                                    <span class="flag">🇮🇷</span>
+                                                    <span class="name">Persian</span>
+                                                </div>
+                                                <div class="language-item" data-code="pl" data-name="Polish">
+                                                    <span class="flag">🇵🇱</span>
+                                                    <span class="name">Polish</span>
+                                                </div>
+                                                <div class="language-item" data-code="pt" data-name="Portuguese">
+                                                    <span class="flag">🇵🇹</span>
+                                                    <span class="name">Portuguese</span>
+                                                </div>
+                                                <div class="language-item" data-code="pa" data-name="Punjabi">
+                                                    <span class="flag">🇮🇳</span>
+                                                    <span class="name">Punjabi</span>
+                                                </div>
+                                                <div class="language-item" data-code="ro" data-name="Romanian">
+                                                    <span class="flag">🇷🇴</span>
+                                                    <span class="name">Romanian</span>
+                                                </div>
+                                                <div class="language-item" data-code="ru" data-name="Russian">
+                                                    <span class="flag">🇷🇺</span>
+                                                    <span class="name">Russian</span>
+                                                </div>
+                                                <div class="language-item" data-code="sm" data-name="Samoan">
+                                                    <span class="flag">🇼🇸</span>
+                                                    <span class="name">Samoan</span>
+                                                </div>
+                                                <div class="language-item" data-code="gd" data-name="Scots Gaelic">
+                                                    <span class="flag">🏴󠁧󠁢󠁳󠁣󠁴󠁿</span>
+                                                    <span class="name">Scots Gaelic</span>
+                                                </div>
+                                                <div class="language-item" data-code="sr" data-name="Serbian">
+                                                    <span class="flag">🇷🇸</span>
+                                                    <span class="name">Serbian</span>
+                                                </div>
+                                                <div class="language-item" data-code="st" data-name="Sesotho">
+                                                    <span class="flag">🇱🇸</span>
+                                                    <span class="name">Sesotho</span>
+                                                </div>
+                                                <div class="language-item" data-code="sn" data-name="Shona">
+                                                    <span class="flag">🇿🇼</span>
+                                                    <span class="name">Shona</span>
+                                                </div>
+                                                <div class="language-item" data-code="sd" data-name="Sindhi">
+                                                    <span class="flag">🇵🇰</span>
+                                                    <span class="name">Sindhi</span>
+                                                </div>
+                                                <div class="language-item" data-code="si" data-name="Sinhala">
+                                                    <span class="flag">🇱🇰</span>
+                                                    <span class="name">Sinhala</span>
+                                                </div>
+                                                <div class="language-item" data-code="sk" data-name="Slovak">
+                                                    <span class="flag">🇸🇰</span>
+                                                    <span class="name">Slovak</span>
+                                                </div>
+                                                <div class="language-item" data-code="sl" data-name="Slovenian">
+                                                    <span class="flag">🇸🇮</span>
+                                                    <span class="name">Slovenian</span>
+                                                </div>
+                                                <div class="language-item" data-code="so" data-name="Somali">
+                                                    <span class="flag">🇸🇴</span>
+                                                    <span class="name">Somali</span>
+                                                </div>
+                                                <div class="language-item" data-code="es" data-name="Spanish">
+                                                    <span class="flag">🇪🇸</span>
+                                                    <span class="name">Spanish</span>
+                                                </div>
+                                                <div class="language-item" data-code="su" data-name="Sundanese">
+                                                    <span class="flag">🇮🇩</span>
+                                                    <span class="name">Sundanese</span>
+                                                </div>
+                                                <div class="language-item" data-code="sw" data-name="Swahili">
+                                                    <span class="flag">🇰🇪</span>
+                                                    <span class="name">Swahili</span>
+                                                </div>
+                                                <div class="language-item" data-code="sv" data-name="Swedish">
+                                                    <span class="flag">🇸🇪</span>
+                                                    <span class="name">Swedish</span>
+                                                </div>
+                                                
+                                                <!-- T-Z -->
+                                                <div class="language-item" data-code="tl" data-name="Tagalog">
+                                                    <span class="flag">🇵🇭</span>
+                                                    <span class="name">Tagalog</span>
+                                                </div>
+                                                <div class="language-item" data-code="tg" data-name="Tajik">
+                                                    <span class="flag">🇹🇯</span>
+                                                    <span class="name">Tajik</span>
+                                                </div>
+                                                <div class="language-item" data-code="ta" data-name="Tamil">
+                                                    <span class="flag">🇮🇳</span>
+                                                    <span class="name">Tamil</span>
+                                                </div>
+                                                <div class="language-item" data-code="tt" data-name="Tatar">
+                                                    <span class="flag">🇷🇺</span>
+                                                    <span class="name">Tatar</span>
+                                                </div>
+                                                <div class="language-item" data-code="te" data-name="Telugu">
+                                                    <span class="flag">🇮🇳</span>
+                                                    <span class="name">Telugu</span>
+                                                </div>
+                                                <div class="language-item" data-code="th" data-name="Thai">
+                                                    <span class="flag">🇹🇭</span>
+                                                    <span class="name">Thai</span>
+                                                </div>
+                                                <div class="language-item" data-code="tr" data-name="Turkish">
+                                                    <span class="flag">🇹🇷</span>
+                                                    <span class="name">Turkish</span>
+                                                </div>
+                                                <div class="language-item" data-code="tk" data-name="Turkmen">
+                                                    <span class="flag">🇹🇲</span>
+                                                    <span class="name">Turkmen</span>
+                                                </div>
+                                                <div class="language-item" data-code="uk" data-name="Ukrainian">
+                                                    <span class="flag">🇺🇦</span>
+                                                    <span class="name">Ukrainian</span>
+                                                </div>
+                                                <div class="language-item" data-code="ur" data-name="Urdu">
+                                                    <span class="flag">🇵🇰</span>
+                                                    <span class="name">Urdu</span>
+                                                </div>
+                                                <div class="language-item" data-code="ug" data-name="Uyghur">
+                                                    <span class="flag">🇨🇳</span>
+                                                    <span class="name">Uyghur</span>
+                                                </div>
+                                                <div class="language-item" data-code="uz" data-name="Uzbek">
+                                                    <span class="flag">🇺🇿</span>
+                                                    <span class="name">Uzbek</span>
+                                                </div>
+                                                <div class="language-item" data-code="vi" data-name="Vietnamese">
+                                                    <span class="flag">🇻🇳</span>
+                                                    <span class="name">Vietnamese</span>
+                                                </div>
+                                                <div class="language-item" data-code="cy" data-name="Welsh">
+                                                    <span class="flag">🏴󠁧󠁢󠁷󠁬󠁳󠁿</span>
+                                                    <span class="name">Welsh</span>
+                                                </div>
+                                                <div class="language-item" data-code="xh" data-name="Xhosa">
+                                                    <span class="flag">🇿🇦</span>
+                                                    <span class="name">Xhosa</span>
+                                                </div>
+                                                <div class="language-item" data-code="yi" data-name="Yiddish">
+                                                    <span class="flag">🇮🇱</span>
+                                                    <span class="name">Yiddish</span>
+                                                </div>
+                                                <div class="language-item" data-code="yo" data-name="Yoruba">
+                                                    <span class="flag">🇳🇬</span>
+                                                    <span class="name">Yoruba</span>
+                                                </div>
+                                                <div class="language-item" data-code="zu" data-name="Zulu">
+                                                    <span class="flag">🇿🇦</span>
+                                                    <span class="name">Zulu</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <ul id="languageDropdown-class" class="language-dropdown"
-                                    style="font-size: 14px; color: black;">
-                                    @foreach (json_decode($language['value'], true) as $key => $data)
-                                        @if ($data['status'] == 1)
-                                            <li class="change-language __inline-17"
-                                                style="padding: 0px 4px 0px 3px;text-align: center;"
-                                                data-action="{{ route('change-language') }}"
-                                                data-language-code="{{ $data['code'] }}">
-                                                <a class="dropdown-item custom-dealrock-text" href="javascript:">
-                                                    <span class="text-capitalize">{{ $data['name'] }}</span>
-                                                </a>
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
+
+                                <!-- Hidden Google Translate Element (Fallback) -->
+                                <div id="google_translate_element" style="display: none;"></div>
+
+                                <!-- LibreTranslate CSS Styles -->
+                                <style>
+                                    .libre-translate-dropdown {
+                                        position: absolute;
+                                        top: 100%;
+                                        right: 0;
+                                        background: white;
+                                        border-radius: 15px;
+                                        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+                                        width: 400px;
+                                        max-height: 500px;
+                                        overflow: hidden;
+                                        z-index: 1000;
+                                        display: none;
+                                        border: 1px solid #e9ecef;
+                                    }
+
+                                    .libre-translate-dropdown.show {
+                                        display: block;
+                                        animation: slideDown 0.3s ease-out;
+                                    }
+
+                                    @keyframes slideDown {
+                                        from {
+                                            opacity: 0;
+                                            transform: translateY(-10px);
+                                        }
+                                        to {
+                                            opacity: 1;
+                                            transform: translateY(0);
+                                        }
+                                    }
+
+                                    .dropdown-header {
+                                        background: linear-gradient(135deg, #007bff, #0056b3);
+                                        color: white;
+                                        padding: 20px;
+                                        border-radius: 15px 15px 0 0;
+                                    }
+
+                                    .search-container {
+                                        position: relative;
+                                        margin-bottom: 15px;
+                                    }
+
+                                    .search-container i {
+                                        position: absolute;
+                                        left: 15px;
+                                        top: 50%;
+                                        transform: translateY(-50%);
+                                        color: #6c757d;
+                                    }
+
+                                    .search-container input {
+                                        width: 100%;
+                                        padding: 12px 15px 12px 45px;
+                                        border: none;
+                                        border-radius: 25px;
+                                        background: rgba(255,255,255,0.9);
+                                        font-size: 14px;
+                                        outline: none;
+                                    }
+
+                                    .search-container input::placeholder {
+                                        color: #6c757d;
+                                    }
+
+                                    .translate-info {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 8px;
+                                        font-size: 12px;
+                                        opacity: 0.9;
+                                    }
+
+                                    .language-sections {
+                                        max-height: 350px;
+                                        overflow-y: auto;
+                                        padding: 0;
+                                    }
+
+                                    .language-sections::-webkit-scrollbar {
+                                        width: 6px;
+                                    }
+
+                                    .language-sections::-webkit-scrollbar-track {
+                                        background: #f1f1f1;
+                                    }
+
+                                    .language-sections::-webkit-scrollbar-thumb {
+                                        background: #007bff;
+                                        border-radius: 3px;
+                                    }
+
+                                    .language-section {
+                                        padding: 20px;
+                                        border-bottom: 1px solid #f8f9fa;
+                                    }
+
+                                    .language-section:last-child {
+                                        border-bottom: none;
+                                    }
+
+                                    .section-title {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 8px;
+                                        margin: 0 0 15px 0;
+                                        font-size: 14px;
+                                        font-weight: 600;
+                                        color: #495057;
+                                    }
+
+                                    .section-title i {
+                                        color: #007bff;
+                                    }
+
+                                    .language-grid {
+                                        display: grid;
+                                        grid-template-columns: repeat(2, 1fr);
+                                        gap: 8px;
+                                    }
+
+                                    .language-list {
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 2px;
+                                    }
+
+                                    .language-item {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 12px;
+                                        padding: 10px 15px;
+                                        border-radius: 8px;
+                                        cursor: pointer;
+                                        transition: all 0.2s ease;
+                                        background: transparent;
+                                    }
+
+                                    .language-item:hover {
+                                        background: #f8f9fa;
+                                        transform: translateX(5px);
+                                    }
+
+                                    .language-item.selected {
+                                        background: #e3f2fd;
+                                        color: #007bff;
+                                        font-weight: 500;
+                                    }
+
+                                    .language-item .flag {
+                                        font-size: 18px;
+                                        width: 24px;
+                                        text-align: center;
+                                    }
+
+                                    .language-item .name {
+                                        font-size: 14px;
+                                        flex: 1;
+                                    }
+
+                                    .popular-languages .language-item {
+                                        background: rgba(0,123,255,0.05);
+                                        border: 1px solid rgba(0,123,255,0.1);
+                                    }
+
+                                    .popular-languages .language-item:hover {
+                                        background: rgba(0,123,255,0.1);
+                                        border-color: rgba(0,123,255,0.2);
+                                    }
+
+                                    /* Translation Status */
+                                    .translation-status {
+                                        position: fixed;
+                                        top: 20px;
+                                        right: 20px;
+                                        background: #007bff;
+                                        color: white;
+                                        padding: 15px 20px;
+                                        border-radius: 10px;
+                                        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                                        z-index: 10000;
+                                        display: none;
+                                        align-items: center;
+                                        gap: 10px;
+                                    }
+
+                                    .translation-status.show {
+                                        display: flex;
+                                        animation: slideInRight 0.3s ease-out;
+                                    }
+
+                                    @keyframes slideInRight {
+                                        from {
+                                            opacity: 0;
+                                            transform: translateX(100px);
+                                        }
+                                        to {
+                                            opacity: 1;
+                                            transform: translateX(0);
+                                        }
+                                    }
+
+                                    .translation-status.success {
+                                        background: #28a745;
+                                    }
+
+                                    .translation-status.error {
+                                        background: #dc3545;
+                                    }
+
+                                    /* Mobile Responsive */
+                                    @media (max-width: 768px) {
+                                        .libre-translate-dropdown {
+                                            width: 320px;
+                                            right: -50px;
+                                        }
+
+                                        .language-grid {
+                                            grid-template-columns: 1fr;
+                                        }
+
+                                        .dropdown-header {
+                                            padding: 15px;
+                                        }
+
+                                        .language-section {
+                                            padding: 15px;
+                                        }
+                                    }
+
+                                    /* Hide original language dropdown when LibreTranslate is active */
+                                    .group-4.libre-active #languageDropdown-class {
+                                        display: none !important;
+                                    }
+
+                                    /* Hide Google Translate widget */
+                                    #google_translate_element {
+                                        display: none !important;
+                                    }
+
+                                    /* Hide Google Translate banner */
+                                    .goog-te-banner-frame {
+                                        display: none !important;
+                                    }
+
+                                    body {
+                                        top: 0 !important;
+                                    }
+
+                                    /* Custom loading animation */
+                                    .translation-loading {
+                                        display: inline-block;
+                                        width: 20px;
+                                        height: 20px;
+                                        border: 3px solid rgba(255,255,255,.3);
+                                        border-radius: 50%;
+                                        border-top-color: #fff;
+                                        animation: spin 1s ease-in-out infinite;
+                                    }
+
+                                    @keyframes spin {
+                                        to { transform: rotate(360deg); }
+                                    }
+                                </style>
+
+                                <!-- LibreTranslate JavaScript -->
+                                <script>
+                                    class LibreTranslateManager {
+                                        constructor() {
+                                            this.currentLanguage = 'en';
+                                            this.originalContent = new Map();
+                                            this.isTranslating = false;
+                                            this.apiUrl = '{{ route("translate.text") }}'; // Laravel backend
+                                            this.batchApiUrl = '{{ route("translate.batch") }}'; // Laravel batch endpoint
+                                            this.init();
+                                        }
+
+                                        init() {
+                                            this.bindEvents();
+                                            this.storeOriginalContent();
+                                        }
+
+                                        bindEvents() {
+                                            // Toggle dropdown
+                                            document.getElementById('libreTranslateBtn').addEventListener('click', (e) => {
+                                                e.stopPropagation();
+                                                this.toggleDropdown();
+                                            });
+
+                                            // Language search
+                                            document.getElementById('languageSearch').addEventListener('input', (e) => {
+                                                this.filterLanguages(e.target.value);
+                                            });
+
+                                            // Language selection
+                                            document.querySelectorAll('.language-item').forEach(item => {
+                                                item.addEventListener('click', (e) => {
+                                                    const code = e.currentTarget.dataset.code;
+                                                    const name = e.currentTarget.dataset.name;
+                                                    this.selectLanguage(code, name);
+                                                });
+                                            });
+
+                                            // Close dropdown when clicking outside
+                                            document.addEventListener('click', (e) => {
+                                                if (!e.target.closest('.group-4')) {
+                                                    this.closeDropdown();
+                                                }
+                                            });
+
+                                            // Keyboard shortcuts
+                                            document.addEventListener('keydown', (e) => {
+                                                if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+                                                    e.preventDefault();
+                                                    this.toggleDropdown();
+                                                }
+                                                if (e.key === 'Escape') {
+                                                    this.closeDropdown();
+                                                }
+                                            });
+                                        }
+
+                                        toggleDropdown() {
+                                            const dropdown = document.getElementById('libreTranslateDropdown');
+                                            dropdown.classList.toggle('show');
+                                            
+                                            if (dropdown.classList.contains('show')) {
+                                                document.getElementById('languageSearch').focus();
+                                            }
+                                        }
+
+                                        closeDropdown() {
+                                            document.getElementById('libreTranslateDropdown').classList.remove('show');
+                                        }
+
+                                        filterLanguages(searchTerm) {
+                                            const items = document.querySelectorAll('.language-item');
+                                            const term = searchTerm.toLowerCase();
+
+                                            items.forEach(item => {
+                                                const name = item.dataset.name.toLowerCase();
+                                                const code = item.dataset.code.toLowerCase();
+                                                
+                                                if (name.includes(term) || code.includes(term)) {
+                                                    item.style.display = 'flex';
+                                                } else {
+                                                    item.style.display = 'none';
+                                                }
+                                            });
+                                        }
+
+                                        async selectLanguage(code, name) {
+                                            if (this.isTranslating) return;
+
+                                            this.closeDropdown();
+                                            
+                                            // Update UI
+                                            document.getElementById('currentLangText').textContent = name;
+                                            document.querySelectorAll('.language-item').forEach(item => {
+                                                item.classList.remove('selected');
+                                            });
+                                            document.querySelector(`[data-code="${code}"]`).classList.add('selected');
+
+                                            // If English is selected, restore original content
+                                            if (code === 'en') {
+                                                this.restoreOriginalContent();
+                                                this.currentLanguage = 'en';
+                                                return;
+                                            }
+
+                                            // Translate page content with fallback
+                                            await this.translatePageWithFallback(code, name);
+                                        }
+
+                                        storeOriginalContent() {
+                                            // Store original text content for restoration
+                                            const elementsToTranslate = document.querySelectorAll(
+                                                'h1, h2, h3, h4, h5, h6, p, span:not(.flag), a, button, label, .nav-label, .text-wrapper, .detail-title, .detail-description'
+                                            );
+
+                                            elementsToTranslate.forEach((element, index) => {
+                                                if (element.textContent.trim() && !element.closest('.libre-translate-dropdown')) {
+                                                    this.originalContent.set(`element_${index}`, {
+                                                        element: element,
+                                                        text: element.textContent.trim()
+                                                    });
+                                                }
+                                            });
+                                        }
+
+                                        async translatePage(targetLang, langName) {
+                                            this.isTranslating = true;
+                                            this.showStatus('Translating page...', 'info');
+
+                                            try {
+                                                const textsToTranslate = Array.from(this.originalContent.values())
+                                                    .map(item => item.text)
+                                                    .filter(text => text.length > 0 && text.length < 1000); // Increased limit
+
+                                                // Use batch translation endpoint
+                                                const response = await fetch(this.batchApiUrl, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                                    },
+                                                    body: JSON.stringify({
+                                                        texts: textsToTranslate,
+                                                        source: 'en',
+                                                        target: targetLang
+                                                    })
+                                                });
+
+                                                if (!response.ok) {
+                                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                                }
+
+                                                const data = await response.json();
+                                                
+                                                if (data.success && data.translations) {
+                                                    // Apply translations
+                                                    let textIndex = 0;
+                                                    this.originalContent.forEach((item, key) => {
+                                                        if (textIndex < data.translations.length && data.translations[textIndex]) {
+                                                            item.element.textContent = data.translations[textIndex];
+                                                            textIndex++;
+                                                        }
+                                                    });
+
+                                                    this.currentLanguage = targetLang;
+                                                    this.showStatus(`Page translated to ${langName}`, 'success');
+                                                } else {
+                                                    throw new Error('Translation response invalid');
+                                                }
+
+                                            } catch (error) {
+                                                console.error('Translation error:', error);
+                                                this.showStatus('Translation failed. Please try again.', 'error');
+                                            } finally {
+                                                this.isTranslating = false;
+                                            }
+                                        }
+
+                                        async translateText(text, sourceLang, targetLang) {
+                                            try {
+                                                const response = await fetch(this.apiUrl, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                                    },
+                                                    body: JSON.stringify({
+                                                        text: text,
+                                                        source: sourceLang,
+                                                        target: targetLang
+                                                    })
+                                                });
+
+                                                if (!response.ok) {
+                                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                                }
+
+                                                const data = await response.json();
+                                                return data.success ? data.translatedText : text;
+                                            } catch (error) {
+                                                console.error('Translation API error:', error);
+                                                return text; // Return original text on error
+                                            }
+                                        }
+
+                                        restoreOriginalContent() {
+                                            this.originalContent.forEach(item => {
+                                                item.element.textContent = item.text;
+                                            });
+                                            this.showStatus('Page restored to English', 'success');
+                                        }
+
+                                        showStatus(message, type = 'info') {
+                                            // Remove existing status
+                                            const existingStatus = document.querySelector('.translation-status');
+                                            if (existingStatus) {
+                                                existingStatus.remove();
+                                            }
+
+                                            // Create new status
+                                            const status = document.createElement('div');
+                                            status.className = `translation-status ${type} show`;
+                                            status.innerHTML = `
+                                                <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'spinner fa-spin'}"></i>
+                                                <span>${message}</span>
+                                            `;
+
+                                            document.body.appendChild(status);
+
+                                            // Auto remove after 3 seconds
+                                            setTimeout(() => {
+                                                status.classList.remove('show');
+                                                setTimeout(() => status.remove(), 300);
+                                            }, 3000);
+                                        }
+
+                                        // Fallback: Client-side translation using Google Translate
+                                        initGoogleTranslateFallback() {
+                                            if (!window.google || !window.google.translate) {
+                                                // Load Google Translate script
+                                                const script = document.createElement('script');
+                                                script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+                                                document.head.appendChild(script);
+                                                
+                                                // Initialize Google Translate
+                                                window.googleTranslateElementInit = () => {
+                                                    new google.translate.TranslateElement({
+                                                        pageLanguage: 'en',
+                                                        includedLanguages: 'af,sq,am,ar,hy,az,eu,be,bn,bs,bg,ca,ceb,zh,co,hr,cs,da,nl,en,eo,et,fi,fr,fy,gl,ka,de,el,gu,ht,ha,haw,he,hi,hmn,hu,is,ig,id,ga,it,ja,jv,kn,kk,km,rw,ko,ku,ky,lo,la,lv,lt,lb,mk,mg,ms,ml,mt,mi,mr,mn,my,ne,no,ny,or,ps,fa,pl,pt,pa,ro,ru,sm,gd,sr,st,sn,sd,si,sk,sl,so,es,su,sw,sv,tl,tg,ta,tt,te,th,tr,tk,uk,ur,ug,uz,vi,cy,xh,yi,yo,zu',
+                                                        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                                                        autoDisplay: false
+                                                    }, 'google_translate_element');
+                                                };
+                                            }
+                                        }
+
+                                        // Enhanced translation with fallback
+                                        async translatePageWithFallback(targetLang, langName) {
+                                            try {
+                                                // Try our Laravel backend first
+                                                await this.translatePage(targetLang, langName);
+                                            } catch (error) {
+                                                console.warn('Backend translation failed, trying client-side fallback');
+                                                this.showStatus('Trying alternative translation method...', 'info');
+                                                
+                                                // Fallback to Google Translate Widget
+                                                this.initGoogleTranslateFallback();
+                                                
+                                                // Wait for Google Translate to load
+                                                setTimeout(() => {
+                                                    if (window.google && window.google.translate) {
+                                                        // Trigger Google Translate
+                                                        const selectElement = document.querySelector('.goog-te-combo');
+                                                        if (selectElement) {
+                                                            selectElement.value = targetLang;
+                                                            selectElement.dispatchEvent(new Event('change'));
+                                                            this.showStatus(`Page translated to ${langName} (via Google)`, 'success');
+                                                        }
+                                                    } else {
+                                                        this.showStatus('Translation service unavailable', 'error');
+                                                    }
+                                                }, 2000);
+                                            }
+                                        }
+                                    }
+
+                                    // Initialize LibreTranslate when DOM is ready
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        window.libreTranslate = new LibreTranslateManager();
+                                    });
+                                </script>
                             </div>
                             @if (!auth('customer')->check() && !auth('seller')->check() && !auth('admin')->check())
                                 {{-- Guest User: Show Sign In/Join --}}

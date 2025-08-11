@@ -17,15 +17,55 @@
             <div class="mb-3">
                 <div class="card-body p-0">
                     <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                        
                         <div class="row g-2 align-items-end">
+                            <!-- Created Date Filter -->
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('created_date_from') }}</label>
+                                <input type="date" name="created_from" class="form-control form-control-sm" 
+                                       value="{{ request('created_from') }}">
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('created_date_to') }}</label>
+                                <input type="date" name="created_to" class="form-control form-control-sm" 
+                                       value="{{ request('created_to') }}">
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>{{ translate('name_ascending') }}</option>
+                                    <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>{{ translate('name_descending') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('created_date_ascending') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('created_date_descending') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Status Filter -->
+                            <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('status') }}</label>
+                                <select name="status" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all_status') }}</option>
+                                    <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>{{ translate('approved') }}</option>
+                                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>{{ translate('pending') }}</option>
+                                    <option value="denied" {{ request('status') == 'denied' ? 'selected' : '' }}>{{ translate('denied') }}</option>
+                                </select>
+                            </div>
+
                             <div>
                                 <a href="{{ route('admin.vendors.vendor-list') }}"
                                     class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    <i class="tio-refresh"></i>
                                     {{ translate('reset') }}
                                 </a>
                             </div>
                             <div>
                                 <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
+                                    <i class="tio-filter-list"></i>
                                     {{ translate('show_data') }}
                                 </button>
                             </div>
@@ -64,9 +104,21 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
-                                            <a class="dropdown-item" href="{{route('admin.vendors.export',['searchValue' => request('searchValue')])}}">
+                                            <a class="dropdown-item" href="{{route('admin.vendors.export', array_merge(request()->all()))}}">
                                                 <img width="14" src="{{dynamicAsset(path: 'public/assets/back-end/img/excel.png')}}" alt="">
                                                 {{translate('excel')}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{route('admin.vendors.export', array_merge(request()->all(), ['format' => 'pdf']))}}">
+                                                <i class="tio-document-text text-danger"></i>
+                                                {{translate('pdf')}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{route('admin.vendors.export', array_merge(request()->all(), ['format' => 'csv']))}}">
+                                                <i class="tio-table text-success"></i>
+                                                {{translate('csv')}}
                                             </a>
                                         </li>
                                     </ul>

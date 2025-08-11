@@ -18,7 +18,35 @@
             <div class="card-body p-0">
                 <form action="{{ url()->current() }}" method="GET">
                     <input type="hidden" value="{{ request('status') }}" name="status">
+                    <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                    
                     <div class="row g-2 align-items-end">
+                        <!-- Created Date Filter -->
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('created_date_from') }}</label>
+                            <input type="date" name="created_from" class="form-control form-control-sm" 
+                                   value="{{ request('created_from') }}">
+                        </div>
+                        
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('created_date_to') }}</label>
+                            <input type="date" name="created_to" class="form-control form-control-sm" 
+                                   value="{{ request('created_to') }}">
+                        </div>
+
+                        <!-- Sort Filter -->
+                        <div class="col-md-2 col-sm-4 col-6">
+                            <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                            <select name="sort_by" class="form-control form-control-sm">
+                                <option value="">{{ translate('default') }}</option>
+                                <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>{{ translate('name_ascending') }}</option>
+                                <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>{{ translate('name_descending') }}</option>
+                                <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('created_date_ascending') }}</option>
+                                <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('created_date_descending') }}</option>
+                            </select>
+                        </div>
+
+                        <!-- Business Type Filter -->
                         <div class="col-md-2 col-sm-4 col-6">
                             <label class="form-label mb-1 small">{{ translate('business_type') }}</label>
                             <select name="business_type" class="form-control form-control-sm">
@@ -31,6 +59,7 @@
                             </select>
                         </div>
 
+                        <!-- Main Products Filter -->
                         <div class="col-md-2 col-sm-4 col-6">
                             <label class="form-label mb-1 small">{{ translate('main_products') }}</label>
                             <select name="main_products" class="form-control form-control-sm">
@@ -43,6 +72,7 @@
                             </select>
                         </div>
 
+                        <!-- Management Certification Filter -->
                         <div class="col-md-2 col-sm-4 col-6">
                             <label class="form-label mb-1 small">{{ translate('management_certification') }}</label>
                             <select name="management_certification" class="form-control form-control-sm">
@@ -55,6 +85,7 @@
                             </select>
                         </div>
 
+                        <!-- City Province Filter -->
                         <div class="col-md-2 col-sm-4 col-6">
                             <label class="form-label mb-1 small">{{ translate('city_province') }}</label>
                             <select name="city_province" class="form-control form-control-sm">

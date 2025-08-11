@@ -17,47 +17,62 @@
         <div class="mb-3">
             <div class="card-body p-0">
                 <form action="{{ url()->current() }}" method="GET">
+                    <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
                     <input type="hidden" value="{{ request('status') }}" name="status">
+                    
                     <div class="row g-2 align-items-end">
-                        <div class="col-md-2 col-sm-4 col-6">
-                            <label class="form-label mb-1 small">{{ translate('company_name') }}</label>
-                            <select name="name" class="form-control form-control-sm">
-                                <option value="">{{ translate('all_companies') }}</option>
-                                @foreach ($company_name as $name)
-                                    <option value="{{ trim($name) }}" {{ request('name') == trim($name) ? 'selected' : '' }}>
-                                        {{ trim($name) }}
-                                    </option>
-                                @endforeach
+                        <!-- Date From Filter -->
+                        <div class="col-md-2">
+                            <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                            <input type="date" name="from" class="form-control form-control-sm" 
+                                   value="{{ request('from') }}">
+                        </div>
+                        
+                        <!-- Date To Filter -->
+                        <div class="col-md-2">
+                            <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                            <input type="date" name="to" class="form-control form-control-sm" 
+                                   value="{{ request('to') }}">
+                        </div>
+
+                        <!-- Sort Filter -->
+                        <div class="col-md-2">
+                            <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                            <select name="sort_by" class="form-control form-control-sm">
+                                <option value="">{{ translate('default') }}</option>
+                                <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>{{ translate('name_asc') }}</option>
+                                <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>{{ translate('name_desc') }}</option>
+                                <option value="date_asc" {{ request('sort_by') == 'date_asc' ? 'selected' : '' }}>{{ translate('date_asc') }}</option>
+                                <option value="date_desc" {{ request('sort_by') == 'date_desc' ? 'selected' : '' }}>{{ translate('date_desc') }}</option>
+                                <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('created_asc') }}</option>
+                                <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('created_desc') }}</option>
                             </select>
                         </div>
 
-                        <div class="col-md-2 col-sm-4 col-6">
+                        <!-- Country Filter -->
+                        <div class="col-md-2">
                             <label class="form-label mb-1 small">{{ translate('country') }}</label>
                             <select name="country" class="form-control form-control-sm">
-                                <option value="">{{ translate('all_countries') }}</option>
+                                <option value="">{{ translate('all') }}</option>
                                 @foreach ($country as $c)
                                     <option value="{{ trim($c) }}" {{ request('country') == trim($c) ? 'selected' : '' }}>
-                                        {{ trim($c) }}
+                                        {{ Str::limit(trim($c), 12) }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
 
-                        <div class="col-md-2 col-sm-4 col-6">
-                            <label class="form-label mb-1 small">{{ translate('contact_number') }}</label>
-                            <input type="text" name="contact_number" class="form-control form-control-sm" 
-                                placeholder="{{ translate('contact_number') }}" value="{{ request('contact_number') }}">
-                        </div>
-
-                        <div>
-                            <a href="{{ route('admin.tradeshow.list') }}"
-                                class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                {{ translate('reset') }}
+                        <!-- Reset Button -->
+                        <div class="col-md-2">
+                            <a href="{{ route('admin.tradeshow.list') }}" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                <i class="tio-refresh"></i> {{ translate('reset') }}
                             </a>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                {{ translate('show_data') }}
+                        
+                        <!-- Show Data Button -->
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                <i class="tio-filter-list"></i> {{ translate('show_data') }}
                             </button>
                         </div>
                     </div>

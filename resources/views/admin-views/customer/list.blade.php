@@ -17,11 +17,40 @@
             <div class="mb-3">
                 <div class="card-body p-0">
                     <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                        
                         <div class="row g-2 align-items-end">
-                            <div class="col-md-2 col-sm-4 col-6">
-                                <label class="form-label mb-1 small">{{ translate('membership_tier') }}</label>
+                            <!-- Date From Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                                <input type="date" name="from" class="form-control form-control-sm" 
+                                       value="{{ request('from') }}">
+                            </div>
+                            
+                            <!-- Date To Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                                <input type="date" name="to" class="form-control form-control-sm" 
+                                       value="{{ request('to') }}">
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>{{ translate('name_asc') }}</option>
+                                    <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>{{ translate('name_desc') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('date_asc') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('date_desc') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Membership Tier Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('membership') }}</label>
                                 <select name="membership" class="form-control form-control-sm">
-                                    <option value="">{{ translate('all_membership_tiers') }}</option>
+                                    <option value="">{{ translate('all') }}</option>
                                     @foreach($membershipTiers as $tier)
                                         <option value="{{ $tier->membership_name }}" {{ request('membership') == $tier->membership_name ? 'selected' : '' }}>
                                             {{ $tier->membership_name }}
@@ -30,15 +59,27 @@
                                 </select>
                             </div>
 
-                            <div>
-                                <a href="{{ route('admin.customer.list') }}"
-                                    class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{ translate('reset') }}
+                            <!-- Status Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('status') }}</label>
+                                <select name="status" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all') }}</option>
+                                    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>{{ translate('active') }}</option>
+                                    <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>{{ translate('blocked') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Reset Button -->
+                            <div class="col-md-1">
+                                <a href="{{ route('admin.customer.list') }}" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-refresh"></i> Clear
                                 </a>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                    {{ translate('show_data') }}
+                            
+                            <!-- Show Data Button -->
+                            <div class="col-md-1">
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-filter-list"></i> Filter
                                 </button>
                             </div>
                         </div>
@@ -77,10 +118,21 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
-                                            <a class="dropdown-item"
-                                               href="{{route('admin.customer.export',['searchValue'=>request('searchValue')])}}">
+                                            <a class="dropdown-item" href="{{route('admin.customer.export', array_merge(request()->all()))}}">
                                                 <img width="14" src="{{dynamicAsset(path: 'public/assets/back-end/img/excel.png')}}" alt="">
                                                 {{translate('excel')}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{route('admin.customer.export', array_merge(request()->all(), ['format' => 'pdf']))}}">
+                                                <i class="tio-document-text text-danger"></i>
+                                                {{translate('pdf')}}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{route('admin.customer.export', array_merge(request()->all(), ['format' => 'csv']))}}">
+                                                <i class="tio-table text-success"></i>
+                                                {{translate('csv')}}
                                             </a>
                                         </li>
                                     </ul>
@@ -168,7 +220,10 @@
                                 <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
                                     @if(\App\Utils\RolesAccess::checkButtonAccess('user_management',$customer['country'],'read'))
                                         <a href="{{route('admin.customer.view',[$customer['id']])}}"
-                                            class="btn btn-outline-info" title="View"><i class="tio-invisible"></i>View</a>
+                                            class="btn btn-outline-info" title="View">
+                                            <i class="tio-invisible"></i>
+                                            {{ translate('view') }}
+                                        </a>
                                     @endif
                                     @if(\App\Utils\RolesAccess::checkButtonAccess('user_management',$customer['country'],'delete'))
                                         @if($customer['id'] != '0')
@@ -176,8 +231,9 @@
                                                 onsubmit="return confirm('Are you sure?');" class="d-inline">
                                                 @csrf 
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-outline-danger" title="Delete">Delete
+                                                <button type="submit" class="btn btn-outline-danger" title="Delete">
                                                     <i class="tio-delete"></i>
+                                                    {{ translate('delete') }}
                                                 </button>
                                             </form>
                                         @endif

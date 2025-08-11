@@ -106,6 +106,72 @@
             </div>
         </div>
 
+        <!-- Category List Filters -->
+        <div class="container-fluid p-0 mt-20">
+            <div class="mb-3">
+                <div class="card-body p-0">
+                    <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                        
+                        <div class="row g-2 align-items-end">
+                            <!-- Date From Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                                <input type="date" name="from" class="form-control form-control-sm" 
+                                       value="{{ request('from') }}">
+                            </div>
+                            
+                            <!-- Date To Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                                <input type="date" name="to" class="form-control form-control-sm" 
+                                       value="{{ request('to') }}">
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>{{ translate('name_asc') }}</option>
+                                    <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>{{ translate('name_desc') }}</option>
+                                    <option value="priority_asc" {{ request('sort_by') == 'priority_asc' ? 'selected' : '' }}>{{ translate('priority_asc') }}</option>
+                                    <option value="priority_desc" {{ request('sort_by') == 'priority_desc' ? 'selected' : '' }}>{{ translate('priority_desc') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('date_asc') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('date_desc') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Priority Range Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('priority') }}</label>
+                                <select name="priority_filter" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all') }}</option>
+                                    <option value="high" {{ request('priority_filter') == 'high' ? 'selected' : '' }}>{{ translate('high_priority') }} (1-5)</option>
+                                    <option value="medium" {{ request('priority_filter') == 'medium' ? 'selected' : '' }}>{{ translate('medium_priority') }} (6-10)</option>
+                                    <option value="low" {{ request('priority_filter') == 'low' ? 'selected' : '' }}>{{ translate('low_priority') }} (11+)</option>
+                                </select>
+                            </div>
+
+                            <!-- Reset Button -->
+                            <div class="col-md-2">
+                                <a href="{{ route('admin.category.view') }}" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-refresh"></i> {{ translate('reset') }}
+                                </a>
+                            </div>
+                            
+                            <!-- Show Data Button -->
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-filter-list"></i> {{ translate('show_data') }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="row mt-20" id="cate-table">
             <div class="col-md-12">
                 <div class="card">

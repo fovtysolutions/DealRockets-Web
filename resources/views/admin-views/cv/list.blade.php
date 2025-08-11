@@ -17,31 +17,69 @@
         <div class="mb-3">
             <div class="card-body p-0">
                 <form action="{{ url()->current() }}" method="GET">
+                    <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                    
                     <div class="row g-2 align-items-end">
-                        <div class="col-md-2 col-sm-4 col-6">
-                            <label class="form-label mb-1 small">{{ translate('name') }}</label>
-                            <input type="text" name="name" class="form-control form-control-sm" placeholder="{{ translate('search_by_name') }}" value="{{ request('name') }}">
+                        <!-- Date From Filter -->
+                        <div class="col-md-2">
+                            <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                            <input type="date" name="from" class="form-control form-control-sm" 
+                                   value="{{ request('from') }}">
+                        </div>
+                        
+                        <!-- Date To Filter -->
+                        <div class="col-md-2">
+                            <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                            <input type="date" name="to" class="form-control form-control-sm" 
+                                   value="{{ request('to') }}">
                         </div>
 
-                        <div class="col-md-2 col-sm-4 col-6">
-                            <label class="form-label mb-1 small">{{ translate('email') }}</label>
-                            <input type="text" name="email" class="form-control form-control-sm" placeholder="{{ translate('search_by_email') }}" value="{{ request('email') }}">
+                        <!-- Sort Filter -->
+                        <div class="col-md-2">
+                            <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                            <select name="sort_by" class="form-control form-control-sm">
+                                <option value="">{{ translate('default') }}</option>
+                                <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>{{ translate('name_asc') }}</option>
+                                <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>{{ translate('name_desc') }}</option>
+                                <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('date_asc') }}</option>
+                                <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('date_desc') }}</option>
+                            </select>
                         </div>
 
-                        <div class="col-md-2 col-sm-4 col-6">
-                            <label class="form-label mb-1 small">{{ translate('phone_number') }}</label>
-                            <input type="text" name="pnumber" class="form-control form-control-sm" placeholder="{{ translate('search_by_phone_number') }}" value="{{ request('pnumber') }}">
+                        <!-- Experience Level Filter -->
+                        <div class="col-md-2">
+                            <label class="form-label mb-1 small">{{ translate('experience') }}</label>
+                            <select name="experience" class="form-control form-control-sm">
+                                <option value="">{{ translate('all') }}</option>
+                                <option value="fresher" {{ request('experience') == 'fresher' ? 'selected' : '' }}>{{ translate('fresher') }}</option>
+                                <option value="1-3" {{ request('experience') == '1-3' ? 'selected' : '' }}>{{ translate('1-3_years') }}</option>
+                                <option value="3-5" {{ request('experience') == '3-5' ? 'selected' : '' }}>{{ translate('3-5_years') }}</option>
+                                <option value="5+" {{ request('experience') == '5+' ? 'selected' : '' }}>{{ translate('5+_years') }}</option>
+                            </select>
                         </div>
 
-                        <div>
-                            <a href="{{ route('admin.cv.list') }}"
-                                class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                {{ translate('reset') }}
+                        <!-- Status Filter -->
+                        <div class="col-md-2">
+                            <label class="form-label mb-1 small">{{ translate('status') }}</label>
+                            <select name="status" class="form-control form-control-sm">
+                                <option value="">{{ translate('all') }}</option>
+                                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>{{ translate('active') }}</option>
+                                <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>{{ translate('pending') }}</option>
+                                <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>{{ translate('approved') }}</option>
+                            </select>
+                        </div>
+
+                        <!-- Reset Button -->
+                        <div class="col-md-1">
+                            <a href="{{ route('admin.cv.list') }}" class="btn btn--primary w-100" style="height:35px;">
+                                <i class="tio-refresh"></i>
                             </a>
                         </div>
-                        <div>
-                            <button type="submit" class="btn btn--primary w-100" style="height:35px; padding:5px 10px 5px 10px;">
-                                {{ translate('show_data') }}
+                        
+                        <!-- Show Data Button -->
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn--primary w-100" style="height:35px;">
+                                <i class="tio-filter-list"></i>
                             </button>
                         </div>
                     </div>

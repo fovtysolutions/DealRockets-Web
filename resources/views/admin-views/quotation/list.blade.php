@@ -13,52 +13,67 @@
         </h2>
     </div> --}}
 
-        <div class="row">
-            <div>
-                <form action="{{ url()->current() }}" method="GET">
-                    <input type="hidden" value="{{ request('status') }}" name="status">
-                    <div class="d-flex flex-wrap gap-3 align-items-end">
+        <div class="container-fluid p-0">
+            <div class="mb-3">
+                <div class="card-body p-0">
+                    <form action="{{ url()->current() }}" method="GET">
+                        <input type="hidden" name="searchValue" value="{{ request('searchValue') }}">
+                        <input type="hidden" value="{{ request('status') }}" name="status">
+                        
+                        <div class="row g-2 align-items-end">
+                            <!-- Date From Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_from') }}</label>
+                                <input type="date" name="from" class="form-control form-control-sm" 
+                                       value="{{ request('from') }}">
+                            </div>
+                            
+                            <!-- Date To Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('date_to') }}</label>
+                                <input type="date" name="to" class="form-control form-control-sm" 
+                                       value="{{ request('to') }}">
+                            </div>
 
-                        <div class="form-group">
-                            <label class="title-color" for="name">{{ translate('name') }}</label>
-                            <input type="text" name="name" class="form-control text-capitalize"
-                                value="{{ request('name') }}" placeholder="{{ translate('search_by_name') }}">
+                            <!-- Sort Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('sort_by') }}</label>
+                                <select name="sort_by" class="form-control form-control-sm">
+                                    <option value="">{{ translate('default') }}</option>
+                                    <option value="quantity_asc" {{ request('sort_by') == 'quantity_asc' ? 'selected' : '' }}>{{ translate('quantity_asc') }}</option>
+                                    <option value="quantity_desc" {{ request('sort_by') == 'quantity_desc' ? 'selected' : '' }}>{{ translate('quantity_desc') }}</option>
+                                    <option value="created_asc" {{ request('sort_by') == 'created_asc' ? 'selected' : '' }}>{{ translate('date_asc') }}</option>
+                                    <option value="created_desc" {{ request('sort_by') == 'created_desc' ? 'selected' : '' }}>{{ translate('date_desc') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Quotation Type Filter -->
+                            <div class="col-md-2">
+                                <label class="form-label mb-1 small">{{ translate('type') }}</label>
+                                <select name="quotation_type" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all') }}</option>
+                                    <option value="rfq" {{ request('quotation_type') == 'rfq' ? 'selected' : '' }}>{{ translate('rfq') }}</option>
+                                    <option value="quote" {{ request('quotation_type') == 'quote' ? 'selected' : '' }}>{{ translate('quote') }}</option>
+                                    <option value="inquiry" {{ request('quotation_type') == 'inquiry' ? 'selected' : '' }}>{{ translate('inquiry') }}</option>
+                                </select>
+                            </div>
+
+                            <!-- Reset Button -->
+                            <div class="col-md-2">
+                                <a href="{{ route('admin.quotation.list') }}" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-refresh"></i> {{ translate('reset') }}
+                                </a>
+                            </div>
+                            
+                            <!-- Show Data Button -->
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn--primary w-100" style="height:35px; padding: 5px 10px 5px 10px;">
+                                    <i class="tio-filter-list"></i> {{ translate('show_data') }}
+                                </button>
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="title-color" for="quantity">{{ translate('quantity') }}</label>
-                            <input type="text" name="quantity" class="form-control" value="{{ request('quantity') }}"
-                                placeholder="{{ translate('search_by_quantity') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="title-color" for="description">{{ translate('description') }}</label>
-                            <input type="text" name="description" class="form-control"
-                                value="{{ request('description') }}"
-                                placeholder="{{ translate('search_by_description') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="title-color" for="from_date">{{ translate('from_date') }}</label>
-                            <input type="date" name="from_date" class="form-control" value="{{ request('from_date') }}">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="title-color" for="to_date">{{ translate('to_date') }}</label>
-                            <input type="date" name="to_date" class="form-control" value="{{ request('to_date') }}">
-                        </div>
-
-                        <div class="form-group d-flex gap-2">
-                            <a class="btn btn-secondary mt-auto" href="{{ url()->current() }}">
-                                {{ translate('reset') }}
-                            </a>
-                            <button type="submit" class="btn btn--primary action-get-element-type mt-auto">
-                                {{ translate('show_data') }}
-                            </button>
-                        </div>
-
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
 

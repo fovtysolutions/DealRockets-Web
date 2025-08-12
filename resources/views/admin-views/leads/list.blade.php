@@ -178,13 +178,11 @@
                                                     <i class="tio-invisible"></i>View
                                                 </a>
                                                 @if(isset($lead['approved']) && $lead['approved'])
-                                                    <span class="badge badge-success">Approved</span>
                                                     <form action="{{ route('admin.leads.deny', [$lead['id']]) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         <button type="submit" class="btn btn-outline-warning" title="Deny">Deny</button>
                                                     </form>
                                                 @else
-                                                    <span class="badge badge-warning">Pending</span>
                                                     <form action="{{ route('admin.leads.approve', [$lead['id']]) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         <button type="submit" class="btn btn-outline-success" title="Approve">Approve</button>

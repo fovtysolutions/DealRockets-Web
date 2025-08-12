@@ -59,6 +59,8 @@ class StockSell extends Model
         'payment_terms',
         'certificate_name',
         'pod_port',
+        'is_enabled',
+        'is_approved',
     ];
 
     public function countryRelation()

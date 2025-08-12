@@ -50,13 +50,19 @@ class StockSellController extends Controller
         if ($request->status) {
             $query->where('status', 'like', '%' . $request->status . '%');
         }
+        
+        // Filter by approval status
+        if ($request->has('is_approved') && $request->is_approved !== '') {
+            $query->where('is_approved', $request->is_approved);
+        }
+        
         if ($request->minqty) {
             $query->where('quantity', '>=', $request->minqty);
         }
         if ($request->maxqty) {
             $query->where('quantity', '<=', $request->maxqty);
         }
-        $items = $query->get()->paginate(10);
+        $items = $query->paginate(10);
         return view('admin-views.stocksell.index', compact('items'));
     }
 
@@ -266,6 +272,50 @@ class StockSellController extends Controller
             toastr()->error('Record Updation Failed');
             Log::error("Error Updating Record: " . [$e->getMessage()]);
             return redirect()->back()->with('error', 'Record Updation Failed');
+        }
+    }
+
+    /**
+     * Approve a stock sell item.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function approve($id)
+    {
+        try {
+            $stockSell = StockSell::findOrFail($id);
+            $stockSell->is_approved = true;
+            $stockSell->save();
+
+            toastr()->success('Stock Sell approved successfully.');
+            return redirect()->route('admin.stock.index');
+        } catch (Exception $e) {
+            toastr()->error('Failed to approve Stock Sell.');
+            Log::error("Error approving Stock Sell: " . $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Deny a stock sell item.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deny($id)
+    {
+        try {
+            $stockSell = StockSell::findOrFail($id);
+            $stockSell->is_approved = false;
+            $stockSell->save();
+
+            toastr()->success('Stock Sell denied successfully.');
+            return redirect()->route('admin.stock.index');
+        } catch (Exception $e) {
+            toastr()->error('Failed to deny Stock Sell.');
+            Log::error("Error denying Stock Sell: " . $e->getMessage());
+            return redirect()->back();
         }
     }
 

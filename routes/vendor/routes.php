@@ -294,6 +294,9 @@ Route::group(['middleware' => ['maintenance_mode']], function () {
                 Route::delete('destroy/{id}',[VendorStockSellController::class,'destroy'])->name('destroy');
                 Route::get('messages',[VendorStockSellController::class,'messages'])->name('get-messages');
                 Route::get('search-hs-codes',[VendorStockSellController::class,'searchHsCodes'])->name('search-hs-codes');
+                // Enable/Disable actions
+                Route::post('enable/{id}', [VendorStockSellController::class, 'enable'])->name('enable');
+                Route::post('disable/{id}', [VendorStockSellController::class, 'disable'])->name('disable');
             });
 
 

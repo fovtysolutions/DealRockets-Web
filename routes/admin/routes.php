@@ -1270,6 +1270,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         Route::post('update/{id}', [StockSellController::class, 'update'])->name('update');
         Route::delete('destroy/{id}', [StockSellController::class, 'destroy'])->name('destroy');
         Route::get('messages', [StockSellController::class, 'messages'])->name('get-messages');
+        // Approve/Deny actions
+        Route::post('approve/{id}', [StockSellController::class, 'approve'])->name('approve');
+        Route::post('deny/{id}', [StockSellController::class, 'deny'])->name('deny');
         // Category Management
         Route::prefix('category')->name('category.')->group(function () {
             // Display list of job categories

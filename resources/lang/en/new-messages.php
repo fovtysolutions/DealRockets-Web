@@ -9716,4 +9716,12 @@ return [
 	"high_priority" => "High priority",
 	"medium_priority" => "Medium priority",
 	"low_priority" => "Low priority",
+	"quantity_asc" => "Quantity asc",
+	"quantity_desc" => "Quantity desc",
+	"rfq" => "Rfq",
+	"quote" => "Quote",
+	"not_approved" => "Not approved",
+	"Are you sure you want to approve this stock sell?" => "Are you sure you want to approve this stock sell ",
+	"Are you sure?" => "Are you sure ",
+	"Are you sure you want to deny this stock sell?" => "Are you sure you want to deny this stock sell ",
 ];

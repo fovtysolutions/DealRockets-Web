@@ -135,6 +135,7 @@
             </div>
         </div>
 
+        <div class="content container-fluid">
         <div class="row mt-20" id="cate-table">
             <div class="col-md-12">
                 <div class="card">
@@ -240,6 +241,7 @@
                 </div>
             </div>
         </div>
+</div>
     </div>
 
     <span id="route-admin-category-delete" data-url="{{ route('admin.sub-category.delete') }}"></span>

@@ -40,14 +40,27 @@
                             </div>
 
                             <div class="col-md-2 col-sm-4 col-6">
+                                <label class="form-label mb-1 small">{{ translate('approval_status') }}</label>
+                                <select name="is_approved" class="form-control form-control-sm">
+                                    <option value="">{{ translate('all') }}</option>
+                                    <option value="1" {{ request('is_approved') === '1' ? 'selected' : '' }}>
+                                        {{ translate('approved') }}
+                                    </option>
+                                    <option value="0" {{ request('is_approved') === '0' ? 'selected' : '' }}>
+                                        {{ translate('not_approved') }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2 col-sm-4 col-6">
                                 <label class="form-label mb-1 small">{{ translate('min_quantity') }}</label>
-                                <input type="number" name="minqty" class="form-control form-control-sm" 
+                                <input type="number" name="minqty" class="form-control form-control-sm"
                                     placeholder="{{ translate('min_qty') }}" value="{{ request('minqty') }}" min="0">
                             </div>
 
                             <div class="col-md-2 col-sm-4 col-6">
                                 <label class="form-label mb-1 small">{{ translate('max_quantity') }}</label>
-                                <input type="number" name="maxqty" class="form-control form-control-sm" 
+                                <input type="number" name="maxqty" class="form-control form-control-sm"
                                     placeholder="{{ translate('max_qty') }}" value="{{ request('maxqty') }}" min="0">
                             </div>
 
@@ -85,6 +98,7 @@
                                             placeholder="{{ translate('search_by_Product_Name') }}"
                                             aria-label="Search products" value="{{ request('name') }}">
                                         <input type="hidden" value="{{ request('status') }}" name="status">
+                                        <input type="hidden" value="{{ request('is_approved') }}" name="is_approved">
                                         <input type="hidden" value="{{ request('minqty') }}" name="minqty">
                                         <input type="hidden" value="{{ request('maxqty') }}" name="maxqty">
                                         <button type="submit" class="btn btn--primary">{{ translate('search') }}</button>
@@ -127,6 +141,7 @@
                                             <th>{{ translate('name') }}</th>
                                             <th>{{ translate('quantity') }}</th>
                                             <th>{{ translate('status') }}</th>
+                                            <th>{{ translate('approval_status') }}</th>
                                             <th>{{ translate('view_product') }}</th>
                                             <th class="text-center">{{ translate('actions') }}</th>
                                         </tr>
@@ -140,13 +155,20 @@
                                                 <td>{{ $value->quantity }}</td>
                                                 <td>
                                                     @if($value->status == 'active')
-                                                        <span class="badge bg-success">Active</span>
+                                                        <span class="badge bg-success">{{ translate('active') }}</span>
                                                     @elseif($value->status == 'inactive')
-                                                        <span class="badge bg-secondary">Inactive</span>
+                                                        <span class="badge bg-secondary">{{ translate('inactive') }}</span>
                                                     @elseif($value->status == 'rejected')
-                                                        <span class="badge bg-danger">Rejected</span>
+                                                        <span class="badge bg-danger">{{ translate('rejected') }}</span>
                                                     @else
-                                                        <span class="badge bg-warning">Invalid</span>
+                                                        <span class="badge bg-warning">{{ translate('invalid') }}</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if ($value->is_approved)
+                                                        <span class="badge bg-success">{{ translate('approved') }}</span>
+                                                    @else
+                                                        <span class="badge bg-warning">{{ translate('pending') }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -156,16 +178,29 @@
                                                     </a>
                                                 </td>
                                                 <td class="text-center">
-                                                    <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                                    <div class="d-flex gap-2">
                                                         <a href="{{ route('admin.stock.show', ['id' => $value->id]) }}"
-                                                            class="btn btn-outline-info" title="View"><i class="tio-invisible"></i>View</a>
+                                                            class="btn btn-outline-info" title="View"><i class="tio-invisible"></i>{{ translate('view') }}</a>
                                                         <a href="{{ route('admin.stock.edit', ['id' => $value->id]) }}"
-                                                            class="btn btn-outline-primary" title="Edit"><i class="tio-edit"></i>Edit</a>
+                                                            class="btn btn-outline-primary" title="Edit"><i class="tio-edit"></i>{{ translate('edit') }}</a>
+                                                        @if ($value->is_approved)
+                                                            <form action="{{ route('admin.stock.deny', ['id' => $value->id]) }}"
+                                                                method="POST" onsubmit="return confirm('{{ translate('Are you sure you want to deny this stock sell?') }}');" class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-outline-danger" title="Deny">{{ translate('deny') }} <i class="tio-block"></i></button>
+                                                            </form>
+                                                        @else
+                                                            <form action="{{ route('admin.stock.approve', ['id' => $value->id]) }}"
+                                                                method="POST" onsubmit="return confirm('{{ translate('Are you sure you want to approve this stock sell?') }}');" class="d-inline">
+                                                                @csrf
+                                                                <button type="submit" class="btn btn-outline-success" title="Approve">{{ translate('approve') }} <i class="tio-done"></i></button>
+                                                            </form>
+                                                        @endif
                                                         <form action="{{ route('admin.stock.destroy', ['id' => $value->id]) }}"
-                                                            method="POST" onsubmit="return confirm('Are you sure?');" class="d-inline">
-                                                            @csrf 
+                                                            method="POST" onsubmit="return confirm('{{ translate('Are you sure?') }}');" class="d-inline">
+                                                            @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-outline-danger" title="Delete">Delete
+                                                            <button type="submit" class="btn btn-outline-danger" title="Delete">{{ translate('delete') }}
                                                                 <i class="tio-delete"></i>
                                                             </button>
                                                         </form>

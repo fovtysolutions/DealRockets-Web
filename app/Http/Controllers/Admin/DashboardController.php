@@ -720,7 +720,7 @@ class DashboardController extends BaseController
                 $title = 'Marketplace';
                 $cardData = [
                     // ['link' => route('admin.products.add'), 'title' => 'Products Add', 'value' => 'Yes'],
-                    ['link' => route('admin.products.list', ['in-house']), 'title' => 'Products List', 'value' => 'Yes'],
+                    // ['link' => route('admin.products.list', ['in-house']), 'title' => 'Products List', 'value' => 'Yes'],
                     ['link' => route('admin.category.view'), 'title' => 'Categories', 'value' => 'Yes'],
                     ['link' => route('admin.sub-category.view'), 'title' => 'Sub Categories', 'value' => 'Yes'],
                     ['link' => route('admin.sub-sub-category.view'), 'title' => 'Sub Sub Categories', 'value' => 'Yes'],

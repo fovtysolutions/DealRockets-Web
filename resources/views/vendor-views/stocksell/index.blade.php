@@ -10,14 +10,14 @@
         <div>
             <form action="{{ route('vendor.stock.index') }}" method="GET" class="row" id="form-filter">
                 <!-- Search by Name -->
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="searchName" class="form-label" style="color: var(--title-color);font-weight: 700;">Search by
                         Name</label>
                     <input type="text" id="searchName" class="form-control" name="name"
                         placeholder="Enter product name" style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
                 </div>
                 <!-- Filter by Status -->
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="filterStatus" class="form-label" style="color: var(--title-color);font-weight: 700;">Filter
                         by Status</label>
                     <select id="filterStatus" class="form-control" name="status"
@@ -28,8 +28,19 @@
                         <option value="rejected">Rejected</option>
                     </select>
                 </div>
+                <!-- Filter by Enabled Status -->
+                <div class="col-md-3">
+                    <label for="filterEnabled" class="form-label" style="color: var(--title-color);font-weight: 700;">Filter
+                        by Enabled Status</label>
+                    <select id="filterEnabled" class="form-control" name="is_enabled"
+                        style="box-shadow: 0px 3px 14px rgb(176 193 249 / 43%);">
+                        <option selected value="">All</option>
+                        <option value="1">Enabled</option>
+                        <option value="0">Disabled</option>
+                    </select>
+                </div>
                 <!-- Filter by Quantity -->
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="quantityRange" class="form-label" style="color: var(--title-color);font-weight: 700;">Filter
                         by Quantity</label>
                     <div class="input-group">
@@ -60,6 +71,7 @@
                                         <th class="text-center text-capitalize">Description</th>
                                         <th class="text-center text-capitalize">Quantity</th>
                                         <th class="text-center text-capitalize">Status</th>
+                                        <th class="text-center text-capitalize">Enabled Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -82,6 +94,13 @@
                                                     <span class="badge bg-warning">Invalid</span>
                                                 @endif
                                             </td>
+                                            <td class="text-center">
+                                                @if ($value->is_enabled)
+                                                    <span class="badge bg-success">Enabled</span>
+                                                @else
+                                                    <span class="badge bg-danger">Disabled</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 <span class="d-flex gap-2">
                                                     <a class="btn btn-outline-info"
@@ -92,6 +111,21 @@
                                                         href="{{ route('vendor.stock.edit', ['id' => $value->id]) }}">
                                                         <i class="tio-edit"></i> Edit
                                                     </a>
+                                                    @if ($value->is_enabled)
+                                                        <form action="{{ route('vendor.stock.disable', ['id' => $value->id]) }}"
+                                                            method="post">
+                                                            @csrf
+                                                            <button class="btn btn-outline-danger" type="submit"><i
+                                                                    class="tio-toggle-off"></i> Disable</button>
+                                                        </form>
+                                                    @else
+                                                        <form action="{{ route('vendor.stock.enable', ['id' => $value->id]) }}"
+                                                            method="post">
+                                                            @csrf
+                                                            <button class="btn btn-outline-success" type="submit"><i
+                                                                    class="tio-toggle-on"></i> Enable</button>
+                                                        </form>
+                                                    @endif
                                                     <form action="{{ route('vendor.stock.destroy', ['id' => $value->id]) }}"
                                                         method="post">
                                                         @csrf @method('delete')

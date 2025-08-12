@@ -41,6 +41,9 @@ class StocksalewebController extends Controller
 
         // Always filter by active status
         $query->where('status', 'active');
+        // Filter by enabled and approved status
+        $query->where('is_enabled', true);
+        $query->where('is_approved', true);
         $query->whereHas('countryRelation', function ($query) {
             $query->whereRaw('blacklist = ?', ['no']);
         });
@@ -153,6 +156,9 @@ class StocksalewebController extends Controller
 
         // Always filter by active status
         $query->where('status', 'active');
+        // Filter by enabled and approved status
+        $query->where('is_enabled', true);
+        $query->where('is_approved', true);
 
         // Filter by country if necessary
         $query->whereHas('countryRelation', function ($query) {

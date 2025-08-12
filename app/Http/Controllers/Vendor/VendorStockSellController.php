@@ -199,6 +199,10 @@ class VendorStockSellController extends Controller
         if ($request->status) {
             $query->where('status', 'like', '%' . $request->status . '%');
         }
+        // Filter by enabled status
+        if ($request->has('is_enabled') && $request->is_enabled !== '') {
+            $query->where('is_enabled', $request->is_enabled);
+        }
         if ($request->minqty) {
             $query->where('quantity', '>=', $request->minqty);
         }
@@ -501,5 +505,69 @@ class VendorStockSellController extends Controller
         }
 
         return response()->json($results);
+    }
+
+    /**
+     * Enable a stock sell item.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function enable($id)
+    {
+        try {
+            // Get user data to ensure the vendor can only enable their own items
+            $user_data = ChatManager::getRoleDetail();
+            $user_id = $user_data['user_id'];
+            $role = $user_data['role'];
+
+            // Find the stock sell item and ensure it belongs to the current vendor
+            $stockSell = StockSell::where('id', $id)
+                ->where('user_id', $user_id)
+                ->where('role', $role)
+                ->firstOrFail();
+
+            $stockSell->is_enabled = true;
+            $stockSell->save();
+
+            toastr()->success('Stock Sell enabled successfully.');
+            return redirect()->route('vendor.stock.index');
+        } catch (Exception $e) {
+            toastr()->error('Failed to enable Stock Sell.');
+            Log::error("Error enabling Stock Sell: " . $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Disable a stock sell item.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function disable($id)
+    {
+        try {
+            // Get user data to ensure the vendor can only disable their own items
+            $user_data = ChatManager::getRoleDetail();
+            $user_id = $user_data['user_id'];
+            $role = $user_data['role'];
+
+            // Find the stock sell item and ensure it belongs to the current vendor
+            $stockSell = StockSell::where('id', $id)
+                ->where('user_id', $user_id)
+                ->where('role', $role)
+                ->firstOrFail();
+
+            $stockSell->is_enabled = false;
+            $stockSell->save();
+
+            toastr()->success('Stock Sell disabled successfully.');
+            return redirect()->route('vendor.stock.index');
+        } catch (Exception $e) {
+            toastr()->error('Failed to disable Stock Sell.');
+            Log::error("Error disabling Stock Sell: " . $e->getMessage());
+            return redirect()->back();
+        }
     }
 }

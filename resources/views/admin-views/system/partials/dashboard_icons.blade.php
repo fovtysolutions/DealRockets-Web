@@ -4,7 +4,7 @@ $vendorCards = [
     ['Product Approvals', 'product-approval', 'fas fa-check-square'],
     ['Vendor Approvals', 'vendor-approval', 'fas fa-user-check'],
     ['Leads', 'leads', 'fas fa-user-plus'],
-    ['Sell Offers', 'sell-offers', 'fas fa-bullhorn'],
+    ['Sell Offers', 'sell-offer', 'fas fa-bullhorn'],
     // ['Buy Leads', 'buy-leads', 'fas fa-clipboard-list'],
     ['Marketplace', 'marketplace', 'fas fa-store'],
     ['Stock Sell', 'stock-sell', 'fas fa-warehouse'],

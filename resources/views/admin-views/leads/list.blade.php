@@ -137,6 +137,7 @@
                                     <th class="text-center">{{ translate('type') }}</th>
                                     <th class="text-center">{{ translate('country') }}</th>
                                     <th class="text-center">{{ translate('posted_date') }}</th>
+                                    <th class="text-center">{{ translate('status') }}</th>
                                     <th class="text-center">{{ translate('action') }}</th>
                                 </tr>
                             </thead>
@@ -159,11 +160,36 @@
                                             {{ $lead['posted_date'] }}
                                         </td>
                                         <td class="text-center">
+                                            @if(isset($lead['approved']) && $lead['approved'])
+                                                <span class="badge badge-success">Approved</span>
+                                            @else
+                                                <span class="badge badge-warning">Pending</span>
+                                            @endif
+                                            @if(isset($lead['active']) && (int)$lead['active'] === 1)
+                                                <span class="badge badge-info ml-1">Enabled</span>
+                                            @else
+                                                <span class="badge badge-secondary ml-1">Disabled</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
                                             <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
                                                 <a href="{{ route('admin.leads.view', ['id' => $lead['id']]) }}"
                                                     class="btn btn-outline-info" title="View">
                                                     <i class="tio-invisible"></i>View
                                                 </a>
+                                                @if(isset($lead['approved']) && $lead['approved'])
+                                                    <span class="badge badge-success">Approved</span>
+                                                    <form action="{{ route('admin.leads.deny', [$lead['id']]) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-warning" title="Deny">Deny</button>
+                                                    </form>
+                                                @else
+                                                    <span class="badge badge-warning">Pending</span>
+                                                    <form action="{{ route('admin.leads.approve', [$lead['id']]) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-success" title="Approve">Approve</button>
+                                                    </form>
+                                                @endif
                                                 <a href="{{ route('admin.leads.edit', ['id' => $lead['id']]) }}"
                                                     class="btn btn-outline-primary" title="Edit">
                                                     <i class="tio-edit"></i>Edit

@@ -9711,4 +9711,9 @@ return [
 	"5+_years" => "5+ years",
 	"price_asc" => "Price asc",
 	"price_desc" => "Price desc",
+	"priority_asc" => "Priority asc",
+	"priority_desc" => "Priority desc",
+	"high_priority" => "High priority",
+	"medium_priority" => "Medium priority",
+	"low_priority" => "Low priority",
 ];

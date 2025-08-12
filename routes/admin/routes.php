@@ -170,7 +170,7 @@ use App\Http\Controllers\Admin\Settings\VendorRegistrationSettingController;
 use App\Http\Controllers\Admin\Notification\PushNotificationSettingsController;
 use App\Http\Controllers\Web\SupplierController;
 use App\Http\Controllers\Leads\LeadsController;
-use App\Enums\ViewPaths\Admin\Leads;
+use App\Enums\ViewPaths\Admin\Leads as LeadsEnum;
 use App\Enums\ViewPaths\Admin\Supplier;
 use App\Http\Controllers\Web\TradeshowController;
 use App\Enums\ViewPaths\Admin\Tradeshow;
@@ -1198,13 +1198,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::post('suppliers/delete' . '/{id}', [SupplierController::class, 'delete'])->name('suppliers.delete');
 
     // Admin Leads
-    Route::get(Leads::ADD[URI], [LeadsController::class, 'add_new'])->name('add-new-leads');
+    Route::get(LeadsEnum::ADD[URI], [LeadsController::class, 'add_new'])->name('add-new-leads');
     Route::post('leads/add-new', [LeadsController::class, 'store'])->name('store.leads');
-    Route::get(Leads::BULK[URI], [LeadsController::class, 'getBulkImportView'])->name('bulk-import-leads');
+    Route::get(LeadsEnum::BULK[URI], [LeadsController::class, 'getBulkImportView'])->name('bulk-import-leads');
     Route::post('leads/bulk', [LeadsController::class, 'importBulkLeads'])->name('leads.bulk.import');
-    Route::get(Leads::LIST[URI], [LeadsController::class, 'list'])->name('leads.list');
-    Route::get(Leads::VIEW[URI] . '/{id}', [LeadsController::class, 'view'])->name('leads.view');
-    Route::get(Leads::EDIT[URI] . '/{id}', [LeadsController::class, 'edit'])->name('leads.edit');
+    Route::get(LeadsEnum::LIST[URI], [LeadsController::class, 'list'])->name('leads.list');
+    Route::get(LeadsEnum::VIEW[URI] . '/{id}', [LeadsController::class, 'view'])->name('leads.view');
+    Route::get(LeadsEnum::EDIT[URI] . '/{id}', [LeadsController::class, 'edit'])->name('leads.edit');
     Route::post('leads/update' . '/{id}', [LeadsController::class, 'update'])->name('leads.update');
     Route::delete('leads/delete' . '/{id}', [LeadsController::class, 'delete'])->name('leads.delete');
     Route::get('leads/get-messages', [LeadsController::class, 'getMessages'])->name('leads.get-messages');
@@ -1239,6 +1239,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
     Route::get(Quotation::EDIT[URI] . '/{id}', [QuotatioController::class, 'edit'])->name('quotation.edit');
     Route::post('quotation/update' . '/{id}', [QuotatioController::class, 'update'])->name('quotation.update');
     Route::post('quotation/delete' . '/{id}', [QuotatioController::class, 'delete'])->name('quotation.delete');
+    Route::post('quotation/approve' . '/{id}', [QuotatioController::class, 'approve'])->name('quotation.approve');
+    Route::post('quotation/deny' . '/{id}', [QuotatioController::class, 'deny'])->name('quotation.deny');
+
+    // Admin Leads
+    Route::get(LeadsEnum::LIST[URI], [LeadsController::class, 'list'])->name('leads.list');
+    Route::get(LeadsEnum::VIEW[URI] . '/{id}', [LeadsController::class, 'view'])->name('leads.view');
+    Route::get(LeadsEnum::EDIT[URI] . '/{id}', [LeadsController::class, 'edit'])->name('leads.edit');
+    Route::post('leads/update' . '/{id}', [LeadsController::class, 'update'])->name('leads.update');
+    Route::post('leads/delete' . '/{id}', [LeadsController::class, 'delete'])->name('leads.delete');
+    Route::post('leads/approve' . '/{id}', [LeadsController::class, 'approve'])->name('leads.approve');
+    Route::post('leads/deny' . '/{id}', [LeadsController::class, 'deny'])->name('leads.deny');
 
     // Admin CV
     Route::get(CV::BULK[URI], [CVController::class, 'getBulkImportView'])->name('bulk-import-cv');

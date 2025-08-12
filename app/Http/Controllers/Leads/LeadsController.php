@@ -119,7 +119,7 @@ class LeadsController extends Controller
     {
         $categoriesn = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         // Filter Countries
-        $leadsQuery = Leads::where('type', 'buyer')->whereHas('countryRelation', function ($query) {
+        $leadsQuery = Leads::where('type', 'buyer')->where('approved', 1)->where('active', 1)->whereHas('countryRelation', function ($query) {
             $query->where('blacklist', 'no');
         });
 
@@ -184,8 +184,8 @@ class LeadsController extends Controller
     {
         $query = Leads::query();
 
-        // Always filter by active status
-        $query->where('type', 'buyer');
+        // Always filter by status and type
+        $query->where('type', 'buyer')->where('approved', 1)->where('active', 1);
 
         // Filter by country if necessary
         $query->whereHas('countryRelation', function ($query) {
@@ -245,8 +245,8 @@ class LeadsController extends Controller
     {
         $query = Leads::query();
 
-        // Always filter by active status
-        $query->where('type', 'seller');
+        // Always filter by status and type
+        $query->where('type', 'seller')->where('approved', 1)->where('active', 1);
 
         // Filter by country if necessary
         $query->whereHas('countryRelation', function ($query) {
@@ -306,7 +306,7 @@ class LeadsController extends Controller
     {
         $categoriesn = CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
         // Filter Countries
-        $leadsQuery = Leads::where('type', 'seller');
+        $leadsQuery = Leads::where('type', 'seller')->where('approved', 1)->where('active', 1);
         // Filter Section
         if ($request->has('from') && $request->from) {
             $leadsQuery->where('posted_date', '>=', $request->from);
@@ -768,6 +768,26 @@ class LeadsController extends Controller
 
         toastr()->success($saleOffer['message']);
         return redirect()->back()->with('success', 'Status updated successfully!');
+    }
+
+    public function approve($id)
+    {
+        $lead = Leads::findOrFail($id);
+        $lead->approved = 1;
+        $lead->save();
+
+        toastr()->success('Lead Approved Successfully');
+        return redirect()->back();
+    }
+
+    public function deny($id)
+    {
+        $lead = Leads::findOrFail($id);
+        $lead->approved = 0;
+        $lead->save();
+
+        toastr()->info('Lead Denied Successfully');
+        return redirect()->back();
     }
 
     public function getMessages()

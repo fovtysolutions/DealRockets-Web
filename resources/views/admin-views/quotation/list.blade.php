@@ -130,6 +130,7 @@
                                     <th class="text-center">{{ translate('quantity') }}</th>
                                     <th class="text-center">{{ translate('Converted Lead') }}</th>
                                     <th class="text-center">{{ translate('description') }}</th>
+                                    <th class="text-center">{{ translate('status') }}</th>
                                     <th class="text-center">{{ translate('action') }}</th>
                                 </tr>
                             </thead>
@@ -152,13 +153,26 @@
                                         <td class="text-center">{{ Str::limit($quotation->description, 50) }}</td>
                                         <td class="text-center">
                                             <div class="" role="group" style="display: flex;gap: 10px;align-items: center;">
+                                                @if($quotation->approved)
+                                                    <span class="badge badge-success">Approved</span>
+                                                    <form action="{{ route('admin.quotation.deny', [$quotation->id]) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-warning" title="Deny">Deny</button>
+                                                    </form>
+                                                @else
+                                                    <span class="badge badge-warning">Pending</span>
+                                                    <form action="{{ route('admin.quotation.approve', [$quotation->id]) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-success" title="Approve">Approve</button>
+                                                    </form>
+                                                @endif
                                                 <a href="{{ route('admin.quotation.view', ['id' => $quotation->id]) }}"
                                                     class="btn btn-outline-info" title="View">
                                                     <i class="tio-invisible"></i>View
                                                 </a>
                                                 <form action="{{ route('admin.quotation.delete', [$quotation->id]) }}"
                                                     method="POST" onsubmit="return confirm('Are you sure?');" class="d-inline">
-                                                    @csrf 
+                                                    @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-outline-danger" title="Delete">
                                                         Delete<i class="tio-delete"></i>

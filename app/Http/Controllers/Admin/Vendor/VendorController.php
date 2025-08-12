@@ -607,15 +607,10 @@ class VendorController extends BaseController
         $query = \App\Models\VendorExtraDetail::query();
 
         // Join with vendor users table
-        $query->when($request->has('email') && $request->email !== null, function ($q) use ($request) {
+        $query->when($request->has('searchValue') && $request->searchValue !== null, function ($q) use ($request) {
             $q->whereHas('sellerUser', function ($subQuery) use ($request) {
-                $subQuery->where('email', 'like', '%' . $request->email . '%');
-            });
-        });
-
-        $query->when($request->has('phone') && $request->phone !== null, function ($q) use ($request) {
-            $q->whereHas('sellerUser', function ($subQuery) use ($request) {
-                $subQuery->where('phone', 'like', '%' . $request->phone . '%');
+                $subQuery->where('email', 'like', '%' . $request->searchValue . '%')
+                    ->orWhere('phone', 'like', '%' . $request->searchValue . '%');
             });
         });
 
@@ -624,6 +619,50 @@ class VendorController extends BaseController
                 $subQuery->where('is_complete', $request->status);
             });
         });
+        
+        // Date range filtering
+        $query->when($request->has('created_from') && $request->created_from !== null, function ($q) use ($request) {
+            $q->whereHas('sellerUser', function ($subQuery) use ($request) {
+                $subQuery->whereDate('created_at', '>=', $request->created_from);
+            });
+        });
+        
+        $query->when($request->has('created_to') && $request->created_to !== null, function ($q) use ($request) {
+            $q->whereHas('sellerUser', function ($subQuery) use ($request) {
+                $subQuery->whereDate('created_at', '<=', $request->created_to);
+            });
+        });
+        
+        // Sorting
+        $sortBy = $request->input('sort_by', '');
+        switch ($sortBy) {
+            case 'email_asc':
+                $query->whereHas('sellerUser', function ($subQuery) {
+                    $subQuery->orderBy('email', 'asc');
+                });
+                break;
+            case 'email_desc':
+                $query->whereHas('sellerUser', function ($subQuery) {
+                $subQuery->orderBy('email', 'desc');
+                });
+                break;
+            case 'created_asc':
+                $query->whereHas('sellerUser', function ($subQuery) {
+                    $subQuery->orderBy('created_at', 'asc');
+                });
+                break;
+            case 'created_desc':
+                $query->whereHas('sellerUser', function ($subQuery) {
+                    $subQuery->orderBy('created_at', 'desc');
+                });
+                break;
+            default:
+                // Default sorting by created_at descending (newest first)
+                $query->whereHas('sellerUser', function ($subQuery) {
+                    $subQuery->orderBy('created_at', 'desc');
+                });
+                break;
+        }
 
         $registerForms = $query->paginate(10)->appends($request->query());
 

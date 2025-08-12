@@ -206,7 +206,27 @@ class QuotatioController extends Controller
         $quotations = Quotation::findOrFail($id);
         $quotations->delete();
 
-        return redirect()->route('admin.quotations.list')->with('success', 'Supplier deleted successfully.');
+        return redirect()->route('admin.quotation.list')->with('success', 'Quotation deleted successfully.');
+    }
+
+    public function approve($id)
+    {
+        $quotation = Quotation::findOrFail($id);
+        $quotation->approved = true;
+        $quotation->save();
+
+        toastr()->success('Quotation Approved Successfully');
+        return redirect()->back();
+    }
+
+    public function deny($id)
+    {
+        $quotation = Quotation::findOrFail($id);
+        $quotation->approved = false;
+        $quotation->save();
+
+        toastr()->info('Quotation Denied Successfully');
+        return redirect()->back();
     }
 
     public function getBulkImportView()

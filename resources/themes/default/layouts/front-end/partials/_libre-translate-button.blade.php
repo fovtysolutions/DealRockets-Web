@@ -13,5 +13,5 @@
         </div>
     </div>
     
-    @include('themes.default.layouts.front-end.partials._libre-translate-dropdown')
+    @include('layouts.front-end.partials._libre-translate-dropdown')
 </div>

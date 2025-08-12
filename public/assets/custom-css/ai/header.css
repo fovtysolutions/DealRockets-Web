@@ -1196,18 +1196,6 @@
   .element-mobile .dropdown-nav a:last-child {
     border-bottom: none;
   }
-
-  .element-mobile .delone {
-    display: none;
-  }
-
-  .element-mobile .deltwo {
-    display: none;
-  }
-
-  .element-mobile .delthree {
-    display: none;
-  }
 }
 
 @media (max-width: 1023px) {

@@ -1,5 +1,5 @@
 <div id="dynamicBuyLeads">
-    @if (isset($items))
+    @if (isset($items) && $items->isNotEmpty())
         @foreach ($items as $buyer)
             <article class="lead-card">
                 <div class="lead-card-inner">
@@ -208,6 +208,9 @@
             </div>
         @endforeach
     @else
-        <p>No Data</p>
+        <div class="no-data-container" style="text-align: center; padding: 40px 20px;">
+            <h3>No Buyers Found</h3>
+            <p>Try adjusting your search filters or check back later for new listings.</p>
+        </div>
     @endif
 </div>

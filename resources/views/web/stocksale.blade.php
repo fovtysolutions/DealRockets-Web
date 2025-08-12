@@ -183,7 +183,9 @@
                         @include('web.dynamic-partials.dynamic-stocksell')
                         <!-- Pagination -->
                         <div id="paginationControls">
-                            {{ $items->links('custom-paginator.custom') }}
+                            @if (isset($items) && $items instanceof \Illuminate\Pagination\AbstractPaginator)
+                                {{ $items->links('custom-paginator.custom') }}
+                            @endif
                         </div>
                     </div>
                 </div>

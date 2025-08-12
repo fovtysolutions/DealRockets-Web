@@ -107,7 +107,9 @@
                         <!-- Lead cards will be dynamically inserted here -->
                         @include('leads.partials.dynamic-buyers')
                         <div id="paginationControls">
-                            {{ $items->links('custom-paginator.custom') }}
+                            @if (isset($items) && $items instanceof \Illuminate\Pagination\AbstractPaginator)
+                                {{ $items->links('custom-paginator.custom') }}
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <!-- Product Cards -->
 <div id="dynamicSellLeads">
-    @if (isset($items))
+    @if (isset($items) && $items->isNotEmpty())
         @foreach ($items as $seller)
             @php
                 $user = auth('customer')->user();
@@ -236,6 +236,9 @@
             </div>
         @endforeach
     @else
-        <p>No Data</p>
+        <div class="no-data-container" style="text-align: center; padding: 40px 20px;">
+            <h3>No Sellers Found</h3>
+            <p>Try adjusting your search filters or check back later for new listings.</p>
+        </div>
     @endif
 </div>

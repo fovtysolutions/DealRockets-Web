@@ -121,7 +121,9 @@
                 {{-- Dynamic Content --}}
                 @include('leads.partials.dynamic-sellleads')
                 <div id="paginationControls">
-                    {{ $items->links('custom-paginator.custom') }}
+                    @if (isset($items) && $items instanceof \Illuminate\Pagination\AbstractPaginator)
+                        {{ $items->links('custom-paginator.custom') }}
+                    @endif
                 </div>
             </div>
         </div>

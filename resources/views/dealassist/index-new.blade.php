@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deal-Assist</title>
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -96,7 +101,7 @@
 
         .tab-container {
             position: relative;
-            width: 326px;
+                width: 257px;
             height: 60px;
             background-color: #fff;
             border-radius: 60px;
@@ -132,7 +137,7 @@
 
         .content-section {
             display: flex;
-            gap: 45px;
+            gap: 80px;
             padding: 0 80px;
             margin-bottom: 45px;
         }
@@ -159,6 +164,7 @@
             margin-bottom: 8px;
             letter-spacing: -0.4px;
             color: #010101;
+            margin-bottom: 25px;
         }
 
         .content-text {
@@ -284,6 +290,7 @@
             margin-bottom: 24px;
             position: relative;
             z-index: 2;
+            color: #FE4E44;
         }
 
         .step-number i {
@@ -321,17 +328,17 @@
         .features-grid {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
+            /* gap: 30px; */
+            /* flex-wrap: wrap; */
         }
 
         .feature-card {
             background-color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
+            /* border: 1px solid rgba(255, 255, 255, 0.2); */
+            /* border-radius: 12px; */
             padding: 20px;
             width: 305px;
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+            /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); */
             backdrop-filter: blur(35px);
         }
 
@@ -419,10 +426,10 @@
                 width: 100%;
                 max-width: 500px;
             }
-
+/* 
             .card-container {
                 flex-direction: column;
-            }
+            } */
 
             .steps-list {
                 flex-wrap: wrap;
@@ -456,6 +463,10 @@
                 right: auto;
             }
 
+            .card-container {
+                flex-direction: column;
+            }
+
             .hero-content {
                 padding: 40px 20px;
                 max-width: 100%;
@@ -484,6 +495,9 @@
 
             .final-cta-title {
                 font-size: 24px;
+            }
+            .features-grid{
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -515,11 +529,11 @@
         </div>
 
         <!-- About Section -->
-        <section class="content-section">
-            <div class="content-image" style="background-image: url('https://via.placeholder.com/500x500');"></div>
+        <section class="content-section" style="gap: 80px;">
+            <div class="content-image" style="background-image: url('{{ asset('images/dealassist/image 142 (1).png') }}');"></div>
             <div class="content-details">
-                <h2 class="content-title">About Deal Rockets Trade Assist Program</h2>
-                <div class="content-text">
+                <h2 class="content-title" style="text-align: right;">About Deal Rockets Trade Assist Program</h2>
+                <div class="content-text" style="text-align: right;">
                     <p>The Deal Rockets Trade Assist Program is a complete support system designed to make global sourcing secure, transparent, and hassle-free. It ensures smooth transactions, verified suppliers, and clear communication from enquiry to delivery.</p>
                     <p>Built on proven global trade assistance practices, this program helps you source products with confidence, negotiate favorable terms, and connect with reliable suppliers worldwide — knowing your procurement journey is backed by strong quality checks and trust-focused processes at every step.</p>
                 </div>
@@ -546,12 +560,35 @@
             </div>
         </section>
 
+        <style>
+            .curve-line {
+    width: 100%;
+    height: 100px; /* adjust height */
+        position: relative;
+}
+
+.curve-line svg {
+      width: 78%;
+    height: 100%;
+    position: absolute;
+    margin: auto;
+    top: 68px;
+    left: 152px;
+}
+        </style>
         <!-- Buying Journey Section -->
         <section class="steps-section">
             <div class="steps-container">
                 <h2 class="steps-title">Start your Buying Journey</h2>
-                <div class="steps-timeline">
-                    <div class="timeline-line"></div>
+               <div class="curve-line">
+                <svg viewBox="0 0 1000 200" preserveAspectRatio="none">
+                    <path d="M 0 100 C 200 -200, 800 400, 1000 100"
+                        stroke="#ff3b30"
+                        stroke-width="2"
+                        fill="none"
+                        stroke-dasharray="6,6" />
+                </svg>
+            </div>
                 </div>
                 <div class="steps-list">
                     <div class="step">
@@ -588,7 +625,7 @@
 
         <!-- Buyer Protection Section -->
         <section class="content-section">
-            <div class="content-image" style="background-image: url('https://via.placeholder.com/500x500');"></div>
+            <div class="content-image" style="background-image: url('{{ asset('images/dealassist/image 142 (2).png') }}');"></div>
             <div class="content-details">
                 <h2 class="content-title">Buyer Protection & Dispute Assistance</h2>
                 <div class="content-text">
@@ -596,7 +633,10 @@
                     <p>This resolution may include arranging a product replacement, initiating corrections to meet agreed standards, or facilitating a mutually agreed refund — all handled directly between you and the seller for maximum control and flexibility.</p>
                     <p>In cases where returns are required, we assist you in navigating the process, helping with clear communication, documentation, and coordination so that you avoid delays and confusion. Our goal is to ensure that any disputes are settled fairly, efficiently, and with your satisfaction as the priority.</p>
                 </div>
-                <a href="#" class="cta-button">Find trusted deals</a>
+                <div>
+                    <a href="#" class="cta-button">Find trusted deals</a>
+                </div>
+                
             </div>
         </section>
 
@@ -630,16 +670,19 @@
 
         <!-- Order Tracking Section -->
         <section class="content-section">
-            <div class="content-details">
-                <h2 class="content-title">Order Tracking & Updates</h2>
+            <div class="content-details" style="margin-right: 7rem;">
+                <h2 class="content-title mb-3">Order Tracking & Updates</h2>
                 <div class="content-text">
                     <p>From the moment your order is confirmed, Deal Rockets ensures you're never left in the dark. Our Order Tracking & Updates feature gives you full visibility into your procurement journey, starting from production progress to shipment milestones and final delivery.</p>
                     <p>You'll receive timely updates directly from the seller, including manufacturing timelines, dispatch details, tracking numbers, and estimated arrival dates. In addition, our team is available to help clarify any unexpected delays, changes in schedules, or adjustments to your order.</p>
                     <p>We make sure all communications remain transparent and accurate, eliminating uncertainty and keeping you in control of your order status at every step. Whether it's a bulk shipment across borders or a smaller, specialized delivery, we keep you informed so you can plan your business operations with confidence.</p>
                 </div>
-                <a href="#" class="cta-button">Track My Order</a>
+                <div>
+                               <a href="#" class="cta-button">Track My Order</a>
+                </div>
+     
             </div>
-            <div class="content-image" style="background-image: url('https://via.placeholder.com/500x500');"></div>
+            <div class="content-image" style="background-image: url('{{ asset('images/dealassist/image 142 (3).png') }}');"></div>
         </section>
 
         <!-- Why Our Assistance Works Section -->
@@ -679,7 +722,7 @@
 
         <!-- Negotiation Support Section -->
         <section class="content-section">
-            <div class="content-image" style="background-image: url('https://via.placeholder.com/500x500');"></div>
+            <div class="content-image" style="background-image: url('{{ asset('images/dealassist/image 142 (4).png') }}');"></div>
             <div class="content-details">
                 <h2 class="content-title">Negotiation Support</h2>
                 <div class="content-text">
@@ -687,7 +730,10 @@
                     <p>We facilitate direct, clear discussions between you and the seller, covering key details such as product specifications, quantities, delivery schedules, and final pricing. By helping both parties align on expectations and responsibilities early on, we reduce the risk of misunderstandings that could disrupt your order.</p>
                     <p>Our experienced team can also guide you through counter-offers, specification adjustments, and alternative solutions when challenges arise. The result is a smoother, faster negotiation process that protects your interests, builds strong supplier relationships, and ensures successful deal closures.</p>
                 </div>
-                <a href="#" class="cta-button">Start Negotiation</a>
+                <div>
+                    <a href="#" class="cta-button">Start Negotiation</a>
+                </div>
+                
             </div>
         </section>
 
@@ -695,9 +741,15 @@
         <section class="steps-section">
             <div class="steps-container">
                 <h2 class="steps-title">How to Join Deal Rockets Trade Assist Program</h2>
-                <div class="steps-timeline">
-                    <div class="timeline-line"></div>
-                </div>
+                <div class="curve-line">
+                <svg viewBox="0 0 1000 200" preserveAspectRatio="none">
+                    <path d="M 0 100 C 200 -200, 800 400, 1000 100"
+                        stroke="#ff3b30"
+                        stroke-width="2"
+                        fill="none"
+                        stroke-dasharray="6,6" />
+                </svg>
+            </div>
                 <div class="steps-list">
                     <div class="step">
                         <div class="step-number">

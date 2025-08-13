@@ -10,12 +10,12 @@
     : asset('/img/image 154 (1).png') }}" alt="Company Logo" onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" class="company-logo">
 
         <div class="company-meta">
-            <h1 class="text-black">{{ $firstdata->title ?? 'No Title Provided' }}</h1>
-            <p>
+            <h1 class="text-black   custom-dealrock-text-30">{{ $firstdata->title ?? 'No Title Provided' }}</h1>
+            <p class="custom-dealrock-text-14">
                 {{ $firstdata->company_name ?? 'Company name unavailable' }} -
                 {{ $firstdata->company_address ?? 'Address unavailable' }}
             </p>
-            <p class="posted-time">
+            <p class="posted-time custom-dealrock-text-14">
                 Posted {{ optional($firstdata->created_at)->diffForHumans() ?? 'Date not available' }}
             </p>
         </div>
@@ -81,7 +81,7 @@
                 <div class="icon-container">
                     <i class="fa-sharp fa-solid fa-dollar-sign"></i>
                 </div>
-                <span>
+                <span class="custom-dealrock-text-14">
                     {{ $firstdata->salary_low ?? 'N/A' }} to {{ $firstdata->salary_high ?? 'N/A' }}
                     {{ $firstdata->currency ?? '' }}
                 </span>
@@ -90,7 +90,7 @@
                 <div class="icon-container">
                     <i class="fa fa-map-marker"></i>
                 </div>
-                <span>
+                <span class="custom-dealrock-text-14">
                     {{ optional(\App\Models\City::find($firstdata->city))->name ?? 'Unknown Location' }}
                 </span>
             </div>
@@ -104,24 +104,24 @@
                 <div class="icon-container">
                     <i class="far fa-clock"></i>
                 </div>
-                <span>{{ $firstdata->employment_type ?? 'Not specified' }}</span>
+                <span class="custom-dealrock-text-14">{{ $firstdata->employment_type ?? 'Not specified' }}</span>
             </div>
         </div>
 
         <div class="vertical-divider"></div>
 
         <div class="job-info-right" >
-            <h3 style="color: #151414;">Company</h3>
-            <p>{{ $firstdata->company_employees ? $firstdata->company_employees . ' employee' : 'Employee count unavailable' }}</p>
-            <p>{{ optional(\App\Models\Category::find($firstdata->category))->name ?? 'Category unavailable' }}</p>
+            <h3 class="custom-dealrock-text-18" style="color: #151414;">Company</h3>
+            <p  class="custom-dealrock-text-14">{{ $firstdata->company_employees ? $firstdata->company_employees . ' employee' : 'Employee count unavailable' }}</p>
+            <p class="custom-dealrock-text-14">{{ optional(\App\Models\Category::find($firstdata->category))->name ?? 'Category unavailable' }}</p>
         </div>
     </div>
 
 <hr>
 
         <div class="job-description-section">
-            <h3 style="color: #151414;">Job Description</h3>
-            <div class="description-text">
+            <h3 class="custom-dealrock-text-18" style="color: #151414;">Job Description</h3>
+            <div class="description-text custom-dealrock-text-14">
                 {{ $firstdata->description ?? 'No description provided.' }}
             </div>
         </div>

@@ -29,7 +29,22 @@ a {
   font: 14px "Roboto", Arial, sans-serif !important;
   color: var(--web-text);
 }
-
+.custom-dealrock-text-18 {
+  font-size: 18px !important;
+  /* color: #666; */
+}
+.custom-dealrock-text-16 {
+  font-size: 16px !important;
+  /* color: #666; */
+}
+.custom-dealrock-text-30 {
+  font-size: 30px  !important;
+  /* color: #666; */
+}
+.custom-dealrock-text-14 {
+  font-size: 14px  !important;
+  /* color: #666; */
+}
 .custom-dealrock-subtext {
   font: 12px "Roboto", Arial, sans-serif !important;
   color: #666;

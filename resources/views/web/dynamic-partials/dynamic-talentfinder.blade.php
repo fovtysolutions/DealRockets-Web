@@ -4,8 +4,8 @@
         <div style="font-size: 48px; margin-bottom: 20px; color: #ddd;">
             <i class="fas fa-users"></i>
         </div>
-        <h3 style="color: #999; margin-bottom: 10px;">No Talent Available</h3>
-        <p style="color: #666; margin-bottom: 30px;">We couldn't find any talent profiles matching your criteria. Try adjusting your filters or check back later.</p>
+        <h3 style="color: #999; margin-bottom: 10px;" class="custom-dealrock-text-30">No Talent Available</h3>
+        <p style="color: #666; margin-bottom: 30px; custom-dealrock-text-14">We couldn't find any talent profiles matching your criteria. Try adjusting your filters or check back later.</p>
     </div>
 
     <!-- Sample Data Card -->

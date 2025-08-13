@@ -136,9 +136,9 @@
                 </div>
                 <!-- Left Sidebar -->
                 <div class="sidebar" id="sidebarhidden">
-                    <div class="d-flex justify-content-between pb-0 filter-section">
-                        <h3>Filter</h3>
-                        <div class="filter-section togglebelow768 p-0 ">
+                    <div class="d-flex justify-content-between pb-0 filter-section ">
+                        <h3 class="custom-dealrock-text-16">Filter</h3>
+                        <div class="filter-section togglebelow768 p-0  custom-dealrock-text-16">
                             <a href="{{ request()->url() }}" class=" reset-filter background-none"
                                 style=" color:#BF9E66">Reset Filters</a>
                         </div>
@@ -146,7 +146,7 @@
 
                     <!-- Salary Range Filter -->
                     <div class="salary-slider-wrapper filter-section" style="padding-top: 0px;">
-                        <h3 class="mb-0">Salary Range</h3>
+                        <h3 class="mb-0 custom-dealrock-text-16">Salary Range</h3>
                         <!-- Hidden inputs for salary range -->
                         <input type="hidden" name="min_salary" id="min_salary" value="{{ request('min_salary', 0) }}">
                         <input type="hidden" name="max_salary" id="max_salary" value="{{ request('max_salary', 100000) }}">
@@ -167,7 +167,7 @@
 
                     <!-- Currency Filter -->
                     <div class="filter-section">
-                        <h3>Filter Currency</h3>
+                        <h3 class="custom-dealrock-text-16">Filter Currency</h3>
                         <div class="search-box">
                             <input type="text" placeholder="Search currency">
                             <i class="fas fa-search"></i>
@@ -179,7 +179,7 @@
                                         <input type="checkbox" id="currency_{{ $currency }}" name="currencies[]"
                                             value="{{ $currency }}"
                                             {{ in_array($currency, request()->get('currencies', [])) ? 'checked' : '' }}>
-                                        <label for="currency_{{ $currency }}">{{ $currency }}</label>
+                                        <label  class="custom-dealrock-text-14" for="currency_{{ $currency }}">{{ $currency }}</label>
                                     </label>
                                 </div>
                             @endforeach
@@ -188,7 +188,7 @@
 
                     <!-- Keywords Filter -->
                     <div class="filter-section">
-                        <h3>Skills/Keywords</h3>
+                        <h3 class="custom-dealrock-text-16">Skills/Keywords</h3>
                         <div class="search-box">
                             <input type="text" placeholder="Search skills">
                             <i class="fas fa-search"></i>
@@ -200,7 +200,7 @@
                                         <input type="checkbox" id="keyword_{{ $keyword['slug'] }}" name="keywords[]"
                                             value="{{ $keyword['label'] }}"
                                             {{ in_array($keyword['label'], request()->get('keywords', [])) ? 'checked' : '' }}>
-                                        <label for="keyword_{{ $keyword['slug'] }}">{{ $keyword['label'] }}</label>
+                                        <label class="custom-dealrock-text-14" for="keyword_{{ $keyword['slug'] }}">{{ $keyword['label'] }}</label>
                                     </label>
                                 </div>
                             @endforeach
@@ -209,7 +209,7 @@
 
                     <!-- Job Type Filter -->
                     <div class="filter-section">
-                        <h3>Job Type</h3>
+                        <h3 class="custom-dealrock-text-16">Job Type</h3>
                         <div class="search-box">
                             <input type="text" placeholder="Search job type">
                             <i class="fas fa-search"></i>
@@ -221,7 +221,7 @@
                                         <input type="checkbox" id="job_type_{{ \Str::slug($type) }}" name="job_types[]"
                                             value="{{ $type }}"
                                             {{ in_array($type, request()->get('job_types', [])) ? 'checked' : '' }}>
-                                        <label for="job_type_{{ \Str::slug($type) }}">{{ $type }}</label>
+                                        <label class="custom-dealrock-text-14" for="job_type_{{ \Str::slug($type) }}">{{ $type }}</label>
                                     </label>
                                 </div>
                             @endforeach
@@ -230,7 +230,7 @@
 
                     <!-- Location Filter -->
                     <div class="filter-section">
-                        <h3>Location</h3>
+                        <h3 class="custom-dealrock-text-16">Location</h3>
                         <div class="search-box">
                             <input type="text" placeholder="Search location">
                             <i class="fas fa-search"></i>
@@ -249,7 +249,7 @@
                                                 {{ $isSelected ? 'checked' : '' }} />
                                         <img src="/flags/{{ strtolower($country['iso2']) }}.svg"
                                                 class="flag-icon" alt="flag" style="width: 25px;"/>    
-                                        <label for="country_{{ $country['name'] }}">{{ $country['name'] }}</label>
+                                        <label class="custom-dealrock-text-14" for="country_{{ $country['name'] }}">{{ $country['name'] }}</label>
                                     </label>
                                 </div>
                             @endforeach
@@ -258,7 +258,7 @@
 
                     <!-- Job Title Filter -->
                     <div class="filter-section">
-                        <h3>Job Title</h3>
+                        <h3 class="custom-dealrock-text-16">Job Title</h3>
                         <div class="search-box">
                             <input type="text" placeholder="Search job title">
                             <i class="fas fa-search"></i>
@@ -270,7 +270,7 @@
                                         <input type="checkbox" id="jobtitle_{{ \Str::slug($title) }}" name="jobtitles[]"
                                             value="{{ $title }}"
                                             {{ in_array($title, request()->get('jobtitles', [])) ? 'checked' : '' }}>
-                                        <label for="jobtitle_{{ \Str::slug($title) }}">{{ $title }}</label>
+                                        <label class="custom-dealrock-text-14" for="jobtitle_{{ \Str::slug($title) }}">{{ $title }}</label>
                                     </label>
                                 </div>
                             @endforeach
@@ -279,16 +279,16 @@
 
                     <!-- Experience Level (min and max) -->
                     <div class="filter-section">
-                        <h3>Experience Level (Years)</h3>
+                        <h3 class="custom-dealrock-text-16">Experience Level (Years)</h3>
                         <div class="experience-range">
-                            <label for="min_experience">Min Experience</label>
+                            <label for="min_experience ">Min Experience</label>
                             <input id="min_experience" type="number" name="min_experience"
-                                class="form-control mb-2" min="0" placeholder="Min Experience"
+                                class="form-control mb-2 custom-dealrock-text-14 " min="0" placeholder="Min Experience"
                                 value="{{ request('min_experience', '') }}">
 
                             <label for="max_experience">Max Experience</label>
                             <input id="max_experience" type="number" name="max_experience"
-                                class="form-control mb-1" min="0" placeholder="Max Experience"
+                                class="form-control custom-dealrock-text-14 mb-1" min="0" placeholder="Max Experience"
                                 value="{{ request('max_experience', '') }}">
                         </div>
                     </div>

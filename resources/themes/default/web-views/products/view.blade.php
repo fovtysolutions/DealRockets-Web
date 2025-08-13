@@ -89,12 +89,12 @@
                 <aside class="sidebar desktop-sidebar">
                     <form method="GET" action="{{ route('products') }}" id="filterFormProducts">
                           <div class="filter-section togglebelow768 mb-3 d-flex justify-content-between pb-0 align-items-center" >
-                            <div class="search-label w-50">Filter</div>
-                            <a href="{{ request()->url() }}" class=" w-50 reset-filter" style="display: flex;  justify-content: right;">Reset Filters</a>
+                            <div class="search-label w-50 custom-dealrock-text-16">Filter</div>
+                            <a href="{{ request()->url() }}" class=" w-50 reset-filter custom-dealrock-text-16" style="display: flex;  justify-content: right;">Reset Filters</a>
                         </div>
                         <div class="filter-section mt-0 showbelow768">
                             <div class="search-section">
-                                <div class="search-label notshowbelow768">Search by Name</div>
+                                <div class="search-label notshowbelow768 custom-dealrock-text-16">Search by Name</div>
                                 <div class="search-input-container">
                                     <div class="search-input-field">
                                         <input type="text" name="search_query" id="nameFilter"
@@ -117,7 +117,7 @@
                         </div>
 
                         <div class="filter-section togglebelow768">
-                            <div class="search-label">Search by Country</div>
+                            <div class="search-label custom-dealrock-text-16">Search by Country</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="country_search" placeholder="Enter Country..."
@@ -142,7 +142,7 @@
                                                 {{ $isSelected ? 'checked' : '' }} />
                                             <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
                                                 class="flag-icon" alt="{{ $country->name }} flag" />
-                                            <div class="filter-label">{{ $countryDetails['countryName'] }}</div>
+                                            <div class="filter-labelb custom-dealrock-text-14">{{ $countryDetails['countryName'] }}</div>
                                         </label>
                                     </div>
                                 @endforeach
@@ -151,7 +151,7 @@
 
                         <!-- Hierarchical Category Filter Section -->
                         <div class="filter-section togglebelow768">
-                            <div class="search-label">Search by Category</div>
+                            <div class="search-label custom-dealrock-text-16">Search by Category</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="category_search" placeholder="Search categories..."
@@ -170,7 +170,7 @@
                                             <input type="checkbox" name="industry[]" value="{{ $mainCategory->id }}"
                                                 {{ in_array($mainCategory->id, request('industry', [])) ? 'checked' : '' }}
                                                 onchange="toggleSubCategories({{ $mainCategory->id }})" />
-                                            <div class="filter-label">
+                                            <div class="filter-label custom-dealrock-text-14">
                                                 {{ $mainCategory->name }}
                                             </div>
                                         </label>
@@ -190,7 +190,7 @@
                                                 <input type="checkbox" name="sub_category[]" value="{{ $subCategory->id }}"
                                                     {{ in_array($subCategory->id, request('sub_category', [])) ? 'checked' : '' }}
                                                     onchange="toggleSubSubCategories({{ $subCategory->id }})" />
-                                                <div class="filter-label">
+                                                <div class="filter-label custom-dealrock-text-14">
                                                     {{ $subCategory->name }}
                                                 </div>
                                             </label>
@@ -209,7 +209,7 @@
                                                 <label class="filter-checkbox sub-sub-category-option filter-item">
                                                     <input type="checkbox" name="sub_sub_category[]" value="{{ $subSubCategory->id }}"
                                                         {{ in_array($subSubCategory->id, request('sub_sub_category', [])) ? 'checked' : '' }} />
-                                                    <div class="filter-label">{{ $subSubCategory->name }}</div>
+                                                    <div class="filter-label custom-dealrock-text-14">{{ $subSubCategory->name }}</div>
                                                 </label>
                                             </div>
                                         @endforeach
@@ -220,7 +220,7 @@
 
                         <!-- Supplier Ranking -->
                         <div class="filter-section togglebelow768">
-                            <div class="search-label">Supplier Ranking</div>
+                            <div class="search-label custom-dealrock-text-16">Supplier Ranking</div>
                             @php
                                 $supplierRanks = [
                                     'All Suppliers',
@@ -236,7 +236,7 @@
                                     <label class="filter-checkbox supplier-rank-option filter-item">
                                         <input type="checkbox" name="supplier_rank[]" value="{{ $rank }}"
                                             {{ request()->has('supplier_rank') && in_array($rank, request('supplier_rank')) ? 'checked' : '' }} />
-                                        <div class="filter-label">{{ $rank }}</div>
+                                        <div class="filter-label custom-dealrock-text-14">{{ $rank }}</div>
                                     </label>
                                 </div>
                             @endforeach
@@ -244,7 +244,7 @@
 
                         <!-- Business Type -->
                         <div class="filter-section togglebelow768">
-                            <div class="search-label">Business Type</div>
+                            <div class="search-label custom-dealrock-text-16">Business Type</div>
                             @php
                                 $businessTypes = [
                                     'Manufacturer',
@@ -260,7 +260,7 @@
                                     <label class="filter-checkbox filter-item">
                                         <input type="checkbox" name="business_type[]" value="{{ $type }}"
                                             {{ request()->has('business_type') && in_array($type, request('business_type')) ? 'checked' : '' }} />
-                                        <div class="filter-label">{{ $type }}</div>
+                                        <div class="filter-label custom-dealrock-text-14">{{ $type }}</div>
                                     </label>
                                 </div>
                             @endforeach

@@ -57,14 +57,14 @@
                         <div class="filter-section showbelow768">
                             <div class="search-section ">
                                 <div class="d-flex justify-content-between ">
-                                    <div class="search-label notshowbelow768">Filter</div>
+                                    <div class="search-label notshowbelow768 custom-dealrock-text-16">Filter</div>
                                     <div class="filter-section togglebelow768 p-0 ">
-                                        <a href="{{ request()->url() }}" class=" reset-filter" style="background-none">Reset
+                                        <a href="{{ request()->url() }}" class=" reset-filter custom-dealrock-text-16" style="background-none">Reset
                                             Filters</a>
                                     </div>
                                 </div>
 
-                                <div class="search-label notshowbelow768 mt-3">Search by Name</div>
+                                <div class="search-label notshowbelow768 mt-3 custom-dealrock-text-16">Search by Name</div>
                                 <div class="search-input-container">
 
                                     <div class="search-input-field">
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
 
-                            <button id="filters-button" class="filter-button" onclick="toggleFilters(event)">
+                            <button id="filters-button" class="filter-button custom-dealrock-text-18" onclick="toggleFilters(event)">
                                 Filters
                                 <!-- Filter Icon SVG -->
                                 <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="black"
@@ -89,7 +89,7 @@
                         </div>
 
                         <div class="filter-section togglebelow768">
-                            <div class="search-label">Search by Country</div>
+                            <div class="search-label custom-dealrock-text-16">Search by Country</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="country_search" placeholder="Enter Country..."
@@ -115,7 +115,7 @@
                                             <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
                                                 class="flag-icon" alt="{{ $country }} flag"
                                                 onerror="this.onerror=null; this.src='/flags/other/earth.svg';" />
-                                            <div class="filter-label">{{ $countryDetails['countryName'] ?? 'Flag' }}</div>
+                                            <div class="filter-label custom-dealrock-text-14 ">{{ $countryDetails['countryName'] ?? 'Flag' }}</div>
                                         </label>
                                     </div>
                                 @endforeach
@@ -124,7 +124,7 @@
 
                         <!-- Filter By Category Section -->
                         <div class="filter-section togglebelow768">
-                            <div class="search-label">Search by Category</div>
+                            <div class="search-label custom-dealrock-text-16">Search by Category</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="industry_search" placeholder="Enter Category..."
@@ -148,7 +148,7 @@
                             </div>
                         </div>
                         <div class="filter-section togglebelow768">
-                            <div class="search-label">Search by Stock Type</div>
+                            <div class="search-label custom-dealrock-text-16">Search by Stock Type</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="stock_search" placeholder="Enter Category..."
@@ -198,27 +198,27 @@
                         aria-label="Close" style="margin: auto !important;">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <div class="detail-tabs">
-                        <div class="detail-tab active" id="tab-stock-photo">
+                    <div class="detail-tabs  ">
+                        <div class="detail-tab custom-dealrock-text-14 active" id="tab-stock-photo">
                             <i class="fa-solid fa-circle-info detail-tab-icon"></i>
                             <div>Stock Photo</div>
                         </div>
-                        <div class="detail-tab" id="tab-specification">
+                        <div class="detail-tab  custom-dealrock-text-14" id="tab-specification">
                             <i class="fa-solid fa-list detail-tab-icon"></i>
                             <div>Specification</div>
                         </div>
-                        <div class="detail-tab" id="tab-deal">
+                        <div class="detail-tab custom-dealrock-text-14" id="tab-deal">
                             <i class="fa-solid fa-envelope detail-tab-icon"></i>
                             <div>Deal</div>
                         </div>
-                        <div class="detail-tab" id="tab-contact">
+                        <div class="detail-tab custom-dealrock-text-14" id="tab-contact">
                             <i class="fa-regular fa-circle-question detail-tab-icon"></i>
                             <div>Contact</div>
                         </div>
                     </div>
 
                     <div class="d-flex flex-column justify-content-between h-100" id="StockSellView">
-                        @include('web.dynamic-partials.dynamic-stocksellview')
+                        @include('web.dynamic-partials.dynamic-stocksellview ' )
                     </div>
                 </div>
             </div>

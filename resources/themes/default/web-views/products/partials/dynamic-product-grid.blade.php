@@ -84,8 +84,8 @@
                 </div>
 
                 <div class="product-exhibition" style="display: flex; justify-content: space-between">
-                    <span style="font-size: 13px;">{{ $shopName }}</span>
-                    <span style="text-transform: capitalize; font-size: 13px;">{{ $vendorExtra->business_type ?? 'Manufacturer' }}</span>
+                    <span style="font-size: 13px;" class="custom-dealrock-text-14">{{ $shopName }}</span>
+                    <span style="text-transform: capitalize; font-size: 13px;" class="custom-dealrock-text-14">{{ $vendorExtra->business_type ?? 'Manufacturer' }}</span>
                 </div>
                 <div>
                     <button class="start-order-btn">Inquire Now</button>

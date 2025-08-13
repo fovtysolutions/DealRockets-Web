@@ -1,7 +1,7 @@
 @if (isset($stocksell))
     <div class="detail-content">
         <div id="content-stock-photo" class="detail-tab-content active">
-            <div class="detail-title">
+            <div class="detail-title custom-dealrock-text-18">
                 {{ $stocksell->product->name ?? ($stocksell->name ?? 'N/A') }}
                 <div class="text-muted">
                     <img src="{{ asset('img/Ellipse 75.png') }}" alt="dot" style="height: 5px; ">
@@ -35,13 +35,13 @@
             </div>
 
 
-            <div class="detail-description">
+            <div class="detail-description custom-dealrock-text-14">
                 {!! $stocksell->description ?? 'N/A' !!}
             </div>
         </div>
         <div id="content-specification" class="detail-tab-content custom-info">
-            <div class="detail-title">Stock Specifications</div>
-            <div class="detail-description">
+            <div class="detail-title custom-dealrock-text-18">Stock Specifications</div>
+            <div class="detail-description  custom-dealrock-text-14">
                 {!! $stocksell->description ?? 'N/A' !!}
             </div>
             @php
@@ -64,10 +64,10 @@
                                                 {{ $item['title'] }}
                                             </td>
                                         @endif
-                                        <td class="label">
+                                        <td class="label custom-dealrock-text-14">
                                             {{ $subhead['sub_head'] ?? '-' }}
                                         </td>
-                                        <td class="value">
+                                        <td class="value detail-title custom-dealrock-text-14">
                                             <div class="value-with-icon">
                                                 {{ $subhead['sub_head_data'] ?? '-' }}
                                             </div>
@@ -83,7 +83,7 @@
             </div>
         </div>
         <div id="content-deal" class="detail-tab-content custom-info">
-            <div class="detail-title">Deal Information</div>
+            <div class="detail-title custom-dealrock-text-18">Deal Information</div>
             @php
                 $additionalDetailsArray = json_decode($stocksell->dynamic_data_technical, true) ?? [];
             @endphp
@@ -104,10 +104,10 @@
                                                 {{ $item['title'] }}
                                             </td>
                                         @endif
-                                        <td class="label">
+                                        <td class="label custom-dealrock-text-14">
                                             {{ $subhead['sub_head'] ?? '-' }}
                                         </td>
-                                        <td class="value">
+                                        <td class="value custom-dealrock-text-14">
                                             <div class="value-with-icon">
                                                 {{ $subhead['sub_head_data'] ?? '-' }}
                                             </div>
@@ -132,8 +132,8 @@
             }
         @endphp
         <div id="content-contact" class="detail-tab-content custom-contact">
-            <div class="detail-title">Contact Information</div>
-            <div class="detail-description">For any inquiries, you can reach us at:</div>
+            <div class="detail-title custom-dealrock-text-18">Contact Information</div>
+            <div class="detail-description custom-dealrock-text-14">For any inquiries, you can reach us at:</div>
 
             <div class="contact-grid">
                 <div class="contact-item">
@@ -145,7 +145,7 @@
                             <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                         </svg>
                     </div>
-                    <div class="contact-info">
+                    <div class="contact-info custom-dealrock-text-14">
                         <p>Email</p>
                         <p><a
                                 href="mailto:{{ isset($vendorData->email) ? $vendorData->email : '' }}">{{ $vendorData->email ?? 'N/A' }}</a>
@@ -163,7 +163,7 @@
                             </path>
                         </svg>
                     </div>
-                    <div class="contact-info">
+                    <div class="contact-info custom-dealrock-text-14">
                         <p>Phone</p>
                         <p>{{ $vendorData->phone ?? 'N/A' }}</p>
                     </div>
@@ -178,7 +178,7 @@
                             <circle cx="12" cy="10" r="3"></circle>
                         </svg>
                     </div>
-                    <div class="contact-info">
+                    <div class="contact-info custom-dealrock-text-14">
                         <p>Address</p>
                         <p>{{ $vendorData->shop->address ?? 'N/A' }}</p>
                     </div>
@@ -203,14 +203,14 @@
                             $category_type = 'N/A';
                         }
                     @endphp
-                    <div class="contact-info">
+                    <div class="contact-info custom-dealrock-text-14">
                         <p>Industry</p>
                         <p>{{ $category_type }}</p>
                     </div>
                 </div>
             </div>
  <div class="detail-footer">
-        <div class="company-info">
+        <div class="company-info custom-dealrock-text-14">
             <div class="company-rating">
                 @php
                     $overallRating = null;
@@ -261,7 +261,7 @@
             </div>
         </div>
 
-        <button class="inquire-button" data-toggle="modal" data-target="#inquireButton">Inquire Now</button>
+        <button class="inquire-button custom-dealrock-text-18" data-toggle="modal" data-target="#inquireButton">Inquire Now</button>
     </div>
         </div>
     </div>

@@ -3,8 +3,8 @@
         <div class="job-header pb-0">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <div style="flex: 1;">
-                    <h2>{{ $item->title ?? 'Untitled Position' }}</h2>
-                    <p class="job-meta mb-0">
+                    <h2 class="custom-dealrock-text-18">{{ $item->title ?? 'Untitled Position' }}</h2>
+                    <p class="job-meta mb-0 custom-dealrock-text-14">
                         {{ optional($item->created_at)->diffForHumans() ?? 'Date not available' }} 
                         by <span style="color: var(--primary-color);"> {{ $item->company_name ?? 'Unknown Company' }} </span>
                     </p>
@@ -43,29 +43,29 @@
         <div class="job-details">
             <div style="display: flex; justify-content: space-between;">
                 <div class="job-info">
-                    <div class="salary">
+                    <div class="salary custom-dealrock-text-14">
                         <i class="fa-sharp fa-solid fa-dollar-sign" style="font-size: 15px;"></i> 
                         {{ $item->salary_low ?? 'N/A' }} to {{ $item->salary_high ?? 'N/A' }}
                     </div>
 
-                    <div class="type">
+                    <div class="type custom-dealrock-text-14">
                         <i class="fa-sharp fa fa-house"></i> 
                         {{ $item->employment_space ?? 'Not specified' }}
                     </div>
 
-                    <div class="location">
+                    <div class="location custom-dealrock-text-14">
                         <i class="fa fa-map-marker"></i>
                         {{ optional(\App\Models\City::find($item->city))->name ?? 'Unknown Location' }}
                     </div>
 
-                    <div class="commitment">
+                    <div class="commitment custom-dealrock-text-14">
                         <i class="far fa-clock"></i> 
                         {{ $item->employment_type ?? 'Not specified' }}
                     </div>
                 </div>
             </div>
 
-            <div class="job-description">
+            <div class="job-description custom-dealrock-text-14">
                 <p>{{ $item->description ?? 'No description provided.' }}</p>
             </div>
         </div>

@@ -23,14 +23,14 @@
 
                             {{-- Product Name --}}
                             <div class="form-row form-row-for-phone">
-                                <label class="label-width">Product Name</label>
+                                <label class="label-width ">Product Name</label>
                                 <input class="contact-input counter-fields" name="product_name" type="text"
                                     placeholder="Enter product name" value="{{ old('product_name') }}" required />
                             </div>
 
                             {{-- Category --}}
                             <div class="form-row form-row-for-phone">
-                                <label class="label-width">Category</label>
+                                <label class="label-width ">Category</label>
                                 <select class="contact-input counter-fields" name="category" required>
                                     <option value="">Select a category</option>
                                     @foreach ($categories as $category)
@@ -48,7 +48,7 @@
                                     {{-- Purchase Quantity --}}
                                     <div class="form-row">
                                         <div class="innerleftcontainer">
-                                            <label class="label-width">Purchase Quantity</label>
+                                            <label class="label-width ">Purchase Quantity</label>
                                         </div>
                                         <div class="innerrightcontainer">
                                             <input class="contact-input counter-fields" name="purchase_quantity"
@@ -91,7 +91,7 @@
                                     {{-- Target Unit Price --}}
                                     <div class="form-row">
                                         <div class="innerleftcontainer">
-                                            <label class="label-width">Target Unit Price</label>
+                                            <label class="label-width ">Target Unit Price</label>
                                         </div>
                                         <div class="innerrightcontainer">
                                             <input class="contact-input counter-fields" name="target_unit_price"
@@ -113,7 +113,7 @@
                                     {{-- Trade Terms --}}
                                     <div class="form-row width-form-phone float-phone">
                                         <div class="innerleftcontainer">
-                                            <label class="label-width">Trade Terms</label>
+                                            <label class="label-width " >Trade Terms</label>
                                         </div>
                                         <div class="innerrightcontainer">
                                             <select class="contact-input counter-fields" name="trade_terms"
@@ -181,7 +181,7 @@
 
                             {{-- Details --}}
                             <div class="form-row">
-                                <label class="label-width">Details</label>
+                                <label class="label-width ">Details</label>
                                 <textarea class="contact-input counter-fields" rows="1" name="details"
                                     placeholder="Describe product requirements..." required>{{ old('details') }}</textarea>
                             </div>
@@ -192,7 +192,7 @@
 
                             {{-- Contact Number --}}
                             <div class="form-row">
-                                <label class="label-width">Contact Number</label>
+                                <label class="label-width ">Contact Number</label>
                                 <input class="contact-input counter-fields" type="text" placeholder="Contact Number"
                                     name="contact_number" value="{{ old('contact_number') }}" style="max-width: 200px;"
                                     required />
@@ -200,7 +200,7 @@
 
                             {{-- Shipping Method --}}
                             <div class="form-row">
-                                <label class="label-width">Shipping Method</label>
+                                <label class="label-width ">Shipping Method</label>
                                 <select class="contact-input counter-fields" name="shipping_method"
                                     style="max-width: 200px;" required>
                                     <option value="">Select Shipping Method</option>
@@ -243,7 +243,7 @@
 
                             {{-- Destination Port --}}
                             <div class="form-row">
-                                <label class="label-width">Destination Port</label>
+                                <label class="label-width ">Destination Port</label>
                                 <input class="contact-input counter-fields" type="text" name="destination_port"
                                     value="{{ old('destination_port') }}" style="max-width: 200px;" required />
                                 {{-- <select class="contact-input counter-fields" name="destination_port_currency"
@@ -260,7 +260,7 @@
 
                             {{-- Lead Time --}}
                             <div class="form-row width-form-phone float-phone">
-                                <label class="label-width">Lead Time</label>
+                                <label class="label-width ">Lead Time</label>
                                 <span style="margin-left: 5px; font-weight: bold;">Delivery Required in</span>
 
                                 <input class="contact-input counter-fields" name="spin_time_value" id="spin_time_value"
@@ -285,7 +285,7 @@
 
                             {{-- Payment Terms --}}
                             <div class="form-row width-form-phone">
-                                <label class="label-width padding-phone">Payment Terms</label>
+                                <label class="label-width  padding-phone">Payment Terms</label>
                                 <select class="contact-input counter-fields" name="terms" style="max-width: 200px;"
                                     required>
                                     <option value="">Select Payment Terms</option>

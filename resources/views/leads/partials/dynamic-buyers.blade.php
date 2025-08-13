@@ -6,7 +6,7 @@
                     <div class="d-flex lead-card-inner-div" >
                         <div class="lead-info">
                             <div class="lead-header">
-                                <h2 class="lead-title">{{ $buyer->product->name ?? $buyer->product_id }}</h2>
+                                <h2 class="lead-title custom-dealrock-text-18">{{ $buyer->product->name ?? $buyer->product_id }}</h2>
                                   @php
                             $user = auth('customer')->user();
                             if ($user) {
@@ -48,8 +48,8 @@
                                 <span>{{ $buyer->city }}, {{ $countryDetails['countryName'] }}</span>
                             </div>
                             <div class="lead-tags">
-                                <span class="lead-tags-label">Tags:</span>
-                                <span class="lead-tags-content">{{ $buyer->tags ?? 'N/A' }}</span>
+                                <span class="lead-tags-label custom-dealrock-text-14">Tags:</span>
+                                <span class="lead-tags-content custom-dealrock-text-14">{{ $buyer->tags ?? 'N/A' }}</span>
                             </div>
                         </div>
                      
@@ -59,32 +59,32 @@
     <div class="lead-details-table">
         <table class="detail-table">
             <tr>
-                <td class="detail-label">Quantity</td>
-                <td class="detail-value text-truncate">{{ $buyer->quantity_required ?? 'N/A' }} {{ $buyer->unit ?? 'N/A' }}</td>
+                <td class="detail-label custom-dealrock-text-14">Quantity</td>
+                <td class="detail-value text-truncate custom-dealrock-text-14">{{ $buyer->quantity_required ?? 'N/A' }} {{ $buyer->unit ?? 'N/A' }}</td>
             </tr>
             <tr>
-                <td class="detail-label">Term</td>
-                <td class="detail-value text-truncate">{{ $buyer->term ?? 'N/A' }}</td>
-            </tr>
-        </table>
-        <table class="detail-table">
-            <tr>
-                <td class="detail-label">Payment Term</td>
-                <td class="detail-value text-truncate">{{ $buyer->payment_option ?? 'N/A' }}</td>
-            </tr>
-            <tr>
-                <td class="detail-label">Lead Time</td>
-                <td class="detail-value text-truncate">{{ $buyer->lead_time ?? 'N/A' }}</td>
+                <td class="detail-label custom-dealrock-text-14">Term</td>
+                <td class="detail-value text-truncate custom-dealrock-text-14">{{ $buyer->term ?? 'N/A' }}</td>
             </tr>
         </table>
         <table class="detail-table">
             <tr>
-                <td class="detail-label">POD</td>
-                <td class="detail-value text-truncate-2">{{ $buyer->port_of_loading ?? 'N/A' }}</td>
+                <td class="detail-label custom-dealrock-text-14">Payment Term</td>
+                <td class="detail-value text-truncate custom-dealrock-text-14">{{ $buyer->payment_option ?? 'N/A' }}</td>
             </tr>
             <tr>
-                <td class="detail-label">Packing</td>
-                <td class="detail-value text-truncate-2">{{ $buyer->packing_type ?? 'N/A' }}</td>
+                <td class="detail-label custom-dealrock-text-14">Lead Time</td>
+                <td class="detail-value text-truncate custom-dealrock-text-14">{{ $buyer->lead_time ?? 'N/A' }}</td>
+            </tr>
+        </table>
+        <table class="detail-table">
+            <tr>
+                <td class="detail-label custom-dealrock-text-14">POD</td>
+                <td class="detail-value text-truncate-2 custom-dealrock-text-14">{{ $buyer->port_of_loading ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td class="detail-label custom-dealrock-text-14">Packing</td>
+                <td class="detail-value text-truncate-2 custom-dealrock-text-14">{{ $buyer->packing_type ?? 'N/A' }}</td>
             </tr>
         </table>
     </div>
@@ -117,9 +117,9 @@
                                 src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
                                 style="margin-left: auto;">
                         @endif
-                        <button class="contact-btn" data-toggle="modal"
+                        <button class="contact-btn custom-dealrock-text-18" data-toggle="modal"
                             data-target="#inquireButton{{ $buyer->id }}">Contact Buyer</button>
-                        <div class="lead-posted">Posted: {{ $buyer->created_at->diffForHumans() }}</div>
+                        <div class="lead-posted custom-dealrock-text-14">Posted: {{ $buyer->created_at->diffForHumans() }}</div>
                     </div>
                 </div>
             </article>

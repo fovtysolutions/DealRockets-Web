@@ -14,11 +14,11 @@
                             <img src="/img/industryjobs-icon.png" alt="DealRocket Logo"
                                 class="dealrocket-logo">
                         </div>
-                        <h1 class="hero-title">Find the Right Opportunity</h1>
-                        <p class="hero-description">Advance your career or discover the ideal candidate.<br />Take the next
+                        <h1 class="hero-title custom-dealrock-text-30">Find the Right Opportunity</h1>
+                        <p class="hero-description custom-dealrock-text-18  ">Advance your career or discover the ideal candidate.<br />Take the next
                             step toward success today!</p>
                         <div class="hero-buttons">
-                            <a href="{{ route('talentfinder') }}" class="btn btn-outline">I'm hiring</a>
+                            <a href="{{ route('talentfinder') }}" class="btn btn-outline ">I'm hiring</a>
                             <a href="{{ route('jobseeker') }}" class="btn btn-primary">I'm looking for a job</a>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
 
             <!-- Job Categories Section -->
             <section class="job-categories">
-                <h2 class="section-title1">Job <span class="highlight">Categories</span></h2>
+                <h2 class="section-title1 custom-dealrock-text-30">Job <span class="highlight custom-dealrock-text-30">Categories</span></h2>
                 <div class="categories-grid">
                     @forelse ($jobspercategory as $item)
                         <a href="{{ route('jobseeker') }}?category_id={{ $item['id'] ?? '' }}&category_name={{ urlencode($item['name'] ?? '') }}" class="category-card-link">
@@ -40,8 +40,8 @@
                                         alt="{{ $item['name'] ?? 'Unknown Category' }}" class="category-icon">
                                 </div>
                                 <div class="category-info">
-                                    <h3 class="category-title">{{ $item['name'] ?? 'Unknown Category' }}</h3>
-                                    <p class="category-count">{{ $item['count'] ?? 0 }} Jobs Available</p>
+                                    <h3 class="category-title custom-dealrock-text-18">{{ $item['name'] ?? 'Unknown Category' }}</h3>
+                                    <p class="category-count custom-dealrock-text-14">{{ $item['count'] ?? 0 }} Jobs Available</p>
                                 </div>
                             </div>
                         </a>
@@ -54,14 +54,14 @@
 
             <!-- Available Jobs Section -->
             <section class="available-jobs">
-                <h2 class="section-title">Available <span class="highlight1">Job's</span></h2>
+                <h2 class="section-title custom-dealrock-text-30">Available <span class="highlight1 custom-dealrock-text-30">Job's</span></h2>
                 <div class="jobs-grid">
                     <div class="job-row">
                         @forelse ($jobs as $item)
                             <div class="job-card">
                                 <div class="job-header">
-                                    <h3 class="job-title">{{ $item->title ?? 'Untitled Job' }}</h3>
-                                    <span class="job-posted">
+                                    <h3 class="job-title custom-dealrock-text-18" >{{ $item->title ?? 'Untitled Job' }}</h3>
+                                    <span class="job-posted custom-dealrock-text-14">
                                         {{ $item->created_at ? $item->created_at->diffForHumans() : 'Unknown date' }}
                                         by <span class="highlight2">{{ $item->company_name ?? 'Unknown Company' }}</span>
                                     </span>
@@ -115,26 +115,26 @@
                 <section class="hiring-section">
                     <div class="hiring-content">
                         <div class="hiring-left">
-                            <span class="need-hire-badge">NEED TO HIRE?</span>
-                            <h2 class="hiring-title">Looking to <span class="highlight">post</span> a job?</h2>
-                            <p class="hiring-description">Find top professionals from around the world across all
+                            <span class="need-hire-badge custom-dealrock-text-14">NEED TO HIRE?</span>
+                            <h2 class="hiring-title custom-dealrock-text-30"> Looking to <span class="highlight custom-dealrock-text-30">post</span> a job?</h2>
+                            <p class="hiring-description custom-dealrock-text-14">Find top professionals from around the world across all
                                 industries and experience levels. Connect with the best talent and build your dream team
                                 today!</p>
                             <div class="features">
-                                <div class="feature">
+                                <div class="feature custom-dealrock-text-16">
                                     <span class="feature-dot"></span>
                                     <span>Fast Hiring</span>
                                 </div>
-                                <div class="feature">
+                                <div class="feature custom-dealrock-text-16">
                                     <span class="feature-dot"></span>
                                     <span>Verified Talent</span>
                                 </div>
-                                <div class="feature">
+                                <div class="feature custom-dealrock-text-16">
                                     <span class="feature-dot"></span>
                                     <span>All Job Categories</span>
                                 </div>
                             </div>
-                            <button class="btn-primary-large">Post Your Job</button>
+                            <button class="btn-primary-large custom-dealrock-text-18">Post Your Job</button>
                         </div>
                         <div class="hiring-right">
                             <img src="/img/image (2).png" alt="Hiring image" class="hiring-image">
@@ -145,7 +145,7 @@
 
                 <!-- Company Logos Section -->
                 <section class="company-logos-section">
-                    <h2 class="section-title2">Companies with <span class="highlight">Open Positions</span></h2>
+                    <h2 class="section-title2 custom-dealrock-text-30">Companies with <span class="highlight custom-dealrock-text-30">Open Positions</span></h2>
                     <div class="logos-container">
                         <img class="img1" src="/img/eca8b7cee29635d9d9b3a609ed1022d5.png" alt="Google logo"
                             class="logo">
@@ -164,7 +164,7 @@
 
                 <!-- Consultants Section -->
                 <section class="consultants-section">
-                    <h2 class="section-title3">Consultants <span class="highlight"></span></h2>
+                    <h2 class="section-title3 custom-dealrock-text-30">Consultants <span class="highlight"></span></h2>
                     <div class="consultants-logos">
                         <img class="img4" src="/img/68c1fed84f886a36ad57b2c180379875.png" alt="Deloitte logo"
                             class="consultant-logo">
@@ -190,11 +190,11 @@
                 <!-- foo -->
                 <div class="foo">
                     <div class="foo-links">
-                        <a href="{{ route('terms') }}" class="foo-link">Terms & Conditions</a>
+                        <a href="{{ route('terms') }}" class="foo-link custom-dealrock-text-14">Terms & Conditions</a>
                         <span class="foo-divider"></span>
-                        <a href="{{ route('privacy-policy') }}" class="foo-link">Privacy Policy</a>
+                        <a href="{{ route('privacy-policy') }}" class="foo-link custom-dealrock-text-14">Privacy Policy</a>
                         <span class="foo-divider"></span>
-                        <a href="#" class="foo-link">© 2025 Industry Jobs</a>
+                        <a href="#" class="foo-link custom-dealrock-text-14">© 2025 Industry Jobs</a>
                     </div>
                 </div>
             </div>

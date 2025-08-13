@@ -292,8 +292,11 @@
 
      .customerlogin .left-section {
          padding: 2rem;
+         display: none;
      }
-
+.customerlogin .form-container{
+    max-width: 28rem;
+}
      .customerlogin .hero-content h1 {
          font-size: 2rem;
      }

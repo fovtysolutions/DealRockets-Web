@@ -324,8 +324,8 @@
     <section class="mainpagesection" style="margin-top:22px;">
         <!-- Page Header -->
         <div class="page-header">
-            <h1 class="page-title">Our Services</h1>
-            <p class="page-subtitle">Discover comprehensive business solutions designed to accelerate your growth and connect you with opportunities worldwide</p>
+            <h1 class="page-title custom-dealrock-text-30">Our Services</h1>
+            <p class="page-subtitle custom-dealrock-text-18">Discover comprehensive business solutions designed to accelerate your growth and connect you with opportunities worldwide</p>
         </div>
 
         @php
@@ -446,22 +446,22 @@
                         <img src="{{ $service['image'] }}" alt="{{ $service['alt'] }}" class="service-icon" 
                              onerror="this.src='/public/images/placeholderimage.webp'">
                         <div class="service-info">
-                            <h3 class="service-title">{{ $service['title'] }}</h3>
-                            <p class="service-summary">{{ $service['summary'] }}</p>
+                            <h3 class="service-title custom-dealrock-text-18">{{ $service['title'] }}</h3>
+                            <p class="service-summary custom-dealrock-text-14" >{{ $service['summary'] }}</p>
                         </div>
                         <svg class="expand-icon" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                         </svg>
                     </div>
                     <div class="service-content" id="content-{{ $index }}">
-                        <div class="service-description">
+                        <div class="service-description  custom-dealrock-text-14">
                             {!! $service['description'] !!}
                         </div>
                         <div class="service-features">
-                            <h4>Key Features:</h4>
-                            <ul class="features-list">
+                            <h4 class="custom-dealrock-text-18">Key Features:</h4>
+                            <ul class="features-list ">
                                 @foreach ($service['features'] as $feature)
-                                    <li>{{ $feature }}</li>
+                                    <li class="custom-dealrock-text-14">{{ $feature }}</li>
                                 @endforeach
                             </ul>
                             <a href="{{ $service['route'] ?? $service['link'] ?? '#' }}" class="cta-button">

@@ -42,14 +42,14 @@
                     </div>
                     <div class="sidebar" id="sidebartoggle">
                         <div class="d-flex justify-content-between pb-0 filter-section">
-                            <h3>Filter</h3>
+                            <h3 class="custom-dealrock-text-16">Filter</h3>
                             <div class="filter-section togglebelow768 p-0 ">
-                                <a href="{{ request()->url() }}" class=" reset-filter background-none"
+                                <a href="{{ request()->url() }}" class=" reset-filter background-none custom-dealrock-text-16"
                                     style=" color:#BF9E66">Reset Filters</a>
                             </div>
                         </div>
                         <div class="salary-slider-wrapper filter-section" style="padding-top: 0px;">
-                            <h3 class="mb-0">Salary Range</h3>
+                            <h3 class="mb-0 custom-dealrock-text-16">Salary Range</h3>
                             <div class="salary-slider-range">
                                 <div class="salary-slider-track"></div>
                                 <input type="range" min="0" max="100" value="0" id="slider-1"
@@ -82,7 +82,7 @@
 
                         <!-- Currency Filter -->
                         <div class="filter-section">
-                            <h3>Filter Currency</h3>
+                            <h3 class="custom-dealrock-text-16">Filter Currency</h3>
                             <div class="search-box">
                                 <input type="text" placeholder="Search currency">
                                 <i class="fas fa-search"></i>
@@ -94,7 +94,7 @@
                                             <input type="checkbox" id="currency_{{ $currency }}" name="currencies[]"
                                                 value="{{ $currency }}"
                                                 {{ in_array($currency, request()->get('currencies', [])) ? 'checked' : '' }}>
-                                            <label for="currency_{{ $currency }}">{{ $currency }}</label>
+                                            <label class="custom-dealrock-text-14" for="currency_{{ $currency }}">{{ $currency }}</label>
                                         </label>
                                     </div>
                                 @endforeach
@@ -103,7 +103,7 @@
 
                         <!-- Specialization Filter -->
                         <div class="filter-section">
-                            <h3>Specialization</h3>
+                            <h3 class="custom-dealrock-text-16">Specialization</h3>
                             <div class="search-box">
                                 <input type="text" placeholder="Search specialization">
                                 <i class="fas fa-search"></i>
@@ -115,7 +115,7 @@
                                             <input type="checkbox" id="specialization_{{ $category->id }}"
                                                 name="specializations[]" value="{{ $category->id }}"
                                                 {{ in_array($category->id, request()->get('specializations', [])) ? 'checked' : '' }}>
-                                            <label for="specialization_{{ $category->id }}">{{ $category->name }}
+                                            <label class="custom-dealrock-text-14" for="specialization_{{ $category->id }}">{{ $category->name }}
                                                 {{-- <span class="count">(937)</span> --}}
                                             </label>
                                         </label>
@@ -126,7 +126,7 @@
 
                         <!-- Job Type -->
                         <div class="filter-section">
-                            <h3>Job Type</h3>
+                            <h3 class="custom-dealrock-text-16">Job Type</h3>
                             <div class="search-box">
                                 <input type="text" placeholder="Search job type">
                                 <i class="fas fa-search"></i>
@@ -138,10 +138,10 @@
                                         <input type="checkbox" id="job_type_{{ \Str::slug($type) }}" name="job_types[]"
                                             value="{{ $type }}"
                                             {{ in_array($type, request()->get('job_types', [])) ? 'checked' : '' }}>
-                                        <label for="job_type_{{ \Str::slug($type) }}">{{ $type }}
+                                        <label class="custom-dealrock-text-14" for="job_type_{{ \Str::slug($type) }}">{{ $type }}
                                             {{-- <span class="count">(500)</span> --}}
                                         </label>
-</label>
+                                    </label>
                                     </div>
                                 @endforeach
                             </div>
@@ -149,7 +149,7 @@
 
                         <!-- Posted By -->
                         <div class="filter-section">
-                            <h3>Posted By</h3>
+                            <h3 class="custom-dealrock-text-16">Posted By</h3>
                             <div class="search-box">
                                 <input type="text" placeholder="Search posted by">
                                 <i class="fas fa-search"></i>
@@ -161,7 +161,7 @@
                                         <input type="checkbox" id="posted_by_{{ \Str::slug($poster) }}"
                                             name="posted_by[]" value="{{ $poster }}"
                                             {{ in_array($poster, request()->get('posted_by', [])) ? 'checked' : '' }}>
-                                        <label for="posted_by_{{ \Str::slug($poster) }}">{{ $poster }}
+                                        <label class="custom-dealrock-text-14" for="posted_by_{{ \Str::slug($poster) }}">{{ $poster }}
                                             {{-- <span class="count">(500)</span> --}}
                                         </label>
 </label>
@@ -172,16 +172,16 @@
 
                         <!-- Experience Level (min and max) -->
                         <div class="filter-section">
-                            <h3>Experience Level (Years)</h3>
+                            <h3 class="custom-dealrock-text-16 ">Experience Level (Years)</h3>
                             <div class="experience-range">
                                 <label for="min_experience">Min Experience</label>
                                 <input id="min_experience" type="number" name="min_experience"
-                                    class="form-control mb-2" min="0" placeholder="Min Experience"
+                                    class="form-control mb-2 custom-dealrock-text-14" min="0" placeholder="Min Experience"
                                     value="{{ request('min_experience', '') }}">
 
                                 <label for="max_experience">Max Experience</label>
                                 <input id="max_experience" type="number" name="max_experience"
-                                    class="form-control mb-1" min="0" placeholder="Max Experience"
+                                    class="form-control mb-1 custom-dealrock-text-14" min="0" placeholder="Max Experience"
                                     value="{{ request('max_experience', '') }}">
                             </div>
                         </div>

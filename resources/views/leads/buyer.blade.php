@@ -10,12 +10,12 @@
                 <div class="filter-sidebar">
                     <form method="GET" action="{{ route('buyer') }}" id="filterFormBuyer">
                          <div class="filter-section togglebelow768 d-flex justify-content-between pb-0 align-items-center" >
-                            <div class="search-label w-50">Filter</div>
-                            <a href="{{ request()->url() }}" class=" w-50 reset-filter" style="display: flex;  justify-content: right;">Reset Filters</a>
+                            <div class="search-label w-50 custom-dealrock-text-16">Filter</div>
+                            <a href="{{ request()->url() }}" class=" w-50 reset-filter custom-dealrock-text-16" style="display: flex;  justify-content: right;">Reset Filters</a>
                         </div>
                         <div class="filter-section showbelow768">
                             <div class="search-section">
-                                <div class="search-label notshowbelow768">Search by Name</div>
+                                <div class="search-label notshowbelow768 custom-dealrock-text-16">Search by Name</div>
                                 <div class="search-input-container">
                                     <div class="search-input-field">
                                         <input type="text" name="search_query" id="nameFilter"
@@ -38,7 +38,7 @@
                         </div>
                         
                         <div class="filter-section togglebelow768">
-                            <div class="search-label">Search by Country</div>
+                            <div class="search-label custom-dealrock-text-16">Search by Country</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="country_search" placeholder="Enter Country..."
@@ -63,7 +63,7 @@
                                                 {{ $isSelected ? 'checked' : '' }} />
                                             <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
                                                 class="flag-icon" alt="{{ $country }} flag" />
-                                            <div class="filter-label">{{ $countryDetails['countryName'] }}</div>
+                                            <div class="filter-label custom-dealrock-text-14">{{ $countryDetails['countryName'] }}</div>
                                         </label>
                                     </div>
                                 @endforeach
@@ -72,7 +72,7 @@
 
                         <!-- Filter By Category Section -->
                         <div class="filter-section togglebelow768">
-                            <div class="search-label">Search by Category</div>
+                            <div class="search-label custom-dealrock-text-16">Search by Category</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="industry_search" placeholder="Enter Category..."
@@ -89,7 +89,7 @@
                                         <label class="filter-checkbox category-option filter-item">
                                             <input type="checkbox" name="industry[]" value="{{ $industry->id }}"
                                                 {{ in_array($industry->id, request('industry', [])) ? 'checked' : '' }} />
-                                            <div class="filter-label">{{ $industry->name }}</div>
+                                            <div class="filter-label custom-dealrock-text-14">{{ $industry->name }}</div>
                                         </label>
                                     </div>
                                 @endforeach

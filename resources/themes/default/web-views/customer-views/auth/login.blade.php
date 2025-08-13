@@ -60,7 +60,7 @@
 
                 <div class="content">
                     <div class="hero-content">
-                        <h1 style="font-size: 44px; color: white;">Join the Deal Rockets Community!</h1>
+                        <h1 class="custom-dealrock-text-30" style="font-size: 44px; color: white;">Join the Deal Rockets Community!</h1>
                         <p>Experience smarter shopping with exclusive deals and top-rated discounts. Sign up today and start
                             saving instantly!</p>
                     </div>
@@ -92,7 +92,7 @@
                         </div>
 
                         <!-- Testimonial Text -->
-                        <blockquote>
+                        <blockquote class="custom-dealrock-text-18">
                             "Deal Rockets makes shopping so much easier! I found the best discounts in seconds. Highly
                             recommend!"
                         </blockquote>

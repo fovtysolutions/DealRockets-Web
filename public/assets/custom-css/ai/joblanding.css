@@ -552,6 +552,8 @@ padding-top: 9.19px; */
     font-family: roboto;
     font-size: 16px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
 .job-landing .btn-primary {

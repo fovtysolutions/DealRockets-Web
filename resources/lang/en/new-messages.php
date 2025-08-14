@@ -9724,4 +9724,12 @@ return [
 	"Are you sure you want to approve this stock sell?" => "Are you sure you want to approve this stock sell ",
 	"Are you sure?" => "Are you sure ",
 	"Are you sure you want to deny this stock sell?" => "Are you sure you want to deny this stock sell ",
+	"Membership Topup | Deal Rockets" => "Membership Topup | Deal Rockets",
+	"Membership Topups" => "Membership Topups",
+	"Purchase additional credits for your membership features" => "Purchase additional credits for your membership features",
+	"Current Membership" => "Current Membership",
+	"Topup History" => "Topup History",
+	"No topup history found." => "No topup history found.",
+	"Purchase Topup" => "Purchase Topup",
+	"How many units would you like to purchase?" => "How many units would you like to purchase ",
 ];

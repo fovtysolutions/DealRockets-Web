@@ -170,25 +170,33 @@ class ChatManager
     {
         if (!$id) return ['error' => 'Invalid ID'];
 
-        if (!isset(self::$userMembershipCache[$id])) {
-            $user = User::find($id);
-            if (!$user) return ['error' => 'User not found'];
+        $membershipService = new \App\Services\MembershipService();
+        return $membershipService->getMembershipStatus($id, 'customer');
+    }
 
-            $membership = Membership::where('membership_id', $user->id)->first();
-            if (!$membership) return ['error' => 'Membership not found'];
-
-            self::$userMembershipCache[$id] = $membership->membership_status;
+    // Get detailed membership info using new service (alternative to membershipChecker)
+    public static function getMembershipDetails()
+    {
+        $userId = auth('customer')->id();
+        if (!$userId) {
+            return ['status' => 'error', 'message' => 'Not authenticated'];
         }
 
-        $status = self::$userMembershipCache[$id];
+        $membershipService = new \App\Services\MembershipService();
+        $status = $membershipService->getMembershipStatus($userId, 'customer');
 
-        return match ($status) {
-            'active' => ['status' => 'active', 'message' => 'You have Already Upgraded'],
-            'inactive' => ['status' => 'inactive', 'message' => 'Your Plan is being Upgraded'],
-            'suspended' => ['status' => 'suspended', 'message' => 'Your Plan is Suspended'],
-            'expired' => ['status' => 'expired', 'message' => 'Your Plan is Expired'],
-            default => ['status' => 'unknown', 'message' => 'Invalid Plan! Contact Admin'],
-        };
+        if ($status['status'] === 'none') {
+            return ['status' => 'error', 'message' => 'No membership found'];
+        }
+
+        return [
+            'status' => 'success',
+            'membership' => $status['membership'],
+            'tier' => $status['tier'],
+            'expires_at' => $status['expires_at'],
+            'days_remaining' => $status['days_remaining'],
+            'message' => $status['message']
+        ];
     }
 
     // Batch fetch membership status for multiple users (avoiding N+1)

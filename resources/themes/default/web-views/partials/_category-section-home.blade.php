@@ -16,7 +16,7 @@
                     <div class="card-body" style="padding: 20px 10px 0px 0px; background-color: var(--web-bg);">
                         <div class="d-flex justify-content-between" style="padding-bottom:30px;">
                             <div class="categories-title m-0 w-100" style="text-align: center;">
-                                <h5 class="fw-bold top-movers-title">TOP MOVERS</h5>
+                                <h5 class="fw-bold top-movers-title custom-dealrock-text-30">TOP MOVERS</h5>
                             </div>                            
                             <div class="top-movers-container">
                                 <a class="text-capitalize top-movers-viewall"
@@ -52,7 +52,7 @@
                                                     <img class="lazyload" alt="{{ $category->name }}"
                                                         data-src="{{ getStorageImages(path: $category->icon_full_url, type: 'category') }}">
                                                 </div>
-                                                <p style="color:black; padding-top:22px; font-weight:400; font-size: 16px;" class="wrgewrgwr">{{ $category->name }}</p>
+                                                <p style="color:black; padding-top:22px; font-weight:400;" class="wrgewrgwr custom-dealrock-text-18">{{ $category->name }}</p>
                                             </a>
                                         </div>
                                     @endif

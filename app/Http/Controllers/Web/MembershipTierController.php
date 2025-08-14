@@ -76,91 +76,91 @@ class MembershipTierController extends Controller
         // Validate basic fields
         $validated = $request->validate([
             'membership_name' => 'string|max:255',
-            'membership_active' => 'nullable|boolean',  // Ensure this is boolean
-            'membership_order' => 'nullable|integer',  // Order can be optional
-            'sell_offer' => 'nullable|integer',
-            'access_leads' => 'nullable|boolean',
-            'access_suppliers' => 'nullable|boolean',
-            'access_jobs' => 'nullable|boolean',
-            'access_stock' => 'nullable|boolean',
-            'industry_jobs' => 'nullable|string',  // Industry jobs can be 'yes' or 'no'
+            'membership_active' => 'nullable|boolean',
+            'membership_order' => 'nullable|integer',
             'price' => 'nullable|numeric',
             'description' => 'nullable|string',
-            'no_of_cv' => 'nullable|integer',
-            'charge_cv' => 'nullable|numeric',
+            'billing_cycle' => 'nullable|string|in:monthly,yearly,one_time',
+            'is_featured' => 'nullable|boolean',
         ]);
-        
-        // Handle membership_benefits update
-        $existingBenefits = json_decode($membershipTier->membership_benefits, true) ?? [];
 
-        // If the membership type is customer
-        if ($membershipTier->membership_type == 'customer') {
-            // Set the description separately for customer membership
-            $description = $request->has('description') ? (string) $request->description : $existingBenefits['description'] ?? 'no';
+        // Handle new feature-based system
+        if ($request->has('features')) {
+            $features = $request->input('features', []);
             
-            // Update other benefits
-            $updatedBenefits = [
-                'description' => $description,
-                'price' => $request->has('price') ? (float) $request->price : $existingBenefits['price'] ?? 0,
-                'buy_leads' => $request->has('buy_leads') ? (int) $request->buy_leads : $existingBenefits['buy_leads'] ?? 0,
-                'sell_leads' => $request->has('sell_leads') ? (int) $request->sell_leads : $existingBenefits['sell_leads'] ?? 0,
-                'industry_jobs' => $request->has('industry_jobs') ? (string) $request->industry_jobs : $existingBenefits['industry_jobs'] ?? 'no',
-                'no_of_cv' => $request->has('no_of_cv') ? (string) $request->no_of_cv : $existingBenefits['no_of_cv'] ?? 0,
-                'charge_cv' => $request->has('charge_cv') ? (string) $request->charge_cv : $existingBenefits['charge_cv'] ?? 0,
-            ];
-        }
-        // If the membership type is seller
-        elseif ($membershipTier->membership_type == 'seller') {
-            // Set the description separately for seller membership
-            $description = $request->has('description') ? (string) $request->description : $existingBenefits['description'] ?? 'no';
+            // Sync features with pivot data
+            $syncData = [];
+            foreach ($features as $featureId => $featureData) {
+                $syncData[$featureId] = [
+                    'value' => $featureData['value'] ?? '0',
+                    'is_unlimited' => isset($featureData['unlimited']) && $featureData['unlimited']
+                ];
+            }
             
-            // Update other benefits
-            $updatedBenefits = [
-                'description' => $description,
-                'price' => $request->has('price') ? (float) $request->price : $existingBenefits['price'] ?? 0,
-                'buy_leads' => $request->has('buy_leads') ? (int) $request->buy_leads : $existingBenefits['buy_leads'] ?? 0,
-                'sell_leads' => $request->has('sell_leads') ? (int) $request->sell_leads : $existingBenefits['sell_leads'] ?? 0,
-                'sell_offer' => $request->has('sell_offer') ? (int) $request->sell_offer : $existingBenefits['sell_offer'] ?? 0,
-                'industry_jobs' => $request->has('industry_jobs') ? (string) $request->industry_jobs : $existingBenefits['industry_jobs'] ?? 'no',
-                'no_of_cv' => $request->has('no_of_cv') ? (string) $request->no_of_cv : $existingBenefits['no_of_cv'] ?? 0,
-                'charge_cv' => $request->has('charge_cv') ? (string) $request->charge_cv : $existingBenefits['charge_cv'] ?? 0,
-                // Panel Filters
-                'access_leads' => $request->has('access_leads') ? (int) $request->access_leads : $existingBenefits['access_leads'] ?? 0,
-                'access_suppliers' => $request->has('access_suppliers') ? (int) $request->access_suppliers : $existingBenefits['access_suppliers'] ?? 0,
-                'access_jobs' => $request->has('access_jobs') ? (int) $request->access_jobs : $existingBenefits['access_jobs'] ?? 0,
-                'access_stock' => $request->has('access_stock') ? (int) $request->access_stock : $existingBenefits['access_stock'] ?? 0,
-            ];
-        }                                                       
-        // Return an error if membership type is not recognized
-        else {
-            return response()->json(['error' => 'Invalid membership type'], 400);
+            $membershipTier->features()->sync($syncData);
         }
 
-        // Encode the updated benefits back to JSON
-        $validated['membership_benefits'] = json_encode($updatedBenefits);
+        // Legacy support - handle old benefits structure
+        $this->updateLegacyBenefits($request, $membershipTier, $validated);
 
-        // Handle membership order update if it exists in the request
+        // Handle membership order update
         if ($request->has('membership_order')) {
             $validated['membership_order'] = (int) $request->membership_order;
-        } else {
-            // Use the existing order if no new value is provided
-            $validated['membership_order'] = $membershipTier->membership_order;
         }
 
         // Handle membership active status toggle
         if ($request->has('membership_active')) {
             $validated['membership_active'] = (int) $request->membership_active;
         }
-        // Update the membership tier with validated data
+
+        // Update the membership tier
         $membershipTier->update($validated);
 
-        toastr()->success('Membership Tier updated successfully!');
+        Toastr::success('Membership Tier updated successfully!');
 
-        // Return back with success message and data
         return redirect()->back()->with([
             'message' => 'Membership Tier updated successfully!',
-            'data' => $membershipTier,
+            'data' => $membershipTier->load('features'),
         ]);
+    }
+
+    /**
+     * Handle legacy benefits update for backward compatibility
+     */
+    private function updateLegacyBenefits(Request $request, MembershipTier $membershipTier, array &$validated)
+    {
+        $existingBenefits = json_decode($membershipTier->membership_benefits, true) ?? [];
+
+        if ($membershipTier->membership_type == 'customer') {
+            $updatedBenefits = [
+                'description' => $request->input('description', $existingBenefits['description'] ?? ''),
+                'price' => $request->input('price', $existingBenefits['price'] ?? 0),
+                'buy_leads' => $request->input('buy_leads', $existingBenefits['buy_leads'] ?? 0),
+                'sell_leads' => $request->input('sell_leads', $existingBenefits['sell_leads'] ?? 0),
+                'industry_jobs' => $request->input('industry_jobs', $existingBenefits['industry_jobs'] ?? 'no'),
+                'no_of_cv' => $request->input('no_of_cv', $existingBenefits['no_of_cv'] ?? 0),
+                'charge_cv' => $request->input('charge_cv', $existingBenefits['charge_cv'] ?? 0),
+            ];
+        } elseif ($membershipTier->membership_type == 'seller') {
+            $updatedBenefits = [
+                'description' => $request->input('description', $existingBenefits['description'] ?? ''),
+                'price' => $request->input('price', $existingBenefits['price'] ?? 0),
+                'buy_leads' => $request->input('buy_leads', $existingBenefits['buy_leads'] ?? 0),
+                'sell_leads' => $request->input('sell_leads', $existingBenefits['sell_leads'] ?? 0),
+                'sell_offer' => $request->input('sell_offer', $existingBenefits['sell_offer'] ?? 0),
+                'industry_jobs' => $request->input('industry_jobs', $existingBenefits['industry_jobs'] ?? 'no'),
+                'no_of_cv' => $request->input('no_of_cv', $existingBenefits['no_of_cv'] ?? 0),
+                'charge_cv' => $request->input('charge_cv', $existingBenefits['charge_cv'] ?? 0),
+                'access_leads' => $request->input('access_leads', $existingBenefits['access_leads'] ?? 0),
+                'access_suppliers' => $request->input('access_suppliers', $existingBenefits['access_suppliers'] ?? 0),
+                'access_jobs' => $request->input('access_jobs', $existingBenefits['access_jobs'] ?? 0),
+                'access_stock' => $request->input('access_stock', $existingBenefits['access_stock'] ?? 0),
+            ];
+        }
+
+        if (isset($updatedBenefits)) {
+            $validated['membership_benefits'] = json_encode($updatedBenefits);
+        }
     }
     
     /**
@@ -177,9 +177,27 @@ class MembershipTierController extends Controller
 
     // Admin View Function
     public function adminview(){
-        $customer_tiers = MembershipTier::orderBy('membership_order','asc')->where('membership_type','customer')->get();
-        $seller_tiers = MembershipTier::orderBy('membership_order','asc')->where('membership_type','seller')->get();
-        return view('admin-views.business-settings.membership_tiers',compact('customer_tiers','seller_tiers'));
+        $customer_tiers = MembershipTier::with('features')
+            ->orderBy('membership_order','asc')
+            ->where('membership_type','customer')
+            ->get();
+        
+        $seller_tiers = MembershipTier::with('features')
+            ->orderBy('membership_order','asc')
+            ->where('membership_type','seller')
+            ->get();
+        
+        $availableFeatures = \App\Models\MembershipFeature::where('is_active', true)
+            ->orderBy('category')
+            ->orderBy('sort_order')
+            ->get()
+            ->groupBy('category');
+        
+        return view('admin-views.business-settings.membership_tiers', compact(
+            'customer_tiers', 
+            'seller_tiers', 
+            'availableFeatures'
+        ));
     }
 
     public function adminplancreate(){

@@ -70,6 +70,7 @@ use App\Http\Controllers\Web\MarketplaceController;
 use App\Http\Controllers\Web\NewProductStoreController;
 use App\Http\Controllers\Web\StockSellController;
 use App\Http\Controllers\Web\ChatbotController;
+use App\Http\Controllers\Web\MembershipTopupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -413,6 +414,13 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     // Membership Controller
     Route::get('membership',[MembershipController::class,'index'])->name('membership');
     Route::post('membership-post',[MembershipController::class,'store'])->name('membership.store');
+    
+    // Membership Topup Routes
+    Route::middleware('customer')->group(function () {
+        Route::get('membership-topup', [MembershipTopupController::class, 'index'])->name('web.membership.topup');
+        Route::post('membership-topup', [MembershipTopupController::class, 'store'])->name('web.membership.topup.store');
+        Route::get('membership-topup/feature/{id}', [MembershipTopupController::class, 'getFeatureDetails'])->name('web.membership.topup.feature');
+    });
 
     // Chat Other Controller
     Route::post('/chat/send-message-other', [ChatOtherController::class, 'sendotherMessage'])->name('sendmessage.other');

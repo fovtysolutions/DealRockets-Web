@@ -120,6 +120,11 @@ if(Auth('customer')->check()){
                             <button class="btn-membership current" disabled>
                                 <i class="fas fa-check"></i>{{ translate('Current Plan') }}
                             </button>
+                            <div class="mt-2">
+                                <a href="{{ route('web.membership.topup') }}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-plus-circle"></i> {{ translate('Buy Topups') }}
+                                </a>
+                            </div>
                         @else
                             <button class="btn-membership" 
                                     onclick="toggleModal({{ $tier->id }}, '{{ $tier->membership_name }}', '{{ number_format($price, 2) }}', '{{ $tier->membership_name }} membership with premium features')">

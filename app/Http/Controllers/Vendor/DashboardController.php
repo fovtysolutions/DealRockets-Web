@@ -356,12 +356,33 @@ class DashboardController extends BaseController
         // Convert to associative array [index => image_path] for easy merging
         $indexedBanners = collect($currentBannerSet)->keyBy('index')->toArray();
 
-        // Loop through input images
+        // Define required dimensions for each banner
+        $requiredDimensions = [
+            1 => ['width' => 300, 'height' => 250], // Medium Rectangle
+            2 => ['width' => 728, 'height' => 90],  // Leaderboard
+            3 => ['width' => 160, 'height' => 600], // Wide Skyscraper
+        ];
+
         for ($i = 1; $i <= 3; $i++) {
             $inputName = "banner_{$slug}{$i}";
 
             if ($request->hasFile($inputName)) {
                 $file = $request->file($inputName);
+
+                // Get uploaded image dimensions
+                [$width, $height] = getimagesize($file);
+
+                // Validate dimensions
+                if (
+                    $width != $requiredDimensions[$i]['width'] ||
+                    $height != $requiredDimensions[$i]['height']
+                ) {
+                    return redirect()->back()->withErrors([
+                        $inputName => "Banner {$i} must be exactly {$requiredDimensions[$i]['width']}x{$requiredDimensions[$i]['height']} pixels."
+                    ]);
+                }
+
+                // Store valid image
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('uploads/banners', $filename, 'public');
 
@@ -384,7 +405,7 @@ class DashboardController extends BaseController
 
         return redirect()->back()->with('success', 'Images Added Successfully');
     }
-
+    
     public function seefaqs(){
         $faqs = faq::where('type','vendor')->get();
         $vendorCategories = [

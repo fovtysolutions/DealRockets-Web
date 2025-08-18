@@ -14,11 +14,21 @@
                 <div class="row">
                     <input type="hidden" name="slug" value="{{ $slug }}">
 
+                    @php
+                        $bannerSizes = [
+                            1 => '300x250 px (Medium Rectangle)',
+                            2 => '728x90 px (Leaderboard)',
+                            3 => '160x600 px (Wide Skyscraper)',
+                        ];
+                    @endphp
+
                     @for ($i = 1; $i <= 3; $i++)
                         <div class="col-lg-12 mb-4">
-                            <label style="color: var(--title-color);font-size: 14px;font-weight: 700;">Banner {{ $i }}</label><br>
-                            <input type="file"  class="form-control" name="banner_{{ $slug }}{{ $i }}"
-                                accept="image/*"><br>
+                            <label style="color: var(--title-color); font-size: 14px; font-weight: 700;">
+                                Banner {{ $i }} - {{ $bannerSizes[$i] }}
+                            </label><br>
+
+                            <input type="file" class="form-control" name="banner_{{ $slug }}{{ $i }}" accept="image/*"><br>
 
                             @if (!empty($banner_images) && isset($banner_images[$i - 1]['image_path']))
                                 <label>Preview</label>

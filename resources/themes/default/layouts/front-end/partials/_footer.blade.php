@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <!-- New Client Requested Footer Sections -->
-                <div class="d-flex" style="margin-bottom: 20px;">
+                <div class="responsiveflex" style="margin-bottom: 20px;">
                     <div class="frame-x">
                         <div class="group-17">
                             <div class="text-wrapper-5">Legal</div>
@@ -119,61 +119,63 @@
                     </div>
 
                     <!-- Buyers Benefits Section -->
-                    <div class="frame-y">
-                        <div class="group-17">
-                            <div class="text-wrapper-5">For Buyers</div>
-                            <div class="frame-7">
-                                <div class="footer-text"><a href="/sale-offer" class="text-wrapper-7">Current Sale
-                                        Offers</a></div>
-                                <div class="footer-text"><a href="/products?searchInput=" class="text-wrapper-7">10,000+
-                                        Products</a></div>
-                                <div class="footer-text"><a href="/deal-assist" class="text-wrapper-7">Deal Assist</a>
+                    <div class="responsiveflex-1">
+                        <div class="frame-y">
+                            <div class="group-17">
+                                <div class="text-wrapper-5">For Buyers</div>
+                                <div class="frame-7">
+                                    <div class="footer-text"><a href="/sale-offer" class="text-wrapper-7">Current Sale
+                                            Offers</a></div>
+                                    <div class="footer-text"><a href="/products?searchInput=" class="text-wrapper-7">10,000+
+                                            Products</a></div>
+                                    <div class="footer-text"><a href="/deal-assist" class="text-wrapper-7">Deal Assist</a>
+                                    </div>
+                                    <div class="footer-text"><a href="/deal-assist" class="text-wrapper-7">Rocket
+                                            Negotiation</a></div>
                                 </div>
-                                <div class="footer-text"><a href="/deal-assist" class="text-wrapper-7">Rocket
-                                        Negotiation</a></div>
+                            </div>
+                            <div class="group-18">
+                                <div class="text-wrapper-5">Buyer Benefits</div>
+                                <div class="frame-7">
+                                    <div class="footer-text"><a href="{{ route('membership') }}" class="text-wrapper-7">All
+                                            Benefits</a></div>
+                                    <div class="footer-text"><a href="{{ route('membership') }}"
+                                            class="text-wrapper-7">Premium Access</a></div>
+                                    <div class="footer-text"><a href="{{ route('supplier') }}"
+                                            class="text-wrapper-7">Verified Suppliers</a></div>
+                                    <div class="footer-text"><a href="{{ route('about-us') }}"
+                                            class="text-wrapper-7">Quality Assurance</a></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="group-18">
-                            <div class="text-wrapper-5">Buyer Benefits</div>
-                            <div class="frame-7">
-                                <div class="footer-text"><a href="{{ route('membership') }}" class="text-wrapper-7">All
-                                        Benefits</a></div>
-                                <div class="footer-text"><a href="{{ route('membership') }}"
-                                        class="text-wrapper-7">Premium Access</a></div>
-                                <div class="footer-text"><a href="{{ route('supplier') }}"
-                                        class="text-wrapper-7">Verified Suppliers</a></div>
-                                <div class="footer-text"><a href="{{ route('about-us') }}"
-                                        class="text-wrapper-7">Quality Assurance</a></div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Suppliers Benefits Section -->
-                    <div class="frame-y">
-                        <div class="group-17">
-                            <div class="text-wrapper-5">For Suppliers</div>
-                            <div class="frame-7">
-                                <div class="footer-text"><a href="/buy-leads" class="text-wrapper-7">Global Buy
-                                        Leads</a></div>
-                                <div class="footer-text"><a href="{{ route('products') }}" class="text-wrapper-7">Sell
-                                        on Marketplace</a></div>
-                                <div class="footer-text"><a href="{{ route('jobseeker') }}" class="text-wrapper-7">Jobs
-                                        & Hire Talent</a></div>
-                                <div class="footer-text"><a href="{{ route('tradeshow') }}" class="text-wrapper-7">Trade
-                                        Shows</a></div>
+                        <!-- Suppliers Benefits Section -->
+                        <div class="frame-y">
+                            <div class="group-17">
+                                <div class="text-wrapper-5">For Suppliers</div>
+                                <div class="frame-7">
+                                    <div class="footer-text"><a href="/buy-leads" class="text-wrapper-7">Global Buy
+                                            Leads</a></div>
+                                    <div class="footer-text"><a href="{{ route('products') }}" class="text-wrapper-7">Sell
+                                            on Marketplace</a></div>
+                                    <div class="footer-text"><a href="{{ route('jobseeker') }}" class="text-wrapper-7">Jobs
+                                            & Hire Talent</a></div>
+                                    <div class="footer-text"><a href="{{ route('tradeshow') }}" class="text-wrapper-7">Trade
+                                            Shows</a></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="group-18">
-                            <div class="text-wrapper-5">Business Growth</div>
-                            <div class="frame-7">
-                                <div class="footer-text"><a href="/stock-sale" class="text-wrapper-7">Bulk Stock
-                                        Sales</a></div>
-                                <div class="footer-text"><a href="{{ route('dealassist') }}"
-                                        class="text-wrapper-7">Startup Assistance</a></div>
-                                <div class="footer-text"><a href="{{ route('dealassist') }}"
-                                        class="text-wrapper-7">Rocket Growth</a></div>
-                                <div class="footer-text"><a href="{{ route('contacts') }}"
-                                        class="text-wrapper-7">Business Support</a></div>
+                            <div class="group-18">
+                                <div class="text-wrapper-5">Business Growth</div>
+                                <div class="frame-7">
+                                    <div class="footer-text"><a href="/stock-sale" class="text-wrapper-7">Bulk Stock
+                                            Sales</a></div>
+                                    <div class="footer-text"><a href="{{ route('dealassist') }}"
+                                            class="text-wrapper-7">Startup Assistance</a></div>
+                                    <div class="footer-text"><a href="{{ route('dealassist') }}"
+                                            class="text-wrapper-7">Rocket Growth</a></div>
+                                    <div class="footer-text"><a href="{{ route('contacts') }}"
+                                            class="text-wrapper-7">Business Support</a></div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -110,7 +110,7 @@
 
 .footer .frame-y{
     display: flex;
-    width: 25%;
+    width: 50%;
     justify-content: space-around;
 }
 
@@ -259,12 +259,12 @@
     font-family: "Roboto", Helvetica;
     font-weight: 600;
     color: var(--secondary-text);
-    font-size: 18px;
+    font-size: 14px;
     letter-spacing: 0;
     line-height: normal;
     text-transform: uppercase;
     white-space: nowrap;
-    padding-bottom: 20px;
+    padding-bottom: 15px;
 }
 
 .footer .line {
@@ -474,7 +474,7 @@
     font-weight: 600;
     color: #000000;
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: 14px;
     letter-spacing: 0;
     line-height: normal;
     white-space: nowrap;
@@ -613,6 +613,7 @@
     align-content: end;
     align-items: end;
     /* margin-top: 26px; */
+    padding-right: 50px;
 }
 
 .footer .img-3 {
@@ -653,617 +654,35 @@
     left: 157px;
 }
 
-@media screen and (max-width: 1024px) {
-    .footer .group{
-        /* height: unset; */
-        top: 10px;
-        height: 707px;
-    }
-
-    .footer .group-wrapper{
-        height: 717px;
-    }
-
-    .footer .responsive-1 {
-        display: flex;
-        flex-direction: row;
-        gap: 2rem;
-    }
-
-    .footer .group-16 {
-        height: 155px;
-    }
-
-    .footer .group-26 {
-        display: flex;
-        flex-direction: row;
-        height: 15px;
-    }
-
-    .footer .frame-9 {
-        position: relative;
-        /* height: 200px; */
-        /* top: 30px; */
-        margin-top: 10px;
-    }
-
-    .footer .div {
-        width: 100%;
-    }
-
-    .footer .group-11 {
-        width: 100%;
-    }
-
-    .footer .frame-6 {
-        border-right: none;
-        width: 100%;
-        height: 140px;
-    }
-
-    .footer .frame-8 {
-        top: 26px;
-    }
-
-    .footer .group-17 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .group-18 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .group-19 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .responsive-2 {
-        width: 100%;
-    }
-
-    .footer .group-20{
-        display: flex;
-        flex-direction: column;
-    }
-
-    .footer .text-wrapper-5 {
-        font-size: 15px;
-    }
-
-    .footer .group-21 {
-        position: relative;
-        width: 50%;
-    }
-
-    .footer .group-23 {
-        position: relative;
-        width: 50%;
-        top: 0;
-    }
-
-    .footer .group-25 {
-        position: absolute;
-        top: 29px;
-    }
-
-    .footer .text-wrapper-7 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-9 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-10 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-8 {
-        font-size: 15px;
-    }
-
-    .footer .twitter {
-        height: 24px;
-        width: 24px;
-    }
-    
-    .footer .linkedin {
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .facebook {
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .instagram{
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .group-24 {
-        top: 21px;
-    }
-
-    .footer .frame-7 {
-        top: 35px;
-    }
-
-    .footer .group-22{
-        top: 31px;
-    }
- }
- 
- 
- @media screen and (max-width: 768px) {
-    .footer .group{
-        /* height: unset; */
-        top: 10px;
-        height: 707px;
-    }
-
-    .footer .group-wrapper{
-        height: 1105px;
-    }
-
-    .footer .responsive-1 {
-        display: flex;
-        flex-direction: row;
-        gap: 2rem;
-        height: 826px;
-    }
-
-    .footer .group-16 {
-        height: 155px;
-    }
-
-    .footer .group-26 {
-        display: flex;
-        flex-direction: row;
-        height: 15px;
-    }
-
-    .footer .frame-9 {
-        position: relative;
-        /* height: 200px; */
-        /* top: 30px; */
-        margin-top: 10px;
-    }
-
-    .footer .div {
-        width: 100%;
-    }
-
-    .footer .group-11 {
-        width: 100%;
-    }
-
-    .footer .frame-6 {
-        border-right: none;
-        width: 100%;
-        height: 140px;
-    }
-
-    .footer .frame-8 {
-        top: 26px;
-    }
-
-    .footer .group-17 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .group-18 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .group-19 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .responsive-2 {
-        width: 100%;
-    }
-
-    .footer .group-20{
-        display: flex;
-        flex-direction: column;
-    }
-
-    .footer .text-wrapper-5 {
-        font-size: 15px;
-    }
-
-    .footer .group-21 {
-        position: relative;
-        width: 50%;
-    }
-
-    .footer .group-23 {
-        position: relative;
-        width: 50%;
-        top: 0;
-    }
-
-    .footer .group-25 {
-        position: absolute;
-        top: 29px;
-    }
-
-    .footer .text-wrapper-7 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-9 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-10 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-8 {
-        font-size: 15px;
-    }
-
-    .footer .twitter {
-        height: 24px;
-        width: 24px;
-    }
-    
-    .footer .linkedin {
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .facebook {
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .instagram{
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .group-24 {
-        top: 21px;
-    }
-
-    .footer .frame-7 {
-        top: 35px;
-    }
-
-    .footer .group-22{
-        top: 31px;
-    }
- }
-
- @media screen and (max-width: 576px) {
-    .footer .deleleventeen{
-        display: none !important;
-    }
-
-    .footer .group{
-        /* height: unset; */
-        top: 10px;
-        height: 490px;
-    }
-
-    .footer .group-wrapper{
-        height: 500px;
-    }
-
-    .footer .responsive-1 {
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        height: 826px;
-    }
-
-    .footer .group-16 {
-        height: 155px;
-    }
-
-    .footer .group-26 {
-        display: flex;
-        flex-direction: column;
-        height: 15px;
-        top: 136px;
-    }
-
-    .footer .frame-9 {
-        position: relative;
-        /* height: 200px; */
-        /* top: 30px; */
-        margin-top: 10px;
-    }
-
-    .footer .div {
-        width: 100%;
-    }
-
-    .footer .responsive-2 {
-        padding-left: 0;
-    }
-
-    .footer .group-11 {
-        width: 100%;
-    }
-
-    .footer .frame-6 {
-        border-right: none;
-        width: 100%;
-        height: 140px;
-    }
-
-    .footer .frame-8 {
-        top: 26px;
-    }
-
-    .footer .group-17 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .group-18 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .group-19 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .responsive-2 {
-        width: 100%;
-    }
-
-    .footer .group-20{
-        display: flex;
-        flex-direction: column;
-    }
-
-    .footer .text-wrapper-5 {
-        font-size: 15px;
-    }
-
-    .footer .group-21 {
-        position: relative;
-        width: 50%;
-    }
-
-    .footer .group-23 {
-        position: relative;
-        width: 50%;
-        top: 0;
-    }
-
-    .footer .group-25 {
-        position: absolute;
-        top: 29px;
-    }
-
-    .footer .text-wrapper-7 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-9 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-10 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-8 {
-        font-size: 15px;
-    }
-
-    .footer .twitter {
-        height: 24px;
-        width: 24px;
-    }
-    
-    .footer .linkedin {
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .facebook {
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .instagram{
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .group-24 {
-        top: 21px;
-    }
-
-    .footer .frame-7 {
-        top: 35px;
-    }
-
-    .footer .group-22{
-        top: 31px;
-    }
-
-    .footer .group-27{
-        width: 100%;
-    }
+.footer .responsiveflex-1{
+    padding-left: 15px;
+    flex-direction: row;
+    display: flex;
+    width: 50%;
+    gap: 40px;
+    justify-content: space-between;
+}
 
-    .footer .group-28{
-        width: 100%;
-    }
- }
-
- @media screen and (max-width: 430px) {
-    .footer .deleleventeen{
-        display: none !important;
-    }
-
-    .footer .group{
-        /* height: unset; */
-        top: 10px;
-        height: 490px;
-    }
-
-    .footer .group-wrapper{
-        height: 529px;
-    }
-
-    .footer .responsive-1 {
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        height: 826px;
-    }
-
-    .footer .group-16 {
-        height: 340px;
-    }
-
-    .footer .group-26 {
-        display: none;
-        flex-direction: column;
-        height: 15px;
-        top: 136px;
-    }
-
-    .footer .frame-9 {
-        position: relative;
-        /* height: 200px; */
-        /* top: 30px; */
-        margin-top: 10px;
-    }
-
-    .footer .div {
-        width: 100%;
-    }
-
-    .footer .responsive-2 {
-        padding-left: 0;
-    }
-
-    .footer .group-11 {
-        width: 100%;
-    }
-
-    .footer .frame-6 {
-        border-right: none;
-        width: 100%;
-        height: 270px;
-        display: grid;
-        grid-template-columns: auto auto;
-    }
-
-    .footer .frame-8 {
-        top: 26px;
-    }
-
-    .footer .group-17 {
-        width: calc(25% - 10px);
-        height: 120px;
-    }
-
-    .footer .group-18 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .group-19 {
-        width: calc(25% - 10px);
-    }
-
-    .footer .responsive-2 {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .footer .group-20{
-        display: flex;
-        flex-direction: column;
-    }
-
-    .footer .text-wrapper-5 {
-        font-size: 15px;
-    }
-
-    .footer .group-21 {
-        position: relative;
-        width: 50%;
-    }
-
-    .footer .group-23 {
-        position: relative;
-        width: 50%;
-        top: 0;
-    }
-
-    .footer .group-25 {
-        position: absolute;
-        top: 29px;
-    }
-
-    .footer .text-wrapper-7 {
-        font-size: 10.5px;
-    }
+.footer .responsiveflex{
+    flex-direction: row;
+    display: flex;
+}
 
-    .footer .text-wrapper-9 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-10 {
-        font-size: 10.5px;
-    }
-
-    .footer .text-wrapper-8 {
-        font-size: 15px;
-    }
-
-    .footer .twitter {
-        height: 24px;
-        width: 24px;
-    }
-    
-    .footer .linkedin {
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .facebook {
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .instagram{
-        height: 24px;
-        width: 24px;
-    }
-
-    .footer .group-24 {
-        top: 21px;
-    }
-
-    .footer .frame-7 {
-        top: 35px;
-    }
+    @media screen and (max-width: 1300px) {
+        .footer .responsiveflex{
+            flex-direction: column;
+        }
 
-    .footer .group-22{
-        top: 31px;
+        .footer .responsiveflex{
+            flex-direction: row;
+        }
     }
 
-    .footer .group-27{
-        width: 100%;
+    @media screen and (max-width: 768px) {
     }
 
-    .footer .group-28{
-        width: 100%;
+    @media screen and (max-width: 576px) {
     }
 
-    .footer  .group-20{
-        height: 139px;
+    @media screen and (max-width: 430px) {
     }
- }

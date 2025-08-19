@@ -617,15 +617,11 @@
 
 .footer .img-3 {
     position: relative;
-    width: 20px;
-    height: 20px;
     object-fit: contain;
 }
 
 .footer .img-4 {
     position: relative;
-    width: 32px;
-    height: 32px;
     object-fit: contain;
 }
 

@@ -255,16 +255,16 @@
                                 <div class="text-wrapper-8">Social</div>
                                 <div class="frame-8">
                                     <a href="https://x.com" target="_blank">
-                                        <img class="img-4" src="/img/footer/Group1171275885.png" alt="Twitter" />
+                                        <img class="img-4" src="/img/footer/Group1171275885.svg" alt="Twitter" />
                                     </a>
                                     <a href="https://linkedin.com" target="_blank">
-                                        <img class="img-4" src="/img/footer/Group1171275888.png" alt="LinkedIn" />
+                                        <img class="img-4" src="/img/footer/Group1171275888.svg" alt="LinkedIn" />
                                     </a>
                                     <a href="https://instagram.com" target="_blank">
-                                        <img class="img-4" src="/img/footer/Group1171275886.png" alt="Instagram" />
+                                        <img class="img-4" src="/img/footer/Group1171275886.svg" alt="Instagram" />
                                     </a>
                                     <a href="https://facebook.com" target="_blank">
-                                        <img class="img-4" src="/img/footer/Group1171275887.png" alt="Facebook" />
+                                        <img class="img-4" src="/img/footer/Group1171275887.svg" alt="Facebook" />
                                     </a>
                                 </div>
                             </div>
@@ -286,16 +286,16 @@
                         </div>
                         <div class="frame-9">
                             <div class="frame-5">
-                                <img class="img-3" src="/img/footer/Parcel(1).png" />
+                                <img class="img-3" src="/img/footer/Parcel(1).svg" />
                                 <a href="{{ route('vendor.auth.login') }}" class="text-wrapper-10">Become a
                                     Seller</a>
                             </div>
                             <div class="frame-5">
-                                <img class="img-3" src="/img/footer/Accept.png" />
+                                <img class="img-3" src="/img/footer/Accept.svg" />
                                 <a href="{{ route('terms') }}" class="text-wrapper-10">Terms &amp; Conditions</a>
                             </div>
                             <div class="frame-5" style="margin-right: 50px;">
-                                <img class="img-3" src="/img/footer/Vector.png" />
+                                <img class="img-3" src="/img/footer/Vector.svg" />
                                 <a href="{{ route('privacy-policy') }}" class="text-wrapper-10">Privacy policy</a>
                             </div>
                         </div>
@@ -307,11 +307,11 @@
                         </div>
                         <div class="frame-9">
                             <div class="frame-5">
-                                <img class="img-3" src="/img/footer/Group1171275881.png" />
+                                <img class="img-3" src="/img/footer/Group1171275881.svg" />
                                 <div class="text-wrapper-10">{{ $web_config['copyright_text']->value }}</div>
                             </div>
                             <div class="frame-5">
-                                <img class="img-3" src="/img/footer/Group1171275882.png" />
+                                <img class="img-3" src="/img/footer/Group1171275882.svg" />
                                 <a href="tel:{{ getWebConfig(name: 'company_phone') }}"
                                     class="text-wrapper-10">{{ getWebConfig(name: 'company_phone') }}</a>
                             </div>

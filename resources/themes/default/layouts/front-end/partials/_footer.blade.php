@@ -4,25 +4,26 @@
     $industries = App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting();
 @endphp
 <style>
-.product-category {
-    text-align: left;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    /* remove height: 60px */
-}
+    .product-category {
+        text-align: left;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        /* remove height: 60px */
+    }
 
-.sub-category-list {
-    margin-top: 4px;
-    line-height: 1.2rem;
-    font-size: 13px;
-    font-weight: 400;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;   /* show max 2 lines dynamically */
-    -webkit-box-orient: vertical;
-}
+    .sub-category-list {
+        margin-top: 4px;
+        line-height: 1.2rem;
+        font-size: 13px;
+        font-weight: 400;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        /* show max 2 lines dynamically */
+        -webkit-box-orient: vertical;
+    }
 </style>
 <div class="footer" style="background-color: #e5e3e3;">
     <div class="footer-wrapper">
@@ -53,9 +54,12 @@
                                         @if (isset($value->childes) && $value->childes->count() > 0)
                                             <div class="sub-category-list">
                                                 @foreach ($value->childes->take(5) as $sub_category)
-                                                    <a class="font-weight-normal custom-dealrock-text-14" style="color: #666;"
+                                                    <a class="font-weight-normal custom-dealrock-text-14"
+                                                        style="color: #666;"
                                                         href="{{ route('buyer', ['industry' => $sub_category['id']]) }}">
-                                                        {{ $sub_category['name'] }}@if (!$loop->last), @endif
+                                                        {{ $sub_category['name'] }}@if (!$loop->last)
+                                                            ,
+                                                        @endif
                                                     </a>
                                                 @endforeach
                                             </div>
@@ -120,62 +124,60 @@
 
                     <!-- Buyers Benefits Section -->
                     <div class="responsiveflex-1">
-                        <div class="frame-y">
-                            <div class="group-17">
-                                <div class="text-wrapper-5">For Buyers</div>
-                                <div class="frame-7">
-                                    <div class="footer-text"><a href="/sale-offer" class="text-wrapper-7">Current Sale
-                                            Offers</a></div>
-                                    <div class="footer-text"><a href="/products?searchInput=" class="text-wrapper-7">10,000+
-                                            Products</a></div>
-                                    <div class="footer-text"><a href="/deal-assist" class="text-wrapper-7">Deal Assist</a>
-                                    </div>
-                                    <div class="footer-text"><a href="/deal-assist" class="text-wrapper-7">Rocket
-                                            Negotiation</a></div>
+                        <div class="group-17">
+                            <div class="text-wrapper-5">For Buyers</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="/sale-offer" class="text-wrapper-7">Current Sale
+                                        Offers</a></div>
+                                <div class="footer-text"><a href="/products?searchInput=" class="text-wrapper-7">10,000+
+                                        Products</a></div>
+                                <div class="footer-text"><a href="/deal-assist" class="text-wrapper-7">Deal Assist</a>
                                 </div>
-                            </div>
-                            <div class="group-18">
-                                <div class="text-wrapper-5">Buyer Benefits</div>
-                                <div class="frame-7">
-                                    <div class="footer-text"><a href="{{ route('membership') }}" class="text-wrapper-7">All
-                                            Benefits</a></div>
-                                    <div class="footer-text"><a href="{{ route('membership') }}"
-                                            class="text-wrapper-7">Premium Access</a></div>
-                                    <div class="footer-text"><a href="{{ route('supplier') }}"
-                                            class="text-wrapper-7">Verified Suppliers</a></div>
-                                    <div class="footer-text"><a href="{{ route('about-us') }}"
-                                            class="text-wrapper-7">Quality Assurance</a></div>
-                                </div>
+                                <div class="footer-text"><a href="/deal-assist" class="text-wrapper-7">Rocket
+                                        Negotiation</a></div>
                             </div>
                         </div>
-
-                        <!-- Suppliers Benefits Section -->
-                        <div class="frame-y">
-                            <div class="group-17">
-                                <div class="text-wrapper-5">For Suppliers</div>
-                                <div class="frame-7">
-                                    <div class="footer-text"><a href="/buy-leads" class="text-wrapper-7">Global Buy
-                                            Leads</a></div>
-                                    <div class="footer-text"><a href="{{ route('products') }}" class="text-wrapper-7">Sell
-                                            on Marketplace</a></div>
-                                    <div class="footer-text"><a href="{{ route('jobseeker') }}" class="text-wrapper-7">Jobs
-                                            & Hire Talent</a></div>
-                                    <div class="footer-text"><a href="{{ route('tradeshow') }}" class="text-wrapper-7">Trade
-                                            Shows</a></div>
-                                </div>
+                        <div class="group-18">
+                            <div class="text-wrapper-5">Buyer Benefits</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="{{ route('membership') }}"
+                                        class="text-wrapper-7">All
+                                        Benefits</a></div>
+                                <div class="footer-text"><a href="{{ route('membership') }}"
+                                        class="text-wrapper-7">Premium Access</a></div>
+                                <div class="footer-text"><a href="{{ route('supplier') }}"
+                                        class="text-wrapper-7">Verified Suppliers</a></div>
+                                <div class="footer-text"><a href="{{ route('about-us') }}"
+                                        class="text-wrapper-7">Quality Assurance</a></div>
                             </div>
-                            <div class="group-18">
-                                <div class="text-wrapper-5">Business Growth</div>
-                                <div class="frame-7">
-                                    <div class="footer-text"><a href="/stock-sale" class="text-wrapper-7">Bulk Stock
-                                            Sales</a></div>
-                                    <div class="footer-text"><a href="{{ route('dealassist') }}"
-                                            class="text-wrapper-7">Startup Assistance</a></div>
-                                    <div class="footer-text"><a href="{{ route('dealassist') }}"
-                                            class="text-wrapper-7">Rocket Growth</a></div>
-                                    <div class="footer-text"><a href="{{ route('contacts') }}"
-                                            class="text-wrapper-7">Business Support</a></div>
-                                </div>
+                        </div>
+                        <div class="group-17">
+                            <div class="text-wrapper-5">For Suppliers</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="/buy-leads" class="text-wrapper-7">Global Buy
+                                        Leads</a></div>
+                                <div class="footer-text"><a href="{{ route('products') }}"
+                                        class="text-wrapper-7">Sell
+                                        on Marketplace</a></div>
+                                <div class="footer-text"><a href="{{ route('jobseeker') }}"
+                                        class="text-wrapper-7">Jobs
+                                        & Hire Talent</a></div>
+                                <div class="footer-text"><a href="{{ route('tradeshow') }}"
+                                        class="text-wrapper-7">Trade
+                                        Shows</a></div>
+                            </div>
+                        </div>
+                        <div class="group-18">
+                            <div class="text-wrapper-5">Business Growth</div>
+                            <div class="frame-7">
+                                <div class="footer-text"><a href="/stock-sale" class="text-wrapper-7">Bulk Stock
+                                        Sales</a></div>
+                                <div class="footer-text"><a href="{{ route('dealassist') }}"
+                                        class="text-wrapper-7">Startup Assistance</a></div>
+                                <div class="footer-text"><a href="{{ route('dealassist') }}"
+                                        class="text-wrapper-7">Rocket Growth</a></div>
+                                <div class="footer-text"><a href="{{ route('contacts') }}"
+                                        class="text-wrapper-7">Business Support</a></div>
                             </div>
                         </div>
                     </div>
@@ -206,7 +208,8 @@
                                 <div class="footer-text"><a class="text-wrapper-7"
                                         href="{{ route('user-account') }}">Profile Info</a>
                                 </div>
-                                <div class="footer-text"><a class="text-wrapper-7" href="{{ route('wishlists') }}">Wish
+                                <div class="footer-text"><a class="text-wrapper-7"
+                                        href="{{ route('wishlists') }}">Wish
                                         list</a></div>
                                 <div class="footer-text"><a class="text-wrapper-7"
                                         href="{{ route('track-order.index') }}">Track Order</a>
@@ -216,7 +219,8 @@
                         <div class="group-17">
                             <div class="text-wrapper-5">Quick Links</div>
                             <div class="frame-7">
-                                <div class="footer-text"><a href="{{ route('products') }}" class="text-wrapper-7">All
+                                <div class="footer-text"><a href="{{ route('products') }}"
+                                        class="text-wrapper-7">All
                                         Products</a>
                                 </div>
                                 <div class="footer-text"><a href="{{ route('vendors') }}" class="text-wrapper-7">All
@@ -230,7 +234,8 @@
                         <div class="group-19">
                             <div class="text-wrapper-5">Help</div>
                             <div class="frame-7">
-                                <div class="footer-text"><a href="{{ route('about-us') }}" class="text-wrapper-7">About
+                                <div class="footer-text"><a href="{{ route('about-us') }}"
+                                        class="text-wrapper-7">About
                                         us</a></div>
                                 <div class="footer-text"><a href="{{ route('contacts') }}"
                                         class="text-wrapper-7">Contact Us</a></div>

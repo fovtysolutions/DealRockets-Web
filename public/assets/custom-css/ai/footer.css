@@ -658,8 +658,8 @@
     padding-left: 15px;
     flex-direction: row;
     display: flex;
-    width: 50%;
-    gap: 40px;
+    width: 47%;
+    gap: 20px;
     justify-content: space-between;
 }
 
@@ -668,21 +668,121 @@
     display: flex;
 }
 
-    @media screen and (max-width: 1300px) {
-        .footer .responsiveflex{
-            flex-direction: column;
-        }
-
-        .footer .responsiveflex{
-            flex-direction: row;
-        }
+@media screen and (max-width: 1440px) {
+    .footer .group-17 {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .footer .responsiveflex{
+        flex-direction: column;
     }
 
-    @media screen and (max-width: 768px) {
+    .footer .responsiveflex-1{
+        flex-direction: row;
+        width: 100%;
+        gap: 15px;
+        padding-left: 0;
     }
 
-    @media screen and (max-width: 576px) {
+    .footer .group{
+        padding:40px 20px 0px 20px;
     }
 
-    @media screen and (max-width: 430px) {
+    .footer .group-16 {
+        flex-direction: row;
     }
+
+    .footer .frame-x {
+        width: 100%;
+        gap: 15px;
+        justify-content: space-between;
+        border-right: none;
+        padding-bottom: 20px;
+    }
+
+    .footer .frame-y {
+        width: 100%;
+        gap: 15px;
+        justify-content: space-between;
+    }
+}
+
+@media screen and (max-width: 1253px){
+    .footer .group-16 {
+        flex-direction: column;        
+        gap: 15px;
+    }
+
+    .footer .frame-6 {
+        width: 100%;
+        justify-content: space-between;
+        border-right: none;
+    }
+
+    .footer .group-20 {
+        display: flex;
+        width: 50%;
+        justify-content: space-between;
+    }
+
+    .footer .responsive-2 {
+        width: 100%;        
+        padding-left: 0;
+    }
+    
+    .footer .group-21 {
+        position: relative;
+        width: 50%;
+    }
+
+    .footer .group-23 {
+        position: relative;
+        width: 50%;
+        top: 0;
+        height: 100%;
+    }
+
+    .footer .group-22{
+        position: relative;
+        width: unset;
+        height: unset;
+        top: unset;
+    }
+
+    .footer .frame-8 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+
+    .footer .group-24 {
+        position: relative;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer .group-25 {
+        position: relative;
+        width: 63px;
+        /* height: 20px; */
+        top: 2px;
+        left: 0;
+    }
+
+    .footer .text-wrapper-8{
+        padding-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 576px) {
+}
+
+@media screen and (max-width: 430px) {
+}

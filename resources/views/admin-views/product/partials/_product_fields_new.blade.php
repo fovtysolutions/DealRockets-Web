@@ -121,6 +121,7 @@
                 </label>
                 <input type="text" name="name" id="name" value="{{ $isEdit ? $product['name'] : '' }}"
                     class="form-control" placeholder="{{ translate('new_Product') }}" required>
+                <small class="text-muted d-block mt-1" id="name-word-counter">20 words left</small>
             </div>
             <div class="form-group">
                 <label class="form-label">{{ translate('HS Code') }}</label>
@@ -169,7 +170,8 @@
             <div class="form-single">
                 <label class="title-color" for="description">{{ translate('Short Description') }}
                 </label>
-                <textarea name="short_details">{{ $isEdit ? $product['short_details'] ?? '' : '' }}</textarea>
+                <textarea name="short_details" class="summernote" data-word-limit="50">{!! $isEdit ? $product['short_details'] ?? '' : '' !!}</textarea>
+                <small class="text-muted d-block mt-1" id="short-details-counter">50 words left</small>
             </div>
         </div>
 
@@ -179,19 +181,36 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="thumbnail">Thumbnail</label>
-                <input type="file" name="thumbnail" id="thumbnail" {{ $isEdit ? '' : 'required' }}>
+                <div class="upload-box" data-for="thumbnail">
+                    <input type="file" accept="image/png,image/jpeg,image/webp" name="thumbnail" id="thumbnail" {{ $isEdit ? '' : 'required' }}>
+                    <div class="upload-instructions">
+                        <strong>Square image required (1:1)</strong> — Recommended 800×800. JPG/PNG/WebP only. Upload will be rejected if not 1:1.
+                    </div>
+                    <div id="thumbnail-error" class="upload-error text-danger mt-1" style="display:none;"></div>
+                    <div id="thumbnail-preview" class="upload-preview-grid"></div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="extra_images">Additional Images</label>
-                <input type="file" name="extra_images[]" id="extra_images" {{ $isEdit ? '' : 'required' }}
-                    multiple>
+                <div class="upload-box" data-for="extra_images">
+                    <input type="file" accept="image/png,image/jpeg,image/webp" name="extra_images[]" id="extra_images" {{ $isEdit ? '' : 'required' }} multiple data-max-count="5" data-existing-count="{{ $isEdit ? (is_array(json_decode($product->extra_images ?? '[]', true)) ? count(json_decode($product->extra_images ?? '[]', true)) : 0) : 0 }}">
+                    <div class="upload-instructions">
+                        <strong>Square images required (1:1)</strong> — Recommended 800×800. JPG/PNG/WebP only. Uploads will be rejected if not 1:1. Max 5 files total.
+                    </div>
+                    <div id="extra_images-error" class="upload-error text-danger mt-1" style="display:none;"></div>
+                    <div id="extra_images-preview" class="upload-preview-grid"></div>
+                </div>
             </div>
         </div>
         @if ($isEdit && !empty($product->thumbnail))
             <div class="form-row mb-3">
                 <h4>Thumbnail</h4>
-                <img src="/storage/{{ $product->thumbnail }}" alt="Thumbnail"
-                    style="max-height: 200px; max-width: 200px; aspect-ratio: 4/3; border:1px solid #ccc; border-radius:6px;">
+                <div class="upload-preview-grid mt-2">
+                    <div class="upload-preview-box hover-delete">
+                        <img src="/storage/{{ $product->thumbnail }}" alt="Thumbnail"/>
+                        <button type="button" class="delete-image-btn" data-type="thumbnail" data-src="{{ $product->thumbnail }}" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
             </div>
         @else
             <div class="form-row mb-3">
@@ -210,10 +229,12 @@
         <div class="form-row mb-3">
             <h4>Additional Images</h4>
             @if ($isEdit && is_array($extraImages) && count($extraImages))
-                <div class="d-flex flex-wrap gap-2 mt-2">
+                <div class="upload-preview-grid mt-2">
                     @foreach ($extraImages as $image)
-                        <img src="/storage/{{ $image }}" alt="Extra Image"
-                            style="max-height: 200px; max-width: 200px; aspect-ratio: 4/3; border:1px solid #ccc; border-radius:6px;">
+                        <div class="upload-preview-box hover-delete">
+                            <img src="/storage/{{ $image }}" alt="Extra Image"/>
+                            <button type="button" class="delete-image-btn" data-type="extra" data-src="{{ $image }}" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                        </div>
                     @endforeach
                 </div>
             @else
@@ -223,8 +244,14 @@
         <div class="form-row">
             <div class="form-single">
                 <label class="form-lable">Certificate</label>
-                <input type="file" name="certificates[]" id="certificates" {{ $isEdit ? '' : 'required' }}
-                    multiple>
+                <div class="upload-box" data-for="certificates">
+                    <input type="file" accept="image/png,image/jpeg,image/webp,application/pdf" name="certificates[]" id="certificates" {{ $isEdit ? '' : 'required' }} multiple data-max-count="5" data-existing-count="{{ $isEdit ? (is_array(json_decode($product->certificates ?? '[]', true)) ? count(json_decode($product->certificates ?? '[]', true)) : 0) : 0 }}">
+                    <div class="upload-instructions">
+                        <strong>Square images required (1:1) or PDF</strong> — Recommended 800×800 for images. JPG/PNG/WebP/PDF. Max 5 files total.
+                    </div>
+                    <div id="certificates-error" class="upload-error text-danger mt-1" style="display:none;"></div>
+                    <div id="certificates-preview" class="upload-preview-grid"></div>
+                </div>
             </div>
         </div>
         <div class="form-row" style="margin-bottom: 10px;">
@@ -238,7 +265,7 @@
                     @if (!empty($certificates) && is_array($certificates))
                         @foreach ($certificates as $cert)
                             <img src="/storage/{{ $cert }}" alt="Certificate"
-                                style="max-height: 200px; max-width: 200px; aspect-ratio: 4/3; border:1px solid #ccc; border-radius:6px;"
+                                style="max-height: 200px; max-width: 200px; aspect-ratio: 1/1; object-fit: cover; border:1px solid #ccc; border-radius:6px;"
                                 class="me-2 mb-2">
                         @endforeach
                     @else
@@ -724,7 +751,8 @@
             <div class="form-single">
                 <label class="title-color" for="description">{{ translate('Description of Product') }}
                 </label>
-                <textarea name="details" class="summernote">{!! $isEdit ? $product['details'] ?? '' : '' !!}</textarea>
+                <textarea name="details" class="summernote" data-word-limit="1000">{!! $isEdit ? $product['details'] ?? '' : '' !!}</textarea>
+                <small class="text-muted d-block mt-1" id="details-counter">1000 words left</small>
             </div>
         </div>
         <button type="button" class="prev-btn" data-prev="4">Prev</button>
@@ -760,6 +788,9 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const select = document.getElementById('target-market-select');
@@ -781,10 +812,74 @@
 </script>
 <script>
     $(document).ready(function() {
+        // Initialize select2
         $('#target-market-select').select2({
             placeholder: "Select Target Markets",
             allowClear: true,
-            width: '100%' // ensures it adapts nicely to Bootstrap form-control
+            width: '100%'
+        });
+
+        // Word counter helpers
+        const NAME_LIMIT = 20;
+        function countWordsPlain(text){ const t=(text||'').trim(); return t ? t.split(/\s+/).length : 0; }
+        function trimToWordLimit(text, limit){ const t=(text||'').trim(); if(!t) return ''; const words=t.split(/\s+/); return words.length<=limit ? text : words.slice(0,limit).join(' '); }
+        function countWordsFromHtml(html){ const text = $('<div>').html(html || '').text().trim(); return text ? text.split(/\s+/).length : 0; }
+
+        // Name input: 20-word limit with live counter
+        const $nameInput = $('#name');
+        const $nameCounter = $('#name-word-counter');
+        function updateNameCounter(){
+            let val = $nameInput.val();
+            const words = countWordsPlain(val);
+            if(words > NAME_LIMIT){
+                val = trimToWordLimit(val, NAME_LIMIT);
+                $nameInput.val(val);
+            }
+            const remaining = Math.max(0, NAME_LIMIT - countWordsPlain($nameInput.val()));
+            if($nameCounter.length){ $nameCounter.text(remaining + ' words left'); }
+        }
+        $nameInput.on('input', updateNameCounter);
+        updateNameCounter();
+
+        // Initialize Summernote with word-limit enforcement per editor
+        const lastValidContent = {}; // keep last valid HTML for each editor by name
+        function updateCounterByName(name, remaining){
+            if(name === 'short_details'){
+                $('#short-details-counter').text(remaining + ' words left');
+            } else if(name === 'details'){
+                $('#details-counter').text(remaining + ' words left');
+            }
+        }
+
+        $('.summernote').each(function(){
+            const $el = $(this);
+            const name = $el.attr('name');
+            const limit = parseInt($el.data('word-limit')) || Number.MAX_SAFE_INTEGER;
+            lastValidContent[name] = $el.val() || '';
+
+            $el.summernote({
+                height: 200,
+                toolbar: [ ['font', ['bold','italic','underline']] ],
+                callbacks: {
+                    onInit: function(){
+                        const html = $el.summernote('code');
+                        lastValidContent[name] = html;
+                        const words = countWordsFromHtml(html);
+                        updateCounterByName(name, Math.max(0, limit - words));
+                    },
+                    onChange: function(contents){
+                        const words = countWordsFromHtml(contents);
+                        if(words > limit){
+                            // revert to last valid content
+                            $el.summernote('code', lastValidContent[name]);
+                            updateCounterByName(name, 0);
+                            return;
+                        }
+                        lastValidContent[name] = contents;
+                        updateCounterByName(name, Math.max(0, limit - words));
+                    }
+                }
+            });
         });
     });
 </script>
@@ -964,5 +1059,133 @@ $(document).ready(function() {
             suggestionDropdown.hide().empty();
         }
     });
+
+    // Image validation helpers
+    function isSquare(width, height) { return width === height; }
+    function formatBytes(bytes){ if(bytes===0) return '0 B'; const k=1024; const sizes=['B','KB','MB','GB']; const i=Math.floor(Math.log(bytes)/Math.log(k)); return parseFloat((bytes/Math.pow(k,i)).toFixed(2))+' '+sizes[i]; }
+
+    // Validate file input with 1:1 aspect ratio requirement (images) and preview in a grid boxes
+    function setupImageInput(opts){
+        const input = document.getElementById(opts.inputId);
+        const errorBox = document.getElementById(opts.errorId);
+        const preview = document.getElementById(opts.previewId);
+        if(!input) return;
+
+        input.addEventListener('change', function(){
+            errorBox && (errorBox.style.display='none', errorBox.textContent='');
+            if(preview) preview.innerHTML='';
+
+            const files = Array.from(input.files || []);
+            if(!files.length) return;
+
+            let hasError = false;
+            const validFiles = [];
+
+            const pending = files.map(file => new Promise(resolve => {
+                const type = file.type || '';
+                // Allow PDFs only for certificates; images for others
+                if(opts.allowPdf && type === 'application/pdf'){
+                    validFiles.push({file, isPdf: true});
+                    return resolve();
+                }
+                if(!type.startsWith('image/')){
+                    hasError = true; return resolve();
+                }
+                const img = new Image();
+                img.onload = function(){
+                    if(!isSquare(img.width, img.height)){
+                        hasError = true; // reject non-square
+                    } else {
+                        validFiles.push({file, isPdf:false, width: img.width, height: img.height});
+                    }
+                    URL.revokeObjectURL(img.src);
+                    resolve();
+                };
+                img.onerror = function(){ hasError = true; resolve(); };
+                img.src = URL.createObjectURL(file);
+            }));
+
+            Promise.all(pending).then(() => {
+                // If any invalid files detected, show error and clear input to block submission
+                if(hasError){
+                    if(errorBox){
+                        errorBox.textContent = 'Only square images (1:1) are allowed. Please upload images with equal width and height.';
+                        errorBox.style.display='block';
+                    }
+                    input.value = '';
+                    if(preview) preview.innerHTML='';
+                    return;
+                }
+
+                // Render previews as square boxes
+                if(preview){
+                    validFiles.forEach(item => {
+                        const box = document.createElement('div');
+                        box.className = 'upload-preview-box';
+                        if(item.isPdf){
+                            box.innerHTML = `<div class="pdf-chip">PDF: ${item.file.name}</div>`;
+                        } else {
+                            const url = URL.createObjectURL(item.file);
+                            box.innerHTML = `<img src="${url}" alt="preview"/>`;
+                        }
+                        preview.appendChild(box);
+                    });
+                }
+            });
+        });
+    }
+
+    setupImageInput({ inputId: 'thumbnail', errorId: 'thumbnail-error', previewId: 'thumbnail-preview' });
+    setupImageInput({ inputId: 'extra_images', errorId: 'extra_images-error', previewId: 'extra_images-preview' });
+
+    // Handle delete click for existing images (requires backend endpoint)
+    $(document).on('click', '.delete-image-btn', function() {
+        const btn = $(this);
+        const type = btn.data('type'); // 'thumbnail' | 'extra'
+        const src = btn.data('src');
+        if(!confirm('Remove this image?')) return;
+
+        const url = type === 'thumbnail'
+            ? (@if(auth('admin')->check()) '{{ route("admin.products.delete-image", ["type" => "thumbnail", "product" => $product->id ?? 0]) }}' @else '{{ route("vendor.products.delete-image", ["type" => "thumbnail", "product" => $product->id ?? 0]) }}' @endif)
+            : (@if(auth('admin')->check()) '{{ route("admin.products.delete-image", ["type" => "extra", "product" => $product->id ?? 0]) }}' @else '{{ route("vendor.products.delete-image", ["type" => "extra", "product" => $product->id ?? 0]) }}' @endif);
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                src: src
+            },
+            success: function() {
+                btn.closest('.upload-preview-box').remove();
+            },
+            error: function() {
+                alert('Failed to delete image.');
+            }
+        });
+    });
+    setupImageInput({ inputId: 'certificates', errorId: 'certificates-error', previewId: 'certificates-preview', allowPdf: true });
 });
 </script>
+
+<style>
+/* Upload UI (box format) */
+.upload-box { border: 1px dashed #cbd5e1; padding: 14px; border-radius: 10px; background:#fbfbfb; }
+.upload-instructions { font-size: 12px; color:#475569; margin-top:6px; }
+.upload-error { font-size: 12px; }
+/* Larger, cleaner cards */
+.upload-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 10px; }
+.upload-preview-box { width: 100%; aspect-ratio: 1/1; position: relative; border:1px solid #e2e8f0; border-radius: 10px; overflow: hidden; background: linear-gradient(180deg,#fff,#fafafa); box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: box-shadow .2s ease, transform .2s ease; }
+.upload-preview-box:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.10); transform: translateY(-2px); }
+.upload-preview-box img { width: 100%; height: 100%; object-fit: cover; display:block; }
+/* Subtle overlay on hover */
+.upload-preview-box::after { content:""; position:absolute; inset:0; background: radial-gradient(transparent, rgba(0,0,0,0.15)); opacity:0; transition: opacity .2s ease; }
+.upload-preview-box:hover::after { opacity:1; }
+.pdf-chip { font-size: 12px; padding: 8px 10px; background:#eef2ff; color:#3730a3; border-radius: 8px; border:1px solid #c7d2fe; text-align:center; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+</style>
+   <style>
+   /* Hover delete button */
+   .hover-delete { position: relative; }
+   .delete-image-btn { position:absolute; top:8px; right:8px; background:#ef4444; color:#fff; border:none; border-radius:6px; padding:8px 10px; font-size:14px; cursor:pointer; display:none; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+   .hover-delete:hover .delete-image-btn { display:block; }
+   </style>

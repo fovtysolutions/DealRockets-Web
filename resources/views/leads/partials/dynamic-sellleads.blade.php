@@ -10,147 +10,161 @@
                     $isFavourite = false;
                 }
             @endphp
-            <div class="product-card" style="flex-direction: column;">
-                <div class="d-flex" style="flex-direction: column; justify-content: space-between;">
-                    <div style="justify-content: space-between;display: flex;">
-                        <h3 class="product-title custom-dealrock-head">
+            <div class="product-card"
+                style="display: flex; border: 1px solid #ddd; border-radius: 8px; padding: 15px; align-items: flex-start; gap: 15px;">
+
+                <!-- Left: Product Image -->
+                <div class="product-image-col image-box" style="flex: 0 0 200px;">
+                    <img  src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/247ec7c7bc1f6428f4d5acb3c10d89df21f5e0ba?placeholderIfAbsent=true"
+                        alt="{{ $seller->product->name ?? 'Product' }}" style="width: 100%; border-radius: 6px; ">
+                </div>
+
+                <!-- Right: Product Details -->
+                <div class="product-details-col"
+                    style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+
+                    <!-- Title + Location + Seller -->
+                    <div>
+                        <h3 class="product-title" class="custom-dealrock-text-18"
+                            style="margin: 0; font-size: 1.1rem; font-weight: bold;">
                             {{ $seller->product->name ?? $seller->product_id }}
                         </h3>
 
-                        @if (auth('customer')->user())
-                            <img class="heart favourite-img" style="/* margin-left: auto; */width: 25px;height: 23px;"
-                                onclick="makeFavourite(this)" data-id="{{ $seller->id }}"
-                                data-userid="{{ $user->id }}" data-type="saleoffer"
-                                data-role="{{ auth()->user()->role ?? 'customer' }}"
-                                src="{{ $isFavourite ? theme_asset('public/img/Heart (2).png') : theme_asset('public/img/Heart (1).png') }}"
-                                width="20" alt="Featured icon" style="margin-left: auto;">
-                        @else
-                            <img class="heart favourite-img" style="/* margin-left: auto; */width: 25px;height: 23px;"
-                                onclick="sendtologin()" src="{{ theme_asset('public/img/Heart (1).png') }}"
-                                width="20" alt="Featured icon" style="margin-left: auto;">
-                        @endif
-                    </div>
-                </div>
-                <div class="d-flex" style="flex-direction: row;">
-                    <div class="product-image-col">
-                        <div>
-                            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/247ec7c7bc1f6428f4d5acb3c10d89df21f5e0ba?placeholderIfAbsent=true"
-                                alt="${product.title}" class="product-image">
-                        </div>
-                        <div class="product-location">
+                        <div class="custom-dealrock-text-14 my-2">
                             @php
                                 $countryDetails = \App\Utils\ChatManager::getCountryDetails($seller->country);
                             @endphp
-                            <div>Location:</div>
+                            <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg"
+                                style="width: 16px; height: 12px; margin-right: 4px;" />
+                            <span>{{ $seller->city }}, {{ $countryDetails['countryName'] }}</span>
+                        </div>
+                        <div class="hidebelow926 contact-seller-col my-3">
                             <div>
-                                <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg" class="flag-icon"
-                                    alt="{{ $countryDetails['countryName'] }} flag" />
-                                <span>{{ $seller->city }}, {{ $countryDetails['countryName'] }}</span>
+                                {{-- Supporting Div --}}
                             </div>
-                        </div>
-                        <div class="view-detail-btn-hide">
-                            <button class="view-detail-btn" data-index="${index}" data-target="#productDetailModal"
-                                data-toggle="modal">View Details</button>
-                        </div>
-                    </div>
-                    <div class="product-details-col hidebelow926">
-                        <div class="details-flex-container">
-                            <!-- Left Column -->
-                            <div class="details-column">
-                                <div>
-                                    <p><strong class="detail-label-fixed">Type</strong>
-                                        <span class="contact-text">{{ $seller->offer_type ?? 'N/A' }}</span>
-                                    </p>
-                                    <p><strong class="detail-label-fixed">Terms</strong>
-                                        <span class="contact-text">{{ $seller->delivery_terms ?? 'N/A' }}</span>
-                                    </p>
-                                    <p><strong class="detail-label-fixed">Payment</strong>
-                                        <span class="contact-text">{{ $seller->payment_option ?? 'N/A' }}</span>
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <!-- Right Column -->
-                            <div class="details-column">
-                                <div>
-                                    <p><strong class="detail-label-fixed1">Brand</strong>
-                                        <span class="contact-text">{{ $seller->brand ?? 'N/A' }}</span>
-                                    </p>
-                                    <p><strong class="detail-label-fixed1">Rate</strong>
-                                        <span class="contact-text">
-                                            {{ $seller->rate ?? 'N/A' }} 
-                                            <span class="unit">/Piece</span>
-                                        </span>
-                                    </p>
-                                    <p><strong class="detail-label-fixed1">Size</strong>
-                                        <span class="contact-text">{{ $seller->size ?? 'N/A' }}</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hidebelow926 contact-seller-col">
-                        <div>
-                            {{-- Supporting Div --}}
-                        </div>
-                        @php
-                            $flagImage = 0;
-                            if ($seller->role === 'seller') {
-                                $seller = \App\Models\Seller::find($seller->added_by);
-                                $sellerName = $seller->name ?? 'N/A';
-                                $shopName = $seller->shop->name ?? 'N/A';
-                                $shopAddress = $seller->shop->address ?? 'N/A';
-                                $countryDetails = \App\Utils\ChatManager::getCountryDetails($seller->country);
-                                if ($countryDetails) {
-                                    $flagImage = 1;
+                            @php
+                                $flagImage = 0;
+                                if ($seller->role === 'seller') {
+                                    $seller = \App\Models\Seller::find($seller->added_by);
+                                    $sellerName = $seller->name ?? 'N/A';
+                                    $shopName = $seller->shop->name ?? 'N/A';
+                                    $shopAddress = $seller->shop->address ?? 'N/A';
+                                    $countryDetails = \App\Utils\ChatManager::getCountryDetails($seller->country);
+                                    if ($countryDetails) {
+                                        $flagImage = 1;
+                                    }
+                                } elseif ($seller->role === 'admin') {
+                                    $shopName = 'Admin Shop';
+                                    $sellerName = 'Admin';
+                                    $shopAddress = 'Admin Address';
                                 }
-                            } elseif ($seller->role === 'admin') {
-                                $shopName = 'Admin Shop';
-                                $sellerName = 'Admin';
-                                $shopAddress = 'Admin Address';
-                            }
-                        @endphp
-                        @php
-                            $userdata = \App\Utils\ChatManager::getRoleDetail();
-                            $userId = $userdata['user_id'] ?? null;
-                            $role = $userdata['role'] ?? null;
-                        @endphp
-                        <div>
+                            @endphp
+                            @php
+                                $userdata = \App\Utils\ChatManager::getRoleDetail();
+                                $userId = $userdata['user_id'] ?? null;
+                                $role = $userdata['role'] ?? null;
+                            @endphp
+
                             <div class="contact-right">
                                 <div class="contact-person">
                                     <div class="text-end">
-                                        <p class="seller-name">
+                                        <div class="d-flex">
+                                            <i class="fa-regular fa-user"></i>
+                                            <p class="company-name m-0 custom-dealrock-text-14" style="color: #515050;">
+                                                {{ $sellerName }}
+                                            </p>
+                                        </div>
+
+                                        <p class="seller-name custom-dealrock-text-14" style="color: #515050;">
                                             {{ $shopName }}
                                         </p>
-                                        <p class="company-name">
-                                            {{ $sellerName }}
-                                        </p>
                                     </div>
-                                    <div class="avatar-placeholder"></div>
+                                    <!-- <div class="avatar-placeholder"></div> -->
                                 </div>
 
-                                <p><strong>Email:</strong>
-                                    @if (auth()->check())
-                                        <span class="contact-text">
-                                            {{ $shopInfoArray['company_profiles']->email ?? 'N/A' }}
+                                <!-- <p><strong>Email:</strong>
+                                                            @if (auth()->check())
+                                                                <span class="contact-text">
+                                                                    {{ $shopInfoArray['company_profiles']->email ?? 'N/A' }}
+                                                                </span>
+                                                            @else
+                                                                <button class="sign-in-btn">Sign In for Email</button>
+                                                            @endif
+                                                        </p> -->
+
+                            </div>
+                            <div>
+                                <p>
+                                    <!-- <strong class="detail-label-fixed1">Rate</strong> -->
+                                    <span class="contact-text ">
+                                        <span class="custom-dealrock-text-18">
+                                            {{ $seller->rate ?? 'N/A' }}
                                         </span>
-                                    @else
-                                        <button class="sign-in-btn">Sign In for Email</button>
-                                    @endif
+
+                                        <span class="unit custom-dealrock-text-14" style="color: #515050;">/Piece</span>
+                                    </span>
                                 </p>
-                                <button class="contact-btn" data-toggle="modal"
-                                    data-target="#inquireButton{{ $seller->id }}">Contact Seller</button>
+                            </div>
+
+                        </div>
+                        <div class="product-details-col hidebelow926">
+                            <div class="details-flex-container">
+                                <!-- Left Column -->
+                                <div class="details-column">
+                                    
+                                        <p><strong class="detail-label-fixed">Type</strong>
+                                            <span class="contact-text">{{ $seller->offer_type ?? 'N/A' }}</span>
+                                        </p>
+                                        <p><strong class="detail-label-fixed">Terms</strong>
+                                            <span class="contact-text">{{ $seller->delivery_terms ?? 'N/A' }}</span>
+                                        </p>
+                                        <p><strong class="detail-label-fixed">Payment</strong>
+                                            <span class="contact-text">{{ $seller->payment_option ?? 'N/A' }}</span>
+                                        </p>
+                                    
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="details-column">
+                                    
+                                        <p><strong class="detail-label-fixed1">Brand</strong>
+                                            <span class="contact-text">{{ $seller->brand ?? 'N/A' }}</span>
+                                        </p>
+                                        <p><strong class="detail-label-fixed1">Rate</strong>
+                                            <span class="contact-text">
+                                                {{ $seller->rate ?? 'N/A' }}
+                                                <span class="unit">/Piece</span>
+                                            </span>
+                                        </p>
+                                        <p><strong class="detail-label-fixed1">Size</strong>
+                                            <span class="contact-text">{{ $seller->size ?? 'N/A' }}</span>
+                                        </p>
+                                 
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <div class="lead-posted"
-                                style="color: #515050;text-align: right;font-size: 0.75rem;font-weight: normal; margin: 0 auto;">
-                                Posted: {{ $seller->created_at->diffForHumans() }}</div>
-                        </div>
+
                     </div>
+
+
                 </div>
 
+                <div class="product-details-col" style="gap:3rem;">
+                    <img class="heart favourite-img mobile-hide" onclick="sendtologin()"
+                        src="https://www.dealrockets.com/img/Heart (1).png" width="20" alt="Featured icon"
+                        style="margin-left: auto;">
+                    <button class="filled-btn" data-toggle="modal" data-target="#inquireButton{{ $seller->id }}">
+                        Contact Seller
+                    </button>
+                    <div class="custom-dealrock-text-14" style="color: #515050;">
+                        Posted: {{ $seller->created_at->diffForHumans() }}
+
+                    </div>
+
+
+                </div>
             </div>
+
             <!-- Modal -->
             <div class="modal fade" id="inquireButton{{ $seller->id }}" tabindex="-1" role="dialog"
                 aria-labelledby="inquireButtonLabel" aria-hidden="true">
@@ -192,12 +206,9 @@
                                     @endphp
                                     <!-- Hidden fields -->
                                     <input type="hidden" id="sender_id" name="sender_id" value={{ $userId }}>
-                                    <input type="hidden" id="sender_type" name="sender_type"
-                                        value={{ $role }}>
-                                    <input type="hidden" id="receiver_id" name="receiver_id"
-                                        value={{ $seller->added_by }}>
-                                    <input type="hidden" id="receiver_type" name="receiver_type"
-                                        value={{ $seller->role }}>
+                                    <input type="hidden" id="sender_type" name="sender_type" value={{ $role }}>
+                                    <input type="hidden" id="receiver_id" name="receiver_id" value={{ $seller->added_by }}>
+                                    <input type="hidden" id="receiver_type" name="receiver_type" value={{ $seller->role }}>
                                     <input type="hidden" id="type" name="type" value="sellleads">
                                     <input type="hidden" id="leads_id" name="leads_id" value={{ $seller->id }}>
 
@@ -214,8 +225,8 @@
                                     <div class="form-group">
                                         <label for="message">Message</label>
                                         <textarea id="message" name="message"
-                                            placeholder="Enter product details such as color, size, materials and other specific requirements." rows="6"
-                                            required></textarea>
+                                            placeholder="Enter product details such as color, size, materials and other specific requirements."
+                                            rows="6" required></textarea>
                                     </div>
                                     @if (auth('customer')->check())
                                         @if (strtolower(trim($membership['status'] ?? '')) == 'active')

@@ -763,10 +763,11 @@ class LeadsController extends Controller
         //     return redirect()->back()->with('Leads Limit Used Up!');
         // }
         $lead = Leads::findOrFail($id);
-        $lead->active = !$lead->active; // Toggle active status
+        // Toggle the 'active' flag to match UI and listing filters
+        $lead->active = (int)!((int)$lead->active);
         $lead->save();
 
-        toastr()->success($saleOffer['message']);
+        toastr()->success('Status updated successfully!');
         return redirect()->back()->with('success', 'Status updated successfully!');
     }
 

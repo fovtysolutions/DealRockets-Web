@@ -119,10 +119,10 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <a href="{{ route('admin.add-new-leads') }}" class="btn btn--primary">
+                                <!-- <a href="{{ route('admin.add-new-leads') }}" class="btn btn--primary">
                                     <i class="tio-add"></i>
                                     <span class="text">{{ translate('add_new_leads') }}</span>
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                     </div>

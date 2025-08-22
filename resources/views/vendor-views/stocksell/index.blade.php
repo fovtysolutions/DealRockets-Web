@@ -80,7 +80,7 @@
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td class="text-center">
-                                                {{ $value->product ? $value->product->name : $value->product_id }}</td>
+                                                {{ $value->product->name ?? ($value->name) }}</td>
                                             <td class="text-center">{{ $value->description }}</td>
                                             <td class="text-center">{{ $value->quantity }}</td>
                                             <td class="text-center">

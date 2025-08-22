@@ -27,7 +27,7 @@
 </style>
 <div class="footer" style="background-color: #e5e3e3;">
     <div class="footer-wrapper">
-        <footer class="group-wrapper">
+        <footer class="group-wrapper" style="background-color: #F0F0F0;">
             <div class="group" style="max-width: 1440px; margin: 0 auto;">
                 <div class="responsive-1 deleleventeen">
                     <div class="group-10 group-new">
@@ -40,13 +40,13 @@
                                 @foreach ($industries->take(20) as $key => $value)
                                     <div class="col-md-3 product-category mb-3">
                                         <span class="fw-bold d-flex"
-                                            style="text-transform: uppercase; font-weight: 500 !important; font-size: 14px; color:#0D0D0F;">
-                                            <a style="font-weight: 500 !important; text-transform:uppercase; font-size: 14px; color:#0D0D0F;"
+                                            style="font-weight: 400 !important; font-size: 14px; color:#0D0D0F;">
+                                            <a style="font-weight:bold !important; text-transform: uppercase; font-size: 14px; color:#0D0D0F;"
                                                 href="{{ route('buyer', ['industry' => $value['id']]) }}">
                                                 {{ $value['name'] }}
                                             </a>
                                             <a href="{{ route('products') }}" class="view-more custom-dealrock-text-14"
-                                                style="text-transform: none; color: var(--web-text) !important; margin-left: 6px;">
+                                                style="text-transform: none; color: var(--web-text) !important; margin-left: 6px; font-weight: 400;">
                                                 - See More
                                             </a>
                                         </span>
@@ -70,6 +70,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </footer>
+        <footer class="group-wrapper" style="background-color:#F7F7F7;">
+            <div class="group" style="max-width: 1440px; margin: 0 auto;">
                 <!-- New Client Requested Footer Sections -->
                 <div class="responsiveflex" style="margin-bottom: 20px;">
                     <div class="frame-x">

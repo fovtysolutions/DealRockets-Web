@@ -150,7 +150,7 @@
                                         @foreach ($items as $key => $value)
                                             <tr>
                                                 <td>{{$key + 1}}</td>
-                                                <td>{{ $value->name }}</td>
+                                                <td>{{ $value->product->name ?? ($value->name) }}</td>
                                                 {{-- <td>{!! $value->description !!}</td> --}}
                                                 <td>{{ $value->quantity }}</td>
                                                 <td>

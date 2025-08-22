@@ -29,7 +29,7 @@
 
                         <div class="product-info">
                             <div class="product-header">
-                                <div class="product-title">{{ $stocksell->product->name ?? ($stocksell->name ?? 'N/A') }}</div>
+                                <div class="product-title">{{ $stocksell->product->name ?? ($stocksell->name) }}</div>
 
                                 @php
                                     $user = auth('customer')->user();

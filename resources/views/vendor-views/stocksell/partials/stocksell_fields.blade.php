@@ -205,8 +205,7 @@
             <div class="form-row">
                 <div class="existing-images d-flex gap-3">
                     @if ($stocksell->image)
-                        <!-- Check if images exist -->
-                        @foreach (json_decode($stocksell->image) as $image)
+                        @foreach (json_decode($stocksell->image, true) ?? [] as $image)
                             <div class="image-preview d-flex flex-column">
                                 <img src="/{{ $image }}" alt="Product Image"
                                     style="width: 100px; height: 100px; object-fit: cover;">

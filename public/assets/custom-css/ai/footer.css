@@ -722,7 +722,7 @@
 
     .footer .group-20 {
         display: flex;
-        width: 50%;
+        width: 72%;
         justify-content: space-between;
     }
 
@@ -798,9 +798,47 @@
 }
 
 @media screen and (max-width: 768px) {
+    .footer .group-20 {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
 }
 
 @media screen and (max-width: 576px) {
+    .footer .frame-x {
+        flex-direction: column;
+    }
+    .footer .responsiveflex-1 {
+        flex-direction: column;
+    }
+
+    .footer .frame-6 {
+        flex-direction: column;
+    }
+
+    .footer .responsive-2 {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer .frame-9 {
+        gap: 10px;
+        flex-direction: column;
+        width: 100%;
+        align-items: start;
+    }
+
+    .footer .frame-9 {
+        flex-direction: column;
+        align-items: start;
+        gap: 10px;
+    }
+
+    .footer .group-20 {
+        flex-direction: column;
+        gap: 10px;
+    }
 }
 
 @media screen and (max-width: 430px) {

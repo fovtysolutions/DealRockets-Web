@@ -1366,6 +1366,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         Route::post('updatetradeshowsec', [ThemeSettingsController::class, 'updateTradeshowHomepage'])->name('tradeshowhomepage');
         Route::post('updatequotationsett', [ThemeSettingsController::class, 'updateQuotation'])->name('updatequotation');
         Route::get('solutions', [ThemeSettingsController::class, 'solutions'])->name('solutions');
+        Route::get('adsmanager', [ThemeSettingsController::class, 'adsmanager'])->name('adsmanager');
+        Route::post('adsmanager/toggle', [ThemeSettingsController::class, 'toggleBannerStatus'])->name('adsmanager.toggle');
     });
 
     // Membership Tier Setup Page

@@ -356,11 +356,11 @@ class DashboardController extends BaseController
         // Convert to associative array [index => image_path] for easy merging
         $indexedBanners = collect($currentBannerSet)->keyBy('index')->toArray();
 
-        // Define required dimensions for each banner
-        $requiredDimensions = [
-            1 => ['width' => 300, 'height' => 250], // Medium Rectangle
-            2 => ['width' => 728, 'height' => 90],  // Leaderboard
-            3 => ['width' => 160, 'height' => 600], // Wide Skyscraper
+        // Define required aspect ratios for each banner
+        $requiredRatios = [
+            1 => 300 / 300,   // Medium Rectangle
+            2 => 728 / 90,    // Leaderboard
+            3 => 160 / 600,   // Wide Skyscraper
         ];
 
         for ($i = 1; $i <= 3; $i++) {
@@ -369,28 +369,38 @@ class DashboardController extends BaseController
             if ($request->hasFile($inputName)) {
                 $file = $request->file($inputName);
 
-                // Get uploaded image dimensions
-                [$width, $height] = getimagesize($file);
-
-                // Validate dimensions
-                if (
-                    $width != $requiredDimensions[$i]['width'] ||
-                    $height != $requiredDimensions[$i]['height']
-                ) {
+                // ✅ 1. Check file size (max 1 MB)
+                if ($file->getSize() > 1024 * 1024) {
                     return redirect()->back()->withErrors([
-                        $inputName => "Banner {$i} must be exactly {$requiredDimensions[$i]['width']}x{$requiredDimensions[$i]['height']} pixels."
+                        $inputName => "Banner {$i} must be less than 1 MB."
                     ]);
                 }
 
-                // Store valid image
+                // ✅ 2. Check aspect ratio
+                [$width, $height] = getimagesize($file);
+                $uploadedRatio = $width / $height;
+                $requiredRatio = $requiredRatios[$i];
+
+                // allow small floating point tolerance (±2%)
+                if (abs($uploadedRatio - $requiredRatio) > 0.02) {
+                    return redirect()->back()->withErrors([
+                        $inputName => "Banner {$i} must have aspect ratio "
+                            . number_format($requiredRatio, 2) 
+                            . " (uploaded ratio: " . number_format($uploadedRatio, 2) . ")."
+                    ]);
+                }
+
+                // ✅ 3. Store valid image
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('uploads/banners', $filename, 'public');
 
-                // Replace or insert uploaded banner
+                // Preserve active flag if exists
+                $existingActive = isset($indexedBanners[$i]['active']) ? (int)$indexedBanners[$i]['active'] : 1;
                 $indexedBanners[$i] = [
                     'slug' => $slug,
                     'index' => $i,
-                    'image_path' => $path
+                    'image_path' => $path,
+                    'active' => $existingActive,
                 ];
             }
         }
@@ -404,8 +414,7 @@ class DashboardController extends BaseController
         $seller->save();
 
         return redirect()->back()->with('success', 'Images Added Successfully');
-    }
-    
+    }    
     public function seefaqs(){
         $faqs = faq::where('type','vendor')->get();
         $vendorCategories = [

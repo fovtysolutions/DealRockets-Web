@@ -7,7 +7,7 @@
     <div class="mb-4 pb-2">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
             <img src="{{ dynamicAsset(path: 'public/assets/back-end/img/system-setting.png') }}" alt="">
-            {{ translate('Homepage Second Setting') }}
+            {{ translate('Quotation & Services Setting') }}
         </h2>
     </div>
     @include('admin-views.business-settings.theme-pages.theme-pages-selector')
@@ -59,7 +59,7 @@
     </div>    
 
     <div class="card">
-        <h3 class="pt-4 pl-4 pb-2">{{ translate('Boxes Settings') }}</h3>
+        <h3 class="pt-4 pl-4 pb-2">{{ translate('Services Settings') }}</h3>
         <div class="card-body">
             <form action="{{ route('admin.webtheme.updatehomepagesec') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -103,7 +103,7 @@
     </div>
 
     {{-- Baubles --}}
-    @for ($j = 1; $j <= 4; $j++)
+    <!-- @for ($j = 1; $j <= 4; $j++)
         <div class="mb-3">
             <label class="form-label">{{ translate('Bauble Icon') }} {{ $j }}</label>
             <input type="file" name="bauble_icon_{{ $i }}_{{ $j }}" class="form-control">
@@ -122,13 +122,13 @@
             <label class="form-label">{{ translate('Bauble Link') }} {{ $j }}</label>
             <input type="text" name="bauble_link_{{ $i }}_{{ $j }}" class="form-control" value="{{ $existingData["bauble_link_{$i}_{$j}"] ?? '#' }}">
         </div>
-    @endfor
+    @endfor -->
 
     {{-- Bauble Text Color --}}
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <label class="form-label">{{ translate('Bauble Text Font Color') }}</label>
         <input type="color" name="bauble_text_color_{{ $i }}" class="form-control form-control-color" value="{{ $existingData["bauble_text_color_$i"] ?? '#000000' }}">
-    </div>
+    </div> -->
 </div>
 
                 @endfor

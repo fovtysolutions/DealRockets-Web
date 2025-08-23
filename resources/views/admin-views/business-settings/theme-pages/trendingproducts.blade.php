@@ -11,7 +11,7 @@
             </h2>
         </div>
         @include('admin-views.business-settings.theme-pages.theme-pages-selector')
-        <div class="d-flex card">
+        <!-- <div class="d-flex card">
             <div class="card-body">
                 <form method="POST" action="{{ route('admin.webtheme.trendingproductsform') }}">
                     @csrf
@@ -30,7 +30,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> -->
 
         <!-- Register Banner Form -->
         <div class="d-flex card mt-4">
@@ -60,7 +60,7 @@
         </div>
 
         <!-- Quotation Banner Form -->
-        <div class="d-flex card mt-4">
+        <!-- <div class="d-flex card mt-4">
             <div class="card-body">
                 <form method="POST" action="{{ route('admin.webtheme.quotationbanner') }}" enctype="multipart/form-data">
                     @csrf
@@ -106,7 +106,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> -->
 
         <!-- Marketplace Background and Text Form -->
         {{-- <div class="d-flex card mt-4">

@@ -16,9 +16,9 @@
 
                     @php
                         $bannerSizes = [
-                            1 => '300x250 px (Medium Rectangle)',
-                            2 => '728x90 px (Leaderboard)',
-                            3 => '160x600 px (Wide Skyscraper)',
+                            1 => '1:1 (300x300, 600x600, 1080x1080)',
+                            2 => '1:1 (300x300, 600x600, 1080x1080)',
+                            3 => '1:1 (300x300, 600x600, 1080x1080)',
                         ];
                     @endphp
 

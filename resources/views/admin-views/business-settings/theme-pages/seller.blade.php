@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 
-                <hr>
+                <!-- <hr>
                 <h4>Ad Banner 1</h4>
                 <div class="row">
                     <div class="col-md-6 form-group">
@@ -86,7 +86,7 @@
                                placeholder="Enter Banner URL"
                                value="{{ $data['ad2_url'] ?? '' }}">
                     </div>
-                </div>
+                </div> -->
                 
                 <div class="row">
                     <div class="col-12 text-center">
@@ -96,7 +96,7 @@
             </form>
         </div>
     </div>
-    <div class="d-flex card mt-3">
+    <!-- <div class="d-flex card mt-3">
         <div class="card-body">
             <form method="POST" action="{{ route('admin.webtheme.sellerbanner') }}" enctype="multipart/form-data">
                 @csrf
@@ -124,6 +124,6 @@
                     </div>
             </form>
         </div>
-    </div>
+    </div> -->
 </div>
 @endsection

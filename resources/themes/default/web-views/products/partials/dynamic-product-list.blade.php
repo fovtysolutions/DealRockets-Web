@@ -120,4 +120,34 @@
             </div>
         <!-- </a> -->
     </div>
+
+    {{-- ✅ Vendor Long Ad after every 6 products --}}
+    @if ($loop->iteration % 6 === 0)
+        @php
+            if (!isset($vendorLongAds)) {
+                $vendorLongAds = \App\Utils\ChatManager::getLongRectangleBanners('marketplace', 50);
+                $vendorLongAdsCount = count($vendorLongAds);
+                $vendorLongAdPointer = 0;
+            }
+        @endphp
+        <div class="vendor-ad vendor-ad--horizontal" style="width: 100%; padding: 10px 0;">
+            @if (!empty($vendorLongAdsCount))
+                @php
+                    $ad = $vendorLongAds[$vendorLongAdPointer % $vendorLongAdsCount];
+                    $vendorLongAdPointer++;
+                @endphp
+                <a href="javascript:0" style="display:block; width:100%;">
+                    <img src="{{ $ad['image_url'] }}" alt="Vendor Ad" class="img-fluid"
+                         style="width: 100%; max-height: 90px; object-fit: contain;"
+                         onerror="this.onerror=null;this.src='/images/placeholderimage.webp';">
+                </a>
+            @else
+                <a href="javascript:0" style="display:block; width:100%;">
+                    <img src="/images/vendor-ad-placeholder.jpg" alt="Vendor Ad" class="img-fluid"
+                         style="width: 100%; max-height: 90px; object-fit: contain;"
+                         onerror="this.onerror=null;this.src='/images/placeholderimage.webp';">
+                </a>
+            @endif
+        </div>
+    @endif
 @endforeach

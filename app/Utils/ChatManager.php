@@ -1262,6 +1262,108 @@ class ChatManager
         ];
     }
 
+    // ==============================================================
+    // Banner ordering helpers (by vendor membership priority)
+    // ==============================================================
+
+    protected static $membershipOrderCache = null;
+
+    /**
+     * Get ordered banners for a given index (size) and optional slug.
+     * Size index mapping: 1 = 300x250 (square), 2 = 728x90 (long), 3 = 160x600 (wide)
+     */
+    protected static function getBannersOrderedByMembership(int $index, ?string $slug = null, int $limit = 50): array
+    {
+        // Build membership order map once: membership_name => membership_order
+        if (self::$membershipOrderCache === null) {
+            self::$membershipOrderCache = MembershipTier::active()
+                ->forType('seller')
+                ->ordered()
+                ->pluck('membership_order', 'membership_name')
+                ->map(fn($v) => (int)$v)
+                ->toArray();
+        }
+
+        $allowedSlugs = ['marketplace', 'buyleads', 'selloffer', 'tradeshows'];
+        if ($slug && !in_array($slug, $allowedSlugs, true)) {
+            return [];
+        }
+        $slugsToScan = $slug ? [$slug] : $allowedSlugs;
+
+        $results = [];
+
+        // Fetch approved sellers having banners
+        $sellers = Seller::where('status', 'approved')
+            ->whereNotNull('ad_banners')
+            ->where('ad_banners', '!=', '')
+            ->select('id', 'f_name', 'l_name', 'membership', 'membership_status', 'ad_banners', 'updated_at')
+            ->get();
+
+        foreach ($sellers as $seller) {
+            $decoded = json_decode($seller->ad_banners, true) ?? [];
+            foreach ($slugsToScan as $s) {
+                $items = $decoded[$s] ?? [];
+                if (!is_array($items)) continue;
+                foreach ($items as $item) {
+                    if ((int)($item['index'] ?? 0) !== $index) continue;
+                    $active = array_key_exists('active', $item) ? (int)$item['active'] : 1;
+                    if ($active !== 1) continue;
+                    $path = $item['image_path'] ?? null;
+                    if (!$path) continue;
+
+                    $mName = (string)($seller->membership ?? '');
+                    $mOrder = self::$membershipOrderCache[$mName] ?? 9999; // Unknown tiers go last
+
+                    $results[] = [
+                        'seller_id' => $seller->id,
+                        'seller_name' => trim(($seller->f_name ?? '') . ' ' . ($seller->l_name ?? '')),
+                        'membership' => $mName,
+                        'membership_order' => $mOrder,
+                        'slug' => $s,
+                        'index' => $index,
+                        'image_path' => $path,
+                        'image_url' => asset('storage/' . $path),
+                        'updated_at' => $seller->updated_at,
+                    ];
+                }
+            }
+        }
+
+        // Order: membership_order asc, then updated_at desc
+        usort($results, function ($a, $b) {
+            if ($a['membership_order'] === $b['membership_order']) {
+                return strtotime($b['updated_at']) <=> strtotime($a['updated_at']);
+            }
+            return $a['membership_order'] <=> $b['membership_order'];
+        });
+
+        return array_slice($results, 0, max(0, $limit));
+    }
+
+    /**
+     * Squares: 300x250 banners (index = 1)
+     */
+    public static function getSquareBanners(?string $slug = null, int $limit = 50): array
+    {
+        return self::getBannersOrderedByMembership(1, $slug, $limit);
+    }
+
+    /**
+     * Long rectangle: 728x90 banners (index = 2)
+     */
+    public static function getLongRectangleBanners(?string $slug = null, int $limit = 50): array
+    {
+        return self::getBannersOrderedByMembership(2, $slug, $limit);
+    }
+
+    /**
+     * Wide rectangle (skyscraper): 160x600 banners (index = 3)
+     */
+    public static function getWideRectangleBanners(?string $slug = null, int $limit = 50): array
+    {
+        return self::getBannersOrderedByMembership(3, $slug, $limit);
+    }
+
     public static function checkcvlimit()
     {
         $getRole = self::getCurrentRole();

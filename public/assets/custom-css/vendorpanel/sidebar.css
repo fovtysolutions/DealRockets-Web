@@ -59,6 +59,7 @@
         padding-left: 3px !important;
         margin-left: 0px !important;
         width: 98% !important;
+        list-style-type: none;
     }
 
     .smallview:hover .nav-item i {

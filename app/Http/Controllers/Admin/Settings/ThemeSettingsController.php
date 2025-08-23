@@ -42,6 +42,100 @@ class ThemeSettingsController extends Controller
         return view('admin-views.business-settings.website-theme', compact('memdata', 'total_customer_tiers', 'total_seller_tiers', 'memdataseller'));
     }
 
+    public function adsmanager(Request $request)
+    {
+        // Build sellers query with optional filters
+        $query = \App\Models\Seller::query()
+            ->where('status', 'approved')
+            ->whereNotNull('ad_banners')
+            ->where('ad_banners', '!=', '');
+
+        if ($request->filled('vendor_id')) {
+            $query->where('id', (int) $request->vendor_id);
+        }
+        if ($request->filled('date_from')) {
+            $query->whereDate('updated_at', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $query->whereDate('updated_at', '<=', $request->date_to);
+        }
+
+        $sellers = $query->orderByDesc('updated_at')
+            ->paginate(20)
+            ->appends($request->query());
+
+        // Flatten ad banners for table rendering
+        $bannerSizes = [
+            1 => '300x250',
+            2 => '728x90',
+            3 => '160x600',
+        ];
+        $ads = [];
+        foreach ($sellers as $seller) {
+            $decoded = json_decode($seller->ad_banners, true) ?? [];
+            foreach (['marketplace', 'buyleads', 'selloffer', 'tradeshows'] as $slug) {
+                if (!empty($decoded[$slug]) && is_array($decoded[$slug])) {
+                    foreach ($decoded[$slug] as $item) {
+                        $index = $item['index'] ?? null;
+                        $ads[] = [
+                            'seller_id'   => $seller->id,
+                            'seller_name' => trim(($seller->f_name ?? '') . ' ' . ($seller->l_name ?? '')),
+                            'slug'        => $slug,
+                            'index'       => $index,
+                            'size'        => $bannerSizes[$index] ?? 'N/A',
+                            'image_path'  => $item['image_path'] ?? null,
+                            'active'      => array_key_exists('active', $item) ? (int)$item['active'] : 1,
+                            'updated_at'  => $seller->updated_at,
+                        ];
+                    }
+                }
+            }
+        }
+
+        return view('admin-views.business-settings.theme-pages.adsmanager', [
+            'sellers' => $sellers,
+            'ads' => $ads,
+            'filters' => [
+                'vendor_id' => $request->input('vendor_id'),
+                'date_from' => $request->input('date_from'),
+                'date_to'   => $request->input('date_to'),
+            ],
+        ]);
+    }
+
+    public function toggleBannerStatus(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'seller_id' => 'required|integer|exists:sellers,id',
+            'slug'      => 'required|string|in:marketplace,buyleads,selloffer,tradeshows',
+            'index'     => 'required|integer|in:1,2,3',
+            'status'    => 'required|integer|in:0,1',
+        ]);
+
+        $seller = \App\Models\Seller::findOrFail($request->seller_id);
+        $decoded = json_decode($seller->ad_banners, true) ?? [];
+        $list = $decoded[$request->slug] ?? [];
+
+        // Reindex by index for easy update
+        $byIndex = collect($list)->keyBy('index')->toArray();
+
+        if (!isset($byIndex[$request->index])) {
+            return back()->withErrors(['error' => 'Banner not found for given slug and index.']);
+        }
+
+        $item = $byIndex[$request->index];
+        $item['active'] = (int)$request->status;
+        $byIndex[$request->index] = $item;
+
+        // Save back preserving order
+        $decoded[$request->slug] = collect($byIndex)->sortKeys()->values()->all();
+        $seller->ad_banners = json_encode($decoded);
+        $seller->save();
+
+        toastr()->success('Banner status updated');
+        return back();
+    }
+
     public function websettingmem(Request $request)
     {
         // Validate request input

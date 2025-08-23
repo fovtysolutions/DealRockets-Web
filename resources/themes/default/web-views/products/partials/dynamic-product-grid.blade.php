@@ -96,11 +96,31 @@
 
     {{-- ✅ Vendor Ad after every 6 products --}}
     @if (($index + 1) % 6 === 0)
+        @php
+            // Load once and rotate through list
+            if (!isset($vendorSquareAds)) {
+                $vendorSquareAds = \App\Utils\ChatManager::getSquareBanners('marketplace', 50);
+                $vendorSquareAdsCount = count($vendorSquareAds);
+                $vendorAdPointer = 0;
+            }
+        @endphp
         <div class="vendor-ad" style="grid-column: span 2;">
-            <a href="javascript:0" style="height: 100%;">
-                <img src="/images/vendor-ad-placeholder.jpg" style="height: 100%; object-fit:fill;" alt="Vendor Ad"
-                    onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" class="img-fluid">
-            </a>
+            @if(!empty($vendorSquareAdsCount))
+                @php
+                    $ad = $vendorSquareAds[$vendorAdPointer % $vendorSquareAdsCount];
+                    $vendorAdPointer++;
+                @endphp
+                <a href="javascript:0" style="height: 100%; display:block;">
+                    <img src="{{ $ad['image_url'] }}" alt="Vendor Ad" class="img-fluid"
+                         style="height: 100%; width: 100%; object-fit: cover;"
+                         onerror="this.onerror=null;this.src='/images/placeholderimage.webp';">
+                </a>
+            @else
+                <a href="javascript:0" style="height: 100%;">
+                    <img src="/images/vendor-ad-placeholder.jpg" style="height: 100%; object-fit:fill;" alt="Vendor Ad"
+                        onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" class="img-fluid">
+                </a>
+            @endif
         </div>
     @endif
 @endforeach

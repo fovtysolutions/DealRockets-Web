@@ -7,19 +7,19 @@
             <a href="{{ route('admin.webtheme.homepagesetting') }}">{{translate('Genre Settings')}}</a>
         </li>
         <li class="{{ Request::is('admin/webtheme/homepagesecsetting') ? 'active' : ''}}">
-            <a href="{{ route('admin.webtheme.homepagesecsetting') }}">{{translate('Home Page Settings')}}</a>
+            <a href="{{ route('admin.webtheme.homepagesecsetting') }}">{{translate('Quotation Settings')}}</a>
         </li>
-        <li class="{{ Request::is('admin/webtheme/vendorsetting') ? 'active' : ''}}">
+        <!-- <li class="{{ Request::is('admin/webtheme/vendorsetting') ? 'active' : ''}}">
             <a href="{{ route('admin.webtheme.vendorsetting')}}">{{translate('Vendor_Settings')}}</a>
-        </li>
-        <li class="{{ Request::is('admin/webtheme/backsettings') ? 'active' : ''}}">
+        </li> -->
+        <!-- <li class="{{ Request::is('admin/webtheme/backsettings') ? 'active' : ''}}">
             <a href="{{ route('admin.webtheme.backsettings')}}">{{translate('Background_Settings')}}</a>
-        </li>
-        <li class="{{ Request::is('admin/webtheme/bannersetting') ? 'active' : ''}}">
-            <a href="{{ route('admin.webtheme.bannersetting')}}">{{translate('Banner_Settings')}}</a>
-        </li>
+        </li> -->
+        <!-- <li class="{{ Request::is('admin/webtheme/bannersetting') ? 'active' : ''}}">
+            <a href="{{ route('admin.webtheme.bannersetting')}}">{{translate('Tradeshow_Banner_Settings')}}</a>
+        </li> -->
         <li class="{{ Request::is('admin/webtheme/trendingproducts') ? 'active' : ''}}">
-            <a href="{{ route('admin.webtheme.trendingproducts')}}">{{translate('Trending_Setting') }}</a>
+            <a href="{{ route('admin.webtheme.trendingproducts')}}">{{translate('Register_Setting') }}</a>
         </li>
         <li class="{{ Request::is('admin/webtheme/topsupplier') ? 'active' : ''}}">
             <a href="{{ route('admin.webtheme.topsupplier')}}">{{ translate('Top_Suppliers')}}</a>
@@ -33,11 +33,14 @@
         <li class="{{ Request::is('admin/webtheme/tradeshow') ? 'active' : ''}}">
             <a href="{{ route('admin.webtheme.tradeshow')}}">{{ translate('Tradeshow')}}</a>
         </li>
-        <li class="{{ Request::is('admin/webtheme/stocksale') ? 'active' : '' }}">
+        <!-- <li class="{{ Request::is('admin/webtheme/stocksale') ? 'active' : '' }}">
             <a href="{{ route('admin.webtheme.stocksale')}}">{{ translate('Stock Sale')}}</a>
-        </li> 
+        </li>  -->
         <li class="{{ Request::is('admin/webtheme/solutions') ? 'active' : '' }}">
             <a href="{{ route('admin.webtheme.solutions')}}">{{ translate('Solutions')}}</a>
-        </li> 
+        </li>
+        <li class="{{ Request::is('admin/webtheme/adsmanager') ? 'active' : '' }}">
+            <a href="{{ route('admin.webtheme.adsmanager')}}">{{ translate('Ads Manager') }}</a>   
+        </li>
     </ul>
 </div>

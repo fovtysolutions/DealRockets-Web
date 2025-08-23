@@ -29,15 +29,15 @@
                       />
                     @endif
                     <div class="card-content">
-                      <div class="card-title">{{ $tradeshow->name ?? '' }}</div>
-                      <div class="card-description">{{ $tradeshow->description ?? ''}}</div>
-                      <div class="card-details">
+                      <div class="card-title custom-dealrock-text-18">{{ $tradeshow->name ?? '' }}</div>
+                      <div class="card-description custom-dealrock-text-14 ">{{ $tradeshow->description ?? ''}}</div>
+                      <div class="card-details custom-dealrock-text-14">
                         <div class="detail-label">Duration:</div>
                         <div class="detail-value">{{ \Carbon\Carbon::parse($tradeshow->start_date)->format('j') }} - 
                           {{ \Carbon\Carbon::parse($tradeshow->end_date)->format('j F Y') }}
                         </div>
                       </div>
-                      <div class="card-location">
+                      <div class="card-location custom-dealrock-text-14">
                         <div class="location-label">Location: </div>
                         <div class="location-value">
                           @php
@@ -51,7 +51,7 @@
                           <div class="location-text">{{ $tradeshow->address ?? ''}}</div>
                         </div>
                       </div>
-                      <a href="{{ route('tradeshow.view',['name'=>$tradeshow->name,'id'=>$tradeshow->id]) }}" class="card-button">View Details</a>
+                      <a href="{{ route('tradeshow.view',['name'=>$tradeshow->name,'id'=>$tradeshow->id]) }}" class="card-button custom-dealrock-text-14">View Details</a>
                     </div>
                   </div>
                 </div>

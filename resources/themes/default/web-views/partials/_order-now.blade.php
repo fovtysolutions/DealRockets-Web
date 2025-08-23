@@ -21,28 +21,30 @@
         <div class="product-grid showabove768">
             @foreach($trending->take(5) as $product)
             <!-- Product 1 -->
-            <div class="product-card image-wrapper shimmer">
+            <div class="product-card image-wrapper shimmer  d-flex flex-column">
                 <img data-src="{{ $product->thumbnail !== 'imageurl' ? '/storage/' . $product->thumbnail : '/images/placeholderimage.webp' }}" class="card-img-top lazyload" alt="Product 1"
                 onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">
-                <div class="text-left">
-                    <p class="small text-muted m-1">{{ $product->name }}</p>
-                    <p class="fw-bold m-1">US$ {{ number_format($product->unit_price, 2) }} / {{ $product->unit }}</p>
-                    <p class="small text-muted m-2">{{ $product->min_qty }} {{ $product->unit }} (MOQ)</p>
-                    <a href="{{ route('product',['slug'=>$product->slug]) }}" class="btn btn-outline-dark btn-sm w-100">Start order</a>
-                </div>
+                <div class="text-left d-flex flex-column flex-grow-1">
+                    <p class=" m-1 custom-dealrock-text-14 text-black fw-medium product-namee" style="font-weight:500;" >{{ $product->name }}</p> 
+                    <p class="fw-bold m-1 custom-dealrock-text-18">US$ {{ number_format($product->unit_price, 2) }} / {{ $product->unit }}</p>
+                    <p class="small text-muted m-2 custom-dealrock-text-14" style="color: #515050 !important;">{{ $product->min_qty }} {{ $product->unit }} (MOQ)</p>
+                   <div  class="d-inline-block mt-auto">
+                     <a href="{{ route('product',['slug'=>$product->slug]) }}" class="white-outline-btn mt-2   ">Start order</a>
+                   </div>             
+                   </div>
             </div>
             @endforeach
         </div>
         <div class="product-grid showbelow768">
             @foreach($trending->take(2) as $product)
             <!-- Product 1 -->
-            <div class="card product-card image-wrapper shimmer">
+            <div class="card product-card image-wrapper shimmer d-flex flex-column">
                 <img data-src="{{ $product->thumbnail !== 'imageurl' ? '/storage/' . $product->thumbnail : '/images/placeholderimage.webp' }}" class="card-img-top lazyload" alt="Product 1" 
                     onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">
-                <div class="card-body text-left">
-                    <p class="small text-muted mb-1">{{ $product->name }}</p>
+                <div class="card-body text-left d-flex flex-column flex-grow-1">
+                    <p class="small text-muted mb-1 product-namee">{{ $product->name }}</p>
                     <p class="fw-bold mb-1">US$ {{ number_format($product->unit_price, 2) }} / {{ $product->unit }}</p>
-                    <p class="small text-muted mb-2">{{ $product->min_qty }} {{ $product->unit }} (MOQ)</p>
+                    <p class="small text-muted mb-2" style="color: #515050; !important">{{ $product->min_qty }} {{ $product->unit }} (MOQ)</p>
                     <a href="{{ route('product',['slug'=>$product->slug]) }}" class="btn btn-outline-dark btn-sm w-100">Start order</a>
                 </div>
             </div>

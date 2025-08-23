@@ -190,15 +190,14 @@
 
 /* Style for the mega menu */
 .mega_menu_new {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 100%;
+  display: none;
+    position: fixed;   
+    top: 100px;       
+    left: 342px;      
     background-color: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     padding: 15px;
-    /* border-radius: 8px; */
-    width: 300px;
+    width: 1000px;   
     z-index: 1000;
 }
 
@@ -576,7 +575,7 @@
     text-decoration: none;
     color: black;
     transition: 0.3s ease all;
-    padding: 8px 0;
+    padding: 8px ;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -770,7 +769,7 @@
     .top-movers-container{
         position: absolute; 
         right: 17px;
-        top: 25px;
+        /* top: 25px; */
     }
 
     .top-movers-container a{

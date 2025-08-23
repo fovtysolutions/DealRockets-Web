@@ -243,10 +243,10 @@
       overflow: hidden;
       font-size: 16px;
       font-weight: 600;
-      margin-bottom: 14px;
+      /* margin-bottom: 14px; */
       align-self: stretch;
-      height: 2rem;
-      line-height: 1rem;
+      /* height: 2rem; */
+      /* line-height: 1rem; */
     }
 
     .tradeshow-home .card-description {
@@ -266,7 +266,7 @@
       /* justify-content: space-between; */
       gap: 13px;
       font-size: 14px;
-      margin-top: 25px;
+      margin-top: 20px;
     }
 
     .tradeshow-home .detail-label {

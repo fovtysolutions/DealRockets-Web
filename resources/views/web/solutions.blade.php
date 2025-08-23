@@ -12,7 +12,7 @@
         <main class="main-content">
             <div class="card">
                 <div class="card-title text-center position-relative text-white"
-                    style="background-image: url('{{ asset('storage/' . $solution->banner) }}'); background-size: auto; background-repeat: no-repeat;">
+                    style="background-image: url('{{ asset('storage/' . $solution->banner) }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
 
                     <!-- Subtle black overlay -->
                     <div class="position-absolute top-0 start-0 w-100 h-100"

@@ -20,7 +20,7 @@
 }
 
 .sourcefirstdiv:hover {
-    scale: 1.05;
+    /* scale: 1.05; */
 }
 
 .sourcefirstdiv .cnt-1 {
@@ -49,6 +49,7 @@
     background-color: var(--web-hover) !important;
     color: white;
     display: inline-block;
+    font-weight: bold !important;
 }
 
 /* Product Grid Styling (Right Side) */
@@ -170,7 +171,7 @@
     }
 
     .sourcenow-sec .othertitle {
-        display: flex;
+        /* display: flex; */
     }
 }
 

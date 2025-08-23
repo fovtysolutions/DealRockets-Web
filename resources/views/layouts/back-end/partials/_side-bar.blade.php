@@ -166,7 +166,7 @@
                                 </li>
                                 <li class="nav-item-button-sidebar {{ Request::is('admin/subcard/guest') ? 'active' : '' }}">
                                     <a class="js-navbar-vertical-aside-menu-link nav-link sidebar-link"
-                                        href="{{ route('admin.subcard', ['slug' => 'industry-jobs']) }}">
+                                        href="{{ route('admin.subcard', ['slug' => 'guest']) }}">
                                         <i class="fa-regular fa-user sidebar-icon"></i>
                                         <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate sidebar-text">
                                             {{ translate('Job Seeker') }}

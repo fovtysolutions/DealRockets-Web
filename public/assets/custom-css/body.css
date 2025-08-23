@@ -24,7 +24,40 @@ a {
   font: bold 14px "Roboto", Arial, sans-serif !important;
   color: var(--web-text);
 }
-
+.filled-btn{
+ background: linear-gradient(90deg, #FE4E44 0%, #9F0900 100%);
+    display: flex;
+    justify-self: start;
+    align-self: stretch;
+    border: none !important;
+    color: white;
+    font-size: 14px;
+    width: max-content;
+    margin-top: 24px;
+    padding: 8px 16px 8px 16px;
+    border-radius: 57.843px;
+    cursor: pointer;
+    background-color: transparent;
+    text-align: center;
+}
+.filled-btn:hover{
+  background-color: #9F0900;
+  color: white !important;
+    box-shadow: 0 0 0 0 rgba(254, 128, 128, 0.5);
+}
+.white-outline-btn{
+  align-self: stretch;
+    border: 0.964px solid #0D0D0F;
+    color: #0D0D0F;
+    font-size: 15px;
+    width: max-content;
+    /* margin-top: 24px; */
+    padding: 8px 16px 8px 16px;
+    border-radius: 57.843px;
+    cursor: pointer;
+    background-color: transparent;
+    text-align: center;
+}
 .custom-dealrock-text {
   font: 14px "Roboto", Arial, sans-serif !important;
   color: var(--web-text);

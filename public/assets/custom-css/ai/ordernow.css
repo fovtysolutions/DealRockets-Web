@@ -19,7 +19,15 @@
     font-weight: bold;
     /* color: white; */
 }
-
+.product-namee{
+    display: -webkit-box !important;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal !important;
+        max-height: 3em;
+}
 .order-now .left-banner .btn {
     background-color: white !important;
     color: #FE4E44 !important;
@@ -54,7 +62,7 @@
 
 .order-now .product-card img {
     width: 100%;
-    height: 70%;
+    /* height: 70%; */
     aspect-ratio: 1/1;
     object-fit: contain;
     border-radius: 5px 5px 0 0;
@@ -80,7 +88,7 @@
 
 .order-now .product-card a:hover {
     margin-top: auto;
-    width: 100%;
+    /* width: 100%; */
     background: linear-gradient(to right, #FE4E44, #9F0900);
     color: white;
     border: 1px solid #FE4E44;

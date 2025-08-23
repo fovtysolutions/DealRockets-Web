@@ -782,7 +782,7 @@ a {
 .__cate-item:hover img {
     /* transform: scale(0.979); */
     border-color: #FE4E44;
-    border: 1px solid #ff2d22;
+    border: 2px solid #ff2d22;
 }
 
 .widget-list-item {
@@ -1241,7 +1241,7 @@ a {
 
 .__cate-item .__img img {
     -o-object-fit: cover;
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -6329,7 +6329,7 @@ a {
 }
 
 .others-store-card:hover {
-    box-shadow: 0 5px 10px 0 rgba(20, 85, 172, 0.2);
+    box-shadow: 0 5px 10px 0 rgba(3, 3, 3, 0.2);
     text-decoration: none;
 }
 .others-store-card .other-store-banner {
@@ -6427,7 +6427,7 @@ a {
 }
 .others-store-card .info-area .info-item {
     border-radius: 3px;
-    background: rgba(229, 227, 227, 1);
+    background: #f4f4f4;
     flex-grow: 1;
     padding: 4px 0.7142857143rem;
     display: flex;

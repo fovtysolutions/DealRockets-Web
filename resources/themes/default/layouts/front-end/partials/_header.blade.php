@@ -25,12 +25,12 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
             <div class="group-14">
                 <div class="overlap-group-3">
                     <div class="contentgroup deltwelve">
-                        <div class="group-15">
+                        <a class="group-15" href="{{ route('categories') }}">
                             <div class="group-2">
-                                <a class="text-wrapper" href="{{ route('categories') }}">All Categories</a>
+                                <span class="text-wrapper">All Categories</span>
                                 <img class="options-lines" src="/img/options-lines-1.png" />
                             </div>
-                        </div>
+                        </a>
                         <div class="navbar-3">
                             <a class="nav-tile deleight" href="{{ route('home') }}" data-menu="/" data-home="true">
                                 <img class="badge img-default" src="/img/home.svg" />
@@ -188,6 +188,9 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                         <a href="{{ url('/') }}">
                             <img class="logo-3" src="{{ getStorageImages(path: $web_config['web_logo'], type: 'logo') }}" />
                         </a>
+      
+
+                        </style>
                         <div class="group-18">
                             <div class="group-19">
                                 <div class="overlap-group-4">
@@ -218,7 +221,7 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         </div>
                                                     @else
                                                         <div class="dropdown" id="productDropdown">
-                                                            <div class="d-flex h-100 flex-row align-items-center">
+                                                            <div class="d-flex h-100 flex-row align-items-center justify-content-center">
                                                                 <span class="default_option">Products</span>
                                                                 <span class="d-flex align-items-center"
                                                                     style="width: 20px; height: 100%;">
@@ -288,8 +291,12 @@ $is_jobadder = $role['typerole'] === 'findtalent' ? true : false;
                                                         </div>
                                                         <ul id="suggestions" class="dropdown-menu suggestion-dropdown"
                                                             style="display: none;"></ul>
+                                                            <ul id="recentSearchesDropdown" class="dropdown-menu suggestion-dropdown" style="display: none;"></ul>
                                                     </div>
                                                 </div>
+                                                <script>
+                                                    
+                                                </script>
                                                 </form>
                                                 <div class="closebutton" id="closebutton">
                                                     <strong> X</strong>

@@ -2,8 +2,10 @@
     <div class="detail-content">
         <div id="content-stock-photo" class="detail-tab-content active">
             <div class="detail-title custom-dealrock-text-18">
-                {{ $stocksell->product->name ?? ($stocksell->name ?? 'N/A') }}
-                <div class="text-muted">
+                   <div class="w-75">
+                 {{ $stocksell->product->name ?? ($stocksell->name ?? 'N/A') }}
+                 </div>
+                <div class="text-muted w-25">
                     <img src="{{ asset('img/Ellipse 75.png') }}" alt="dot" style="height: 5px; ">
                     @php
                         $stock_type_data = \App\Models\StockCategory::where('id', $stocksell->stock_type)->first();
@@ -17,26 +19,172 @@
                 </div>
             </div>
             @php
-                $images = json_decode($stocksell->image, true) ?? [];
+                // Decode both image sources
+                $mainImages = json_decode($stocksell->image ?? '[]', true) ?? [];
+                $extraImages = json_decode($product->extra_images ?? '[]', true) ?? [];
+
+                // Merge arrays (remove duplicates if same image exists)
+                $allImages = array_unique(array_merge($mainImages, $extraImages));
+                $totalImages = count($allImages);
             @endphp
 
-            <div class="owl-carousel details-carousel owl-theme">
-                @forelse ($images as $image)
-                    <div class="item">
-                        <img src="/{{ $image }}" class="detail-image" style="aspect-ratio: 1 / 1;"
-                            onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" alt="StockSell Image">
-                    </div>
-                @empty
-                    {{-- Fallback if no images --}}
-                    <div class="item">
+            <style>
+                .detail-image {
+                    width: 100%;
+                    aspect-ratio: 1 / 1;
+                    object-fit: cover;
+                    border-radius: 10px;
+                }
+
+
+                .icons-div {
+                    position: absolute;
+                    top: 40px;
+                    right: 15px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.7rem;
+                }
+
+                .thumbnail-container {
+                    display: flex;
+                    gap: 10px;
+                    margin-top: 15px;
+                }
+
+                .thumbnail {
+                    width: 70px;
+                height: 70px;
+                object-fit: cover;
+                border-radius: 4px;
+                /* border: 1px solid #ddd; */
+                cursor: pointer;
+                transition: 0.3s;
+                }
+
+                .thumbnail:hover {
+                    border: 2px solid #ff3b30;
+                }
+
+                .more-thumbnail {
+                        position: relative;
+                        display: inline-block;
+                        background: rgb(0 0 0 / 79%);
+                        border: none;
+                        border-radius: 4px;
+                }
+
+                .more-thumbnail span {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #ffffffff;
+                }
+            </style>
+
+            <div class="product-gallery">
+                <!-- Main Image -->
+                <div class="main-image" style="position: relative;">
+                    @if ($totalImages > 0)
+                        <img src="/{{ $allImages[0] }}" class="detail-image"
+                            onerror="this.onerror=null;this.src='/images/placeholderimage.webp';" alt="Main Image">
+                    @else
                         <img src="/images/placeholderimage.webp" class="detail-image" alt="Default Image">
+                    @endif
+
+                    <!-- Overlay Icons -->
+                    <div class="icons-div">
+                        <img class="heart favourite-img stock-sale-icon" onclick="sendtologin()"
+                            src="{{ asset('assets/front-end/img/icons/fav.svg') }}" alt="Favourite">
+
+                        <img class="stock-sale-icon" src="{{ asset('assets/front-end/img/icons/share.svg') }}" alt="Share">
                     </div>
-                @endforelse
+                </div>
+
+                <!-- Thumbnails -->
+                <div class="thumbnail-container">
+                    @foreach ($allImages as $key => $image)
+                        @if ($key < 3)
+                            <!-- Normal Thumbnail -->
+                            <img src="/{{ $image }}" alt="Thumbnail {{ $key + 1 }}" class="thumbnail"
+                                onclick="document.querySelector('.main-image img').src='/{{ $image }}'"
+                                onerror="this.onerror=null;this.src='/images/placeholderimage.webp';">
+                        @elseif ($key === 3)
+                            <!-- More Thumbnail (+N) -->
+                            <div class="more-thumbnail" onclick="document.querySelector('.main-image img').src='/{{ $image }}'">
+                                <img src="/{{ $image }}" alt="Thumbnail {{ $key + 1 }}" class="thumbnail" style="opacity:0.4;">
+                                <span>+{{ $totalImages - 3 }}</span>
+                            </div>
+                            @break
+                        @endif
+                    @endforeach
+                </div>
             </div>
+
+
 
 
             <div class="detail-description custom-dealrock-text-14">
                 {!! $stocksell->description ?? 'N/A' !!}
+            </div>
+            <div class="detail-footer">
+                <div class="company-info custom-dealrock-text-14">
+                    <div class="company-rating">
+                        @php
+                            $overallRating = null;
+
+                            if ($stocksell->role === 'seller') {
+                                $user = \App\Models\Seller::with('product.reviews')->find($stocksell->user_id);
+                            } elseif ($stocksell->role === 'admin') {
+                                $user = \App\Models\Admin::with('product.reviews')->find($stocksell->user_id);
+                            }
+
+                            if (isset($user) && $user->product->isNotEmpty()) {
+                                $allReviews = $user->product->flatMap(fn($product) => $product->reviews);
+                                $total = $allReviews->sum('rating');
+                                $count = $allReviews->count();
+                                $overallRating = $count > 0 ? round($total / $count, 1) : 0;
+                            }
+                        @endphp
+                        <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/9dcf86845a5774a466c010f69a48d3bed069ce99?placeholderIfAbsent=true"
+                            width="25" alt="Company logo">
+                        <div class="rating-badge">
+                            <i class="fa fa-star" aria-hidden="true" style="color:rgba(255, 166, 0, 1);"></i>
+                            <div>{{ $overallRating }}/5</div>
+                        </div>
+                    </div>
+                    @php
+                        $flagImage = 0;
+                        if ($stocksell->role === 'seller') {
+                            $seller = \App\Models\Seller::find($stocksell->user_id);
+                            $shopName = $seller->shop->name;
+                            $shopAddress = $seller->shop->address;
+                            $countryDetails = \App\Utils\ChatManager::getCountryDetails($seller->country);
+                            if ($countryDetails) {
+                                $flagImage = 1;
+                            }
+                        } elseif ($stocksell->role === 'admin') {
+                            $shopName = 'Admin Shop';
+                            $shopAddress = 'Admin Address';
+                        }
+                    @endphp
+                    <div class="company-name">{{ $shopName }}</div>
+                    <div class="company-exhibitions">Exhibited at 2 GS shows</div>
+                    <div class="company-location">
+                        @if ($flagImage == 1 && isset($countryDetails['countryISO2']))
+                            <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg" width="15"
+                                alt="Location icon">
+                        @endif
+                        <div>{{ $shopAddress }}</div>
+                    </div>
+                </div>
+                <div>
+                    <button class="filled-btn" data-toggle="modal" data-target="#inquireButton">Inquire Now</button>
+                </div>
+
             </div>
         </div>
         <div id="content-specification" class="detail-tab-content custom-info">
@@ -138,9 +286,9 @@
             <div class="contact-grid">
                 <div class="contact-item">
                     <div class="icon-container">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2"></rect>
                             <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                         </svg>
@@ -155,9 +303,9 @@
 
                 <div class="contact-item">
                     <div class="icon-container">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <path
                                 d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
                             </path>
@@ -171,9 +319,9 @@
 
                 <div class="contact-item">
                     <div class="icon-container">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
                             <circle cx="12" cy="10" r="3"></circle>
                         </svg>
@@ -186,9 +334,9 @@
 
                 <div class="contact-item">
                     <div class="icon-container">
-                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <rect width="20" height="14" x="2" y="3" rx="2"></rect>
                             <path d="M2 7h20"></path>
                             <path d="M16 21V7"></path>
@@ -209,63 +357,10 @@
                     </div>
                 </div>
             </div>
- <div class="detail-footer">
-        <div class="company-info custom-dealrock-text-14">
-            <div class="company-rating">
-                @php
-                    $overallRating = null;
 
-                    if ($stocksell->role === 'seller') {
-                        $user = \App\Models\Seller::with('product.reviews')->find($stocksell->user_id);
-                    } elseif ($stocksell->role === 'admin') {
-                        $user = \App\Models\Admin::with('product.reviews')->find($stocksell->user_id);
-                    }
-
-                    if (isset($user) && $user->product->isNotEmpty()) {
-                        $allReviews = $user->product->flatMap(fn($product) => $product->reviews);
-                        $total = $allReviews->sum('rating');
-                        $count = $allReviews->count();
-                        $overallRating = $count > 0 ? round($total / $count, 1) : 0;
-                    }
-                @endphp
-                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/9dcf86845a5774a466c010f69a48d3bed069ce99?placeholderIfAbsent=true"
-                    width="25" alt="Company logo">
-                <div class="rating-badge">
-                    <i class="fa fa-star" aria-hidden="true" style="color:rgba(255, 166, 0, 1);"></i>
-                    <div>{{ $overallRating }}/5</div>
-                </div>
-            </div>
-            @php
-                $flagImage = 0;
-                if ($stocksell->role === 'seller') {
-                    $seller = \App\Models\Seller::find($stocksell->user_id);
-                    $shopName = $seller->shop->name;
-                    $shopAddress = $seller->shop->address;
-                    $countryDetails = \App\Utils\ChatManager::getCountryDetails($seller->country);
-                    if ($countryDetails) {
-                        $flagImage = 1;
-                    }
-                } elseif ($stocksell->role === 'admin') {
-                    $shopName = 'Admin Shop';
-                    $shopAddress = 'Admin Address';
-                }
-            @endphp
-            <div class="company-name">{{ $shopName }}</div>
-            <div class="company-exhibitions">Exhibited at 2 GS shows</div>
-            <div class="company-location">
-                @if ($flagImage == 1 && isset($countryDetails['countryISO2']))
-                    <img src="/flags/{{ strtolower($countryDetails['countryISO2']) }}.svg" width="15"
-                        alt="Location icon">
-                @endif
-                <div>{{ $shopAddress }}</div>
-            </div>
-        </div>
-
-        <button class="inquire-button custom-dealrock-text-18" data-toggle="modal" data-target="#inquireButton">Inquire Now</button>
-    </div>
         </div>
     </div>
-   
+
     <!-- Modal -->
     <div class="modal fade" id="inquireButton" tabindex="-1" role="dialog" aria-labelledby="inquireButtonLabel"
         aria-hidden="true">
@@ -291,10 +386,8 @@
                             <!-- Hidden fields -->
                             <input type="hidden" id="sender_id" name="sender_id" value={{ $userId }}>
                             <input type="hidden" id="sender_type" name="sender_type" value={{ $role }}>
-                            <input type="hidden" id="receiver_id" name="receiver_id"
-                                value={{ $stocksell->user_id }}>
-                            <input type="hidden" id="receiver_type" name="receiver_type"
-                                value={{ $stocksell->role }}>
+                            <input type="hidden" id="receiver_id" name="receiver_id" value={{ $stocksell->user_id }}>
+                            <input type="hidden" id="receiver_type" name="receiver_type" value={{ $stocksell->role }}>
                             <input type="hidden" id="type" name="type" value="stocksell">
                             <input type="hidden" id="stocksell_id" name="stocksell_id" value={{ $stocksell->id }}>
 
@@ -311,8 +404,8 @@
                             <div class="form-group">
                                 <label for="message">Message</label>
                                 <textarea id="message" name="message"
-                                    placeholder="Enter product details such as color, size, materials and other specific requirements." rows="6"
-                                    required></textarea>
+                                    placeholder="Enter product details such as color, size, materials and other specific requirements."
+                                    rows="6" required></textarea>
                             </div>
                             @if (auth('customer')->check() && auth('customer')->user()->id)
                                 @if ($membership['status'] == 'active')

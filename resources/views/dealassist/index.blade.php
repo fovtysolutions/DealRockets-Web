@@ -349,7 +349,8 @@
 
         .features-grid {
             display: flex;
-            justify-content: space-between;;
+            justify-content: space-between;
+            ;
             /* gap: 30px; */
             /* flex-wrap: wrap; */
         }
@@ -384,7 +385,7 @@
             color: #555;
         }
 
-        .cta-button {
+        .filled-btn {
             display: inline-flex;
             align-items: center;
             padding: 10px 21px;
@@ -451,9 +452,9 @@
             }
 
             /* 
-                .card-container {
-                    flex-direction: column;
-                } */
+                    .card-container {
+                        flex-direction: column;
+                    } */
 
             .steps-list {
                 flex-wrap: wrap;
@@ -540,7 +541,8 @@
                         businesses to seize opportunities and thrive in today’s competitive
                         landscape.</span>
                     <div class="frame">
-                        <span class="customized-marketing" data-toggle="modal" data-target="#inquiryModal"><a href="javascript:">Get customized marketing
+                        <span class="customized-marketing" data-toggle="modal" data-target="#inquiryModal"><a
+                                href="javascript:">Get customized marketing
                                 solutions!</a></span>
                     </div>
                 </div>
@@ -568,7 +570,7 @@
                     <!-- About Section -->
                     <section class="content-section" style="gap: 80px;">
                         <div class="content-image"
-                            style="background-image: url('{{ asset('images/dealassist/image 142 (1).png') }}');"></div>
+                            style="background-image: url('{{ asset('images/dealassist/image 142.png') }}');"></div>
                         <div class="content-details">
                             <h2 class="content-title" style="text-align: right;">About Deal Rockets Trade Assist Program
                             </h2>
@@ -609,32 +611,29 @@
                     </section>
 
                     <style>
-                        .curve-line {
-                            width: 100%;
-                            height: 70px;
-                            /* adjust height */
-                            position: relative;
+                        .steps-list {
+                            display: none !important;
                         }
 
-                        .curve-line svg {
-                            width: 77%;
-                            height: 100%;
-                            position: absolute;
-                            margin: auto;
-                            top: 60px;
-                            left: 148px;
+                        .step-list-1 {
+                            margin-top: 2rem !important;
+                        }
+
+                        @media (max-width: 1024px) {
+                            .steps-list {
+                                display: flex !important;
+                            }
+
+                            .step-list-1 {
+                                display: none;
+                            }
                         }
                     </style>
                     <!-- Buying Journey Section -->
                     <section class="steps-section">
                         <div class="steps-container">
                             <h2 class="steps-title">Start your Buying Journey</h2>
-                            <div class="curve-line">
-                                <svg viewBox="0 0 1000 200" preserveAspectRatio="none">
-                                    <path d="M 0 100 C 200 -200, 800 400, 1000 100" stroke="#ff3b30" stroke-width="2"
-                                        fill="none" stroke-dasharray="6,6" />
-                                </svg>
-                            </div>
+
                         </div>
                         <div class="steps-list">
                             <div class="step">
@@ -674,12 +673,13 @@
                                     control.</p>
                             </div>
                         </div>
+                        <img class="step-list-1 " src="{{ asset('images/dealassist/List.png') }}">
                     </section>
 
                     <!-- Buyer Protection Section -->
                     <section class="content-section">
                         <div class="content-image"
-                            style="background-image: url('{{ asset('images/dealassist/image 142 (2).png') }}');"></div>
+                            style="background-image: url('{{ asset('images/dealassist/image 142 (1).png') }}');"></div>
                         <div class="content-details">
                             <h2 class="content-title">Buyer Protection & Dispute Assistance</h2>
                             <div class="content-text">
@@ -701,7 +701,7 @@
                                     satisfaction as the priority.</p>
                             </div>
                             <div>
-                                <a href="#" class="cta-button">Find trusted deals</a>
+                                <a href="#" class="filled-btn">Find trusted deals</a>
                             </div>
 
                         </div>
@@ -764,12 +764,12 @@
                                     business operations with confidence.</p>
                             </div>
                             <div>
-                                <a href="#" class="cta-button">Track My Order</a>
+                                <a href="#" class="filled-btn">Track My Order</a>
                             </div>
 
                         </div>
                         <div class="content-image"
-                            style="background-image: url('{{ asset('images/dealassist/image 142.png') }}');"></div>
+                            style="background-image: url('{{ asset('images/dealassist/image 142 (2).png') }}');"></div>
                     </section>
 
                     <!-- Why Our Assistance Works Section -->
@@ -839,7 +839,7 @@
                                     ensures successful deal closures.</p>
                             </div>
                             <div>
-                                <a href="#" class="cta-button">Start Negotiation</a>
+                                <a href="#" class="filled-btn">Start Negotiation</a>
                             </div>
 
                         </div>
@@ -849,12 +849,7 @@
                     <section class="steps-section">
                         <div class="steps-container">
                             <h2 class="steps-title">How to Join Deal Rockets Trade Assist Program</h2>
-                            <div class="curve-line">
-                                <svg viewBox="0 0 1000 200" preserveAspectRatio="none">
-                                    <path d="M 0 100 C 200 -200, 800 400, 1000 100" stroke="#ff3b30" stroke-width="2"
-                                        fill="none" stroke-dasharray="6,6" />
-                                </svg>
-                            </div>
+
                             <div class="steps-list">
                                 <div class="step">
                                     <div class="step-number">
@@ -884,6 +879,7 @@
                                         trade network — all in one secure platform.</p>
                                 </div>
                             </div>
+                            <img class="step-list-1 " src="{{ asset('images/dealassist/List-2.png') }}">
                         </div>
                     </section>
 
@@ -902,278 +898,396 @@
                                     fast, simple, and hassle-free.</p>
                             </div>
                             <div>
-                                <a href="#" class="cta-button">Create My First Offer</a>
+                                <a href="#" class="filled-btn">Create My First Offer</a>
                             </div>
                         </div>
                     </div>
-                    </d iv>
                 </div>
-                <div id="supplierTimeline" class="dealassist-tab supplier d-none">
-                    <!-- Optional Header -->
-                    <div class="timeline-header">
-                        <h2 class="timeline-title ml-3">Supplier Journey with DealRockets</h2>
-                        <!-- <p class="timeline-tagline">Helping suppliers grow globally through trusted buyer connections and full-service support.</p> -->
+            </div>
+            <div id="supplierTimeline" class="dealassist-tab supplier d-none">
+                <!-- About Section -->
+                <section class="content-section" style="gap: 80px;">
+                    <div class="content-image"
+                        style="background-image: url('{{ asset('images/dealassist/image 142.png') }}');"></div>
+                    <div class="content-details">
+                        <h2 class="content-title" style="text-align: right;">About Deal Rockets Trade Assist Program
+                        </h2>
+                        <div class="content-text" style="text-align: right;">
+                            <p>The Deal Rockets Trade Assist Program is designed to help sellers reach the right buyers
+                                across the globe with minimum effort and maximum results. We simplify every step of selling
+                                — from product listing and verification to negotiation and shipment tracking. With our
+                                assistance, sellers gain credibility, increase visibility, and attract serious buyers who
+                                are ready to purchase in bulk. By bridging communication gaps and guiding through disputes,
+                                we ensure that sellers grow their business with confidence and without unnecessary risks.
+                            </p>
+
+                        </div>
+                        <div class="card-container">
+                            <div class="card">
+                                <div class="card-icon-container">
+                                    <div class="card-icon">
+                                        <i data-lucide="eye"></i>
+                                    </div>
+                                </div>
+                                <h3 class="card-title">Vision</h3>
+                                <p class="card-text">To become the most trusted global B2B marketplace, enabling
+                                    businesses of every size to connect, trade, and grow with complete transparency,
+                                    efficiency, and service excellence.</p>
+                            </div>
+                            <div class="card">
+                                <div class="card-icon-container">
+                                    <div class="card-icon">
+                                        <i data-lucide="target"></i>
+                                    </div>
+                                </div>
+                                <h3 class="card-title">Mission</h3>
+                                <p class="card-text">To simplify global trade by connecting buyers and sellers through
+                                    verified sourcing, reliable vendor networks, and end-to-end procurement assistance
+                                    that builds trust and long-term partnerships.</p>
+                            </div>
+                        </div>
                     </div>
+                </section>
 
-                    <div class="timeline hide-line">
+                <style>
+                    .steps-list {
+                        display: none !important;
+                    }
 
-                        <div class="timeline-container left">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Buyer Matching</div>
-                                    <div class="content-desc">
-                                        DealRockets helps suppliers find genuine buyers who are actively looking for their
-                                        products in the international market. We act as a bridge between verified demand and
-                                        your offerings.
-                                    </div>
-                                </div>
-                            </a>
+                    .step-list-1 {
+                        margin-top: 2rem !important;
+                    }
+
+                    @media (max-width: 1024px) {
+                        .steps-list {
+                            display: flex !important;
+                        }
+
+                        .step-list-1 {
+                            display: none;
+                        }
+                    }
+                </style>
+                <!-- Buying Journey Section -->
+                <section class="steps-section">
+                    <div class="steps-container">
+                        <h2 class="steps-title">Start your Buying Journey</h2>
+
+                    </div>
+                    <div class="steps-list">
+                        <div class="step">
+                            <div class="step-number">
+                                <i data-lucide="search"></i>
+                            </div>
+                            <h3 class="step-title">Browse Products</h3>
+                            <p class="step-text">Discover thousands of verified listings across multiple categories.
+                                Filter by product type, specifications, and supplier location to quickly find exactly
+                                what meets your business needs.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">
+                                <i data-lucide="mail"></i>
+                            </div>
+                            <h3 class="step-title">Send Enquiry</h3>
+                            <p class="step-text">Select the product you're interested in and send a detailed enquiry
+                                directly to the vendor, outlining your requirements, quantity, and any customization
+                                preferences.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">
+                                <i data-lucide="list-checks"></i>
+                            </div>
+                            <h3 class="step-title">Get Offers</h3>
+                            <p class="step-text">Receive personalized quotes and product details from multiple vendors.
+                                Compare specifications, pricing, and delivery terms to identify the most suitable
+                                supplier for your order.</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">
+                                <i data-lucide="handshake"></i>
+                            </div>
+                            <h3 class="step-title">Finalize Deal</h3>
+                            <p class="step-text">Negotiate terms directly with the vendor and arrange delivery. All
+                                payments and order confirmations are handled outside the platform for flexibility and
+                                control.</p>
+                        </div>
+                    </div>
+                    <img class="step-list-1 " src="{{ asset('images/dealassist/List.png') }}">
+                </section>
+
+                <!-- Buyer Protection Section -->
+                <section class="content-section">
+                    <div class="content-image"
+                        style="background-image: url('{{ asset('images/dealassist/image 142 (1).png') }}');"></div>
+                    <div class="content-details">
+                        <h2 class="content-title">Seller Protection & Dispute Assistance</h2>
+                        <div class="content-text">
+                            <p>We understand that disputes are part of global trade, but they shouldn’t slow you down. If a
+                                buyer claims defective, incorrect, or delayed products, Deal Rockets assists sellers by
+                                mediating communication to clarify details and resolve misunderstandings.</p>
+                            <p>Tour team helps you provide replacements, corrections, or refunds where necessary — ensuring
+                                you maintain buyer trust without losing credibility. </p>
+                            <p>With structured dispute handling, sellers are protected against unfair claims and supported
+                                throughout the resolution process.</p>
+                        </div>
+                        <div>
+                            <a href="#" class="filled-btn">Find trusted deals</a>
                         </div>
 
-                        <div class="timeline-container right">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Terms Finalization</div>
-                                    <div class="content-desc">
-                                        Once a buyer is matched, DealRockets helps both sides finalize key terms such as
-                                        price, delivery time, payment conditions, and responsibilities — ensuring everything
-                                        is clearly understood and agreed upon.
-                                    </div>
-                                </div>
-                            </a>
+                    </div>
+                </section>
+
+                <!-- Why Choose Section -->
+                <section class="features-section">
+                    <h2 class="features-title">Why Choose Deal Rockets Trade Assist Progra</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i data-lucide="shield-check"></i>
+                            </div>
+                            <h3 class="feature-title">Verified Global Buyers</h3>
+                            <p class="feature-text">ccess serious buyers from around the world who are actively looking for
+                                suppliers.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i data-lucide="users"></i>
+                            </div>
+                            <h3 class="feature-title">Boosted Credibility</h3>
+                            <p class="feature-text">Seller verification builds confidence among buyers and gives you a
+                                trusted profile in the global market.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i data-lucide="globe"></i>
+                            </div>
+                            <h3 class="feature-title">Dispute Management Support</h3>
+                            <p class="feature-text">Guidance in handling buyer concerns fairly, keeping your reputation
+                                intact.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Order Tracking Section -->
+                <section class="content-section">
+                    <div class="content-details" style="margin-right: 7rem;">
+                        <h2 class="content-title mb-3">Order Tracking & Updates</h2>
+                        <div class="content-text">
+                            <p>Sellers no longer need to chase buyers for updates. With Deal Rockets, every enquiry,
+                                negotiation, and confirmed order is tracked in a single dashboard. From deal initiation to
+                                shipment status, you get real-time updates, ensuring you stay informed at every stage.
+                                Buyers also receive these updates, which strengthens trust and reduces communication delays.
+                                By offering full visibility, sellers can deliver better service while focusing on business
+                                growth.
+                            </p>
+                            <p>From deal initiation to shipment status, you get real-time updates, ensuring you stay
+                                informed at every stage. Buyers also receive these updates, which strengthens trust and
+                                reduces communication delays. By offering full visibility, sellers can deliver better
+                                service while focusing on business growth.
+                            </p>
+
+                        </div>
+                        <div>
+                            <a href="#" class="filled-btn">Track My Order</a>
                         </div>
 
-                        <div class="timeline-container left">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Due Diligence</div>
-                                    <div class="content-desc">
-                                        DealRockets verifies and shares trusted business profiles of both buyer and
-                                        supplier. This step builds trust and protects both parties from fraud or
-                                        miscommunication.
-                                    </div>
-                                </div>
-                            </a>
+                    </div>
+                    <div class="content-image"
+                        style="background-image: url('{{ asset('images/dealassist/image 142 (2).png') }}');"></div>
+                </section>
+
+                <!-- Why Our Assistance Works Section -->
+                <section class="features-section">
+                    <h2 class="features-title">Why Our Assistance Works for Sellers</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i data-lucide="shield-check"></i>
+                            </div>
+                            <h3 class="feature-title">Global Exposure</h3>
+                            <p class="feature-text">Your products are showcased to international buyers, giving you
+                                opportunities far beyond local markets.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i data-lucide="check-circle"></i>
+                            </div>
+                            <h3 class="feature-title">Secure Communication</h3>
+                            <p class="feature-text">We ensure direct and secure interaction between sellers and verified
+                                buyers, removing middlemen and confusion.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i data-lucide="workflow"></i>
+                            </div>
+                            <h3 class="feature-title">Simplified Selling Process</h3>
+                            <p class="feature-text">From product listing to negotiation and final shipment, Deal Rockets
+                                simplifies every step, saving sellers time and effort.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i data-lucide="percent"></i>
+                            </div>
+                            <h3 class="feature-title">Sustainable Growth</h3>
+                            <p class="feature-text">By consistently connecting you with serious buyers, we help increase
+                                your sales pipeline and establish long-term business relationships.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Negotiation Support Section -->
+                <section class="content-section">
+                    <div class="content-image"
+                        style="background-image: url('{{ asset('images/dealassist/image 142 (3).png') }}');"></div>
+                    <div class="content-details">
+                        <h2 class="content-title">Negotiation Support</h2>
+                        <div class="content-text">
+                            <p>Negotiations can be tricky, especially in global trade. That’s why Deal Rockets provides
+                                expert guidance to help sellers communicate terms effectively, align with buyer
+                                expectations, and close fair deals. </p>
+                            <p>From pricing and bulk discounts to delivery timelines,
+                                our support ensures that sellers can maximize profits while maintaining healthy buyer
+                                relationships. Our goal is to make negotiations a win-win for both sides.</p>
+                           
+                        </div>
+                        <div>
+                            <a href="#" class="filled-btn">Start Negotiation</a>
                         </div>
 
-                        <div class="timeline-container right">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Sampling & Approval</div>
-                                    <div class="content-desc">
-                                        We help coordinate the sending of samples to the buyer. Once the buyer approves, the
-                                        supplier receives confirmation and can confidently proceed with production.
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                    </div>
+                </section>
 
-                        <div class="timeline-container left">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Advance Payment Assistance</div>
-                                    <div class="content-desc">
-                                        If advance payment is involved, DealRockets ensures that the process is smooth and
-                                        secure. We help confirm that the funds are received correctly before production
-                                        begins.
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                <!-- How to Join Section -->
+                <section class="steps-section">
+                    <div class="steps-container">
+                        <h2 class="steps-title">How to Join Deal Rockets Trade Assist Program</h2>
 
-                        <div class="timeline-container right">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Production Lead Time</div>
-                                    <div class="content-desc">
-                                        DealRockets helps track and manage the production schedule to ensure timely
-                                        delivery. We assist in keeping everything on track so deadlines are met.
-                                    </div>
+                        <div class="steps-list">
+                            <div class="step">
+                                <div class="step-number">
+                                    <span>1</span>
                                 </div>
-                            </a>
-                        </div>
-
-                        <div class="timeline-container left">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Packing & Dispatch</div>
-                                    <div class="content-desc">
-                                        We support proper packing and safe dispatch at the warehouse or port. This includes
-                                        coordination during loading to make sure the goods are secure and properly
-                                        documented.
-                                    </div>
+                                <h3 class="step-title">Create Your Free Account</h3>
+                                <p class="step-text">Sign up on Deal Rockets and set up your business profile with all
+                                    the
+                                    essential details buyers need to know.</p>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">
+                                    <span>2</span>
                                 </div>
-                            </a>
-                        </div>
-
-                        <div class="timeline-container right">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Logistics Support</div>
-                                    <div class="content-desc">
-                                        Whether by air or sea, DealRockets helps arrange transportation for the shipment. We
-                                        coordinate with freight partners to ensure smooth shipping and delivery.
-                                    </div>
+                                <h3 class="step-title">Get Verified & Listed</h3>
+                                <p class="step-text">Complete our quick verification process to become a trusted seller
+                                    and
+                                    have your products listed for global visibility.</p>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">
+                                    <span>3</span>
                                 </div>
-                            </a>
+                                <h3 class="step-title">Start Receiving Enquiries</h3>
+                                <p class="step-text">Connect with genuine buyers worldwide, negotiate deals, and grow
+                                    your
+                                    trade network — all in one secure platform.</p>
+                            </div>
                         </div>
+                        <img class="step-list-1 " src="{{ asset('images/dealassist/List-2.png') }}">
+                    </div>
+                </section>
 
-                        <div class="timeline-container left">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Documentation & Operations</div>
-                                    <div class="content-desc">
-                                        From invoices to shipping papers, DealRockets helps suppliers prepare and manage all
-                                        required documents. This reduces errors and avoids delays at customs or banks.
-                                    </div>
-                                </div>
-                            </a>
+                <!-- Final CTA Section -->
+                <div class="final-cta">
+                    <div class="final-cta-content">
+                        <div class="final-cta-text">
+                            <h2 class="final-cta-title">Your Products. Your Business. Instantly Global.</h2>
+                            <p class="final-cta-description">With Deal Rockets Trade Assist, sellers don’t just find buyers — they build sustainable global businesses. By connecting you with verified international buyers, showcasing your credibility, and supporting you through negotiations and disputes, we turn your business into a trusted global brand. Your products deserve worldwide recognition, and we provide the platform to make it happen.</p>
+                            
                         </div>
-
-                        <div class="timeline-container right">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Balance Payment Assistance</div>
-                                    <div class="content-desc">
-                                        DealRockets supports the final payment process, whether it's done via direct bank
-                                        transfer (TT) or through a financial institution. We ensure funds are securely
-                                        received.
-                                    </div>
-                                </div>
-                            </a>
+                        <div>
+                            <a href="#" class="filled-btn">Create My First Offer</a>
                         </div>
-
-                        <div class="timeline-container left">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Successful Deal Closure</div>
-                                    <div class="content-desc">
-                                        Once everything is complete, DealRockets confirms the successful closure of the deal
-                                        — ensuring both parties are satisfied and all conditions are met.
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="timeline-container right">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Product Promotion</div>
-                                    <div class="content-desc">
-                                        DealRockets promotes the supplier’s products across its platform and in various
-                                        countries through digital campaigns — helping expand global visibility and generate
-                                        more leads.
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="timeline-container left">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Membership Preference</div>
-                                    <div class="content-desc">
-                                        Suppliers with higher membership levels get priority in deals, better visibility,
-                                        and exclusive tools to promote their brand and products on the DealRockets platform.
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="timeline-container right">
-                            <a href="javascript:" class="content-link">
-                                <div class="content">
-                                    <div class="content-header">Global Brand Building</div>
-                                    <div class="content-desc">
-                                        By consistently participating in quality deals and showcasing products worldwide,
-                                        the supplier builds a strong and trustworthy global brand with the help of
-                                        DealRockets.
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-        {{-- <div class="d-flex justify-content-end " style="padding:1rem; background: #f7f7f7;">
+    </div>
+    </div>
+    {{-- <div class="d-flex justify-content-end " style="padding:1rem; background: #f7f7f7;">
 
-            <button type="button" class="btn custom-inquiry-btn" data-toggle="modal" data-target="#inquiryModal">
-                <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
-                    alt="Inquire" class="inquire-icon" loading="lazy">
-                Inquire Now
-            </button>
-        </div> --}}
-        <div class="modal fade" id="inquiryModal" tabindex="-1" aria-labelledby="inquiryModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
+        <button type="button" class="btn custom-inquiry-btn" data-toggle="modal" data-target="#inquiryModal">
+            <img src="https://cdn.builder.io/api/v1/image/assets/22e8f5e19f8a469193ec854927e9c5a6/0882f754e189daab8d1153c2e9654e9a14108c4f"
+                alt="Inquire" class="inquire-icon" loading="lazy">
+            Inquire Now
+        </button>
+    </div> --}}
+    <div class="modal fade" id="inquiryModal" tabindex="-1" aria-labelledby="inquiryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
-                    <div class="modal-header" style="background-color:rgba(235, 235, 235, 1);">
-                        <h5 class="modal-title" id="inquiryModalLabel">Send a direct inquiry for DealAssist</h5>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
+                <div class="modal-header" style="background-color:rgba(235, 235, 235, 1);">
+                    <h5 class="modal-title" id="inquiryModalLabel">Send a direct inquiry for DealAssist</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
 
-                    <div class="modal-body">
-                        <form id="inquiryForm">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="supplier" class="form-label">To</label>
-                                <div class="form-control">DealRockets</div>
-                            </div>
+                <div class="modal-body">
+                    <form id="inquiryForm">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="supplier" class="form-label">To</label>
+                            <div class="form-control">DealRockets</div>
+                        </div>
 
-                            <input type="hidden" id="sender_id1" name="sender_id"
-                                value="{{ auth('customer')->check() ? auth('customer')->id() : '' }}">
-                            <input type="hidden" id="sender_type1" name="sender_type" value="customer">
-                            <input type="hidden" id="receiver_id1" name="receiver_id" value="1">
-                            <input type="hidden" id="receiver_type1" name="receiver_type" value="admin">
-                            <input type="hidden" id="type" name="type" value="dealassist">
+                        <input type="hidden" id="sender_id1" name="sender_id"
+                            value="{{ auth('customer')->check() ? auth('customer')->id() : '' }}">
+                        <input type="hidden" id="sender_type1" name="sender_type" value="customer">
+                        <input type="hidden" id="receiver_id1" name="receiver_id" value="1">
+                        <input type="hidden" id="receiver_type1" name="receiver_type" value="admin">
+                        <input type="hidden" id="type" name="type" value="dealassist">
 
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="name1" placeholder="Please enter your full name"
-                                    value="{{ auth('customer')->check() ? auth('customer')->user()->f_name . ' ' . auth('customer')->user()->l_name : '' }}"
-                                    required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name1" placeholder="Please enter your full name"
+                                value="{{ auth('customer')->check() ? auth('customer')->user()->f_name . ' ' . auth('customer')->user()->l_name : '' }}"
+                                required>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">E-mail Address</label>
-                                <input type="email" class="form-control" id="email1"
-                                    placeholder="Please enter your business e-mail address"
-                                    value="{{ auth('customer')->check() ? auth('customer')->user()->email : '' }}" required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail Address</label>
+                            <input type="email" class="form-control" id="email1"
+                                placeholder="Please enter your business e-mail address"
+                                value="{{ auth('customer')->check() ? auth('customer')->user()->email : '' }}" required>
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" id="phone1" placeholder="Please enter your phone number"
-                                    value="{{ auth('customer')->check() ? auth('customer')->user()->phone : '' }}">
-                            </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone1" placeholder="Please enter your phone number"
+                                value="{{ auth('customer')->check() ? auth('customer')->user()->phone : '' }}">
+                        </div>
 
-                            <div class="mb-3">
-                                <label for="message" class="form-label">Message</label>
-                                <textarea class="form-control" id="message1" rows="4" placeholder="Enter Deal Assist Inquiry..."
-                                    required></textarea>
-                            </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message1" rows="4" placeholder="Enter Deal Assist Inquiry..."
+                                required></textarea>
+                        </div>
 
-                            @if (auth('customer')->check())
-                                @if (strtolower(trim($membership['status'] ?? '')) == 'active')
-                                    <button type="button" onclick="triggerChat1()" class="btn-primary btn">Send Inquiry
-                                        Now</button>
-                                @else
-                                    <a href="{{ route('membership') }}" class="btn-primary btn">Send Inquiry
-                                        Now</a>
-                                @endif
+                        @if (auth('customer')->check())
+                            @if (strtolower(trim($membership['status'] ?? '')) == 'active')
+                                <button type="button" onclick="triggerChat1()" class="btn-primary btn">Send Inquiry
+                                    Now</button>
                             @else
-                                <button type="button" onclick="sendtologin()" class="btn-primary btn">Send
-                                    Inquiry Now</button>
+                                <a href="{{ route('membership') }}" class="btn-primary btn">Send Inquiry
+                                    Now</a>
                             @endif
-                        </form>
-                    </div>
-
+                        @else
+                            <button type="button" onclick="sendtologin()" class="btn-primary btn">Send
+                                Inquiry Now</button>
+                        @endif
+                    </form>
                 </div>
+
             </div>
         </div>
+    </div>
 @endsection
 @push('script')
     <script src="https://unpkg.com/lucide@latest"></script>

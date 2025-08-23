@@ -252,7 +252,7 @@ width: 75%;
     color: #0D0D0F;
     /* font-weight: normal; */
     margin: auto 0;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
 }
 
@@ -946,6 +946,7 @@ overflow-x: scroll;
     }
 
     .buy-offer .lead-card-inner {
+        gap: 20px !important;
         flex-wrap: wrap !important;
     }
 

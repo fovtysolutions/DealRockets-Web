@@ -61,13 +61,13 @@ $shipping_method = [
         data-bg="linear-gradient(to right, rgb(0 0 0 / 68%), rgb(0 0 0 / 0%)), url(/img/rfq-image-1.png)"
         data-bgtype='withlinear'>
         <div class="hiddenuntil768"> Request For Quotations (RFQ)</div>
-        <div class="rfq-info">
-            <h2>Request for Quotations (RFQ)</h2>
+        <div class="rfq-info ">
+            <h2 class="custom-dealrock-text-30">Request for Quotations (RFQ)</h2>
             <p class="rfq-description" id="rfq-description">
                 <?php echo $quotationDescription; ?> <!-- Display the quotation description or default message -->
             </p>
-            <a href="{{ route('seller') }}" class="view-more" style="text-decoration: none;">View More</a>
-            <ul class="rfq-benefits">
+            <a href="{{ route('seller') }}" class="view-more custom-dealrock-text-18" style="text-decoration: none;">View More</a>
+            <ul class="rfq-benefits custom-dealrock-text-18">
                 <li>Submit an RFQ in just one minute.</li>
                 <li>Get multiple quotations from Verified Suppliers.</li>
                 <li>Compare and choose the best quotation!</li>
@@ -75,35 +75,35 @@ $shipping_method = [
         </div>
         <div class="rfq-form-container">
             <form class="rfq-form container">
-                <h3 class="mb-1 text-left">Get Quotations Now from Verified Global Suppliers</h3>
+                <h3 class="mb-1 text-left custom-dealrock-text-18">Get Quotations Now from Verified Global Suppliers</h3>
 
                 <div class="row">
                     <div class="col-md-4 mb-1">
-                        <label for="productName" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" id="productName" name="productName"
+                        <label for="productName" class="form-label custom-dealrock-text-14">Product Name</label>
+                        <input type="text" class="form-control custom-dealrock-text-14" id="productName" name="productName"
                             placeholder="Enter specific product name" required>
                     </div>
                     <div class="col-md-4 mb-1">
-                        <label for="port" class="form-label">Port</label>
-                        <input type="text" class="form-control" id="port" name="port"
+                        <label for="port" class="form-label custom-dealrock-text-14">Port</label>
+                        <input type="text" class="form-control custom-dealrock-text-14" id="port" name="port"
                             placeholder="Enter destination port" required>
                     </div>
                     <div class="col-md-4 mb-1">
-                        <label for="mobile" class="form-label">Mobile Number</label>
-                        <input type="tel" class="form-control" id="mobile" name="mobile"
+                        <label for="mobile" class="form-label custom-dealrock-text-14">Mobile Number</label>
+                        <input type="tel" class="form-control custom-dealrock-text-14" id="mobile" name="mobile"
                             placeholder="Enter your mobile number" required>
                     </div>
                 </div>
 
                 <div class="row mb-1">
                     <div class="col-md-6">
-                        <label for="quantity" class="form-label">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity"
+                        <label for="quantity" class="form-label custom-dealrock-text-14">Quantity</label>
+                        <input type="number" class="form-control custom-dealrock-text-14" id="quantity" name="quantity" placeholder="Quantity"
                             required>
                     </div>
                     <div class="col-md-6">
-                        <label for="unit" class="form-label">Unit</label>
-                        <select class="form-control" id="unit" name="unit" required>
+                        <label for="unit" class="form-labelcustom-dealrock-text-14">Unit</label>
+                        <select class="form-control custom-dealrock-text-14" id="unit" name="unit" required>
                             <option value="" disabled selected>Select Unit</option>
                             @foreach ($units as $key => $value)
                                 <option value="{{ $key }}">{{ $value }}</option>
@@ -113,8 +113,8 @@ $shipping_method = [
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-1">
-                        <label for="shipping_method" class="form-label">Shipping Method</label>
-                        <select class="form-control" id="shipping_method" name="shipping_method" required>
+                        <label for="shipping_method" class="form-label custom-dealrock-text-14">Shipping Method</label>
+                        <select class="form-control custom-dealrock-text-14" id="shipping_method" name="shipping_method" required>
                             <option value="">Select Shipping Method</option>
                             @foreach ($shipping_method as $method => $label)
                                 <option value="{{ $method }}"
@@ -126,8 +126,8 @@ $shipping_method = [
                     </div>
 
                     <div class="col-md-6 mb-1">
-                        <label for="terms" class="form-label">Payment Terms</label>
-                        <select class="form-control" id="terms" name="terms" required>
+                        <label for="terms" class="form-label custom-dealrock-text-14">Payment Terms</label>
+                        <select class="form-control custom-dealrock-text-14" id="terms" name="terms" required>
                             <option value="">Select Payment Terms</option>
                             @foreach ($payment_terms as $term => $label)
                                 <option value="{{ $term }}" {{ old('terms') == $term ? 'selected' : '' }}>
@@ -139,14 +139,14 @@ $shipping_method = [
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <label class="label-width">Details</label>
-                        <textarea class="form-control" rows="1" name="details"
+                        <label class="label-width custom-dealrock-text-14">Details</label>
+                        <textarea class="form-control custom-dealrock-text-14" rows="1" name="details"
                             placeholder="Describe product requirements..." required>{{ old('details') }}</textarea>
                     </div>
                 </div>
 
                 <div class="text-center">
-                    <button type="button" id="quotationButton" class="btn btn-primary px-5 py-2">
+                    <button type="button" id="quotationButton" class="filled-btn">
                         Request for Quotations
                     </button>
                 </div>

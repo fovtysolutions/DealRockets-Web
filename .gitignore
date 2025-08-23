@@ -3,6 +3,7 @@
 /public/storage
 /public/themes
 /storage/*.key
+/storage/app/*
 /vendor
 .vscode
 .idea
@@ -15,7 +16,3 @@ npm-debug.log
 yarn-error.log
 composer-setup.php
 .DS_Store
-
-/storage/app/public/*
-/public/uploads/*
-/public/stock_images/*

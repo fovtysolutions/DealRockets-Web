@@ -57,14 +57,14 @@
                         <div class="filter-section showbelow768">
                             <div class="search-section ">
                                 <div class="d-flex justify-content-between ">
-                                    <div class="search-label notshowbelow768 custom-dealrock-text-16">Filter</div>
+                                    <div class="search-label notshowbelow768 custom-dealrock-text-14">Filter</div>
                                     <div class="filter-section togglebelow768 p-0 ">
-                                        <a href="{{ request()->url() }}" class=" reset-filter custom-dealrock-text-16" style="background-none">Reset
+                                        <a href="{{ request()->url() }}" class=" reset-filter custom-dealrock-text-14" style="background-none">Reset
                                             Filters</a>
                                     </div>
                                 </div>
 
-                                <div class="search-label notshowbelow768 mt-3 custom-dealrock-text-16">Search by Name</div>
+                                <div class="search-label notshowbelow768 mt-3 custom-dealrock-text-14">Search by Name</div>
                                 <div class="search-input-container">
 
                                     <div class="search-input-field">
@@ -89,7 +89,7 @@
                         </div>
 
                         <div class="filter-section togglebelow768">
-                            <div class="search-label custom-dealrock-text-16">Search by Country</div>
+                            <div class="search-label custom-dealrock-text-14">Search by Country</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="country_search" placeholder="Enter Country..."
@@ -124,7 +124,7 @@
 
                         <!-- Filter By Category Section -->
                         <div class="filter-section togglebelow768">
-                            <div class="search-label custom-dealrock-text-16">Search by Category</div>
+                            <div class="search-label custom-dealrock-text-14">Search by Category</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="industry_search" placeholder="Enter Category..."
@@ -148,7 +148,7 @@
                             </div>
                         </div>
                         <div class="filter-section togglebelow768">
-                            <div class="search-label custom-dealrock-text-16">Search by Stock Type</div>
+                            <div class="search-label custom-dealrock-text-14">Search by Stock Type</div>
                             <div class="search-input-container">
                                 <div class="search-input-field">
                                     <input type="text" name="stock_search" placeholder="Enter Category..."

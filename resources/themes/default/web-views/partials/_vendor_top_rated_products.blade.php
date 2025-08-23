@@ -28,9 +28,9 @@
                         <img data-src="{{ $product->thumbnail !== 'imageurl' ? '/storage/product/thumbnail/' . $product->thumbnail : '/images/placeholderimage.webp' }}" class="card-img-top lazyload" alt="Product 1"
                         onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">
                         <div class="text-left">
-                            <p class="small text-muted m-1">{{ $product->name }}</p>
-                            <p class="fw-bold m-1">US$ {{ number_format($product->unit_price, 2) }} / {{ $product->unit }}</p>
-                            <p class="small text-muted m-2">{{ $product->min_qty }} {{ $product->unit }} (MOQ)</p>
+                            <p class="small text-muted m-1 custom-dealrock-text-14 " style="font-weight: 500 !important; color: black;">{{ $product->name }}</p>
+                            <p class="fw-bold m-1 custom-dealrock-text-18">US$ {{ number_format($product->unit_price, 2) }} / {{ $product->unit }}</p>
+                            <p class="small text-muted m-2 custom-dealrock-text-14">{{ $product->min_qty }} {{ $product->unit }} (MOQ)</p>
                             <a href="{{ route('product',['slug'=>$product->slug]) }}" class="btn btn-outline-dark btn-sm w-100">Start order</a>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                         <img data-src="{{ $product->thumbnail !== 'imageurl' ? '/storage/product/thumbnail/' . $product->thumbnail : '/images/placeholderimage.webp' }}" class="card-img-top lazyload" alt="Product 1" 
                             onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">
                         <div class="card-body text-left">
-                            <p class="small text-muted mb-1">{{ $product->name }}</p>
+                            <p class="small text-muted mb-1 custom-dealrock-text-14 " style="font-weight: 500 !important; color: black;">{{ $product->name }}</p>
                             <p class="fw-bold mb-1">US$ {{ number_format($product->unit_price, 2) }} / {{ $product->unit }}</p>
                             <p class="small text-muted mb-2">{{ $product->min_qty }} {{ $product->unit }} (MOQ)</p>
                             <a href="{{ route('product',['slug'=>$product->slug]) }}" class="btn btn-outline-dark btn-sm w-100">Start order</a>

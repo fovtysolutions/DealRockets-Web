@@ -9,7 +9,7 @@
             'link' => '/deal-assist'
         ],
         [
-            'image' => '/img/stock-sale-solution.png',
+            'image' => '/img/23.png',
             'title' => 'Stock Sale',
             'subtitle' => 'Bulk Stock, Best Prices',
             'description' => 'Access exclusive bulk inventory at competitive prices. Find ready-to-ship stock from trusted suppliers and maximize your profit margins.',
@@ -17,7 +17,7 @@
             'link' => '/stock-sale'
         ],
         [
-            'image' => '/img/industryjobs-solution.png',
+            'image' => '/img/industry_jobs.png',
             'title' => 'Industry Jobs',
             'subtitle' => 'Connecting Businesses with Skilled Talent',
             'description' => 'Find experienced professionals for your industry or explore job opportunities that match your skills. Post, search, and hire with ease.',
@@ -46,24 +46,33 @@
                     Our Services</div>
                 <a href="/info" class="top-movers-viewall" style="text-decoration: none; align-content: center;">View All <i style="color:#ED4553;" class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i></a>
             </div>
-            <div class="tab-contentuno active" id="tab-8">
-                <div class="d-flex insidestuff">
-                    @foreach ($services as $service)
-                        <div class="mt-2 insidecard">
-                            <div class="card h-100 text-center" style="border-radius:0;">
-                                <img src="{{ asset($service['image']) }}" class="card-img-top mb-3" alt="{{ $service['title'] }}" style="object-fit: contain; border-radius:0; max-height: 196px;"
-                                    onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">
-                                <div style="padding: 15px;">
-                                    <h5 class="card-title">{{ $service['title'] }}</h5>
-                                    <h6 class="card-title">{{ $service['subtitle'] }}</h6>
-                                    <p class="card-text">{{ $service['description'] }}</p>
-                                    <a href="{{ $service['link'] }}" class="btn btn-primary mt-auto">{{ $service['btn-text'] }}</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+           <div class="tab-contentuno active" id="tab-8">
+    <div class="d-flex insidestuff">
+        @foreach ($services as $service)
+            <div class="mt-2 insidecard">
+                <div class="card h-100 text-center d-flex flex-column" style="border-radius:0;">
+                    <img src="{{ asset($service['image']) }}" 
+                         class="card-img-top mb-3" 
+                         alt="{{ $service['title'] }}" 
+                         style="object-fit: contain; border-radius:0; max-height: 196px;"
+                         onerror="this.onerror=null; this.src='/images/placeholderimage.webp';">
+
+                    <div class="card-body d-flex flex-column" style="padding: 15px;">
+                        <h5 class="card-title custom-dealrock-text-18">{{ $service['title'] }}</h5>
+                        <h6 class="card-title custom-dealrock-text-14">{{ $service['subtitle'] }}</h6>
+                        <p class="card-text custom-dealrock-text-14">{{ $service['description'] }}</p>
+
+                        <!-- Button ko neeche fix karne ke liye mt-auto -->
+                        <a href="{{ $service['link'] }}" class="filled-btn text-white mt-auto custom-dealrock-text-14">
+                            {{ $service['btn-text'] }}
+                        </a>
+                    </div>
                 </div>
             </div>
+        @endforeach
+    </div>
+</div>
+
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@
             <div style="display:block; background-color: var(--web-bg);">
                 <div class="row d-flex justify-content-between" style="height: 40px;">
                     <div class="seller-list-title hide-768">
-                        <h5 class="m-0 text-capitalize leadstitle2" style="color: black; text-transform:uppercase; font-size: 20px;position: absolute;/* bottom: 1px; */top: 6px;left: 44%;">
+                        <h5 class="m-0 text-capitalize leadstitle2" style="color: black; text-transform:uppercase;position: absolute;/* bottom: 1px; */top: 6px;left: 44%;">
                             {{ translate('TOP SELLERS')}}
                         </h5>
                     </div>
@@ -48,24 +48,24 @@
                                     </div> --}}
                                     <div class="info pt-4">
                                         <div class="d-flex flex-column">
-                                            <h5 class="custom-dealrock-text d-flex flex-column" style="color: black; font-weight: 700 !important;">{{ $vendorData->name }}</h5>
-                                            <span class="text-truncate" style="font-size:12px; color: #515050;">{{ isset($vendorData->subtitle) && $vendorData != '' ? $vendorData->subtitle : 'Shop' }}<span>
+                                            <h5 class="custom-dealrock-text d-flex flex-column custom-dealrock-text-14" style="color: black; font-weight: 700 !important;">{{ $vendorData->name }}</h5>
+                                            <span class="text-truncate custom-dealrock-text-14" style=" color: #515050;">{{ isset($vendorData->subtitle) && $vendorData != '' ? $vendorData->subtitle : 'Shop' }}<span>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <span class="fw-bold me-1 text-dark" style="font-size: 12px;
-                                                background: rgba(229, 227, 227, 1);
+                                            <span class="fw-bold me-1 text-dark custom-dealrock-text-14" style="
+                                                background: #f4f4f4;
                                                 padding: 4px;"><i class="tio-star text-star mx-1"></i>{{number_format($vendorData->average_rating,1)}}/5</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="info-area">
-                                    <div class="info-item">
+                                    <div class="info-item  custom-dealrock-text-14">
                                         <span>{{ translate('Store Views') }}</span>
                                         <h6 style="color: black;">
                                             {{ isset($vendorData->store_views) ? ($vendorData->store_views < 1000 ? $vendorData->store_views : number_format($vendorData->store_views/1000 , 1).'K') : '0'}}
                                         </h6>
                                     </div>
-                                    <div class="info-item">
+                                    <div class="info-item custom-dealrock-text-14">
                                         <span>{{ translate('Total Products') }}</span>
                                         <h6 style="color: black;">
                                             {{ isset($vendorData->store_views) ? ($vendorData->products_count < 1000 ? $vendorData->products_count : number_format($vendorData->products_count/1000 , 1).'K') : '0'}}

@@ -65,7 +65,7 @@ $(document).ready(function () {
                                 : `${link}${item.id}`;
                         dropdown.append(
                             `<li class="data-suggest" data-id="${item.id}">
-                            <a target="_blank" href="${href}" data-id="${item.id}">${item.name}</a>
+                            <a target="_blank"  href="${href}" data-id="${item.id}">${item.name}</a>
                         </li>`
                         );
                     });
@@ -82,7 +82,20 @@ $(document).ready(function () {
             },
         });
     });
+$(document).ready(function () {
+    let activeRequest = null;
 
+    $("#searchInput").on("input", function () {
+        // 🔎 aapka pura existing search wala code yaha hoga
+    });
+
+    // 🟢 Yeh naya code add kardo - input block ke niche hi
+    $(document).on("click", function (e) {
+        if (!$(e.target).closest("#searchInput, #suggestions").length) {
+            $("#suggestions").hide();
+        }
+    });
+});
     $("#dropdownbar").on("mouseenter", function () {
         $(this).css({
             "box-shadow": "0px 4px 15px rgba(0, 0, 0, 0.5)",

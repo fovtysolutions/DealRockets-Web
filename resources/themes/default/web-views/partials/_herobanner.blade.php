@@ -11,9 +11,9 @@
     }
 
     .mega_menu_new {
-        position: absolute;
-        top: 0;
-        left: 100%;
+        position: fixed;   
+    top: 170px;
+      left: 390px;
         /* Open to the right */
         display: none;
         background: white;
@@ -24,7 +24,11 @@
         border-left: 1px solid #eee;
         overflow: hidden;
     }
-
+@media(max-width: 1024px){
+     .mega_menu_new {
+            left: 228px;
+     }
+}
     .mega_menu_new .sub-sub-category {
         font-size: 12px;
         color: rgba(81, 80, 80, 1) !important;
@@ -62,7 +66,10 @@
 
     .mega_menu_inner_new {
         min-height: 216px;
+
     }
+    
+    
 </style>
 @if (empty($carouselimages))
     <section class="mainpagesection fade-in" style="/* background-color: unset; */ margin-top: 22px;">
@@ -137,7 +144,7 @@
                     </li>
                 @endforeach
             </ul>
-            <div style="padding-top: 5px;">
+            <div style="padding-top: 5px; padding-left: 8px; ">
                 <a class="arrow-move-hover" href="{{ route('categories') }}" style="text-decoration: none;">
                     View All
                     <span class="arrow-icon">

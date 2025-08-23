@@ -176,16 +176,6 @@
         @if (session('error'))
             toastr.error("{{ session('error') }}", "Error");
         @endif
-
-        toastr.options = {
-            positionClass: 'toast-top-center',
-            timeOut: 3000,
-            closeButton: true,
-            progressBar: true,
-            showMethod: 'fadeIn',
-            hideMethod: 'fadeOut',
-            newestOnTop: true
-        };
     </script>
 
 

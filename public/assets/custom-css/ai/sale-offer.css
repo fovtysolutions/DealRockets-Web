@@ -15,16 +15,19 @@
 .sale-offer-page .details-flex-container {
     display: flex;
     width: 100%;
-    gap: 20px;
+    /* gap: 10px; */
+    flex-direction: column !important;
 }
 
 .sale-offer-page .details-column {
-    flex: 1;
+    /* flex: 1; */
+    display: flex;
+    gap: 10px !important;
 }
 
 .sale-offer-page .detail-label-fixed {
     display: inline-block;
-    width: 63px;
+    /* width: 63px; */
     font-weight: 400;
     color: grey;
 }
@@ -344,6 +347,13 @@
     font-weight: 600 !important;
     margin-bottom: 10px;
     line-height: 1.3;
+    display: -webkit-box !important;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal !important;
+        max-height: 3em;
 }
 
 .sale-offer-page .product-image {
@@ -371,8 +381,13 @@
 
 /* Product Details Column */
 .sale-offer-page .product-details-col {
-    width: 50%;
-    align-content: center;
+    display: flex
+;
+    /* width: 17%; */
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    align-self: stretch;
 }
 
 .sale-offer-page .detail-table {
@@ -429,12 +444,12 @@
 
 /* Contact Seller Column */
 .sale-offer-page .contact-seller-col {
-    width: 30%;
+    /* width: 30%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-end;
-    padding-left: 20px;
+    align-items: flex-end; */
+    /* padding-left: 20px; */
 }
 
 .sale-offer-page .favorite-icon {
@@ -465,11 +480,22 @@
 .sale-offer-page .seller-name {
     font-size: 18px;
     font-weight: 600;
-    margin-top: 12px;
+    margin-top: 10px;
     text-align: center;
     width: 100%;
 }
-
+.sale-offer-page .image-box{
+    flex: 0 0 200px;
+    /* padding: 10px; */
+    display: flex;
+    /* width: 17%; */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    padding: auto !important;
+    /* border: 1px solid #D5D5D5; */
+}
 .sale-offer-page .company-name {
     font-size: 14px;
     color: #515050;

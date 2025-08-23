@@ -917,7 +917,7 @@
       }
 
       .dealassist .main-container {
-       height: 2596px !important;
+       /* height: 2596px !important; */
       }
     }
 
@@ -960,7 +960,7 @@
       }
 
       .dealassist .main-container {
-        height: 3445px;
+        /* height: 3445px; */
       }
     .dealassist .business-partners {
         margin-top: 180px !important;
@@ -1000,6 +1000,6 @@
              height: 128px !important;
     }
         .dealassist .main-container {
-                height: 3744px !important;
+                /* height: 3744px !important; */
     }
   }

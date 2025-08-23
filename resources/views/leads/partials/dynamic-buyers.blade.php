@@ -117,7 +117,7 @@
                                 src="{{ theme_asset('public/img/Heart (1).png') }}" width="20" alt="Featured icon"
                                 style="margin-left: auto;">
                         @endif
-                        <button class="contact-btn custom-dealrock-text-18" data-toggle="modal"
+                        <button class="filled-btn mt-0" style=" align-self: center; !important"  data-toggle="modal"
                             data-target="#inquireButton{{ $buyer->id }}">Contact Buyer</button>
                         <div class="lead-posted custom-dealrock-text-14">Posted: {{ $buyer->created_at->diffForHumans() }}</div>
                     </div>
@@ -191,13 +191,13 @@
                                     </div>
                                     @if (auth('customer')->check())
                                         @if (strtolower(trim($membership['status'] ?? '')) == 'active')
-                                            <button type="submit" class="btn-inquire-now">Send Inquiry Now</button>
+                                            <button type="submit" class="filled-btn">Send Inquiry Now</button>
                                         @else
-                                            <a href="{{ route('membership') }}" class="btn-inquire-now">Send Inquiry
+                                            <a href="{{ route('membership') }}" class="filled-btn">Send Inquiry
                                                 Now</a>
                                         @endif
                                     @else
-                                        <button type="button" onclick="sendtologin()" class="btn-inquire-now">Send
+                                        <button type="button" onclick="sendtologin()" class="filled-btn">Send
                                             Inquiry Now</button>
                                     @endif
                                 </form>

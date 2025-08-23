@@ -29,7 +29,7 @@
 
                         <div class="product-info">
                             <div class="product-header">
-                                <div class="product-title">{{ $stocksell->product->name ?? ($stocksell->name) }}</div>
+                                <div class="product-title custom-dealrock-text-14">{{ $stocksell->product->name ?? ($stocksell->product_id) }}</div>
 
                                 @php
                                     $user = auth('customer')->user();
@@ -51,15 +51,15 @@
                                 @endif
                             </div>
 
-                            <div class="product-rate">
+                            <div class="product-rate custom-dealrock-text-14">
                                 <div class="product-rate-label">Offer Rate:</div>
                                 <div class="product-rate-value">
                                     {{ $stocksell->lower_limit ?? 'N/A' }} - {{ $stocksell->upper_limit ?? 'N/A' }} / {{ $stocksell->unit ?? 'unit' }}
                                 </div>
                             </div>
 
-                            <div class="product-origin">
-                                <div style="width: 75px;">Origin:</div>
+                            <div class="product-origin custom-dealrock-text-14">
+                                <div style="width: 75px;" class="custom-dealrock-text-14">Origin:</div>
                                 <div class="product-origin-location">
                                     @php
                                         $country = \App\Models\Country::find($stocksell->country);
@@ -71,18 +71,18 @@
                                @if ($flag)
                                         <img src="{{ $flag }}" width="15" alt="Flag">
                                     @endif
-                                    <div>{{ $stocksell->city ?? 'Unknown City' }}, {{ $countryName }}</div>
+                                    <div class="custom-dealrock-text-14">{{ $stocksell->city ?? 'Unknown City' }}, {{ $countryName }}</div>
                                 </div>
                             </div>
 
-                            <div class="product-origin">
-                                <div style="width: 75px;">Quantity:</div>
-                                <div class="product-origin-location">
+                            <div class="product-origin custom-dealrock-text-14">
+                                <div class="custom-dealrock-text-14" style="width: 75px;">Quantity:</div>
+                                <div class="product-origin-location custom-dealrock-text-14">
                                     {{ $stocksell->quantity }}  {{ $stocksell->unit }}
                                 </div>
                             </div>
 
-                            <div class="product-description">
+                            <div class="product-description custom-dealrock-text-14">
                                 {!! $stocksell->description ?? '<em>No description available</em>' !!}
                             </div>
                         </div>

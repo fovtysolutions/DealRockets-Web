@@ -23,13 +23,13 @@ $getcategoryid = optional(Category::where('name', $homepagesetting[2]['category_
             <div class="sourcefirstdiv bg-shimmer" data-bg='{{ isset($homepagesetting[2]['background_image']) ? asset('storage/' . $homepagesetting[2]['background_image']) : asset('/images/placeholderimage.webp') }}'>
                 <div class="cnt-1">
                     <div class="text-overlay">
-                        <h4 class="title fourthshow" style="color:{{$text_color}} !important; font-size: 20px;">
+                        <h4 class="title fourthshow custom-dealrock-text-18" style="color:white !important; ">
                             {{ $homepagesetting[2]['category_title'] ?? 'Default Category' }}
                         </h4>
-                        <h4 class="othertitle" style="color:{{$text_color}} !important; font-size: 20px;">
+                        <h4 class="othertitle custom-dealrock-text-18" style="color:white !important; ">
                             {{ $homepagesetting[2]['category_title'] ?? 'Default Category' }}
                         </h4>
-                        <a class="btn source-btn btn-sm" style="background-color: white !important; color:#FE4E44 !important;"
+                        <a class="btn source-btn btn-sm custom-dealrock-text-14"  style="background-color: white !important; color:#FE4E44 !important;"
                             href="{{ route('products', ['category_id' => $getcategoryid, 'data_from' => 'category', 'page' => 1]) }}">
                             {{$homepagesetting[2]['button_text'] ?? 'Browse Products'}}
                         </a>
